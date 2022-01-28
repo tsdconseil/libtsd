@@ -1,0 +1,32 @@
+ifeq ($(LIBTSD_USE_PNG),)
+LIBTSD_USE_PNG := 1
+else
+endif
+
+ifeq ($(LIBTSD_USE_FREETYPE),)
+LIBTSD_USE_FREETYPE := 1
+else
+endif
+
+OPTIONS_COMPIL += -DLIBTSD_USE_PNG=$(LIBTSD_USE_PNG) 
+OPTIONS_COMPIL += -DLIBTSD_USE_FREETYPE=$(LIBTSD_USE_FREETYPE)
+
+
+ifeq ($(LIBTSD_USE_FREETYPE),1)
+OPTIONS_LINK   += -lfreetype 
+endif
+
+
+ifeq ($(LIBTSD_USE_PNG),1)
+OPTIONS_LINK   += -lpng -lz 
+endif
+
+
+OPTIONS_LINK   +=  -lfmt
+OPTIONS_COMPIL += `pkg-config --cflags eigen3`
+
+
+ifeq ($(LIBTSD_USE_OMP),1)
+  OPTIONS_COMPIL += -DLIBTSD_USE_OMP=1 -fopenmp 
+  OPTIONS_LINK   += -fopenmp 
+endif

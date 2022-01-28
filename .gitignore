@@ -1,3 +1,9 @@
+build
+libtsd/.cproject
+libtsd/.project
+libtsd/.settings
+.metadata
+
 # Prerequisites
 *.d
 

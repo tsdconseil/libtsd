@@ -1,0 +1,236 @@
+#include "tsd/moniteur-cpu.hpp"
+
+#include <ctime>
+#include <deque>
+#include <string>
+#include <cstdint>
+#include <unordered_map>
+#include <mutex>
+#include <map>
+#include <thread>
+#ifdef WIN
+# include <windows.h>
+#endif
+
+using namespace std;
+
+namespace tsd {
+
+
+MoniteurCpu moniteur_spectrum{"spectrum"}, moniteur_fft{"fft"};
+
+int64_t tic_μs(bool monotonique = true)
+{
+  // Avec MSYS2, sous Windows, les compteurs Posix ne sont pas suffisament prècis
+# ifdef WIN
+  static LARGE_INTEGER base_tick = {0}, frequency = {0};
+  static bool tick_init_done = false;
+  if(!tick_init_done)
+  {
+    if(!QueryPerformanceFrequency(&frequency))
+    {
+      echec("Failed to initialize 64 bits counter.");
+      frequency.QuadPart = 1000 * 1000;
+    }
+    QueryPerformanceCounter(&base_tick);
+    tick_init_done = true;
+  }
+  LARGE_INTEGER tick;
+  QueryPerformanceCounter(&tick);
+  return (int64_t) ((tick.QuadPart-base_tick.QuadPart)*1000.0*1000.0 / frequency.QuadPart);
+# elif USE_STD_CLOCK
+  return clock() * (1e6 / CLOCKS_PER_SEC);
+# else
+  struct timespec ts;
+  clock_gettime(monotonique ? CLOCK_MONOTONIC : CLOCK_THREAD_CPUTIME_ID, &ts);
+  return ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3;
+# endif
+}
+
+
+
+
+struct MoniteurCpu::Impl
+{
+  string nom;
+  mutable mutex mut;
+
+  struct PerThread
+  {
+    bool en_cours     = false;
+
+    // cl0  : par thread
+    // cl00 : monotonique
+    int64_t cl0, cl00;
+
+    bool cl00_init = false;
+
+    int64_t total_μs  = 0;
+    int64_t μs_en_cours = 0;
+    int cnt     = 0, total_cnt = 0;
+    float pourcent_cpu   = 0;
+
+    float last_add = 0;
+  };
+
+
+  map<thread::id, PerThread> pt;
+
+  void commence_op()
+  {
+    auto &p = pt[this_thread::get_id()];
+    if(p.en_cours)
+      msg_avert("Moniteur [{}] : deja en cours.", nom);
+    p.en_cours  = true;
+
+    p.cl0 = tic_μs(false);
+
+    if(!p.cl00_init)
+    {
+      p.cl00 = tic_μs(true);
+      p.cl00_init = true;
+    }
+  }
+  void fin_op()
+  {
+    auto &p = pt[this_thread::get_id()];
+    if(!p.en_cours)
+      msg_avert("Moniteur [{}] : pas en cours.", nom);
+    p.en_cours = false;
+
+    // Attention, comptage à la ms près seulement !!!
+
+    auto now_thread = tic_μs(false);
+    auto now_mono   = tic_μs(true);
+
+    auto df = now_thread - p.cl0;
+
+
+    //msg("df = {}", df);
+
+    p.total_cnt++;
+    p.total_μs    += df;
+    p.μs_en_cours += df;
+    p.cnt++;
+
+    /*if(df != 0)
+    {
+      msg("DF = {}, us en cours = {}", df, p.us_en_cours);
+    }*/
+
+    auto df0 = (now_mono - p.cl00) * 1e-6f;
+
+    // Mise à jour toute les 500 ms
+    if(df0 > 0.5)
+    {
+      p.pourcent_cpu = (1e2f * p.μs_en_cours * 1e-6) / df0;
+      //msg("MAJ {}: PCPU = {} (EN COURS = {}, TOT = {}, cl00={}, df0={})", nom, p.pourcent_cpu, p.us_en_cours, p.total_us, (float) now_mono, (float) df0);
+      p.cnt          = 0;
+      p.μs_en_cours  = 0;
+      p.cl00         = now_mono;
+    }
+  }
+
+  // PB : si stats pas mis à jour depuis longtemps par un thread...
+  Stats lis_stats() const
+  {
+    Stats res;
+    res.nom = nom;
+
+    auto now = tic_μs(true);
+    int nta = 0;
+
+    mut.lock();
+    for(auto &p: pt)
+    {
+      auto df = (now - p.second.cl00) * 1e-6f;
+      if(df > 1)
+      {
+        // Thread plus actif.
+        //msg("Thread plus actif : {}, df = {}", nom, df);
+      }
+      else
+      {
+        nta++;
+        res.conso_cpu_pourcents += p.second.pourcent_cpu;
+        res.nb_appels           += p.second.total_cnt;
+      }
+    }
+    mut.unlock();
+
+    //msg("Stats[{}]: cpu = {:e} %, nthreads actifs : {}, nb appels : {}", nom, res.conso_cpu_pourcents, nta, res.nb_appels);
+
+    return res;
+  }
+
+  /*void affiche_stats()
+  {
+    printf("%s: %d appels, temps cpu total = %.3f ms\n",
+        nom.c_str(), total_cnt,
+        ((float) total_us) * 1e-3f);
+  }*/
+
+  void reset()
+  {
+    //msg("Reset mon cpu.");
+    for(auto &p: pt)
+      p.second = PerThread();
+  }
+};
+
+
+
+string &MoniteurCpu::nom()
+{
+  return impl->nom;
+}
+
+MoniteurCpu::MoniteurCpu(const string &nom)
+{
+  impl = make_shared<Impl>();
+  impl->nom = nom;
+}
+
+void MoniteurCpu::commence_op()
+{
+  impl->commence_op();
+}
+
+void MoniteurCpu::fin_op()
+{
+  impl->fin_op();
+}
+
+/*void MoniteurCpu::affiche_stats()
+{
+  impl->affiche_stats();
+}*/
+
+MoniteurCpu::Stats MoniteurCpu::stats() const
+{
+  return impl->lis_stats();
+}
+
+void MoniteurCpu::reset()
+{
+  impl->reset();
+}
+
+void MoniteursStats::ajoute(MoniteurCpu &m)
+{
+  lst.push_back(m.stats());
+}
+
+MoniteurCpu::Stats MoniteursStats::get(const string &nom) const
+{
+  for(auto &s: lst)
+  {
+    if(s.nom == nom)
+      return s;
+  }
+  msg_avert("Moniteur : stat non trouvée [{}]", nom);
+  return MoniteurCpu::Stats();
+}
+
+}
+
