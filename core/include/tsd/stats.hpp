@@ -262,8 +262,9 @@ r_n\\
    *  @param config Configuration
    *  @returns La réponse générale
    *
-   *  @cite Hale
-   *  */
+   *  @par Bibliographie
+   *  <i>Statistical signal processing and modelling</i>, M.H. Hayes, 1996
+   */
   extern SubSpaceSpectrum subspace_spectrum(const MatrixXcf &R, const SubSpaceSpectrumConfig &config);
 
 

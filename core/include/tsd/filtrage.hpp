@@ -509,7 +509,6 @@ extern FRat<float> design_biquad(const BiquadSpec &spec);
  * <h3>Design filtre biquad</h3>
  *
  * Ces filtres RII du second ordre sont adaptés de prototypes analogiques via la transformée bilinéaire.
- * Les calculs sont adaptés de @ref ref-audio-eq-cookbook "[RI4]".
  *
  * Les prototypes analogiques sont les suivant (pour une pulsation de coupure de 1 radian/s, et @f$Q@f$ étant le facteur de qualité) :
  *
@@ -541,8 +540,9 @@ extern FRat<float> design_biquad(const BiquadSpec &spec);
  * @image html ex-biquad-pb.png width=800px
  *
  * @par Bibliographie
- * @ref ref-audio-eq-cookbook "[RI4]", @ref ref-f0-Q-analog-mini-tuto "[RI2]"
- *
+ * - <i>Cookbook formulae for audio equalizer biquad filter coefficients,</i> Robert Bristow-Johnson,
+ *      https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html,
+ * - <i>F0 and Q in filters, Mini tutorial,</i> Analog Devices,
  */
 extern FRat<float> design_biquad(const std::string type, float f, float Q, float gain_dB = 0);
 
@@ -973,7 +973,7 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float
  *  @image html bloqueur-dc-resp.png width=1000px
  *
  *  @par Bibliographie
- *  @ref biblio "[RI1]"
+ *  <i>The DC Blocking Filter,</i> J.M. de Freitas, 2007
  *
  *  @sa filtre_dc()
  */
@@ -1485,7 +1485,7 @@ template<typename T>
  *  @image html bloqueur-dc-ex.png width=1000px
  *
  *  @par Bibliographie
- *  @ref biblio "[RI1]"
+ *  <i>The DC Blocking Filter,</i> J.M. de Freitas, 2007
  *
  *  @sa design_bloqueur_dc()
  */
@@ -1673,8 +1673,22 @@ struct InterpolateurRIF: Interpolateur<T>
 {
   virtual ~InterpolateurRIF(){}
 
-  /** @brief Calcul des coefficients d'un filtre RIF en fonction du délais souhaité. */
-  virtual ArrayXf coefs(float phase) = 0;
+  /** @brief Calcul des coefficients d'un filtre RIF en fonction du délais souhaité.
+   *
+   *  <h3>Calcul des coefficients d'un filtre RIF</h3>
+   *
+   *  Cette méthode abstraite doit être redéfinie par la classe dérivée,
+   *  de manière à calculer les coefficients de filtrage pour un délais fractionnaire @f$\tau@f$ donné (entre 0 et 1).
+   *  Les coefficients renvoyés doivent être ceux d'un filtre avec un délais exactement égal à :
+   *  @f[
+   *  d = K/2 + \tau
+   *  @f]
+   *
+   *  @f$K@f$ étant le nombre de coefficients du filtre.
+   *
+   *  @sa Interpolateur, itrp_sinc()
+   */
+  virtual ArrayXf coefs(float τ) = 0;
 
   // k : index de l'échantillon le plus ancien
   T step(const Vecteur<T> &x, int k, float τ)
@@ -1786,7 +1800,11 @@ template<typename T>
  * @param R Facteur de décimation
  * @param h Coefficients du filtre RIF anti-repliement.
  * @tparam Tc Type de coefficient
- * @tparam T  Type d'entrée / sortie */
+ * @tparam T  Type d'entrée / sortie
+ *
+ *
+ * @sa filtre_rif_ups()
+ */
 template<typename Tc, typename T = Tc>
   sptr<FiltreGen<T>> filtre_rif_decim(const Eigen::Ref<const Vecteur<Tc>> h, int R);
 
@@ -1811,13 +1829,29 @@ template<typename Tc, typename T = Tc>
  *  @return un filtre (type T vers T), le flux de sortie étant upsamplé d'un facteur @f$R@f$ par rapport au flux d'entrée.
  *
  *
- *  @sa filtre_rif_ups_retard(), filtre_rif()
+ *  @sa filtre_rif_ups_délais(), filtre_rif_decim(), filtre_rif()
  */
 template<typename Tc, typename T = Tc>
   sptr<FiltreGen<T>> filtre_rif_ups(const Eigen::Ref<const Vecteur<Tc>> h, int R);
 
 
-/** @brief Calcul du retard d'une filtre RIF avec upsampling. */
+/** @brief Calcul du retard d'une filtre RIF avec upsampling.
+ *
+ * <h3>Calcul du retard d'une filtre RIF avec upsampling</h3>
+ *
+ * Si le nombre de coefficients, @f$K@f$ est un multiple de @f$R@f$ :
+ * @f[
+ *  \tau = \frac{K - 1}{2}
+ * @f]
+ *
+ * Sinon :
+ * @f[
+ *  \tau = \frac{K - 1}{2} + R - (K [R])
+ * @f]
+ *
+ *
+ * @sa filtre_rif_ups()
+ */
 extern float filtre_rif_ups_délais(int nc, int R);
 
 
