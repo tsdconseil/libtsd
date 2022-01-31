@@ -91,7 +91,7 @@ namespace tsd::filtrage
     for(auto i = 0; i < npts; i++)
       xm(i) = arg(h.horner(dfr(i)));
 
-    xm = unwrap(xm, π);
+    xm = déplie_phase(xm, π);
     return make_tuple(fr, xm);
   }
 

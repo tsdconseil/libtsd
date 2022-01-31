@@ -26,7 +26,6 @@ int main()
   f.plot(t, x, "b-", "x (signal test)");
   f.plot(t, y, "g-", "y (bruit)");
   f.plot(t, z, "r-", "z (filtrage rif)");
-  f.afficher("Exemple de figure");
   f.enregistrer("./exemple-figure.png");
 
   msg("Fin.");

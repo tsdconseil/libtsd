@@ -59,7 +59,7 @@ struct ÉmetteurImpl: Émetteur
 
     // Ajoute des zéros pour flusher
     auto &mconfig = config.format.modulation;
-    auto osf = mconfig.fe / mconfig.fsymb;
+    //auto osf = mconfig.fe / mconfig.fsymb;
 
     int   d_ech           = (int) ceil(mod->delais());
     int   nbits_par_symb  = mconfig.wf->k;

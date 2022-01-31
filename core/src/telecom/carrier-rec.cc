@@ -30,7 +30,7 @@ struct LUTOsc
   }
   cfloat step(float θ)
   {
-    θ = wrap_2pi(θ);
+    θ = modulo_2π(θ);
     int x0 = floor((n * θ) / (2 * π));
     return table(x0);
   }

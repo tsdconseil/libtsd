@@ -1629,30 +1629,61 @@ extern ArrayXcf hilbert_tfd(IArrayXf x);
 template<typename T>
 struct Interpolateur
 {
+  /** @brief Longueur de la fenêtre (ligne à retard). */
   int npts = 0;
+
+  /** @brief */
   float delais = 0;
+
+  /** @brief Description de l'interpolateur */
   std::string nom;
+
   virtual ~Interpolateur(){}
-  virtual T calcule(const Vecteur<T> &fenetre, int i0, float phase) = 0;
+
+  /** @brief Interpolation (méthode abstraite).
+   *
+   *  <h3>Interpolation</h3>
+   *  Cette méthode abstraite réalise l'interpolation :
+   *
+   *  @f[
+   *    y = x(
+   *  @f]
+   *
+   *  @param x        Fenêtre circulaire contenant les  de <code>npts</code> points d'entrée.
+   *  @param k        Index de l'échantillon le plus ancien dans la ligne à retard.
+   *  @param phase    Retard fractionnaire, entre 0 et 1.
+   *
+   *  */
+  virtual T calcule(const Vecteur<T> &x, int k, float phase) = 0;
 };
 
-/** @brief %Interpolateur générique à base filtre RIF */
+/** @brief %Interpolateur générique à base filtre RIF.
+ *
+ *  <h3>%Interpolateur générique à base filtre RIF</h3>
+ *
+ *  @f[
+ *    y =\sum_{i=0}^{K-1} h_i \cdot x_{i+k[K]}
+ *  @f]
+ *
+ */
 template<typename T>
 struct InterpolateurRIF: Interpolateur<T>
 {
   virtual ~InterpolateurRIF(){}
+
+  /** @brief Calcul des coefficients d'un filtre RIF en fonction du délais souhaité. */
   virtual ArrayXf coefs(float phase) = 0;
-  // i0 : index de l'échantillon le plus ancien
-  T calcule(const Vecteur<T> &x, int i0, float phase)
+
+  // k : index de l'échantillon le plus ancien
+  T calcule(const Vecteur<T> &x, int k, float phase)
   {
     ArrayXf h = coefs(phase);
     const int K = h.rows();
+    tsd_assert(K == npts);
     T res = 0;
-    for(auto k = 0; k < K; k++)
-      res += h(k) * x((k + i0) % K);
+    for(auto i = 0; i < K; i++)
+      res += h(i) * x((i + k) % K);
     return res;
-    // ArrayXf h = coefs(phase);
-    // return (h * x).sum();
   }
 };
 
@@ -1669,28 +1700,68 @@ template<typename T> sptr<FiltreGen<T>> filtre_allpass_decim();
 
 /** @endcond */
 
-/** @brief %Interpolation par splines cardinales */
+/** @brief %Interpolation par splines cardinales.
+ *
+ *  <h3>%Interpolation par splines cardinales</h3>
+ *
+ *  @sa InterpolateurRIF, itrp_lineaire(), itrp_lagrange(), itrp_sinc()
+ */
 template<typename T>
   sptr<InterpolateurRIF<T>> itrp_cspline();
 
-/** @brief %Interpolation linéaire (équivalente à Lagrange degré 1) */
+/** @brief %Interpolation linéaire (équivalente à Lagrange degré 1).
+ *
+ *  <h3>%Interpolation linéaire (équivalente à Lagrange degré 1)</h3>
+ *
+ *  @sa InterpolateurRIF, itrp_cspline(), itrp_lagrange(), itrp_sinc()
+ */
 template<typename T>
   sptr<InterpolateurRIF<T>> itrp_lineaire();
 
-/** @brief %Interpolateur de Lagrange (la fonction sinus cardinal est interpolée par un polynôme) */
+/** @brief %Interpolateur de Lagrange (la fonction sinus cardinal est interpolée par un polynôme).
+ *
+ *  <h3>%Interpolateur de Lagrange</h3>
+ *  L'interpolation polynomiale (Lagrange) consiste à interpoler le signal grâce à un polynôme d'ordre donné,
+ *  ce qui revient, en terme de filtre RIF, à interpoler la fonction sinus cardinal par un polynôme.
+ *
+ *
+ *  @sa InterpolateurRIF, itrp_cspline(), itrp_lineaire(), itrp_sinc()
+ */
 template<typename T>
-  sptr<InterpolateurRIF<T>> itrp_lagrange(unsigned int degre);
+  sptr<InterpolateurRIF<T>> itrp_lagrange(unsigned int degré);
 
 
+/** @brief Structure de configuration pour un interpolateur Sinc. */
 struct InterpolateurSincConfig
 {
+  /** @brief Nombre de coefficients (dimension de la ligne à retard). */
   int ncoefs = 31;
+
+  /** @brief Nombre de pas pour la LUT. */
   int nphases = 256;
+
+  /** @brief Fréquence de coupure normalisée. */
   float fcut = 0.5;
+
+  /** @brief Type de fenêtre */
   std::string fenetre = "hn";
 };
 
-/** @brief %Interpolateur à sinus cardinal fenêtré */
+/** @brief %Interpolateur à sinus cardinal fenêtré.
+ *
+ *  <h3>%Interpolateur à sinus cardinal fenêtré</h3>
+ *
+ *  %Interpolateur RIF dont les coefficients sont ceux d'un sinus cardinal fenêtré,
+ *  de fréquence de coupure @f$f_c@f$ et avec un retard de @f$K/2 + \tau@f$ échantillons :
+ *
+ *  @f[
+ *  h_k = \textrm{sinc}\left(k - K/2 - \tau, f_c\right) \cdot w_{k-\tau}
+ *  @f]
+ *
+ *  La fonction sinc étant définie ici comme la TF inverse d'une porte fréquentielle de largeur @f$\pm f_c@f$.
+ *
+ *  @sa InterpolateurRIF, itrp_cspline(), itrp_lineaire(), itrp_lagrange()
+ */
 template<typename T>
   sptr<InterpolateurRIF<T>> itrp_sinc(const InterpolateurSincConfig &config = InterpolateurSincConfig());
 
@@ -1770,7 +1841,7 @@ template<typename T>
  *
  *  @param ratio Ratio de décimation / interpolation (rapport entre les fréquences d'échantillonnage de sortie et d'entrée).
  *  @param itrp Interpolateur générique
- *  @sa itrp_cpline(), itrp_lineaire(), itrp_lagrange(), itrp_sinc() */
+ *  @sa itrp_cspline(), itrp_lineaire(), itrp_lagrange(), itrp_sinc() */
 template<typename T> sptr<FiltreGen<T>> filtre_itrp(float ratio, sptr<Interpolateur<T>> itrp = itrp_cspline<T>());
 
 

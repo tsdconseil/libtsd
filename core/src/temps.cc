@@ -146,7 +146,7 @@ DateHeure::DateHeure(int année, double jours)
 
 double DateHeure::temps_sidéral_local(double longitude) const
 {
-  return wrap_2pi(temps_sidéral_Greenwich() + longitude);
+  return modulo_2π(temps_sidéral_Greenwich() + longitude);
 }
 
 DateHeure::DateHeure(const DateComposite &date)
@@ -349,7 +349,7 @@ double DateHeure::temps_sidéral_Greenwich() const
   auto jdf = nb_jours_Julien() - jd0;
   auto gt  = 24110.54841 + t * (8640184.812866 + t * (0.093104 - t * 6.2E-6));
   gt  += jdf * 1.00273790935 * 86400.0;
-  return wrap_2pi(deg2rad(gt * 360.0 / nbsecs_par_jour));
+  return modulo_2π(deg2rad(gt * 360.0 / nbsecs_par_jour));
 }
 
 

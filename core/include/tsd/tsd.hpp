@@ -105,6 +105,7 @@ namespace tsd
   using Eigen::VectorXf;
   using Eigen::VectorXcf;
 
+
   using fmt::format;
 
   /** @brief Vecteur de complexes 32 bits */
@@ -168,7 +169,7 @@ namespace tsd
    * @f]
    *
    * (en supposant que a et b aient respectivement @f$n@f$ et @f$m@f$ éléments).
-   * L'opérateur | a été redéfini pour réaliser la même opération
+   * L'opérateur | a été redéfini pour réaliser la même opération.
    *
    * @param a Premier vecteur
    * @param b Deuxième vecteur
@@ -199,12 +200,14 @@ namespace tsd
     return vconcat(a, b);
   }
 
-  /** @brief Calcule la longueur d'un vecteur colonne */
+  /** @cond undoc */
+  /* Calcule la longueur d'un vecteur colonne */
   template<typename T>
     auto length(const Eigen::ArrayBase<T> &x)
   {
     return x.rows();
   }
+  /** @endcond */
 
   /** @brief Rotation d'un vecteur
    *
@@ -226,8 +229,6 @@ namespace tsd
    *  yref << 2, 3, 4, 5, 0, 1;
    *  tsd_assert(y.isApprox(yref));
    *  @endcode
-   *
-   *
    */
   template<typename T>
   Vecteur<T> rotation_vec(const Vecteur<T> &x, int d)
@@ -245,7 +246,7 @@ namespace tsd
    *
    *  <h3>Différence entre 2 élements successifs d'un vecteur</h3>
    *
-   *  @returns Un vecteur de longueur n-1 :
+   *  @returns Un vecteur de longueur @f$n-1@f$ :
    *  @f[
    *  y_k = x_{k+1} - x_k,\quad k = 0,\dots, n-2
    *  @f]
@@ -257,6 +258,8 @@ namespace tsd
    *  ArrayXf yref = x.tail(9) - x.head(9);
    *  tsd_assert(y.isApprox(yref));
    *  @endcode
+   *
+   *  @sa cumsum()
    */
   template<typename D>
     auto diff(const Eigen::ArrayBase<D> &x)
@@ -264,12 +267,6 @@ namespace tsd
     auto n = x.rows();
     return x.tail(n-1) - x.head(n-1);
   }
-
-  //extern ArrayXf diff(const ArrayXf &x);
-  //extern ArrayXi diff(const ArrayXi &x);
-
-  //extern ArrayXi cumsum(const ArrayXi &x);
-  //extern ArrayXf cumsum(const ArrayXf &x);
 
   /** @brief Somme cumulée d'un vecteur
    *  <h3>Somme cumulée d'un vecteur</h3>
@@ -288,7 +285,7 @@ namespace tsd
    *  tsd_assert(y.isApprox(yref));
    *  @endcode
    *
-   *
+   *  @sa diff()
    *
    */
   template<typename D>
@@ -310,17 +307,17 @@ namespace tsd
    *  <h3>Correction des sauts de phase</h3>
    *
    *  @param x Vecteur contenant typiquement des angles
-   *  @param r Définit la classe d'équivalence sur les valeurs de x
-   *  @returns Un vecteur y tel que @f$y_k = x_k + k \cdot r @f$, et avec le moins de discontinuités possibles (plus précisément, aucune discontinuité supérieure à @f$r/2@f$ en valeur absolue).
+   *  @param r Définit la classe d'équivalence sur les valeurs de @f$x@f$
+   *  @returns Un vecteur @f$y@f$ tel que @f$y_k = x_k + k \cdot r @f$, et avec le moins de discontinuités possibles (plus précisément, aucune discontinuité supérieure à @f$r/2@f$ en valeur absolue).
    *
    *  @par Exemple :
    *  @snippet exemples/src/ex-tsd.cc exemple_unwrap
    *  @image html unwrap.png width=800px
    *
-   *  @sa wrap_pm_pi(), wrap_2pi()
+   *  @sa modulo_pm_π(), modulo_2π()
    *
    */
-  extern Eigen::ArrayXf unwrap(const ArrayXf &x, float r = 2*π);
+  extern Eigen::ArrayXf déplie_phase(const ArrayXf &x, float r = 2*π);
 
   /** @brief Recherche d'éléments vrais dans un tableau bouléen.
    *
@@ -396,7 +393,7 @@ namespace tsd
    *  <h3>Sur-échantillonnage d'un vecteur colonne</h3>
    *
    *  A partir d'un vecteur @f$(x_k), k=0\dots n-1@f$, renvoie
-   *  un vecteur sur-échantillonné d'un facteur @f$R@f$ :
+   *  un vecteur sur-échantillonné d'un facteur @f$R@f$, par l'insertion de zéros :
    *  @f[
    *  y_k = \begin{cases} x_{k/R} & \textrm{si } k\textrm{ est multiple de } R,\\
    *   0 & \textrm{sinon.}\end{cases}
@@ -464,7 +461,7 @@ namespace tsd
    *
    * <h3>Prochaine puissance de 2</h3>
    *
-   * Calcule la plus petite puissance de 2 supérieure ou égale à i :
+   * Calcule la plus petite puissance de 2 supérieure ou égale à @f$i@f$ :
    * @f[
    *  y = \min_{j\geq i,\ j = 2^k} j
    * @f]
@@ -801,14 +798,14 @@ namespace tsd
    *
    *  @par Exemple
    *  @code
-   *  tsd_assert(wrap_2pi(2*π+1e-5) == 1e-5);
+   *  tsd_assert(modulo_2π(2*π+1e-5) == 1e-5);
    *  @endcode
    *
-   *  @sa wrap_pm_pi(), unwrap(), modulo()
+   *  @sa modulo_pm_π(), déplie_phase(), modulo()
    *
    **/
   template<typename T>
-  inline T wrap_2pi(T x)
+  inline T modulo_2π(T x)
   {
     return modulo(x, 2 * std::numbers::pi_v<T>);
   }
@@ -823,14 +820,14 @@ namespace tsd
    *
    *  @par Exemple
    *  @code
-   *  tsd_assert(wrap_pm_pi(2*π-1e-5) == -1e-5);
+   *  tsd_assert(modulo_pm_π(2*π-1e-5) == -1e-5);
    *  @endcode
    *
-   *  @sa wrap_2pi(), unwrap(), modulo()
+   *  @sa modulo_2π(), déplie_phase(), modulo()
    *
    **/
   template<typename T>
-  T wrap_pm_pi(T x)
+  T modulo_pm_π(T x)
   {
     auto pi = std::numbers::pi_v<T>;
     return wrap_2pi(x + pi) - pi;
@@ -963,9 +960,9 @@ namespace tsd
    *
    *  @sa linspace(), trange()
    */
-  static inline ArrayXf irange(int a, int b)
+  static inline ArrayXi intervalle_entier(int a, int b)
   {
-    return linspace(a, b, (b - a) + 1);
+    return ArrayXi::LinSpaced((b - a) + 1, a, b);
   }
 
   /** @brief Intervalle temporel, en fonction de la fréquence d'échantillonnage
@@ -974,14 +971,14 @@ namespace tsd
    *
    *  @param n nombre de points
    *  @param fe fréquence d'échantillonnage
-   *  @return Ensemble de points équirépartis :
+   *  @return Ensemble de valeurs temporelles équiréparties et échantillonées à la fréquence @f$f_e@f$ :
    *  @f[
    *   x_k = \frac{k}{f_e},\quad k = 0,\dots,n-1
    *  @f]
    *
    *  @sa linspace(), irange()
    */
-  static inline ArrayXf trange(unsigned int n, float fe)
+  static inline ArrayXf intervalle_temporel(unsigned int n, float fe)
   {
     return linspace(0, (n-1) / fe, n);
   }
@@ -1005,7 +1002,7 @@ namespace tsd
    *  @snippet exemples/src/ex-tsd.cc ex_randn
    *  @image html randn.png width=600px
    *
-   *  @sa randu()
+   *  @sa randu(), randb()
    */
   extern ArrayXf randn(int n);
 
@@ -1027,6 +1024,10 @@ namespace tsd
    *  @param n Nombre de points à générer
    *  @returns Un vecteur de valeurs aléatoires, échantillonées suivant une loi uniforme entre 0 et 1.
    *
+   *  @par Exemple
+   *  @snippet exemples/src/ex-tsd.cc ex_randu
+   *  @image html randu.png width=600px
+   *
    *  @sa randn(), randi(), randb()
    */
   extern ArrayXf randu(int n);
@@ -1040,9 +1041,14 @@ namespace tsd
    *
    *  Cette fonction peut être utile pour générer un train de bits aléatoires.
    *
+   *  @par Exemple
+   *  @snippet exemples/src/ex-tsd.cc ex_randb
+   *  @image html randb.png width=600px
+   *
+   *
    *  @sa randn(), randu(), randi()
    */
-  extern ArrayXf randb(int n);
+  extern ArrayXb randb(int n);
 
   /** @brief Loi aléatoire catégorielle
    *
@@ -1051,6 +1057,10 @@ namespace tsd
    *  @param M Nombre de catégories
    *  @param n Nombre de valeurs à générer
    *  @returns Un vecteur de @f$n@f$ entiers entre @f$0@f$ et @f$M-1@f$.
+   *
+   *  @par Exemple
+   *  @snippet exemples/src/ex-tsd.cc ex_randi
+   *  @image html randi.png width=600px
    *
    *  @sa randn(), randu(), randb()
    */
@@ -1162,6 +1172,11 @@ namespace tsd
    *
    *  @param n Dimension du vecteur
    *  @param p Position de l'impulsion
+   *
+   *  @par Exemple
+   *  @snippet exemples/src/ex-tsd.cc ex_sigimp
+   *  @image html sigimp.png width=600px
+   *
    */
   extern ArrayXf sigimp(int n, int p = 0);
 
@@ -1284,7 +1299,9 @@ namespace tsd
    *
    *  <h3>Oscillateur harmonique (sortie complexe)</h3>
    *
-   *  Cet oscillateur en quadrature est basé sur un simple filtre récursif (complexe) d'ordre 1 :
+   *  Cette fonction renvoie une source de données, qui peut être appellée plusieurs fois (génération d'un flux continu d'échantillons, à la différence de @ref sigexp(), qui ne peut générer qu'un nombre fini et prédeterminé d'échantillons).
+   *
+   *  L'oscillateur en quadrature est basé sur un simple filtre récursif (complexe) d'ordre 1 :
    *  @f[
    *  z_k = z_{k-1} \cdot e^{2\pi\mathbf{i}f}
    *  @f]
@@ -1303,7 +1320,7 @@ namespace tsd
    *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohc
    *  @image html ohc.png width=600px
    *
-   *  @sa source_ohr()
+   *  @sa source_ohr(), sigexp()
    */
   extern sptr<Source<cfloat, OHConfig>> source_ohc(float freq);
 
@@ -1311,7 +1328,9 @@ namespace tsd
    *
    *  <h3>Oscillateur harmonique (sortie réelle)</h3>
    *
-   *  Cet oscillateur est basé sur un oscillateur en quadrature standard (voir @ref source_ohc()), dont
+   *  Cette fonction renvoie une source de données, qui peut être appellée plusieurs fois (génération d'un flux continu d'échantillons, à la différence de @ref sigcos(), qui ne peut générer qu'un nombre fini et prédeterminé d'échantillons).
+   *
+   *  L'oscillateur est basé sur un oscillateur en quadrature standard (voir @ref source_ohc()), dont
    *  on n'utilise que la partie réelle (cosinus).
    *
    *
@@ -1322,7 +1341,7 @@ namespace tsd
    *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohr
    *  @image html ohr.png width=600px
    *
-   *  @sa source_ohc()
+   *  @sa source_ohc(), sigcos()
    */
   extern sptr<Source<float, OHConfig>> source_ohr(float freq);
 

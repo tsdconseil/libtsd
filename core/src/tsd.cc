@@ -70,6 +70,7 @@ ArrayXf sigtri(int p, int n)
 ArrayXf sigimp(int n, int p)
 {
   ArrayXf x = ArrayXf::Zero(n);
+  tsd_assert_msg((p >= 0) && (p < n), "sigimp(n={},p={}) : p devrait être compris entre 0 et n-1.", n, p);
   x(p) = 1;
   return x;
 }
@@ -383,9 +384,9 @@ ArrayXf randu(int n)
   return 0.5 * ArrayXf::Random(n) + 0.5;
 }
 
-ArrayXf randb(int n)
+ArrayXb randb(int n)
 {
-  ArrayXf y(n);
+  ArrayXb y(n);
   default_random_engine generator;
   uniform_int_distribution<> dis(0, 1);
   for(auto j = 0; j < n; j++)
@@ -445,7 +446,7 @@ Eigen::ArrayXi diff(const Eigen::ArrayXi &x)
   return x.tail(n-1) - x.head(n-1);
 }*/
 
-ArrayXf unwrap(const ArrayXf &x, float r)
+ArrayXf déplie_phase(const ArrayXf &x, float r)
 {
   auto n = x.rows();
   ArrayXf y(n);
@@ -545,7 +546,7 @@ struct OLUT::Impl
   }
   cfloat step(float θ0)
   {
-    auto θ = wrap_2pi(θ0);
+    auto θ = modulo_2π(θ0);
 
     // Interpolation linéaire
     tsd_assert((θ >= 0) && (θ < 2 * π_f));
@@ -646,46 +647,6 @@ sptr<Source<cfloat, OHConfig>> source_ohc(float freq)
   return make_shared<OHC>(freq);
 }
 
-
-
-
-/*ArrayXf resample(IArrayXf x, float lom)
-{
-  auto f = tsd::filtrage::filtre_reechan<float>(lom);
-  return f->step(x);
-}
-ArrayXcf resample(IArrayXcf x, float lom)
-{
-  auto f = tsd::filtrage::filtre_reechan<cfloat>(lom);
-  return f->step(x);
-}*/
-
-/*ArrayXf fenetre(const string &code, unsigned int n)
-{
-  Fenetre f(code.c_str());
-  return f.construire(n);
-}
-
-Fenetre::Fenetre()
-{
-
-}*/
-
-
-
-
-
-
-
-
-
-
-
-/*ArrayXf fenetre(Fenetre type, unsigned int n)
-{
-  Fenetre f(type);
-  return f.construire(n);
-}*/
 
 
 

@@ -1669,7 +1669,7 @@ extern Poly<int> polynome_primitif(int n);
 
 
 /** @brief Vecteur binaire (alternative à la classe BitStream). */
-using ArrayHd = Eigen::Array<bool, Eigen::Dynamic, 1>;
+using ArrayHd = ArrayXb;
 
 /** @brief Vecteur de LLR (flottantes) */
 using ArrayLLR = ArrayXf;

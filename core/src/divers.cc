@@ -20,7 +20,7 @@ float sinc(float T, float ω)
 
 float Dirichlet(int N, float Ω)
 {
-  Ω = wrap_2pi(Ω);
+  Ω = modulo_2π(Ω);
   if((Ω < 1e-5) || (2 * π - Ω < 1e-5))
     return 2 * N  + 1;
 

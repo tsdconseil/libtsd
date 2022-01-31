@@ -22,16 +22,16 @@ int test_tsd()
 
   {
     msg("Test irange...");
-    ArrayXf x = irange(1, 9);
+    ArrayXi x = intervalle_entier(1, 9);
     tsd_assert(
            (x.rows() == 9)
         && (x(0) == 1)
-        && (diff(x).isApprox(ArrayXf::Ones(8))));
+        && (diff(x).isApprox(ArrayXi::Ones(8))));
   }
 
   {
     msg("Test trange...");
-    ArrayXf x = trange(10, 10);
+    ArrayXf x = intervalle_temporel(10, 10);
     msg("x = {}", x);
     tsd_assert((x.rows() == 10)
         && (x(0) == 0)
@@ -74,7 +74,7 @@ int test_tsd()
     {
       auto err = abs(modulo(a, m) - b);
       if(err >= ε2)
-        echec("a = {}, b = {}, m = {}, wrap = {}, err = {}", a, b, m, modulo(a, m), err);
+        echec("a = {}, b = {}, m = {}, modulo = {}, err = {}", a, b, m, modulo(a, m), err);
     };
 
     check_modulo(0, 1, 0);
@@ -83,15 +83,15 @@ int test_tsd()
   }
 
   {
-    msg("Test wrap [0,2π[...");
+    msg("Test modulo [0,2π[...");
 
     auto ε = 1e-10;
 
     auto check_wrap = [&](double a, double b, double ε2 = 1e-16)
     {
-      auto err = abs(wrap_2pi(a) - b);
+      auto err = abs(modulo_2π(a) - b);
       if(err >= ε2)
-        echec("a = {}, b = {}, wrap = {}, err = {}", a, b, wrap_2pi(a), err);
+        echec("a = {}, b = {}, modulo = {}, err = {}", a, b, modulo_2π(a), err);
     };
 
     check_wrap(0, 0);
@@ -108,13 +108,13 @@ int test_tsd()
   }
 
   {
-    msg("Test wrap [-π,π[...");
+    msg("Test modulo [-π,π[...");
 
     auto ε = 1e-10;
 
     auto check_wrap = [&](double a, double b, double ε2 = 1e-16)
     {
-      auto err = abs(wrap_pm_pi(a) - b);
+      auto err = abs(modulo_pm_π(a) - b);
       tsd_assert(err < ε2);
     };
 
@@ -131,18 +131,18 @@ int test_tsd()
   }
 
   {
-    msg("Test unwrap...");
+    msg("Test modulo...");
     int n = 2000;
     ArrayXf x = linspace(-5,5,2000);
     x = x.square().eval();
-    x = x.unaryExpr([](const float x) {return wrap_2pi(x);}).eval();
-    ArrayXf y = unwrap(x);
+    x = x.unaryExpr([](const float x) {return modulo_2π(x);}).eval();
+    ArrayXf y = déplie_phase(x);
     // Vérifie pas de saut de phase
     tsd_assert(diff(y).abs().maxCoeff() < 0.1);
     // Vérifie valeur ok modulo 2pi
     for(auto i = 0; i < n; i++)
     {
-      auto err = abs(wrap_pm_pi(y(i) - x(i)));
+      auto err = abs(modulo_pm_π(y(i) - x(i)));
       //msg("z({}) = {}, wrap={}, x = {}, erreur = {}", i, y(i), wrap_pm_pi(y(i) - x(i)), x(i), err);
       tsd_assert(err < 1e-5);
     }
@@ -314,13 +314,15 @@ int test_tsd()
     auto moy = xi.cast<float>().mean();
     msg("moy = {}", moy);
     tsd_assert(abs(moy - 4.5) < 1e-1);
-    msg("Test randb");
-    x = randb(n);
-    tsd_assert(x.rows() == n);
-    tsd_assert(x.maxCoeff() == 1);
-    tsd_assert(x.minCoeff() == 0);
-    tsd_assert((x * (x - 1)).isApproxToConstant(0));
-    tsd_assert(abs(x.mean() - 0.5) < 1e-2);
+    {
+      msg("Test randb");
+      x = randb(n).cast<float>();
+      tsd_assert(x.rows() == n);
+      tsd_assert(x.maxCoeff() == 1);
+      tsd_assert(x.minCoeff() == 0);
+      tsd_assert((x * (x - 1)).isApproxToConstant(0));
+      tsd_assert(abs(x.mean() - 0.5) < 1e-2);
+    }
   }
 
   {
@@ -345,6 +347,15 @@ int test_tsd()
     msg("Erreur RMS = {}, mag = {}, err relative = {}", err, mag, err / mag);
 
     tsd_assert(x.isApprox(xref, 0.5e-4));
+  }
+
+  {
+    msg("Test sigimp...");
+    int n = 100;
+    ArrayXf x = sigimp(n, 5);
+    tsd_assert(x.head(5).isApproxToConstant(0));
+    tsd_assert(x.tail(n-6).isApproxToConstant(0));
+    tsd_assert(x(5) == 1);
   }
 
   {

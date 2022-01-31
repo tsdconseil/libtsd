@@ -88,7 +88,7 @@ static void test_ra_unit(const std::string &nom, float ratio, sptr<FiltreGen<flo
   msg("Fe = {} Hz, f1 = {} Hz, f2 = {} Hz.", fe, f1, f2);
   msg("Ratio = {} --> fe' = {}", ratio, fe * ratio);
 
-  ArrayXf t = trange(1000, fe);
+  ArrayXf t = intervalle_temporel(1000, fe);
   ArrayXf x = (t*2*π*f2).sin();
 
   verifie_sinus(nom + " - signal d'entrée", x, f2/fe);

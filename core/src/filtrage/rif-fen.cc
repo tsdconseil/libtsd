@@ -82,7 +82,7 @@ static ArrayXf rif_fen_bp(int n, float fl, float fh)
   auto ωc = π * (fh + fl);
   auto δf = (fh - fl) / 2;
   ArrayXf h = coefs_filtre_sinc(n, δf);
-  return 2 * h * cos(ωc * irange(-no2,no2));
+  return 2 * h * cos(ωc * intervalle_entier(-no2,no2).cast<float>());
 }
 
 static ArrayXf rif_fen_sb(int n, float fl, float fh)
@@ -91,7 +91,7 @@ static ArrayXf rif_fen_sb(int n, float fl, float fh)
   auto ωc = π * (fh + fl);
   auto δf = (fh - fl) / 2;
   ArrayXf h = -coefs_filtre_sinc(n,δf);
-  h *= 2 * cos(ωc*irange(-no2,no2));
+  h *= 2 * cos(ωc*intervalle_entier(-no2,no2).cast<float>());
   h(no2)++;
   return h;
 }
