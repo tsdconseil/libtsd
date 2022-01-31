@@ -1,9 +1,9 @@
 var NAVTREEINDEX2 =
 {
 "structtsd_1_1stats_1_1_sub_space_spectrum_config.html":[0,8,0],
-"structtsd_1_1stats_1_1_sub_space_spectrum_config.html#a0571d3a6d9386854601ed6dcc869d1c7":[0,8,0,3],
 "structtsd_1_1stats_1_1_sub_space_spectrum_config.html#a0b2f176fc09e55b21ab1c6fa3f392200":[0,8,0,1],
 "structtsd_1_1stats_1_1_sub_space_spectrum_config.html#a4937de204e231e00c5a54574c47fdfb6":[0,8,0,4],
+"structtsd_1_1stats_1_1_sub_space_spectrum_config.html#a67be0dc40a4b133c00f7b82f5d11947f":[0,8,0,3],
 "structtsd_1_1stats_1_1_sub_space_spectrum_config.html#adc669afae053d2c44e3f00d4b4e16459":[0,8,0,2],
 "structtsd_1_1stats_1_1_sub_space_spectrum_config.html#af6cda0c0dde296f1472e47a415a58ea4":[0,8,0,5],
 "structtsd_1_1stats_1_1_sub_space_spectrum_config_a4fb2121fc80e838100dcb6b190e30ada.html#a4fb2121fc80e838100dcb6b190e30ada":[0,8,0,0],

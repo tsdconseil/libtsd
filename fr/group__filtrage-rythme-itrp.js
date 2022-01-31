@@ -1,13 +1,13 @@
 var group__filtrage_rythme_itrp =
 [
     [ "Interpolateur", "structtsd_1_1filtrage_1_1_interpolateur.html", [
-      [ "calcule", "structtsd_1_1filtrage_1_1_interpolateur_a2b3155af7083dcb668ee277f827058ab.html#a2b3155af7083dcb668ee277f827058ab", null ],
-      [ "nom", "structtsd_1_1filtrage_1_1_interpolateur.html#aeaa483246ed1914a2021f1d5dd730986", null ],
-      [ "npts", "structtsd_1_1filtrage_1_1_interpolateur.html#a8570ed1c36abbbe99485f37d4a773a1e", null ]
+      [ "step", "structtsd_1_1filtrage_1_1_interpolateur_a4d9cad55aa449c722fc6f41468e02e9f.html#a4d9cad55aa449c722fc6f41468e02e9f", null ],
+      [ "K", "structtsd_1_1filtrage_1_1_interpolateur.html#a406ed6456c9798b65a211936883c5f81", null ],
+      [ "nom", "structtsd_1_1filtrage_1_1_interpolateur.html#aeaa483246ed1914a2021f1d5dd730986", null ]
     ] ],
     [ "InterpolateurRIF", "structtsd_1_1filtrage_1_1_interpolateur_r_i_f.html", [
-      [ "calcule", "structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a1c0390cf9c11f7ba40db53104f55c8d5.html#a1c0390cf9c11f7ba40db53104f55c8d5", null ],
-      [ "coefs", "structtsd_1_1filtrage_1_1_interpolateur_r_i_f.html#af7aba810d305a3614fe5430bcdfd9705", null ]
+      [ "coefs", "structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a1928fa1b27ba9b852740a53a343e8da8.html#a1928fa1b27ba9b852740a53a343e8da8", null ],
+      [ "step", "structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a9d7e8d009cf2bcf186c9faaaecea2a31.html#a9d7e8d009cf2bcf186c9faaaecea2a31", null ]
     ] ],
     [ "InterpolateurSincConfig", "structtsd_1_1filtrage_1_1_interpolateur_sinc_config.html", [
       [ "fcut", "structtsd_1_1filtrage_1_1_interpolateur_sinc_config.html#a3c520b08e1db2d42525659ae56d190ce", null ],

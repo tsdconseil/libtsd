@@ -134,21 +134,20 @@ Graphe d'héritage de tsd::filtrage::InterpolateurRIF&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Fonctions membres publiques</h2></td></tr>
-<tr class="memitem:af7aba810d305a3614fe5430bcdfd9705"><td class="memItemLeft" align="right" valign="top"><a id="af7aba810d305a3614fe5430bcdfd9705"></a>
-virtual ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f.html#af7aba810d305a3614fe5430bcdfd9705">coefs</a> (float phase)=0</td></tr>
-<tr class="memdesc:af7aba810d305a3614fe5430bcdfd9705"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul des coefficients d'un filtre RIF en fonction du délais souhaité. <br /></td></tr>
-<tr class="separator:af7aba810d305a3614fe5430bcdfd9705"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c0390cf9c11f7ba40db53104f55c8d5"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a1c0390cf9c11f7ba40db53104f55c8d5.html#a1c0390cf9c11f7ba40db53104f55c8d5">calcule</a> (const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, int k, float phase)</td></tr>
-<tr class="memdesc:a1c0390cf9c11f7ba40db53104f55c8d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolation (méthode abstraite).  <a href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a1c0390cf9c11f7ba40db53104f55c8d5.html#a1c0390cf9c11f7ba40db53104f55c8d5">Plus de détails...</a><br /></td></tr>
-<tr class="separator:a1c0390cf9c11f7ba40db53104f55c8d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1928fa1b27ba9b852740a53a343e8da8"><td class="memItemLeft" align="right" valign="top">virtual ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a1928fa1b27ba9b852740a53a343e8da8.html#a1928fa1b27ba9b852740a53a343e8da8">coefs</a> (float τ)=0</td></tr>
+<tr class="memdesc:a1928fa1b27ba9b852740a53a343e8da8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul des coefficients d'un filtre RIF en fonction du délais souhaité.  <a href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a1928fa1b27ba9b852740a53a343e8da8.html#a1928fa1b27ba9b852740a53a343e8da8">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a1928fa1b27ba9b852740a53a343e8da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d7e8d009cf2bcf186c9faaaecea2a31"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a9d7e8d009cf2bcf186c9faaaecea2a31.html#a9d7e8d009cf2bcf186c9faaaecea2a31">step</a> (const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, int k, float τ)</td></tr>
+<tr class="memdesc:a9d7e8d009cf2bcf186c9faaaecea2a31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolation (méthode abstraite).  <a href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f_a9d7e8d009cf2bcf186c9faaaecea2a31.html#a9d7e8d009cf2bcf186c9faaaecea2a31">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a9d7e8d009cf2bcf186c9faaaecea2a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Membres hérités additionnels</h2></td></tr>
 <tr class="inherit_header pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structtsd_1_1filtrage_1_1_interpolateur')"><img src="closed.png" alt="-"/>&#160;Attributs publics hérités de <a class="el" href="structtsd_1_1filtrage_1_1_interpolateur.html">tsd::filtrage::Interpolateur&lt; T &gt;</a></td></tr>
-<tr class="memitem:a8570ed1c36abbbe99485f37d4a773a1e inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="memItemLeft" align="right" valign="top"><a id="a8570ed1c36abbbe99485f37d4a773a1e"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur.html#a8570ed1c36abbbe99485f37d4a773a1e">npts</a> = 0</td></tr>
-<tr class="memdesc:a8570ed1c36abbbe99485f37d4a773a1e inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="mdescLeft">&#160;</td><td class="mdescRight">Longueur de la fenêtre (ligne à retard). <br /></td></tr>
-<tr class="separator:a8570ed1c36abbbe99485f37d4a773a1e inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a406ed6456c9798b65a211936883c5f81 inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="memItemLeft" align="right" valign="top"><a id="a406ed6456c9798b65a211936883c5f81"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur.html#a406ed6456c9798b65a211936883c5f81">K</a> = 0</td></tr>
+<tr class="memdesc:a406ed6456c9798b65a211936883c5f81 inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="mdescLeft">&#160;</td><td class="mdescRight">Longueur de la fenêtre (ligne à retard). <br /></td></tr>
+<tr class="separator:a406ed6456c9798b65a211936883c5f81 inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaa483246ed1914a2021f1d5dd730986 inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="memItemLeft" align="right" valign="top"><a id="aeaa483246ed1914a2021f1d5dd730986"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur.html#aeaa483246ed1914a2021f1d5dd730986">nom</a></td></tr>
 <tr class="memdesc:aeaa483246ed1914a2021f1d5dd730986 inherit pub_attribs_structtsd_1_1filtrage_1_1_interpolateur"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description de l'interpolateur. <br /></td></tr>
@@ -163,7 +162,7 @@ struct tsd::filtrage::InterpolateurRIF&lt; T &gt;</h3>
 \[ y =\sum_{i=0}^{K-1} h_i \cdot x_{i+k[K]} \]
 </p>
  
-<p class="definition">Définition à la ligne <a class="el" href="filtrage_8hpp_source.html#l01670">1670</a> du fichier <a class="el" href="filtrage_8hpp_source.html">filtrage.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="filtrage_8hpp_source.html#l01672">1672</a> du fichier <a class="el" href="filtrage_8hpp_source.html">filtrage.hpp</a>.</p>
 </div><hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
 <li>tsd/<a class="el" href="filtrage_8hpp_source.html">filtrage.hpp</a></li>
 </ul>
@@ -173,7 +172,7 @@ struct tsd::filtrage::InterpolateurRIF&lt; T &gt;</h3>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><b>filtrage</b></li><li class="navelem"><a class="el" href="structtsd_1_1filtrage_1_1_interpolateur_r_i_f.html">InterpolateurRIF</a></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 09:47:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>
