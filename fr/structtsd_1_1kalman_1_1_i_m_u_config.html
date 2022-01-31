@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Référence de la structure tsd::kalman::IMUConfig</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('structtsd_1_1kalman_1_1_i_m_u_config.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Attributs publics</a> &#124;
+<a href="structtsd_1_1kalman_1_1_i_m_u_config-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence de la structure tsd::kalman::IMUConfig<div class="ingroups"><a class="el" href="group__apps.html">Applications</a> &raquo; <a class="el" href="group__kalman.html">Filtrage de Kalman</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Configuration pour le modèle IMU.  
+ <a href="structtsd_1_1kalman_1_1_i_m_u_config.html#details">Plus de détails...</a></p>
+
+<p><code>#include &lt;<a class="el" href="kalman_8hpp_source.html">tsd/apps/kalman.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Attributs publics</h2></td></tr>
+<tr class="memitem:a9fc37b2c02190fb6787786ce8ac76f4f"><td class="memItemLeft" align="right" valign="top"><a id="a9fc37b2c02190fb6787786ce8ac76f4f"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a9fc37b2c02190fb6787786ce8ac76f4f">acc_available</a></td></tr>
+<tr class="memdesc:a9fc37b2c02190fb6787786ce8ac76f4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accelerometer measurements are available or not. <br /></td></tr>
+<tr class="separator:a9fc37b2c02190fb6787786ce8ac76f4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a514f10d8401e064f2de6bfc0d64b278e"><td class="memItemLeft" align="right" valign="top"><a id="a514f10d8401e064f2de6bfc0d64b278e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a514f10d8401e064f2de6bfc0d64b278e">gyro_available</a></td></tr>
+<tr class="memdesc:a514f10d8401e064f2de6bfc0d64b278e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gyroscope measurements are available or not? <br /></td></tr>
+<tr class="separator:a514f10d8401e064f2de6bfc0d64b278e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15f5b03ab1dc395891c66ed84a3b17d2"><td class="memItemLeft" align="right" valign="top"><a id="a15f5b03ab1dc395891c66ed84a3b17d2"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a15f5b03ab1dc395891c66ed84a3b17d2">mag_available</a></td></tr>
+<tr class="memdesc:a15f5b03ab1dc395891c66ed84a3b17d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magnetometer (compas) measurements are available or not? <br /></td></tr>
+<tr class="separator:a15f5b03ab1dc395891c66ed84a3b17d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae08b1209c23454928ef3e616b38a6830"><td class="memItemLeft" align="right" valign="top"><a id="ae08b1209c23454928ef3e616b38a6830"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#ae08b1209c23454928ef3e616b38a6830">baro_available</a></td></tr>
+<tr class="memdesc:ae08b1209c23454928ef3e616b38a6830"><td class="mdescLeft">&#160;</td><td class="mdescRight">Barometer measurements are available or not? <br /></td></tr>
+<tr class="separator:ae08b1209c23454928ef3e616b38a6830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69397ac549fbf2bd5a9985333896126b"><td class="memItemLeft" align="right" valign="top"><a id="a69397ac549fbf2bd5a9985333896126b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a69397ac549fbf2bd5a9985333896126b">gps_available</a></td></tr>
+<tr class="memdesc:a69397ac549fbf2bd5a9985333896126b"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPS measurements are available or not? <br /></td></tr>
+<tr class="separator:a69397ac549fbf2bd5a9985333896126b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13ed1b192a6d59b94cb34234aff777a9"><td class="memItemLeft" align="right" valign="top"><a id="a13ed1b192a6d59b94cb34234aff777a9"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a13ed1b192a6d59b94cb34234aff777a9">estim_pos</a></td></tr>
+<tr class="memdesc:a13ed1b192a6d59b94cb34234aff777a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">If true, the model includes position estimation. <br /></td></tr>
+<tr class="separator:a13ed1b192a6d59b94cb34234aff777a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb276c859f9155833dca29c5142a59a8"><td class="memItemLeft" align="right" valign="top"><a id="adb276c859f9155833dca29c5142a59a8"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#adb276c859f9155833dca29c5142a59a8">estim_orient</a></td></tr>
+<tr class="memdesc:adb276c859f9155833dca29c5142a59a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">If true, the model includes orientation (Euler angles) estimation. <br /></td></tr>
+<tr class="separator:adb276c859f9155833dca29c5142a59a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b02fc283b6726788b623cc119b83b9b"><td class="memItemLeft" align="right" valign="top"><a id="a6b02fc283b6726788b623cc119b83b9b"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a6b02fc283b6726788b623cc119b83b9b">fs</a> = 100</td></tr>
+<tr class="memdesc:a6b02fc283b6726788b623cc119b83b9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sampling frequency (Hz) <br /></td></tr>
+<tr class="separator:a6b02fc283b6726788b623cc119b83b9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab27a1fc311f87cfb0cda39299666eab3"><td class="memItemLeft" align="right" valign="top"><a id="ab27a1fc311f87cfb0cda39299666eab3"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#ab27a1fc311f87cfb0cda39299666eab3">anoise</a> = 1.0</td></tr>
+<tr class="memdesc:ab27a1fc311f87cfb0cda39299666eab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Noise standard deviation on the accelerometers outputs (scalar) <br /></td></tr>
+<tr class="separator:ab27a1fc311f87cfb0cda39299666eab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb1361a70bbea353583fba771fae9074"><td class="memItemLeft" align="right" valign="top"><a id="adb1361a70bbea353583fba771fae9074"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#adb1361a70bbea353583fba771fae9074">gnoise</a> = 2.2</td></tr>
+<tr class="memdesc:adb1361a70bbea353583fba771fae9074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Noise standard deviation on the gyroscopes outputs (scalar) <br /></td></tr>
+<tr class="separator:adb1361a70bbea353583fba771fae9074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55481c0269b9aeff544c6de06d918b08"><td class="memItemLeft" align="right" valign="top"><a id="a55481c0269b9aeff544c6de06d918b08"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a55481c0269b9aeff544c6de06d918b08">mnoise</a> = 0.5</td></tr>
+<tr class="memdesc:a55481c0269b9aeff544c6de06d918b08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Noise standard deviation on the compas outputs (scalar) <br /></td></tr>
+<tr class="separator:a55481c0269b9aeff544c6de06d918b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af02885e043543960e650bb2d9ac1b203"><td class="memItemLeft" align="right" valign="top"><a id="af02885e043543960e650bb2d9ac1b203"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#af02885e043543960e650bb2d9ac1b203">bnoise</a> = 1.0</td></tr>
+<tr class="memdesc:af02885e043543960e650bb2d9ac1b203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Noise standard deviation on the barometer outputs (scalar) <br /></td></tr>
+<tr class="separator:af02885e043543960e650bb2d9ac1b203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aac3e2c6a239a17f59d838c1a352498"><td class="memItemLeft" align="right" valign="top"><a id="a7aac3e2c6a239a17f59d838c1a352498"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html#a7aac3e2c6a239a17f59d838c1a352498">gpsnoise</a> = 5.0</td></tr>
+<tr class="memdesc:a7aac3e2c6a239a17f59d838c1a352498"><td class="mdescLeft">&#160;</td><td class="mdescRight">Noise standard deviation on the GPS outputs (scalar) <br /></td></tr>
+<tr class="separator:a7aac3e2c6a239a17f59d838c1a352498"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock">
+<p class="definition">Définition à la ligne <a class="el" href="kalman_8hpp_source.html#l00490">490</a> du fichier <a class="el" href="kalman_8hpp_source.html">kalman.hpp</a>.</p>
+</div><hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
+<li>tsd/apps/<a class="el" href="kalman_8hpp_source.html">kalman.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><b>kalman</b></li><li class="navelem"><a class="el" href="structtsd_1_1kalman_1_1_i_m_u_config.html">IMUConfig</a></li>
+    <li class="footer">Généré le Lundi 31 Janvier 2022 09:47:55 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

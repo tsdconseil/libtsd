@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Filtrage de Kalman</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01215.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Filtrage de Kalman<div class="ingroups"><a class="el" href="a01212.html">Applications</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<dl class="section warning"><dt>Avertissement</dt><dd>Module au stade expérimental (fonctions très limitées, tests incomplets, API non stabilisée). </dd></dl>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01238.html">tsd::kalman::SSM</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modèle abtrait pour une représentation d'état.  <a href="a01238.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01242.html">tsd::kalman::SSMLineaire</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modèle linéaire.  <a href="a01242.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01246.html">tsd::kalman::FiltreSSM</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre abstrait pour retrouver la séquence d'états cachés d'un modèle <a class="el" href="a01238.html" title="Modèle abtrait pour une représentation d&#39;état.">SSM</a>.  <a href="a01246.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01250.html">tsd::kalman::IMUConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration pour le modèle IMU.  <a href="a01250.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:gaad9cdb8e124202aab3bef5b2b4e55c27"><td class="memItemLeft" align="right" valign="top">MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_gaad9cdb8e124202aab3bef5b2b4e55c27.html#gaad9cdb8e124202aab3bef5b2b4e55c27">tsd::kalman::jacobienne_num</a> (std::function&lt; VectorXf(const VectorXf &amp;)&gt; f, const VectorXf &amp;x)</td></tr>
+<tr class="memdesc:gaad9cdb8e124202aab3bef5b2b4e55c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dérivation numérique.  <a href="a01215_gaad9cdb8e124202aab3bef5b2b4e55c27.html#gaad9cdb8e124202aab3bef5b2b4e55c27">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaad9cdb8e124202aab3bef5b2b4e55c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabcd9ab7daf647a611d747f77e0aa80c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01246.html">FiltreSSM</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_gabcd9ab7daf647a611d747f77e0aa80c4.html#gabcd9ab7daf647a611d747f77e0aa80c4">tsd::kalman::filtre_kalman</a> (<a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01242.html">SSMLineaire</a> &gt; ssm, const Eigen::VectorXf &amp;x0=Eigen::VectorXf(), const Eigen::MatrixXf &amp;p0=Eigen::MatrixXf())</td></tr>
+<tr class="memdesc:gabcd9ab7daf647a611d747f77e0aa80c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construction d'un filtre de Kalman.  <a href="a01215_gabcd9ab7daf647a611d747f77e0aa80c4.html#gabcd9ab7daf647a611d747f77e0aa80c4">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gabcd9ab7daf647a611d747f77e0aa80c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeac4a6386a8d184f49fe174125257836"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01246.html">FiltreSSM</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_gaeac4a6386a8d184f49fe174125257836.html#gaeac4a6386a8d184f49fe174125257836">tsd::kalman::filtre_ekf</a> (<a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01238.html">SSM</a> &gt; ssm)</td></tr>
+<tr class="memdesc:gaeac4a6386a8d184f49fe174125257836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construction d'un filtre de Kalman étendu (EKF).  <a href="a01215_gaeac4a6386a8d184f49fe174125257836.html#gaeac4a6386a8d184f49fe174125257836">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaeac4a6386a8d184f49fe174125257836"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74a2c52e597b80f141160a572318b071"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01242.html">SSMLineaire</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_ga74a2c52e597b80f141160a572318b071.html#ga74a2c52e597b80f141160a572318b071">tsd::kalman::modele_marche_aleatoire</a> (int ndim=1, const MatrixXf &amp;Q=MatrixXf(), const MatrixXf &amp;R=MatrixXf())</td></tr>
+<tr class="memdesc:ga74a2c52e597b80f141160a572318b071"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marche aléatoire.  <a href="a01215_ga74a2c52e597b80f141160a572318b071.html#ga74a2c52e597b80f141160a572318b071">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga74a2c52e597b80f141160a572318b071"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2538ea389516043e19124db840f1e10d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01242.html">SSMLineaire</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_ga2538ea389516043e19124db840f1e10d.html#ga2538ea389516043e19124db840f1e10d">tsd::kalman::modele_constante</a> (float R=0.1)</td></tr>
+<tr class="memdesc:ga2538ea389516043e19124db840f1e10d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le système en représentation d'état le plus simple : une valeur constante.  <a href="a01215_ga2538ea389516043e19124db840f1e10d.html#ga2538ea389516043e19124db840f1e10d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga2538ea389516043e19124db840f1e10d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabca2a22443f281ab6a3e2cb4f55ddbef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01238.html">SSM</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_gabca2a22443f281ab6a3e2cb4f55ddbef.html#gabca2a22443f281ab6a3e2cb4f55ddbef">tsd::kalman::modele_kitagawa</a> ()</td></tr>
+<tr class="memdesc:gabca2a22443f281ab6a3e2cb4f55ddbef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modèle non linéaire de Kitagawa.  <a href="a01215_gabca2a22443f281ab6a3e2cb4f55ddbef.html#gabca2a22443f281ab6a3e2cb4f55ddbef">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gabca2a22443f281ab6a3e2cb4f55ddbef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f8eeb1ef143d3651e1222de8e251de1"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; MatrixXf, float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_ga0f8eeb1ef143d3651e1222de8e251de1.html#ga0f8eeb1ef143d3651e1222de8e251de1">tsd::kalman::dare</a> (const MatrixXf &amp;A, const MatrixXf &amp;C, const MatrixXf &amp;Q, const MatrixXf &amp;R, float tolerance=1e-7, int iter_max=1000)</td></tr>
+<tr class="memdesc:ga0f8eeb1ef143d3651e1222de8e251de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résolution de l'équation de Riccati discrète (DARE).  <a href="a01215_ga0f8eeb1ef143d3651e1222de8e251de1.html#ga0f8eeb1ef143d3651e1222de8e251de1">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga0f8eeb1ef143d3651e1222de8e251de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9bdf85dd6f98cdda9fca661999ef1842"><td class="memItemLeft" align="right" valign="top">MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_ga9bdf85dd6f98cdda9fca661999ef1842.html#ga9bdf85dd6f98cdda9fca661999ef1842">tsd::kalman::kalman_ssg</a> (<a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; const <a class="el" href="a01242.html">SSMLineaire</a> &gt; modele)</td></tr>
+<tr class="memdesc:ga9bdf85dd6f98cdda9fca661999ef1842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul le gain de Kalman en régime établi.  <a href="a01215_ga9bdf85dd6f98cdda9fca661999ef1842.html#ga9bdf85dd6f98cdda9fca661999ef1842">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga9bdf85dd6f98cdda9fca661999ef1842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0d736be0749d28bf8c7be2c9ee405cd9"><td class="memItemLeft" align="right" valign="top">tsd::vue::Figures&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_ga0d736be0749d28bf8c7be2c9ee405cd9.html#ga0d736be0749d28bf8c7be2c9ee405cd9">tsd::kalman::plot_etats</a> (<a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; const <a class="el" href="a01238.html">SSM</a> &gt; ssm, const ArrayXXf &amp;x, const ArrayXXf &amp;xe=ArrayXXf())</td></tr>
+<tr class="memdesc:ga0d736be0749d28bf8c7be2c9ee405cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affichage d'une séquence d'états.  <a href="a01215_ga0d736be0749d28bf8c7be2c9ee405cd9.html#ga0d736be0749d28bf8c7be2c9ee405cd9">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga0d736be0749d28bf8c7be2c9ee405cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad08eb4bec93982362cb9a867615f807a"><td class="memItemLeft" align="right" valign="top">tsd::vue::Figures&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_gad08eb4bec93982362cb9a867615f807a.html#gad08eb4bec93982362cb9a867615f807a">tsd::kalman::plot_obs</a> (<a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; const <a class="el" href="a01238.html">SSM</a> &gt; sys, const ArrayXXf &amp;y)</td></tr>
+<tr class="memdesc:gad08eb4bec93982362cb9a867615f807a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affichage d'une séquence d'observations.  <a href="a01215_gad08eb4bec93982362cb9a867615f807a.html#gad08eb4bec93982362cb9a867615f807a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gad08eb4bec93982362cb9a867615f807a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6048710d5bfa6351fc5c37d91913af4b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01238.html">SSM</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01215_ga6048710d5bfa6351fc5c37d91913af4b.html#ga6048710d5bfa6351fc5c37d91913af4b">tsd::kalman::modele_imu</a> (const <a class="el" href="a01250.html">IMUConfig</a> &amp;cfg)</td></tr>
+<tr class="memdesc:ga6048710d5bfa6351fc5c37d91913af4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modèle générique IMU (Inertial Measuring Unit).  <a href="a01215_ga6048710d5bfa6351fc5c37d91913af4b.html#ga6048710d5bfa6351fc5c37d91913af4b">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga6048710d5bfa6351fc5c37d91913af4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

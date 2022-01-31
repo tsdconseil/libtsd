@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de C:/dev/libtsd/core/src/telecom/canalisation/transpo-bb.cc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('transpo-bb_8cc_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">transpo-bb.cc</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;tsd/filtrage.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;tsd/tsd.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;tsd/telecom.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>tsd;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>tsd::filtrage;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>tsd::telecom {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="comment">// Initialization of a baseband down-converter.</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <span class="comment">// Calling Sequence</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="comment">// dn = downconvert_init(nu)</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  <span class="comment">// dn = downconvert_init(nu, opt)</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="comment">// Parameters</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="comment">// nu: Normalized RF or IF frequency (between -0.5 and 0.5)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="comment">// opt: &#39;r&#39; (default) for real input signal, &#39;c&#39; for complex input signal</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="comment">// Description</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="comment">// If the input signal is complex, no image filtering is down.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="comment">// If the input signal is real, image is removed with a low-pass filter</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="comment">// with cut-off frequency set to &lt;latex&gt;$\nu$&lt;/latex&gt; if &lt;latex&gt;$\nu &lt; \frac{1}{4}$&lt;/latex&gt;, and &lt;latex&gt;$\frac{1}{2}-\nu$&lt;/latex&gt; otherwise</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="comment">// (in either case, half-way between baseband signal and image signal).</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="comment">// Down-conversion to baseband.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="comment">// Calling Sequence</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="comment">// [dn,y] = downconvert_process(dn,x)</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="comment">// Parameters</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="comment">// x: input signal (real or complex)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="comment">// dn: downconversion object (created with &lt;link linkend=&quot;downconvert_init&quot;&gt;downconvert_init&lt;/link&gt;)</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="comment">// y: output baseband signal (complex)</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="comment">// Description</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">// If the input signal is complex, no image filtering is down.</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="comment">// If the input signal is real, image is removed with a low-pass filter</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="comment">// with cut-off frequency set to &lt;latex&gt;$\nu$&lt;/latex&gt; if &lt;latex&gt;$\nu &lt; \frac{1}{4}$&lt;/latex&gt;, and &lt;latex&gt;$\frac{1}{2}-\nu$&lt;/latex&gt;  otherwise,</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="comment">// where &lt;latex&gt;$\nu$&lt;/latex&gt; is the normalized intermediate frequency</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="comment">// (in either case, half-way between baseband signal and image signal).</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="comment">// &lt;refsection&gt;&lt;title&gt;Example 1: downconversion of a BPSK complex signal (without image filtering)&lt;/title&gt;&lt;/refsection&gt;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">// &lt;programlisting&gt;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">// // Load RF test signal (BPSK, I/Q)</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="comment">// [x,fs,fi,fsymb] = sct_test_signal(&#39;c&#39;);</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="comment">// ;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">// // Down-conversion to baseband</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// dn = downconvert_init(fi/fs,&#39;c&#39;);</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="comment">// [dn,y] = downconvert_process(dn,x);</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="comment">// &lt;/programlisting&gt;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">// Scatter plot view:</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="comment">// &lt;imageobject&gt;&lt;imagedata fileref=&quot;ex_downconvert1_const.png&quot; format=&quot;PNG&quot;/&gt;&lt;/imageobject&gt;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="comment">// Frequency view:</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="comment">// &lt;imageobject&gt;&lt;imagedata fileref=&quot;ex_downconvert1_psd.png&quot; format=&quot;PNG&quot;/&gt;&lt;/imageobject&gt;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="comment">// &lt;refsection&gt;&lt;title&gt;Example 2: downconversion of a BPSK real signal (with image filtering)&lt;/title&gt;&lt;/refsection&gt;</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="comment">// &lt;programlisting&gt;</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="comment">// // Load RF test signal (BPSK, I/Q)</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">// [x,fs,fi,fsymb] = sct_test_signal();</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="comment">// ;</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="comment">// // Down-conversion to baseband</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="comment">// dn = downconvert_init(fi/fs,&#39;r&#39;);</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="comment">// [dn,y] = downconvert_process(dn,x);</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="comment">// &lt;/programlisting&gt;</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="comment">// Scatter plot view:</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="comment">// &lt;imageobject&gt;&lt;imagedata fileref=&quot;ex_downconvert2_const.png&quot; format=&quot;PNG&quot;/&gt;&lt;/imageobject&gt;</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="comment">// Frequency view:</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="comment">// &lt;imageobject&gt;&lt;imagedata fileref=&quot;ex_downconvert2_psd.png&quot; format=&quot;PNG&quot;/&gt;&lt;/imageobject&gt;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="comment">// A FAIRE : intégration d&#39;une décimation polyphase.</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> Te&gt;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">struct </span>TranspoBB: <a class="code" href="structtsd_1_1_filtre.html">Filtre</a>&lt;Te, cfloat, TranspoBBConfig&gt;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordtype">float</span> fc = 0;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordtype">char</span> mode = <span class="charliteral">&#39;r&#39;</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;SourceGen&lt;cfloat&gt;</a>&gt; ol;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;FiltreGen&lt;cfloat&gt;</a>&gt; filtre_image;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">//TranspoBBConfig config;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordtype">int</span> configure_impl(<span class="keyword">const</span> TranspoBBConfig &amp;config)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span>(mode == <span class="charliteral">&#39;r&#39;</span>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="comment">// Image filtering</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keywordflow">if</span>(config.fi &lt; 0.25)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;          fc = config.fi;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;          fc = 0.5 - config.fi;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keyword">auto</span> ntaps = 63;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      ArrayXf h = <a class="code" href="group__filtrage-design_gafbb36e0401a653ae059151345ec63e63.html#gafbb36e0401a653ae059151345ec63e63">design_rif_fen</a>(ntaps, <span class="stringliteral">&quot;lp&quot;</span>, fc);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      filtre_image = tsd::filtrage::filtre_rif&lt;float,cfloat&gt;(h);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    ol = <a class="code" href="group__tsd-gen_gafabb05be883d679ef151587b2b5fb1e5.html#gafabb05be883d679ef151587b2b5fb1e5">source_ohc</a>(-config.fi);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  TranspoBB(<span class="keyword">const</span> TranspoBBConfig &amp;config, <span class="keywordtype">char</span> mode)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    this-&gt;mode    = mode;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <a class="code" href="structtsd_1_1_configurable.html">Configurable&lt;TranspoBBConfig&gt;::configure</a>(config);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordtype">void</span> step(<span class="keyword">const</span> Eigen::Ref&lt;<span class="keyword">const</span> <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;Te&gt;</a>&gt; x, ArrayXcf &amp;y)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    y = x * ol-&gt;step(x.rows());</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> constexpr(!est_complexe&lt;Te&gt;())</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      y = filtre_image-&gt;step(y);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;};</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;template&lt;typename T&gt;</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="group__telecom-canalisation_ga2882092e3b57adccfbf924e4bb2c3e9a.html#ga2882092e3b57adccfbf924e4bb2c3e9a">  117</a></span>&#160;  <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="code" href="structtsd_1_1_filtre.html">Filtre</a>&lt;T,<a class="code" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>,<a class="code" href="structtsd_1_1telecom_1_1_transpo_b_b_config.html">TranspoBBConfig</a>&gt;&gt; <a class="code" href="group__telecom-canalisation_ga2882092e3b57adccfbf924e4bb2c3e9a.html#ga2882092e3b57adccfbf924e4bb2c3e9a">transpo_bb</a>(const <a class="code" href="structtsd_1_1telecom_1_1_transpo_b_b_config.html">TranspoBBConfig</a> &amp;config)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">if</span> constexpr(est_complexe&lt;T&gt;())</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      <span class="keywordflow">return</span> make_shared&lt;TranspoBB&lt;cfloat&gt;&gt;(config, <span class="charliteral">&#39;c&#39;</span>);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <span class="keywordflow">return</span> make_shared&lt;TranspoBB&lt;float&gt;&gt;(config, <span class="charliteral">&#39;r&#39;</span>);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keyword">auto</span> tbb1 = transpo_bb&lt;float&gt;;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keyword">auto</span> tbb2 = transpo_bb&lt;cfloat&gt;;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;} <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="ttc" id="agroup__filtrage-design_gafbb36e0401a653ae059151345ec63e63_html_gafbb36e0401a653ae059151345ec63e63"><div class="ttname"><a href="group__filtrage-design_gafbb36e0401a653ae059151345ec63e63.html#gafbb36e0401a653ae059151345ec63e63">tsd::filtrage::design_rif_fen</a></div><div class="ttdeci">ArrayXf design_rif_fen(unsigned int n, const std::string &amp;type, float fc, const std::string &amp;fen=&quot;hn&quot;, float fc2=0)</div><div class="ttdoc">Design RIF par sinus-cardinal fenêtré.</div><div class="ttdef"><b>Definition:</b> <a href="rif-fen_8cc_source.html#l00123">rif-fen.cc:123</a></div></div>
+<div class="ttc" id="agroup__telecom-canalisation_ga2882092e3b57adccfbf924e4bb2c3e9a_html_ga2882092e3b57adccfbf924e4bb2c3e9a"><div class="ttname"><a href="group__telecom-canalisation_ga2882092e3b57adccfbf924e4bb2c3e9a.html#ga2882092e3b57adccfbf924e4bb2c3e9a">tsd::telecom::transpo_bb</a></div><div class="ttdeci">sptr&lt; Filtre&lt; T, cfloat, TranspoBBConfig &gt; &gt; transpo_bb(const TranspoBBConfig &amp;config)</div><div class="ttdoc">Transposition de fréquence à partir d'un signal réel ou complexe.</div><div class="ttdef"><b>Definition:</b> <a href="transpo-bb_8cc_source.html#l00117">transpo-bb.cc:117</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_gafabb05be883d679ef151587b2b5fb1e5_html_gafabb05be883d679ef151587b2b5fb1e5"><div class="ttname"><a href="group__tsd-gen_gafabb05be883d679ef151587b2b5fb1e5.html#gafabb05be883d679ef151587b2b5fb1e5">tsd::source_ohc</a></div><div class="ttdeci">sptr&lt; Source&lt; cfloat, OHConfig &gt; &gt; source_ohc(float freq)</div><div class="ttdoc">Génération d'un signal exponentiel via un oscillateur harmonique.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8cc_source.html#l00645">tsd.cc:645</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga1ad6f528e828508496f394ae3f3e72e8"><div class="ttname"><a href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">tsd::Vecteur</a></div><div class="ttdeci">Eigen::Array&lt; t, Eigen::Dynamic, 1, Eigen::ColMajor &gt; Vecteur</div><div class="ttdoc">Raccourcis pour un vecteur colonne de données de type générique (paramètre de template t)</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00119">tsd.hpp:119</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9da159320f29c3ccd16bb8b97e268ab2"><div class="ttname"><a href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">tsd::cfloat</a></div><div class="ttdeci">std::complex&lt; float &gt; cfloat</div><div class="ttdoc">Raccourci pour nombre complexe flottant 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00091">tsd.hpp:91</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9e2377b654c93e22d894bcdcae510500"><div class="ttname"><a href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">tsd::sptr</a></div><div class="ttdeci">std::shared_ptr&lt; T &gt; sptr</div><div class="ttdoc">Raccourci pour définir un pointeur partagé</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00146">tsd.hpp:146</a></div></div>
+<div class="ttc" id="astructtsd_1_1_configurable_html"><div class="ttname"><a href="structtsd_1_1_configurable.html">tsd::Configurable</a></div><div class="ttdoc">Structure abstraite pour une classe configurable.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00539">tsd.hpp:540</a></div></div>
+<div class="ttc" id="astructtsd_1_1_filtre_html"><div class="ttname"><a href="structtsd_1_1_filtre.html">tsd::Filtre</a></div><div class="ttdoc">Structure abstraite pour un filtre de données configurable.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00660">tsd.hpp:661</a></div></div>
+<div class="ttc" id="astructtsd_1_1telecom_1_1_transpo_b_b_config_html"><div class="ttname"><a href="structtsd_1_1telecom_1_1_transpo_b_b_config.html">tsd::telecom::TranspoBBConfig</a></div><div class="ttdoc">Configuration d'une transposition en bande de base.</div><div class="ttdef"><b>Definition:</b> <a href="telecom_8hpp_source.html#l00305">telecom.hpp:306</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1fd764bc5939601a8308cd06af4680f2.html">libtsd</a></li><li class="navelem"><a class="el" href="dir_dd667b285fc427e85e8348ee68a1635f.html">core</a></li><li class="navelem"><a class="el" href="dir_dd671b2a9f7939fcba43e934ad9d06be.html">src</a></li><li class="navelem"><a class="el" href="dir_63182e3df7fe9c1c92248a1c435b1a05.html">telecom</a></li><li class="navelem"><a class="el" href="dir_5e198eb22a4d31dcbac2180c284009db.html">canalisation</a></li><li class="navelem"><b>transpo-bb.cc</b></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:09 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

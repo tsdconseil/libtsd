@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de C:/dev/libtsd/core/src/telecom/graphiques.cc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('graphiques_8cc_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">graphiques.cc</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;tsd/telecom.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;tsd/fourier.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;tsd/figure.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>tsd::vue;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>tsd::telecom {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="group__telecom-plots_ga3ba8ece62eae560156d978c0f8fb97f4.html#ga3ba8ece62eae560156d978c0f8fb97f4">   12</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__telecom-plots_ga3ba8ece62eae560156d978c0f8fb97f4.html#ga3ba8ece62eae560156d978c0f8fb97f4">plot_eye</a>(<a class="code" href="structtsd_1_1vue_1_1_figure.html">Figure</a> &amp;f, <span class="keyword">const</span> ArrayXf &amp;x, <span class="keywordtype">float</span> T)</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"># if 0</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keyword">auto</span> trig2 = [](<span class="keyword">const</span> ArrayXf &amp;x, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> T) -&gt; ArrayXf</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment">// Reference signal with pulse @ t = 0</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> n = x.rows();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ArrayXf A = ArrayXf::Zero(T);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    A(0) = 1;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    ArrayXf ref = repmat(A, floor(n / T), 1);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment">// Signal with pulses at the transitions</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ArrayXf y = <a class="code" href="group__tsd_gae114ab0c68cfa050538431d4c8b08ea1.html#gae114ab0c68cfa050538431d4c8b08ea1">diff</a>(x).square();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">float</span> score;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> = <a class="code" href="group__fourier-corr.html#ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23">tsd::fourier::estimation_delais_entier</a>(ref, y, score);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> = 1 + (<a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> % T);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ArrayXf tt = <a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> + <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(T/2,n,n/T);    <span class="comment">//T/2:T:length(x);</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">return</span> tt;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  };</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordtype">int</span> n = <a class="code" href="group__tsd.html#ga94125b2c496aeb33564b47a54ec5f920">length</a>(x);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  ArrayXf tt = trig2(x,T);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">//tt(find(tt &lt; 1)) = [];</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  ArrayXf t = ArrayXf::Zero(n);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  ArrayXf nt = ArrayXf::Zero(2*T*<a class="code" href="group__tsd.html#ga94125b2c496aeb33564b47a54ec5f920">length</a>(tt));</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  ArrayXf nx = nt;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0u; i &lt; tt.rows(); i++)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ti = tt(i):(tt(i+1)-1);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    t(ti) = ti-tt(i);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    itrv = 1+(i-1)*2*T:i*2*T;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    nt(itrv) = (0:2*T-1);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span>(tt(i)+2*T-1 &lt;= n)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      nx(itrv) = x(tt(i):(tt(i)+2*T-1));</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      nt(1+(i-1)*2*T:$) = [];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      x(1+(i-1)*2*T:$) = [];</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">//plot(nt, nx, &#39;b.&#39;);</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="comment">// Accumulation</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keyword">auto</span> sx = (int) (2*T), sy = (int) floor(sx * 2 / 3);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keyword">auto</span> img = ArrayXXf::Zero(sx,sy);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  nt = 1 + uint32_t(floor(nt*(sx-1)/max(nt)));</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  y  = 1 + uint32_t(floor((sy-1) .* (nx - min(nx)) ./ (max(nx) - min(nx))));</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  n = <a class="code" href="group__tsd.html#ga94125b2c496aeb33564b47a54ec5f920">length</a>(nt);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="comment">// maintenant on sait que sur des intervalles kT...k+1 T,</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="comment">// nt est une simple rampe.</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0u; i &lt; n; i++)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="comment">// nt(i) = x, ny(i) = y</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      img(nt(i),y(i)) = img(nt(i),y(i)) + 1;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="comment">// xset(&quot;colormap&quot;,graycolormap(512));</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">// Sgrayplot(1:sx,1:sy,-img+max(img));</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="comment">// xtitle(&quot;Eye diagram&quot;);</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"># endif</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="ttc" id="agroup__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68_html_gadd396e18c44a04afc1b8e98dcdf68c68"><div class="ttname"><a href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">tsd::fourier::delais</a></div><div class="ttdeci">Vecteur&lt; T &gt; delais(const Vecteur&lt; T &gt; &amp;x, float tau)</div><div class="ttdoc">Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8cc_source.html#l00779">fourier.cc:779</a></div></div>
+<div class="ttc" id="agroup__fourier-corr_html_ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23"><div class="ttname"><a href="group__fourier-corr.html#ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23">tsd::fourier::estimation_delais_entier</a></div><div class="ttdeci">int estimation_delais_entier(IArrayXcf x, IArrayXcf y, float &amp;score)</div><div class="ttdoc">Estimation du délais (à l'échantillon près) le plus probable entre deux signaux (via une corrélation)</div><div class="ttdef"><b>Definition:</b> <a href="estimation-delais_8cc_source.html#l00045">estimation-delais.cc:45</a></div></div>
+<div class="ttc" id="agroup__telecom-plots_ga3ba8ece62eae560156d978c0f8fb97f4_html_ga3ba8ece62eae560156d978c0f8fb97f4"><div class="ttname"><a href="group__telecom-plots_ga3ba8ece62eae560156d978c0f8fb97f4.html#ga3ba8ece62eae560156d978c0f8fb97f4">tsd::telecom::plot_eye</a></div><div class="ttdeci">void plot_eye(tsd::vue::Figure &amp;f, const ArrayXf &amp;x, float T)</div><div class="ttdoc">Diagramme de l'oeil.</div><div class="ttdef"><b>Definition:</b> <a href="graphiques_8cc_source.html#l00012">graphiques.cc:12</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00918">tsd.hpp:918</a></div></div>
+<div class="ttc" id="agroup__tsd_gae114ab0c68cfa050538431d4c8b08ea1_html_gae114ab0c68cfa050538431d4c8b08ea1"><div class="ttname"><a href="group__tsd_gae114ab0c68cfa050538431d4c8b08ea1.html#gae114ab0c68cfa050538431d4c8b08ea1">tsd::diff</a></div><div class="ttdeci">auto diff(const Eigen::ArrayBase&lt; D &gt; &amp;x)</div><div class="ttdoc">Différence entre 2 élements successifs d'un vecteur.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00261">tsd.hpp:261</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga94125b2c496aeb33564b47a54ec5f920"><div class="ttname"><a href="group__tsd.html#ga94125b2c496aeb33564b47a54ec5f920">tsd::length</a></div><div class="ttdeci">auto length(const Eigen::ArrayBase&lt; T &gt; &amp;x)</div><div class="ttdoc">Calcule la longueur d'un vecteur colonne.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00203">tsd.hpp:203</a></div></div>
+<div class="ttc" id="astructtsd_1_1vue_1_1_figure_html"><div class="ttname"><a href="structtsd_1_1vue_1_1_figure.html">tsd::vue::Figure</a></div><div class="ttdoc">Figure avec API de type Matlab / Scilab.</div><div class="ttdef"><b>Definition:</b> <a href="figure_8hpp_source.html#l00395">figure.hpp:396</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1fd764bc5939601a8308cd06af4680f2.html">libtsd</a></li><li class="navelem"><a class="el" href="dir_dd667b285fc427e85e8348ee68a1635f.html">core</a></li><li class="navelem"><a class="el" href="dir_dd671b2a9f7939fcba43e934ad9d06be.html">src</a></li><li class="navelem"><a class="el" href="dir_63182e3df7fe9c1c92248a1c435b1a05.html">telecom</a></li><li class="navelem"><b>graphiques.cc</b></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:10 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

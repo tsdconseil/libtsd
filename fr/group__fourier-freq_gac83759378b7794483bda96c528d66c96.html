@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: tsd::fourier::filtre_goertzel</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group__fourier-freq_gac83759378b7794483bda96c528d66c96.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="contents">
+<a id="gac83759378b7794483bda96c528d66c96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac83759378b7794483bda96c528d66c96">&#9670;&nbsp;</a></span>filtre_goertzel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; float &gt; &gt; tsd::fourier::filtre_goertzel </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>frequence</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<h3>Filtre de Goertzel (calcul au fil de l'eau)</h3>
+<p>Ce filtre calcule au fil de l'eau la densité de puissance (normalisée à la puissance totale du signal) à une fréquence donnée (voir <a class="el" href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181">goertzel()</a>).</p>
+<p>Le calcul est fait par blocs de \(N\) échantillons, et la fréquence d'échantillonnage en sortie est donc divisée par \(N\) par rapport à la fréquence d'entrée (1 échantillon produit pour \(N\) échantillons consommés) : </p><p class="formulaDsp">
+\[ y_i = \frac{\left|2\cdot\mathcal{F}(x_{Ni\dots Ni + N-1})(f)\right|^2}{\displaystyle{\sum_{k=Ni}^{Ni+N-1}{x_k^2}}} \]
+</p>
+<p>\(\mathcal{F}(.)\) étant la transformée de Fourier discrète.</p>
+<p>Le paramètre \(N\) correspond donc au nombre de points de la transformée de Fourier, et la résolution fréquentielle sera donc d'autant plus fine que \(N\) est grand.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frequence</td><td>Fréquence à&#160; détecter (normalisée à&#160; la fréquence d'échantillonnage). </td></tr>
+    <tr><td class="paramname">N</td><td>Nombre de points de la TFD équivalente (facteur de décimation) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd><a class="el" href="structtsd_1_1_filtre.html" title="Structure abstraite pour un filtre de données configurable.">Filtre</a> générique float -&gt; float</dd></dl>
+<dl class="section user"><dt>Exemple : détection d'une sinusoïde pure</dt><dd><div class="fragment"><div class="line"> </div>
+<div class="line">  <span class="comment">// Tableau des fréquences :</span></div>
+<div class="line">  <span class="comment">// fréquence cible seulement au milieu</span></div>
+<div class="line">  ArrayXf vfreq = freq * ArrayXf::Ones(n);</div>
+<div class="line">  vfreq.head(n/3).setConstant(freq * 0.2);</div>
+<div class="line">  vfreq.tail(n/3).setConstant(freq * 5.0);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Signal de fréquence variable</span></div>
+<div class="line">  ArrayXf x = sin(2 * <a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a> * vfreq * <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(0, n-1, n));</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Applique le filtre de Goertzel au fil de l&#39;eau</span></div>
+<div class="line">  <span class="keyword">auto</span> g = <a class="code" href="group__fourier-freq_gac83759378b7794483bda96c528d66c96.html#gac83759378b7794483bda96c528d66c96">tsd::fourier::filtre_goertzel</a>(freq, N);</div>
+<div class="line">  ArrayXf y = g-&gt;step(x);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Affichages</span></div>
+<div class="line">  Figures f;</div>
+<div class="line">  f.subplot().plot(vfreq, <span class="stringliteral">&quot;r-&quot;</span>, <span class="stringliteral">&quot;Fréquence test&quot;</span>);</div>
+<div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal test&quot;</span>);</div>
+<div class="line">  f.subplot().plot(y, <span class="stringliteral">&quot;g-&quot;</span>, <span class="stringliteral">&quot;Détection&quot;</span>);</div>
+<div class="ttc" id="agroup__fourier-freq_gac83759378b7794483bda96c528d66c96_html_gac83759378b7794483bda96c528d66c96"><div class="ttname"><a href="group__fourier-freq_gac83759378b7794483bda96c528d66c96.html#gac83759378b7794483bda96c528d66c96">tsd::fourier::filtre_goertzel</a></div><div class="ttdeci">sptr&lt; FiltreGen&lt; float &gt; &gt; filtre_goertzel(float frequence, int N)</div><div class="ttdoc">Filtre de Goertzel (calcul au fil de l'eau)</div><div class="ttdef"><b>Definition:</b> <a href="goertzel_8cc_source.html#l00079">goertzel.cc:79</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00918">tsd.hpp:918</a></div></div>
+<div class="ttc" id="agroup__tsd_html_gad33f675879923d93b4769f0709e96f31"><div class="ttname"><a href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00082">tsd.hpp:82</a></div></div>
+</div><!-- fragment --><div class="image">
+<img src="goertzel.png" alt="" width="600px"/>
+</div>
+</dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181" title="Filtre de Goertzel (calcul sur un buffer).">goertzel()</a> </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="goertzel_8cc_source.html#l00079">79</a> du fichier <a class="el" href="goertzel_8cc_source.html">goertzel.cc</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>tsd</b></li><li class="navelem"><a class="el" href="namespacetsd_1_1fourier.html">fourier</a></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:10 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

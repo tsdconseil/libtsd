@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de C:/dev/libtsd/core/src/filtrage/hilbert.cc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('hilbert_8cc_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">hilbert.cc</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;tsd/tsd.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;tsd/filtrage.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;tsd/figure.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>tsd::filtrage {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//  A. Reilly, G. Frazer, and B. Boashash, &quot;Analytic signal generation Tips and traps&quot;, IEEE Trans. Signal Processing, vol. 42, pp.3241-3245, Nov. 1994.</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//  h(n)=(2/(n*pi))*(sin(n*pi/2))^2 for n not equal 0 and h(0)=0.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="group__filtrage-design_ga69ba723e0304ece386c36c3e9d57a905.html#ga69ba723e0304ece386c36c3e9d57a905">    9</a></span>&#160;ArrayXf <a class="code" href="group__filtrage-design_ga69ba723e0304ece386c36c3e9d57a905.html#ga69ba723e0304ece386c36c3e9d57a905">design_rif_hilbert</a>(<span class="keywordtype">int</span> n, <span class="keyword">const</span> std::string &amp;fen)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  ArrayXf h = ArrayXf::Zero(n);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; n; i++)</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">float</span> x = ((float) i) - (n/2);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">if</span>(x == 0)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      h(i) = 0;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      h(i) = (2/(<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>*x)) * <a class="code" href="group__tsd.html#ga4d222e724ddcaf0094fb41c387147e92">carré</a>(sin(<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a> * x / 2));</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keywordflow">return</span> h * <a class="code" href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">fenetre</a>(fen, n);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">struct </span>HilbertTransformeur: <a class="code" href="structtsd_1_1_filtre.html">Filtre</a>&lt;float, cfloat, HilbertTransformeurConfig&gt;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;FiltreGen&lt;float&gt;</a>&gt; retard, <a class="code" href="group__filtrage-fini_ga7443151eb93ff7848ca5f9e410e8e0ea.html#ga7443151eb93ff7848ca5f9e410e8e0ea">hilbert</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  HilbertTransformeur(<span class="keywordtype">int</span> ntaps, <span class="keyword">const</span> std::string &amp;<a class="code" href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">fenetre</a>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    HilbertTransformeurConfig config{ntaps, <a class="code" href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">fenetre</a>};</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    configure(config);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1_configurable.html#a7c78462cfeee422d5056be9236934a30">configure_impl</a>(<span class="keyword">const</span> HilbertTransformeurConfig &amp;config)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ArrayXf h = <a class="code" href="group__filtrage-design_ga69ba723e0304ece386c36c3e9d57a905.html#ga69ba723e0304ece386c36c3e9d57a905">design_rif_hilbert</a>(config.ntaps, config.fenetre);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="group__filtrage-fini_ga7443151eb93ff7848ca5f9e410e8e0ea.html#ga7443151eb93ff7848ca5f9e410e8e0ea">hilbert</a>   = filtre_rif&lt;float&gt;(h);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    retard    = ligne_a_retard&lt;float&gt;(config.ntaps/2);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="structtsd_1_1_filtre_gen_a6233639cf2b8e856059e95f98337878b.html#a6233639cf2b8e856059e95f98337878b">step</a>(<a class="code" href="group__tsd.html#ga31a3174a8dcead2fa7eb0039b49d094a">IArrayXf</a> x, ArrayXcf &amp;y)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">auto</span> x2 = <a class="code" href="group__filtrage-fini_ga7443151eb93ff7848ca5f9e410e8e0ea.html#ga7443151eb93ff7848ca5f9e410e8e0ea">hilbert</a>-&gt;step(x);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// Ligne à retard sur y, pour être synchrone avec le signal filtré</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">auto</span> y2 = retard-&gt;step(x);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    y = y2 + <a class="code" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>(0,1) * x2;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="group__filtrage-tr_gaee5868cef6352891cf068e5c5090925e.html#gaee5868cef6352891cf068e5c5090925e">   55</a></span>&#160;<a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;Filtre&lt;float, cfloat, HilbertTransformeurConfig&gt;</a>&gt; <a class="code" href="group__filtrage-tr_gaee5868cef6352891cf068e5c5090925e.html#gaee5868cef6352891cf068e5c5090925e">hilbert_transformeur</a>(<span class="keywordtype">int</span> ntaps, <span class="keyword">const</span> std::string &amp;<a class="code" href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">fenetre</a>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> std::make_shared&lt;HilbertTransformeur&gt;(ntaps, <a class="code" href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">fenetre</a>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="group__filtrage-fini_ga7443151eb93ff7848ca5f9e410e8e0ea.html#ga7443151eb93ff7848ca5f9e410e8e0ea">   60</a></span>&#160;ArrayXcf <a class="code" href="group__filtrage-fini_ga7443151eb93ff7848ca5f9e410e8e0ea.html#ga7443151eb93ff7848ca5f9e410e8e0ea">hilbert</a>(<a class="code" href="group__tsd.html#ga31a3174a8dcead2fa7eb0039b49d094a">IArrayXf</a> x, <span class="keywordtype">int</span> ncoefs)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__filtrage-tr_gaee5868cef6352891cf068e5c5090925e.html#gaee5868cef6352891cf068e5c5090925e">hilbert_transformeur</a>(ncoefs)-&gt;step(x);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="ttc" id="agroup__filtrage-design_ga69ba723e0304ece386c36c3e9d57a905_html_ga69ba723e0304ece386c36c3e9d57a905"><div class="ttname"><a href="group__filtrage-design_ga69ba723e0304ece386c36c3e9d57a905.html#ga69ba723e0304ece386c36c3e9d57a905">tsd::filtrage::design_rif_hilbert</a></div><div class="ttdeci">ArrayXf design_rif_hilbert(int n, const std::string &amp;fenetre=&quot;hn&quot;)</div><div class="ttdoc">Approximation RIF d'un filtre de Hilbert.</div><div class="ttdef"><b>Definition:</b> <a href="hilbert_8cc_source.html#l00009">hilbert.cc:9</a></div></div>
+<div class="ttc" id="agroup__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc_html_gadb70c5a9ca39183513192abc5b4441fc"><div class="ttname"><a href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">tsd::filtrage::fenetre</a></div><div class="ttdeci">ArrayXf fenetre(const std::string &amp;type, int n, bool symetrique=true)</div><div class="ttdoc">Création d'une fenêtre sans paramètre (rectangulaire, Hann, Hamming, triangulaire ou Blackman)</div><div class="ttdef"><b>Definition:</b> <a href="fenetres_8cc_source.html#l00223">fenetres.cc:223</a></div></div>
+<div class="ttc" id="agroup__filtrage-fini_ga7443151eb93ff7848ca5f9e410e8e0ea_html_ga7443151eb93ff7848ca5f9e410e8e0ea"><div class="ttname"><a href="group__filtrage-fini_ga7443151eb93ff7848ca5f9e410e8e0ea.html#ga7443151eb93ff7848ca5f9e410e8e0ea">tsd::filtrage::hilbert</a></div><div class="ttdeci">ArrayXcf hilbert(IArrayXf x, int ncoefs=127)</div><div class="ttdoc">Calcul du signal analytique (via un filtrage RIF).</div><div class="ttdef"><b>Definition:</b> <a href="hilbert_8cc_source.html#l00060">hilbert.cc:60</a></div></div>
+<div class="ttc" id="agroup__filtrage-tr_gaee5868cef6352891cf068e5c5090925e_html_gaee5868cef6352891cf068e5c5090925e"><div class="ttname"><a href="group__filtrage-tr_gaee5868cef6352891cf068e5c5090925e.html#gaee5868cef6352891cf068e5c5090925e">tsd::filtrage::hilbert_transformeur</a></div><div class="ttdeci">sptr&lt; Filtre&lt; float, cfloat, HilbertTransformeurConfig &gt; &gt; hilbert_transformeur(int n=31, const std::string &amp;fenetre=&quot;hn&quot;)</div><div class="ttdoc">Définit un transformeur de Hilbert, qui convertit un signal réel en un signal analytique (complexe).</div><div class="ttdef"><b>Definition:</b> <a href="hilbert_8cc_source.html#l00055">hilbert.cc:55</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga31a3174a8dcead2fa7eb0039b49d094a"><div class="ttname"><a href="group__tsd.html#ga31a3174a8dcead2fa7eb0039b49d094a">tsd::IArrayXf</a></div><div class="ttdeci">const Eigen::Ref&lt; const ArrayXf &gt; IArrayXf</div><div class="ttdoc">Vecteur flottant en entrée (const)</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00122">tsd.hpp:122</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga4d222e724ddcaf0094fb41c387147e92"><div class="ttname"><a href="group__tsd.html#ga4d222e724ddcaf0094fb41c387147e92">tsd::carré</a></div><div class="ttdeci">T carré(const T &amp;v)</div><div class="ttdoc">Calcule le carré d'un scalaire.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00534">tsd.hpp:534</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9da159320f29c3ccd16bb8b97e268ab2"><div class="ttname"><a href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">tsd::cfloat</a></div><div class="ttdeci">std::complex&lt; float &gt; cfloat</div><div class="ttdoc">Raccourci pour nombre complexe flottant 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00091">tsd.hpp:91</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9e2377b654c93e22d894bcdcae510500"><div class="ttname"><a href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">tsd::sptr</a></div><div class="ttdeci">std::shared_ptr&lt; T &gt; sptr</div><div class="ttdoc">Raccourci pour définir un pointeur partagé</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00146">tsd.hpp:146</a></div></div>
+<div class="ttc" id="agroup__tsd_html_gad33f675879923d93b4769f0709e96f31"><div class="ttname"><a href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00082">tsd.hpp:82</a></div></div>
+<div class="ttc" id="astructtsd_1_1_configurable_html_a7c78462cfeee422d5056be9236934a30"><div class="ttname"><a href="structtsd_1_1_configurable.html#a7c78462cfeee422d5056be9236934a30">tsd::Configurable::configure_impl</a></div><div class="ttdeci">virtual int configure_impl(const C &amp;c)=0</div><div class="ttdoc">Méthode abstraite à implémenter par la classe dérivée.</div></div>
+<div class="ttc" id="astructtsd_1_1_filtre_gen_a6233639cf2b8e856059e95f98337878b_html_a6233639cf2b8e856059e95f98337878b"><div class="ttname"><a href="structtsd_1_1_filtre_gen_a6233639cf2b8e856059e95f98337878b.html#a6233639cf2b8e856059e95f98337878b">tsd::FiltreGen::step</a></div><div class="ttdeci">virtual void step(const Eigen::Ref&lt; const Vecteur&lt; Te &gt;&gt; x, Vecteur&lt; Ts &gt; &amp;y)=0</div><div class="ttdoc">Traitement d'un bloc de données.</div></div>
+<div class="ttc" id="astructtsd_1_1_filtre_html"><div class="ttname"><a href="structtsd_1_1_filtre.html">tsd::Filtre</a></div><div class="ttdoc">Structure abstraite pour un filtre de données configurable.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00660">tsd.hpp:661</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1fd764bc5939601a8308cd06af4680f2.html">libtsd</a></li><li class="navelem"><a class="el" href="dir_dd667b285fc427e85e8348ee68a1635f.html">core</a></li><li class="navelem"><a class="el" href="dir_dd671b2a9f7939fcba43e934ad9d06be.html">src</a></li><li class="navelem"><a class="el" href="dir_9d35ba6e752ea0005efff1b9a96dc11a.html">filtrage</a></li><li class="navelem"><b>hilbert.cc</b></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:09 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

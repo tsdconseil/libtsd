@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Corrélation et délais temporels</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group__fourier-corr.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Corrélation et délais temporels<div class="ingroups"><a class="el" href="group__fourier.html">Transformée de Fourier</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_detecteur_config.html">tsd::fourier::DetecteurConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration pour un corrélateur par FFT.  <a href="structtsd_1_1fourier_1_1_detecteur_config.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_detecteur.html">tsd::fourier::Detecteur</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour un corrélateur à base de FFT ou de filtre RIF.  <a href="structtsd_1_1fourier_1_1_detecteur.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:ga4383d63ea1831bd1d045f2382011876a"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXcf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a">tsd::fourier::ccorr</a> (const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf())</td></tr>
+<tr class="memdesc:ga4383d63ea1831bd1d045f2382011876a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrélation circulaire (normalisée) entre deux signaux complexes.  <a href="group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga4383d63ea1831bd1d045f2382011876a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga905acbf2d7cee38e09c735dee74aa8a9"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXcf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9.html#ga905acbf2d7cee38e09c735dee74aa8a9">tsd::fourier::xcorr</a> (const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</td></tr>
+<tr class="memdesc:ga905acbf2d7cee38e09c735dee74aa8a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrélation (non biaisée) entre deux signaux complexes.  <a href="group__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9.html#ga905acbf2d7cee38e09c735dee74aa8a9">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga905acbf2d7cee38e09c735dee74aa8a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa6f678050aa7881601b8bb912649e0d9"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXcf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">tsd::fourier::xcorrb</a> (const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</td></tr>
+<tr class="memdesc:gaa6f678050aa7881601b8bb912649e0d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrélation (biaisée) entre deux signaux complexes.  <a href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaa6f678050aa7881601b8bb912649e0d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab31fd0f19214ade5db96a932bc0da19a"><td class="memTemplParams" colspan="2">template&lt;typename T  = float&gt; </td></tr>
+<tr class="memitem:gab31fd0f19214ade5db96a932bc0da19a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier-corr_gab31fd0f19214ade5db96a932bc0da19a.html#gab31fd0f19214ade5db96a932bc0da19a">tsd::fourier::delais</a> (const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, float tau)</td></tr>
+<tr class="memdesc:gab31fd0f19214ade5db96a932bc0da19a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).  <a href="group__fourier-corr_gab31fd0f19214ade5db96a932bc0da19a.html#gab31fd0f19214ade5db96a932bc0da19a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gab31fd0f19214ade5db96a932bc0da19a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23"><td class="memItemLeft" align="right" valign="top"><a id="ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr.html#ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23">tsd::fourier::estimation_delais_entier</a> (<a class="el" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, <a class="el" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> y, float &amp;score)</td></tr>
+<tr class="memdesc:ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimation du délais (à l'échantillon près) le plus probable entre deux signaux (via une corrélation) <br /></td></tr>
+<tr class="separator:ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee2458dd42bc6964ddf33354478e5bb6"><td class="memTemplParams" colspan="2"><a id="gaee2458dd42bc6964ddf33354478e5bb6"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaee2458dd42bc6964ddf33354478e5bb6"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;, <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;, int, float &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier-corr.html#gaee2458dd42bc6964ddf33354478e5bb6">tsd::fourier::aligne_entier</a> (const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;y)</td></tr>
+<tr class="memdesc:gaee2458dd42bc6964ddf33354478e5bb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alignement de deux signaux. <br /></td></tr>
+<tr class="separator:gaee2458dd42bc6964ddf33354478e5bb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13b37a130f9dcb36bcda22ea52d12c41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1fourier_1_1_detecteur.html">Detecteur</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">tsd::fourier::détecteur_création</a> (const <a class="el" href="structtsd_1_1fourier_1_1_detecteur_config.html">DetecteurConfig</a> &amp;config=<a class="el" href="structtsd_1_1fourier_1_1_detecteur_config.html">DetecteurConfig</a>())</td></tr>
+<tr class="memdesc:ga13b37a130f9dcb36bcda22ea52d12c41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détecteur par corrélation.  <a href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga13b37a130f9dcb36bcda22ea52d12c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Lundi 31 Janvier 2022 09:47:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

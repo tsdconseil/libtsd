@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Changement de fréquence d&#39;échantillonnage</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01187.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#groups">Sous-modules</a> &#124;
+<a href="#enum-members">Énumérations</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Changement de fréquence d'échantillonnage<div class="ingroups"><a class="el" href="a01189.html">Filtrage linéaire</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<p>La façon la plus simple pour changer la fréquence d'échantillonnage d'un signal <b>de durée finie</b> est d'utiliser la fonction <a class="el" href="a01176_gaa81c94cfe63e40ff44d3b196e5c7a568.html#gaa81c94cfe63e40ff44d3b196e5c7a568">reechan()</a> (définie dans <a class="el" href="a01112_source.html">tsd.hpp</a>).</p>
+<p>Les fonctions ci-dessous vous permettrons de traiter des signaux <b>au fil de l'eau</b>, grâce à des filtres avec contexte.</p>
+<p>Le filtre de rééchantillonnage le plus général (taux de rééchantillonnage arbitraire) est créé avec la fonction <a class="el" href="a01187_gaa8d8ee8baddd8e8b24a4d2b11cbe883b.html#gaa8d8ee8baddd8e8b24a4d2b11cbe883b">filtre_reechan()</a>. Les autres filtres sont plus spécifiques (taux de rééchantillonnage entiers ou fractionnaires).</p>
+<div class="fragment"><div class="line"><span class="comment">// Divise la fréquence d&#39;échantillonnage par 100</span></div>
+<div class="line"><span class="keyword">auto</span> f = <a class="code" href="a01187_gaa8d8ee8baddd8e8b24a4d2b11cbe883b.html#gaa8d8ee8baddd8e8b24a4d2b11cbe883b">filtre_reechan</a>(0.01);</div>
+<div class="line">ArrayXf y = f-&gt;step(x);</div>
+<div class="ttc" id="aa01187_gaa8d8ee8baddd8e8b24a4d2b11cbe883b_html_gaa8d8ee8baddd8e8b24a4d2b11cbe883b"><div class="ttname"><a href="a01187_gaa8d8ee8baddd8e8b24a4d2b11cbe883b.html#gaa8d8ee8baddd8e8b24a4d2b11cbe883b">tsd::filtrage::filtre_reechan</a></div><div class="ttdeci">sptr&lt; FiltreGen&lt; T &gt; &gt; filtre_reechan(float ratio)</div><div class="ttdoc">Adatateur de rythme, ratio arbitraire.</div></div>
+</div><!-- fragment --> <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+Sous-modules</h2></td></tr>
+<tr class="memitem:a01188"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01188.html">Interpolateurs</a></td></tr>
+<tr class="memdesc:a01188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Différentes structures d'interpolations classiques (linéaire, polynomiale, sinc, etc.) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Énumérations</h2></td></tr>
+<tr class="memitem:gaa376ae26015e89c03443157dcefb76da"><td class="memItemLeft" align="right" valign="top"><a id="gaa376ae26015e89c03443157dcefb76da"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01187.html#gaa376ae26015e89c03443157dcefb76da">tsd::filtrage::InterpOption</a> </td></tr>
+<tr class="memdesc:gaa376ae26015e89c03443157dcefb76da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'interpolation pour un signal d'entrée échantillonné de manière aléatoire. <br /></td></tr>
+<tr class="separator:gaa376ae26015e89c03443157dcefb76da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:ga5fc6e0b63d68de3a5d89d0703b361601"><td class="memTemplParams" colspan="2">template&lt;typename Tc , typename T  = Tc&gt; </td></tr>
+<tr class="memitem:ga5fc6e0b63d68de3a5d89d0703b361601"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01722.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01187_ga5fc6e0b63d68de3a5d89d0703b361601.html#ga5fc6e0b63d68de3a5d89d0703b361601">tsd::filtrage::filtre_rif_decim</a> (const Eigen::Ref&lt; const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; Tc &gt;&gt; h, int R)</td></tr>
+<tr class="memdesc:ga5fc6e0b63d68de3a5d89d0703b361601"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtrage RIF avec post-décimation (ne calcule qu'une échantillon sur \(R\)).  <a href="a01187_ga5fc6e0b63d68de3a5d89d0703b361601.html#ga5fc6e0b63d68de3a5d89d0703b361601">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga5fc6e0b63d68de3a5d89d0703b361601"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeba85ece790607b4324c39b20231eeb5"><td class="memTemplParams" colspan="2"><a id="gaeba85ece790607b4324c39b20231eeb5"></a>
+template&lt;typename Tc , typename T  = Tc&gt; </td></tr>
+<tr class="memitem:gaeba85ece790607b4324c39b20231eeb5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01722.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01187.html#gaeba85ece790607b4324c39b20231eeb5">tsd::filtrage::filtre_rif_demi_bande</a> (const Eigen::Ref&lt; const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; Tc &gt;&gt; c)</td></tr>
+<tr class="memdesc:gaeba85ece790607b4324c39b20231eeb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A documenter : filtre RIF optimisé pour filtrage demi-bande. <br /></td></tr>
+<tr class="separator:gaeba85ece790607b4324c39b20231eeb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga80ec8621235c74c2cc52f6d3b7a22da4"><td class="memTemplParams" colspan="2">template&lt;typename Tc , typename T  = Tc&gt; </td></tr>
+<tr class="memitem:ga80ec8621235c74c2cc52f6d3b7a22da4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01722.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01187_ga80ec8621235c74c2cc52f6d3b7a22da4.html#ga80ec8621235c74c2cc52f6d3b7a22da4">tsd::filtrage::filtre_rif_ups</a> (const Eigen::Ref&lt; const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; Tc &gt;&gt; h, int R)</td></tr>
+<tr class="memdesc:ga80ec8621235c74c2cc52f6d3b7a22da4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtrage RIF avec pré-insertion de zéro (implémentation polyphase)  <a href="a01187_ga80ec8621235c74c2cc52f6d3b7a22da4.html#ga80ec8621235c74c2cc52f6d3b7a22da4">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga80ec8621235c74c2cc52f6d3b7a22da4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff6fdaf48a1a485d514abf1cfa3143ed"><td class="memItemLeft" align="right" valign="top"><a id="gaff6fdaf48a1a485d514abf1cfa3143ed"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01187.html#gaff6fdaf48a1a485d514abf1cfa3143ed">tsd::filtrage::filtre_rif_ups_délais</a> (int nc, int R)</td></tr>
+<tr class="memdesc:gaff6fdaf48a1a485d514abf1cfa3143ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul du retard d'une filtre RIF avec upsampling. <br /></td></tr>
+<tr class="separator:gaff6fdaf48a1a485d514abf1cfa3143ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8d8ee8baddd8e8b24a4d2b11cbe883b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaa8d8ee8baddd8e8b24a4d2b11cbe883b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01722.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01187_gaa8d8ee8baddd8e8b24a4d2b11cbe883b.html#gaa8d8ee8baddd8e8b24a4d2b11cbe883b">tsd::filtrage::filtre_reechan</a> (float ratio)</td></tr>
+<tr class="memdesc:gaa8d8ee8baddd8e8b24a4d2b11cbe883b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adatateur de rythme, ratio arbitraire.  <a href="a01187_gaa8d8ee8baddd8e8b24a4d2b11cbe883b.html#gaa8d8ee8baddd8e8b24a4d2b11cbe883b">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaa8d8ee8baddd8e8b24a4d2b11cbe883b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8eb769e6eedfb849ebe37abc7a421d08"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga8eb769e6eedfb849ebe37abc7a421d08"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01722.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01187_ga8eb769e6eedfb849ebe37abc7a421d08.html#ga8eb769e6eedfb849ebe37abc7a421d08">tsd::filtrage::filtre_itrp</a> (float ratio, <a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01362.html">Interpolateur</a>&lt; T &gt;&gt; itrp=itrp_cspline&lt; T &gt;())</td></tr>
+<tr class="memdesc:ga8eb769e6eedfb849ebe37abc7a421d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolation d'un ratio arbitraire (calcul au fil de l'eau)  <a href="a01187_ga8eb769e6eedfb849ebe37abc7a421d08.html#ga8eb769e6eedfb849ebe37abc7a421d08">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga8eb769e6eedfb849ebe37abc7a421d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7fde832f7902097d5e6ba12104c943a7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga7fde832f7902097d5e6ba12104c943a7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01187_ga7fde832f7902097d5e6ba12104c943a7.html#ga7fde832f7902097d5e6ba12104c943a7">tsd::filtrage::interp</a> (const ArrayXf &amp;x, const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;y, const ArrayXf &amp;x2, <a class="el" href="a01187.html#gaa376ae26015e89c03443157dcefb76da">InterpOption</a> mode=InterpOption::LINEAIRE)</td></tr>
+<tr class="memdesc:ga7fde832f7902097d5e6ba12104c943a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolation d'un signal échantilloné de manière aléatoire.  <a href="a01187_ga7fde832f7902097d5e6ba12104c943a7.html#ga7fde832f7902097d5e6ba12104c943a7">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga7fde832f7902097d5e6ba12104c943a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

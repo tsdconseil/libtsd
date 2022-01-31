@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de tsd/temps.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01106_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">temps.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;iosfwd&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;compare&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="a01230.html">    9</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="a01230.html">tsd::temps</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="a01674.html">   17</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01674.html">HeureComposite</a></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="a01674.html#a57078a89b317ad6165189f7885accd9d">   20</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01674.html#a57078a89b317ad6165189f7885accd9d">heure</a> = 0,</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="a01674.html#ac928f241c1b3362a036cbc3b7ca84a7a">   22</a></span>&#160;      <a class="code" href="a01674.html#ac928f241c1b3362a036cbc3b7ca84a7a">minutes</a> = 0,</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="a01674.html#a5f9a2f38a51514e0ee7a016d0b446f55">   24</a></span>&#160;      <a class="code" href="a01674.html#a5f9a2f38a51514e0ee7a016d0b446f55">secondes</a> = 0,</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="a01674.html#a022eced068df98b69f1ef7cace24983e">   26</a></span>&#160;      <a class="code" href="a01674.html#a022eced068df98b69f1ef7cace24983e">ms</a> = 0,</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="a01674.html#ae0e12754c22528009ad0125afa0c7c86">   28</a></span>&#160;      <a class="code" href="a01674.html#ae0e12754c22528009ad0125afa0c7c86">µs</a> = 0;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="a01674.html">HeureComposite</a>(){}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="a01674.html#ad6a00c71d5bef0dcd15ba5063d4f8f2a">   33</a></span>&#160;  <a class="code" href="a01674.html#ad6a00c71d5bef0dcd15ba5063d4f8f2a">HeureComposite</a>(<span class="keywordtype">int</span> <a class="code" href="a01674.html#a57078a89b317ad6165189f7885accd9d">heure</a>, <span class="keywordtype">int</span> <a class="code" href="a01674.html#ac928f241c1b3362a036cbc3b7ca84a7a">minutes</a>, <span class="keywordtype">int</span> <a class="code" href="a01674.html#a5f9a2f38a51514e0ee7a016d0b446f55">secondes</a>, <span class="keywordtype">int</span> <a class="code" href="a01674.html#a022eced068df98b69f1ef7cace24983e">ms</a> = 0, <span class="keywordtype">int</span> <a class="code" href="a01674.html#ae0e12754c22528009ad0125afa0c7c86">µs</a> = 0);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a01674_abfa7bf7176e419d9e01d85f69a7b5ab2.html#abfa7bf7176e419d9e01d85f69a7b5ab2">   48</a></span>&#160;  <a class="code" href="a01674_abfa7bf7176e419d9e01d85f69a7b5ab2.html#abfa7bf7176e419d9e01d85f69a7b5ab2">HeureComposite</a>(<span class="keyword">const</span> std::string &amp;s);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a01674.html#ad3b6f40b32847227518430a31276d8db">   51</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="a01674.html#ad3b6f40b32847227518430a31276d8db">vérifie_validité</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="a01678.html">   63</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01678.html">Durée</a></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="a01678.html#af97173f44799d26e71f5ec68a6fc0e24">   66</a></span>&#160;  int64_t <a class="code" href="a01678.html#af97173f44799d26e71f5ec68a6fc0e24">tics</a> = 0;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a01678.html#a17c28e34b6993e31bfca015058179f8b">   69</a></span>&#160;  <a class="code" href="a01678.html#a17c28e34b6993e31bfca015058179f8b">Durée</a>(int64_t tics_ = 0) : <a class="code" href="a01678.html#af97173f44799d26e71f5ec68a6fc0e24">tics</a>(tics_) {}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="a01678.html#a01ec4a7ed6f679caa5b40e1c6d9b570f">   72</a></span>&#160;  <a class="code" href="a01678.html#a01ec4a7ed6f679caa5b40e1c6d9b570f">Durée</a>(<span class="keywordtype">int</span> <a class="code" href="a01678.html#a4a00a38c401efcb94bf9947cf534b6ef">jours</a>, <span class="keywordtype">int</span> <a class="code" href="a01678.html#af1257ea191ca40adf3a322820de1cec7">heures</a>, <span class="keywordtype">int</span> <a class="code" href="a01678.html#ad7aa236dec7f8b2ffb20e5a347b7667e">minutes</a>, <span class="keywordtype">int</span> <a class="code" href="a01678.html#aa1952151f4c10da2085c7f0424bb3239">secondes</a>, <span class="keywordtype">int</span> <a class="code" href="a01678.html#a5fda3cb593d8e009dace13892a364351">microsecondes</a> = 0);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="a01678.html#ac802f5c0629cd22cb3ea066bb1101c2b">   75</a></span>&#160;  <a class="code" href="a01678.html#ac802f5c0629cd22cb3ea066bb1101c2b">Durée</a>(<span class="keyword">const</span> <a class="code" href="a01674.html">HeureComposite</a> &amp;hc);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="a01678.html#a5fda3cb593d8e009dace13892a364351">   78</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01678.html#a5fda3cb593d8e009dace13892a364351">microsecondes</a>(int64_t cnt);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a01678.html#aa1952151f4c10da2085c7f0424bb3239">   81</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01678.html#aa1952151f4c10da2085c7f0424bb3239">secondes</a>(<span class="keywordtype">double</span> cnt);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="a01678.html#ad7aa236dec7f8b2ffb20e5a347b7667e">   84</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01678.html#ad7aa236dec7f8b2ffb20e5a347b7667e">minutes</a>(<span class="keywordtype">double</span> cnt);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="a01678.html#af1257ea191ca40adf3a322820de1cec7">   87</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01678.html#af1257ea191ca40adf3a322820de1cec7">heures</a>(<span class="keywordtype">double</span> cnt);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="a01678.html#a4a00a38c401efcb94bf9947cf534b6ef">   90</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01678.html#a4a00a38c401efcb94bf9947cf534b6ef">jours</a>(<span class="keywordtype">double</span> cnt);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="a01678.html#a0586339431eecaffb47f1b341f325e71">   93</a></span>&#160;  std::strong_ordering <a class="code" href="a01678.html#a0586339431eecaffb47f1b341f325e71">operator&lt;=&gt;</a>(<span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp;) <span class="keyword">const</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="a01678.html#a3c7c713a8a1fc288b423d566d0caae69">   97</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01678.html#a3c7c713a8a1fc288b423d566d0caae69">nb_jours</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="a01678.html#aee296ce824cbb631a23683db656fcf3e">  100</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01678.html#aee296ce824cbb631a23683db656fcf3e">nb_heures</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="a01678.html#a4506cced64efe6d476a921de065853da">  103</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01678.html#a4506cced64efe6d476a921de065853da">nb_minutes</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="a01678.html#aa44e0a361dfc36247ba25e72f1a54de8">  106</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01678.html#aa44e0a361dfc36247ba25e72f1a54de8">nb_secondes</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="a01678.html#ac7ac641db7426c989d5c9f33ab8ec7ff">  109</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01678.html#ac7ac641db7426c989d5c9f33ab8ec7ff">nb_millisecondes</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="a01678.html#a4928dc2f966b526a65fadee68cb52954">  112</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01678.html#a4928dc2f966b526a65fadee68cb52954">nb_microsecondes</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;};</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="a01178.html#gacf5a2bbe16224f1dd04a612c85933d93">  116</a></span>&#160;<span class="keyword">extern</span> std::ostream&amp; <a class="code" href="a01178.html#gacf5a2bbe16224f1dd04a612c85933d93">operator&lt;&lt;</a>(std::ostream&amp; strm, <span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; t);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="a01178.html#ga783c9ac90fe1eab98850da17c1c87451">  119</a></span>&#160;<span class="keyword">extern</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01178.html#ga783c9ac90fe1eab98850da17c1c87451">operator+</a>(<span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; ts1, <span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; ts2);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="a01178.html#gab1b3fcfa80b4295013da42b8967e7915">  122</a></span>&#160;<span class="keyword">extern</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01178.html#gab1b3fcfa80b4295013da42b8967e7915">operator-</a>(<span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; ts1, <span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; ts2);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="a01682.html">  127</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01682.html">Calendrier</a></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;{</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="a01682.html#a914a4b14230e131c99b682c17cd2c538">  130</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01682.html#a914a4b14230e131c99b682c17cd2c538">année</a> = 0,</div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="a01682.html#ae9b765d3379e5c4634e31350a34411f5">  132</a></span>&#160;      <a class="code" href="a01682.html#ae9b765d3379e5c4634e31350a34411f5">mois</a> = 0,</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="a01682.html#aa872924fd5eb64dd3c8a1ebc0c6b4a12">  134</a></span>&#160;      <a class="code" href="a01682.html#aa872924fd5eb64dd3c8a1ebc0c6b4a12">jour</a> = 0;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="a01682.html#acf95d0656e8966b20919210115a2926b">  137</a></span>&#160;  <a class="code" href="a01682.html#acf95d0656e8966b20919210115a2926b">Calendrier</a>(){}</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="a01682.html#a5c5c152898fe739bb49cdbb41f6047a1">  140</a></span>&#160;  <a class="code" href="a01682.html#a5c5c152898fe739bb49cdbb41f6047a1">Calendrier</a>(<span class="keywordtype">int</span> <a class="code" href="a01682.html#a914a4b14230e131c99b682c17cd2c538">année</a>, <span class="keywordtype">int</span> <a class="code" href="a01682.html#ae9b765d3379e5c4634e31350a34411f5">mois</a>, <span class="keywordtype">int</span> <a class="code" href="a01682.html#aa872924fd5eb64dd3c8a1ebc0c6b4a12">jour</a>);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="a01682.html#a7e3cc136d02b1c484a3aa50a51497908">  143</a></span>&#160;  <a class="code" href="a01682.html#a7e3cc136d02b1c484a3aa50a51497908">Calendrier</a>(<span class="keyword">const</span> std::string &amp;s);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="a01682.html#ae61c0cecc9c8848892ab6e22988355c7">  146</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01682.html#ae61c0cecc9c8848892ab6e22988355c7">nb_jours_debut_année</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="a01682.html#abfb17117130bc68e89455148da942fba">  149</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="a01682.html#abfb17117130bc68e89455148da942fba">est_valide</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="a01682.html#a56e0972d10f4d7c1639222d15b32bc97">  152</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01682.html#a56e0972d10f4d7c1639222d15b32bc97">nb_jours_debut_ère</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="a01682.html#a49ef86df4499c797f4f23b9238968e59">  155</a></span>&#160;  std::strong_ordering <a class="code" href="a01682.html#a49ef86df4499c797f4f23b9238968e59">operator&lt;=&gt;</a>(<span class="keyword">const</span> <a class="code" href="a01682.html">Calendrier</a>&amp;) <span class="keyword">const</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;};</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="a01686.html">  161</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01686.html">DateComposite</a></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;{</div>
+<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="a01686.html#af5919ba1019cfb443a8bf5c9177afbb5">  164</a></span>&#160;  <a class="code" href="a01682.html">Calendrier</a> <a class="code" href="a01686.html#af5919ba1019cfb443a8bf5c9177afbb5">jour</a>;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="a01686.html#a800555f1dbd3c04e5081898c8fb8209f">  167</a></span>&#160;  <a class="code" href="a01674.html">HeureComposite</a> <a class="code" href="a01686.html#a800555f1dbd3c04e5081898c8fb8209f">heure</a>;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="a01686.html#a5710e428f04d08382a461df7e737de80">  170</a></span>&#160;  std::strong_ordering <a class="code" href="a01686.html#a5710e428f04d08382a461df7e737de80">operator&lt;=&gt;</a>(<span class="keyword">const</span> <a class="code" href="a01686.html">DateComposite</a>&amp;) <span class="keyword">const</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;};</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="a01690.html">  174</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01690.html">DateHeure</a></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;{</div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">  177</a></span>&#160;  int64_t <a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a> = 0;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="a01690.html#ae9592f6203b74d8fe6b35019f3cdc3d3">  180</a></span>&#160;  <a class="code" href="a01690.html#ae9592f6203b74d8fe6b35019f3cdc3d3">DateHeure</a>(int64_t tics = 0): <a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a>(tics){}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00192"></a><span class="lineno"><a class="line" href="a01690_a1f62754ec5436a191906f47f2e15330f.html#a1f62754ec5436a191906f47f2e15330f">  192</a></span>&#160;  <a class="code" href="a01690_a1f62754ec5436a191906f47f2e15330f.html#a1f62754ec5436a191906f47f2e15330f">DateHeure</a>(<span class="keyword">const</span> <a class="code" href="a01686.html">DateComposite</a> &amp;date);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="a01690.html#a5c7af57c11b8810d867758977f7c9268">  195</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01690.html#a5c7af57c11b8810d867758977f7c9268">maintenant</a>();</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="a01690_a2028194f411d4283b9ff182b677200da.html#a2028194f411d4283b9ff182b677200da">  201</a></span>&#160;  <a class="code" href="a01690_a2028194f411d4283b9ff182b677200da.html#a2028194f411d4283b9ff182b677200da">DateHeure</a>(<span class="keywordtype">int</span> année, <span class="keywordtype">double</span> jour);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
+<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="a01690_a2cc2b8696ef7fb77fd039b9034bf216d.html#a2cc2b8696ef7fb77fd039b9034bf216d">  210</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01690_a2cc2b8696ef7fb77fd039b9034bf216d.html#a2cc2b8696ef7fb77fd039b9034bf216d">temps_sidéral_Greenwich</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="a01690_a5165dcbefe2bf75b07065d042b20ad96.html#a5165dcbefe2bf75b07065d042b20ad96">  221</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01690_a5165dcbefe2bf75b07065d042b20ad96.html#a5165dcbefe2bf75b07065d042b20ad96">temps_sidéral_local</a>(<span class="keywordtype">double</span> longitude) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
+<div class="line"><a name="l00224"></a><span class="lineno"><a class="line" href="a01690.html#a1796519a1bb423aade04e493ba8ae9ef">  224</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01690.html#a1796519a1bb423aade04e493ba8ae9ef">nb_jours_Julien</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
+<div class="line"><a name="l00230"></a><span class="lineno"><a class="line" href="a01690_ae7a6998fa1551a50a6b2c8036abcc9cd.html#ae7a6998fa1551a50a6b2c8036abcc9cd">  230</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="a01690_ae7a6998fa1551a50a6b2c8036abcc9cd.html#ae7a6998fa1551a50a6b2c8036abcc9cd">J2000</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="a01690.html#a005f0db1566c4f32db2da44f78f835ab">  234</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01690.html#a005f0db1566c4f32db2da44f78f835ab">epoque_unix</a>();</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="a01690.html#a14d8d13235902ed3fa7ce3f7d7bf6e44">  237</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01690.html#a14d8d13235902ed3fa7ce3f7d7bf6e44">epoque_Matlab</a>();</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno"><a class="line" href="a01690.html#ae74a54d2d364460b9575028e06c7b889">  240</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01690.html#ae74a54d2d364460b9575028e06c7b889">epoque_J2000</a>();</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00243"></a><span class="lineno"><a class="line" href="a01690.html#a0c98036ea791b8eb956d400862456c5e">  243</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01690.html#a0c98036ea791b8eb956d400862456c5e">epoque_GPS</a>();</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
+<div class="line"><a name="l00246"></a><span class="lineno"><a class="line" href="a01690.html#a38101b527b7ff9158ef188e05749d48a">  246</a></span>&#160;  <a class="code" href="a01682.html">Calendrier</a> <a class="code" href="a01690.html#a38101b527b7ff9158ef188e05749d48a">calendrier</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno"><a class="line" href="a01690.html#a15f6ffad08677c607fe4ce4c4d0c3acc">  249</a></span>&#160;  <a class="code" href="a01674.html">HeureComposite</a> <a class="code" href="a01690.html#a15f6ffad08677c607fe4ce4c4d0c3acc">decomp_heure</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
+<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="a01690.html#ad3d562c9910cc60d5ddda3f77a2fb0a1">  252</a></span>&#160;  <a class="code" href="a01686.html">DateComposite</a> <a class="code" href="a01690.html#ad3d562c9910cc60d5ddda3f77a2fb0a1">decomposition</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno"><a class="line" href="a01690.html#a0b97e184aa653c16469d162d94e44ec8">  255</a></span>&#160;  <a class="code" href="a01686.html">DateComposite</a> <a class="code" href="a01690.html#a0b97e184aa653c16469d162d94e44ec8">decomposition_locale</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00259"></a><span class="lineno"><a class="line" href="a01690.html#ad822db150f843500e614953abc9afffe">  259</a></span>&#160;  std::tuple&lt;int, int&gt; <a class="code" href="a01690.html#ad822db150f843500e614953abc9afffe">vers_GPS</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno"><a class="line" href="a01690.html#af757b0f0e592c5a51190bb401b9c0013">  262</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01690.html#af757b0f0e592c5a51190bb401b9c0013">de_GPS</a>(<span class="keywordtype">int</span> semaine, <span class="keywordtype">int</span> secs);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
+<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="a01690.html#a48243f4ce034741eee8cd018ab1d9897">  265</a></span>&#160;  <span class="keyword">static</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01690.html#a48243f4ce034741eee8cd018ab1d9897">lis_chaine</a>(<span class="keyword">const</span> std::string &amp;s);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
+<div class="line"><a name="l00268"></a><span class="lineno"><a class="line" href="a01690.html#a7b2706a5d11f8b9f95447c06cdf17e7e">  268</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01690.html#a7b2706a5d11f8b9f95447c06cdf17e7e">microsecondes</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  std::strong_ordering operator&lt;=&gt;(<span class="keyword">const</span> <a class="code" href="a01690.html">DateHeure</a>&amp;) <span class="keyword">const</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;};</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
+<div class="line"><a name="l00280"></a><span class="lineno"><a class="line" href="a01178_ga933b4f2e15784c2082022ceb72b2c36f.html#ga933b4f2e15784c2082022ceb72b2c36f">  280</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">double</span> <a class="code" href="a01178_ga933b4f2e15784c2082022ceb72b2c36f.html#ga933b4f2e15784c2082022ceb72b2c36f">grégorien_vers_jours</a>(<span class="keywordtype">int</span> année, <span class="keywordtype">double</span> jour_année);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="a01178_ga189059a88706db05443a9e2eeab9bee5.html#ga189059a88706db05443a9e2eeab9bee5">  290</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code" href="a01178_ga189059a88706db05443a9e2eeab9bee5.html#ga189059a88706db05443a9e2eeab9bee5">année_mois_valide</a>(<span class="keywordtype">int</span> année, <span class="keywordtype">int</span> mois);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno"><a class="line" href="a01178_ga5c1070e90621ec8360e0bb109e904856.html#ga5c1070e90621ec8360e0bb109e904856">  300</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="a01178_ga5c1070e90621ec8360e0bb109e904856.html#ga5c1070e90621ec8360e0bb109e904856">mois_nb_jours</a>(<span class="keywordtype">int</span> année, <span class="keywordtype">int</span> mois);</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno"><a class="line" href="a01178_ga2ae840dbdef985d91c0eba34fa84ed43.html#ga2ae840dbdef985d91c0eba34fa84ed43">  314</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code" href="a01178_ga2ae840dbdef985d91c0eba34fa84ed43.html#ga2ae840dbdef985d91c0eba34fa84ed43">est_bissextile</a>(<span class="keywordtype">int</span> année);</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno"><a class="line" href="a01178_ga2ddf717028390046e5dc271434dd7b9a.html#ga2ddf717028390046e5dc271434dd7b9a">  320</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code" href="a01178_ga2ddf717028390046e5dc271434dd7b9a.html#ga2ddf717028390046e5dc271434dd7b9a">année_est_valide</a>(<span class="keywordtype">int</span> année);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160; </div>
+<div class="line"><a name="l00323"></a><span class="lineno"><a class="line" href="a01178.html#gadc0092adc20e4df15f1ac8c4eeab0e7e">  323</a></span>&#160;<span class="keyword">extern</span> std::ostream&amp; <a class="code" href="a01178.html#gacf5a2bbe16224f1dd04a612c85933d93">operator&lt;&lt;</a>(std::ostream&amp; strm, <span class="keyword">const</span> <a class="code" href="a01690.html">DateHeure</a> &amp;t);</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
+<div class="line"><a name="l00326"></a><span class="lineno"><a class="line" href="a01178.html#ga67231fed66c0ca7ef1b7472362364340">  326</a></span>&#160;<span class="keyword">extern</span> std::ostream&amp; <a class="code" href="a01178.html#gacf5a2bbe16224f1dd04a612c85933d93">operator&lt;&lt;</a>(std::ostream&amp; strm, <span class="keyword">const</span> <a class="code" href="a01682.html">Calendrier</a> &amp;date);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
+<div class="line"><a name="l00329"></a><span class="lineno"><a class="line" href="a01178.html#ga32791bb752b48dba723e64c7fff923d4">  329</a></span>&#160;<span class="keyword">inline</span> <a class="code" href="a01678.html">Durée</a> <a class="code" href="a01178.html#gab1b3fcfa80b4295013da42b8967e7915">operator-</a>(<span class="keyword">const</span> <a class="code" href="a01690.html">DateHeure</a>&amp; dt1, <span class="keyword">const</span> <a class="code" href="a01690.html">DateHeure</a>&amp; dt2)</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;{</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01678.html">Durée</a>(dt1.<a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a> - dt2.<a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a>);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;}</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160; </div>
+<div class="line"><a name="l00344"></a><span class="lineno"><a class="line" href="a01178_ga34da82b7272fee1f946f95c6f5d57215.html#ga34da82b7272fee1f946f95c6f5d57215">  344</a></span>&#160;<span class="keyword">inline</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01178.html#ga783c9ac90fe1eab98850da17c1c87451">operator+</a>(<span class="keyword">const</span> <a class="code" href="a01690.html">DateHeure</a>&amp; dt1, <span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; dt2)</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;{</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01690.html">DateHeure</a>(dt1.<a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a> + dt2.<a class="code" href="a01678.html#af97173f44799d26e71f5ec68a6fc0e24">tics</a>);</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;}</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="keyword">inline</span> Durée operator/(<span class="keyword">const</span> Durée&amp; d, <span class="keywordtype">double</span> r)</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;{</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  <span class="keywordflow">return</span> Durée(d.tics / r);</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;}</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="keyword">inline</span> Durée operator*(<span class="keyword">const</span> Durée&amp; d, <span class="keywordtype">double</span> r)</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;{</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  <span class="keywordflow">return</span> Durée(d.tics * r);</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;}</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
+<div class="line"><a name="l00360"></a><span class="lineno"><a class="line" href="a01178.html#ga8b41d3649b9fb0846f499a25bad3a8bd">  360</a></span>&#160;<span class="keyword">inline</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01178.html#gab1b3fcfa80b4295013da42b8967e7915">operator-</a>(<span class="keyword">const</span> <a class="code" href="a01690.html">DateHeure</a>&amp; dt1, <span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; dt2)</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;{</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01690.html">DateHeure</a>(dt1.<a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a> - dt2.<a class="code" href="a01678.html#af97173f44799d26e71f5ec68a6fc0e24">tics</a>);</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;}</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
+<div class="line"><a name="l00366"></a><span class="lineno"><a class="line" href="a01178.html#ga69acede233e611b399124d4f1032327c">  366</a></span>&#160;<span class="keyword">inline</span> <a class="code" href="a01690.html">DateHeure</a> <a class="code" href="a01178.html#ga69acede233e611b399124d4f1032327c">operator+=</a>(<a class="code" href="a01690.html">DateHeure</a>&amp; dt1, <span class="keyword">const</span> <a class="code" href="a01678.html">Durée</a>&amp; dt2)</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;{</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  dt1.<a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a> += dt2.<a class="code" href="a01678.html#af97173f44799d26e71f5ec68a6fc0e24">tics</a>;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  <span class="keywordflow">return</span> dt1;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;}</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="keyword">inline</span> DateHeure operator-=(DateHeure&amp; dt1, <span class="keyword">const</span> Durée&amp; dt2)</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;{</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  dt1.<a class="code" href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">ntics</a> -= dt2.tics;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  <span class="keywordflow">return</span> dt1;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;}</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160; </div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code" href="a01178.html#ga49989d4306fe43c248e55e54077bf3ca">mode_utc</a>;</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;}</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
+<div class="ttc" id="aa01178_ga189059a88706db05443a9e2eeab9bee5_html_ga189059a88706db05443a9e2eeab9bee5"><div class="ttname"><a href="a01178_ga189059a88706db05443a9e2eeab9bee5.html#ga189059a88706db05443a9e2eeab9bee5">tsd::temps::année_mois_valide</a></div><div class="ttdeci">bool année_mois_valide(int année, int mois)</div><div class="ttdoc">Vérifique que le mois et l'année sont bien dans l'intervalle supporté.</div></div>
+<div class="ttc" id="aa01178_ga2ae840dbdef985d91c0eba34fa84ed43_html_ga2ae840dbdef985d91c0eba34fa84ed43"><div class="ttname"><a href="a01178_ga2ae840dbdef985d91c0eba34fa84ed43.html#ga2ae840dbdef985d91c0eba34fa84ed43">tsd::temps::est_bissextile</a></div><div class="ttdeci">bool est_bissextile(int année)</div><div class="ttdoc">Vérifie si l'année est bissextile ou non.</div></div>
+<div class="ttc" id="aa01178_ga2ddf717028390046e5dc271434dd7b9a_html_ga2ddf717028390046e5dc271434dd7b9a"><div class="ttname"><a href="a01178_ga2ddf717028390046e5dc271434dd7b9a.html#ga2ddf717028390046e5dc271434dd7b9a">tsd::temps::année_est_valide</a></div><div class="ttdeci">bool année_est_valide(int année)</div><div class="ttdoc">Vérifie si l'année est dans l'intervalle supporté (entre 1 and 9999).</div></div>
+<div class="ttc" id="aa01178_ga5c1070e90621ec8360e0bb109e904856_html_ga5c1070e90621ec8360e0bb109e904856"><div class="ttname"><a href="a01178_ga5c1070e90621ec8360e0bb109e904856.html#ga5c1070e90621ec8360e0bb109e904856">tsd::temps::mois_nb_jours</a></div><div class="ttdeci">int mois_nb_jours(int année, int mois)</div><div class="ttdoc">Nombre de jours pour un mois et une année donnée.</div></div>
+<div class="ttc" id="aa01178_ga933b4f2e15784c2082022ceb72b2c36f_html_ga933b4f2e15784c2082022ceb72b2c36f"><div class="ttname"><a href="a01178_ga933b4f2e15784c2082022ceb72b2c36f.html#ga933b4f2e15784c2082022ceb72b2c36f">tsd::temps::grégorien_vers_jours</a></div><div class="ttdeci">double grégorien_vers_jours(int année, double jour_année)</div><div class="ttdoc">Conversion année + jour du calendrier Grégorien vers nombre de jours depuis le 1° Janvier 0,...</div></div>
+<div class="ttc" id="aa01178_html_ga49989d4306fe43c248e55e54077bf3ca"><div class="ttname"><a href="a01178.html#ga49989d4306fe43c248e55e54077bf3ca">tsd::temps::mode_utc</a></div><div class="ttdeci">bool mode_utc</div><div class="ttdoc">Si vrai (par défaut), l'affichage des dates/heures est fait suivant le standard UTC,...</div></div>
+<div class="ttc" id="aa01178_html_ga69acede233e611b399124d4f1032327c"><div class="ttname"><a href="a01178.html#ga69acede233e611b399124d4f1032327c">tsd::temps::operator+=</a></div><div class="ttdeci">DateHeure operator+=(DateHeure &amp;dt1, const Durée &amp;dt2)</div><div class="ttdoc">Incrémente une heure d'une certaine durée.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00366">temps.hpp:366</a></div></div>
+<div class="ttc" id="aa01178_html_ga783c9ac90fe1eab98850da17c1c87451"><div class="ttname"><a href="a01178.html#ga783c9ac90fe1eab98850da17c1c87451">tsd::temps::operator+</a></div><div class="ttdeci">Durée operator+(const Durée &amp;ts1, const Durée &amp;ts2)</div><div class="ttdoc">Somme de 2 intervalles de temps.</div></div>
+<div class="ttc" id="aa01178_html_gab1b3fcfa80b4295013da42b8967e7915"><div class="ttname"><a href="a01178.html#gab1b3fcfa80b4295013da42b8967e7915">tsd::temps::operator-</a></div><div class="ttdeci">Durée operator-(const Durée &amp;ts1, const Durée &amp;ts2)</div><div class="ttdoc">Différence entre 2 intervalles de temps.</div></div>
+<div class="ttc" id="aa01178_html_gacf5a2bbe16224f1dd04a612c85933d93"><div class="ttname"><a href="a01178.html#gacf5a2bbe16224f1dd04a612c85933d93">tsd::temps::operator&lt;&lt;</a></div><div class="ttdeci">std::ostream &amp; operator&lt;&lt;(std::ostream &amp;strm, const Durée &amp;t)</div><div class="ttdoc">Affichage d'un intervalle de temps.</div></div>
+<div class="ttc" id="aa01230_html"><div class="ttname"><a href="a01230.html">tsd::temps</a></div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00009">temps.hpp:9</a></div></div>
+<div class="ttc" id="aa01674_abfa7bf7176e419d9e01d85f69a7b5ab2_html_abfa7bf7176e419d9e01d85f69a7b5ab2"><div class="ttname"><a href="a01674_abfa7bf7176e419d9e01d85f69a7b5ab2.html#abfa7bf7176e419d9e01d85f69a7b5ab2">tsd::temps::HeureComposite::HeureComposite</a></div><div class="ttdeci">HeureComposite(const std::string &amp;s)</div><div class="ttdoc">Constructeur, à partir d'une chaine de caractères de type HH::MM::SS.</div></div>
+<div class="ttc" id="aa01674_html"><div class="ttname"><a href="a01674.html">tsd::temps::HeureComposite</a></div><div class="ttdoc">Heure de la journée, décomposée en heures, minutes, etc.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00017">temps.hpp:18</a></div></div>
+<div class="ttc" id="aa01674_html_a022eced068df98b69f1ef7cace24983e"><div class="ttname"><a href="a01674.html#a022eced068df98b69f1ef7cace24983e">tsd::temps::HeureComposite::ms</a></div><div class="ttdeci">int ms</div><div class="ttdoc">Milli-secondes, entre 0 et 999.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00026">temps.hpp:26</a></div></div>
+<div class="ttc" id="aa01674_html_a57078a89b317ad6165189f7885accd9d"><div class="ttname"><a href="a01674.html#a57078a89b317ad6165189f7885accd9d">tsd::temps::HeureComposite::heure</a></div><div class="ttdeci">int heure</div><div class="ttdoc">Heure, entre 0 et 23.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00020">temps.hpp:20</a></div></div>
+<div class="ttc" id="aa01674_html_a5f9a2f38a51514e0ee7a016d0b446f55"><div class="ttname"><a href="a01674.html#a5f9a2f38a51514e0ee7a016d0b446f55">tsd::temps::HeureComposite::secondes</a></div><div class="ttdeci">int secondes</div><div class="ttdoc">Secondes, entre 0 et 59.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00024">temps.hpp:24</a></div></div>
+<div class="ttc" id="aa01674_html_ac928f241c1b3362a036cbc3b7ca84a7a"><div class="ttname"><a href="a01674.html#ac928f241c1b3362a036cbc3b7ca84a7a">tsd::temps::HeureComposite::minutes</a></div><div class="ttdeci">int minutes</div><div class="ttdoc">Minutes, entre 0 et 59.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00022">temps.hpp:22</a></div></div>
+<div class="ttc" id="aa01674_html_ad3b6f40b32847227518430a31276d8db"><div class="ttname"><a href="a01674.html#ad3b6f40b32847227518430a31276d8db">tsd::temps::HeureComposite::vérifie_validité</a></div><div class="ttdeci">bool vérifie_validité() const</div><div class="ttdoc">Vérifie si les heures, minutes et secondes sont dans un intervalle valide.</div></div>
+<div class="ttc" id="aa01674_html_ad6a00c71d5bef0dcd15ba5063d4f8f2a"><div class="ttname"><a href="a01674.html#ad6a00c71d5bef0dcd15ba5063d4f8f2a">tsd::temps::HeureComposite::HeureComposite</a></div><div class="ttdeci">HeureComposite(int heure, int minutes, int secondes, int ms=0, int µs=0)</div><div class="ttdoc">Constructeur.</div></div>
+<div class="ttc" id="aa01674_html_ae0e12754c22528009ad0125afa0c7c86"><div class="ttname"><a href="a01674.html#ae0e12754c22528009ad0125afa0c7c86">tsd::temps::HeureComposite::µs</a></div><div class="ttdeci">int µs</div><div class="ttdoc">Micro-secondes, entre 0 et 999.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00028">temps.hpp:28</a></div></div>
+<div class="ttc" id="aa01678_html"><div class="ttname"><a href="a01678.html">tsd::temps::Durée</a></div><div class="ttdoc">Intervalle temporel, en nombre de micro-secondes.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00063">temps.hpp:64</a></div></div>
+<div class="ttc" id="aa01678_html_a01ec4a7ed6f679caa5b40e1c6d9b570f"><div class="ttname"><a href="a01678.html#a01ec4a7ed6f679caa5b40e1c6d9b570f">tsd::temps::Durée::Durée</a></div><div class="ttdeci">Durée(int jours, int heures, int minutes, int secondes, int microsecondes=0)</div><div class="ttdoc">Constructeur, d'après un nombre de jours, heures, etc.</div></div>
+<div class="ttc" id="aa01678_html_a0586339431eecaffb47f1b341f325e71"><div class="ttname"><a href="a01678.html#a0586339431eecaffb47f1b341f325e71">tsd::temps::Durée::operator&lt;=&gt;</a></div><div class="ttdeci">std::strong_ordering operator&lt;=&gt;(const Durée &amp;) const =default</div><div class="ttdoc">Opérateur de comparaison.</div></div>
+<div class="ttc" id="aa01678_html_a17c28e34b6993e31bfca015058179f8b"><div class="ttname"><a href="a01678.html#a17c28e34b6993e31bfca015058179f8b">tsd::temps::Durée::Durée</a></div><div class="ttdeci">Durée(int64_t tics_=0)</div><div class="ttdoc">Constructeur, d'après un nombre de micro-secondes.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00069">temps.hpp:69</a></div></div>
+<div class="ttc" id="aa01678_html_a3c7c713a8a1fc288b423d566d0caae69"><div class="ttname"><a href="a01678.html#a3c7c713a8a1fc288b423d566d0caae69">tsd::temps::Durée::nb_jours</a></div><div class="ttdeci">double nb_jours() const</div><div class="ttdoc">Durée totale, exprimés en nombre fractionnaire de jours.</div></div>
+<div class="ttc" id="aa01678_html_a4506cced64efe6d476a921de065853da"><div class="ttname"><a href="a01678.html#a4506cced64efe6d476a921de065853da">tsd::temps::Durée::nb_minutes</a></div><div class="ttdeci">double nb_minutes() const</div><div class="ttdoc">Durée totale, exprimés en nombre fractionnaire de minutes.</div></div>
+<div class="ttc" id="aa01678_html_a4928dc2f966b526a65fadee68cb52954"><div class="ttname"><a href="a01678.html#a4928dc2f966b526a65fadee68cb52954">tsd::temps::Durée::nb_microsecondes</a></div><div class="ttdeci">double nb_microsecondes() const</div><div class="ttdoc">Durée totale, exprimés en nombre fractionnaire de microsecondes.</div></div>
+<div class="ttc" id="aa01678_html_a4a00a38c401efcb94bf9947cf534b6ef"><div class="ttname"><a href="a01678.html#a4a00a38c401efcb94bf9947cf534b6ef">tsd::temps::Durée::jours</a></div><div class="ttdeci">static Durée jours(double cnt)</div><div class="ttdoc">Constructeur statique, d'après un nombre de jours.</div></div>
+<div class="ttc" id="aa01678_html_a5fda3cb593d8e009dace13892a364351"><div class="ttname"><a href="a01678.html#a5fda3cb593d8e009dace13892a364351">tsd::temps::Durée::microsecondes</a></div><div class="ttdeci">static Durée microsecondes(int64_t cnt)</div><div class="ttdoc">Constructeur statique, d'après un nombre de micro-secondes.</div></div>
+<div class="ttc" id="aa01678_html_aa1952151f4c10da2085c7f0424bb3239"><div class="ttname"><a href="a01678.html#aa1952151f4c10da2085c7f0424bb3239">tsd::temps::Durée::secondes</a></div><div class="ttdeci">static Durée secondes(double cnt)</div><div class="ttdoc">Constructeur statique, d'après un nombre de secondes.</div></div>
+<div class="ttc" id="aa01678_html_aa44e0a361dfc36247ba25e72f1a54de8"><div class="ttname"><a href="a01678.html#aa44e0a361dfc36247ba25e72f1a54de8">tsd::temps::Durée::nb_secondes</a></div><div class="ttdeci">double nb_secondes() const</div><div class="ttdoc">Durée totale, exprimés en nombre fractionnaire de secondes.</div></div>
+<div class="ttc" id="aa01678_html_ac7ac641db7426c989d5c9f33ab8ec7ff"><div class="ttname"><a href="a01678.html#ac7ac641db7426c989d5c9f33ab8ec7ff">tsd::temps::Durée::nb_millisecondes</a></div><div class="ttdeci">double nb_millisecondes() const</div><div class="ttdoc">Durée totale, exprimés en nombre fractionnaire de millisecondes.</div></div>
+<div class="ttc" id="aa01678_html_ac802f5c0629cd22cb3ea066bb1101c2b"><div class="ttname"><a href="a01678.html#ac802f5c0629cd22cb3ea066bb1101c2b">tsd::temps::Durée::Durée</a></div><div class="ttdeci">Durée(const HeureComposite &amp;hc)</div><div class="ttdoc">Constructeur, d'après une heure composite.</div></div>
+<div class="ttc" id="aa01678_html_ad7aa236dec7f8b2ffb20e5a347b7667e"><div class="ttname"><a href="a01678.html#ad7aa236dec7f8b2ffb20e5a347b7667e">tsd::temps::Durée::minutes</a></div><div class="ttdeci">static Durée minutes(double cnt)</div><div class="ttdoc">Constructeur statique, d'après un nombre de minutes.</div></div>
+<div class="ttc" id="aa01678_html_aee296ce824cbb631a23683db656fcf3e"><div class="ttname"><a href="a01678.html#aee296ce824cbb631a23683db656fcf3e">tsd::temps::Durée::nb_heures</a></div><div class="ttdeci">double nb_heures() const</div><div class="ttdoc">Durée totale, exprimés en nombre fractionnaire d'heures.</div></div>
+<div class="ttc" id="aa01678_html_af1257ea191ca40adf3a322820de1cec7"><div class="ttname"><a href="a01678.html#af1257ea191ca40adf3a322820de1cec7">tsd::temps::Durée::heures</a></div><div class="ttdeci">static Durée heures(double cnt)</div><div class="ttdoc">Constructeur statique, d'après un nombre d'heures.</div></div>
+<div class="ttc" id="aa01678_html_af97173f44799d26e71f5ec68a6fc0e24"><div class="ttname"><a href="a01678.html#af97173f44799d26e71f5ec68a6fc0e24">tsd::temps::Durée::tics</a></div><div class="ttdeci">int64_t tics</div><div class="ttdoc">Nombre de micro-secondes.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00066">temps.hpp:66</a></div></div>
+<div class="ttc" id="aa01682_html"><div class="ttname"><a href="a01682.html">tsd::temps::Calendrier</a></div><div class="ttdoc">Calendrier (date décomposée en année, mois, jour, l'heure n'est pas spécifiée).</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00127">temps.hpp:128</a></div></div>
+<div class="ttc" id="aa01682_html_a49ef86df4499c797f4f23b9238968e59"><div class="ttname"><a href="a01682.html#a49ef86df4499c797f4f23b9238968e59">tsd::temps::Calendrier::operator&lt;=&gt;</a></div><div class="ttdeci">std::strong_ordering operator&lt;=&gt;(const Calendrier &amp;) const =default</div><div class="ttdoc">Opérateur de comparaison.</div></div>
+<div class="ttc" id="aa01682_html_a56e0972d10f4d7c1639222d15b32bc97"><div class="ttname"><a href="a01682.html#a56e0972d10f4d7c1639222d15b32bc97">tsd::temps::Calendrier::nb_jours_debut_ère</a></div><div class="ttdeci">int nb_jours_debut_ère() const</div><div class="ttdoc">Calcul du nombre de jours depuis le 1/1/1, 0h00 (= 0 pour le 1/1/1)</div></div>
+<div class="ttc" id="aa01682_html_a5c5c152898fe739bb49cdbb41f6047a1"><div class="ttname"><a href="a01682.html#a5c5c152898fe739bb49cdbb41f6047a1">tsd::temps::Calendrier::Calendrier</a></div><div class="ttdeci">Calendrier(int année, int mois, int jour)</div><div class="ttdoc">Constructeur.</div></div>
+<div class="ttc" id="aa01682_html_a7e3cc136d02b1c484a3aa50a51497908"><div class="ttname"><a href="a01682.html#a7e3cc136d02b1c484a3aa50a51497908">tsd::temps::Calendrier::Calendrier</a></div><div class="ttdeci">Calendrier(const std::string &amp;s)</div><div class="ttdoc">Constructeur, à partir d'une chaîne de caractères de type &quot;JJ/MM/AAAA&quot;.</div></div>
+<div class="ttc" id="aa01682_html_a914a4b14230e131c99b682c17cd2c538"><div class="ttname"><a href="a01682.html#a914a4b14230e131c99b682c17cd2c538">tsd::temps::Calendrier::année</a></div><div class="ttdeci">int année</div><div class="ttdoc">Année.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00130">temps.hpp:130</a></div></div>
+<div class="ttc" id="aa01682_html_aa872924fd5eb64dd3c8a1ebc0c6b4a12"><div class="ttname"><a href="a01682.html#aa872924fd5eb64dd3c8a1ebc0c6b4a12">tsd::temps::Calendrier::jour</a></div><div class="ttdeci">int jour</div><div class="ttdoc">Jour (entre 1 et 31).</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00134">temps.hpp:134</a></div></div>
+<div class="ttc" id="aa01682_html_abfb17117130bc68e89455148da942fba"><div class="ttname"><a href="a01682.html#abfb17117130bc68e89455148da942fba">tsd::temps::Calendrier::est_valide</a></div><div class="ttdeci">bool est_valide() const</div><div class="ttdoc">Vérifie si la date est valide (mois entre 1 et 12, jour entre 1 et 31, etc.)</div></div>
+<div class="ttc" id="aa01682_html_acf95d0656e8966b20919210115a2926b"><div class="ttname"><a href="a01682.html#acf95d0656e8966b20919210115a2926b">tsd::temps::Calendrier::Calendrier</a></div><div class="ttdeci">Calendrier()</div><div class="ttdoc">Constructeur par défaut (00/00/0000)</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00137">temps.hpp:137</a></div></div>
+<div class="ttc" id="aa01682_html_ae61c0cecc9c8848892ab6e22988355c7"><div class="ttname"><a href="a01682.html#ae61c0cecc9c8848892ab6e22988355c7">tsd::temps::Calendrier::nb_jours_debut_année</a></div><div class="ttdeci">int nb_jours_debut_année() const</div><div class="ttdoc">Nombre de jours entiers depuis le début de l'année en cours (= 0 pour le premier Janvier).</div></div>
+<div class="ttc" id="aa01682_html_ae9b765d3379e5c4634e31350a34411f5"><div class="ttname"><a href="a01682.html#ae9b765d3379e5c4634e31350a34411f5">tsd::temps::Calendrier::mois</a></div><div class="ttdeci">int mois</div><div class="ttdoc">Mois (entre 1 et 12).</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00132">temps.hpp:132</a></div></div>
+<div class="ttc" id="aa01686_html"><div class="ttname"><a href="a01686.html">tsd::temps::DateComposite</a></div><div class="ttdoc">Spécification composite d'un jour et d'une heure.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00161">temps.hpp:162</a></div></div>
+<div class="ttc" id="aa01686_html_a5710e428f04d08382a461df7e737de80"><div class="ttname"><a href="a01686.html#a5710e428f04d08382a461df7e737de80">tsd::temps::DateComposite::operator&lt;=&gt;</a></div><div class="ttdeci">std::strong_ordering operator&lt;=&gt;(const DateComposite &amp;) const =default</div><div class="ttdoc">Opérateur de comparaison.</div></div>
+<div class="ttc" id="aa01686_html_a800555f1dbd3c04e5081898c8fb8209f"><div class="ttname"><a href="a01686.html#a800555f1dbd3c04e5081898c8fb8209f">tsd::temps::DateComposite::heure</a></div><div class="ttdeci">HeureComposite heure</div><div class="ttdoc">Heure dans la journée.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00167">temps.hpp:167</a></div></div>
+<div class="ttc" id="aa01686_html_af5919ba1019cfb443a8bf5c9177afbb5"><div class="ttname"><a href="a01686.html#af5919ba1019cfb443a8bf5c9177afbb5">tsd::temps::DateComposite::jour</a></div><div class="ttdeci">Calendrier jour</div><div class="ttdoc">Jour.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00164">temps.hpp:164</a></div></div>
+<div class="ttc" id="aa01690_a1f62754ec5436a191906f47f2e15330f_html_a1f62754ec5436a191906f47f2e15330f"><div class="ttname"><a href="a01690_a1f62754ec5436a191906f47f2e15330f.html#a1f62754ec5436a191906f47f2e15330f">tsd::temps::DateHeure::DateHeure</a></div><div class="ttdeci">DateHeure(const DateComposite &amp;date)</div><div class="ttdoc">Conctructeur (d'après calendrier Grégorien).</div></div>
+<div class="ttc" id="aa01690_a2028194f411d4283b9ff182b677200da_html_a2028194f411d4283b9ff182b677200da"><div class="ttname"><a href="a01690_a2028194f411d4283b9ff182b677200da.html#a2028194f411d4283b9ff182b677200da">tsd::temps::DateHeure::DateHeure</a></div><div class="ttdeci">DateHeure(int année, double jour)</div><div class="ttdoc">Constructeur, d'après l'année et un nombre fractionnaire de jours.</div></div>
+<div class="ttc" id="aa01690_a2cc2b8696ef7fb77fd039b9034bf216d_html_a2cc2b8696ef7fb77fd039b9034bf216d"><div class="ttname"><a href="a01690_a2cc2b8696ef7fb77fd039b9034bf216d.html#a2cc2b8696ef7fb77fd039b9034bf216d">tsd::temps::DateHeure::temps_sidéral_Greenwich</a></div><div class="ttdeci">double temps_sidéral_Greenwich() const</div><div class="ttdoc">Calcul le temps sidéral de Greenwich.</div></div>
+<div class="ttc" id="aa01690_a5165dcbefe2bf75b07065d042b20ad96_html_a5165dcbefe2bf75b07065d042b20ad96"><div class="ttname"><a href="a01690_a5165dcbefe2bf75b07065d042b20ad96.html#a5165dcbefe2bf75b07065d042b20ad96">tsd::temps::DateHeure::temps_sidéral_local</a></div><div class="ttdeci">double temps_sidéral_local(double longitude) const</div><div class="ttdoc">Calcul le temps sidéral local (exprimé en radians).</div></div>
+<div class="ttc" id="aa01690_ae7a6998fa1551a50a6b2c8036abcc9cd_html_ae7a6998fa1551a50a6b2c8036abcc9cd"><div class="ttname"><a href="a01690_ae7a6998fa1551a50a6b2c8036abcc9cd.html#ae7a6998fa1551a50a6b2c8036abcc9cd">tsd::temps::DateHeure::J2000</a></div><div class="ttdeci">double J2000() const</div><div class="ttdoc">&quot;Date Julienne modifiée&quot; : nombre de jours depuis l'époque J2000 (à minuit au lieu de 12h00).</div></div>
+<div class="ttc" id="aa01690_html"><div class="ttname"><a href="a01690.html">tsd::temps::DateHeure</a></div><div class="ttdoc">Date et heure, avec fonctions de conversion vers différents formats (calendriers, temps sidéral,...</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00174">temps.hpp:175</a></div></div>
+<div class="ttc" id="aa01690_html_a005f0db1566c4f32db2da44f78f835ab"><div class="ttname"><a href="a01690.html#a005f0db1566c4f32db2da44f78f835ab">tsd::temps::DateHeure::epoque_unix</a></div><div class="ttdeci">static DateHeure epoque_unix()</div><div class="ttdoc">1er janvier 1970 00:00:00 UTC</div></div>
+<div class="ttc" id="aa01690_html_a0b97e184aa653c16469d162d94e44ec8"><div class="ttname"><a href="a01690.html#a0b97e184aa653c16469d162d94e44ec8">tsd::temps::DateHeure::decomposition_locale</a></div><div class="ttdeci">DateComposite decomposition_locale() const</div><div class="ttdoc">Décomposition date et heure, suivant l'heure locale.</div></div>
+<div class="ttc" id="aa01690_html_a0c98036ea791b8eb956d400862456c5e"><div class="ttname"><a href="a01690.html#a0c98036ea791b8eb956d400862456c5e">tsd::temps::DateHeure::epoque_GPS</a></div><div class="ttdeci">static DateHeure epoque_GPS()</div><div class="ttdoc">6 janvier 1980 00:00:00 UTC</div></div>
+<div class="ttc" id="aa01690_html_a14d8d13235902ed3fa7ce3f7d7bf6e44"><div class="ttname"><a href="a01690.html#a14d8d13235902ed3fa7ce3f7d7bf6e44">tsd::temps::DateHeure::epoque_Matlab</a></div><div class="ttdeci">static DateHeure epoque_Matlab()</div><div class="ttdoc">1er janvier 2000 00:00:00 UTC</div></div>
+<div class="ttc" id="aa01690_html_a15f6ffad08677c607fe4ce4c4d0c3acc"><div class="ttname"><a href="a01690.html#a15f6ffad08677c607fe4ce4c4d0c3acc">tsd::temps::DateHeure::decomp_heure</a></div><div class="ttdeci">HeureComposite decomp_heure() const</div><div class="ttdoc">Décompositon de l'heure (heure, minutes, etc.), en UTC.</div></div>
+<div class="ttc" id="aa01690_html_a1796519a1bb423aade04e493ba8ae9ef"><div class="ttname"><a href="a01690.html#a1796519a1bb423aade04e493ba8ae9ef">tsd::temps::DateHeure::nb_jours_Julien</a></div><div class="ttdeci">double nb_jours_Julien() const</div><div class="ttdoc">Nombre de &quot;jours Juliens&quot; (nombre de jours depuis le premier Janvier, 4713 BC, 12h00).</div></div>
+<div class="ttc" id="aa01690_html_a38101b527b7ff9158ef188e05749d48a"><div class="ttname"><a href="a01690.html#a38101b527b7ff9158ef188e05749d48a">tsd::temps::DateHeure::calendrier</a></div><div class="ttdeci">Calendrier calendrier() const</div><div class="ttdoc">Décompositon de la date (année, mois, jour), en UTC.</div></div>
+<div class="ttc" id="aa01690_html_a48243f4ce034741eee8cd018ab1d9897"><div class="ttname"><a href="a01690.html#a48243f4ce034741eee8cd018ab1d9897">tsd::temps::DateHeure::lis_chaine</a></div><div class="ttdeci">static DateHeure lis_chaine(const std::string &amp;s)</div><div class="ttdoc">Constructeur, à partir d'une chaîne de caractères de type &quot;aaaa::mm::jj hh:mm:ss&quot;.</div></div>
+<div class="ttc" id="aa01690_html_a5c7af57c11b8810d867758977f7c9268"><div class="ttname"><a href="a01690.html#a5c7af57c11b8810d867758977f7c9268">tsd::temps::DateHeure::maintenant</a></div><div class="ttdeci">static DateHeure maintenant()</div><div class="ttdoc">Heure renvoyée par le système.</div></div>
+<div class="ttc" id="aa01690_html_a7b2706a5d11f8b9f95447c06cdf17e7e"><div class="ttname"><a href="a01690.html#a7b2706a5d11f8b9f95447c06cdf17e7e">tsd::temps::DateHeure::microsecondes</a></div><div class="ttdeci">int microsecondes() const</div><div class="ttdoc">Nombre de microsecondes depuis la dernière seconde entière, entre 0 et 1e6-1.</div></div>
+<div class="ttc" id="aa01690_html_ab3faacd2c06c85449978e9277dcb017b"><div class="ttname"><a href="a01690.html#ab3faacd2c06c85449978e9277dcb017b">tsd::temps::DateHeure::ntics</a></div><div class="ttdeci">int64_t ntics</div><div class="ttdoc">Nombre total de micro-secondes depuis le 1/1/0, 0h00.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00177">temps.hpp:177</a></div></div>
+<div class="ttc" id="aa01690_html_ad3d562c9910cc60d5ddda3f77a2fb0a1"><div class="ttname"><a href="a01690.html#ad3d562c9910cc60d5ddda3f77a2fb0a1">tsd::temps::DateHeure::decomposition</a></div><div class="ttdeci">DateComposite decomposition() const</div><div class="ttdoc">Décomposition date et heure, en UTC.</div></div>
+<div class="ttc" id="aa01690_html_ad822db150f843500e614953abc9afffe"><div class="ttname"><a href="a01690.html#ad822db150f843500e614953abc9afffe">tsd::temps::DateHeure::vers_GPS</a></div><div class="ttdeci">std::tuple&lt; int, int &gt; vers_GPS() const</div><div class="ttdoc">Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes.</div></div>
+<div class="ttc" id="aa01690_html_ae74a54d2d364460b9575028e06c7b889"><div class="ttname"><a href="a01690.html#ae74a54d2d364460b9575028e06c7b889">tsd::temps::DateHeure::epoque_J2000</a></div><div class="ttdeci">static DateHeure epoque_J2000()</div><div class="ttdoc">1er janvier 2000 12:00:00 UTC</div></div>
+<div class="ttc" id="aa01690_html_ae9592f6203b74d8fe6b35019f3cdc3d3"><div class="ttname"><a href="a01690.html#ae9592f6203b74d8fe6b35019f3cdc3d3">tsd::temps::DateHeure::DateHeure</a></div><div class="ttdeci">DateHeure(int64_t tics=0)</div><div class="ttdoc">Constructeur (d'après un nombre total de micro-secondes depuis le 1/1/0, 0h00).</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00180">temps.hpp:180</a></div></div>
+<div class="ttc" id="aa01690_html_af757b0f0e592c5a51190bb401b9c0013"><div class="ttname"><a href="a01690.html#af757b0f0e592c5a51190bb401b9c0013">tsd::temps::DateHeure::de_GPS</a></div><div class="ttdeci">static DateHeure de_GPS(int semaine, int secs)</div><div class="ttdoc">Constructeur, à partir de l'heure GPS.</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_761a2ca73a74301a2ece799a0de2d706.html">tsd</a></li><li class="navelem"><b>temps.hpp</b></li>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de C:/dev/libtsd/core/src/fourier/freqestim.cc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('freqestim_8cc_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">freqestim.cc</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;tsd/fourier.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;tsd/filtrage.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacetsd_1_1fourier.html">tsd::fourier</a> {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="group__fourier-freq_gacfbbc30ae4f1e34064d5ecb4a174a923.html#gacfbbc30ae4f1e34064d5ecb4a174a923">    7</a></span>&#160;std::tuple&lt;ArrayXf, ArrayXf&gt; <a class="code" href="group__fourier-freq_gacfbbc30ae4f1e34064d5ecb4a174a923.html#gacfbbc30ae4f1e34064d5ecb4a174a923">psd_welch</a>(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keywordtype">int</span> N, <span class="keyword">const</span> std::string fen)</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  ArrayXf freqs = psd_freqs(N);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  ArrayXf S = ArrayXf::Zero(N);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  ArrayXf f = <a class="code" href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">tsd::filtrage::fenetre</a>(fen, N, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i + N &lt; x.rows(); i += N/2)</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ArrayXcf xp = x.segment(i, N) * f;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    S += <a class="code" href="group__fourier_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">fftshift</a>(<a class="code" href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">fft</a>(xp).abs2());</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  }</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordflow">return</span> {freqs, 10.0f * S.log10()};</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;ArrayXf psd_freqs(<span class="keywordtype">int</span> n, <span class="keywordtype">bool</span> complexe)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">   * if((n &amp; 1) == 0)</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  {</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">    res.tail(n/2) = X.head(n/2);</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">    res.head(n/2) = X.tail(n/2);</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">    // Avant shift :</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">    // k = 0      &lt;=&gt; f = 0</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">    // k = N/2    &lt;=&gt; f = 1/2</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">    // k = N/2+1  &lt;=&gt; f = 1/2+1/N &lt;=&gt; -1/2+1/N</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">    // k = N-1  &lt;=&gt; f = -1/N</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">    // Après shift :</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">    // j = 0     &lt;=&gt; k = N/2   &lt;=&gt; f = 1/2 &lt;=&gt; -1/2</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">    // j = N/2-1 &lt;=&gt; k = N-1   &lt;=&gt; f = -1/N</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">    // j = N/2   &lt;=&gt; k = 0     &lt;=&gt; f = 0</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">    // j = N/2+1 &lt;=&gt; k = 1     &lt;=&gt; f = 1</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">    // j = N-1   &lt;=&gt; k = N/2-1 &lt;=&gt; f = 1/2-1/N</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">  else</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">  {</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">    res.tail(1+n/2) = X.head(1+n/2);</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">    res.head(n/2)   = X.tail(n/2);</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">     *   X&#39; = \left[X_{N/2+1}, X_{N/2+2}, \dots, X_{N-1}, X_0, X_1, \dots, X_{N/2}}\right]</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(complexe)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span>((n &amp; 1) == 0)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(-0.5,0.5-1.0/n,n);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(-0.5+1.0/n, 0.5, n);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span>((n &amp; 1) == 0)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(0,0.5,n/2);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(0,0.5-1.0/n,n/2);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">static</span> <span class="keywordtype">float</span> fréq_estim_candan2(<a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keyword">auto</span> n = x.rows();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="comment">//ArrayXcf xp = x;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  ArrayXcf X = <a class="code" href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">fft</a>(x); <span class="comment">// TODO : move fft as a template to avoid this</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordtype">int</span> k;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  X.abs().maxCoeff(&amp;k);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keyword">auto</span> X2 = X(k);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keyword">auto</span> X1 = X((k-1+n)%n);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keyword">auto</span> X3 = X((k+1)%n);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="keyword">auto</span> p = ((X1 - X3) / (2.0f*X2-X3-X1)).real();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  p *= std::tan(<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>/n)/(<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>/n);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  p = std::atan(p*<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>/n) / (<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>/n);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">return</span> (k+p) / n;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">static</span> <span class="keywordtype">float</span> fréq_estim_quadratique(<a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keyword">auto</span> n = x.rows();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  ArrayXcf X = <a class="code" href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">fft</a>(x);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordtype">int</span> k;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  X.abs().maxCoeff(&amp;k);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keyword">auto</span> AX2 = abs(X(k));</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="keyword">auto</span> AX1 = abs(X((k-1+n)%n));</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keyword">auto</span> AX3 = abs(X((k+1)%n));</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordtype">float</span> p = 0.5 * (AX3 - AX1) / (2*AX2-AX3-AX1);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="keywordflow">return</span> (k+p) / n;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">  103</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">freqestim</a>(<a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">FreqEstimMethode</a> m)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;{</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordtype">float</span> res = 0;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordflow">if</span>(m == <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776">FreqEstimMethode::FFT</a>)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    ArrayXcf X = <a class="code" href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">fft</a>(x);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">int</span> k;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">int</span> n = X.rows();</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    X.abs().maxCoeff(&amp;k);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">// k = n/2 &lt;=&gt; n-n/2 = n/2 = -n/2 ?</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">// 0 &lt;=&gt; 0</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">// 1 &lt;=&gt; n-1</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">//</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">//if(k &gt;= n/2)</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="comment">//k = -(n - k);</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    res = ((float) k) / n;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(m == <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b">FreqEstimMethode::QUADRATIC</a>)</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    res = fréq_estim_quadratique(x);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(m == <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">FreqEstimMethode::CANDAN2</a>)</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    res = fréq_estim_candan2(x);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keywordflow">if</span>((res &gt; 0.5) &amp;&amp; (res &lt;= 1.0))</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    res -= 1;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keywordflow">return</span> res;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
+<div class="ttc" id="agroup__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc_html_gadb70c5a9ca39183513192abc5b4441fc"><div class="ttname"><a href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">tsd::filtrage::fenetre</a></div><div class="ttdeci">ArrayXf fenetre(const std::string &amp;type, int n, bool symetrique=true)</div><div class="ttdoc">Création d'une fenêtre sans paramètre (rectangulaire, Hann, Hamming, triangulaire ou Blackman)</div><div class="ttdef"><b>Definition:</b> <a href="fenetres_8cc_source.html#l00223">fenetres.cc:223</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3_html_ga705b6d02d0727a0e800beb9166f46af3"><div class="ttname"><a href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">tsd::fourier::freqestim</a></div><div class="ttdeci">float freqestim(IArrayXcf x, FreqEstimMethode m=CANDAN2)</div><div class="ttdoc">Estimation de fréquence d'un signal périodique.</div><div class="ttdef"><b>Definition:</b> <a href="freqestim_8cc_source.html#l00103">freqestim.cc:103</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_gabd028e3f546c64caa97c62c6bf7c2148"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">tsd::fourier::FreqEstimMethode</a></div><div class="ttdeci">FreqEstimMethode</div><div class="ttdoc">Choix d'un algorithme pour l'estimation de fréquence.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00798">fourier.hpp:799</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776">tsd::fourier::FFT</a></div><div class="ttdeci">@ FFT</div><div class="ttdoc">Maximum de la valeur absolue de la FFT.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00801">fourier.hpp:801</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b">tsd::fourier::QUADRATIC</a></div><div class="ttdeci">@ QUADRATIC</div><div class="ttdoc">Interpolation quadratique.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00807">fourier.hpp:805</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">tsd::fourier::CANDAN2</a></div><div class="ttdeci">@ CANDAN2</div><div class="ttdoc">Méthode de Candan cf TODO.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00803">fourier.hpp:803</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gacfbbc30ae4f1e34064d5ecb4a174a923_html_gacfbbc30ae4f1e34064d5ecb4a174a923"><div class="ttname"><a href="group__fourier-freq_gacfbbc30ae4f1e34064d5ecb4a174a923.html#gacfbbc30ae4f1e34064d5ecb4a174a923">tsd::fourier::psd_welch</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd_welch(const ArrayXcf &amp;x, int N, const std::string fen=&quot;hn&quot;)</div><div class="ttdoc">PSD (méthode de Welch - par moyennage).</div><div class="ttdef"><b>Definition:</b> <a href="freqestim_8cc_source.html#l00007">freqestim.cc:7</a></div></div>
+<div class="ttc" id="agroup__fourier_ga74e265dfa6548e07e72405b159c0be00_html_ga74e265dfa6548e07e72405b159c0be00"><div class="ttname"><a href="group__fourier_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">tsd::fourier::fftshift</a></div><div class="ttdeci">Vecteur&lt; typename derived::Scalar &gt; fftshift(const Eigen::ArrayBase&lt; derived &gt; &amp;X)</div><div class="ttdoc">Décalage du spectre de manière à centrer les basses fréquences au milieu.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00232">fourier.hpp:232</a></div></div>
+<div class="ttc" id="agroup__fourier_gab72b5f60cadc9a0efb5ee5a376697381_html_gab72b5f60cadc9a0efb5ee5a376697381"><div class="ttname"><a href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">tsd::fourier::fft</a></div><div class="ttdeci">auto fft(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">Transformée de Fourier Discrète (TFD) rapide.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00156">fourier.hpp:156</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00918">tsd.hpp:918</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga8ce4ba1e8f15158a6b48ee1c003ef6ad"><div class="ttname"><a href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">tsd::IArrayXcf</a></div><div class="ttdeci">const Eigen::Ref&lt; const ArrayXcf &gt; IArrayXcf</div><div class="ttdoc">Vecteur complexe flottant en entrée (const)</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00128">tsd.hpp:128</a></div></div>
+<div class="ttc" id="agroup__tsd_html_gad33f675879923d93b4769f0709e96f31"><div class="ttname"><a href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00082">tsd.hpp:82</a></div></div>
+<div class="ttc" id="anamespacetsd_1_1fourier_html"><div class="ttname"><a href="namespacetsd_1_1fourier.html">tsd::fourier</a></div><div class="ttdoc">Transformées classiques : TFR, TQC, ...</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00010">fourier.hpp:11</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1fd764bc5939601a8308cd06af4680f2.html">libtsd</a></li><li class="navelem"><a class="el" href="dir_dd667b285fc427e85e8348ee68a1635f.html">core</a></li><li class="navelem"><a class="el" href="dir_dd671b2a9f7939fcba43e934ad9d06be.html">src</a></li><li class="navelem"><a class="el" href="dir_156a1117515693f31b03462eaf20c3ee.html">fourier</a></li><li class="navelem"><b>freqestim.cc</b></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:09 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

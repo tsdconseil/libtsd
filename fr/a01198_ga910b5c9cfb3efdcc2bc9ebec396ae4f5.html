@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: tsd::telecom::démodulateur_création</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01198_ga910b5c9cfb3efdcc2bc9ebec396ae4f5.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="contents">
+<a id="ga910b5c9cfb3efdcc2bc9ebec396ae4f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga910b5c9cfb3efdcc2bc9ebec396ae4f5">&#9670;&nbsp;</a></span>démodulateur_création()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="a01582.html">Démodulateur</a>&gt; tsd::telecom::démodulateur_création </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a01574.html">ModConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>modconfig</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01586.html">DemodConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>demodconfig</em> = <code><a class="el" href="a01586.html">DemodConfig</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<h3>Création d'un démodulateur numérique</h3>
+<p>Un démodulateur consiste ici à convertir un signal en bande de base (ou transposé à une fréquence intermédiaire) vers un train binaire (ou un train de LLR symboles, pour le cas où un code correcteur est utilisé en aval).</p>
+<p>La première étape (optionnelle) de la démodulation consiste à transposer un signal centré autour d'une fréquence intermédiaire donnée vers un signal bande de base. Cette étape comprends éventuellement une décimation, afin d'alléger les traitemens ultérieurs (une fois en bande de base, la fréquence d'échanitillonnage peut être réduite) :</p>
+<div class="image">
+<img src="demod-glob.png" alt="" width="400px"/>
+<div class="caption">
+Démodulation - transposition en bande de base</div></div>
+<p>La deuxième étape est la démodulation des signaux, qui est possible suivant deux architectures décrites ci-après :</p><ul>
+<li>Architecture dite <b>basée sur la décision</b> : c'est l'architecture permettant la meilleure sensibilité, et c'est donc celle-ci qui est recommandée.</li>
+</ul>
+<dl class="section warning"><dt>Avertissement</dt><dd>Un inconvénient de cette architecture est qu'il est nécessaire d'avoir un en-tête en début de trame afin de pré-acrocher les boucles de correction.</dd></dl>
+<ul>
+<li>Architecture <b>non basée sur la décision</b>. Elle présente l'avantage de pouvoir s'accrocher sur un signal en cours de route, même si les erreurs initiales de fréquence ou d'horloge sont importantes, alors que la première nécessite une "pré-accroche".</li>
+</ul>
+<dl class="section warning"><dt>Avertissement</dt><dd>Contrairement à la première architecture, celle-ci fonctionnera très mal pour des modulations d'ordre élevé (8PSK, QAM, etc.), du fait des détecteurs d'erreur d'horloge et de phase utilisés, très sensibles à la modulation.</dd></dl>
+<h4>1. Architecture basée sur la décision</h4>
+<p>Cette architecture est dite basée sur la décision, car les détections d'erreurs d'horloge et de phase sont déduite après la "décision" sur chaque symbole, c'est-à-dire le démapping. Elle est constituée des blocs suivants (dans l'ordre) :</p><ol type="1">
+<li>Filtrage adapté,</li>
+<li>Correction de phase / fréquence,</li>
+<li>Correction d'horloge (interpolation),</li>
+<li>Démapping (décision symbole le plus proche),</li>
+<li>Calcul des erreurs d'horloge et de phase / mise à jour des corrections. <div class="image">
+<img src="demod-archi1.png" alt="" width="400px"/>
+<div class="caption">
+Démodulation bande de base - architecture basée sur la décision</div></div>
+</li>
+</ol>
+<h5>Correction d'horloge</h5>
+<p>La correction d'horloge est basée sur le détecteur d'erreur suivant : </p><p class="formulaDsp">
+\[ \epsilon_k = \frac{\left&lt;d_k - d_{k-1},\ y_{k-1/2} - \frac{d_k + d_{k-1}}{2}\right&gt;}{\left|d_{k-1} - d_k\right|} \]
+</p>
+<p>où \(d_k,d_{k-1}\) sont les derniers symboles décodés (après décision), et \(y_{1/2}\) est l'avant dernier symbole interpolé (après correction d'horloge, mais avant décision), sachant que l'interpolation se fait à deux fois le rythme symbole (autrement dit, \(y_{k-1/2}\) est la valeur reçue à mi-chemin entre les symboles \(d_k\) et \(d_{k-1}\)).</p>
+<p>Ce détecteur, adapté du détecteur de Gardner, présente d'avantage de pouvoir fonctionner pour la plupart des types de modulation.</p>
+<p>Le filtre de boucle est un simple filtre du premier ordre, dont la constante de temps est réglable (voir <a class="el" href="a01586.html">DemodConfig</a>).</p>
+<h5>Correction de phase</h5>
+<p>Le détecteur d'erreur de phase est ici très simple, puisque l'on dispose des symboles après décodage : </p><p class="formulaDsp">
+\[ \epsilon_k = \widehat{d_k - y_k} \]
+</p>
+<p>Le filtre de boucle est un filtre du second ordre, dont les paramètres sont réglables (voir <a class="el" href="a01586.html">DemodConfig</a> et <a class="el" href="a01209_ga6a04a68421038a293ce0047574136a08.html#ga6a04a68421038a293ce0047574136a08">filtre_boucle_ordre_2()</a>).</p>
+<h4>2. Architecture non basée sur la décision</h4>
+<p>Cette architecture est constituée des blocs suivants :</p><ol type="1">
+<li>Filtrage adapté,</li>
+<li>Boucle de recouvrement d'horloge,</li>
+<li>Boucle de recouvrement de porteuse,</li>
+<li>Correction automatique de gain,</li>
+<li>Démapping des symboles.</li>
+</ol>
+<p>Dans cette architecture, contrairement à la première, chaque bloc fonctionne indépendemment des autres (il sont juste concaténés en série).</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">modconfig</td><td>Structure de configuration, permettant de choisir la forme d'onde, les fréquences, ... (voir <a class="el" href="a01574.html">ModConfig</a>) </td></tr>
+    <tr><td class="paramname">demodconfig</td><td>Structure de configuration, permettant de choisir l'architecture et les paramètres du démodulateur (voir <a class="el" href="a01586.html">DemodConfig</a>)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Exemple : démodulation QPSK</dt><dd><div class="fragment"><div class="line">  <span class="comment">// QPSK demodulator (NRZ matched filter),</span></div>
+<div class="line">  <span class="comment">// sampling frequency = 1 MHz, IF = 200 KHz, FSYMB = 20 KHz</span></div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> wf = <a class="code" href="a01199_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">forme_onde_qpsk</a>(<a class="code" href="a01506.html#aca431f80b6dc90b9d6c835c54ec4638c">SpecFiltreMiseEnForme::srrc</a>(0.25));</div>
+<div class="line"> </div>
+<div class="line">  ModConfig mconfig{wf, 100e3, 0, 20e3};</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> demod = <a class="code" href="a01198_ga910b5c9cfb3efdcc2bc9ebec396ae4f5.html#ga910b5c9cfb3efdcc2bc9ebec396ae4f5">démodulateur_création</a>(mconfig);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Create a modulator to simulate RF signal</span></div>
+<div class="line">  <span class="keyword">auto</span> mod = <a class="code" href="a01198_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>(mconfig);</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> bs = randstream(100);</div>
+<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Proceed to demodulation</span></div>
+<div class="line">  BitStream bs2;</div>
+<div class="line">  demod-&gt;step(x, bs2);</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">  Figures f;</div>
+<div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
+<div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Données modulées&quot;</span>);</div>
+<div class="line">  f.subplot().plot(bs2.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire décodé&quot;</span>);</div>
+<div class="ttc" id="aa01198_ga910b5c9cfb3efdcc2bc9ebec396ae4f5_html_ga910b5c9cfb3efdcc2bc9ebec396ae4f5"><div class="ttname"><a href="a01198_ga910b5c9cfb3efdcc2bc9ebec396ae4f5.html#ga910b5c9cfb3efdcc2bc9ebec396ae4f5">tsd::telecom::démodulateur_création</a></div><div class="ttdeci">sptr&lt; Démodulateur &gt; démodulateur_création(const ModConfig &amp;modconfig, const DemodConfig &amp;demodconfig=DemodConfig())</div><div class="ttdoc">Création d'un démodulateur numérique.</div></div>
+<div class="ttc" id="aa01198_gade6cc0295c587c9af509bb19b164274e_html_gade6cc0295c587c9af509bb19b164274e"><div class="ttname"><a href="a01198_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">tsd::telecom::modulateur_création</a></div><div class="ttdeci">sptr&lt; Modulateur &gt; modulateur_création(const ModConfig &amp;config)</div><div class="ttdoc">Création d'un modulateur numérique.</div></div>
+<div class="ttc" id="aa01199_ga1f04b6504ee95df5e89426658680eefe_html_ga1f04b6504ee95df5e89426658680eefe"><div class="ttname"><a href="a01199_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">tsd::telecom::forme_onde_qpsk</a></div><div class="ttdeci">sptr&lt; FormeOnde &gt; forme_onde_qpsk(const SpecFiltreMiseEnForme &amp;filtre=SpecFiltreMiseEnForme::nrz())</div><div class="ttdoc">Création d'une forme d'onde QPSK.</div></div>
+<div class="ttc" id="aa01506_html_aca431f80b6dc90b9d6c835c54ec4638c"><div class="ttname"><a href="a01506.html#aca431f80b6dc90b9d6c835c54ec4638c">tsd::telecom::SpecFiltreMiseEnForme::srrc</a></div><div class="ttdeci">static SpecFiltreMiseEnForme srrc(float β)</div><div class="ttdoc">Filtrage SRRC (racine de cosinus sur-élevé)</div></div>
+</div><!-- fragment --><div class="image">
+<img src="ex-demodulateur.png" alt="" width="800px"/>
+<div class="caption">
+Exemples de démodulation QPSK</div></div>
+ Notez que le train binaire démodulé est décalé dans le temps, ceci est du aux filtres utilisés en réception (ainsi qu'à l'interpolation utilisée pour le recouvrement d'horloge).</dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="a01198_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e" title="Création d&#39;un modulateur numérique.">modulateur_création()</a> </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="a01216.html">tsd</a></li><li class="navelem"><a class="el" href="a01229.html">telecom</a></li>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

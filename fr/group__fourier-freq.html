@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Estimation spectrale</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group__fourier-freq.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Énumérations</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Estimation spectrale<div class="ingroups"><a class="el" href="group__fourier.html">Transformée de Fourier</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<p>Ce module regroupe des fonctions liées à l'estimation du spectre de puissance (ou PSD pour <em>Power Spectral Density</em>) d'un signal numérique :</p><ul>
+<li>Estimation de la PSD complète :<ul>
+<li><b>Méthodes non paramétriques</b> (sans hypothèse sur la nature du signal) : périodogramme (<a class="el" href="group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d">psd()</a>), méthode Welch (<a class="el" href="group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897">psd_welch()</a>),</li>
+<li><b>Méthodes paramétriques</b> : MUSIC (MUltiple SIgnal Classification) (<a class="el" href="group__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e.html#gaf091fdd9c000a6a6d341fb8016df373e">psd_subspace()</a>)</li>
+</ul>
+</li>
+<li>Estimation de la PSD pour une fréquence spécifique (<a class="el" href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181">goertzel()</a>, <a class="el" href="group__fourier-freq_ga1837cf83280649d38997349b565b7e48.html#ga1837cf83280649d38997349b565b7e48">filtre_goertzel()</a>).</li>
+<li>Estimation la plus fine possible de la fréquence d'un signal exponentiel (ou sinusoïdal) pur (<a class="el" href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">freqestim()</a>). </li>
+</ul>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_spectrum_config.html">tsd::fourier::SpectrumConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration pour le calcul de spectre en temps réel.  <a href="structtsd_1_1fourier_1_1_spectrum_config.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Énumérations</h2></td></tr>
+<tr class="memitem:gabd028e3f546c64caa97c62c6bf7c2148"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">tsd::fourier::FreqEstimMethode</a> { <a class="el" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776">tsd::fourier::FFT</a>
+, <a class="el" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">tsd::fourier::CANDAN2</a>
+, <a class="el" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b">tsd::fourier::QUADRATIC</a>
+ }</td></tr>
+<tr class="memdesc:gabd028e3f546c64caa97c62c6bf7c2148"><td class="mdescLeft">&#160;</td><td class="mdescRight">Choix d'un algorithme pour l'estimation de fréquence.  <a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gabd028e3f546c64caa97c62c6bf7c2148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:gad69033300000f2c22c22bcb52166d13d"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:gad69033300000f2c22c22bcb52166d13d"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d">tsd::fourier::psd</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;x)</td></tr>
+<tr class="memdesc:gad69033300000f2c22c22bcb52166d13d"><td class="mdescLeft">&#160;</td><td class="mdescRight">PSD (corrélogramme)  <a href="group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gad69033300000f2c22c22bcb52166d13d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9b50837a796328f14cde2cc6a2d7b897"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897">tsd::fourier::psd_welch</a> (const ArrayXcf &amp;x, int N, const std::string fen=&quot;hn&quot;)</td></tr>
+<tr class="memdesc:ga9b50837a796328f14cde2cc6a2d7b897"><td class="mdescLeft">&#160;</td><td class="mdescRight">PSD (méthode de Welch - par moyennage).  <a href="group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga9b50837a796328f14cde2cc6a2d7b897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf091fdd9c000a6a6d341fb8016df373e"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e.html#gaf091fdd9c000a6a6d341fb8016df373e">tsd::fourier::psd_subspace</a> (const ArrayXcf &amp;x, int Ns, int Nf=1024, int m=0)</td></tr>
+<tr class="memdesc:gaf091fdd9c000a6a6d341fb8016df373e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul d'un spectre par la méthode des sous-espaces.  <a href="group__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e.html#gaf091fdd9c000a6a6d341fb8016df373e">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaf091fdd9c000a6a6d341fb8016df373e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga705b6d02d0727a0e800beb9166f46af3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">tsd::fourier::freqestim</a> (<a class="el" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, <a class="el" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">FreqEstimMethode</a> m=<a class="el" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">CANDAN2</a>)</td></tr>
+<tr class="memdesc:ga705b6d02d0727a0e800beb9166f46af3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimation de fréquence d'un signal périodique.  <a href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga705b6d02d0727a0e800beb9166f46af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2b82fe2ece5fbbfbda2f25241c7be181"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181">tsd::fourier::goertzel</a> (const ArrayXf &amp;x, float frequence)</td></tr>
+<tr class="memdesc:ga2b82fe2ece5fbbfbda2f25241c7be181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de Goertzel (calcul sur un buffer).  <a href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga2b82fe2ece5fbbfbda2f25241c7be181"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1837cf83280649d38997349b565b7e48"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; float &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga1837cf83280649d38997349b565b7e48.html#ga1837cf83280649d38997349b565b7e48">tsd::fourier::filtre_goertzel</a> (float frequence, int N)</td></tr>
+<tr class="memdesc:ga1837cf83280649d38997349b565b7e48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de Goertzel (calcul au fil de l'eau)  <a href="group__fourier-freq_ga1837cf83280649d38997349b565b7e48.html#ga1837cf83280649d38997349b565b7e48">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga1837cf83280649d38997349b565b7e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeb7a9e682ed2434217a717c2e9ea7404"><td class="memItemLeft" align="right" valign="top"><a id="gaeb7a9e682ed2434217a717c2e9ea7404"></a>
+<a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre.html">Filtre</a>&lt; <a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, float, <a class="el" href="structtsd_1_1fourier_1_1_spectrum_config.html">SpectrumConfig</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq.html#gaeb7a9e682ed2434217a717c2e9ea7404">tsd::fourier::rt_spectrum</a> (const <a class="el" href="structtsd_1_1fourier_1_1_spectrum_config.html">SpectrumConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:gaeb7a9e682ed2434217a717c2e9ea7404"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de spectre en temps réel. <br /></td></tr>
+<tr class="separator:gaeb7a9e682ed2434217a717c2e9ea7404"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Lundi 31 Janvier 2022 09:47:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

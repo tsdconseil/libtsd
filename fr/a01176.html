@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Fonctions générales</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01176.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#groups">Sous-modules</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Définitions de type</a> &#124;
+<a href="#func-members">Fonctions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle">
+<div class="title">Fonctions générales</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;tsd/tsd.hpp&quot;</span></div>
+</div><!-- fragment --> <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+Sous-modules</h2></td></tr>
+<tr class="memitem:a01177"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01177.html">Génération de signaux</a></td></tr>
+<tr class="memdesc:a01177"><td class="mdescLeft">&#160;</td><td class="mdescRight">Génération de signaux. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01698.html">tsd::Configurable&lt; C &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour une classe configurable.  <a href="a01698.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01706.html">tsd::SinkGen&lt; Te &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour un puit de données générique.  <a href="a01706.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01710.html">tsd::Sink&lt; Te, Tc &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour un puit de données générique et configurable.  <a href="a01710.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01714.html">tsd::SourceGen&lt; Ts &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour une source de données.  <a href="a01714.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01718.html">tsd::Source&lt; Ts, C &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour source de données, configurable.  <a href="a01718.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01722.html">tsd::FiltreGen&lt; Te, Ts &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour un filtre de données.  <a href="a01722.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01726.html">tsd::Filtre&lt; Te, Ts, Tc &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure abstraite pour un filtre de données configurable.  <a href="a01726.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Définitions de type</h2></td></tr>
+<tr class="memitem:ga9da159320f29c3ccd16bb8b97e268ab2"><td class="memItemLeft" align="right" valign="top"><a id="ga9da159320f29c3ccd16bb8b97e268ab2"></a>
+typedef std::complex&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">tsd::cfloat</a></td></tr>
+<tr class="memdesc:ga9da159320f29c3ccd16bb8b97e268ab2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raccourci pour nombre complexe flottant 32 bits. <br /></td></tr>
+<tr class="separator:ga9da159320f29c3ccd16bb8b97e268ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga446297b61ea1bc647c3fc9c84dcc94ce"><td class="memItemLeft" align="right" valign="top"><a id="ga446297b61ea1bc647c3fc9c84dcc94ce"></a>
+typedef std::complex&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#ga446297b61ea1bc647c3fc9c84dcc94ce">tsd::cdouble</a></td></tr>
+<tr class="memdesc:ga446297b61ea1bc647c3fc9c84dcc94ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raccourci pour nombre complexe flottant 64 bits. <br /></td></tr>
+<tr class="separator:ga446297b61ea1bc647c3fc9c84dcc94ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ad6f528e828508496f394ae3f3e72e8"><td class="memTemplParams" colspan="2"><a id="ga1ad6f528e828508496f394ae3f3e72e8"></a>
+template&lt;typename t &gt; </td></tr>
+<tr class="memitem:ga1ad6f528e828508496f394ae3f3e72e8"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">tsd::Vecteur</a> = Eigen::Array&lt; t, Eigen::Dynamic, 1, Eigen::ColMajor &gt;</td></tr>
+<tr class="memdesc:ga1ad6f528e828508496f394ae3f3e72e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raccourcis pour un vecteur colonne de données de type générique (paramètre de template t) <br /></td></tr>
+<tr class="separator:ga1ad6f528e828508496f394ae3f3e72e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga31a3174a8dcead2fa7eb0039b49d094a"><td class="memItemLeft" align="right" valign="top"><a id="ga31a3174a8dcead2fa7eb0039b49d094a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#ga31a3174a8dcead2fa7eb0039b49d094a">tsd::IArrayXf</a> = const Eigen::Ref&lt; const ArrayXf &gt;</td></tr>
+<tr class="memdesc:ga31a3174a8dcead2fa7eb0039b49d094a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vecteur flottant en entrée (const) <br /></td></tr>
+<tr class="separator:ga31a3174a8dcead2fa7eb0039b49d094a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga14e90322e5e81da88db7999be48cd1c2"><td class="memItemLeft" align="right" valign="top"><a id="ga14e90322e5e81da88db7999be48cd1c2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#ga14e90322e5e81da88db7999be48cd1c2">tsd::IArrayXXcf</a> = const Eigen::Ref&lt; const ArrayXXcf &gt;</td></tr>
+<tr class="memdesc:ga14e90322e5e81da88db7999be48cd1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tableau complexe flottant en entrée (const) <br /></td></tr>
+<tr class="separator:ga14e90322e5e81da88db7999be48cd1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8ce4ba1e8f15158a6b48ee1c003ef6ad"><td class="memItemLeft" align="right" valign="top"><a id="ga8ce4ba1e8f15158a6b48ee1c003ef6ad"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">tsd::IArrayXcf</a> = const Eigen::Ref&lt; const ArrayXcf &gt;</td></tr>
+<tr class="memdesc:ga8ce4ba1e8f15158a6b48ee1c003ef6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vecteur complexe flottant en entrée (const) <br /></td></tr>
+<tr class="separator:ga8ce4ba1e8f15158a6b48ee1c003ef6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabee66ccb791525fcba9f75ad58ef66e5"><td class="memItemLeft" align="right" valign="top"><a id="gabee66ccb791525fcba9f75ad58ef66e5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#gabee66ccb791525fcba9f75ad58ef66e5">tsd::OArrayXf</a> = Eigen::Ref&lt; ArrayXf &gt;</td></tr>
+<tr class="memdesc:gabee66ccb791525fcba9f75ad58ef66e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vecteur flottant en sortie. <br /></td></tr>
+<tr class="separator:gabee66ccb791525fcba9f75ad58ef66e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad04b857753961affd03fe2197ccf94f6"><td class="memItemLeft" align="right" valign="top"><a id="gad04b857753961affd03fe2197ccf94f6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#gad04b857753961affd03fe2197ccf94f6">tsd::ArrayXXb</a> = Eigen::Array&lt; bool, Eigen::Dynamic, Eigen::Dynamic &gt;</td></tr>
+<tr class="memdesc:gad04b857753961affd03fe2197ccf94f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tableau de bouléens. <br /></td></tr>
+<tr class="separator:gad04b857753961affd03fe2197ccf94f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabbe148a3163ad1b7503122bd7bf8e8f6"><td class="memItemLeft" align="right" valign="top"><a id="gabbe148a3163ad1b7503122bd7bf8e8f6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#gabbe148a3163ad1b7503122bd7bf8e8f6">tsd::ArrayXb</a> = Eigen::Array&lt; bool, Eigen::Dynamic, 1 &gt;</td></tr>
+<tr class="memdesc:gabbe148a3163ad1b7503122bd7bf8e8f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vecteur colonne de bouléens. <br /></td></tr>
+<tr class="separator:gabbe148a3163ad1b7503122bd7bf8e8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9e2377b654c93e22d894bcdcae510500"><td class="memTemplParams" colspan="2"><a id="ga9e2377b654c93e22d894bcdcae510500"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga9e2377b654c93e22d894bcdcae510500"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">tsd::sptr</a> = std::shared_ptr&lt; T &gt;</td></tr>
+<tr class="memdesc:ga9e2377b654c93e22d894bcdcae510500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raccourci pour définir un pointeur partagé <br /></td></tr>
+<tr class="separator:ga9e2377b654c93e22d894bcdcae510500"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:ga677be99dd0e9505209aae69206dc9b5c"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:ga677be99dd0e9505209aae69206dc9b5c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga677be99dd0e9505209aae69206dc9b5c.html#ga677be99dd0e9505209aae69206dc9b5c">tsd::vconcat</a> (const Eigen::ArrayBase&lt; T1 &gt; &amp;a, const Eigen::ArrayBase&lt; T2 &gt; &amp;b)</td></tr>
+<tr class="memdesc:ga677be99dd0e9505209aae69206dc9b5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concaténation verticale de deux vecteurs.  <a href="a01176_ga677be99dd0e9505209aae69206dc9b5c.html#ga677be99dd0e9505209aae69206dc9b5c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga677be99dd0e9505209aae69206dc9b5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga94125b2c496aeb33564b47a54ec5f920"><td class="memTemplParams" colspan="2"><a id="ga94125b2c496aeb33564b47a54ec5f920"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga94125b2c496aeb33564b47a54ec5f920"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176.html#ga94125b2c496aeb33564b47a54ec5f920">tsd::length</a> (const Eigen::ArrayBase&lt; T &gt; &amp;x)</td></tr>
+<tr class="memdesc:ga94125b2c496aeb33564b47a54ec5f920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule la longueur d'un vecteur colonne. <br /></td></tr>
+<tr class="separator:ga94125b2c496aeb33564b47a54ec5f920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga12999c7534646fb3a6321db4a4baa4c9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga12999c7534646fb3a6321db4a4baa4c9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga12999c7534646fb3a6321db4a4baa4c9.html#ga12999c7534646fb3a6321db4a4baa4c9">tsd::rotation_vec</a> (const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, int d)</td></tr>
+<tr class="memdesc:ga12999c7534646fb3a6321db4a4baa4c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotation d'un vecteur.  <a href="a01176_ga12999c7534646fb3a6321db4a4baa4c9.html#ga12999c7534646fb3a6321db4a4baa4c9">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga12999c7534646fb3a6321db4a4baa4c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae114ab0c68cfa050538431d4c8b08ea1"><td class="memTemplParams" colspan="2">template&lt;typename D &gt; </td></tr>
+<tr class="memitem:gae114ab0c68cfa050538431d4c8b08ea1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_gae114ab0c68cfa050538431d4c8b08ea1.html#gae114ab0c68cfa050538431d4c8b08ea1">tsd::diff</a> (const Eigen::ArrayBase&lt; D &gt; &amp;x)</td></tr>
+<tr class="memdesc:gae114ab0c68cfa050538431d4c8b08ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Différence entre 2 élements successifs d'un vecteur.  <a href="a01176_gae114ab0c68cfa050538431d4c8b08ea1.html#gae114ab0c68cfa050538431d4c8b08ea1">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gae114ab0c68cfa050538431d4c8b08ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5588c037fbd933a078a8b3db038a1898"><td class="memTemplParams" colspan="2">template&lt;typename D &gt; </td></tr>
+<tr class="memitem:ga5588c037fbd933a078a8b3db038a1898"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga5588c037fbd933a078a8b3db038a1898.html#ga5588c037fbd933a078a8b3db038a1898">tsd::cumsum</a> (const Eigen::ArrayBase&lt; D &gt; &amp;x)</td></tr>
+<tr class="memdesc:ga5588c037fbd933a078a8b3db038a1898"><td class="mdescLeft">&#160;</td><td class="mdescRight">Somme cumulée d'un vecteur.  <a href="a01176_ga5588c037fbd933a078a8b3db038a1898.html#ga5588c037fbd933a078a8b3db038a1898">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga5588c037fbd933a078a8b3db038a1898"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga40f6d886d3a2e67b4596d0eb2d98f0c7"><td class="memItemLeft" align="right" valign="top">Eigen::ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176_ga40f6d886d3a2e67b4596d0eb2d98f0c7.html#ga40f6d886d3a2e67b4596d0eb2d98f0c7">tsd::unwrap</a> (const ArrayXf &amp;x, float r=2 *<a class="el" href="a01176.html#gad33f675879923d93b4769f0709e96f31">π</a>)</td></tr>
+<tr class="memdesc:ga40f6d886d3a2e67b4596d0eb2d98f0c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrige les sauts de phases.  <a href="a01176_ga40f6d886d3a2e67b4596d0eb2d98f0c7.html#ga40f6d886d3a2e67b4596d0eb2d98f0c7">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga40f6d886d3a2e67b4596d0eb2d98f0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3a5ff569f856ec440b3ab8489fbc8e6e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176_ga3a5ff569f856ec440b3ab8489fbc8e6e.html#ga3a5ff569f856ec440b3ab8489fbc8e6e">tsd::trouve</a> (IArrayXb x)</td></tr>
+<tr class="memdesc:ga3a5ff569f856ec440b3ab8489fbc8e6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recherche d'éléments vrais dans un tableau bouléen.  <a href="a01176_ga3a5ff569f856ec440b3ab8489fbc8e6e.html#ga3a5ff569f856ec440b3ab8489fbc8e6e">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga3a5ff569f856ec440b3ab8489fbc8e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1e0a418df41dfddd168f95f978272823"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176_ga1e0a418df41dfddd168f95f978272823.html#ga1e0a418df41dfddd168f95f978272823">tsd::trouve_premier</a> (IArrayXb x)</td></tr>
+<tr class="memdesc:ga1e0a418df41dfddd168f95f978272823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recherche de l'indice du premier élément vrai dans un tableau de bouléens.  <a href="a01176_ga1e0a418df41dfddd168f95f978272823.html#ga1e0a418df41dfddd168f95f978272823">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga1e0a418df41dfddd168f95f978272823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa4e5497323ed241ff3f96bd0ff828a24"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaa4e5497323ed241ff3f96bd0ff828a24"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_gaa4e5497323ed241ff3f96bd0ff828a24.html#gaa4e5497323ed241ff3f96bd0ff828a24">tsd::sousech</a> (const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, int R)</td></tr>
+<tr class="memdesc:gaa4e5497323ed241ff3f96bd0ff828a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-échantillonnage d'un vecteur colonne.  <a href="a01176_gaa4e5497323ed241ff3f96bd0ff828a24.html#gaa4e5497323ed241ff3f96bd0ff828a24">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaa4e5497323ed241ff3f96bd0ff828a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6712a2385ca52811e74449ac8f430bdc"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga6712a2385ca52811e74449ac8f430bdc"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga6712a2385ca52811e74449ac8f430bdc.html#ga6712a2385ca52811e74449ac8f430bdc">tsd::surech</a> (const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, int R)</td></tr>
+<tr class="memdesc:ga6712a2385ca52811e74449ac8f430bdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sur-échantillonnage d'un vecteur colonne.  <a href="a01176_ga6712a2385ca52811e74449ac8f430bdc.html#ga6712a2385ca52811e74449ac8f430bdc">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga6712a2385ca52811e74449ac8f430bdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga104f6d10ca347c6a42a2f33b9e0615dc"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga104f6d10ca347c6a42a2f33b9e0615dc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga104f6d10ca347c6a42a2f33b9e0615dc.html#ga104f6d10ca347c6a42a2f33b9e0615dc">tsd::db2pow</a> (const T &amp;x)</td></tr>
+<tr class="memdesc:ga104f6d10ca347c6a42a2f33b9e0615dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion decibels vers linéaire.  <a href="a01176_ga104f6d10ca347c6a42a2f33b9e0615dc.html#ga104f6d10ca347c6a42a2f33b9e0615dc">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga104f6d10ca347c6a42a2f33b9e0615dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga321a8eb20aea7d2ce79e6601690fb3a2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga321a8eb20aea7d2ce79e6601690fb3a2"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga321a8eb20aea7d2ce79e6601690fb3a2.html#ga321a8eb20aea7d2ce79e6601690fb3a2">tsd::pow2db</a> (const T &amp;x)</td></tr>
+<tr class="memdesc:ga321a8eb20aea7d2ce79e6601690fb3a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion linéaire vers decibels.  <a href="a01176_ga321a8eb20aea7d2ce79e6601690fb3a2.html#ga321a8eb20aea7d2ce79e6601690fb3a2">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga321a8eb20aea7d2ce79e6601690fb3a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5301b1073833904ba73dbf7781803c0a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176_ga5301b1073833904ba73dbf7781803c0a.html#ga5301b1073833904ba73dbf7781803c0a">tsd::prochaine_puissance_de_2</a> (unsigned int i)</td></tr>
+<tr class="memdesc:ga5301b1073833904ba73dbf7781803c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne la plus petite puissance de 2 supérieure ou égale à i.  <a href="a01176_ga5301b1073833904ba73dbf7781803c0a.html#ga5301b1073833904ba73dbf7781803c0a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga5301b1073833904ba73dbf7781803c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0fc869709cad3613c712723e99dd3989"><td class="memTemplParams" colspan="2">template&lt;typename D1 , typename D2 &gt; </td></tr>
+<tr class="memitem:ga0fc869709cad3613c712723e99dd3989"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; typename D1::Scalar &gt;, <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; typename D2::Scalar &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga0fc869709cad3613c712723e99dd3989.html#ga0fc869709cad3613c712723e99dd3989">tsd::pad_zeros</a> (const Eigen::ArrayBase&lt; D1 &gt; &amp;x, const Eigen::ArrayBase&lt; D2 &gt; &amp;y, bool p2=false)</td></tr>
+<tr class="memdesc:ga0fc869709cad3613c712723e99dd3989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute des zéros à la fin d'un des deux vecteurs de manière à ce qu'ils aient la même dimension.  <a href="a01176_ga0fc869709cad3613c712723e99dd3989.html#ga0fc869709cad3613c712723e99dd3989">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga0fc869709cad3613c712723e99dd3989"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4d222e724ddcaf0094fb41c387147e92"><td class="memTemplParams" colspan="2"><a id="ga4d222e724ddcaf0094fb41c387147e92"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga4d222e724ddcaf0094fb41c387147e92"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176.html#ga4d222e724ddcaf0094fb41c387147e92">tsd::carré</a> (const T &amp;v)</td></tr>
+<tr class="memdesc:ga4d222e724ddcaf0094fb41c387147e92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule le carré d'un scalaire. <br /></td></tr>
+<tr class="separator:ga4d222e724ddcaf0094fb41c387147e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa81c94cfe63e40ff44d3b196e5c7a568"><td class="memTemplParams" colspan="2">template&lt;typename Derived &gt; </td></tr>
+<tr class="memitem:gaa81c94cfe63e40ff44d3b196e5c7a568"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_gaa81c94cfe63e40ff44d3b196e5c7a568.html#gaa81c94cfe63e40ff44d3b196e5c7a568">tsd::reechan</a> (const Eigen::ArrayBase&lt; Derived &gt; &amp;x, float r)</td></tr>
+<tr class="memdesc:gaa81c94cfe63e40ff44d3b196e5c7a568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ré-échantillonnage d'un signal suivant un facteur arbitraire.  <a href="a01176_gaa81c94cfe63e40ff44d3b196e5c7a568.html#gaa81c94cfe63e40ff44d3b196e5c7a568">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaa81c94cfe63e40ff44d3b196e5c7a568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga419a448359946ec3aef25e818c588c80"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga419a448359946ec3aef25e818c588c80"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01710.html">Sink</a>&lt; T, int &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga419a448359946ec3aef25e818c588c80.html#ga419a448359946ec3aef25e818c588c80">tsd::tampon_création</a> (int N, std::function&lt; void(const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;)&gt; callback)</td></tr>
+<tr class="memdesc:ga419a448359946ec3aef25e818c588c80"><td class="mdescLeft">&#160;</td><td class="mdescRight">A partir d'un flux de données entrant, découpé en paquet de dimensions quelconques, produit un flux de données sous forme de <b>paquets de dimension fixe</b>.  <a href="a01176_ga419a448359946ec3aef25e818c588c80.html#ga419a448359946ec3aef25e818c588c80">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga419a448359946ec3aef25e818c588c80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7589eb2d3b3918983b4e6b4217e53a5d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga7589eb2d3b3918983b4e6b4217e53a5d"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga7589eb2d3b3918983b4e6b4217e53a5d.html#ga7589eb2d3b3918983b4e6b4217e53a5d">tsd::modulo</a> (T x, T m)</td></tr>
+<tr class="memdesc:ga7589eb2d3b3918983b4e6b4217e53a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modulo avec résultat compris dans l'intervalle \([0,m[\).  <a href="a01176_ga7589eb2d3b3918983b4e6b4217e53a5d.html#ga7589eb2d3b3918983b4e6b4217e53a5d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga7589eb2d3b3918983b4e6b4217e53a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a0cee58fbc45517763bc481bd46eff1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga0a0cee58fbc45517763bc481bd46eff1"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga0a0cee58fbc45517763bc481bd46eff1.html#ga0a0cee58fbc45517763bc481bd46eff1">tsd::wrap_2pi</a> (T x)</td></tr>
+<tr class="memdesc:ga0a0cee58fbc45517763bc481bd46eff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule \(a\) modulo \(2\pi\), résultat dans l'intervalle \(\left[0,2\pi\right[\).  <a href="a01176_ga0a0cee58fbc45517763bc481bd46eff1.html#ga0a0cee58fbc45517763bc481bd46eff1">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga0a0cee58fbc45517763bc481bd46eff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5555403575cff2ef485e7fbddcd25dd4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga5555403575cff2ef485e7fbddcd25dd4"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_ga5555403575cff2ef485e7fbddcd25dd4.html#ga5555403575cff2ef485e7fbddcd25dd4">tsd::wrap_pm_pi</a> (T x)</td></tr>
+<tr class="memdesc:ga5555403575cff2ef485e7fbddcd25dd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule \(a\) modulo \(2\pi\), résultat dans l'intervalle \(\left[-\pi,\pi\right[\).  <a href="a01176_ga5555403575cff2ef485e7fbddcd25dd4.html#ga5555403575cff2ef485e7fbddcd25dd4">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga5555403575cff2ef485e7fbddcd25dd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae9cc76bebf094824b923528cfa1ed824"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gae9cc76bebf094824b923528cfa1ed824"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_gae9cc76bebf094824b923528cfa1ed824.html#gae9cc76bebf094824b923528cfa1ed824">tsd::deg2rad</a> (T degrees)</td></tr>
+<tr class="memdesc:gae9cc76bebf094824b923528cfa1ed824"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion degrés vers radians.  <a href="a01176_gae9cc76bebf094824b923528cfa1ed824.html#gae9cc76bebf094824b923528cfa1ed824">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gae9cc76bebf094824b923528cfa1ed824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae39cd8816206733135ecadbefed80e27"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gae39cd8816206733135ecadbefed80e27"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01176_gae39cd8816206733135ecadbefed80e27.html#gae39cd8816206733135ecadbefed80e27">tsd::rad2deg</a> (T radians)</td></tr>
+<tr class="memdesc:gae39cd8816206733135ecadbefed80e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion radians vers degrés.  <a href="a01176_gae39cd8816206733135ecadbefed80e27.html#gae39cd8816206733135ecadbefed80e27">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gae39cd8816206733135ecadbefed80e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ga172b0bf807f8ec86835c6287d78c26c0"><td class="memItemLeft" align="right" valign="top"><a id="ga172b0bf807f8ec86835c6287d78c26c0"></a>
+static const auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#ga172b0bf807f8ec86835c6287d78c26c0">tsd::pi</a> = std::numbers::pi</td></tr>
+<tr class="memdesc:ga172b0bf807f8ec86835c6287d78c26c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valeur de \(\pi\), en précision flottante 64 bits. <br /></td></tr>
+<tr class="separator:ga172b0bf807f8ec86835c6287d78c26c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad33f675879923d93b4769f0709e96f31"><td class="memItemLeft" align="right" valign="top"><a id="gad33f675879923d93b4769f0709e96f31"></a>
+static const auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a> = <a class="el" href="a01176.html#ga172b0bf807f8ec86835c6287d78c26c0">pi</a></td></tr>
+<tr class="memdesc:gad33f675879923d93b4769f0709e96f31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valeur de \(\pi\), en précision flottante 64 bits. <br /></td></tr>
+<tr class="separator:gad33f675879923d93b4769f0709e96f31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab4e0c4f29e2032b71a9baa185790af56"><td class="memItemLeft" align="right" valign="top"><a id="gab4e0c4f29e2032b71a9baa185790af56"></a>
+static const auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01176.html#gab4e0c4f29e2032b71a9baa185790af56">tsd::π_f</a> = std::numbers::pi_v&lt;float&gt;</td></tr>
+<tr class="memdesc:gab4e0c4f29e2032b71a9baa185790af56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valeur de \(\pi\), en précision flottante 32 bits. <br /></td></tr>
+<tr class="separator:gab4e0c4f29e2032b71a9baa185790af56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

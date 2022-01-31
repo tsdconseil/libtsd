@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Design de filtres</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01183.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Design de filtres<div class="ingroups"><a class="el" href="a01189.html">Filtrage linéaire</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01342.html">tsd::filtrage::BiquadSpec</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spécificaiton d'un Biquad.  <a href="a01342.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01346.html">tsd::filtrage::CICConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramètres principaux d'un filtre CIC.  <a href="a01346.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:ga69ba723e0304ece386c36c3e9d57a905"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga69ba723e0304ece386c36c3e9d57a905.html#ga69ba723e0304ece386c36c3e9d57a905">tsd::filtrage::design_rif_hilbert</a> (int n, const std::string &amp;fenetre=&quot;hn&quot;)</td></tr>
+<tr class="memdesc:ga69ba723e0304ece386c36c3e9d57a905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Approximation RIF d'un filtre de Hilbert.  <a href="a01183_ga69ba723e0304ece386c36c3e9d57a905.html#ga69ba723e0304ece386c36c3e9d57a905">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga69ba723e0304ece386c36c3e9d57a905"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8aeb824a5c30fed8ecb091becb549412"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01330.html">FRat</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga8aeb824a5c30fed8ecb091becb549412.html#ga8aeb824a5c30fed8ecb091becb549412">tsd::filtrage::design_biquad</a> (const <a class="el" href="a01342.html">BiquadSpec</a> &amp;spec)</td></tr>
+<tr class="memdesc:ga8aeb824a5c30fed8ecb091becb549412"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design filtre biquad.  <a href="a01183_ga8aeb824a5c30fed8ecb091becb549412.html#ga8aeb824a5c30fed8ecb091becb549412">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga8aeb824a5c30fed8ecb091becb549412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98d05d0318895dff82a97d3f2a0593a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01330.html">FRat</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga98d05d0318895dff82a97d3f2a0593a5.html#ga98d05d0318895dff82a97d3f2a0593a5">tsd::filtrage::design_biquad</a> (const std::string type, float f, float Q, float gain_dB=0)</td></tr>
+<tr class="memdesc:ga98d05d0318895dff82a97d3f2a0593a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design filtre biquad.  <a href="a01183_ga98d05d0318895dff82a97d3f2a0593a5.html#ga98d05d0318895dff82a97d3f2a0593a5">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga98d05d0318895dff82a97d3f2a0593a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga427d40453d0882b4c08f780dbc792b9b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01330.html">FRat</a>&lt; <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga427d40453d0882b4c08f780dbc792b9b.html#ga427d40453d0882b4c08f780dbc792b9b">tsd::filtrage::design_riia</a> (int n, const std::string &amp;type, const std::string &amp;prototype, float fc, float δ_bp=0.1f, float δ_bc=60)</td></tr>
+<tr class="memdesc:ga427d40453d0882b4c08f780dbc792b9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design RII d'après un prototype analogique classique.  <a href="a01183_ga427d40453d0882b4c08f780dbc792b9b.html#ga427d40453d0882b4c08f780dbc792b9b">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga427d40453d0882b4c08f780dbc792b9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8cd986b977dd57cf8f4e48ea7a14707"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gad8cd986b977dd57cf8f4e48ea7a14707.html#gad8cd986b977dd57cf8f4e48ea7a14707">tsd::filtrage::design_rif_freq</a> (int n, const ArrayXf &amp;d)</td></tr>
+<tr class="memdesc:gad8cd986b977dd57cf8f4e48ea7a14707"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design par échantillonnage fréquentiel.  <a href="a01183_gad8cd986b977dd57cf8f4e48ea7a14707.html#gad8cd986b977dd57cf8f4e48ea7a14707">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gad8cd986b977dd57cf8f4e48ea7a14707"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadaf2668063d6955e05c55a8ca5f15222"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gadaf2668063d6955e05c55a8ca5f15222.html#gadaf2668063d6955e05c55a8ca5f15222">tsd::filtrage::design_rif_freq_freqs</a> (int n)</td></tr>
+<tr class="memdesc:gadaf2668063d6955e05c55a8ca5f15222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul des \(m\) valeurs de fréquences utilisée pour le design par échantillonnage fréquentiel.  <a href="a01183_gadaf2668063d6955e05c55a8ca5f15222.html#gadaf2668063d6955e05c55a8ca5f15222">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gadaf2668063d6955e05c55a8ca5f15222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga58882ae3c011af2ccc8c4a3bca93a43a"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga58882ae3c011af2ccc8c4a3bca93a43a.html#ga58882ae3c011af2ccc8c4a3bca93a43a">tsd::filtrage::design_rif_eq</a> (int n, <a class="el" href="a01176.html#ga31a3174a8dcead2fa7eb0039b49d094a">IArrayXf</a> d, <a class="el" href="a01176.html#ga31a3174a8dcead2fa7eb0039b49d094a">IArrayXf</a> w, bool debug=false)</td></tr>
+<tr class="memdesc:ga58882ae3c011af2ccc8c4a3bca93a43a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design équiripple / Remez.  <a href="a01183_ga58882ae3c011af2ccc8c4a3bca93a43a.html#ga58882ae3c011af2ccc8c4a3bca93a43a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga58882ae3c011af2ccc8c4a3bca93a43a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga796d7be6672934cba7bebe75744fe09d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga796d7be6672934cba7bebe75744fe09d.html#ga796d7be6672934cba7bebe75744fe09d">tsd::filtrage::sinc2</a> (float t, float fc)</td></tr>
+<tr class="memdesc:ga796d7be6672934cba7bebe75744fe09d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sinus cardinal normalisé avec fréquence de coupure paramétrable.  <a href="a01183_ga796d7be6672934cba7bebe75744fe09d.html#ga796d7be6672934cba7bebe75744fe09d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga796d7be6672934cba7bebe75744fe09d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa9ef34c0c79ee74163ec971b31c56fe"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gafa9ef34c0c79ee74163ec971b31c56fe.html#gafa9ef34c0c79ee74163ec971b31c56fe">tsd::filtrage::sinc</a> (float t)</td></tr>
+<tr class="memdesc:gafa9ef34c0c79ee74163ec971b31c56fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sinus cardinal normalisé avec fréquence de coupure 0,5.  <a href="a01183_gafa9ef34c0c79ee74163ec971b31c56fe.html#gafa9ef34c0c79ee74163ec971b31c56fe">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gafa9ef34c0c79ee74163ec971b31c56fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafbb36e0401a653ae059151345ec63e63"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gafbb36e0401a653ae059151345ec63e63.html#gafbb36e0401a653ae059151345ec63e63">tsd::filtrage::design_rif_fen</a> (unsigned int n, const std::string &amp;type, float fc, const std::string &amp;fen=&quot;hn&quot;, float fc2=0)</td></tr>
+<tr class="memdesc:gafbb36e0401a653ae059151345ec63e63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design RIF par sinus-cardinal fenêtré.  <a href="a01183_gafbb36e0401a653ae059151345ec63e63.html#gafbb36e0401a653ae059151345ec63e63">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gafbb36e0401a653ae059151345ec63e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga92d6e27afcaa6a43079381b0a27aca99"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga92d6e27afcaa6a43079381b0a27aca99.html#ga92d6e27afcaa6a43079381b0a27aca99">tsd::filtrage::design_rif_fen_kaiser</a> (const std::string &amp;type, float fc, float atten_db, float df, float fc2=0)</td></tr>
+<tr class="memdesc:ga92d6e27afcaa6a43079381b0a27aca99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design RIF par sinus-cardinal fenêtré (fenêtre de Kaiser).  <a href="a01183_ga92d6e27afcaa6a43079381b0a27aca99.html#ga92d6e27afcaa6a43079381b0a27aca99">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga92d6e27afcaa6a43079381b0a27aca99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf1c9ec2d8971e00b9ad88b406f63774c"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gaf1c9ec2d8971e00b9ad88b406f63774c.html#gaf1c9ec2d8971e00b9ad88b406f63774c">tsd::filtrage::design_rif_fen_chebychev</a> (int n, const std::string &amp;type, float fc, float atten_db, float fc2=0)</td></tr>
+<tr class="memdesc:gaf1c9ec2d8971e00b9ad88b406f63774c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design RIF par sinus-cardinal fenêtré (fenêtre de Chebychev).  <a href="a01183_gaf1c9ec2d8971e00b9ad88b406f63774c.html#gaf1c9ec2d8971e00b9ad88b406f63774c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaf1c9ec2d8971e00b9ad88b406f63774c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga111c1c7ef65136fd68739bd6b56e2856"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga111c1c7ef65136fd68739bd6b56e2856.html#ga111c1c7ef65136fd68739bd6b56e2856">tsd::filtrage::design_rif_cs</a> (int n, float β, float fc)</td></tr>
+<tr class="memdesc:ga111c1c7ef65136fd68739bd6b56e2856"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design d'un filtre en cosinus sur-élevé.  <a href="a01183_ga111c1c7ef65136fd68739bd6b56e2856.html#ga111c1c7ef65136fd68739bd6b56e2856">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga111c1c7ef65136fd68739bd6b56e2856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64c1883121724e1ddfd6c313e25e151e"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga64c1883121724e1ddfd6c313e25e151e.html#ga64c1883121724e1ddfd6c313e25e151e">tsd::filtrage::design_rif_rcs</a> (int n, float β, float fc)</td></tr>
+<tr class="memdesc:ga64c1883121724e1ddfd6c313e25e151e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design d'un filtre en racine de cosinus sur-élevé.  <a href="a01183_ga64c1883121724e1ddfd6c313e25e151e.html#ga64c1883121724e1ddfd6c313e25e151e">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga64c1883121724e1ddfd6c313e25e151e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24d1c0d4f6f1874376a5fb3066ebcb6c"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga24d1c0d4f6f1874376a5fb3066ebcb6c.html#ga24d1c0d4f6f1874376a5fb3066ebcb6c">tsd::filtrage::design_rif_rcs1</a> (int n, float β, float osf, char nrm='s')</td></tr>
+<tr class="memdesc:ga24d1c0d4f6f1874376a5fb3066ebcb6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design d'un filtre en racine de cosinus sur-élevé  <a href="a01183_ga24d1c0d4f6f1874376a5fb3066ebcb6c.html#ga24d1c0d4f6f1874376a5fb3066ebcb6c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga24d1c0d4f6f1874376a5fb3066ebcb6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaaad3632b7d6892129bbaf547f8c5222"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gaaaad3632b7d6892129bbaf547f8c5222.html#gaaaad3632b7d6892129bbaf547f8c5222">tsd::filtrage::design_rif_gaussien</a> (int n, float σ)</td></tr>
+<tr class="memdesc:gaaaad3632b7d6892129bbaf547f8c5222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coefficients d'une approximation RIF d'un filtre gaussien (non fenêtré).  <a href="a01183_gaaaad3632b7d6892129bbaf547f8c5222.html#gaaaad3632b7d6892129bbaf547f8c5222">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaaaad3632b7d6892129bbaf547f8c5222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafe77df07ad0ab14895f3077efaed84e1"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gafe77df07ad0ab14895f3077efaed84e1.html#gafe77df07ad0ab14895f3077efaed84e1">tsd::filtrage::design_rif_gaussien_telecom</a> (int n, float BT, int osf)</td></tr>
+<tr class="memdesc:gafe77df07ad0ab14895f3077efaed84e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coefficients d'une approximation RIF d'un filtre gaussien, pour une modulation GFSK.  <a href="a01183_gafe77df07ad0ab14895f3077efaed84e1.html#gafe77df07ad0ab14895f3077efaed84e1">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gafe77df07ad0ab14895f3077efaed84e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9bc2a56034d8157bff5e02d938fbbc8e"><td class="memItemLeft" align="right" valign="top"><a id="ga9bc2a56034d8157bff5e02d938fbbc8e"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183.html#ga9bc2a56034d8157bff5e02d938fbbc8e">tsd::filtrage::design_rif_gaussien_telecom_BT_vers_sigma</a> (float BT)</td></tr>
+<tr class="memdesc:ga9bc2a56034d8157bff5e02d938fbbc8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul l'écart-type (relatif à la période symbole) en fonction du BT. <br /></td></tr>
+<tr class="separator:ga9bc2a56034d8157bff5e02d938fbbc8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga148206d9c21cd71214da76e7687a0692"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga148206d9c21cd71214da76e7687a0692.html#ga148206d9c21cd71214da76e7687a0692">tsd::filtrage::design_rif_prod</a> (const ArrayXf &amp;h1, const ArrayXf &amp;h2)</td></tr>
+<tr class="memdesc:ga148206d9c21cd71214da76e7687a0692"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul d'un filtre RIF issu d'une concaténation série de deux filtres RIF.  <a href="a01183_ga148206d9c21cd71214da76e7687a0692.html#ga148206d9c21cd71214da76e7687a0692">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga148206d9c21cd71214da76e7687a0692"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacc4721557b6baef5802d1aa425858f05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01330.html">FRat</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gacc4721557b6baef5802d1aa425858f05.html#gacc4721557b6baef5802d1aa425858f05">tsd::filtrage::design_cic</a> (const <a class="el" href="a01346.html">CICConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:gacc4721557b6baef5802d1aa425858f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction de transfert théorique d'un filtre CIC.  <a href="a01183_gacc4721557b6baef5802d1aa425858f05.html#gacc4721557b6baef5802d1aa425858f05">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gacc4721557b6baef5802d1aa425858f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga53a600398d322d98ca95c4a37e77c6d2"><td class="memItemLeft" align="right" valign="top">CICComp&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga53a600398d322d98ca95c4a37e77c6d2.html#ga53a600398d322d98ca95c4a37e77c6d2">tsd::filtrage::design_cic_comp</a> (const <a class="el" href="a01346.html">CICConfig</a> &amp;config, float Fin, int R2, float fc, int ncoefs)</td></tr>
+<tr class="memdesc:ga53a600398d322d98ca95c4a37e77c6d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design of a compensation FIR filter for a CIC filter.  <a href="a01183_ga53a600398d322d98ca95c4a37e77c6d2.html#ga53a600398d322d98ca95c4a37e77c6d2">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga53a600398d322d98ca95c4a37e77c6d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee9662187ec764b730aa155fbeb22c97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01330.html">FRat</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gaee9662187ec764b730aa155fbeb22c97.html#gaee9662187ec764b730aa155fbeb22c97">tsd::filtrage::design_bloqueur_dc</a> (float fc)</td></tr>
+<tr class="memdesc:gaee9662187ec764b730aa155fbeb22c97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction de transfert pour un bloqueur DC.  <a href="a01183_gaee9662187ec764b730aa155fbeb22c97.html#gaee9662187ec764b730aa155fbeb22c97">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaee9662187ec764b730aa155fbeb22c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaf5afb1ea67cd95bcd951ee42d9c526a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01330.html">FRat</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gaaf5afb1ea67cd95bcd951ee42d9c526a.html#gaaf5afb1ea67cd95bcd951ee42d9c526a">tsd::filtrage::design_rii1</a> (float fc)</td></tr>
+<tr class="memdesc:gaaf5afb1ea67cd95bcd951ee42d9c526a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction de transfert d'un filtre exponentiel.  <a href="a01183_gaaf5afb1ea67cd95bcd951ee42d9c526a.html#gaaf5afb1ea67cd95bcd951ee42d9c526a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaaf5afb1ea67cd95bcd951ee42d9c526a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9ec2768a194882530da6810b878f7e0c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga9ec2768a194882530da6810b878f7e0c.html#ga9ec2768a194882530da6810b878f7e0c">tsd::filtrage::rii1_coef</a> (float fc)</td></tr>
+<tr class="memdesc:ga9ec2768a194882530da6810b878f7e0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design filtre RII d'ordre 1 (d'après la fréquence de coupure).  <a href="a01183_ga9ec2768a194882530da6810b878f7e0c.html#ga9ec2768a194882530da6810b878f7e0c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga9ec2768a194882530da6810b878f7e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gade4fccdea0d5495c7d3c7320a9ab63d7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gade4fccdea0d5495c7d3c7320a9ab63d7.html#gade4fccdea0d5495c7d3c7320a9ab63d7">tsd::filtrage::rii1_tc_vers_coef</a> (float τ)</td></tr>
+<tr class="memdesc:gade4fccdea0d5495c7d3c7320a9ab63d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design filtre RII d'ordre 1 (d'après la constante de temps souhaitée).  <a href="a01183_gade4fccdea0d5495c7d3c7320a9ab63d7.html#gade4fccdea0d5495c7d3c7320a9ab63d7">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gade4fccdea0d5495c7d3c7320a9ab63d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacd09a396fd0e9f3ab0d84a5ed982260c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_gacd09a396fd0e9f3ab0d84a5ed982260c.html#gacd09a396fd0e9f3ab0d84a5ed982260c">tsd::filtrage::rii1_fcoupure</a> (float γ)</td></tr>
+<tr class="memdesc:gacd09a396fd0e9f3ab0d84a5ed982260c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute cut-off frequency, from forget factor of first order IIR filter.  <a href="a01183_gacd09a396fd0e9f3ab0d84a5ed982260c.html#gacd09a396fd0e9f3ab0d84a5ed982260c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gacd09a396fd0e9f3ab0d84a5ed982260c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5a3601b73392ce7607a0cdd71554a3eb"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga5a3601b73392ce7607a0cdd71554a3eb"><td class="memTemplItemLeft" align="right" valign="top">Tableau&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01183_ga5a3601b73392ce7607a0cdd71554a3eb.html#ga5a3601b73392ce7607a0cdd71554a3eb">tsd::filtrage::forme_polyphase</a> (const Eigen::Ref&lt; const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&gt; x, unsigned int M)</td></tr>
+<tr class="memdesc:ga5a3601b73392ce7607a0cdd71554a3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creation of the polyphase representation of a signal.  <a href="a01183_ga5a3601b73392ce7607a0cdd71554a3eb.html#ga5a3601b73392ce7607a0cdd71554a3eb">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga5a3601b73392ce7607a0cdd71554a3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafb2b98e5e91d4af5a9354c90737c8cdf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gafb2b98e5e91d4af5a9354c90737c8cdf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01183_gafb2b98e5e91d4af5a9354c90737c8cdf.html#gafb2b98e5e91d4af5a9354c90737c8cdf">tsd::filtrage::iforme_polyphase</a> (const Eigen::Ref&lt; const Tableau&lt; T &gt;&gt; X)</td></tr>
+<tr class="memdesc:gafb2b98e5e91d4af5a9354c90737c8cdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the standard form from the polyphase representation.  <a href="a01183_gafb2b98e5e91d4af5a9354c90737c8cdf.html#gafb2b98e5e91d4af5a9354c90737c8cdf">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gafb2b98e5e91d4af5a9354c90737c8cdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga642dbecb5284a7da052579718d7fcf45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01330.html">FRat</a>&lt; <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga642dbecb5284a7da052579718d7fcf45.html#ga642dbecb5284a7da052579718d7fcf45">tsd::filtrage::trf_bilineaire</a> (const <a class="el" href="a01330.html">FRat</a>&lt; <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt; &amp;ha, float fe)</td></tr>
+<tr class="memdesc:ga642dbecb5284a7da052579718d7fcf45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transformée bilinéaire : conversion transformée de Laplace vers transformée en z.  <a href="a01183_ga642dbecb5284a7da052579718d7fcf45.html#ga642dbecb5284a7da052579718d7fcf45">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga642dbecb5284a7da052579718d7fcf45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga576245e816c86e4b124c2c80b0d6a370"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga576245e816c86e4b124c2c80b0d6a370.html#ga576245e816c86e4b124c2c80b0d6a370">tsd::filtrage::fd_vers_fa</a> (float fd)</td></tr>
+<tr class="memdesc:ga576245e816c86e4b124c2c80b0d6a370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion fréquence digitale vers fréquence analogique.  <a href="a01183_ga576245e816c86e4b124c2c80b0d6a370.html#ga576245e816c86e4b124c2c80b0d6a370">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga576245e816c86e4b124c2c80b0d6a370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga604d41ffaeb778eafab52ef2b8764a4f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01183_ga604d41ffaeb778eafab52ef2b8764a4f.html#ga604d41ffaeb778eafab52ef2b8764a4f">tsd::filtrage::fa_vers_fd</a> (float fa)</td></tr>
+<tr class="memdesc:ga604d41ffaeb778eafab52ef2b8764a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fréquence analogique vers fréquence digitale.  <a href="a01183_ga604d41ffaeb778eafab52ef2b8764a4f.html#ga604d41ffaeb778eafab52ef2b8764a4f">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga604d41ffaeb778eafab52ef2b8764a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

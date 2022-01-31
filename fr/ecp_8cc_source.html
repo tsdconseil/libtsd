@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de C:/dev/libtsd/core/src/telecom/ecp.cc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('ecp_8cc_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">ecp.cc</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;tsd/telecom.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;tsd/figure.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>tsd::vue;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>tsd::telecom {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">struct </span>ECP: Filtre&lt;cfloat, cfloat, ECPConfig&gt;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  sptr&lt;SourceGen&lt;cfloat&gt;&gt; ol;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  ECP(<span class="keyword">const</span> ECPConfig &amp;config)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    configure(config);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  }</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keywordtype">int</span> configure_impl(<span class="keyword">const</span> ECPConfig &amp;config)</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    msg(<span class="stringliteral">&quot;ECP : fe = {} Hz, doppler = {} Hz (soit {:.3f} degrés / échantillon), Eb/N0 = {:.1f} dB, fsymb = {}, fbit = {}.&quot;</span>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        config.fe, config.décalage_fréquence, 360.0f * config.décalage_fréquence / config.fe,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        config.Eb_N0,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        config.fsymb, config.fbit);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ol = <a class="code" href="group__tsd-gen_gafabb05be883d679ef151587b2b5fb1e5.html#gafabb05be883d679ef151587b2b5fb1e5">source_ohc</a>(config.décalage_fréquence / config.fe);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  }</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">void</span> step(<a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, ArrayXcf &amp;y)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">//auto &amp;config = Configurable&lt;ECPConfig&gt;::config;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    msg(<span class="stringliteral">&quot;ECP ({} échantillons)...&quot;</span>, x.rows());</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">// (1) Compute signal level</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">float</span> niveau = std::sqrt(x.abs2().mean());</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    msg(<span class="stringliteral">&quot;  Décalage phase &amp; fréquence...&quot;</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// (2) Phase and frequency offset</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">auto</span> n = x.rows();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    y = x * ol-&gt;step(n) * std::polar(1.0f, config.décalage_phase);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// (3) Additive White Gaussian Noise</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// (3a) Compute standard deviation sigma from Eb/N0</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">float</span> ebn0_lin = std::pow(10.0f, config.Eb_N0 / 10.0f);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// eb/n0 = 1 / (2*σ)</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// =&gt; σ = level * sqrt(0.5 / eb/n0)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// OVS effect:</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// signal amplitude *= OVS</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// noise  amplitude *= sqrt(OVS)</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// ===&gt; Eb/N0 in amplitude *= sqrt(OVS)</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// ===&gt; Eb/N0 in energy *= OVS</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// ====&gt; Must compensate</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Attention : ceci fonctionne pour Es/N0</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">float</span> σ = niveau * std::sqrt(0.5f * (config.fe / config.fbit) / ebn0_lin);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    msg(<span class="stringliteral">&quot;ECP : niveau détecté = {}, Eb/N0 = {:.1f} dB, σ = {}&quot;</span>, niveau, config.Eb_N0, σ);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    msg(<span class="stringliteral">&quot;  bruit...&quot;</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// (3b) Add the noise</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    y = <a class="code" href="group__telecom-simu_gab37fb6d2f3c4cdaec8588f0424a7b8dd.html#gab37fb6d2f3c4cdaec8588f0424a7b8dd">tsd::telecom::bruit_awgn</a>(y, σ);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// (4) Apply some delay</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    msg(<span class="stringliteral">&quot;  délais...&quot;</span>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">auto</span> <a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> = (int) config.délais_horloge;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> &lt; 0)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      ArrayXi r = <a class="code" href="group__tsd-gen_ga852b97fd09ef933a2d34e1224e2969df.html#ga852b97fd09ef933a2d34e1224e2969df">randi</a>(config.fe / config.fsymb, 1);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> = r(0);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a> &gt; 0)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      y = y.tail(n - <a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a>).eval();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// TODO : head / tail</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//for(i = 0; i + config.clock_delay &lt; n; i++)</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="comment">//y(i) = y(i + (int) config.clock_delay);</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">/*dsp_check(n &gt; config.clock_delay,</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">              &quot;n = %d, clock_delay = %f.&quot;,</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">              n, (float) config.clock_delay);*/</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">//tsd_assert(n &gt; config.clock_delay);</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">//y.resize(n - config.clock_delay);</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    msg(<span class="stringliteral">&quot;  fin.&quot;</span>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span>(config.debug_actif)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      Figures f;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      f.subplot().plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Entrée&quot;</span>);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      f.subplot().plot_psd(x, config.fe);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      f.subplot().plot(y, <span class="stringliteral">&quot;-b&quot;</span>,</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;          format(<span class="stringliteral">&quot;Sortie Eb/N0={:.1g} dB, niveau = {:.2g}, σ = {:.3g}&quot;</span>, config.Eb_N0, niveau, σ));</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      f.subplot().plot_psd(y, config.fe);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      f.afficher(<span class="stringliteral">&quot;ECP&quot;</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;};</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="group__telecom-simu_ga82363ee5230a7d656dc7c3d110f356a2.html#ga82363ee5230a7d656dc7c3d110f356a2">  112</a></span>&#160;<a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;Filtre&lt;cfloat, cfloat, ECPConfig&gt;</a>&gt; <a class="code" href="group__telecom-simu_ga82363ee5230a7d656dc7c3d110f356a2.html#ga82363ee5230a7d656dc7c3d110f356a2">creation_ecp</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1telecom_1_1_e_c_p_config.html">ECPConfig</a> &amp;config)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordflow">return</span> std::make_shared&lt;ECP&gt;(config);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
+<div class="ttc" id="agroup__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68_html_gadd396e18c44a04afc1b8e98dcdf68c68"><div class="ttname"><a href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">tsd::fourier::delais</a></div><div class="ttdeci">Vecteur&lt; T &gt; delais(const Vecteur&lt; T &gt; &amp;x, float tau)</div><div class="ttdoc">Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8cc_source.html#l00779">fourier.cc:779</a></div></div>
+<div class="ttc" id="agroup__telecom-simu_ga82363ee5230a7d656dc7c3d110f356a2_html_ga82363ee5230a7d656dc7c3d110f356a2"><div class="ttname"><a href="group__telecom-simu_ga82363ee5230a7d656dc7c3d110f356a2.html#ga82363ee5230a7d656dc7c3d110f356a2">tsd::telecom::creation_ecp</a></div><div class="ttdeci">sptr&lt; Filtre&lt; cfloat, cfloat, ECPConfig &gt; &gt; creation_ecp(const ECPConfig &amp;config)</div><div class="ttdoc">Création d'un émulateur de canal de propagation.</div><div class="ttdef"><b>Definition:</b> <a href="ecp_8cc_source.html#l00112">ecp.cc:112</a></div></div>
+<div class="ttc" id="agroup__telecom-simu_gab37fb6d2f3c4cdaec8588f0424a7b8dd_html_gab37fb6d2f3c4cdaec8588f0424a7b8dd"><div class="ttname"><a href="group__telecom-simu_gab37fb6d2f3c4cdaec8588f0424a7b8dd.html#gab37fb6d2f3c4cdaec8588f0424a7b8dd">tsd::telecom::bruit_awgn</a></div><div class="ttdeci">ArrayXcf bruit_awgn(IArrayXcf &amp;x, float σ)</div><div class="ttdoc">Ajoute un bruit blanc gaussien complexe.</div><div class="ttdef"><b>Definition:</b> <a href="telecom_8cc_source.html#l00319">telecom.cc:319</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_ga852b97fd09ef933a2d34e1224e2969df_html_ga852b97fd09ef933a2d34e1224e2969df"><div class="ttname"><a href="group__tsd-gen_ga852b97fd09ef933a2d34e1224e2969df.html#ga852b97fd09ef933a2d34e1224e2969df">tsd::randi</a></div><div class="ttdeci">ArrayXi randi(int M, int n)</div><div class="ttdoc">Loi aléatoire catégorielle.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8cc_source.html#l00397">tsd.cc:397</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_gafabb05be883d679ef151587b2b5fb1e5_html_gafabb05be883d679ef151587b2b5fb1e5"><div class="ttname"><a href="group__tsd-gen_gafabb05be883d679ef151587b2b5fb1e5.html#gafabb05be883d679ef151587b2b5fb1e5">tsd::source_ohc</a></div><div class="ttdeci">sptr&lt; Source&lt; cfloat, OHConfig &gt; &gt; source_ohc(float freq)</div><div class="ttdoc">Génération d'un signal exponentiel via un oscillateur harmonique.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8cc_source.html#l00645">tsd.cc:645</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga8ce4ba1e8f15158a6b48ee1c003ef6ad"><div class="ttname"><a href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">tsd::IArrayXcf</a></div><div class="ttdeci">const Eigen::Ref&lt; const ArrayXcf &gt; IArrayXcf</div><div class="ttdoc">Vecteur complexe flottant en entrée (const)</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00128">tsd.hpp:128</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9e2377b654c93e22d894bcdcae510500"><div class="ttname"><a href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">tsd::sptr</a></div><div class="ttdeci">std::shared_ptr&lt; T &gt; sptr</div><div class="ttdoc">Raccourci pour définir un pointeur partagé</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00146">tsd.hpp:146</a></div></div>
+<div class="ttc" id="astructtsd_1_1telecom_1_1_e_c_p_config_html"><div class="ttname"><a href="structtsd_1_1telecom_1_1_e_c_p_config.html">tsd::telecom::ECPConfig</a></div><div class="ttdoc">Paramétrage d'un émulateur de canal de propagation.</div><div class="ttdef"><b>Definition:</b> <a href="telecom_8hpp_source.html#l00974">telecom.hpp:975</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1fd764bc5939601a8308cd06af4680f2.html">libtsd</a></li><li class="navelem"><a class="el" href="dir_dd667b285fc427e85e8348ee68a1635f.html">core</a></li><li class="navelem"><a class="el" href="dir_dd671b2a9f7939fcba43e934ad9d06be.html">src</a></li><li class="navelem"><a class="el" href="dir_63182e3df7fe9c1c92248a1c435b1a05.html">telecom</a></li><li class="navelem"><b>ecp.cc</b></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:10 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

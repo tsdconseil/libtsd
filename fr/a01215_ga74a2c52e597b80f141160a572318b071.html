@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: tsd::kalman::modele_marche_aleatoire</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01215_ga74a2c52e597b80f141160a572318b071.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="contents">
+<a id="ga74a2c52e597b80f141160a572318b071"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga74a2c52e597b80f141160a572318b071">&#9670;&nbsp;</a></span>modele_marche_aleatoire()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="a01242.html">SSMLineaire</a>&gt; tsd::kalman::modele_marche_aleatoire </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ndim</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const MatrixXf &amp;&#160;</td>
+          <td class="paramname"><em>Q</em> = <code>MatrixXf()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const MatrixXf &amp;&#160;</td>
+          <td class="paramname"><em>R</em> = <code>MatrixXf()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<h3>Marche aléatoire</h3>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ndim</td><td>Nombre de dimensions (1 = modèle scalaire) </td></tr>
+    <tr><td class="paramname">Q</td><td>Covariance du bruit de process </td></tr>
+    <tr><td class="paramname">R</td><td>Covariance du bruit d'observation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Modèle en représentation d'état</dd></dl>
+<p>This function create a simple scalar or vectorial random walk model, e.g. at each time interval, the state is incremented by a random value, and observed through a noisy measurement. That is: </p><p class="formulaDsp">
+\[ x_n = x_{n-1} + u_n,\quad y_n = x_n+v_n\]
+</p>
+<p> avec \(u_n: \mathcal{N}(0,R), v_n: \mathcal{N}(0,Q)\).</p>
+<dl class="section user"><dt>Exemple en dimension 2 :</dt><dd><div class="fragment"><div class="line"> </div>
+<div class="line">  <span class="comment">// Variance du bruit de process</span></div>
+<div class="line">  <span class="keywordtype">float</span> s2_process = 1.0f;</div>
+<div class="line">  <span class="comment">// Variance du bruit d&#39;observation</span></div>
+<div class="line">  <span class="keywordtype">float</span> s2_obs     = 0.05f;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> Q = s2_process * MatrixXf::Identity(2, 2);</div>
+<div class="line">  <span class="keyword">auto</span> R = s2_obs     * MatrixXf::Identity(2, 2);</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> sys = <a class="code" href="a01215_ga74a2c52e597b80f141160a572318b071.html#ga74a2c52e597b80f141160a572318b071">modele_marche_aleatoire</a>(2, Q, R);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// 200 itérations</span></div>
+<div class="line">  <span class="keyword">auto</span> [x,y] = sys-&gt;steps(200);</div>
+<div class="line"> </div>
+<div class="line">  Figure f;</div>
+<div class="line">  f.plot(x.row(0), x.row(1), <span class="stringliteral">&quot;b-o&quot;</span>, <span class="stringliteral">&quot;Vrais états&quot;</span>);</div>
+<div class="line">  f.plot(y.row(0), y.row(1), <span class="stringliteral">&quot;m-o&quot;</span>, <span class="stringliteral">&quot;Observations&quot;</span>);</div>
+<div class="line"> </div>
+<div class="ttc" id="aa01215_ga74a2c52e597b80f141160a572318b071_html_ga74a2c52e597b80f141160a572318b071"><div class="ttname"><a href="a01215_ga74a2c52e597b80f141160a572318b071.html#ga74a2c52e597b80f141160a572318b071">tsd::kalman::modele_marche_aleatoire</a></div><div class="ttdeci">sptr&lt; SSMLineaire &gt; modele_marche_aleatoire(int ndim=1, const MatrixXf &amp;Q=MatrixXf(), const MatrixXf &amp;R=MatrixXf())</div><div class="ttdoc">Marche aléatoire.</div></div>
+</div><!-- fragment --><div class="image">
+<img src="ex-modele-ma.png" alt="" width="800px"/>
+</div>
+</dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd>ssm_simu(), model_kitagawa(), model_imu(), model_constant() </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="a01215.html">Filtrage de Kalman</a></li>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

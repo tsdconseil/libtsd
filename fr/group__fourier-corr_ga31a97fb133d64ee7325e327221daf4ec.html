@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: tsd::fourier::xcorr</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group__fourier-corr_ga31a97fb133d64ee7325e327221daf4ec.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="contents">
+<a id="ga31a97fb133d64ee7325e327221daf4ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga31a97fb133d64ee7325e327221daf4ec">&#9670;&nbsp;</a></span>xcorr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::tuple&lt; ArrayXf, ArrayXcf &gt; tsd::fourier::xcorr </td>
+          <td>(</td>
+          <td class="paramtype">const ArrayXcf &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ArrayXcf &amp;&#160;</td>
+          <td class="paramname"><em>y</em> = <code>ArrayXcf()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>m</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<h3>Produit de corrélation (avec correction de biais)</h3>
+<p>Calcule la corrélation entre deux signaux complexes (calcul efficace via des FFT), soit pour un délais négatif ( \(\tau=-(m-1)\dots -1\)) : </p><p class="formulaDsp">
+\[ c(\tau) = \frac{1}{N-\tau} \cdot \sum_{k=0}^{N-1-\tau} x_{k-\tau} y^{\star}_k \]
+</p>
+<p> Et, pour les délais positifs ( \(\tau=0\dots m-1\)): </p><p class="formulaDsp">
+\[ c(\tau) = \frac{1}{N-\tau} \cdot \sum_{k=0}^{N-1-\tau} x_k y^{\star}_{k+\tau} \]
+</p>
+<p>Les délais étant échantillonnés de manière régulière entre \(-(m-1)\) et \(m-1\) : </p><p class="formulaDsp">
+\[ \tau = \textrm{linspace}(-(m-1), m-1, 2m-1) = -(m-1), -(m-2), \dots, -1, 0, 1, \dots, (m-2), (m-1) \]
+</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Premier vecteur </td></tr>
+    <tr><td class="paramname">y</td><td>Deuxième vecteur (éventuellement égal au premier pour avoir l'auto-corrélation) </td></tr>
+    <tr><td class="paramname">m</td><td>Nombre de délais à examiner (si négatif, alors fait comme si \(m=N\)). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Un tuple de deux vecteurs de dimension \(2m-1\) : délais \(\tau_k\) et corrélation \(c(\tau_k)\).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Les signaux sont complétés en interne avec des zéros pour pouvoir effectuer efficacement la corrélation dans le domaine fréquentiel.</dd></dl>
+<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
+<div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga75902afd67b092895425e71c6f4189ba.html#ga75902afd67b092895425e71c6f4189ba">sigsin</a>(0.04, 1000) * (-(<a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(-5,5,1000)).abs()).exp();</div>
+<div class="line">  ArrayXf y = <a class="code" href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">delais</a>(x, 100);</div>
+<div class="line">  <span class="keyword">auto</span> [lags, c] = <a class="code" href="group__fourier-corr_ga31a97fb133d64ee7325e327221daf4ec.html#ga31a97fb133d64ee7325e327221daf4ec">xcorr</a>(x, y);</div>
+<div class="line"> </div>
+<div class="line">  Figures f;</div>
+<div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
+<div class="line">  f.subplot().plot(y, <span class="stringliteral">&quot;g-&quot;</span>, <span class="stringliteral">&quot;y&quot;</span>);</div>
+<div class="line">  f.subplot().plot(lags, c.abs(), <span class="stringliteral">&quot;m-&quot;</span>, <span class="stringliteral">&quot;xcorr (abs)&quot;</span>);</div>
+<div class="line"> </div>
+<div class="ttc" id="agroup__fourier-corr_ga31a97fb133d64ee7325e327221daf4ec_html_ga31a97fb133d64ee7325e327221daf4ec"><div class="ttname"><a href="group__fourier-corr_ga31a97fb133d64ee7325e327221daf4ec.html#ga31a97fb133d64ee7325e327221daf4ec">tsd::fourier::xcorr</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorr(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (non biaisée) entre deux signaux complexes.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8cc_source.html#l00671">fourier.cc:671</a></div></div>
+<div class="ttc" id="agroup__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68_html_gadd396e18c44a04afc1b8e98dcdf68c68"><div class="ttname"><a href="group__fourier-corr_gadd396e18c44a04afc1b8e98dcdf68c68.html#gadd396e18c44a04afc1b8e98dcdf68c68">tsd::fourier::delais</a></div><div class="ttdeci">Vecteur&lt; T &gt; delais(const Vecteur&lt; T &gt; &amp;x, float tau)</div><div class="ttdoc">Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8cc_source.html#l00779">fourier.cc:779</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00918">tsd.hpp:918</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_ga75902afd67b092895425e71c6f4189ba_html_ga75902afd67b092895425e71c6f4189ba"><div class="ttname"><a href="group__tsd-gen_ga75902afd67b092895425e71c6f4189ba.html#ga75902afd67b092895425e71c6f4189ba">tsd::sigsin</a></div><div class="ttdeci">ArrayXf sigsin(float f, int n)</div><div class="ttdoc">Calcul efficace d'une sinusoide.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8cc_source.html#l00085">tsd.cc:85</a></div></div>
+</div><!-- fragment --><div class="image">
+<img src="xcorr.png" alt="" width="800px"/>
+</div>
+</dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__fourier-corr_ga79e2832155a1669f8e6dd45c62ec18a7.html#ga79e2832155a1669f8e6dd45c62ec18a7" title="Corrélation (biaisée) entre deux signaux complexes.">xcorrb()</a>, <a class="el" href="group__fourier-corr_gaf93bf2294b7c67b6aa0f35b17965f766.html#gaf93bf2294b7c67b6aa0f35b17965f766" title="Corrélation circulaire (normalisée) entre deux signaux complexes.">ccorr()</a>, fft_correlateur() </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="fourier_8cc_source.html#l00671">671</a> du fichier <a class="el" href="fourier_8cc_source.html">fourier.cc</a>.</p>
+
+<p class="reference">Références <a class="el" href="tsd_8hpp_source.html#l00918">tsd::linspace()</a>, et <a class="el" href="fourier_8cc_source.html#l00644">xcorrb()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="stats_8hpp_source.html#l00139">tsd::stats::covmtx()</a>, et <a class="el" href="stats_8cc_source.html#l00124">tsd::stats::lpc()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>tsd</b></li><li class="navelem"><a class="el" href="namespacetsd_1_1fourier.html">fourier</a></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:10 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

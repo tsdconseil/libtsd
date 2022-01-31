@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de C:/dev/libtsd/core/src/filtrage/cic.cc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li><a href="pagebiblio.html"><span>Bibliographie</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('cic_8cc_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">cic.cc</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// implémentation filtre CIC.</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;tsd/tsd.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;tsd/figure.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;tsd/filtrage.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;tsd/filtrage/frat.hpp&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>tsd::vue;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>tsd::filtrage {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Ti&gt;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">struct </span>FiltreCIC: FiltreGen&lt;T&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  CICConfig config;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordtype">char</span> mode;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  Vecteur&lt;Ti&gt; mem_diff;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordtype">float</span> gain;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  FiltreCIC(<span class="keyword">const</span> CICConfig &amp;config, <span class="keywordtype">char</span> mode = <span class="charliteral">&#39;d&#39;</span>)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    this-&gt;config  = config;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    this-&gt;mode    = mode;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span>((mode != <span class="charliteral">&#39;d&#39;</span>) &amp;&amp; (mode != <span class="charliteral">&#39;u&#39;</span>) &amp;&amp; (mode != <span class="charliteral">&#39;i&#39;</span>))</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      echec(<span class="stringliteral">&quot;cic_init: le mode doit être &#39;d&#39; ou &#39;i&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span>(config.M != 1)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      echec(<span class="stringliteral">&quot;cic_init: seulement M = 1 est supporté pour l&#39;instant.&quot;</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mem_diff.setZero(config.N);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span>(mode == <span class="charliteral">&#39;d&#39;</span>)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      gain = 1 / pow(config.R*config.M,config.N);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      gain = config.R / pow(config.R*config.M,config.N);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> step(<span class="keyword">const</span> Eigen::Ref&lt;<span class="keyword">const</span> Vecteur&lt;T&gt;&gt; x, Vecteur&lt;T&gt; &amp;y)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      Vecteur&lt;Ti&gt; xi = x.template cast&lt;Ti&gt;();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">if</span>(mode == <span class="charliteral">&#39;d&#39;</span>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// (1) Integration</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; config.N; i++)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;          xi = <a class="code" href="group__tsd_ga5588c037fbd933a078a8b3db038a1898.html#ga5588c037fbd933a078a8b3db038a1898">cumsum</a>(xi);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// (2) Decimation</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        Vecteur&lt;Ti&gt; xd = <a class="code" href="group__tsd_gaa4e5497323ed241ff3f96bd0ff828a24.html#gaa4e5497323ed241ff3f96bd0ff828a24">sousech</a>(xi, config.R);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// (3) Peignes</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; config.N; i++)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;          Vecteur&lt;Ti&gt; xp(xd.rows() + 1);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;          xp(0) = mem_diff(i);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;          xp.segment(1, xd.rows()) = xd;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;          mem_diff(i) = xd(xd.rows()-1);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;          xd = <a class="code" href="group__tsd_gae114ab0c68cfa050538431d4c8b08ea1.html#gae114ab0c68cfa050538431d4c8b08ea1">diff</a>(xp);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        y = xd.template cast&lt;float&gt;() * gain;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="comment">// (1) Peignes</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; config.N; i++)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        Vecteur&lt;Ti&gt; xp(xi.rows() + 1);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        xp(0) = mem_diff(i);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        xp.segment(1,xi.rows()) = xi;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        mem_diff(i) = x(xi.rows()-1);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        xi = <a class="code" href="group__tsd_gae114ab0c68cfa050538431d4c8b08ea1.html#gae114ab0c68cfa050538431d4c8b08ea1">diff</a>(xp);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="comment">// (2) Upsampling</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      Vecteur&lt;Ti&gt; tmp = Vecteur&lt;Ti&gt;::Zero(xi.rows()*config.R);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keyword">auto</span> map = Eigen::Map&lt;Vecteur&lt;Ti&gt;,0,Eigen::InnerStride&lt;&gt;&gt;(tmp.data(), tmp.rows() / config.R, Eigen::InnerStride&lt;&gt;(config.R));</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      map = xi;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      xi = tmp;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="comment">// (3) Integration</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; config.N; i++)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        xi = <a class="code" href="group__tsd_ga5588c037fbd933a078a8b3db038a1898.html#ga5588c037fbd933a078a8b3db038a1898">cumsum</a>(xi);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      y = xi.template cast&lt;float&gt;() * gain;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  };</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Ti&gt;</div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="group__filtrage-tr_ga6cdd91780b3a5290c73582cc01579166.html#ga6cdd91780b3a5290c73582cc01579166">  100</a></span>&#160;<a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;FiltreGen&lt;T&gt;</a>&gt; <a class="code" href="group__filtrage-tr_ga6cdd91780b3a5290c73582cc01579166.html#ga6cdd91780b3a5290c73582cc01579166">filtre_cic</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, <span class="keywordtype">char</span> mode)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordflow">return</span> make_shared&lt;FiltreCIC&lt;T,Ti&gt;&gt;(config, mode);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="group__filtrage-design_ga04c209274be4dcc8e3a494f4f2b540c9.html#ga04c209274be4dcc8e3a494f4f2b540c9">  105</a></span>&#160;<a class="code" href="classtsd_1_1_f_rat.html">FRat&lt;float&gt;</a> <a class="code" href="group__filtrage-design_ga04c209274be4dcc8e3a494f4f2b540c9.html#ga04c209274be4dcc8e3a494f4f2b540c9">design_cic</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;{</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  tsd_assert((config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a> &gt; 0) &amp;&amp; (config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#aefd0d519ad6014940f38bbe8647870a4">M</a> &gt; 0) &amp;&amp; (config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a24ea822ab31cb29f7b8f4d3347ddb498">N</a> &gt;= 0));</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <a class="code" href="classtsd_1_1_f_rat.html">FRat&lt;float&gt;</a> h;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  h.numer.coefs.setOnes(config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a> * config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#aefd0d519ad6014940f38bbe8647870a4">M</a>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  h.numer.coefs /= (config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a> * config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#aefd0d519ad6014940f38bbe8647870a4">M</a>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">return</span> h.<a class="code" href="classtsd_1_1_f_rat_a551e38604e4ab00ef0fe74afdfd76af3.html#a551e38604e4ab00ef0fe74afdfd76af3">horner</a>(<a class="code" href="classtsd_1_1_f_rat.html">FRat&lt;float&gt;::z</a>().<a class="code" href="classtsd_1_1_f_rat.html#aeb4b182cd1a258afa6ddb2c7054d84bd">inv</a>()).pow(config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a24ea822ab31cb29f7b8f4d3347ddb498">N</a>);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="group__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2.html#ga74642104d73a6f4a944dd24b08b790f2">  115</a></span>&#160;CICAnalyse <a class="code" href="group__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2.html#ga74642104d73a6f4a944dd24b08b790f2">cic_analyse</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, <span class="keywordtype">float</span> Fin, <span class="keywordtype">float</span> Fint)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  CICAnalyse res;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  res.config = config;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordflow">if</span>(Fint == 0)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    Fint = Fin / config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="keyword">auto</span> h = <a class="code" href="group__filtrage-design_ga04c209274be4dcc8e3a494f4f2b540c9.html#ga04c209274be4dcc8e3a494f4f2b540c9">design_cic</a>(config);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="keyword">auto</span> [fr,mag] = <a class="code" href="group__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf.html#ga4323e861c058a011302a37d836d9f2cf">frmag</a>(h, 4096);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  fr *= Fin;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  ArrayXf lmag = 20.0f*(mag+1e-10f).log10();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="comment">// Trace entre 0 et Fint*2</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keywordtype">float</span> fmaxz = Fint * 2;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordtype">int</span> idx = <a class="code" href="group__tsd_gab8e8ffb51e42aa4e27655954920dcdd9.html#gab8e8ffb51e42aa4e27655954920dcdd9">trouve</a>(fr &gt; fmaxz)[0];</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  msg(<span class="stringliteral">&quot;CIC analyse : R={}, Fin={} Hz, fmaxz={} Hz, idx={}&quot;</span>, config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>, Fin, fmaxz, idx);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keyword">auto</span> frz = fr.head(idx);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keyword">auto</span> fmz = mag.head(idx);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="keyword">auto</span> Fout = Fin / config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  msg(<span class="stringliteral">&quot;R = {}, Fin = {:.2f} Hz, Fout = {:.2f} Hz.&quot;</span>, config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>, Fin, Fout);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="keyword">auto</span> fc2 = Fout/2;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  idx = <a class="code" href="group__tsd_gab8e8ffb51e42aa4e27655954920dcdd9.html#gab8e8ffb51e42aa4e27655954920dcdd9">trouve</a>(fr &gt; fc2)[0];</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="keyword">auto</span> atten = 20*log10(mag(idx));</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  msg(<span class="stringliteral">&quot;Attenuation for f &gt; fout/2 : {:2f} dB.&quot;</span>, atten);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="keyword">auto</span> att = 20*log10(mag((<span class="keywordtype">int</span>)ceil(Fint*1024/(Fin/2))));</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keyword">auto</span> attmax = 20*log10(mag.head(ceil(Fint*1024/(Fin/2)))).minCoeff();</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  msg(<span class="stringliteral">&quot;Attenuation at {:.2f} Hz: {:.2f} dB.&quot;</span>, Fint, att);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  msg(<span class="stringliteral">&quot;Attenuation max. between 0 et {:.2f} Hz: {:.2f} dB.&quot;</span>, Fint, attmax);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  msg(<span class="stringliteral">&quot;E.g. in linear scale : * {:.3f}&quot;</span>, pow(10.0f,attmax/20));</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="comment">// Calcul repliement</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  Fout = Fin / config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="keyword">auto</span> Fnyqout = Fout / 2;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keywordtype">int</span> <span class="keywordtype">id</span> = <a class="code" href="group__tsd_gab8e8ffb51e42aa4e27655954920dcdd9.html#gab8e8ffb51e42aa4e27655954920dcdd9">trouve</a>(fr &gt; Fnyqout)[0];</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keyword">auto</span> f = fr.head(<span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="keyword">auto</span> m_main = lmag.head(<span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keyword">auto</span> nrep = (int) max(0.0f, (<span class="keywordtype">float</span>) floor((mag.rows() - <span class="keywordtype">id</span>) / <span class="keywordtype">id</span>));</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  nrep = min(nrep, 4);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  ArrayXXf m_alias = ArrayXXf::Zero(<span class="keywordtype">id</span>,nrep);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; nrep; i++)</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">//auto id2 = trouve(fr &gt; (i+1)*Fnyqout);</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    m_alias.col(i) = lmag.segment(<span class="keywordtype">id</span>*(i+1), <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">if</span>((i % 2) == 0)</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      m_alias.col(i).reverseInPlace();</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  }</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keyword">auto</span> &amp;g = res.fig_repliement;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    g.clear();</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keyword">auto</span> c = g.plot(f * config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>, m_main, <span class="stringliteral">&quot;g-&quot;</span>, <span class="stringliteral">&quot;Baseband spectrum&quot;</span>);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    c.def_couleur({0,120,0});</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; nrep; i++)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      <span class="keyword">auto</span> c = g.plot(f * config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>, m_alias.col(i), <span class="stringliteral">&quot;r-&quot;</span>, <span class="stringliteral">&quot;Aliasing #{}&quot;</span>, i);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="keyword">auto</span> v = (200.0f*i) / nrep;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      c.def_couleur({200,v,v});</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    }</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    g.def_pos_legende(<span class="stringliteral">&quot;se&quot;</span>);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    g.titres(<span class="stringliteral">&quot;Output of CIC filter, including decimation&quot;</span>,</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;             <span class="stringliteral">&quot;Fréquence&quot;</span>,</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;             <span class="stringliteral">&quot;Atténuation (dB)&quot;</span>);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="comment">//g.afficher(&quot;Analyse CIC (repliement)&quot;);</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keyword">auto</span> &amp;g = res.fig_spectre_global;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    g.clear();</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keyword">auto</span> c = g.plot(fr,lmag);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    c.def_remplissage(<span class="keyword">true</span>, <span class="keyword">true</span>, -150);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    g.plot(Fout/2, atten, <span class="stringliteral">&quot;sr&quot;</span>);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    g.def_rdi({-0.05, -150, 0.6, 150});</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    g.titres(<span class="stringliteral">&quot;CIC filter / global view&quot;</span>, <span class="stringliteral">&quot;Fréquence&quot;</span>, <span class="stringliteral">&quot;Atténuation (dB)&quot;</span>);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="comment">//g.afficher(&quot;Analyse CIC (globale)&quot;);</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  }</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">auto</span> &amp;g = res.fig_spectre_bf;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">auto</span> c = g.plot(frz,20*(fmz+1e-10).log10());</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    c.def_remplissage(<span class="keyword">true</span>, <span class="keyword">true</span>, -150);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    g.plot(Fout/2, atten, <span class="stringliteral">&quot;sr&quot;</span>);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    g.def_rdi({-0.05f/config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>, -150.0f, 3.0f*(0.05f+0.5f)/config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>, 150.0f});</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    g.titres(<span class="stringliteral">&quot;CIC filter / view centered on the passband&quot;</span>, <span class="stringliteral">&quot;Fréquence&quot;</span>, <span class="stringliteral">&quot;Atténuation (dB)&quot;</span>);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="comment">//g.afficher(&quot;Analyse CIC (bande passante)&quot;);</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  }</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  res.h     = <a class="code" href="classtsd_1_1_f_rat.html">FRat&lt;float&gt;</a>(h);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  res.fr    = fr;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  res.mag   = mag;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  res.nbits = (int) ceil(config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a24ea822ab31cb29f7b8f4d3347ddb498">N</a> * log2(config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>) - 1);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  msg(<span class="stringliteral">&quot;Number of additionnal bits needed for implementation: {}.&quot;</span>, res.nbits);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keywordflow">return</span> res;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;}</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
+<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="group__filtrage-tr_ga22324bf08ee05e6a666e58ce584e8659.html#ga22324bf08ee05e6a666e58ce584e8659">  221</a></span>&#160;ArrayXf <a class="code" href="group__filtrage-tr_ga22324bf08ee05e6a666e58ce584e8659.html#ga22324bf08ee05e6a666e58ce584e8659">cic_freq</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, <span class="keyword">const</span> ArrayXf &amp;f)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;{</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  ArrayXf mag = ArrayXf::Ones(f.rows());</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">auto</span> i = 0; i &lt; f.rows(); i++)</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordtype">float</span> d = config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>*config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#aefd0d519ad6014940f38bbe8647870a4">M</a>*sin(<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>*f(i));</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keywordflow">if</span>(d != 0)</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      mag(i) = pow((<span class="keywordtype">float</span>) abs(sin(config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>*config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#aefd0d519ad6014940f38bbe8647870a4">M</a>*<a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>*f(i)) / d), (<span class="keywordtype">float</span>) config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a24ea822ab31cb29f7b8f4d3347ddb498">N</a>);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  <span class="keywordflow">return</span> mag;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;}</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="group__filtrage-design_ga53a600398d322d98ca95c4a37e77c6d2.html#ga53a600398d322d98ca95c4a37e77c6d2">  234</a></span>&#160;CICComp <a class="code" href="group__filtrage-design_ga53a600398d322d98ca95c4a37e77c6d2.html#ga53a600398d322d98ca95c4a37e77c6d2">design_cic_comp</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, <span class="keywordtype">float</span> Fin, <span class="keywordtype">int</span> R2, <span class="keywordtype">float</span> Fcut, <span class="keywordtype">int</span> ncoefs)</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;{</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  CICComp res;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="comment">//auto [h,bits,fr,fm] = cic_analyse(config,Fin,Fcut);</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  <span class="keyword">auto</span> analyse = <a class="code" href="group__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2.html#ga74642104d73a6f4a944dd24b08b790f2">cic_analyse</a>(config, Fin, Fcut);</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="comment">// Frequency at output of CIC</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <span class="keyword">auto</span> Fout = Fin / config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  msg(<span class="stringliteral">&quot;R = {}, Fout = {:.2f} Hz, Fin = {:.2f} Hz.&quot;</span>, config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>, Fout, Fin);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  <span class="comment">// Locate frequency response after decimation</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="comment">// (after decimation, representable frequencies are 0 to Fout/2)</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="keyword">auto</span> idx = <a class="code" href="group__tsd_gab8e8ffb51e42aa4e27655954920dcdd9.html#gab8e8ffb51e42aa4e27655954920dcdd9">trouve</a>(analyse.fr &gt; Fout / 2)[0];</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  msg(<span class="stringliteral">&quot;index = {} / {}.&quot;</span>, idx, <a class="code" href="group__tsd.html#ga94125b2c496aeb33564b47a54ec5f920">length</a>(analyse.fr));</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;  <span class="keyword">auto</span> fr2 = analyse.fr.segment(0,idx-1);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keyword">auto</span> fm2 = analyse.mag.segment(0,idx-1);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  msg(<span class="stringliteral">&quot;idx = {}&quot;</span>, idx);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <span class="comment">//scf(2); clf();</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="comment">// Ideal response of the FIR compensation filter = 1 / CIC response</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  ArrayXf idealc = 1.0f / fm2;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  <span class="comment">// And, also, cut @ Fint Hz</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="keyword">auto</span> <span class="keywordtype">id</span> = 1 + <a class="code" href="group__tsd_gab8e8ffb51e42aa4e27655954920dcdd9.html#gab8e8ffb51e42aa4e27655954920dcdd9">trouve</a>(analyse.fr &gt; Fcut)[0];</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  msg(<span class="stringliteral">&quot;Fcut = {} Hz, id = {}&quot;</span>, Fcut, <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  tsd_assert((<span class="keywordtype">id</span> &gt; 1) &amp;&amp; (<span class="keywordtype">id</span> + 1 &lt; analyse.fr.rows()));</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  idealc(<span class="keywordtype">id</span>-1)  = idealc(<span class="keywordtype">id</span>-2) / 2;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;  idealc(<span class="keywordtype">id</span>)    = idealc(<span class="keywordtype">id</span>-1) / 2; <span class="comment">// Reduce the steepness of required frequency profile</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  idealc(<span class="keywordtype">id</span>+1)  = idealc(<span class="keywordtype">id</span>) / 2;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  idealc.tail(idealc.rows() - (<span class="keywordtype">id</span>+2)).setZero();</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keyword">auto</span> &amp;f = res.fig_reponse_ideale;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    f.clear();</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    f.plot(fr2, idealc);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="comment">//f.titre(&quot;Réponse idéale&quot;);</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  }</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;  <span class="comment">// Make a fir filter from frequency sampling technique</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;  res.h = <a class="code" href="group__filtrage-design_gad8cd986b977dd57cf8f4e48ea7a14707.html#gad8cd986b977dd57cf8f4e48ea7a14707">design_rif_freq</a>(ncoefs, idealc);</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;  <span class="comment">//    idx = trouve(fr * Fin &gt; Fout / (2*R2), 1);</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;  <span class="comment">//    fr2 = fr(1:idx);</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  <span class="comment">//    fm2 = fm(1:idx);</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;  <span class="comment">// Round to 16 bits coefficients</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  <span class="comment">//hd = round(hd * 2^15);</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  <span class="comment">// Number of coefficients</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; <span class="comment">// auto nhd = hd.rows();</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  <span class="comment">//printf(&quot;FIR compensation filter (%d coefs, 16 bits quant):\n&quot;, nhd);</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  <span class="comment">//disp(hd);</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  <span class="comment">// Compute frequency response of the FIR compentation filter</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  <span class="comment">//hd = hd / 2^15;</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  <span class="keyword">auto</span> hc = <a class="code" href="classtsd_1_1_f_rat.html">FRat&lt;float&gt;::rif</a>(res.h);</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="keyword">auto</span> [frc,fmc] = frmag&lt;float&gt;(res.h, 2048);</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="comment">// Fonction de transfert du filtre de compensation</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  <span class="comment">// decim(R) -&gt; hc = hc(z^R)</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  <span class="keyword">auto</span> hc_lb = hc.horner(<a class="code" href="classtsd_1_1_f_rat.html">FRat&lt;float&gt;::z_power</a>(config.<a class="code" href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">R</a>));</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  <span class="comment">// Fonction de transfert globale :</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  <span class="comment">// h(z) -&gt; decim(R) -&gt; hc(z) = h(z) * hc(z^R)</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keyword">auto</span> hg = analyse.h * hc_lb;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  <span class="comment">// Réponse filtre global</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keyword">auto</span> [frg,fmg] = <a class="code" href="group__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf.html#ga4323e861c058a011302a37d836d9f2cf">frmag</a>(hg, 2048);</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <span class="comment">// Réponse filtre de compensation</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  <span class="keyword">auto</span> [frg2,fmhc_lb] = <a class="code" href="group__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf.html#ga4323e861c058a011302a37d836d9f2cf">frmag</a>(hc_lb, 2048);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  <span class="comment">// ( ) Tracé des différentes réponses</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment"></span>  <span class="keyword">auto</span> f = res.fig_spectre_global;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  f.clear();</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  f.plot(analyse.fr,20*log10(analyse.mag+1e-10f),<span class="stringliteral">&quot;g-&quot;</span>,<span class="stringliteral">&quot;CIC filter&quot;</span>);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  f.plot(frg2*Fin,20*log10(fmhc_lb+1e-10), <span class="stringliteral">&quot;m-&quot;</span>, <span class="stringliteral">&quot;Compensation filter&quot;</span>);</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  f.plot(frg*Fin,20*log10(fmg+1e-10),<span class="stringliteral">&quot;b-&quot;</span>,<span class="stringliteral">&quot;Global filter&quot;</span>);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  f.titres(<span class="stringliteral">&quot;Decimation / wideband view&quot;</span>, <span class="stringliteral">&quot;Fréquence&quot;</span>, <span class="stringliteral">&quot;Attenuation (dB)&quot;</span>);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  f = res.fig_spectre_bf;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  f.clear();</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  f.plot(fr2,20*log10(fm2+1e-10),<span class="stringliteral">&quot;g-&quot;</span>,<span class="stringliteral">&quot;CIC filter&quot;</span>);</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;  f.plot(frc*Fout,20*log10(fmc+1e-10),<span class="stringliteral">&quot;m-&quot;</span>,<span class="stringliteral">&quot;Compensation filter&quot;</span>);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <span class="keyword">auto</span> fmaxz = 2 * Fcut;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  idx = <a class="code" href="group__tsd_gab8e8ffb51e42aa4e27655954920dcdd9.html#gab8e8ffb51e42aa4e27655954920dcdd9">trouve</a>(frg*Fin &gt; fmaxz)[0];</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  <span class="keyword">auto</span> frgz  = frg.head(idx);</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;  <span class="keyword">auto</span> fmgz = fmg.head(idx);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  f.plot(frgz*Fin,20*log10(fmgz+1e-10),<span class="stringliteral">&quot;b-&quot;</span>,<span class="stringliteral">&quot;Global filter&quot;</span>);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  f.titres(<span class="stringliteral">&quot;Decimation / passband view&quot;</span>, <span class="stringliteral">&quot;Fréquency&quot;</span>, <span class="stringliteral">&quot;Atténuation (dB)&quot;</span>);</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160; </div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;  f = res.fig_comp_rimp;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;  f.clear();</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  f.axes().supprime_decorations();</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;  f.plot(res.h, <span class="stringliteral">&quot;|bo&quot;</span>);<span class="comment">//, &quot;Filtre de compensation&quot;);</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160; </div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;  <span class="keywordflow">return</span> res;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;}</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="keyword">namespace </span>hidden {</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="keyword">auto</span> filtre_cic1 = filtre_cic&lt;float, int&gt;;</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">//auto filtre_cic2 = filtre_cic&lt;cfloat, int&gt;;</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;}</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;}</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
+<div class="ttc" id="aclasstsd_1_1_f_rat_a551e38604e4ab00ef0fe74afdfd76af3_html_a551e38604e4ab00ef0fe74afdfd76af3"><div class="ttname"><a href="classtsd_1_1_f_rat_a551e38604e4ab00ef0fe74afdfd76af3.html#a551e38604e4ab00ef0fe74afdfd76af3">tsd::FRat::horner</a></div><div class="ttdeci">Trep horner(Trep x) const</div><div class="ttdoc">Evaluation d'une fraction rationnelle.</div><div class="ttdef"><b>Definition:</b> <a href="frat_8hpp_source.html#l00715">frat.hpp:715</a></div></div>
+<div class="ttc" id="aclasstsd_1_1_f_rat_html"><div class="ttname"><a href="classtsd_1_1_f_rat.html">tsd::FRat&lt; float &gt;</a></div></div>
+<div class="ttc" id="aclasstsd_1_1_f_rat_html_aeb4b182cd1a258afa6ddb2c7054d84bd"><div class="ttname"><a href="classtsd_1_1_f_rat.html#aeb4b182cd1a258afa6ddb2c7054d84bd">tsd::FRat::inv</a></div><div class="ttdeci">FRat&lt; T &gt; inv() const</div><div class="ttdoc">Calcul de .</div><div class="ttdef"><b>Definition:</b> <a href="frat_8hpp_source.html#l00800">frat.hpp:800</a></div></div>
+<div class="ttc" id="agroup__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf_html_ga4323e861c058a011302a37d836d9f2cf"><div class="ttname"><a href="group__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf.html#ga4323e861c058a011302a37d836d9f2cf">tsd::filtrage::frmag</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; frmag(const FRat&lt; T &gt; &amp;h, int npts=1024)</div><div class="ttdoc">Magnitude d'une filtre RIF ou RII.</div><div class="ttdef"><b>Definition:</b> <a href="filtrage_8cc_source.html#l00177">filtrage.cc:177</a></div></div>
+<div class="ttc" id="agroup__filtrage-design_ga04c209274be4dcc8e3a494f4f2b540c9_html_ga04c209274be4dcc8e3a494f4f2b540c9"><div class="ttname"><a href="group__filtrage-design_ga04c209274be4dcc8e3a494f4f2b540c9.html#ga04c209274be4dcc8e3a494f4f2b540c9">tsd::filtrage::design_cic</a></div><div class="ttdeci">FRat&lt; float &gt; design_cic(const CICConfig &amp;config)</div><div class="ttdoc">Fonction de transfert théorique d'un filtre CIC.</div><div class="ttdef"><b>Definition:</b> <a href="cic_8cc_source.html#l00105">cic.cc:105</a></div></div>
+<div class="ttc" id="agroup__filtrage-design_ga53a600398d322d98ca95c4a37e77c6d2_html_ga53a600398d322d98ca95c4a37e77c6d2"><div class="ttname"><a href="group__filtrage-design_ga53a600398d322d98ca95c4a37e77c6d2.html#ga53a600398d322d98ca95c4a37e77c6d2">tsd::filtrage::design_cic_comp</a></div><div class="ttdeci">CICComp design_cic_comp(const CICConfig &amp;config, float Fin, int R2, float fc, int ncoefs)</div><div class="ttdoc">Design of a compensation FIR filter for a CIC filter.</div><div class="ttdef"><b>Definition:</b> <a href="cic_8cc_source.html#l00234">cic.cc:234</a></div></div>
+<div class="ttc" id="agroup__filtrage-design_gad8cd986b977dd57cf8f4e48ea7a14707_html_gad8cd986b977dd57cf8f4e48ea7a14707"><div class="ttname"><a href="group__filtrage-design_gad8cd986b977dd57cf8f4e48ea7a14707.html#gad8cd986b977dd57cf8f4e48ea7a14707">tsd::filtrage::design_rif_freq</a></div><div class="ttdeci">ArrayXf design_rif_freq(int n, const ArrayXf &amp;d)</div><div class="ttdoc">Design par échantillonnage fréquentiel.</div><div class="ttdef"><b>Definition:</b> <a href="rif-freq_8cc_source.html#l00033">rif-freq.cc:33</a></div></div>
+<div class="ttc" id="agroup__filtrage-tr_ga22324bf08ee05e6a666e58ce584e8659_html_ga22324bf08ee05e6a666e58ce584e8659"><div class="ttname"><a href="group__filtrage-tr_ga22324bf08ee05e6a666e58ce584e8659.html#ga22324bf08ee05e6a666e58ce584e8659">tsd::filtrage::cic_freq</a></div><div class="ttdeci">ArrayXf cic_freq(const CICConfig &amp;config, const ArrayXf &amp;f)</div><div class="ttdoc">Frequency response of a CIC filter.</div><div class="ttdef"><b>Definition:</b> <a href="cic_8cc_source.html#l00221">cic.cc:221</a></div></div>
+<div class="ttc" id="agroup__filtrage-tr_ga6cdd91780b3a5290c73582cc01579166_html_ga6cdd91780b3a5290c73582cc01579166"><div class="ttname"><a href="group__filtrage-tr_ga6cdd91780b3a5290c73582cc01579166.html#ga6cdd91780b3a5290c73582cc01579166">tsd::filtrage::filtre_cic</a></div><div class="ttdeci">sptr&lt; FiltreGen&lt; T &gt; &gt; filtre_cic(const CICConfig &amp;config, char mode='d')</div><div class="ttdoc">Création d'un filtre CIC, opérant sur des vecteurs de type T, et travaillant en interne avec le type ...</div><div class="ttdef"><b>Definition:</b> <a href="cic_8cc_source.html#l00100">cic.cc:100</a></div></div>
+<div class="ttc" id="agroup__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2_html_ga74642104d73a6f4a944dd24b08b790f2"><div class="ttname"><a href="group__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2.html#ga74642104d73a6f4a944dd24b08b790f2">tsd::filtrage::cic_analyse</a></div><div class="ttdeci">CICAnalyse cic_analyse(const CICConfig &amp;config, float Fin, float Fint=0)</div><div class="ttdoc">This function computes and shows the frequency response of a CIC filter and then analyse the aliasing...</div><div class="ttdef"><b>Definition:</b> <a href="cic_8cc_source.html#l00115">cic.cc:115</a></div></div>
+<div class="ttc" id="agroup__tsd_ga5588c037fbd933a078a8b3db038a1898_html_ga5588c037fbd933a078a8b3db038a1898"><div class="ttname"><a href="group__tsd_ga5588c037fbd933a078a8b3db038a1898.html#ga5588c037fbd933a078a8b3db038a1898">tsd::cumsum</a></div><div class="ttdeci">auto cumsum(const Eigen::ArrayBase&lt; D &gt; &amp;x)</div><div class="ttdoc">Somme cumulée d'un vecteur.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00294">tsd.hpp:294</a></div></div>
+<div class="ttc" id="agroup__tsd_gaa4e5497323ed241ff3f96bd0ff828a24_html_gaa4e5497323ed241ff3f96bd0ff828a24"><div class="ttname"><a href="group__tsd_gaa4e5497323ed241ff3f96bd0ff828a24.html#gaa4e5497323ed241ff3f96bd0ff828a24">tsd::sousech</a></div><div class="ttdeci">Vecteur&lt; T &gt; sousech(const Vecteur&lt; T &gt; &amp;x, int R)</div><div class="ttdoc">Sous-échantillonnage d'un vecteur colonne.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00387">tsd.hpp:387</a></div></div>
+<div class="ttc" id="agroup__tsd_gab8e8ffb51e42aa4e27655954920dcdd9_html_gab8e8ffb51e42aa4e27655954920dcdd9"><div class="ttname"><a href="group__tsd_gab8e8ffb51e42aa4e27655954920dcdd9.html#gab8e8ffb51e42aa4e27655954920dcdd9">tsd::trouve</a></div><div class="ttdeci">std::vector&lt; int &gt; trouve(IArrayXb x)</div><div class="ttdoc">Recherche d'éléments vrais dans un tableau bouléen.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8cc_source.html#l00497">tsd.cc:497</a></div></div>
+<div class="ttc" id="agroup__tsd_gae114ab0c68cfa050538431d4c8b08ea1_html_gae114ab0c68cfa050538431d4c8b08ea1"><div class="ttname"><a href="group__tsd_gae114ab0c68cfa050538431d4c8b08ea1.html#gae114ab0c68cfa050538431d4c8b08ea1">tsd::diff</a></div><div class="ttdeci">auto diff(const Eigen::ArrayBase&lt; D &gt; &amp;x)</div><div class="ttdoc">Différence entre 2 élements successifs d'un vecteur.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00261">tsd.hpp:261</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga94125b2c496aeb33564b47a54ec5f920"><div class="ttname"><a href="group__tsd.html#ga94125b2c496aeb33564b47a54ec5f920">tsd::length</a></div><div class="ttdeci">auto length(const Eigen::ArrayBase&lt; T &gt; &amp;x)</div><div class="ttdoc">Calcule la longueur d'un vecteur colonne.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00203">tsd.hpp:203</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9e2377b654c93e22d894bcdcae510500"><div class="ttname"><a href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">tsd::sptr</a></div><div class="ttdeci">std::shared_ptr&lt; T &gt; sptr</div><div class="ttdoc">Raccourci pour définir un pointeur partagé</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00146">tsd.hpp:146</a></div></div>
+<div class="ttc" id="agroup__tsd_html_gad33f675879923d93b4769f0709e96f31"><div class="ttname"><a href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00082">tsd.hpp:82</a></div></div>
+<div class="ttc" id="astructtsd_1_1filtrage_1_1_c_i_c_config_html"><div class="ttname"><a href="structtsd_1_1filtrage_1_1_c_i_c_config.html">tsd::filtrage::CICConfig</a></div><div class="ttdoc">Paramètres principaux d'un filtre CIC.</div><div class="ttdef"><b>Definition:</b> <a href="filtrage_8hpp_source.html#l00878">filtrage.hpp:879</a></div></div>
+<div class="ttc" id="astructtsd_1_1filtrage_1_1_c_i_c_config_html_a24ea822ab31cb29f7b8f4d3347ddb498"><div class="ttname"><a href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a24ea822ab31cb29f7b8f4d3347ddb498">tsd::filtrage::CICConfig::N</a></div><div class="ttdeci">int N</div><div class="ttdoc">Number of integrators / differentiators.</div><div class="ttdef"><b>Definition:</b> <a href="filtrage_8hpp_source.html#l00883">filtrage.hpp:883</a></div></div>
+<div class="ttc" id="astructtsd_1_1filtrage_1_1_c_i_c_config_html_a44bdc3efbf040f5a37ad23e8cd032f52"><div class="ttname"><a href="structtsd_1_1filtrage_1_1_c_i_c_config.html#a44bdc3efbf040f5a37ad23e8cd032f52">tsd::filtrage::CICConfig::R</a></div><div class="ttdeci">int R</div><div class="ttdoc">Decimation ratio.</div><div class="ttdef"><b>Definition:</b> <a href="filtrage_8hpp_source.html#l00881">filtrage.hpp:881</a></div></div>
+<div class="ttc" id="astructtsd_1_1filtrage_1_1_c_i_c_config_html_aefd0d519ad6014940f38bbe8647870a4"><div class="ttname"><a href="structtsd_1_1filtrage_1_1_c_i_c_config.html#aefd0d519ad6014940f38bbe8647870a4">tsd::filtrage::CICConfig::M</a></div><div class="ttdeci">int M</div><div class="ttdoc">Design parameter (typically M=1)</div><div class="ttdef"><b>Definition:</b> <a href="filtrage_8hpp_source.html#l00885">filtrage.hpp:885</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1fd764bc5939601a8308cd06af4680f2.html">libtsd</a></li><li class="navelem"><a class="el" href="dir_dd667b285fc427e85e8348ee68a1635f.html">core</a></li><li class="navelem"><a class="el" href="dir_dd671b2a9f7939fcba43e934ad9d06be.html">src</a></li><li class="navelem"><a class="el" href="dir_9d35ba6e752ea0005efff1b9a96dc11a.html">filtrage</a></li><li class="navelem"><b>cic.cc</b></li>
+    <li class="footer">Généré le Mercredi 26 Janvier 2022 11:05:09 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

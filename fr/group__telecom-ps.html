@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Mise en forme des symboles</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group__telecom-ps.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Mise en forme des symboles<div class="ingroups"><a class="el" href="group__telecom.html">Télécommunications</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<p>Ce module contient quelques fonctions pour transformer une séquence binaire en un signal continu (ou pseudo-continu, puisque l'on travaille dans le domaine numérique, où les signaux sont discrétisés et échantillonnés avec une fréquence d'échantillonnage finie).</p>
+<p>Les étapes classiques pour cette mise en forme sont les suivantes (voir figure ci-dessous) : création des symboles (constellation) à partir de la séquence binaire (chaque symbole permettant de coder un ou plusieurs bits), sur-échantillonnage (suivant le rapport de sur-échantillonnage souhaité), puis filtrage de mise en forme (Gaussien, RC, moyenne mobile, etc.).</p>
+<p>Les fonctions suivantes sont proposées :</p><ul>
+<li>Encodage (resp. décodage) des symboles : permet de passer d'une chaîne binaire à un ensemble de symboles (réels ou complexes), ou réciproquement. Les fonctions correspondantes sont symmap (codage symbole) et symdemap (décodage symbole).</li>
+<li>Changement de fréquence d'échantillonnage : permet de passer d'une fréquence d'échantillonnage de 1 échantillon / symbole, à n échantillons / symbole, ce qui est nécessaire avant l'étape suivante de filtrage (upsample et downsample pour l'opération inverse)</li>
+<li>Filtrage de mise en forme : différents gabarits de filtres sont possibles : SRRC, RC, Gaussien, NRZ, etc. (psfilter_init et psfilter_process).</li>
+<li>Quelques autres fonctions pour réaliser ces trois étapes simultanément dans des cas spécifiques :<ul>
+<li>Génération d'un signal NRZ (Non Return to Zero) à partir d'un train binaire (nrz),</li>
+<li>Génération d'un signal NRZ à plusieurs niveaux (PAM / Pulse Amplitude Modulation) à partir d'un train binaire (pam). </li>
+</ul>
+</li>
+</ul>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html">tsd::telecom::SpecFiltreMiseEnForme</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spécification d'un filtre de mise en forme.  <a href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:gaf076568a76dd391d02f2a75e5b9b2e20"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaf076568a76dd391d02f2a75e5b9b2e20"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">tsd::telecom::sah</a> (const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, int R)</td></tr>
+<tr class="memdesc:gaf076568a76dd391d02f2a75e5b9b2e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample and hold oversampling.  <a href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaf076568a76dd391d02f2a75e5b9b2e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2cc7fde2e7818c2aaedf07fe4bfa726"><td class="memItemLeft" align="right" valign="top">ArrayXi&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_gaa2cc7fde2e7818c2aaedf07fe4bfa726.html#gaa2cc7fde2e7818c2aaedf07fe4bfa726">tsd::telecom::symmap_binaire</a> (const <a class="el" href="classtsd_1_1telecom_1_1_bit_stream.html">BitStream</a> &amp;x, int k)</td></tr>
+<tr class="memdesc:gaa2cc7fde2e7818c2aaedf07fe4bfa726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion train binaire \(\to\) index.  <a href="group__telecom-ps_gaa2cc7fde2e7818c2aaedf07fe4bfa726.html#gaa2cc7fde2e7818c2aaedf07fe4bfa726">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaa2cc7fde2e7818c2aaedf07fe4bfa726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga82dcdbfba57ce80dd4720736632d52ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_ga82dcdbfba57ce80dd4720736632d52ca.html#ga82dcdbfba57ce80dd4720736632d52ca">tsd::telecom::symdemap_binaire</a> (<a class="el" href="classtsd_1_1telecom_1_1_bit_stream.html">BitStream</a> &amp;bs, const ArrayXi &amp;x, int k)</td></tr>
+<tr class="memdesc:ga82dcdbfba57ce80dd4720736632d52ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion index \(\to\) train binaire.  <a href="group__telecom-ps_ga82dcdbfba57ce80dd4720736632d52ca.html#ga82dcdbfba57ce80dd4720736632d52ca">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga82dcdbfba57ce80dd4720736632d52ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3a1d890f90e8a943d05c4e4ee659c17e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_ga3a1d890f90e8a943d05c4e4ee659c17e.html#ga3a1d890f90e8a943d05c4e4ee659c17e">tsd::telecom::diff_encode</a> (<a class="el" href="classtsd_1_1telecom_1_1_bit_stream.html">BitStream</a> &amp;y, const <a class="el" href="classtsd_1_1telecom_1_1_bit_stream.html">BitStream</a> &amp;x)</td></tr>
+<tr class="memdesc:ga3a1d890f90e8a943d05c4e4ee659c17e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Differential encoder (polynomial = \(1/(1+X)\)), MSB first.  <a href="group__telecom-ps_ga3a1d890f90e8a943d05c4e4ee659c17e.html#ga3a1d890f90e8a943d05c4e4ee659c17e">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga3a1d890f90e8a943d05c4e4ee659c17e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga83ca234cb2b94345690bcd1eb768e8f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_ga83ca234cb2b94345690bcd1eb768e8f7.html#ga83ca234cb2b94345690bcd1eb768e8f7">tsd::telecom::diff_decode</a> (<a class="el" href="classtsd_1_1telecom_1_1_bit_stream.html">BitStream</a> &amp;y, const <a class="el" href="classtsd_1_1telecom_1_1_bit_stream.html">BitStream</a> &amp;x)</td></tr>
+<tr class="memdesc:ga83ca234cb2b94345690bcd1eb768e8f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Differential decoder (polynomial = 1+X), MSB first.  <a href="group__telecom-ps_ga83ca234cb2b94345690bcd1eb768e8f7.html#ga83ca234cb2b94345690bcd1eb768e8f7">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga83ca234cb2b94345690bcd1eb768e8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab1635c0333f3064d150d4ff54a56ae91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_gab1635c0333f3064d150d4ff54a56ae91.html#gab1635c0333f3064d150d4ff54a56ae91">tsd::telecom::decode_hard</a> (<a class="el" href="classtsd_1_1telecom_1_1_bit_stream.html">BitStream</a> &amp;y, const ArrayXf &amp;llr)</td></tr>
+<tr class="memdesc:gab1635c0333f3064d150d4ff54a56ae91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hard decoding of LLR data.  <a href="group__telecom-ps_gab1635c0333f3064d150d4ff54a56ae91.html#gab1635c0333f3064d150d4ff54a56ae91">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gab1635c0333f3064d150d4ff54a56ae91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Lundi 31 Janvier 2022 09:47:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Transformée de Fourier</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="a02024.html"><span>Installation</span></a></li>
+      <li><a href="a02025.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('a01192.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#groups">Sous-modules</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Transformée de Fourier</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<p><img src="cs-04.png" alt="" width="400px" style="float: right; margin: 10px" class="inline"/></p>
+<p>Ce module regroupe un ensemble de fonctions basées sur la Tranformée de Fourier Discrète (TFD).</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;tsd/fourier.hpp&quot;</span></div>
+</div><!-- fragment --> <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+Sous-modules</h2></td></tr>
+<tr class="memitem:a01190"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01190.html">Corrélation et délais temporels</a></td></tr>
+<tr class="memdesc:a01190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrélation et délais temporels. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01191"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01191.html">Estimation spectrale</a></td></tr>
+<tr class="memdesc:a01191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimation spectrale. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01410.html">tsd::fourier::FiltreFFTConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration pour un filtre FFT (voir <a class="el" href="a01192_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">filtre_fft()</a>).  <a href="a01410.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:gaa012c409a050fb19c6950108ed710493"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; FFTPlanAbstrait &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01192_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">tsd::fourier::creation_fft_plan</a> (int n=-1, bool avant=true, bool normaliser=true)</td></tr>
+<tr class="memdesc:gaa012c409a050fb19c6950108ed710493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT).  <a href="a01192_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaa012c409a050fb19c6950108ed710493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa926a5297dc5da12d31075248bf067cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01722.html">FiltreGen</a>&lt; float, <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01192_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">tsd::fourier::creation_rfft_plan</a> (int n)</td></tr>
+<tr class="memdesc:gaa926a5297dc5da12d31075248bf067cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un plan de calcul FFT pour des signaux réels (pour calculer efficacement plusieurs FFT).  <a href="a01192_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaa926a5297dc5da12d31075248bf067cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga12477679c85009ab019ca46622f8b81b"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:ga12477679c85009ab019ca46622f8b81b"><td class="memTemplItemLeft" align="right" valign="top">ArrayXcf&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01192_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">tsd::fourier::rfft</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;x)</td></tr>
+<tr class="memdesc:ga12477679c85009ab019ca46622f8b81b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de la FFT d'un signal réel.  <a href="a01192_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga12477679c85009ab019ca46622f8b81b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad03258343d19a0333615f67e009faf18"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gad03258343d19a0333615f67e009faf18"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01192_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">tsd::fourier::reechan_freq</a> (const <a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, float ratio)</td></tr>
+<tr class="memdesc:gad03258343d19a0333615f67e009faf18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ré-échantillonage zéro phase à partir de la TFD.  <a href="a01192_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gad03258343d19a0333615f67e009faf18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab72b5f60cadc9a0efb5ee5a376697381"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:gab72b5f60cadc9a0efb5ee5a376697381"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01192_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">tsd::fourier::fft</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;x)</td></tr>
+<tr class="memdesc:gab72b5f60cadc9a0efb5ee5a376697381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transformée de Fourier Discrète (TFD) rapide.  <a href="a01192_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gab72b5f60cadc9a0efb5ee5a376697381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e5cbffa8b99510201aea3819fecc6b3"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:ga7e5cbffa8b99510201aea3819fecc6b3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01192_ga7e5cbffa8b99510201aea3819fecc6b3.html#ga7e5cbffa8b99510201aea3819fecc6b3">tsd::fourier::ifft</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;X)</td></tr>
+<tr class="memdesc:ga7e5cbffa8b99510201aea3819fecc6b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transformée de Fourier Discrète Inverse.  <a href="a01192_ga7e5cbffa8b99510201aea3819fecc6b3.html#ga7e5cbffa8b99510201aea3819fecc6b3">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga7e5cbffa8b99510201aea3819fecc6b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74e265dfa6548e07e72405b159c0be00"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:ga74e265dfa6548e07e72405b159c0be00"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01176.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; typename derived::Scalar &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01192_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">tsd::fourier::fftshift</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;X)</td></tr>
+<tr class="memdesc:ga74e265dfa6548e07e72405b159c0be00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décalage du spectre de manière à centrer les basses fréquences au milieu.  <a href="a01192_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga74e265dfa6548e07e72405b159c0be00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78e355deaffb7a866e18548497ec8e16"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:ga78e355deaffb7a866e18548497ec8e16"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01192_ga78e355deaffb7a866e18548497ec8e16.html#ga78e355deaffb7a866e18548497ec8e16">tsd::fourier::force_csym</a> (Eigen::ArrayBase&lt; derived &gt; &amp;X)</td></tr>
+<tr class="memdesc:ga78e355deaffb7a866e18548497ec8e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifie un vecteur de manière à ce qu'il soit conjugé symétrique.  <a href="a01192_ga78e355deaffb7a866e18548497ec8e16.html#ga78e355deaffb7a866e18548497ec8e16">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga78e355deaffb7a866e18548497ec8e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0c01b0b59ae01c0957cfe30a3b92cb5b"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="a01176.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="a01726.html">Filtre</a>&lt; <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, <a class="el" href="a01410.html">FiltreFFTConfig</a> &gt; &gt;, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01192_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">tsd::fourier::filtre_fft</a> (const <a class="el" href="a01410.html">FiltreFFTConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:ga0c01b0b59ae01c0957cfe30a3b92cb5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add).  <a href="a01192_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga0c01b0b59ae01c0957cfe30a3b92cb5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5e6d7f4a144aa0528c4927576546f8f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01192_ga5e6d7f4a144aa0528c4927576546f8f3.html#ga5e6d7f4a144aa0528c4927576546f8f3">tsd::fourier::ola_complexite</a> (int M, int Ne, float &amp;C, int &amp;Nf, int &amp;Nz)</td></tr>
+<tr class="memdesc:ga5e6d7f4a144aa0528c4927576546f8f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de la complexité d'un filtre OLA, par échantillon d'entrée, en FLOPS.  <a href="a01192_ga5e6d7f4a144aa0528c4927576546f8f3.html#ga5e6d7f4a144aa0528c4927576546f8f3">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga5e6d7f4a144aa0528c4927576546f8f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad0c550d88531644e86ba75858f12605d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01192_gad0c550d88531644e86ba75858f12605d.html#gad0c550d88531644e86ba75858f12605d">tsd::fourier::ola_complexite_optimise</a> (int M, float &amp;C, int &amp;Nf, int &amp;Nz, int &amp;Ne)</td></tr>
+<tr class="memdesc:gad0c550d88531644e86ba75858f12605d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul des paramètres optimaux pour un filtre par OLA.  <a href="a01192_gad0c550d88531644e86ba75858f12605d.html#gad0c550d88531644e86ba75858f12605d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gad0c550d88531644e86ba75858f12605d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7d3004b52af85269a7c5ee265b392642"><td class="memItemLeft" align="right" valign="top">ArrayXcf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01192_ga7d3004b52af85269a7c5ee265b392642.html#ga7d3004b52af85269a7c5ee265b392642">tsd::fourier::czt</a> (<a class="el" href="a01176.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, int m, <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> W, <a class="el" href="a01176.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> z0=1.0f)</td></tr>
+<tr class="memdesc:ga7d3004b52af85269a7c5ee265b392642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transformée en z-chirp.  <a href="a01192_ga7d3004b52af85269a7c5ee265b392642.html#ga7d3004b52af85269a7c5ee265b392642">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga7d3004b52af85269a7c5ee265b392642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Vendredi 28 Janvier 2022 16:23:17 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

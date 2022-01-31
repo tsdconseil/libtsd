@@ -1,0 +1,515 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd:  Fichier source de tsd/fourier.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('fourier_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">fourier.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;tsd/tsd.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;tsd/filtrage.hpp&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;tsd/moniteur-cpu.hpp&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespacetsd_1_1fourier.html">   12</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacetsd_1_1fourier.html">tsd::fourier</a></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">struct </span>FFTPlanAbstrait</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> configure(<span class="keywordtype">int</span> n, <span class="keywordtype">bool</span> avant, <span class="keywordtype">bool</span> normalize = <span class="keyword">true</span>) = 0;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> step(<span class="keyword">const</span> Eigen::Ref&lt;const ArrayXcf&gt; x, ArrayXcf &amp;y, <span class="keywordtype">bool</span> avant = <span class="keyword">true</span>) = 0;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  };</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">extern</span> std::function&lt;sptr&lt;FFTPlanAbstrait&gt;()&gt; fftplan_defaut;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="group__fourier_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">   62</a></span>&#160;  <span class="keyword">extern</span> <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;FFTPlanAbstrait&gt;</a> <a class="code" href="group__fourier_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">creation_fft_plan</a>(<span class="keywordtype">int</span> n = -1, <span class="keywordtype">bool</span> avant = <span class="keyword">true</span>, <span class="keywordtype">bool</span> normaliser = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="group__fourier_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">   94</a></span>&#160;<span class="keyword">extern</span> <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;FiltreGen&lt;float, cfloat&gt;</a>&gt; <a class="code" href="group__fourier_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">creation_rfft_plan</a>(<span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> derived&gt;</div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">  107</a></span>&#160;ArrayXcf <a class="code" href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">rfft</a>(<span class="keyword">const</span> Eigen::ArrayBase&lt;derived&gt; &amp;x)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;{</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  static_assert(!est_complexe&lt;typename derived::Scalar&gt;(), <span class="stringliteral">&quot;RFFT : le vecteur d&#39;entrée ne peut pas être complexe.&quot;</span>);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keyword">auto</span> plan = <a class="code" href="group__fourier_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">tsd::fourier::creation_rfft_plan</a>(x.rows());</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="keywordflow">return</span> plan-&gt;step(x);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">  135</a></span>&#160;  <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;T&gt;</a> <a class="code" href="group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">reechan_freq</a>(<span class="keyword">const</span> <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;T&gt;</a> &amp;x, <span class="keywordtype">float</span> ratio);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> derived&gt;</div>
+<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">  158</a></span>&#160;<span class="keyword">auto</span> <a class="code" href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">fft</a>(<span class="keyword">const</span> Eigen::ArrayBase&lt;derived&gt; &amp;x)</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;{</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keywordflow">if</span> constexpr(est_complexe&lt;typename derived::Scalar&gt;())</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">auto</span> plan = <a class="code" href="group__fourier_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">tsd::fourier::creation_fft_plan</a>(x.rows());</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    ArrayXcf x2 = x, y;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    plan-&gt;step(x2, y, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">return</span> y;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  {</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">rfft</a>(x);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  }</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;}</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> derived&gt;</div>
+<div class="line"><a name="l00197"></a><span class="lineno"><a class="line" href="group__fourier_ga7e5cbffa8b99510201aea3819fecc6b3.html#ga7e5cbffa8b99510201aea3819fecc6b3">  197</a></span>&#160;<span class="keyword">auto</span> <a class="code" href="group__fourier_ga7e5cbffa8b99510201aea3819fecc6b3.html#ga7e5cbffa8b99510201aea3819fecc6b3">ifft</a>(<span class="keyword">const</span> Eigen::ArrayBase&lt;derived&gt; &amp;X)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;{</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="keyword">auto</span> plan = <a class="code" href="group__fourier_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">tsd::fourier::creation_fft_plan</a>(X.rows(), <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  ArrayXcf X2 = X, Y;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  plan-&gt;step(X2, Y, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="keywordflow">return</span> Y;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> derived&gt;</div>
+<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="group__fourier_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">  234</a></span>&#160;<a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;typename derived::Scalar&gt;</a> <a class="code" href="group__fourier_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">fftshift</a>(<span class="keyword">const</span> Eigen::ArrayBase&lt;derived&gt; &amp;X)</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;{</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keyword">auto</span> n = X.rows();</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;typename derived::Scalar&gt;</a> res = <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;typename derived::Scalar&gt;::Zero</a>(n);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  <span class="keywordflow">if</span>((n &amp; 1) == 0)</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  {</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    res.tail(n/2) = X.head(n/2);</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    res.head(n/2) = X.tail(n/2);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  }</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  {</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    res.tail(1+n/2) = X.head(1+n/2);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    res.head(n/2)   = X.tail(n/2);</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  }</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;  <span class="keywordflow">return</span> res;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;}</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> derived&gt;</div>
+<div class="line"><a name="l00267"></a><span class="lineno"><a class="line" href="group__fourier_ga78e355deaffb7a866e18548497ec8e16.html#ga78e355deaffb7a866e18548497ec8e16">  267</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="group__fourier_ga78e355deaffb7a866e18548497ec8e16.html#ga78e355deaffb7a866e18548497ec8e16">force_csym</a>(Eigen::ArrayBase&lt;derived&gt; &amp;X)</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;{</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  <span class="comment">// Rien à faire dans ce cas</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  <span class="keywordflow">if</span> constexpr (!est_complexe&lt;typename derived::Scalar&gt;())</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  {</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keywordtype">int</span> n = X.rows();</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    X(0).imag(0);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordflow">if</span>((n &amp; 1) == 0)</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      X(n/2).imag(0);</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;      X(n/2+1) = conj(X(n/2));</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    X.tail(n/2-1) = X.segment(1,n/2-1).reverse().conjugate();</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;  }</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;}</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  <span class="comment">// A SUPPRIMER</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="keyword">extern</span> ArrayXf coherence(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keyword">const</span> ArrayXcf &amp;y);</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160; </div>
+<div class="line"><a name="l00309"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html">  309</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html">FiltreFFTConfig</a></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;{</div>
+<div class="line"><a name="l00312"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a7713632f5230fc4685b21b8d1d402fbe">  312</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a7713632f5230fc4685b21b8d1d402fbe">dim_blocs_temporel</a> = 0;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00315"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#afa140b1932bcdcf3c159fb31d9d0c395">  315</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#afa140b1932bcdcf3c159fb31d9d0c395">nb_zeros_min</a> = 0;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
+<div class="line"><a name="l00319"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#abaefabb7283538aa961732203b8cb6f9">  319</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#abaefabb7283538aa961732203b8cb6f9">avec_fenetrage</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
+<div class="line"><a name="l00323"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a35857c92e8b81ded86be8c44acb6950a">  323</a></span>&#160;  std::function&lt;void (ArrayXcf &amp;)&gt; <a class="code" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a35857c92e8b81ded86be8c44acb6950a">traitement_freq</a>;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;};</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
+<div class="line"><a name="l00375"></a><span class="lineno"><a class="line" href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">  375</a></span>&#160;<span class="keyword">extern</span> std::tuple&lt;sptr&lt;Filtre&lt;cfloat, cfloat, FiltreFFTConfig&gt;&gt;, <span class="keywordtype">int</span>&gt; <a class="code" href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">filtre_fft</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html">FiltreFFTConfig</a> &amp;config);</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160; </div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
+<div class="line"><a name="l00391"></a><span class="lineno"><a class="line" href="group__fourier_ga5e6d7f4a144aa0528c4927576546f8f3.html#ga5e6d7f4a144aa0528c4927576546f8f3">  391</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group__fourier_ga5e6d7f4a144aa0528c4927576546f8f3.html#ga5e6d7f4a144aa0528c4927576546f8f3">ola_complexite</a>(<span class="keywordtype">int</span> M, <span class="keywordtype">int</span> Ne, <span class="keywordtype">float</span> &amp;C, <span class="keywordtype">int</span> &amp;Nf, <span class="keywordtype">int</span> &amp;Nz);</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
+<div class="line"><a name="l00409"></a><span class="lineno"><a class="line" href="group__fourier_gad0c550d88531644e86ba75858f12605d.html#gad0c550d88531644e86ba75858f12605d">  409</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group__fourier_gad0c550d88531644e86ba75858f12605d.html#gad0c550d88531644e86ba75858f12605d">ola_complexite_optimise</a>(<span class="keywordtype">int</span> M, <span class="keywordtype">float</span> &amp;C, <span class="keywordtype">int</span> &amp;Nf, <span class="keywordtype">int</span> &amp;Nz, <span class="keywordtype">int</span> &amp;Ne);</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="comment">// Création d&#39;un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add) - signaux réels.</span></div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="comment">// *</span></div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="comment">// *  &lt;h3&gt;Création d&#39;un filtre fréquentiel&lt;/h3&gt;</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="comment">// *</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="comment">// *  Ce filtre est identique à @ref filtre_fft(), à l&#39;exception du fait que les types d&#39;entrées / sorties sont réels (implémentation plus efficace).</span></div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="comment">// *</span></div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="comment">// *  @sa filtre_fft()</span></div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="comment">//extern std::tuple&lt;sptr&lt;Filtre&lt;float, float, FiltreFFTConfig&gt;&gt;, int&gt; filtre_rfft(const FiltreFFTConfig &amp;config);</span></div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160; </div>
+<div class="line"><a name="l00435"></a><span class="lineno"><a class="line" href="group__fourier_ga7d3004b52af85269a7c5ee265b392642.html#ga7d3004b52af85269a7c5ee265b392642">  435</a></span>&#160;<span class="keyword">extern</span> ArrayXcf <a class="code" href="group__fourier_ga7d3004b52af85269a7c5ee265b392642.html#ga7d3004b52af85269a7c5ee265b392642">czt</a>(<a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, <span class="keywordtype">int</span> m, <a class="code" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> W, <a class="code" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> z0 = 1.0f);</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160; </div>
+<div class="line"><a name="l00459"></a><span class="lineno"><a class="line" href="group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a">  459</a></span>&#160;<span class="keyword">extern</span> std::tuple&lt;ArrayXf, ArrayXcf&gt; <a class="code" href="group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a">ccorr</a>(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keyword">const</span> ArrayXcf &amp;y = ArrayXcf());</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160; </div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
+<div class="line"><a name="l00497"></a><span class="lineno"><a class="line" href="group__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9.html#ga905acbf2d7cee38e09c735dee74aa8a9">  497</a></span>&#160;<span class="keyword">extern</span> std::tuple&lt;ArrayXf, ArrayXcf&gt; <a class="code" href="group__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9.html#ga905acbf2d7cee38e09c735dee74aa8a9">xcorr</a>(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keyword">const</span> ArrayXcf &amp;y = ArrayXcf(), <span class="keywordtype">int</span> m = -1);</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160; </div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160; </div>
+<div class="line"><a name="l00516"></a><span class="lineno"><a class="line" href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">  516</a></span>&#160;<span class="keyword">extern</span> std::tuple&lt;ArrayXf, ArrayXcf&gt; <a class="code" href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">xcorrb</a>(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keyword">const</span> ArrayXcf &amp;y = ArrayXcf(), <span class="keywordtype">int</span> m = -1);</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160; </div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T = <span class="keywordtype">float</span>&gt;</div>
+<div class="line"><a name="l00547"></a><span class="lineno"><a class="line" href="group__fourier-corr_gab31fd0f19214ade5db96a932bc0da19a.html#gab31fd0f19214ade5db96a932bc0da19a">  547</a></span>&#160;  <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;T&gt;</a> <a class="code" href="group__fourier-corr_gab31fd0f19214ade5db96a932bc0da19a.html#gab31fd0f19214ade5db96a932bc0da19a">delais</a>(<span class="keyword">const</span> <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;T&gt;</a> &amp;x, <span class="keywordtype">float</span> tau);</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160; </div>
+<div class="line"><a name="l00551"></a><span class="lineno"><a class="line" href="group__fourier-corr.html#ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23">  551</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="group__fourier-corr.html#ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23">estimation_delais_entier</a>(<a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, <a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> y, <span class="keywordtype">float</span> &amp;score);</div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160; </div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160; </div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00556"></a><span class="lineno"><a class="line" href="group__fourier-corr.html#gaee2458dd42bc6964ddf33354478e5bb6">  556</a></span>&#160;  std::tuple&lt;Vecteur&lt;T&gt;, <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;T&gt;</a>, int, <span class="keywordtype">float</span>&gt; <a class="code" href="group__fourier-corr.html#gaee2458dd42bc6964ddf33354478e5bb6">aligne_entier</a>(<span class="keyword">const</span> <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;T&gt;</a> &amp;x, <span class="keyword">const</span> <a class="code" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur&lt;T&gt;</a> &amp;y);</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160; </div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160; </div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160; </div>
+<div class="line"><a name="l00561"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config.html">  561</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structtsd_1_1fourier_1_1_detecteur_config.html">DetecteurConfig</a></div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;{</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;  <span class="comment">/* @brief Nombre minimum d&#39;échantillons / par bloc temporel (si 0 : déterminé automatiquement). */</span></div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;  uint32_t Ne = 0;</div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160; </div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;  <span class="comment">/* @brief Motif à détecter */</span></div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;  ArrayXcf motif;</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160; </div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;  <span class="comment">/* @brief Seuil de détection, entre 0 et 1. */</span></div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;  <span class="keywordtype">float</span> seuil = 0.5;</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160; </div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;  <span class="keywordtype">bool</span> debug_actif = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160; </div>
+<div class="line"><a name="l00575"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config.html#a2a6c612f1d5f58b4b225835703ae9feb">  575</a></span>&#160;  <span class="keyword">enum</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config.html#a2a6c612f1d5f58b4b225835703ae9feb">Mode</a></div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;  {</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;    MODE_OLA = 0,</div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;    MODE_RIF = 1</div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;  } mode = MODE_OLA;</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160; </div>
+<div class="line"><a name="l00582"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html">  582</a></span>&#160;  <span class="keyword">struct </span><a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html">Detection</a></div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;  {</div>
+<div class="line"><a name="l00590"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection_af1dda7a5d8a4919877d7dc9de396b5d9.html#af1dda7a5d8a4919877d7dc9de396b5d9">  590</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection_af1dda7a5d8a4919877d7dc9de396b5d9.html#af1dda7a5d8a4919877d7dc9de396b5d9">position</a>;</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160; </div>
+<div class="line"><a name="l00593"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a3fa32125364f67974f3b26bcd913ecf2">  593</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a3fa32125364f67974f3b26bcd913ecf2">position_prec</a>;</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160; </div>
+<div class="line"><a name="l00596"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a085b1347ac0965d28462471f2ec45725">  596</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a085b1347ac0965d28462471f2ec45725">score</a>;</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160; </div>
+<div class="line"><a name="l00599"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a5f35185e8cb6110f9971a41799c32875">  599</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a5f35185e8cb6110f9971a41799c32875">gain</a>;</div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160; </div>
+<div class="line"><a name="l00602"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#afd8a8c9652e24e107c02295c7305dbde">  602</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#afd8a8c9652e24e107c02295c7305dbde">θ</a>;</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160; </div>
+<div class="line"><a name="l00605"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#acad6ac67ce180c9e9d6828ca49902f01">  605</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#acad6ac67ce180c9e9d6828ca49902f01">SNR_dB</a>;</div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160; </div>
+<div class="line"><a name="l00608"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a3d01d6fc524998e6a5f3f4503515a359">  608</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a3d01d6fc524998e6a5f3f4503515a359">σ_noise</a>;</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;  };</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160; </div>
+<div class="line"><a name="l00612"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur_config.html#a4456a0db0e1ecfa0b11a296028c57c70">  612</a></span>&#160;  std::function&lt;void (<span class="keyword">const</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html">Detection</a> &amp;det)&gt; <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config.html#a4456a0db0e1ecfa0b11a296028c57c70">gere_detection</a>;</div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160; </div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;  <span class="keywordtype">bool</span> calculer_signal_correlation = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;};</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160; </div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;<span class="keyword">extern</span> std::ostream &amp;operator &lt;&lt;(std::ostream &amp;os, <span class="keyword">const</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html">DetecteurConfig::Detection</a> &amp;det);</div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160; </div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160; </div>
+<div class="line"><a name="l00621"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_detecteur.html">  621</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structtsd_1_1fourier_1_1_detecteur.html">Detecteur</a>: <a class="code" href="structtsd_1_1_filtre.html">Filtre</a>&lt;cfloat, float, DetecteurConfig&gt;</div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;{</div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;  <span class="keyword">virtual</span> MoniteursStats moniteurs() = 0;</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;};</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160; </div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;<span class="keyword">extern</span> <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;Detecteur&gt;</a></div>
+<div class="line"><a name="l00663"></a><span class="lineno"><a class="line" href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">  663</a></span>&#160;  <a class="code" href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">détecteur_création</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config.html">DetecteurConfig</a> &amp;config = <a class="code" href="structtsd_1_1fourier_1_1_detecteur_config.html">DetecteurConfig</a>());</div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160; </div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160; </div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160; </div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;<span class="comment">// Alignement de deux signaux suivant un délais variable</span></div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;<span class="comment">//extern sptr&lt;ProcesseurConfigurable&lt;cfloat, cfloat, int&gt;&gt; creation_aligneur();</span></div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160; </div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;<span class="comment">// ?</span></div>
+<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;<span class="keyword">struct </span>AlignementSignal</div>
+<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;{</div>
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;  AlignementSignal();</div>
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160; </div>
+<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;  <span class="keywordtype">int</span> configure(<span class="keywordtype">int</span> N);</div>
+<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;  <span class="keywordtype">void</span> step(<span class="keyword">const</span> ArrayXXcf &amp;x, <span class="keyword">const</span> ArrayXXcf &amp;y, <span class="keywordtype">int</span> <a class="code" href="group__fourier-corr_gab31fd0f19214ade5db96a932bc0da19a.html#gab31fd0f19214ade5db96a932bc0da19a">delais</a>);</div>
+<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160; </div>
+<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;  <span class="keyword">struct </span>Impl;</div>
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;  <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;Impl&gt;</a> impl;</div>
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;};</div>
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160; </div>
+<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160; </div>
+<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160; </div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160; </div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;<span class="comment">// Calcul des fréquences normalisées associée à une psd</span></div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;<span class="keyword">extern</span> ArrayXf psd_freqs(<span class="keywordtype">int</span> n, <span class="keywordtype">bool</span> complexe = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160; </div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> derived&gt;</div>
+<div class="line"><a name="l00720"></a><span class="lineno"><a class="line" href="group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d">  720</a></span>&#160;std::tuple&lt;ArrayXf, ArrayXf&gt; <a class="code" href="group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d">psd</a>(<span class="keyword">const</span> Eigen::ArrayBase&lt;derived&gt; &amp;x)</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;{</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;  ArrayXf fen = <a class="code" href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">tsd::filtrage::fenetre</a>(<span class="stringliteral">&quot;hn&quot;</span>, x.rows(), <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;  <span class="keyword">auto</span> xf = x * fen;</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160; </div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;  <span class="keywordflow">if</span> constexpr(est_complexe&lt;typename derived::Scalar&gt;())</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;  {</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    ArrayXf Y = 10.0f * (<a class="code" href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">fft</a>(xf)).abs2().log10();</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;    <span class="keywordflow">return</span> {psd_freqs(x.rows(), <span class="keyword">true</span>), <a class="code" href="group__fourier_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">fftshift</a>(Y)};</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;  }</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;  {</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;    ArrayXf Y = 10.0f * (<a class="code" href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">rfft</a>(xf)).abs2().log10();</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    <span class="keywordflow">return</span> {psd_freqs(x.rows(), <span class="keyword">false</span>), Y.head(Y.rows() / 2).eval()};</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;  }</div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;}</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160; </div>
+<div class="line"><a name="l00756"></a><span class="lineno"><a class="line" href="group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897">  756</a></span>&#160;<span class="keyword">extern</span> std::tuple&lt;ArrayXf, ArrayXf&gt; <a class="code" href="group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897">psd_welch</a>(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keywordtype">int</span> N, <span class="keyword">const</span> std::string fen = <span class="stringliteral">&quot;hn&quot;</span>);</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160; </div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160; </div>
+<div class="line"><a name="l00796"></a><span class="lineno"><a class="line" href="group__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e.html#gaf091fdd9c000a6a6d341fb8016df373e">  796</a></span>&#160;<span class="keyword">extern</span> std::tuple&lt;ArrayXf, ArrayXf&gt; <a class="code" href="group__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e.html#gaf091fdd9c000a6a6d341fb8016df373e">psd_subspace</a>(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keywordtype">int</span> Ns, <span class="keywordtype">int</span> Nf = 1024, <span class="keywordtype">int</span> m = 0);<span class="comment">//, const SubSpaceSpectrumConfig &amp;config);</span></div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160; </div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160; </div>
+<div class="line"><a name="l00800"></a><span class="lineno"><a class="line" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">  800</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">FreqEstimMethode</a></div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;{</div>
+<div class="line"><a name="l00803"></a><span class="lineno"><a class="line" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776">  803</a></span>&#160;  <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776">FFT</a>,</div>
+<div class="line"><a name="l00805"></a><span class="lineno"><a class="line" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">  805</a></span>&#160;  <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">CANDAN2</a>,</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;  <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b">QUADRATIC</a></div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;  <span class="comment">// TODO</span></div>
+<div class="line"><a name="l00809"></a><span class="lineno"><a class="line" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b">  809</a></span>&#160;};</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160; </div>
+<div class="line"><a name="l00827"></a><span class="lineno"><a class="line" href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">  827</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">float</span> <a class="code" href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">freqestim</a>(<a class="code" href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">IArrayXcf</a> x, <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">FreqEstimMethode</a> m = <a class="code" href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">CANDAN2</a>);</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160; </div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160; </div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160; </div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160; </div>
+<div class="line"><a name="l00856"></a><span class="lineno"><a class="line" href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181">  856</a></span>&#160;<span class="keyword">extern</span> <span class="keywordtype">float</span> <a class="code" href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181">goertzel</a>(<span class="keyword">const</span> ArrayXf &amp;x, <span class="keywordtype">float</span> frequence);</div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160; </div>
+<div class="line"><a name="l00887"></a><span class="lineno"><a class="line" href="group__fourier-freq_ga1837cf83280649d38997349b565b7e48.html#ga1837cf83280649d38997349b565b7e48">  887</a></span>&#160;<span class="keyword">extern</span> <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;FiltreGen&lt;float&gt;</a>&gt; <a class="code" href="group__fourier-freq_ga1837cf83280649d38997349b565b7e48.html#ga1837cf83280649d38997349b565b7e48">filtre_goertzel</a>(<span class="keywordtype">float</span> frequence, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160; </div>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160; </div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160; </div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160; </div>
+<div class="line"><a name="l00893"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html">  893</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html">SpectrumConfig</a></div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;{</div>
+<div class="line"><a name="l00896"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a89a9409e1d9c8217ca7881259ff7625c">  896</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a89a9409e1d9c8217ca7881259ff7625c">BS</a> = 1024;</div>
+<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160; </div>
+<div class="line"><a name="l00899"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a4116b993770515898c75589db23ef00a">  899</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a4116b993770515898c75589db23ef00a">nmeans</a> = 10;</div>
+<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160; </div>
+<div class="line"><a name="l00902"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a4721e82ca6e80d22cd503bf4cddf11db">  902</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a4721e82ca6e80d22cd503bf4cddf11db">nsubs</a>  = 1;</div>
+<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160; </div>
+<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;  <span class="keyword">struct</span></div>
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;  {</div>
+<div class="line"><a name="l00908"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a51e509c01cd24771a4b2f9aac0350fd3">  908</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a51e509c01cd24771a4b2f9aac0350fd3">active</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160; </div>
+<div class="line"><a name="l00911"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#af699e1a07f4161694a0e6725a9a61599">  911</a></span>&#160;    <span class="keywordtype">int</span>  <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#af699e1a07f4161694a0e6725a9a61599">step</a>   = 1024;</div>
+<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160; </div>
+<div class="line"><a name="l00914"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#af3f37e767288d71510d8f82e6a622c9f">  914</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#af3f37e767288d71510d8f82e6a622c9f">masque_bf</a> = 0;</div>
+<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160; </div>
+<div class="line"><a name="l00917"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a06d5b3f04f1e3130d5a34fd47bb8841b">  917</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a06d5b3f04f1e3130d5a34fd47bb8841b">masque_hf</a> = 0;</div>
+<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160; </div>
+<div class="line"><a name="l00919"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a52fc7c322709aeacdc10adb685f9dee0">  919</a></span>&#160;  } <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a52fc7c322709aeacdc10adb685f9dee0">sweep</a>;</div>
+<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160; </div>
+<div class="line"><a name="l00922"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a6fac391aabe4ae408a85519c4f7c2aa1">  922</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a6fac391aabe4ae408a85519c4f7c2aa1">Nf</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160; </div>
+<div class="line"><a name="l00925"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a26994e3c18012dd15b4d50090b38427d">  925</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a26994e3c18012dd15b4d50090b38427d">Ns</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160; </div>
+<div class="line"><a name="l00928"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a8c678239bcb0d052f48361869dfe1256">  928</a></span>&#160;  tsd::filtrage::Fenetre <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a8c678239bcb0d052f48361869dfe1256">fenetre</a> = tsd::filtrage::Fenetre::HANN;</div>
+<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160; </div>
+<div class="line"><a name="l00931"></a><span class="lineno"><a class="line" href="structtsd_1_1fourier_1_1_spectrum_config.html#a7a44befe10a27e0c15739fb69a1b9730">  931</a></span>&#160;  <a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;FFTPlanAbstrait&gt;</a> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html#a7a44befe10a27e0c15739fb69a1b9730">plan</a>;</div>
+<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;};</div>
+<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160; </div>
+<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160; </div>
+<div class="line"><a name="l00936"></a><span class="lineno"><a class="line" href="group__fourier-freq.html#gaeb7a9e682ed2434217a717c2e9ea7404">  936</a></span>&#160;<a class="code" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr&lt;Filtre&lt;cfloat,float,SpectrumConfig&gt;</a>&gt; <a class="code" href="group__fourier-freq.html#gaeb7a9e682ed2434217a717c2e9ea7404">rt_spectrum</a>(<span class="keyword">const</span> <a class="code" href="structtsd_1_1fourier_1_1_spectrum_config.html">SpectrumConfig</a> &amp;config);</div>
+<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160; </div>
+<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;} <span class="comment">// namespace tsd::fourier</span></div>
+<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160; </div>
+<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;<span class="keyword">namespace </span>tsd::tf {</div>
+<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160; </div>
+<div class="line"><a name="l00953"></a><span class="lineno"><a class="line" href="group__temps-frequence_gaf0b8b52439bc9d21da4c16aea43f2eae.html#gaf0b8b52439bc9d21da4c16aea43f2eae">  953</a></span>&#160;<span class="keyword">extern</span> ArrayXXf <a class="code" href="group__temps-frequence_gaf0b8b52439bc9d21da4c16aea43f2eae.html#gaf0b8b52439bc9d21da4c16aea43f2eae">periodogramme_tfd</a>(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160; </div>
+<div class="line"><a name="l00966"></a><span class="lineno"><a class="line" href="group__temps-frequence_ga99e5f0233a08f32dfd2535666a4d93b9.html#ga99e5f0233a08f32dfd2535666a4d93b9">  966</a></span>&#160;<span class="keyword">extern</span> ArrayXXf <a class="code" href="group__temps-frequence_ga99e5f0233a08f32dfd2535666a4d93b9.html#ga99e5f0233a08f32dfd2535666a4d93b9">periodogramme_cqt</a>(<span class="keyword">const</span> ArrayXf &amp;x, <span class="keywordtype">float</span> fe, <span class="keywordtype">float</span> fmin, <span class="keywordtype">float</span> fmax, <span class="keywordtype">float</span> γ, <span class="keywordtype">float</span> ofs);</div>
+<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160; </div>
+<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;<span class="comment">/* @} */</span></div>
+<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160; </div>
+<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;}</div>
+<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160; </div>
+<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160; </div>
+<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160; </div>
+<div class="ttc" id="agroup__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc_html_gadb70c5a9ca39183513192abc5b4441fc"><div class="ttname"><a href="group__filtrage-fenetres_gadb70c5a9ca39183513192abc5b4441fc.html#gadb70c5a9ca39183513192abc5b4441fc">tsd::filtrage::fenetre</a></div><div class="ttdeci">ArrayXf fenetre(const std::string &amp;type, int n, bool symetrique=true)</div><div class="ttdoc">Création d'une fenêtre sans paramètre (rectangulaire, Hann, Hamming, triangulaire ou Blackman)</div></div>
+<div class="ttc" id="agroup__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41_html_ga13b37a130f9dcb36bcda22ea52d12c41"><div class="ttname"><a href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">tsd::fourier::détecteur_création</a></div><div class="ttdeci">sptr&lt; Detecteur &gt; détecteur_création(const DetecteurConfig &amp;config=DetecteurConfig())</div><div class="ttdoc">Détecteur par corrélation.</div></div>
+<div class="ttc" id="agroup__fourier-corr_ga4383d63ea1831bd1d045f2382011876a_html_ga4383d63ea1831bd1d045f2382011876a"><div class="ttname"><a href="group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a">tsd::fourier::ccorr</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; ccorr(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf())</div><div class="ttdoc">Corrélation circulaire (normalisée) entre deux signaux complexes.</div></div>
+<div class="ttc" id="agroup__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9_html_ga905acbf2d7cee38e09c735dee74aa8a9"><div class="ttname"><a href="group__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9.html#ga905acbf2d7cee38e09c735dee74aa8a9">tsd::fourier::xcorr</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorr(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (non biaisée) entre deux signaux complexes.</div></div>
+<div class="ttc" id="agroup__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9_html_gaa6f678050aa7881601b8bb912649e0d9"><div class="ttname"><a href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">tsd::fourier::xcorrb</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorrb(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (biaisée) entre deux signaux complexes.</div></div>
+<div class="ttc" id="agroup__fourier-corr_gab31fd0f19214ade5db96a932bc0da19a_html_gab31fd0f19214ade5db96a932bc0da19a"><div class="ttname"><a href="group__fourier-corr_gab31fd0f19214ade5db96a932bc0da19a.html#gab31fd0f19214ade5db96a932bc0da19a">tsd::fourier::delais</a></div><div class="ttdeci">Vecteur&lt; T &gt; delais(const Vecteur&lt; T &gt; &amp;x, float tau)</div><div class="ttdoc">Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).</div></div>
+<div class="ttc" id="agroup__fourier-corr_html_ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23"><div class="ttname"><a href="group__fourier-corr.html#ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23">tsd::fourier::estimation_delais_entier</a></div><div class="ttdeci">int estimation_delais_entier(IArrayXcf x, IArrayXcf y, float &amp;score)</div><div class="ttdoc">Estimation du délais (à l'échantillon près) le plus probable entre deux signaux (via une corrélation)</div></div>
+<div class="ttc" id="agroup__fourier-corr_html_gaee2458dd42bc6964ddf33354478e5bb6"><div class="ttname"><a href="group__fourier-corr.html#gaee2458dd42bc6964ddf33354478e5bb6">tsd::fourier::aligne_entier</a></div><div class="ttdeci">std::tuple&lt; Vecteur&lt; T &gt;, Vecteur&lt; T &gt;, int, float &gt; aligne_entier(const Vecteur&lt; T &gt; &amp;x, const Vecteur&lt; T &gt; &amp;y)</div><div class="ttdoc">Alignement de deux signaux.</div></div>
+<div class="ttc" id="agroup__fourier-freq_ga1837cf83280649d38997349b565b7e48_html_ga1837cf83280649d38997349b565b7e48"><div class="ttname"><a href="group__fourier-freq_ga1837cf83280649d38997349b565b7e48.html#ga1837cf83280649d38997349b565b7e48">tsd::fourier::filtre_goertzel</a></div><div class="ttdeci">sptr&lt; FiltreGen&lt; float &gt; &gt; filtre_goertzel(float frequence, int N)</div><div class="ttdoc">Filtre de Goertzel (calcul au fil de l'eau)</div></div>
+<div class="ttc" id="agroup__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181_html_ga2b82fe2ece5fbbfbda2f25241c7be181"><div class="ttname"><a href="group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181">tsd::fourier::goertzel</a></div><div class="ttdeci">float goertzel(const ArrayXf &amp;x, float frequence)</div><div class="ttdoc">Filtre de Goertzel (calcul sur un buffer).</div></div>
+<div class="ttc" id="agroup__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3_html_ga705b6d02d0727a0e800beb9166f46af3"><div class="ttname"><a href="group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3">tsd::fourier::freqestim</a></div><div class="ttdeci">float freqestim(IArrayXcf x, FreqEstimMethode m=CANDAN2)</div><div class="ttdoc">Estimation de fréquence d'un signal périodique.</div></div>
+<div class="ttc" id="agroup__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897_html_ga9b50837a796328f14cde2cc6a2d7b897"><div class="ttname"><a href="group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897">tsd::fourier::psd_welch</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd_welch(const ArrayXcf &amp;x, int N, const std::string fen=&quot;hn&quot;)</div><div class="ttdoc">PSD (méthode de Welch - par moyennage).</div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_gabd028e3f546c64caa97c62c6bf7c2148"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148">tsd::fourier::FreqEstimMethode</a></div><div class="ttdeci">FreqEstimMethode</div><div class="ttdoc">Choix d'un algorithme pour l'estimation de fréquence.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00800">fourier.hpp:801</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776">tsd::fourier::FFT</a></div><div class="ttdeci">@ FFT</div><div class="ttdoc">Maximum de la valeur absolue de la FFT.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00803">fourier.hpp:803</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b">tsd::fourier::QUADRATIC</a></div><div class="ttdeci">@ QUADRATIC</div><div class="ttdoc">Interpolation quadratique.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00809">fourier.hpp:807</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148_html_ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b"><div class="ttname"><a href="group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b">tsd::fourier::CANDAN2</a></div><div class="ttdeci">@ CANDAN2</div><div class="ttdoc">Méthode de Candan cf TODO.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00805">fourier.hpp:805</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gad69033300000f2c22c22bcb52166d13d_html_gad69033300000f2c22c22bcb52166d13d"><div class="ttname"><a href="group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d">tsd::fourier::psd</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">PSD (corrélogramme)</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00720">fourier.hpp:720</a></div></div>
+<div class="ttc" id="agroup__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e_html_gaf091fdd9c000a6a6d341fb8016df373e"><div class="ttname"><a href="group__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e.html#gaf091fdd9c000a6a6d341fb8016df373e">tsd::fourier::psd_subspace</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd_subspace(const ArrayXcf &amp;x, int Ns, int Nf=1024, int m=0)</div><div class="ttdoc">Calcul d'un spectre par la méthode des sous-espaces.</div></div>
+<div class="ttc" id="agroup__fourier-freq_html_gaeb7a9e682ed2434217a717c2e9ea7404"><div class="ttname"><a href="group__fourier-freq.html#gaeb7a9e682ed2434217a717c2e9ea7404">tsd::fourier::rt_spectrum</a></div><div class="ttdeci">sptr&lt; Filtre&lt; cfloat, float, SpectrumConfig &gt; &gt; rt_spectrum(const SpectrumConfig &amp;config)</div><div class="ttdoc">Calcul de spectre en temps réel.</div></div>
+<div class="ttc" id="agroup__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b_html_ga0c01b0b59ae01c0957cfe30a3b92cb5b"><div class="ttname"><a href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">tsd::fourier::filtre_fft</a></div><div class="ttdeci">std::tuple&lt; sptr&lt; Filtre&lt; cfloat, cfloat, FiltreFFTConfig &gt; &gt;, int &gt; filtre_fft(const FiltreFFTConfig &amp;config)</div><div class="ttdoc">Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add).</div></div>
+<div class="ttc" id="agroup__fourier_ga12477679c85009ab019ca46622f8b81b_html_ga12477679c85009ab019ca46622f8b81b"><div class="ttname"><a href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">tsd::fourier::rfft</a></div><div class="ttdeci">ArrayXcf rfft(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">Calcul de la FFT d'un signal réel.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00107">fourier.hpp:107</a></div></div>
+<div class="ttc" id="agroup__fourier_ga5e6d7f4a144aa0528c4927576546f8f3_html_ga5e6d7f4a144aa0528c4927576546f8f3"><div class="ttname"><a href="group__fourier_ga5e6d7f4a144aa0528c4927576546f8f3.html#ga5e6d7f4a144aa0528c4927576546f8f3">tsd::fourier::ola_complexite</a></div><div class="ttdeci">void ola_complexite(int M, int Ne, float &amp;C, int &amp;Nf, int &amp;Nz)</div><div class="ttdoc">Calcul de la complexité d'un filtre OLA, par échantillon d'entrée, en FLOPS.</div></div>
+<div class="ttc" id="agroup__fourier_ga74e265dfa6548e07e72405b159c0be00_html_ga74e265dfa6548e07e72405b159c0be00"><div class="ttname"><a href="group__fourier_ga74e265dfa6548e07e72405b159c0be00.html#ga74e265dfa6548e07e72405b159c0be00">tsd::fourier::fftshift</a></div><div class="ttdeci">Vecteur&lt; typename derived::Scalar &gt; fftshift(const Eigen::ArrayBase&lt; derived &gt; &amp;X)</div><div class="ttdoc">Décalage du spectre de manière à centrer les basses fréquences au milieu.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00234">fourier.hpp:234</a></div></div>
+<div class="ttc" id="agroup__fourier_ga78e355deaffb7a866e18548497ec8e16_html_ga78e355deaffb7a866e18548497ec8e16"><div class="ttname"><a href="group__fourier_ga78e355deaffb7a866e18548497ec8e16.html#ga78e355deaffb7a866e18548497ec8e16">tsd::fourier::force_csym</a></div><div class="ttdeci">void force_csym(Eigen::ArrayBase&lt; derived &gt; &amp;X)</div><div class="ttdoc">Modifie un vecteur de manière à ce qu'il soit conjugé symétrique.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00267">fourier.hpp:267</a></div></div>
+<div class="ttc" id="agroup__fourier_ga7d3004b52af85269a7c5ee265b392642_html_ga7d3004b52af85269a7c5ee265b392642"><div class="ttname"><a href="group__fourier_ga7d3004b52af85269a7c5ee265b392642.html#ga7d3004b52af85269a7c5ee265b392642">tsd::fourier::czt</a></div><div class="ttdeci">ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0=1.0f)</div><div class="ttdoc">Transformée en z-chirp.</div></div>
+<div class="ttc" id="agroup__fourier_ga7e5cbffa8b99510201aea3819fecc6b3_html_ga7e5cbffa8b99510201aea3819fecc6b3"><div class="ttname"><a href="group__fourier_ga7e5cbffa8b99510201aea3819fecc6b3.html#ga7e5cbffa8b99510201aea3819fecc6b3">tsd::fourier::ifft</a></div><div class="ttdeci">auto ifft(const Eigen::ArrayBase&lt; derived &gt; &amp;X)</div><div class="ttdoc">Transformée de Fourier Discrète Inverse.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00197">fourier.hpp:197</a></div></div>
+<div class="ttc" id="agroup__fourier_gaa012c409a050fb19c6950108ed710493_html_gaa012c409a050fb19c6950108ed710493"><div class="ttname"><a href="group__fourier_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">tsd::fourier::creation_fft_plan</a></div><div class="ttdeci">sptr&lt; FFTPlanAbstrait &gt; creation_fft_plan(int n=-1, bool avant=true, bool normaliser=true)</div><div class="ttdoc">Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT).</div></div>
+<div class="ttc" id="agroup__fourier_gaa926a5297dc5da12d31075248bf067cf_html_gaa926a5297dc5da12d31075248bf067cf"><div class="ttname"><a href="group__fourier_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">tsd::fourier::creation_rfft_plan</a></div><div class="ttdeci">sptr&lt; FiltreGen&lt; float, cfloat &gt; &gt; creation_rfft_plan(int n)</div><div class="ttdoc">Création d'un plan de calcul FFT pour des signaux réels (pour calculer efficacement plusieurs FFT).</div></div>
+<div class="ttc" id="agroup__fourier_gab72b5f60cadc9a0efb5ee5a376697381_html_gab72b5f60cadc9a0efb5ee5a376697381"><div class="ttname"><a href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">tsd::fourier::fft</a></div><div class="ttdeci">auto fft(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">Transformée de Fourier Discrète (TFD) rapide.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00158">fourier.hpp:158</a></div></div>
+<div class="ttc" id="agroup__fourier_gad03258343d19a0333615f67e009faf18_html_gad03258343d19a0333615f67e009faf18"><div class="ttname"><a href="group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">tsd::fourier::reechan_freq</a></div><div class="ttdeci">Vecteur&lt; T &gt; reechan_freq(const Vecteur&lt; T &gt; &amp;x, float ratio)</div><div class="ttdoc">Ré-échantillonage zéro phase à partir de la TFD.</div></div>
+<div class="ttc" id="agroup__fourier_gad0c550d88531644e86ba75858f12605d_html_gad0c550d88531644e86ba75858f12605d"><div class="ttname"><a href="group__fourier_gad0c550d88531644e86ba75858f12605d.html#gad0c550d88531644e86ba75858f12605d">tsd::fourier::ola_complexite_optimise</a></div><div class="ttdeci">void ola_complexite_optimise(int M, float &amp;C, int &amp;Nf, int &amp;Nz, int &amp;Ne)</div><div class="ttdoc">Calcul des paramètres optimaux pour un filtre par OLA.</div></div>
+<div class="ttc" id="agroup__temps-frequence_ga99e5f0233a08f32dfd2535666a4d93b9_html_ga99e5f0233a08f32dfd2535666a4d93b9"><div class="ttname"><a href="group__temps-frequence_ga99e5f0233a08f32dfd2535666a4d93b9.html#ga99e5f0233a08f32dfd2535666a4d93b9">tsd::tf::periodogramme_cqt</a></div><div class="ttdeci">ArrayXXf periodogramme_cqt(const ArrayXf &amp;x, float fe, float fmin, float fmax, float γ, float ofs)</div><div class="ttdoc">Calcul d'un spectrogramme à partir de la CQT.</div></div>
+<div class="ttc" id="agroup__temps-frequence_gaf0b8b52439bc9d21da4c16aea43f2eae_html_gaf0b8b52439bc9d21da4c16aea43f2eae"><div class="ttname"><a href="group__temps-frequence_gaf0b8b52439bc9d21da4c16aea43f2eae.html#gaf0b8b52439bc9d21da4c16aea43f2eae">tsd::tf::periodogramme_tfd</a></div><div class="ttdeci">ArrayXXf periodogramme_tfd(const ArrayXcf &amp;x, int N)</div><div class="ttdoc">Calcul d'une matrice temps / fréquence par FFT glissante.</div></div>
+<div class="ttc" id="agroup__tsd_html_ga1ad6f528e828508496f394ae3f3e72e8"><div class="ttname"><a href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">tsd::Vecteur</a></div><div class="ttdeci">Eigen::Array&lt; t, Eigen::Dynamic, 1, Eigen::ColMajor &gt; Vecteur</div><div class="ttdoc">Raccourcis pour un vecteur colonne de données de type générique (paramètre de template t)</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00121">tsd.hpp:121</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga8ce4ba1e8f15158a6b48ee1c003ef6ad"><div class="ttname"><a href="group__tsd.html#ga8ce4ba1e8f15158a6b48ee1c003ef6ad">tsd::IArrayXcf</a></div><div class="ttdeci">const Eigen::Ref&lt; const ArrayXcf &gt; IArrayXcf</div><div class="ttdoc">Vecteur complexe flottant en entrée (const)</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00130">tsd.hpp:130</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9da159320f29c3ccd16bb8b97e268ab2"><div class="ttname"><a href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">tsd::cfloat</a></div><div class="ttdeci">std::complex&lt; float &gt; cfloat</div><div class="ttdoc">Raccourci pour nombre complexe flottant 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00092">tsd.hpp:92</a></div></div>
+<div class="ttc" id="agroup__tsd_html_ga9e2377b654c93e22d894bcdcae510500"><div class="ttname"><a href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">tsd::sptr</a></div><div class="ttdeci">std::shared_ptr&lt; T &gt; sptr</div><div class="ttdoc">Raccourci pour définir un pointeur partagé</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00148">tsd.hpp:148</a></div></div>
+<div class="ttc" id="anamespacetsd_1_1fourier_html"><div class="ttname"><a href="namespacetsd_1_1fourier.html">tsd::fourier</a></div><div class="ttdoc">Transformées classiques : TFR, TQC, ...</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00012">fourier.hpp:13</a></div></div>
+<div class="ttc" id="astructtsd_1_1_filtre_html"><div class="ttname"><a href="structtsd_1_1_filtre.html">tsd::Filtre</a></div><div class="ttdoc">Structure abstraite pour un filtre de données configurable.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00658">tsd.hpp:659</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_af1dda7a5d8a4919877d7dc9de396b5d9_html_af1dda7a5d8a4919877d7dc9de396b5d9"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection_af1dda7a5d8a4919877d7dc9de396b5d9.html#af1dda7a5d8a4919877d7dc9de396b5d9">tsd::fourier::DetecteurConfig::Detection::position</a></div><div class="ttdeci">int position</div><div class="ttdoc">en nombre d'échantillons (compris entre 0 et Ne-1), depuis le début du bloc de données en cours....</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00590">fourier.hpp:590</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_html"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html">tsd::fourier::DetecteurConfig::Detection</a></div><div class="ttdoc">Informations calculées à partir du motif détecté</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00582">fourier.hpp:583</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_html_a085b1347ac0965d28462471f2ec45725"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a085b1347ac0965d28462471f2ec45725">tsd::fourier::DetecteurConfig::Detection::score</a></div><div class="ttdeci">float score</div><div class="ttdoc">Valeur absolue de la corrélation normalisée (valeur positive, entre 0 et 1)</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00596">fourier.hpp:596</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_html_a3d01d6fc524998e6a5f3f4503515a359"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a3d01d6fc524998e6a5f3f4503515a359">tsd::fourier::DetecteurConfig::Detection::σ_noise</a></div><div class="ttdeci">float σ_noise</div><div class="ttdoc">Ecart-type du bruit.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00608">fourier.hpp:608</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_html_a3fa32125364f67974f3b26bcd913ecf2"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a3fa32125364f67974f3b26bcd913ecf2">tsd::fourier::DetecteurConfig::Detection::position_prec</a></div><div class="ttdeci">float position_prec</div><div class="ttdoc">Idem position, avec interpolation quadratique pour plus de précision.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00593">fourier.hpp:593</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_html_a5f35185e8cb6110f9971a41799c32875"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#a5f35185e8cb6110f9971a41799c32875">tsd::fourier::DetecteurConfig::Detection::gain</a></div><div class="ttdeci">float gain</div><div class="ttdoc">Gain du signal (par rapport au motif passé en paramètre)</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00599">fourier.hpp:599</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_html_acad6ac67ce180c9e9d6828ca49902f01"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#acad6ac67ce180c9e9d6828ca49902f01">tsd::fourier::DetecteurConfig::Detection::SNR_dB</a></div><div class="ttdeci">float SNR_dB</div><div class="ttdoc">SNR estimé</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00605">fourier.hpp:605</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_1_1_detection_html_afd8a8c9652e24e107c02295c7305dbde"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config_1_1_detection.html#afd8a8c9652e24e107c02295c7305dbde">tsd::fourier::DetecteurConfig::Detection::θ</a></div><div class="ttdeci">float θ</div><div class="ttdoc">Déphasage du signal (entre  et )</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00602">fourier.hpp:602</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_html"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config.html">tsd::fourier::DetecteurConfig</a></div><div class="ttdoc">Structure de configuration pour un corrélateur par FFT.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00561">fourier.hpp:562</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_html_a2a6c612f1d5f58b4b225835703ae9feb"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config.html#a2a6c612f1d5f58b4b225835703ae9feb">tsd::fourier::DetecteurConfig::Mode</a></div><div class="ttdeci">Mode</div><div class="ttdoc">Mode de calcul du produit de corrélation : FFT avec OLA ou simple filtre RIF.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00575">fourier.hpp:576</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_config_html_a4456a0db0e1ecfa0b11a296028c57c70"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur_config.html#a4456a0db0e1ecfa0b11a296028c57c70">tsd::fourier::DetecteurConfig::gere_detection</a></div><div class="ttdeci">std::function&lt; void(const Detection &amp;det)&gt; gere_detection</div><div class="ttdoc">Callback utilisateur appellée à chaque fois que le motif est détecté.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00612">fourier.hpp:612</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_detecteur_html"><div class="ttname"><a href="structtsd_1_1fourier_1_1_detecteur.html">tsd::fourier::Detecteur</a></div><div class="ttdoc">Structure abstraite pour un corrélateur à base de FFT ou de filtre RIF.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00621">fourier.hpp:622</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_filtre_f_f_t_config_html"><div class="ttname"><a href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html">tsd::fourier::FiltreFFTConfig</a></div><div class="ttdoc">Structure de configuration pour un filtre FFT (voir filtre_fft()).</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00309">fourier.hpp:310</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_filtre_f_f_t_config_html_a35857c92e8b81ded86be8c44acb6950a"><div class="ttname"><a href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a35857c92e8b81ded86be8c44acb6950a">tsd::fourier::FiltreFFTConfig::traitement_freq</a></div><div class="ttdeci">std::function&lt; void(ArrayXcf &amp;)&gt; traitement_freq</div><div class="ttdoc">Callback appelée pour le traitement dans le domaine fréquentiel (à réaliser par l'utilisateur).</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00323">fourier.hpp:323</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_filtre_f_f_t_config_html_a7713632f5230fc4685b21b8d1d402fbe"><div class="ttname"><a href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a7713632f5230fc4685b21b8d1d402fbe">tsd::fourier::FiltreFFTConfig::dim_blocs_temporel</a></div><div class="ttdeci">int dim_blocs_temporel</div><div class="ttdoc">Nombre d'échantillons par bloc temporel (ou zéro si déterminé automatiquement)</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00312">fourier.hpp:312</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_filtre_f_f_t_config_html_abaefabb7283538aa961732203b8cb6f9"><div class="ttname"><a href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#abaefabb7283538aa961732203b8cb6f9">tsd::fourier::FiltreFFTConfig::avec_fenetrage</a></div><div class="ttdeci">bool avec_fenetrage</div><div class="ttdoc">Si vrai, une fenêtre de Hann est utilisée, avec un recouvrement de 1/2 pour un reconstruction parfait...</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00319">fourier.hpp:319</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_filtre_f_f_t_config_html_afa140b1932bcdcf3c159fb31d9d0c395"><div class="ttname"><a href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#afa140b1932bcdcf3c159fb31d9d0c395">tsd::fourier::FiltreFFTConfig::nb_zeros_min</a></div><div class="ttdeci">int nb_zeros_min</div><div class="ttdoc">Nombre minimum de zéros insérés en début de bloc (&quot;zéro-padding&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00315">fourier.hpp:315</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html">tsd::fourier::SpectrumConfig</a></div><div class="ttdoc">Configuration pour le calcul de spectre en temps réel.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00893">fourier.hpp:894</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a06d5b3f04f1e3130d5a34fd47bb8841b"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a06d5b3f04f1e3130d5a34fd47bb8841b">tsd::fourier::SpectrumConfig::masque_hf</a></div><div class="ttdeci">int masque_hf</div><div class="ttdoc">Nombres de points à masquer en haute fréquence.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00917">fourier.hpp:917</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a26994e3c18012dd15b4d50090b38427d"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a26994e3c18012dd15b4d50090b38427d">tsd::fourier::SpectrumConfig::Ns</a></div><div class="ttdeci">int Ns() const</div><div class="ttdoc">Dim spectre.</div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a4116b993770515898c75589db23ef00a"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a4116b993770515898c75589db23ef00a">tsd::fourier::SpectrumConfig::nmeans</a></div><div class="ttdeci">int nmeans</div><div class="ttdoc">Nombre de spectres moyennés.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00899">fourier.hpp:899</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a4721e82ca6e80d22cd503bf4cddf11db"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a4721e82ca6e80d22cd503bf4cddf11db">tsd::fourier::SpectrumConfig::nsubs</a></div><div class="ttdeci">int nsubs</div><div class="ttdoc">Pour le multi-threading ou le balayage fréquentiel.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00902">fourier.hpp:902</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a51e509c01cd24771a4b2f9aac0350fd3"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a51e509c01cd24771a4b2f9aac0350fd3">tsd::fourier::SpectrumConfig::active</a></div><div class="ttdeci">bool active</div><div class="ttdoc">Activation.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00908">fourier.hpp:908</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a52fc7c322709aeacdc10adb685f9dee0"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a52fc7c322709aeacdc10adb685f9dee0">tsd::fourier::SpectrumConfig::sweep</a></div><div class="ttdeci">struct tsd::fourier::SpectrumConfig::@3 sweep</div><div class="ttdoc">Configuration du balayage fréquentiel.</div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a6fac391aabe4ae408a85519c4f7c2aa1"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a6fac391aabe4ae408a85519c4f7c2aa1">tsd::fourier::SpectrumConfig::Nf</a></div><div class="ttdeci">int Nf() const</div><div class="ttdoc">Dim FFT.</div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a7a44befe10a27e0c15739fb69a1b9730"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a7a44befe10a27e0c15739fb69a1b9730">tsd::fourier::SpectrumConfig::plan</a></div><div class="ttdeci">sptr&lt; FFTPlanAbstrait &gt; plan</div><div class="ttdoc">Plan de calcul FFT (optionnel)</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00931">fourier.hpp:931</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a89a9409e1d9c8217ca7881259ff7625c"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a89a9409e1d9c8217ca7881259ff7625c">tsd::fourier::SpectrumConfig::BS</a></div><div class="ttdeci">int BS</div><div class="ttdoc">Dimension des blocs d'entrée.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00896">fourier.hpp:896</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_a8c678239bcb0d052f48361869dfe1256"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#a8c678239bcb0d052f48361869dfe1256">tsd::fourier::SpectrumConfig::fenetre</a></div><div class="ttdeci">tsd::filtrage::Fenetre fenetre</div><div class="ttdoc">Type de fenêtrage.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00928">fourier.hpp:928</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_af3f37e767288d71510d8f82e6a622c9f"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#af3f37e767288d71510d8f82e6a622c9f">tsd::fourier::SpectrumConfig::masque_bf</a></div><div class="ttdeci">int masque_bf</div><div class="ttdoc">Nombres de points à masquer en basse fréquence.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00914">fourier.hpp:914</a></div></div>
+<div class="ttc" id="astructtsd_1_1fourier_1_1_spectrum_config_html_af699e1a07f4161694a0e6725a9a61599"><div class="ttname"><a href="structtsd_1_1fourier_1_1_spectrum_config.html#af699e1a07f4161694a0e6725a9a61599">tsd::fourier::SpectrumConfig::step</a></div><div class="ttdeci">int step</div><div class="ttdoc">Nombre de pas de fréquence.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00911">fourier.hpp:911</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_761a2ca73a74301a2ece799a0de2d706.html">tsd</a></li><li class="navelem"><b>fourier.hpp</b></li>
+    <li class="footer">Généré le Lundi 31 Janvier 2022 09:47:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>
