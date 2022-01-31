@@ -104,7 +104,7 @@ int test_itrp()
 
   for(auto itrp: itrps)
   {
-    msg("Test interpolateur [{:20s}] : nb points = {}, délais = {}.", itrp->nom, itrp->npts, itrp->delais);
+    msg("Test interpolateur [{:20s}] : nb points = {}, délais = {}.", itrp->nom, itrp->K, itrp->delais);
 
     Figure f, f2;
 

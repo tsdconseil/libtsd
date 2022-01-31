@@ -30,7 +30,7 @@ struct AdaptationRythmeSimple: FiltreGen<T>
     increment     = 1.0f / ratio;
     phase         = 0;
     interpolateur = itrp;
-    nfen          = itrp->npts;
+    nfen          = itrp->K;
     fenetre.setZero(nfen);
     if(nfen <= 1)
       msg_avert("AdaptationRythmeSimple : npts interpolation = {} ({}).", nfen, itrp->nom);
@@ -65,7 +65,7 @@ struct AdaptationRythmeSimple: FiltreGen<T>
       while(phase < 1)
       {
         // phase = index entre deux échantillons
-        auto si = interpolateur->calcule(fenetre, 0, phase);
+        auto si = interpolateur->step(fenetre, 0, phase);
         tsd_assert(j < tmp_len);
         *optr++ = si;
         j++;

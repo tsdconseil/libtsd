@@ -829,8 +829,8 @@ namespace tsd
   template<typename T>
   T modulo_pm_π(T x)
   {
-    auto pi = std::numbers::pi_v<T>;
-    return wrap_2pi(x + pi) - pi;
+    auto π = std::numbers::pi_v<T>;
+    return modulo_2π(x + π) - π;
   }
 
   /** @brief Conversion degrés vers radians

@@ -76,7 +76,7 @@ struct RecHorloge
     // -> il faut commencer à sampler au milieu, soit 1/2 symbole plus loin
     phase = (config.osf / 2) + 1;
 
-    fenetre_x  = ArrayXcf::Zero(itrp->npts);
+    fenetre_x  = ArrayXcf::Zero(itrp->K);
 
     // TODO : 5 * config.osf : arbitraire
     // TODO : reset direct de la ligne à retard
@@ -101,7 +101,7 @@ struct RecHorloge
     reset();
 
     msg("rec horloge: osf = {}, npts itrp = {}. phase initiale = {}, tc = {}",
-        config.osf, itrp->npts, phase, config.tc);
+        config.osf, itrp->K, phase, config.tc);
   }
 
   inline void maj_fenetre(ArrayXcf &wnd, cfloat x)
@@ -136,7 +136,7 @@ struct RecHorloge
     }
 
     // Ici on est à la fréquence de la TED
-    auto yi  = itrp->calcule(fenetre_x, 0, phase);
+    auto yi  = itrp->step(fenetre_x, 0, phase);
 
     if(std::isnan(yi.real()) || std::isnan(yi.imag()))
       msg_erreur("Itrp : nan, fen itrp = {}.", fenetre_x);

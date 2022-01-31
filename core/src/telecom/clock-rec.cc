@@ -129,7 +129,7 @@ struct ClockRec: FiltreGen<cfloat>
 
     cnt  = 0;
     // Sliding window for the interpolator
-    fenetre_x   = ArrayXcf::Zero(config.itrp->npts);
+    fenetre_x   = ArrayXcf::Zero(config.itrp->K);
     // Sliding window for the TED
     //fenetre_ted = ArrayXcf::Zero(config.ted->npts);
     // conversion tc en période d'échantillonnage
@@ -137,7 +137,7 @@ struct ClockRec: FiltreGen<cfloat>
 
     x0 = x1 = x2 = 0.0f;
 
-    msg("clock rec init: K1 (osf) = {}, K2 = {}, npts ted = {}, npts itrp = {}. phase initiale = {}, tc = {}", config.osf, config.ted->osf, config.ted->npts, config.itrp->npts, phase, config.tc);
+    msg("clock rec init: K1 (osf) = {}, K2 = {}, npts ted = {}, npts itrp = {}. phase initiale = {}, tc = {}", config.osf, config.ted->osf, config.ted->npts, config.itrp->K, phase, config.tc);
     msg("Fréquence d'entrée : [K1 = {}] * fsymb", K1);
     msg("Fréquence de travail TED : [K2 = {}] * fsymb", config.ted->osf);
     msg("Fréquence de sortie : fsymb");
@@ -214,7 +214,7 @@ struct ClockRec: FiltreGen<cfloat>
       //maj_fenetre(fenetre_x, x(i));
 
       fenetre_x(index_fenetre_x) = x(i);
-      index_fenetre_x = (index_fenetre_x + 1) % config.itrp->npts;
+      index_fenetre_x = (index_fenetre_x + 1) % config.itrp->K;
 
       // Requiert: phase >= 1
       phase--;
@@ -237,7 +237,7 @@ struct ClockRec: FiltreGen<cfloat>
       //    2 * fsymb, après accrochage : aligné
 
       // Ici on est à la fréquence de la TED
-      auto interpol = config.itrp->calcule(fenetre_x, index_fenetre_x, phase);
+      auto interpol = config.itrp->step(fenetre_x, index_fenetre_x, phase);
 
       if constexpr (CLKREC_MODE_SAFE)
       {
@@ -425,8 +425,8 @@ struct ClockRec2: FiltreGen<cfloat>
       echec("clock rec : intepolateur non spécifié.");
 
     // Sliding window for the interpolator
-    fenetre_x  = ArrayXcf::Zero(config.itrp->npts);
-    fenetre_dx = ArrayXcf::Zero(config.itrp->npts);
+    fenetre_x  = ArrayXcf::Zero(config.itrp->K);
+    fenetre_dx = ArrayXcf::Zero(config.itrp->K);
     // conversion tc en période d'échantillonnage
     this->gain = K1 * (1 - std::exp(-1/(config.tc * K1)));
 
@@ -451,7 +451,7 @@ struct ClockRec2: FiltreGen<cfloat>
 
 
 
-    msg("clock rec 2 init: K1 (osf) = {}, npts itrp = {}. phase initiale = {}, tc = {}", config.osf, config.itrp->npts, phase, config.tc);
+    msg("clock rec 2 init: K1 (osf) = {}, npts itrp = {}. phase initiale = {}, tc = {}", config.osf, config.itrp->K, phase, config.tc);
     msg("Fréquence d'entrée : [K1 = {}] * fsymb", K1);
     msg("Fréquence de sortie : fsymb");
   }
@@ -508,8 +508,8 @@ struct ClockRec2: FiltreGen<cfloat>
       }
 
       // Ici on est à la fréquence de la TED
-      auto interpol    = config.itrp->calcule(fenetre_x, 0, phase);
-      auto interpol_dx = config.itrp->calcule(fenetre_dx, 0, phase);
+      auto interpol    = config.itrp->step(fenetre_x, 0, phase);
+      auto interpol_dx = config.itrp->step(fenetre_dx, 0, phase);
 
       if(std::isnan(interpol.real()) || std::isnan(interpol.imag()))
       {

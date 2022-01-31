@@ -19,14 +19,14 @@ namespace tsd::filtrage {
       return lut.col(lut_index);
     }
 
-    ArrayXf coefs_calcule(float tau)
+    ArrayXf coefs_calcule(float τ)
     {
       auto nc = config.ncoefs;
       //assert((tau >= 0) && (tau <= 1+1e-7));
 
       ArrayXf h = ArrayXf::Zero(nc);
       for(auto i = 0; i < nc; i++)
-        h(i) = tsd::filtrage::sinc2(i-nc/2-tau, config.fcut);
+        h(i) = tsd::filtrage::sinc2(i-nc/2-τ, config.fcut);
 
       // PB : il faut décaler la fenêtre de -tau !!
       //ArrayXf fen = fenetre(type_fenetre, npts);
@@ -36,7 +36,7 @@ namespace tsd::filtrage {
         float a = 0.5, b = 0.25;
 
         ArrayXf t = linspace(-nc/2,(nc-1)/2,nc);
-        t -= tau;
+        t -= τ;
         t *= (2*π/nc);
         ArrayXf r1 = t.cos();
         ArrayXf r2 = a + 2 * b * r1;
@@ -51,7 +51,7 @@ namespace tsd::filtrage {
           config.ncoefs, config.nphases, config.fcut, config.fenetre);
       this->config        = config;
       this->delais        = 0.5 * config.ncoefs;
-      this->npts          = config.ncoefs;
+      this->K             = config.ncoefs;
 
       verifie_frequence_normalisee(config.fcut, "interpolateur sinc");
 
@@ -76,8 +76,8 @@ namespace tsd::filtrage {
      *  @param n Number of delayed version of the filter (time resolution).*/
     InterpolateurCSpline(unsigned int n = 256, float c = 0)
     {
-      this->nom = "cspline";
-      this->npts    = 4;
+      this->nom     = "cspline";
+      this->K       = 4;
       this->delais  = 1.5;
       tsd::filtrage::cspline_calc_lut(lut, n, c);
     }
@@ -87,19 +87,19 @@ namespace tsd::filtrage {
   template<typename T>
   struct InterpolateurLineaire: InterpolateurRIF<T>
   {
-    ArrayXf coefs(float phase)
+    ArrayXf coefs(float τ)
     {
       ArrayXf h(2);
-      h(0) = 1-phase;
-      h(1) = phase;
+      h(0) = 1-τ;
+      h(1) = τ;
       return h;
     }
 
     InterpolateurLineaire()
     {
-      this->nom = "lineaire";
-      this->npts  = 2; // needs 2 samples
-      this->delais  = 0.5;//2;
+      this->nom     = "linéaire";
+      this->K       = 2; // needs 2 samples
+      this->delais  = 0.5;
     }
   };
 
@@ -108,7 +108,7 @@ namespace tsd::filtrage {
   {
     int d;
 
-    ArrayXf coefs(float phase)
+    ArrayXf coefs(float τ)
     {
       ArrayXf h(d+1);
 
@@ -116,7 +116,7 @@ namespace tsd::filtrage {
       // interpole à (d-1)/2 + mu
       // Exemple: d = 1
       // interpole à mu
-      float t = ((d-1.0f) / 2) + phase;
+      float t = ((d-1.0f) / 2) + τ;
 
       for(auto j = 0; j <= d; j++)
       {
@@ -135,10 +135,10 @@ namespace tsd::filtrage {
     {
       // Pour un polynome de degré d,
       // on peut passer par d+1 point
-      this->nom      = fmt::format("Lagrange degré {}", d);
-      this->npts     = d+1; // needs d+1 samples
-      this->d  = d;
-      this->delais   = 0.5f * d;//1 + d - ((d-1) / 2);
+      this->nom     = fmt::format("Lagrange degré {}", d);
+      this->K       = d+1; // needs d+1 samples
+      this->d       = d;
+      this->delais  = 0.5f * d;//1 + d - ((d-1) / 2);
     }
 
   };

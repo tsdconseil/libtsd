@@ -1630,7 +1630,7 @@ template<typename T>
 struct Interpolateur
 {
   /** @brief Longueur de la fenêtre (ligne à retard). */
-  int npts = 0;
+  int K = 0;
 
   /** @brief */
   float delais = 0;
@@ -1643,18 +1643,20 @@ struct Interpolateur
   /** @brief Interpolation (méthode abstraite).
    *
    *  <h3>Interpolation</h3>
-   *  Cette méthode abstraite réalise l'interpolation :
+   *  Cette méthode abstraite réalise l'interpolation, à partir
+   *  des échantillons de la ligne à retard @f$x@f$.
    *
    *  @f[
-   *    y = x(
+   *    y = x\left(k + K/2 + \tau [K]\right)
    *  @f]
    *
-   *  @param x        Fenêtre circulaire contenant les  de <code>npts</code> points d'entrée.
-   *  @param k        Index de l'échantillon le plus ancien dans la ligne à retard.
-   *  @param phase    Retard fractionnaire, entre 0 et 1.
+   *  @param x        Fenêtre circulaire contenant les  de @f$K@f$ derniers points d'entrée.
+   *  @param k        Index de l'échantillon le plus ancien dans la ligne à retard (@f$k+K-1@f$ est donc l'index de l'échantillon le plus récent).
+   *  @param τ        Retard fractionnaire, entre 0 et 1.
+   *  @returns        Valeur interpoléee (@f$y@f$).
    *
-   *  */
-  virtual T calcule(const Vecteur<T> &x, int k, float phase) = 0;
+   */
+  virtual T step(const Vecteur<T> &x, int k, float τ) = 0;
 };
 
 /** @brief %Interpolateur générique à base filtre RIF.
@@ -1675,14 +1677,13 @@ struct InterpolateurRIF: Interpolateur<T>
   virtual ArrayXf coefs(float phase) = 0;
 
   // k : index de l'échantillon le plus ancien
-  T calcule(const Vecteur<T> &x, int k, float phase)
+  T step(const Vecteur<T> &x, int k, float τ)
   {
-    ArrayXf h = coefs(phase);
-    const int K = h.rows();
-    tsd_assert(K == npts);
+    ArrayXf h = coefs(τ);
+    tsd_assert(h.rows() == this->K);
     T res = 0;
-    for(auto i = 0; i < K; i++)
-      res += h(i) * x((i + k) % K);
+    for(auto i = 0; i < this->K; i++)
+      res += h(i) * x((i + k) % this->K);
     return res;
   }
 };
