@@ -5,6 +5,11 @@
 
 namespace dsp {
 
+
+/** @addtogroup tsd
+ *  @{ */
+
+
 /** @brief @f$\pi@f$ value, with 32 bits floating point accuracy. */
 auto pi = tsd::pi;
 
@@ -367,19 +372,18 @@ inline int next_power_of_2(unsigned int i)
 }
 
 
-/** @brief Ajoute des zéros à la fin d'un des deux vecteurs de manière à ce qu'ils aient la même dimension.
+/** @brief Add zeros at the end of one of two vectors such as they have the same length.
  *
- *  <h3>Complétion de vecteurs avec des zéros</h3>
+ *  <h3>Zero padding of vectors</h3>
  *
- *  Un des deux vecteurs est complétés avec des zéros de manière à ce que les deux vecteurs
- *  résultants aient la même longueur.
+ *  One of the two vectors is padded with zeros such as the two vectors have the same length.
  *
- *  @param x  Premier vecteur
- *  @param y  Deuxième vecteur
- *  @param p2 Si vrai, arrondi la dimension des vecteurs de sortie à la prochaine puissance de 2.
- *  @return Un tuple de deux vecteurs de mêmes dimensions, et commençant respectivement par x et y (des zéros sont ajoutés à la fin).
+ *  @param x  First vector
+ *  @param y  Second vector
+ *  @param p2 If true, make sure the two new vectors length is a power of two.
+ *  @return A tuple of two vectors with the same length, and beginnning respectively by x and y (zeros are added at the end).
  *
- *  @par Exemple
+ *  @par Example
  *  @code
  *  auto x = linspace(0,4,5);
  *  // x = {0, 1, 2, 3, 4};
@@ -393,10 +397,250 @@ inline int next_power_of_2(unsigned int i)
  *
  */
 template<typename D1, typename D2>
-  std::tuple<Vector<typename D1::Scalar>, Vector<typename D2::Scalar>> pad_zeros(const Eigen::ArrayBase<D1> &b1, const Eigen::ArrayBase<D2> &b2)
+  std::tuple<Vector<typename D1::Scalar>, Vector<typename D2::Scalar>>
+    pad_zeros(const Eigen::ArrayBase<D1> &b1,
+              const Eigen::ArrayBase<D2> &b2)
 {
   return tsd::pad_zeros(b1, b2);
 }
+
+
+/** @brief Computes the square of a scalar value. */
+template<typename T>
+  T square(const T &v) {return tsd::carré<T>(v);}
+
+
+/** @brief Abstract configurable structure
+ *  @tparam C Configuration type */
+template<typename C>
+  using Configurable = tsd::Configurable<C>;
+
+using Void = tsd::Void;
+
+/** @brief Abstract data sink. */
+template<typename Te>
+  using SinkGen = tsd::SinkGen<Te>;
+
+
+/** @brief Abstract, configurable, data sink. */
+template<typename Te, typename Tc = Void>
+  using Sink = tsd::Sink<Te, Tc>;
+
+
+/** @brief Abstract data source */
+template<typename Ts>
+  using SourceGen = tsd::SourceGen<Ts>;
+
+/** @brief Abstract, configurable, data source
+ *  @tparam Ts Type de données à produire (float, cfloat, ...)
+ *  @tparam C  Type de configuration */
+template<typename Ts, typename C = Void>
+  using Source = tsd::Source<Ts, C>;
+
+/** @brief Generic data filter
+ *  @tparam Te Input type
+ *  @tparam Ts Output type */
+template<typename Te, typename Ts = Te>
+using FiltreGen = tsd::FiltreGen<Te, Ts>;
+
+
+/** @brief Generic, run-time configurable, filter
+ *  @tparam  Te Input type
+ *  @tparam  Ts Output type
+ *  @tparam  Tc Configuration type
+ */
+template<typename Te, typename Ts = Te, typename Tc = Void>
+using Filtre = tsd::Filtre<Te, Ts, Tc>;
+
+
+
+
+
+/** @brief  Finite signal resampling, with arbitrary ratio.
+ *
+ *  <h3>Finite signal resampling</h3>
+ *
+ *  This function resample a signal with a decimation (@f$r < 1@f$)
+ *  or interpolation (@f$r > 1@f$) ratio.
+ *
+ *  @param x    Input signal
+ *  @param r    Resampling factor (@f$f_e^{(2)} / f_e^{(1)}@f$)
+ *  @returns    Resampled signal
+ *
+ *  @note A filter (or even a cascad of filters) is automatically inserted (before decimation or after interpolation) so
+ *  as to avoir spectrum aliasing.
+ *
+ *  @sa filter_resampling() (to process infinite time signal), resample_freq() (zero-delay resampling).
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_resample
+ *  @image html resample.png width=800px
+ *
+ *  @note Because of the anti-aliasing filters, the output signal will be delayed compared to the input one.
+ *  To resample without intruducing delay, one can use @ref resample_freq().
+ */
+template<typename Derived>
+  auto resample(const Eigen::ArrayBase<Derived> &x, float r)
+{
+  return tsd::reechan(x, r);
+}
+
+
+
+
+/** @brief From an input data stream, formatted in arbitrary packet sizes,
+ *  produce a data stream with a <b>fixed packet length</b>.
+ *
+ *  <h3>Preparation of a fixed packet length data stream</h3>
+ *
+ *  From an input data stream, formatted in arbitrary packet sizes,
+ *  produce a data stream with a <b>fixed packet length</b>.
+ *
+ *  @image html tampon.png width=800px
+ *
+ *  @param N        Output packets length
+ *  @param callback User function which will be called for each output packet of size @f$N@f$
+ *  @returns        A data sink accepting vectors of type @p T and of arbitrary length.
+ *  @tparam T       Input / output data type (e.g. float, cfloat, double, ...).
+ *
+ *
+ *  @par Example: preparation of packets for a FFT
+ *  @snippet exemples/src/ex-tsd.cc ex_tampon
+ *  Note that 10000 not being a multiple of 512,
+ *  the last samples are not processed (they would be if the method t->step())
+ *  is called with more samples).
+ *
+ *
+ */
+template<typename T>
+  sptr<Sink<T,int>> tampon_creation(int N,
+      std::function<void (const Vector<T> &)> callback)
+{
+  return tsd::tampon_création(N, callback);
+}
+
+
+
+
+/** @brief Modulo with result in @f$[0,m[@f$ interval.
+ *
+ * <h3>Modulo with result in @f$[0,m[@f$ interval</h3>
+ *
+ * Contrary to the standard function <code>fmod(x, m)</code>, which returns
+ * a value between @f$-m@f$ and @f$m@f$, this function
+ * returns a value between @f$0@f$ and @f$m@f$:
+ *  @f[
+ *  y = x + k\cdot m,\quad k\in\mathbb{Z},\ y\in \left[0,m\right[
+ *  @f]
+ *
+ *  @par Example
+ *  @code
+ *  auto y = modulo(1.5, 1.0); // -> y = 0.5
+ *  @endcode
+ *
+ *  @sa modulo_2π(), modulo_pm_π()
+ *
+ */
+template<typename T>
+T modulo(T x, T m)
+{
+  return tsd::modulo(x, m);
+}
+
+
+/** @brief Computes @f$a@f$ modulo @f$2\pi@f$, the result being in the @f$\left[0,2\pi\right[@f$ interval.
+ *
+ *
+ *  <h3>Modulo @f$2\pi@f$</h3>
+ *  The result is in the @f$\left[0,2\pi\right[@f$ interval:
+ *  @f[
+ *  y = x + k\cdot 2\pi,\quad k\in\mathbb{Z},\ y\in \left[0,2\pi\right[
+ *  @f]
+ *
+ *  @par Example
+ *  @code
+ *  tsd_assert(modulo_2π(2*π+1e-5) == 1e-5);
+ *  @endcode
+ *
+ *  @sa modulo_pm_π(), phase_unwrap(), modulo()
+ *
+ **/
+template<typename T>
+inline T modulo_2π(T x)
+{
+  return tsd::modulo_2π(x);
+}
+
+/** @brief Computes @f$a@f$ modulo @f$2\pi@f$, the result being in the @f$\left[-\pi,\pi\right[@f$ interval.
+ *
+ *  <h3>Modulo @f$2\pi@f$</h3>
+ *  The result is in the @f$\left[-\pi,\pi\right[@f$ interval:
+ *  @f[
+ *  y = x + k\cdot 2\pi,\quad k\in\mathbb{Z},\ y\in \left[-\pi,\pi\right[
+ *  @f]
+ *
+ *  @par Example
+ *  @code
+ *  tsd_assert(modulo_pm_π(2*π-1e-5) == -1e-5);
+ *  @endcode
+ *
+ *  @sa modulo_2π(), phase_unwrap(), modulo()
+ *
+ **/
+template<typename T>
+T modulo_pm_π(T x)
+{
+  return tsd::modulo_pm_π(x);
+}
+
+
+/** @brief Degrees to radians conversion.
+ *
+ *  <h3>Degrees to radians conversion</h3>
+ *
+ *  @f[
+ *  y = \frac{\pi\cdot x}{180}
+ *  @f]
+ *
+ *  @par Example
+ *  @code
+ *  tsd_assert(abs(deg2rad(45) - π/4) < 1e-15);
+ *  @endcode
+ *
+ *  @sa rad2deg()
+ */
+template<typename T>
+auto deg2rad(T degrees)
+{
+  return tsd::deg2rad(degrees);
+}
+
+/** @brief Radians to degrees conversion.
+ *
+ *  <h3>Radians to degrees conversion</h3>
+ *
+ *  @f[
+ *  y = \frac{180\cdot x}{\pi}
+ *  @f]
+ *
+ *  @par Example
+ *  @code
+ *  tsd_assert(abs(rad2deg(π/4) - 45) < 1e-15);
+ *  @endcode
+ *
+ *  @sa deg2rad()
+ */
+template<typename T>
+T rad2deg(T radians)
+{
+  return tsd::rad2deg(radians);
+}
+
+/** @} */
+
+/** @addtogroup tsd-gen
+ *  @{ */
+
 
 ///////////////////////
 
@@ -424,11 +668,43 @@ template<typename D1, typename D2>
  *  @code
  *  ArrayXf t = linspace(0, (n-1)/fs, n)
  *  @endcode
+ *
+ *  @sa logspace()
  */
 static inline auto linspace(float a, float b, unsigned int n)
 {
   return tsd::linspace(a,b,n);
 }
+
+
+/** @brief Interval of logarithmicly equidistant points (geometric serie).
+ *
+ *  <h3>Interval of logarithmicly equidistant points</h3>
+ *
+ *  Computes @f$n@f$ points logarithmicly equidistants between @f$a@f$ and @f$b@f$,
+ *  that is, the following geometric serie:
+ *
+ *  @f[
+ *  x_k = 10^{a + k  \frac{b-a}{n-1}},\quad k = 0,\dots,n-1
+ *  @f]
+ *
+ *
+ *  @param a Logarithm (base 10) of the initial point
+ *  @param b Logarithm (base 10) of the final point
+ *  @param n Number of points
+ *  @returns Geometric serie
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_logspace
+ *  @image html logspace.png width=600px
+ *
+ *  @sa linspace()
+ */
+static inline auto logspace(float a, float b, int n)
+{
+  return tsd::logspace(a, b, n);
+}
+
 
 /** @brief Integer interval
  *
@@ -466,129 +742,419 @@ static inline ArrayXf trange(unsigned int n, float fs)
 
 
 
-/** @brief Loi normale (vecteur colonne)
- *  @param n nombre de points à générer
- *  @returns Un vecteur de valeurs aléatoires, échantillonées suivant une loi normale (variance unitaire).
- *  @sa randu */
-extern ArrayXf randn(unsigned int n){return tsd::randn(n);}
+/** @brief Normal law (column vector).
+ *
+ *  <h3>Normal law</h3>
+ *  Generation of a samples vector for a normal law (@f$\mathcal{N}(0,1)@f$).
+ *
+ *  @param n Number of points to generate.
+ *  @returns Random vector.
+ *
+ *  @note Note that so as to generate a more general Gaussian law (variance not unitary, and / or mean not null),
+ *  one has just to scale the result of a normal law.
+ *  For instance, for a mean of 5, and a variance of @f$1/2@f$ :
+ *  @code
+ *  ArrayXf x = 5 + 0.5 * randn(n);
+ *  @endcode
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_randn
+ *  @image html randn.png width=600px
+ *
+ *  @sa randu(), randb()
+ */
+static inline ArrayXf randn(unsigned int n)
+{
+  return tsd::randn(n);
+}
 
-extern ArrayXXf randn_2d(unsigned int n, unsigned int m){return tsd::randn_2d(n,m);}
+/** @cond private */
+
+/** @brief Normal law (2d array)
+ *  @sa randu() */
+static inline ArrayXXf randn_2d(unsigned int n, unsigned int m){return tsd::randn_2d(n,m);}
+
+
 
 /** @brief Loi uniforme, intervalle [0,1] (tableau 2d) */
-extern ArrayXXf randu(unsigned int n, unsigned int m);
+static inline ArrayXXf randu_2d(unsigned int n, unsigned int m){return tsd::randu_2d(n, m);}
 
-/** @brief Loi uniforme (vecteur colonne)
- *  @param n nombre de points à générer
- *  @returns Un vecteur de valeurs aléatoires, échantillonées suivant une loi uniforme entre 0 et 1.
- *  @sa randn */
-extern ArrayXf randu(unsigned int n);
 
-/** @brief Loi aléatoire binaire
- *  @param n nombre de points à générer
- *  @returns Un vecteur de valeurs aléatoire de valeurs 0 ou 1 uniquement.
- *  Cette fonction peut être utile pour générer un train de bits aléatoires.
+/** @endcond */
+
+/** @brief Uniform law (column vector).
+ *
+ *  <h3>Uniform law</h3>
+ *
+ *  @param n Number of points to generate.
+ *  @returns A vector of random values, sampling according to a uniform law between 0 and 1.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_randu
+ *  @image html randu.png width=600px
+ *
+ *  @sa randn(), randi(), randb()
+ */
+static inline ArrayXf randu(unsigned int n){return tsd::randu(n);}
+
+/** @brief Random binary vector.
+ *
+ *  <h3>Random binary vector</h3>
+ *
+ *  @param n Number of points to generate.
+ *  @returns A vector of random values, 0 or 1.
+ *
+ *  This function can be used to generate a random bit sequence.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_randb
+ *  @image html randb.png width=600px
+ *
+ *
+ *  @sa randn(), randu(), randi()
  */
 static inline ArrayXb randb(int n)
 {
   return tsd::randb(n);
 }
 
-/** @brief Loi aléatoire catégorielle
- *  Entiers entre 0 et M-1 */
-extern ArrayXi randi(unsigned int M, unsigned int n);
-
-/** @brief Calcule la longueur d'un vecteur colonne */
-static inline unsigned int length(const ArrayXf &x)
-{
-  return x.rows();
-}
-
-
-
-
-
-
-
-extern ArrayXcf polar(const ArrayXf &θ);
-extern ArrayXcf polar(const ArrayXf &ρ, const ArrayXf &θ);
-
-
-
-
-
-
-
-inline auto subarray1d(IArrayXf &x, unsigned int dec, unsigned int n, unsigned int pas)
-{
-  return tsd::subarray1d(x, dec, n, pas);
-}
-
-/** @brief Calcule le carré d'un scalaire */
-template<typename T>
-  T square(const T &v) {return tsd::carré<T>(v);}
-
-
-
-/** @brief Structure configurable
- *  @tparam C Type de configuration */
-template<typename C>
-  using Configurable = tsd::Configurable<C>;
-
-using Void = tsd::Void;
-
-/** @brief Puit (réceptacle de données) générique et non configurable */
-template<typename Te>
-  using SinkGen = tsd::SinkGen<Te>;
-
-
-/** @brief Puit (réceptacle de donnée) générique et configurable */
-template<typename Te, typename Tc = Void>
-  using Sink = tsd::Sink<Te, Tc>;
-
-/** @brief Source de données, configurable
- *  @tparam Ts Type de données à produire (float, cfloat, ...)
- *  @tparam C  Type de configuration */
-template<typename Ts, typename C = Void>
-  using Source = tsd::Source<Ts, C>;
-
-/** @brief Generic, configuration-less, filter
- *  @tparam Te Input type
- *  @tparam Ts Output type */
-template<typename Te, typename Ts = Te>
-using FiltreGen = tsd::FiltreGen<Te, Ts>;
-
-
-/** @brief Generic, run-time configurable, filter
- *  @tparam  Te Input type
- *  @tparam  Ts Output type
- *  @tparam  Tc Configuration type
- */
-template<typename Te, typename Ts = Te, typename Tc = Void>
-using Filtre = tsd::Filtre<Te, Ts, Tc>;
-
-
-
-/** @brief Ré-échantillonnage d'un signal suivant un facteur arbitraire
- *  @param lom Facteur de ré-échantillonnage (@f$f_e^{(2)} / f_e^{(1)}@f$)
- *  @returns Signal ré-échantilloné
+/** @brief Categorial random vector
  *
- *  Un filtre anti-repliement est automatiquement calculé.
+ *  <h3>Categorial random vector</h3>
+ *
+ *  @param M Number of categories.
+ *  @param n Number of points to generate.
+ *  @returns A vector of @f$n@f$ integers between @f$0@f$ et @f$M-1@f$.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_randi
+ *  @image html randi.png width=600px
+ *
+ *  @sa randn(), randu(), randb()
  */
-extern ArrayXf resample(IArrayXf x, float lom);
-extern ArrayXcf resample(IArrayXcf x, float lom);
+static inline ArrayXi randi(int M, int n)
+{
+  return tsd::randi(M, n);
+}
+
+
+/** @brief Efficient computing of a complex exponential.
+ *
+ *  <h3>Generation of a complex exponential</h3>
+ *
+ *  This function generates a complex exponential signal,
+ *  based on an harmonic oscillator
+ *  (which is far more efficient than by using the trigonometric functions of the standard library).
+ *  Note however that if @f$n@f$ is a big number, there can be some divergence, both in gain and in phase.
+ *
+ *  @param f Normalized frequency of the exponential (between -0.5 et 0.5)
+ *  @param n Number of points to generate.
+ *  @returns Complex vector defined by:
+ *  @f[
+ *   y_k = e^{2\pi\mathbf{i} k f},\quad k = 0\dots n-1
+ *  @f]
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigexp
+ *  @image html sigexp.png width=600px
+ *
+ *  @sa sigcos(), sigsin(), sigcar(), sigtri()
+ */
+static inline ArrayXcf sigexp(float f, int n)
+{
+  return tsd::sigexp(f, n);
+}
+
+/** @brief Efficient computing of a sinusoid.
+ *
+ *  <h3>Generation of a sinusoid</h3>
+ *
+ *  This function generates a real sinusoidal signal,
+ *  based on an harmonic oscillator
+ *  (which is far more efficient than by using the trigonometric functions of the standard library).
+ *  Note however that if @f$n@f$ is a big number, there can be some divergence, both in gain and in phase.
+ *
+ *  @param f Normalized frequency of the sinusoid (between -0.5 et 0.5)
+ *  @param n Number of points to generate.
+ *  @returns Real vector defined by:
+ *  @f[
+ *   y_k = \sin\left(2\pi k f\right),\quad k = 0\dots n-1
+ *  @f]
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigsin
+ *  @image html sigsin.png width=600px
+ *
+ *  @sa sigcos(), sigexp(), sigcar(), sigtri()
+ */
+static inline ArrayXf sigsin(float f, int n)
+{
+  return tsd::sigsin(f, n);
+}
+
+/** @brief Efficient computing of a cosinusoid.
+ *
+ *  <h3>Generation of a cosinusoid</h3>
+ *
+ *  This function generates a real cosinusoidal signal,
+ *  based on an harmonic oscillator
+ *  (which is far more efficient than by using the trigonometric functions of the standard library).
+ *  Note however that if @f$n@f$ is a big number, there can be some divergence, both in gain and in phase.
+ *
+ *  @param f Normalized frequency of the cosinus (between -0.5 et 0.5)
+ *  @param n Number of points to generate.
+ *  @returns Real vector defined by:
+ *  @f[
+ *   y_k = \cos\left(2\pi k f\right),\quad k = 0\dots n-1
+ *  @f]
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigcos
+ *  @image html sigcos.png width=600px
+ *
+ *  @sa sigsin(), sigexp(), sigcar(), sigtri()
+ */
+static inline ArrayXf sigcos(float f, int n)
+{
+  return tsd::sigcos(f, n);
+}
+
+/** @brief Generation of a triangular, periodic signal.
+ *
+ *  <h3>Triangular, periodic signal</h3>
+ *
+ *  @param p Half-period, in number of samples.
+ *  @param n Number of points to generate.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigtri
+ *  @image html sigtri.png width=600px
+ *
+ *  @sa sigcar(), sigsin(), sigcos(), sigexp()
+ */
+static inline ArrayXf sigtri(int p, int n)
+{
+  return tsd::sigtri(p, n);
+}
+
+
+/** @brief Generation of a square, periodic signal.
+ *
+ *  <h3>Square, periodic signal</h3>
+ *
+ *  @param p Half-period, in number of samples.
+ *  @param n Number of points to generate.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigcar
+ *  @image html sigcar.png width=600px
+ *
+ *  @sa sigtri(), sigsin(), sigcos(), sigexp()
+ */
+static inline ArrayXf sigcar(int p, int n)
+{
+  return tsd::sigcar(p, n);
+}
+
+
+/** @brief Discret impulsion.
+ *
+ *  <h3>Discret impulsion</h3>
+ *
+ *  @param n Number of points to generate.
+ *  @param p Impulsion position (in samples).
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigimp
+ *  @image html sigimp.png width=600px
+ *
+ */
+static inline ArrayXf sigimp(int n, int p = 0)
+{
+  return tsd::sigimp(p, n);
+}
+
+/** @brief Sawtooth signal.
+ *
+ *  <h3>Sawtooth signal</h3>
+ *
+ *  @param p Period, in number of samples.
+ *  @param n Number of points to generate.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigscie
+ *  @image html sigscie.png width=600px
+ *
+ *  @sa sigtri(), sigsin(), sigcos(), sigexp()
+ */
+static inline ArrayXf sigscie(int p, int n)
+{
+  return tsd::sigscie(p, n);
+}
+
+
+/** @brief Sinusoïd modulated by a Gaussian
+ *
+ *  <h3>Sinusoïd modulated by a Gaussian</h3>
+ *
+ *  @f[
+ *  x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2} \cdot \sin \left(2\pi fk\right)
+ *  @f]
+ *
+ *
+ *  @param f Normalized frequency
+ *  @param n Number of points to generate.
+ *  @param a Decrease rate.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_siggsin
+ *  @image html siggsin.png width=600px
+ *
+ *  @sa sigtri(), sigsin(), sigcos(), sigexp()
+ */
+static inline ArrayXf siggsin(float f, int n, float a = 10)
+{
+  return tsd::siggsin(f, n, a);
+}
+
+
+/** @brief Gaussian filtered impulse.
+   *
+   *  <h3>Gaussian filtered impulse</h3>
+   *
+   *  @f[
+   *  x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2}
+   *  @f]
+   *
+   *
+   *  @param n Number of points to generate.
+   *  @param a Decrease rate.
+   *
+   *  @par Example
+   *  @snippet exemples/src/ex-tsd.cc ex_siggaus
+   *  @image html sigsiggaus.png width=600px
+   *
+   *  @sa sigtri(), sigsin(), sigcos(), sigexp(), siggsin()
+   */
+static inline ArrayXf siggauss(int n, float a = 10)
+{
+  return tsd::siggauss(n, a);
+}
+
+
+/** @brief Linear chirp.
+ *
+ *  <h3>Linear chirp</h3>
+ *
+ *  @f[
+ *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
+ *  @f]
+ *
+ *  The @f$f_k@f$ being lineairly distribued between @f$f_0@f$ and @f$f_1@f$.
+ *
+ *  @param f0 Initial frequency (normalized).
+ *  @param f1 Final frequency (normalized).
+ *  @param n  Number of points to generate.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigchirp
+ *  @image html sigchirp.png width=600px
+ *
+ *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp2()
+ */
+static inline ArrayXf sigchirp(float f0, float f1, int n)
+{
+  return tsd::sigchirp(f0, f1, n);
+}
+
+
+
+/** @brief Quadratic chirp.
+ *
+ *  <h3>Quadratic chirp</h3>
+ *
+ *  @f[
+ *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
+ *  @f]
+ *
+ *  The @f$f_k@f$ being quadraticaly distribued between @f$f_0@f$ and @f$f_1@f$:
+ *  @f[
+ *  f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)^2
+ *  @f]
+ *
+ *  @param f0 Initial frequency (normalized).
+ *  @param f1 Final frequency (normalized).
+ *  @param n  Number of points to generate.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_sigchirp2
+ *  @image html sigchirp2.png width=600px
+ *
+ *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp()
+ */
+extern ArrayXf sigchirp2(float f0, float f1, int n);
+
+
+using OHConfig = tsd::OHConfig;
+
+
+/** @brief Generation of an exponential signal through a harmonic oscillator.
+ *
+ *  <h3>Harmonic oscillator (complex output)</h3>
+ *
+ *  This function returns a data source, which can be called several times (generation of a continuous flow of samples, contrary to @ref sigexp(), which can only generate a fixed number of samples).
+ *
+ *  The quadrature oscillator is based on simple first order recursive (complex) filter:
+ *  @f[
+ *  z_k = z_{k-1} \cdot e^{2\pi\mathbf{i}f}
+ *  @f]
+ *  which enables to generate an exponential signal:
+ *  @f[
+ *  z_k = e^{2\pi\mathbf{i}kf}
+ *  @f]
+ *
+ *  @note To generate an exponential of <b>fixed frequency</b>, this method will be more efficient
+ *  than using the trigonometric functions of the standard library.
+ *
+ *  @param freq Normalized frequency of the exponential (between -0.5 et 0.5).
+ *  @return Complex data source.
+ *
+ *  @par Example
+ *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohc
+ *  @image html ohc.png width=600px
+ *
+ *  @sa source_ohr(), sigexp()
+ */
+extern sptr<Source<cfloat, OHConfig>> source_ohc(float freq);
+
+/** @brief Generation of a sinusoidal signal through a harmonic oscillator.
+ *
+ *  <h3>Harmonic oscillator (real output)</h3>
+ *
+ *  This function returns a data source, which can be called several times (generation of a continuous flow of samples, contrary to @ref sigsin(), which can only generate a fixed number of samples).
+ *
+ *  The oscillator is based on a standard quadrature one (see @ref source_ohc()), from which
+ *  we use only the real part (cosinus).
+ *
+ *
+ *  @param freq Normalized frequency of the exponential (between -0.5 et 0.5).
+ *  @return Ream data source.
+ *
+ *  @par Example
+ *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohr
+ *  @image html ohr.png width=600px
+ *
+ *  @sa source_ohc(), sigcos()
+ */
+extern sptr<Source<float, OHConfig>> source_ohr(float freq);
+
+
+
+ /** @} */
 
 
 
 
-
-/** @brief A partir d'un flux de données entrant, découpé en paquet de dimensions quelconques, produit un flux de données sous forme de <b>paquets de dimension fixe</b>.
-    @param N dimension des paquets de sortie
-    @param callback Fonction utilisateur qui sera appelée à chaque fois qu'un nouveau paquet de dimension N est disponible.
-    @returns Un Sink acceptant des vecteurs de type @p T et reconfigurable (N).
-    @tparam T Type de données d'entrée / sortie (e.g. float, cfloat, double, ...). */
-template<typename T>
-  sptr<Sink<T,int>> creation_tampon(int N,
-      std::function<void (const Vector<T> &)> callback);
 
 
 

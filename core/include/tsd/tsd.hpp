@@ -481,7 +481,7 @@ namespace tsd
    *
    *  <h3>Complétion de vecteurs avec des zéros</h3>
    *
-   *  Un des deux vecteurs est complétés avec des zéros de manière à ce que les deux vecteurs
+   *  Un des deux vecteurs est complété avec des zéros de manière à ce que les deux vecteurs
    *  résultants aient la même longueur.
    *
    *  @param x  Premier vecteur
@@ -673,19 +673,19 @@ namespace tsd
    *
    *  <h3>Ré-échantillonnage</h3>
    *
-   *  Cette fonction ré-échantillone un signal suivant un facteur de décimation (@f$r < 1@f$)
+   *  Cette fonction ré-échantillonne un signal suivant un facteur de décimation (@f$r < 1@f$)
    *  ou d'interpolation (@f$r > 1@f$) arbitraire.
    *
    *  @param x    Signal d'entrée
    *  @param r    Facteur de ré-échantillonnage (@f$f_e^{(2)} / f_e^{(1)}@f$)
    *  @returns    Signal ré-échantillonné
    *
-   *  Notez qu'un filtre (voir une cascade de filtres) est automatiquement inséré (avant la décimation ou après le sur-échantillonnage) de
+   *  @note Un filtre (voir une cascade de filtres) est automatiquement inséré (avant la décimation ou après le sur-échantillonnage) de
    *  manière à éviter le repliement de spectre.
    *
    *  @sa filtre_reechan() (pour traiter des signaux au fil de l'eau), reechan_freq() (rééchantillonnnage sans retard).
    *
-   *  @par Exemple :
+   *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_resample
    *  @image html resample.png width=800px
    *
@@ -711,16 +711,16 @@ namespace tsd
    *  @image html tampon.png width=800px
    *
    *  @param N dimension des paquets de sortie
-   *  @param callback Fonction utilisateur qui sera appelée à chaque fois qu'un nouveau paquet de dimension N est disponible.
+   *  @param callback Fonction utilisateur qui sera appelée à chaque fois qu'un nouveau paquet de dimension @f$N@f$ est disponible.
    *  @returns Un puit de donnée acceptant des vecteurs de type @p T.
    *  @tparam T Type de données d'entrée / sortie (e.g. float, cfloat, double, ...).
    *
    *
    *  @par Exemple : préparation des paquets pour une FFT
    *  @snippet exemples/src/ex-tsd.cc ex_tampon
-   * Notez que 10000 n'étant pas un multiple de 512,
-   * les derniers échantillons ne sont traités (ils le seront si la méthode t->step())
-   * est appelée à nouveau avec d'autres échantillons).
+   *  Notez que 10000 n'étant pas un multiple de 512,
+   *  les derniers échantillons ne sont pas traités (ils le seront si la méthode t->step())
+   *  est appelée à nouveau avec d'autres échantillons).
    *
    *
    */
@@ -756,10 +756,9 @@ namespace tsd
    *
    * <h3>Modulo avec résultat compris dans l'intervalle @f$[0,m[@f$</h3>
    *
-   * Contrairement à la fonction standard fmod(x, m), qui renvoie
+   * Contrairement à la fonction standard <code>fmod(x, m)</code>, qui renvoie
    * une valeur comprise entre @f$-m@f$ et @f$m@f$, cette fonction
-   * renvoie une valeur comprise entre @f$0@f$ et @f$m@f$.
-   *
+   * renvoie une valeur comprise entre @f$0@f$ et @f$m@f$ :
    *  @f[
    *  y = x + k\cdot m,\quad k\in\mathbb{Z},\ y\in \left[0,m\right[
    *  @f]
@@ -769,7 +768,7 @@ namespace tsd
    *  auto y = modulo(1.5, 1.0); // -> y = 0.5
    *  @endcode
    *
-   *  @sa wrap_2pi(), wrap_pm_pi()
+   *  @sa modulo_2π(), modulo_pm_2π()
    *
    */
   template<typename T>
@@ -787,7 +786,7 @@ namespace tsd
     return res;
   }
 
-  /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[0,2\pi\right[@f$
+  /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[0,2\pi\right[@f$.
    *
    *
    *  <h3>Modulo @f$2\pi@f$</h3>
@@ -810,7 +809,7 @@ namespace tsd
     return modulo(x, 2 * std::numbers::pi_v<T>);
   }
 
-  /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[-\pi,\pi\right[@f$
+  /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[-\pi,\pi\right[@f$.
    *
    *  <h3>Modulo @f$2\pi@f$</h3>
    *  Le résultat est dans l'intervalle @f$\left[-\pi,\pi\right[@f$ :
@@ -833,7 +832,7 @@ namespace tsd
     return modulo_2π(x + π) - π;
   }
 
-  /** @brief Conversion degrés vers radians
+  /** @brief Conversion degrés vers radians.
    *
    *  <h3>Conversion degrés vers radians</h3>
    *
@@ -857,7 +856,7 @@ namespace tsd
       return degrees * std::numbers::pi_v<T> / 180.0;
   }
 
-  /** @brief Conversion radians vers degrés
+  /** @brief Conversion radians vers degrés.
    *
    *  <h3>Conversion degrés vers radians</h3>
    *
@@ -918,8 +917,6 @@ namespace tsd
     return ArrayXf::LinSpaced(n, a, b);
   }
 
-  /** @brief Entre @f$10^a@f$ et @f$10^b@f$ */
-
 
   /** @brief Intervalle de points logarithmiquement équidistants (suite géométrique).
    *
@@ -935,7 +932,7 @@ namespace tsd
    *
    *  @param a Logarithme en base 10 du point initial
    *  @param b Logarithme en base 10 du point final
-   *  @param n nombre de points
+   *  @param n Nombre de points
    *  @returns Suite géométrique
    *
    *  @par Exemple
@@ -991,7 +988,7 @@ namespace tsd
    *  @param n nombre de points à générer
    *  @returns Un vecteur de valeurs aléatoires, échantillonées suivant une loi normale (variance unitaire).
    *
-   *  Notez que pour générer une loi Gaussienne plus générale (variance différente de 1, et moyenne différente de zéro),
+   *  @note Notez que pour générer une loi Gaussienne plus générale (variance différente de 1, et moyenne différente de zéro),
    *  il suffit d'effectuer une mise à l'échelle.
    *  Par exemple, pour une moyenne de 5, et une variance de @f$1/2@f$ :
    *  @code
@@ -1089,7 +1086,7 @@ namespace tsd
    */
   extern ArrayXcf sigexp(float f, int n);
 
-  /** @brief Calcul efficace d'une sinusoide
+  /** @brief Calcul efficace d'une sinusoide.
    *
    *  <h3>Génération d'une sinusoide</h3>
    *
@@ -1136,7 +1133,7 @@ namespace tsd
   extern ArrayXf sigcos(float f, int n);
 
 
-  /** @brief Signal triangulaire (périodique)
+  /** @brief Signal triangulaire (périodique).
    *
    *  <h3>Signal triangulaire (périodique)</h3>
    *
