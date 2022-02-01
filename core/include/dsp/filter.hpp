@@ -1595,20 +1595,22 @@ template<typename T>
  *
  * <h3>%Filter for DC (low frequencies) suppression</h3>
  *
- *  Implémente le filtre :
+ *  Implement the following filter:
  *  @f[
  *  y_k = x_k - x_{k-1} + \alpha y_{k-1}
  *  @f]
- *  d'après The DC Blocking Filter, J M de Freitas, 2007
  *
- *  @param fc Fréquence de coupure normalisée (entre 0 et 0.5)
  *
- *  @sa design_bloqueur_dc()
+ *  @param fc Normalized cut-off frequency (0 - 0.5)
  *
- * @par Exemple
+ * @par Example
  *  @snippet exemples/src/ex-filtrage.cc exemple_filtre_dc
  *  @image html bloqueur-dc-ex.png width=1000px
  *
+ * @par bibliography
+ * <i>The DC Blocking Filter</i>, J M de Freitas, 2007
+ *
+ * @sa design_dc_blocker()
  */
 template<typename T>
   sptr<FiltreGen<T>> filter_dc(float fc)
@@ -1621,22 +1623,24 @@ template<typename T>
  *
  *  <h3>Moving average filter</h3>
  *
- *
- *  Ce filtre est une implémentation optimisée d'une moyenne glissante.
- *
- *  @param K profondeur de la moyenne
- *
+ *  This filter is an optimized implementation of a moving average filter:
  *  @f[
  *  y_n = \frac{1}{N}\cdot\sum_{k=0}^{K-1} x_{n-k}
  *  @f]
  *  @remark Ce filtre est implémenté efficacement grâce à un intégrateur et à un peigne de profondeur @f$K@f$ :
  *  @f[
  *   y_n = y_{n-1} + \frac{x_n - x_{n-K}}{K}
- *  @f] */
-template<typename T>
+ *  @f]
+ *
+ *  @param K      Moving average memory.
+ *  @tparam T     Type of input / output samples.
+ *  @tparam Tacc  Type to use for the internaml accumulator.
+ *
+ */
+template<typename T, typename Tacc>
   sptr<FiltreGen<T>> filter_ma(unsigned int K)
   {
-    return tsdf::filtre_mg<T>(K);
+    return tsdf::filtre_mg<T,Tacc>(K);
   }
 
 
@@ -1648,28 +1652,28 @@ template<typename T>
 /** @addtogroup filtrage-fini
   *  @{ */
 
-/** @brief Filtrage d'un signal par un filtre défini par sa fonction de transfert.
+/** @brief Filtering of a finite length signal by a filter defined by its transfert function.
  *
- *  Filtrage d'un signal par un filtre défini par sa fonction de transfert.
+ *  <h3>Filtering of a finite length signal by a filter defined by its transfert function</h3>
  *
- *  Cette  fonction ne fonctionne que sur un signal de durée finie. Pour filtrer des données
- *  reçues au fil de l'eau, il faut utiliser une des structure avec contexte (voir
- *  @ref filtre_rif(), @ref filtre_sois(), etc.).
+ *  This function will only work for finite length signals. To filter streaming signals,
+ *  better use one of the structure with context (see
+ *  @ref filter_fir(), @ref filter_sois(), etc.).
  *
- *  @param h Fonction de transfert ou coefficients du filtre à appliquer (peut être un filtre RIF ou RII)
- *  @param x Signal d'entrée à filtrer
- *  @returns Signal filtré
+ *  @param h Transfert function (can be IIR or FIR) or coefficients vector (can only be FIR).
+ *  @param x Input signal to be filtered
+ *  @returns Output signal
  *
- *  Pour un filtre RIF, cette fonction calcule le produit de convolution :
+ *  For a FIR filter, this function computes the convolution product:
  *  @f[
  *    y_n = (h \star x)_n = \sum_{k=0}^{K-1} h_k\cdot x_{n-k}
  *  @f]
  *
- *  Calcul autant d'échantillons de sortie qu'il y a d'échantillons d'entrée
- *  (calcul de @f$y_n@f$ suivant la formule ci-dessus pour @f$n=0\dots N-1@f$),
- *  en introduisant des zéros avant le signal.
+ *  There will be as many output samples as input ones,
+ *  by inserting virtual zeros before the beginning of the signal.
  *
- *  */
+ *  @sa filtfilt()
+ */
 template<typename T, typename Tc>
 Vector<T> filter(const FRat<Tc> &h, const Vector<T> &x)
 {
@@ -1682,19 +1686,23 @@ Vector<typename T::Scalar> filter(const Vector<Tc> &h, const Eigen::ArrayBase<T>
   return tsdf::filtrer(h, x);
 }
 
-/** @brief Filtrage zéro-phase (bi-directionnel)
+/** @brief Zero-phase filtering (bi-directionnal)
  *
- *  Cette fonction permet de filtrer un signal de durée finie sans décalage temporel, à partir d'un filtre RIF quelquonque,
- *  qui est appliqué deux fois sur le signal : une fois normalement, et une fois dans le sens inverse du temps :
+ *  <h3>Zero-phase filtering (bi-directionnal)</h3>
+ *
+ *  This function can filter a finite length signal without any time delay,
+ *  by using a FIR filter,
+ *  which is applied twice: once normally, and once more time reversed:
  *  @f[
  *    y = \left((x \star h)_{-.} \star h\right)_{-.}
  *  @f]
  *
- *  @param h Coefficients du filtre
- *  @param x Signal à filtrer
- *  @return Signal filtré, sans décalage temporel.
+ *  @param h RIF filter coefficients.
+ *  @param x Input signal
+ *  @return Output, filtered signal.
  *
- *  */
+ *  @sa filter()
+ */
 template<typename T, typename Tc>
   Vector<typename T::Scalar> filtfilt(const Vector<Tc> &h, const Eigen::ArrayBase<T> &x)
 {
@@ -1708,34 +1716,37 @@ template<typename T, typename Tc>
   return tsdf::convol(h, x);
 }
 
-/** @brief Calcul du signal analytique (via un filtrage RIF).
+/** @brief Analytic signal computing (through FIR filtering).
  *
- *  <h3>Calcul du signal analytique (via un filtrage RIF)</h3>
+ *  <h3>Computing analytic signal</h3>
  *
- *  @param x Signal d'entrée
- *  @param ncoefs Nombre de coefficients pour l'approximation RIF
- *  @return Signal analytique (complexe)
- *  @sa design_rif_hilbert(), hilbert_tfd(), hilbert_transformeur() */
+ *  @param x Input signal (real).
+ *  @param ncoefs Order of the FIR approximation.
+ *  @return Output, analytic signal (complex).
+
+ *  @sa design_fir_hilbert(), hilbert_dft(), hilbert_transformer()
+ */
 inline ArrayXcf hilbert(IArrayXf x, unsigned int ncoefs = 127)
 {
   return tsdf::hilbert(x, ncoefs);
 }
 
-/** @brief Calcul du signal analytique (via la TFD)
+/** @brief Analytic signal computing (through DFT)
  *
- *  <h3>Calcul du signal analytique (via la TFD)</h3>
+ *  <h3>Analytic signal computing (through DFT)</h3>
  *
- *  Cette fonction met tout simplement à zéro les fréquences négatives du signal,
- *  dans le domaine fréquentiel.
- *  Contrairement à @ref hilbert(), cette technique n'introduit aucun délais dans le domaine temporel.
+ *  This function simply zeroes the negative frequency bins of the signal.
+ *  Contrary to @ref hilbert(), this technique does not introduce any time domain delay.
  *
- *  @attention
- *  Du fait des hypothèses sous-jacentes à la la TFD, des artefacts peuvent apparaitre
- *  aux bords du signal.
+ *  @warning
+ *  Because of the some hypothesys implicit to the DFT, artefacts may be introduced
+ *  at the border of the signal.
  *
- *  @param x Signal d'entrée
- *  @return Signal analytique (complexe)
- *  @sa design_rif_hilbert(), hilbert(), hilbert_transformeur() */
+ *  @param x Input signal (real).
+ *  @return Output, analytic signal (complex).
+ *
+ *
+ *  @sa design_fir_hilbert(), hilbert(), hilbert_transformer() */
 inline ArrayXcf hilbert_dft(IArrayXf x)
 {
   return tsdf::hilbert_tfd(x);
@@ -1747,36 +1758,78 @@ inline ArrayXcf hilbert_dft(IArrayXf x)
 /** @addtogroup filtrage-rythme-itrp
   *  @{ */
 
-/** @brief Interface générique pour un interpolateur */
+/** @brief Generic interface for an interpolator. */
 template<typename T>
   using Interpolator = tsdf::Interpolateur<T>;
 
-/** @brief %Interpolateur générique à base filtre RIF */
+/** @brief %Interpolator based on a FIR filter. */
 template<typename T>
   using InterpolatorFIR = tsdf::InterpolateurRIF<T>;
 
 
-/* Interpolateur demi-bande */
-template<typename T> sptr<FiltreGen<T>> filtre_allpass_ups();
-
-/* Décimateur demi-bande */
-template<typename T> sptr<FiltreGen<T>> filtre_allpass_decim();
-
-/** @brief %Interpolation par splines cardinales */
+/** @brief %Interpolation by cardinal splines.
+ *
+ *  <h3>%Interpolation by cardinal splines</h3>
+ *
+ *  @sa InterpolatorFIR, itrp_linear(), itrp_lagrange(), itrp_sinc()
+ */
 template<typename T>
-  sptr<InterpolatorFIR<T>> itrp_cspline();
+  sptr<InterpolatorFIR<T>> itrp_cspline()
+{
+  return tsdf::itrp_cspline<T>();
+}
 
-/** @brief %Interpolation linéaire (équivalente à Lagrange degré 1) */
+/** @brief Linear interpolator (equivalent to first degree Lagrange).
+ *
+ *  <h3>Linear interpolator (equivalent to first degree Lagrange)</h3>
+ *
+ *  @sa InterpolatorFIR, itrp_cspline(), itrp_lagrange(), itrp_sinc()
+ */
 template<typename T>
-  sptr<InterpolatorFIR<T>> itrp_lineaire();
+  sptr<InterpolatorFIR<T>> itrp_linear()
+{
+  return tsdf::itrp_lineaire<T>();
+}
 
-/** @brief %Interpolateur de Lagrange (la fonction sinus cardinal est interpolée par un polynôme) */
+/** @brief Lagrange interpolator.
+ *
+ *  <h3>Lagrange interpolator</h3>
+ *  Lagrange polynomial interpolation consists in interpolating the signal
+ *  with a polynomial of given order,
+ *  which is the same, in terms of FIR filtering, to interpolate the sinc function by a polynomial.
+ *
+ *
+ *  @sa InterpolatorFIR, itrp_cspline(), itrp_linear(), itrp_sinc()
+ */
 template<typename T>
-  sptr<InterpolatorFIR<T>> itrp_lagrange(unsigned int degre);
+  sptr<InterpolatorFIR<T>> itrp_lagrange(unsigned int degree)
+{
+  return tsdf::itrp_lagrange<T>(degree);
+}
 
-/** @brief %Interpolateur à sinus cardinal fenêtré */
+/** @brief Configuration structure for a sinc interpolator. */
+using InterpolatorSincConfig = tsdf::InterpolateurSincConfig;
+
+/** @brief Windowed sinc interpolator.
+ *
+ *  <h3>Windowed sinc interpolator</h3>
+ *
+ *  This is a FIR interpolator for which the coefficients are given by a windowed sinc function,
+ *  with cut-off frequency @f$f_c@f$ and with a delay of @f$K/2 + \tau@f$ samples:
+ *
+ *  @f[
+ *  h_k = \textrm{sinc}\left(k - K/2 - \tau, f_c\right) \cdot w_{k-\tau}
+ *  @f]
+ *
+ *  The sinc function used here is the inverse Fourier transform of frequential door window with width equal to @f$\pm f_c@f$.
+ *
+ *  @sa InterpolatorFIR, itrp_cspline(), itrp_linear(), itrp_lagrange()
+ */
 template<typename T>
-  sptr<InterpolatorFIR<T>> itrp_sinc(int ncoefs, float fcut = 0.5, const std::string &type_fenetre = "hn");
+  sptr<InterpolatorFIR<T>> itrp_sinc(int ncoefs, float fcut = 0.5, const std::string &window_type = "hn")
+{
+  return tsdf::itrp_sinc<T>(ncoefs, fcut, window_type);
+}
 
 
 /** @} */
@@ -1785,54 +1838,93 @@ template<typename T>
   *  @{ */
 
 
-/** @brief Filtrage RIF avec post-décimation (ne calcule qu'une échantillon sur @f$R@f$).
+/** @brief FIR filtering with post-decimation (compute only one output sample every @f$R@f$ input ones).
  *
- * <h3>Filtrage RIF et décimation</h3>
+ * <h3>FIR filtering with post-decimation</h3>
  *
- * Cette structure permet l'application successive d'un filtrage RIF et d'une décimation,
- * de manière efficace (sans calcul des échantillons supprimés).
- * Le flux de sortie est décimé d'un facteur @f$R@f$ par rapport au flux d'entrée.
+ * This structure implements successivly a FIR filter and a decimation in an efficient way (not  computing the suppressed samples).
+ * The output stream is decimated by a factor @f$R@f$ compared to the imput stream.
  *
- * @param R Facteur de décimation
- * @param h Coefficients du filtre RIF anti-repliement.
- * @tparam Tc Type de coefficient
- * @tparam T  Type d'entrée / sortie */
+ * @param R   Decimation factor.
+ * @param h   Coefficients for the anti-aliasing FIR filter.
+ * @tparam Tc Coefficients type.
+ * @tparam T  Input / output samples type.
+ *
+ *
+ * @sa filter_fir_ups()
+ */
 template<typename Tc, typename T = Tc>
   sptr<FiltreGen<T>> filter_fir_decim(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
   {
     return tsdf::filtre_rif_decim(h, R);
   }
 
-/** @brief Filtrage RIF avec pré-insertion de zéro (implémentation polyphase)
+/** @brief To be documented : FIR filter optimized for half-band filtering. */
+template<typename Tc, typename T = Tc>
+  sptr<FiltreGen<T>> filter_fir_half_band(const Eigen::Ref<const Vecteur<Tc>> c)
+{
+  return tsdf::filtre_rif_demi_bande(c);
+}
+
+
+/** @brief FIR filtering with interpolation (polyphase implementation)
  *
- * <h3>Filtrage RIF et interpolation</h3>
+ * <h3>FIR filtering with interpolation</h3>
  *
- * Cette structure permet le calcul efficace de la succession d'un sur-échantillonnage (insertion de R-1 zéros entre chaque échantillon d'entrée),
- * et d'un filtrage (typiquement anti-repliement) RIF, grâce à une décomposition polyphase
- * du filtre RIF.
+ * This structure implements efficiently the cascade of over-sampling (zeros insertion),
+ * and FIR filtering (typically, an anti-aliasing filter),
+ * using a polyphase décomposition of the filter.
+ *
+ *  @param h  Coefficients for the anti-aliasin FIR filter.
+ *  @param R  Over-sampling factor.
+ *  @tparam Tc Coefficients type (float, double, etc.)
+ *  @tparam T  Input / output samples type (float, double, cfloat, etc.)
+ *  @return  A filter (type T to T), the output stream being oversampled by the factor @f$R@f$ compared to the input stream.
  *
  *
- *  @param h  Coefficients du filtre RIF anti-repliement.
- *  @param R  Facteur d'upsampling.
- *  @tparam Tc Type des coefficients (float, double, etc.)
- *  @tparam T  Type des échantillons d'entrée / sortie (float, double, cfloat, etc.)
- *  @return un filtre (type T vers T), le flux de sortie étant upsamplé d'un facteur @f$R@f$ par rapport au flux d'entrée. */
+ *  @sa filter_fir_ups_delay(), filter_fir_decim(), filter_fir()
+ */
 template<typename Tc, typename T = Tc>
   sptr<FiltreGen<T>> filter_fir_ups(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
   {
     return tsdf::filtre_rif_ups(h, R);
   }
 
+/** @brief Computes the delay of a FIR upsampling filter.
+ *
+ * <h3>Computes the delay of a FIR upsampling filter</h3>
+ *
+ * If the number of coefficients, @f$K@f$ is a multiple or @f$R@f$:
+ * @f[
+ *  \tau = \frac{K - 1}{2}
+ * @f]
+ *
+ * Otherwise:
+ * @f[
+ *  \tau = \frac{K - 1}{2} + R - (K [R])
+ * @f]
+ *
+ *
+ * @sa filter_fir_ups()
+ */
+inline float filter_fir_ups_delay(int nc, int R)
+{
+  return tsdf::filtre_rif_ups_délais(nc, R);
+}
+
+
 /** @brief Rythm adapter, with arbitrary ratio.
  *
  *  <h3>Rythm adapter, with arbitrary ratio</h3>
  *
- *  Cette fonction renvoi un bloc de ré-échantillonnage, permettant de changer le rythme d'un signal reçu au fil de l'eau.
- *  L'implémentation est basée sur une cascade de décimateurs (si le ratio est inférieur à 1) ou d'interpolateurs (si le ratio est supérieur à 1) demi-bandes,
- *  suivis d'un interpolateur de ratio arbitraire.
+ *  This function returns a filter block for resampling,
+ *  enabling to change the sampling rate of a streaming signal.
+ *  The implementation is based on a cascad of half-band decimators (if ratio is less than 1)
+ *  or interpolators (if the ratio is greater than 1),
+ *  followed by an arbitrary rate interpolator.
  *
- *  @param ratio Ratio de décimation / interpolation (rapport entre les fréquences d'échantillonnage de sortie et d'entrée).
- *  @sa resample(), filtre_rif_ups(), filtre_rif_decim()
+ *  @param ratio Decimation or interpolation ratio (ratio between the output and input sample frequencies).
+ *  @sa resample(), filter_fir_ups(), filter_fir_decim()
  **/
 template<typename T>
   sptr<FiltreGen<T>> filter_resample(float ratio)
@@ -1840,18 +1932,52 @@ template<typename T>
     return tsdf::filtre_reechan<T>(ratio);
   }
 
-/** @brief Interpolation d'un ratio arbitraire (calcul au fil de l'eau)
+/** @brief Arbitrary rate interpolator.
  *
- * <h3>Interpolation (ratio arbitraire)</h3>
+ * <h3>Arbitrary rate interpolator</h3>
  *
- *  @param ratio Ratio de décimation / interpolation (rapport entre les fréquences d'échantillonnage de sortie et d'entrée).
- *  @param itrp Interpolateur générique
- *  @sa itrp_cpline(), itrp_lineaire(), itrp_lagrange(), itrp_sinc() */
+ *  @param ratio Decimation or interpolation ratio (ratio between the output and input sample frequencies).
+ *  @param itrp  Pointer to a generic interpolator structure.
+ *
+ *  @sa itrp_cpline(), itrp_linear(), itrp_lagrange(), itrp_sinc()
+ */
 template<typename T> sptr<FiltreGen<T>> filter_itrp(float ratio, sptr<Interpolator<T>> itrp = itrp_cspline<T>())
     {
     return tsdf::filtre_itrp<T>(ratio, itrp);
     }
 
+/** @brief Interpolation type for a randomly sampled signal. */
+enum class InterpOption
+{
+  LINEAR = 0,
+  CSPLINE
+};
+
+
+/** @brief Interpolation of a randomly sampled signal.
+ *
+ * <h3>Interpolation of a randomly sampled signal</h3>
+ *
+ * This function will resample a signal, for which
+ * we know the values only at some time points, not necessarily equidistant.
+ * Given a set of @f$N@f$ points @f$(x_k,f(y_k))@f$,
+ * it computes a set of values @f$f(x'_k)@f$, the @f$x'_k@f$ being equidistant between @f$x_0@f$ and @f$x_{N-1}@f$.
+ *
+ * @param x    Vector with input sampling positions (must be a growing sequence).
+ * @param y    Vector of known values at the specified sampling positions.
+ * @param x2   Vector with desired sampling points  (must be a growing sequence).
+ * @param mode Type of desired interpolation (lineair or natural splines).
+ *
+ *  @par Example
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_itrp_irreg
+ *  @image html itrp-irreg.png width=800px
+ *
+ */
+template<typename T>
+Vector<T> interp(const ArrayXf &x, const Vector<T> &y, const ArrayXf &x2, InterpOption mode = InterpOption::LINEAR)
+{
+  return tsdf::interp(x, y, (tsdf::InterpOption) mode);
+}
 
 /** @} */
 

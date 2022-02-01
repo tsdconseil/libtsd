@@ -1486,7 +1486,6 @@ template<typename T>
  *  @f[
  *  y_k = x_k - x_{k-1} + \alpha y_{k-1}
  *  @f]
- *  d'après The DC Blocking Filter, J M de Freitas, 2007
  *
  *  @param fc Fréquence de coupure normalisée (entre 0 et 0.5)
  *
@@ -1508,19 +1507,20 @@ template<typename T>
  *  <h3>Moyenne glissante</h3>
  *
  *
- *  Ce filtre est une implémentation optimisée d'une moyenne glissante.
- *
- *  @param K profondeur de la moyenne
- *  @tparam T Type de données à traiter
- *  @tparam Tacc Type à utiliser pour l'accumulateur
- *
+ *  Ce filtre est une implémentation optimisée d'une moyenne glissante :
  *  @f[
  *  y_n = \frac{1}{N}\cdot\sum_{k=0}^{K-1} x_{n-k}
  *  @f]
  *  @remark Ce filtre est implémenté efficacement grâce à un intégrateur et à un peigne de profondeur @f$K@f$ :
  *  @f[
  *   y_n = y_{n-1} + \frac{x_n - x_{n-K}}{K}
- *  @f] */
+ *  @f]
+ *
+ *  @param K profondeur de la moyenne
+ *  @tparam T Type de données à traiter
+ *  @tparam Tacc Type à utiliser pour l'accumulateur
+ *
+ */
 template<typename T, typename Tacc>
   sptr<FiltreGen<T>> filtre_mg(int K);
 
@@ -1533,15 +1533,15 @@ template<typename T, typename Tacc>
 /** @addtogroup filtrage-fini
   *  @{ */
 
-/** @brief Filtrage d'un signal par un filtre défini par sa fonction de transfert.
+/** @brief Filtrage d'un signal de durée finie par un filtre défini par sa fonction de transfert.
  *
- *  Filtrage d'un signal par un filtre défini par sa fonction de transfert.
+ *  <h3>Filtrage d'un signal par un filtre défini par sa fonction de transfert</h3>
  *
  *  Cette  fonction ne fonctionne que sur un signal de durée finie. Pour filtrer des données
  *  reçues au fil de l'eau, il faut utiliser une des structure avec contexte (voir
  *  @ref filtre_rif(), @ref filtre_sois(), etc.).
  *
- *  @param h Fonction de transfert ou coefficients du filtre à appliquer (peut être un filtre RIF ou RII)
+ *  @param h Fonction de transfert (RIF ou RII) ou coefficients (RIF seulement) du filtre à appliquer.
  *  @param x Signal d'entrée à filtrer
  *  @returns Signal filtré
  *
@@ -1554,7 +1554,8 @@ template<typename T, typename Tacc>
  *  (calcul de @f$y_n@f$ suivant la formule ci-dessus pour @f$n=0\dots N-1@f$),
  *  en introduisant des zéros avant le signal.
  *
- *  */
+ *  @sa filtfilt()
+ */
 template<typename T, typename Tc>
 Vecteur<T> filtrer(const FRat<Tc> &h, const Vecteur<T> &x)
 {
@@ -1576,6 +1577,8 @@ Vecteur<typename T::Scalar> filtrer(const Vecteur<Tc> &h, const Eigen::ArrayBase
 
 /** @brief Filtrage zéro-phase (bi-directionnel)
  *
+ *  <h3>Filtrage zéro-phase (bi-directionnel)</h3>
+ *
  *  Cette fonction permet de filtrer un signal de durée finie sans décalage temporel, à partir d'un filtre RIF quelquonque,
  *  qui est appliqué deux fois sur le signal : une fois normalement, et une fois dans le sens inverse du temps :
  *  @f[
@@ -1586,7 +1589,9 @@ Vecteur<typename T::Scalar> filtrer(const Vecteur<Tc> &h, const Eigen::ArrayBase
  *  @param x Signal à filtrer
  *  @return Signal filtré, sans décalage temporel.
  *
- *  */
+ *
+ *  @sa filtrer()
+ */
 template<typename T, typename Tc>
   Vecteur<typename T::Scalar> filtfilt(const Vecteur<Tc> &h, const Eigen::ArrayBase<T> &x)
 {
@@ -1609,6 +1614,7 @@ template<typename T, typename Tc>
  *  @param x Signal d'entrée
  *  @param ncoefs Nombre de coefficients pour l'approximation RIF
  *  @return Signal analytique (complexe)
+ *
  *  @sa design_rif_hilbert(), hilbert_tfd(), hilbert_transformeur() */
 extern ArrayXcf hilbert(IArrayXf x, int ncoefs = 127);
 
@@ -1620,7 +1626,7 @@ extern ArrayXcf hilbert(IArrayXf x, int ncoefs = 127);
  *  dans le domaine fréquentiel.
  *  Contrairement à @ref hilbert(), cette technique n'introduit aucun délais dans le domaine temporel.
  *
- *  @attention
+ *  @warning
  *  Du fait des hypothèses sous-jacentes à la la TFD, des artefacts peuvent apparaitre
  *  aux bords du signal.
  *
@@ -1885,8 +1891,10 @@ template<typename T>
  * <h3>Interpolation (ratio arbitraire)</h3>
  *
  *  @param ratio Ratio de décimation / interpolation (rapport entre les fréquences d'échantillonnage de sortie et d'entrée).
- *  @param itrp Interpolateur générique
- *  @sa itrp_cspline(), itrp_lineaire(), itrp_lagrange(), itrp_sinc() */
+ *  @param itrp  Pointeur vers un interpolateur générique
+ *
+ *  @sa itrp_cspline(), itrp_lineaire(), itrp_lagrange(), itrp_sinc()
+ */
 template<typename T> sptr<FiltreGen<T>> filtre_itrp(float ratio, sptr<Interpolateur<T>> itrp = itrp_cspline<T>());
 
 
