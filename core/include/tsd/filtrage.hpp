@@ -687,9 +687,10 @@ extern ArrayXf design_rif_eq(int n, const std::vector<SpecFreqIntervalle> &spec,
  *  y(t) = \frac{\sin(2 \pi t f_c)}{\pi  t}
  *  @f]
  *
- *  La transformée de Fourier de cette fonction est une porte de largeur @f$\pm f_c@f$, ce qui en fait donc le protype idéal pour un filtre passe-bas.
+ *  La transformée de Fourier de cette fonction est une porte de largeur @f$\pm f_c@f$,
+ *  ce qui en fait donc le protype idéal (mais non réalisable) pour un filtre passe-bas.
  *
- *  @param t Point d'échantillonnage (en nombre d'échantillons)
+ *  @param t Point d'échantillonnage temporel (en nombre d'échantillons)
  *  @param fc Fréquence de coupure
  *  @returns Valeur de @f$y@f$
  *
@@ -712,7 +713,9 @@ extern float sinc2(float t, float fc);
  *  */
 extern float sinc(float t);
 
-/** \~french  @brief Design RIF par sinus-cardinal fenêtré.
+/** @brief Design RIF par sinus-cardinal fenêtré.
+ *
+ * <h3>Design RIF par sinus-cardinal fenêtré</h3>
  *
  * @param n       Ordre du filtre,
  * @param type    Type de filtre ("lp" pour passe-bas, "hp" pour passe-haut, ...),
@@ -795,9 +798,9 @@ extern ArrayXf design_rif_cs(int n, float β, float fc);
  */
 extern ArrayXf design_rif_rcs(int n, float β, float fc);
 
-/** @brief Design d'un filtre en racine de cosinus sur-élevé
+/** @brief Design d'un filtre en racine de cosinus sur-élevé (1)
  *
- *  <h3>Design d'un filtre en racine de cosinus sur-élevé</h3>
+ *  <h3>Design d'un filtre en racine de cosinus sur-élevé (1)</h3>
  *
  *  Cette fonction est équivalente à @ref design_rif_rcs(), si ce n'est
  *  qu'au lieu de la fréquence de coupure @f$f_c@f$, c'est le facteur de sur-échantillonnage
@@ -891,9 +894,7 @@ struct CICConfig
   int M = 1;
 };
 
-/** @~french  @brief Fonction de transfert théorique d'un filtre CIC
-    @~english @brief CIC theorical transfert function
-    @~
+/** @brief Fonction de transfert théorique d'un filtre CIC
 
     <h3>Fonction de transfert théorique d'un filtre CIC</h3>
 
@@ -961,7 +962,7 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float
  *
  *  <h3>Fonction de transfert bloqueur DC</h3>
  *
- *  Calcul de la fonction de transfert d'un bloqueur DC :
+ *  Calcul de la fonction de transfert suivante :
  *  @f[
  *  H(z) = \frac{1 - z^{-1}}{1 - \alpha \cdot z^{-1}}
  *  @f]
@@ -985,7 +986,7 @@ extern FRat<float> design_bloqueur_dc(float fc);
 
 /** @brief Fonction de transfert d'un filtre exponentiel
  *
- *  <h3>%Filtre exponentiel</h3>
+ *  <h3>Fonction de transfert d'un filtre exponentiel</h3>
  *  Cette fonction renvoie la fonction de transfert d'un filtre exponentiel de fréquence de coupure
  *  @f$f_c@f$ :
  *  @f[
@@ -1004,6 +1005,8 @@ extern FRat<float> design_bloqueur_dc(float fc);
  *  @par Exemple
  *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rii1
  *  @image html design-rii1.png width=1000px
+ *
+ *  @sa rii1_coef()
  */
 extern FRat<float> design_rii1(float fc);
 
@@ -1060,7 +1063,7 @@ extern float rii1_coef_vers_tc(float γ);
  *  @param γ Facteur d'oubli
  *  @returns Fréquence de coupure
  *
- *  @sa rii1_coef */
+ *  @sa rii1_coef() */
 extern float rii1_fcoupure(float γ);
 
 
@@ -1094,7 +1097,8 @@ template<typename T>
  *  @param X Forme polyphase (tableau 2d)
  *  @returns Forme normale (tableau 1d)
  *
- *  @sa forme_polyphase() */
+ *  @sa forme_polyphase()
+ */
 template<typename T>
   Vecteur<T> iforme_polyphase(const Eigen::Ref<const Tableau<T>> X);
 
@@ -1102,10 +1106,11 @@ template<typename T>
  *
  * <h3>Transformée bilinéaire</h3>
  *
- *  La transformée bilinéaire permet de convertir une fonction de transfert analogique (transformée
- *  de Laplace) en fonction de tranfert digitale (transformée en z).
+ *  La transformée bilinéaire permet d'approximer une fonction de transfert analogique (transformée
+ *  de Laplace) grâce à une fonction de tranfert digitale (transformée en z).
  *
- *  Le calcul de la transformée en z est fait en remplaçant la variable s par :
+ *  Le calcul de la transformée en z est fait en approximant la
+ *  variable @f$s@f$ de la transformée de Laplace par :
  *  @f[
  *  s \mapsto 2 f_e \cdot \frac{1 - z^{-1}}{1 + z^{-1}}
  *  @f]
@@ -1157,11 +1162,11 @@ extern float fa_vers_fd(float fa);
   *  @{ */
 
 
-/** @brief Retarde le signal d'entrée de @f$n@f$ échantillons.
+/** @brief Retarde le signal d'entrée d'un nombre entier d'échantillons.
  *
  *  <h3>Ligne à retard</h3>
  *
- *  La fonction produit autant d'échantillons en sortie qu'il y en a en entrée.
+ *  Ce filtre produit autant d'échantillons en sortie qu'il y en a en entrée.
  *  Les échantillons précédant le premier échantillon d'entrée sont supposés nuls.
  *
  *  @param n Délais entier (@f$n \geq 0@f$)
@@ -1191,7 +1196,7 @@ struct HilbertTransformeurConfig
  *
  * @param  n        Ordre du filtre
  * @param  fenetre  Choix de la fenêtre (voir @ref fenetre())
- * @return          Filtre float -> cfloat
+ * @return          %Filtre float -> cfloat
  *
  * @sa design_rif_hilbert(), hilbert(), hilbert_tfd()
  */
@@ -1200,7 +1205,7 @@ extern sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
 
 
 
-/** @brief Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie)
+/** @brief Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie).
  *
  * <h3>Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie)</h3>
  *
@@ -1212,11 +1217,12 @@ extern sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
  *  @param h Vecteur des coefficients du filtre
  *  @tparam T Type des données à traiter (float, cfloat, etc.)
  *  @tparam Tc Type des coefficients
- *  @return Bloc T -> T
+ *  @return %Filtre T -> T
  *
- *  @sa filtre_rif_fft()
  *  @note Si le filtre a un nombre important de coefficients, utilisez plutôt @ref filtre_rif_fft(), qui sera plus efficace
  *  (filtrage dans le domaine fréquentiel).
+ *
+ *  @sa filtre_rif_fft()
  */
 template<typename Tc, typename T = Tc>
   sptr<FiltreGen<T>> filtre_rif(const Eigen::Ref<const Vecteur<Tc>> h);
@@ -1249,13 +1255,13 @@ template<typename T>
  *
  *  Ce bloc réalise un filtrage RIF via la technique OLA (Ovelap-And-Add).
  *  La complexité est donc bien moindre que l'implémentation standard si le nombre de coefficients @f$M@f$
- *  est important (de l'ordre de @f$\log M@f$ opérations par échantillons au lieu de @f$M@f$).
+ *  est important (de l'ordre de @f$\log M@f$ opérations par échantillon au lieu de @f$M@f$).
  *
  *  @param h Vecteur des coefficients du filtre
  *  @tparam T Type de données à traiter
- *  @return Filtre T -> T
+ *  @return %Filtre T -> T
  *
- *  Notez que cette technique introduit un délais un peu plus important que l'implémentation temporelle.
+ *  @note Notez que cette technique introduit un délais un peu plus important que l'implémentation temporelle.
  *
  *  @sa filtre_rif()
  */
@@ -1276,14 +1282,14 @@ template<typename T>
  *  @f]
  *  (le filtre RIF correspondant au numérateur est calculé en premier, ensuite le filtre purement récursif est calculé).
  *
- *  @param h    Fonction de transfert
- *  @tparam T   Type de données à traiter
- *  @tparam Tc  Type des coefficients
- *  @return     Filtre T -> T
+ *  @param h    Fonction de transfert (fraction rationnelle).
+ *  @tparam T   Type de données à traiter.
+ *  @tparam Tc  Type des coefficients.
+ *  @return     %Filtre T -> T.
  *
  *  @sa @ref filtre_sois()
  *
- *  @attention Si l'ordre du filtre est important, du fait des erreurs de troncature, cette implémentation a de fortes chances
+ *  @warning Si l'ordre du filtre est important, du fait des erreurs de troncature, cette implémentation a de fortes chances
  *  de diverger. L'implémentation sous forme de cascade de filtres RII du second ordre (@ref filtre_sois()) est alors recommendée.
  *
  * */
@@ -1320,7 +1326,7 @@ template<typename T, typename Ti>
   sptr<FiltreGen<T>> filtre_cic(const CICConfig &config, char mode = 'd');
 
 
-
+/** @brief Résultat de l'analyse d'un filtre CIC */
 struct CICAnalyse
 {
   CICConfig config;
@@ -1428,13 +1434,13 @@ typedef enum
  *
  *  @param h Fonction de transfert, normalement complexe
  *  @param structure RIIStructure::FormeDirecte1 ou RIIStructure::FormeDirecte2 (voir notes ci-dessous)
- *  @return Filtre réel vers réel
+ *  @return %Filtre réel vers réel
  *
  *  La forme directe 2 est légérement plus efficace que la forme 1. Cependant, si les coefficients du filtre
  *  sont amenés à changer en cours de fonctionnement, il vaut mieux utiliser la première forme, car la forme 2
  *  risque de générer des discontinuités.
  *
- *  @attention Il est recommandé que la fonction de transfert passée en entrée soit sous la forme pôles / zéros,
+ *  @warning Il est recommandé que la fonction de transfert passée en entrée soit sous la forme pôles / zéros,
  *  et non pas sous la forme de la liste des coefficients, car avec cette dernière représentation, la position
  *  des pôles et zéros (et donc la réponse fréquentielle) est très instable (très sensible aux erreurs de troncature
  *  lors de la quantification des coefficients). Notez que la fonction @ref design_riia() renvoie bien une fonction
@@ -1467,7 +1473,7 @@ template<typename T>
  *  fréquence de coupure souhaitée (voir @ref rii1_coef()).
  *
  *  @sa rii1_fcoupure(), rii1_coef()
- *   */
+ */
 template<typename T>
   sptr<FiltreGen<T>> filtre_rii1(float γ);
 

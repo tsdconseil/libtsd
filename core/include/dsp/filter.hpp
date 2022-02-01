@@ -695,53 +695,72 @@ inline ArrayXf design_fir_freq(int n, const ArrayXf &d)
   return tsdf::design_rif_freq(n, d);
 }
 
-/** @brief Design équiripple / Remez.
+
+/** @brief Computes the @f$m@f$ frequencie values used for the sampling frequency technique design.
  *
- *  <h3>Design équiripple / Remez</h3>
+ * <h3>Computes the @f$m@f$ frequencie values used for the sampling frequency technique design</h3>
  *
- *  @param n      Ordre du filtre
- *  @param d      Réponse souhaitée
- *  @param w      Poids de pondération (doit être de même longueur que d)
- *  @param debug  Si vrai, affiche des plots des calculs intermédiaires.
- *  @returns      Vector des coefficients du filtre (vecteur de dimension n)
+ * This function returns the following frequency vector:
+ * @f[
+ *  f_k = k \cdot \frac{1}{2m-1},\ k = 0,\dots, m-1
+ * @f]
+ * where @f$m=(n+1)/2@f$ is the number of frequency points to specify.
+ *
+ * @param n Filter order (must be odd).
+ *
+ * @sa design_fir_freq()
+ */
+inline ArrayXf design_fir_freq_freqs(int n)
+{
+  return tsdf::design_rif_freq_freqs(n);
+}
+
+/** @brief Equiripple / Remez FIR design.
+ *
+ *  <h3>Equiripple / Remez FIR design</h3>
+ *
+ *  @param n      Filter order
+ *  @param d      Desired frequency response
+ *  @param w      Weighting coefficients vector (must have the same length as d)
+ *  @param debug  If true, display some plots with intermediate computings.
+ *  @returns      Coefficients vector of the FIR filter (vector of length n)
  */
 inline ArrayXf design_fir_eq(unsigned int n, IArrayXf d, IArrayXf w, bool debug = false)
 {
   return tsdf::design_rif_eq(n, d, w, debug);
 }
 
-extern ArrayXf design_rif_eq(unsigned int n, const std::vector<SpecFreqIntervalle> &spec, bool debug = false);
-
-/** @brief Sinus cardinal normalisé avec fréquence de coupure paramétrable.
+/** @brief Normalized cardinal sine with configurable cut-off frequency
  *
- *  <h3>Sinus cardinal normalisé avec fréquence de coupure paramétrable</h3>
+ *  <h3>Normalized cardinal sine with configurable cut-off frequency</h3>
  *
  *  @f[
  *  y(t) = \frac{\sin(2 \pi t f_c)}{\pi  t}
  *  @f]
  *
- *  La transformée de Fourier de cette fonction est une porte de largeur @f$\pm f_c@f$, ce qui en fait donc le protype idéal pour un filtre passe-bas.
+ *  The Fourier transform of this fonction is a door of width @f$\pm f_c@f$,
+ *  which is an ideal (yet not realizable) prototype for a low-pass filter.
  *
- *  @param t Point d'échantillonnage (en nombre d'échantillons)
- *  @param fc Fréquence de coupure
- *  @returns Valeur de @f$y@f$
+ *  @param t   Temporal sampling point (as fractionnal number of samples).
+ *  @param fc  Normalized cut-off frequency, between 0 and 0.5.
+ *  @returns   @f$y@f$ value
  *
- *  @sa sinc(), design_rif_fen() */
+ *  @sa sinc(), design_fir_fen() */
 inline float sinc2(float t, float fc)
 {
-  return tsdf::sinc(t);
+  return tsdf::sinc2(t, fc);
 }
 
-/** @brief Sinus cardinal normalisé avec fréquence de coupure 0,5.
+/** @brief Normalized cardinal sine with configurable cut-off frequency at 0.5.
  *
- *  <h3>Sinus cardinal normalisé</h3>
- *  Calcul d'un sinus cardinal (fréquence de coupure 0,5) :
+ *  <h3>Normalized cardinal sine</h3>
+ *  Compute a cardinal sine with configurable cut-off frequency at 0.5:
  *  @f[
  *  y(t) = \frac{\sin(\pi t)}{\pi  t}
  *  @f]
  *
- *  @param t Point d'échantillonnage (en nombre d'échantillons)
- *  @returns Valeur de @f$y@f$
+ *  @param t Temporal sampling point (as fractionnal number of samples).
+ *  @returns Normalized cut-off frequency, between 0 and 0.5.
  *
  *  @sa sinc2()
  *
@@ -751,135 +770,227 @@ inline float sinc(float t)
   return tsdf::sinc(t);
 }
 
-/** \~french  @brief Design RIF par sinus-cardinal fenêtré.
+/** @brief Windowed cardinal sine FIR design.
  *
- * @param n       ordre du filtre
- * @param type    type de filtre ("lp" pour passe-bas, "hp" pour passe-haut, ...)
- * @param fc      fréquence de coupure normalisée
- * @param fen     type de fenêtre ("hn", "hm", "tr" ou "re"), voir fonction @ref fenetre()
- * @param fc2     deuxième fréquence de coupure (uniquement pour les filtres passe-bande ou stoppe-bande)
- * @returns vecteur des coefficients du filtre
- * @sa design_rif_eq(), design_rif_freq()
+ * <h3>Windowed cardinal sine FIR design</h3>
  *
- *  \~english @brief Windowed sinc filter */
-extern ArrayXf design_rif_fen(unsigned int n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0);
-
-/** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Kaiser).
- *
- *  <h3>Design RIF fenétré (Kaiser)</h3>
- *
- *  L'utilisation d'une fenêtre de Kaiser permet de choisir à la fois l'atténuation du filtre
- *  et la largeur de la bande de transition, la variable d'ajustement étant le nombre de coefficients.
- *
- * @param type    type de filtre ("lp" pour passe-bas, "hp" pour passe-haut, ...)
- * @param fc      fréquence de coupure normalisée
- * @param atten_db Atténuation souhaitée dans la bande coupée (en décibels)
- * @param df      Largeur de la bande de transition (en fréquence normalisée)
- * @param fc2     deuxième fréquence de coupure (uniquement pour les filtres passe-bande ou stoppe-bande)
- *
- * @sa design_rif_fen(), design_rif_fen_chebychev()
+ * @param n       Filter order.
+ * @param type    Filter type ("lp" for low-pass, "hp" for high-pass, ...)
+ * @param fc      Normalized cut-off frequency.
+ * @param fen     Window type ("hn", "hm", "tr" ou "re"), see function @ref window()
+ * @param fc2     Second cut-off frequency (only band-pass or band-stop type filters)
+ * @returns       Vector with filter coefficients.
+ * @sa design_fir_eq(), design_fir_freq()
  */
-extern ArrayXf design_rif_fen_kaiser(const std::string &type, float fc, float atten_db,
-    float df, float fc2 = 0);
+inline ArrayXf design_fir_wnd(unsigned int n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0)
+{
+  return tsdf::design_rif_fen(n, type, fc, fen, fc2);
+}
 
-/** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Chebychev).
+/** @brief Windowed cardinal sine FIR design (Kaiser window).
  *
- *  <h3>Design RIF fenétré (Chebychev)</h3>
+ *  <h3>Windowed cardinal sine FIR design (Kaiser window)</h3>
  *
- *  L'utilisation d'une fenêtre de Chebychev permet de choisir à la fois l'atténuation du filtre
- *  et le nombre de coefficients, la variable d'ajustement étant la bande de transition.
+ *  The use of a Kaiser window enable to choose both the filter  attenuation
+ *  and the transition band width, the adjusting variable being the number of coefficients.
  *
- * @param n       ordre du filtre
- * @param type    type de filtre ("lp" pour passe-bas, "hp" pour passe-haut, ...)
- * @param fc      fréquence de coupure normalisée
- * @param atten_db Atténuation souhaitée dans la bande coupée (en décibels)
- * @param fc2     deuxième fréquence de coupure (uniquement pour les filtres passe-bande ou stoppe-bande)
+ * @param type    Filter type ("lp" for low-pass, "hp" for high-pass, ...).
+ * @param fc      Normalized cut-off frequency.
+ * @param atten_db Desired attenuation in the stop-band (decibels).
+ * @param df      Transition band width (normalized frequency units).
+ * @param fc2     Second cut-off frequency (only band-pass or band-stop type filters).
  *
- * @sa design_rif_fen(), design_rif_fen_kaiser()
+ * @sa design_fir_fen(), design_fir_wnd_chebychev()
  */
-extern ArrayXf design_rif_fen_chebychev(int n, const std::string &type,
-    float fc, float atten_db, float fc2 = 0);
+inline ArrayXf design_rif_wnd_kaiser(const std::string &type, float fc, float atten_db,
+    float df, float fc2 = 0)
+{
+  return tsdf::design_rif_fen_kaiser(type, fc, atten_db, df, fc2);
+}
 
-/** @brief Design d'un filtre en cosinus sur-élevé.
+/** @brief Windowed cardinal sine FIR design (Chebychev window).
  *
- *  <h3>Design d'un filtre en cosinus sur-élevé</h3>
+ *  <h3>Windowed cardinal sine FIR design (Chebychev window)</h3>
  *
- *  @param n  ordre du filtre
- *  @param α  facteur de dépassement
- *  @param fc fréquence de coupure normalisée
+ *  The use of a Chebychev window enable to choose both the filter attenuation
+ *  and the number of coefficients, the adjusting variable being the transition band width.
  *
- *  @par Exemple
+ * @param n       Filter order.
+ * @param type    Filter type ("lp" for low-pass, "hp" for high-pass, ...).
+ * @param fc      Normalized cut-off frequency.
+ * @param atten_db Desired attenuation in the stop-band (decibels).
+ * @param fc2     Second cut-off frequency (only band-pass or band-stop type filters).
+ *
+ * @sa design_fir_wnd(), design_fir_wnd_kaiser()
+ */
+inline ArrayXf design_fir_wnd_chebychev(int n, const std::string &type,
+    float fc, float atten_db, float fc2 = 0)
+{
+  return tsdf::design_rif_fen_chebychev(n, type, fc, atten_db, fc2);
+}
+
+/** @brief Raised cosine filter design.
+ *
+ *  <h3>Raised cosine filter design</h3>
+ *
+ *  @param n  Filter order.
+ *  @param β  Roll-off factor.
+ *  @param fc Normalized cut-off frequency.
+ *
+ *  @par Example
  *  @snippet exemples/src/ex-filtrage.cc ex_design_rif_cs
  *  @image html design-rif-cs.png width=800px
  *
- *  @sa design_rif_rcs() */
-extern ArrayXf design_rif_cs(int n, float α, float fc);
+ *  @sa design_fir_srrc() */
+inline ArrayXf design_fir_rc(int n, float β, float fc)
+{
+  return tsdf::design_rif_cs(n, β, fc);
+}
 
-/** @brief Design d'un filtre en racine de cosinus sur-élevé.
+/** @brief Square-root raised cosine filter design.
  *
- *  <h3>Design d'un filtre en racine de cosinus sur-élevé</h3>
+ *  <h3>Square-root raised cosine filter design</h3>
  *
- *  @param n  ordre du filtre
- *  @param α  facteur de dépassement
- *  @param fc fréquence de coupure normalisée
- *  @sa design_rif_cs()
+ *  @param n  Filter order.
+ *  @param β  Roll-off factor.
+ *  @param fc Normalized cut-off frequency.
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/ex-filtrage.cc ex_design_rif_rcs
  *  @image html design-rif-rcs.png width=800px
  *
- */
-extern ArrayXf design_rif_rcs(int n, float α, float fc);
-
-extern ArrayXf design_rif_rcs1(int n, float α, float osf, char nrm = 's');
-
-/** @brief Coefficients d'une approximation RIF d'un filtre gaussien (non fenêtré), pour une modulation GFSK.
- *
- * <h3>%Filtre Gaussien (approximation RIF)</h3>
- *
- *  Les paramètres de cette fonction sont adaptés à la réalisation
- *  d'un filtre de mise en forme pour une modulation GFSK.
- *
- *  @param n   Nombre de coefficients du filtre
- *  @param BT  Produit Bande-passante - Temps
- *  @param osf Facteur de sur-échantillonnage (rapport entre la fréquence d'échantillonnage et la fréquence symbole)
- *  @return Vector des coefficients du filtre
- *
- *  @par Exemple
- *  @snippet exemples/src/ex-filtrage.cc ex_design_rif_gaussien
- *  @image html design-rif-gaussien.png width=600px
- *
+ *  @sa design_fir_rc(), design_fir_srrc1()
  *
  */
-extern ArrayXf design_rif_gaussien(unsigned int n, float BT, unsigned int osf);
+inline ArrayXf design_fir_srrc(int n, float β, float fc)
+{
+  return tsdf::design_rif_rcs(n, β, fc);
+}
+
+/** @brief Square-root raised cosine filter design (1).
+ *
+ *  <h3>Square-root raised cosine filter design (1)</h3>
+ *
+ *  This function is equivalent to @ref design_fir_srrc(), only instead
+ *  of the cut-off frequency @f$f_c@f$, it is the over-sampling factor which is specified
+ *  (@f$\textrm{OSF} = \frac{1}{2 f_c}@f$).
+ *
+ *  @param n  Filter order.
+ *  @param β  Roll-off factor.
+ *  @param osf Oversampling factor (@f$\frac{f_e}{f_{symb}}@f$).
+ *  @param nrm Type of normalization for the coefficients ('s' for sum = 1, 'e' for sum of squares = 1).
+ *
+ *  @sa design_fir_srrc()
+ */
+inline ArrayXf design_fir_srrc1(int n, float β, float osf, char nrm = 's')
+{
+  return tsdf::design_rif_rcs1(n, β, osf, nrm);
+}
+
+/** @brief Coefficients for FIR approximation of a Gaussian filter (non windowed).
+ *
+ * <h3>Coefficients for FIR approximation of a Gaussian filter</h3>
+ *
+ *  @param n   Number of taps.
+ *  @param σ   Standard deviation (in number of samples).
+ *
+ *  @par Example
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_gaussien
+ *  @image html design-rif-gaussien.png width=800px
+ *
+ *  @sa design_fir_gaussian_telecom()
+ */
+inline ArrayXf design_fir_gaussian(int n, float σ)
+{
+  return tsdf::design_rif_gaussien(n, σ);
+}
 
 
-/** @~french  @brief Fonction de transfert théorique d'un filtre CIC
-    @~english @brief CIC theorical transfert function
-    @~
+/** @brief Coefficients for FIR approximation of a Gaussian filter, for a GFSK modulation.
+ *
+ *  <h3>Gaussian filter convolved with NRZ filter</h3>
+ *
+ *  Computes the convolution of Gaussian filter and a moving average filter, with depth equal to
+ *  the over-sampling factor.
+ *  The standard deviation of the Gaussian filter is computed according to the Bandwidth-Time product (BT parameter).
+ *
+ *  This function is targeted for the design of a shaping filter for GFSK modulation.
+ *
+ *  @param n   Number of taps.
+ *  @param BT  Bandwidth - time product.
+ *  @param osf Oversampling factor (ratio of sampling frequency versus symbol frequency).
+ *  @return    Vector with filter coefficients.
+ *
+ *  @par Example
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_gaussien_telecom
+ *  @image html design-rif-gaussien-telecom.png width=800px
+ *
+ *  @sa design_fir_gaussian()
+ */
+inline ArrayXf design_fir_gaussian_telecom(int n, float BT, int osf)
+{
+  return tsdf::design_rif_gaussien_telecom(n, BT, osf);
+}
 
-    <h3>Fonction de transfert théorique d'un filtre CIC</h3>
+/** @brief Computes the standard deviation (relative to the sample period) as a function of the Bandwidt - Time product (BT). */
+inline float design_fir_gaussian_telecom_BT2sigma(float BT)
+{
+  return tsdf::design_rif_gaussien_telecom_BT_vers_sigma(BT);
+}
 
-    @param R Decimation ratio
-    @param N Number of integrators / differentiators stages
-    @param M Optionnal CIC design parameter (default is M=1)
+
+/** @brief Computes the FIR filter equivalent to the serie concatenation of two other FIR filters.
+ *
+ * <h3>Serie concatenation of two FIR filters</h3>
+ *
+ * This function computes the coefficients of a FIR filter that has the same response
+ * as the serie cascading of two FIR filters given as parameters:
+ * @f[
+ * h = h_1 \star h_2
+ * @f]
+ *
+ * The number of output coefficients is computed as: @f$n = n_1 + n_2 - 1@f$.
+ *
+ * @param h1 Coefficients of the first filter (@f$n_1@f$ taps)
+ * @param h2 Coefficients of the second filter (@f$n_2@f$ taps)
+ * @return   Coefficients of the serie concatenation (@f$n_1+n_2-1@f$ taps)
+ *
+ */
+inline ArrayXf design_fir_prod(const ArrayXf &h1, const ArrayXf &h2)
+{
+  return tsdf::design_rif_prod(h1, h2);
+}
+
+
+using tsdf::CICConfig;
+
+
+
+
+
+/** @brief CIC filter theorical transfert function.
+
+    <h3>CIC filter theorical transfert function</h3>
+
+    @param config CIC filter specifications (see @ref CICConfig)
     @returns CIC transfert function (not taking into account the decimation)
     This function computes the theorical transfert function of a CIC filter, when one does not look at the decimation effect. The CIC filter responses is defined as:
            @f[H(z) = \frac{1}{R^N}\left(1+z^{-1}+\cdots+z^{-(R-1)}\right)^N@f]
      (e.g. a cascade of @f$N@f$ moving average filters, each of identical length @f$R@f$.
- **/
-extern FRat<float> design_cic(int R, int N, int M = 1);
+ */
+inline FRat<float> design_cic(const CICConfig &config)
+{
+  return tsdf::design_cic(config);
+}
+
+using tsdf::CICComp;
 
 /** @brief Design of a compensation FIR filter for a CIC filter.
  *
  * <h3>Design of a compensation FIR filter for a CIC filter</h3>
  *
- * Calling Sequence
- * cfir = cic_comp_design(R,N,M,Fin,R2,Fcut,ntaps)
  *
- * @param R       CIC decimation ratio
- * @param N       number of CIC integrators / differentiators
- * @param M       CIC design parameter (1 ou 2)
+ * @param config Paramètres principaux (voir @ref CICConfig)
  * @param Fin     input frequency
  * @param R2      compensation filter decimation ratio
  * @param fc      cutoff frequency for the compensation FIR filter
@@ -912,68 +1023,75 @@ extern FRat<float> design_cic(int R, int N, int M = 1);
  *    Impulse response of the FIR compensation filter
  * @todo ex_cic_comp_glob.png
  *     Global response of CIC + compensation filters (spectrum) */
-extern ArrayXf design_cic_comp(unsigned int R, unsigned int N, unsigned int M, float Fin, unsigned int R2, float fc, unsigned int ncoefs);
+inline CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float fc, int ncoefs)
+{
+  return design_cic_comp(config, Fin, R2, fc, ncoefs);
+}
 
 
-/** @brief Fonction de transfert pour un bloqueur DC.
+
+/** @brief Transfert function for a DC blocker.
  *
- *  <h3>Fonction de transfert bloqueur DC</h3>
+ *  <h3>Transfert function for a DC blocker</h3>
  *
- *  Calcul de la fonction de transfert d'un bloqueur DC :
+ *  Computes the following transfert function:
  *  @f[
  *  H(z) = \frac{1 - z^{-1}}{1 - \alpha \cdot z^{-1}}
  *  @f]
- *  Avec
+ *  With
  *  @f[
  *  \alpha = \frac{\sqrt{3} - 2 \sin(\pi f_c)}{\sin(\pi f_c) + \sqrt{3} \cos(\pi f_c)}
  *  @f]
  *
- *  d'après The DC Blocking Filter, J M de Freitas, 2007.
+ *  @param fc Normalized cut-off frequency (0 - 0.5)
  *
- *  @param fc Fréquence de coupure normalisée (0 - 0,5)
- *  @sa filtre_dc()
- *
- *  @par Exemple
- *  @snippet exemples/src/ex-filtrage.cc exemple_design_bloqueur_dc
+ *  @par Example
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_design_bloqueur_dc
  *  @image html bloqueur-dc-resp.png width=1000px
  *
- *  @par Bibliographie
- *  @ref biblio "[RI1]"
+ *  @par Bibliography
+ *  <i>The DC Blocking Filter,</i> J.M. de Freitas, 2007
  *
- *
+ *  @sa filter_dc()
  */
-extern FRat<float> design_bloqueur_dc(float fc);
+inline FRat<float> design_dc_blocker(float fc)
+{
+  return tsdf::design_bloqueur_dc(fc);
+}
 
-/** @brief Fonction de transfert d'un filtre exponentiel
+/** @brief Transfert function of an exponential filter.
  *
- *  <h3>%Filtre exponentiel</h3>
- *  Cette fonction renvoie la fonction de transfert d'un filtre exponentiel de fréquence de coupure
- *  @f$f_c@f$ :
+ *  <h3>Transfert function of an exponential filter</h3>
+ *  This function returns the transfert function for the following system:
  *  @f[
  *  y_n = \gamma x_n + (1-\gamma) y_{n-1}
  *  @f]
- *  Soit :
+ *  That is:
  *  @f[
  *  H(z) = \frac{\gamma z}{z-(1-\gamma)}
  *  @f]
- *  avec
- *  @f$\gamma = 1 - e^{-2\pi f_c}@f$.
+ *  where @f$\gamma@f$ is defined as a function of the desired cut-off frequency @f$f_c@f$:
+ *  @f[
+ *    \gamma = 1 - e^{-2\pi f_c}
+ *  @f]
  *
- *  @param fc Fréquence de coupure à -3 dB
- *  @return Fonction de transfert digitale
+ *  @param fc -3 dB normalized cut-off frequency.
+ *  @return Digital transfert function.
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/ex-filtrage.cc ex_design_rii1
  *  @image html design-rii1.png width=1000px
+ *
+ *  @sa iir1_coef()
  */
-FRat<float> design_iir1(float fc){return tsdf::design_rii1(fc);}
+inline FRat<float> design_iir1(float fc){return tsdf::design_rii1(fc);}
 
 /** @brief Generate first order IIR filter forget factor (unique coefficient) from cut-off frequency
  *
- *  <h3>Design filtre RII d'ordre 1</h3>
+ *  <h3>First order RII design</h3>
  *
- *  Cette fonction calcule le coefficient (facteur d'oubli) d'un filtre RII du premier ordre
- *  (filtre exponentiel), en fonction de la fréquence de coupure souhaitée.
+ *  This function computes the forget factor for a first order IIR filter
+ *  (that is, an exponential filter), as a function of the desired cut-off frequency.
  *
  *  @f[
  *    y_{n+1} = (1-\gamma) * y_n + \gamma * x_n
@@ -987,15 +1105,16 @@ FRat<float> design_iir1(float fc){return tsdf::design_rii1(fc);}
  *  @param fc Normalized cut-off frequency, in [0, 0.5]
  *  @returns Coeficient @f$\gamma@f$ for the IIR filter
  *
+ *  @sa design_iir1(), iir1_tc2coef()
  */
 inline float iir1_coef(float fc){return tsdf::rii1_coef(fc);}
 
 /** @brief Same as previous function, but take as input the time constant (in samples).
  *
- *  <h3>Design filtre RII d'ordre 1</h3>
+ *  <h3>First order RII design</h3>
  *
- *  Cette fonction calcule le coefficient (facteur d'oubli) d'un filtre RII du premier ordre
- *  (filtre exponentiel), en fonction de la constante de temps souhaitée.
+ *  This function computes the forget factor for a first order IIR filter
+ *  (that is, an exponential filter), as a function of the desired time constant.
  *
  *  @f[
  *    y_{n+1} = (1-\gamma) * y_n + \gamma * x_n
@@ -1006,26 +1125,35 @@ inline float iir1_coef(float fc){return tsdf::rii1_coef(fc);}
  *    \gamma = 1 - e^{-1/t_c}
  *  @f]
  *
- *  @param tc Constante de temps, en nombre de symboles.
+ *  @param tc Time constant, in number of samples.
  *  @returns Coeficient @f$\gamma@f$ for the IIR filter
  *
  */
-extern float rii1_tc_vers_coef(float tc);
+inline float iir1_tc2coef(float tc)
+{
+  return tsdf::rii1_tc_vers_coef(tc);
+}
 
-extern float rii1_coef_vers_tc(float γ);
+inline float iir1_coef2tc(float γ)
+{
+  return tsdf::rii1_coef_vers_tc(γ);
+}
 
 /** @brief Compute cut-off frequency, from forget factor of first order IIR filter.
  *
- *  @param γ Facteur d'oubli
- *  @returns Fréquence de coupure
+ *  @param γ Forget factor.
+ *  @returns Normalized cut-off frequency.
  *
- *  @sa rii1_coef */
-extern float rii1_fcoupure(float γ);
+ *  @sa iir1_coef() */
+inline float iir1_fcut(float γ)
+{
+  return tsdf::rii1_fcoupure(γ);
+}
 
 
-/** @brief Creation of the polyphase representation of a signal
+/** @brief Creation of the polyphase representation of a signal.
  *
- *  <h3>Représentation polyphase d'un signal</h3>
+ *  <h3>Polyphase representation of a signal</h3>
  *
  *  Creation of the polyphase matrix X, with zero padding if necessary (so as the length is a multiple of M):
  *
@@ -1041,73 +1169,94 @@ extern float rii1_fcoupure(float γ);
  *  @param x  1d signal (1d vector, n elements)
  *  @param M  Number of polyphase branches, e.g. decimation ratio.
  *  @returns  Polyphase array (M rows, (n+M-1)/M columns)
- *  @sa iforme_polyphase()
+ *  @sa polyphase_iforme()
  */
 template<typename T>
-  Tableau<T> forme_polyphase(const Eigen::Ref<const Vector<T>> x, unsigned int M);
+  Tableau<T> polyphase_form(const Eigen::Ref<const Vector<T>> x, unsigned int M)
+{
+  return tsdf::forme_polyphase(x, M);
+}
 
-/** @brief Compute the standard form from the polyphase representation
+/** @brief Compute the standard form from the polyphase representation.
  *
- *  <h3>Calcul de la forme standard à partir de la forme polyphase</h3>
+ *  <h3>Standard form from the polyphase representation</h3>
  *
- *  @param X Forme polyphase (tableau 2d)
- *  @returns Forme normale (tableau 1d)
+ *  @param X Polyphase form (2d array)
+ *  @returns Standard dorm (1d array)
  *
- *  @sa forme_polyphase() */
+ *  @sa polyphase_form()
+ */
 template<typename T>
-  Vector<T> iforme_polyphase(const Eigen::Ref<const Tableau<T>> X);
+  Vector<T> polyphase_iforme(const Eigen::Ref<const Tableau<T>> X)
+{
+  return tsdf::iforme_polyphase(X);
+}
 
-/** @brief Transformée bilinéaire : conversion transformée de Laplace vers transformée en z.
+/** @brief Bilinear transform: conversion from Laplace transform to z transform.
  *
- * <h3>Transformée bilinéaire</h3>
+ * <h3>Bilinear transform</h3>
  *
- *  La transformée bilinéaire permet de convertir une fonction de transfert analogique (transformée
- *  de Laplace) en fonction de tranfert digitale (transformée en z).
+ *  The bilinear transform enables to approximate an analog transfert function (Laplace transform)
+ *  with a digital tranfert function (z transform).
  *
- *  Le calcul de la transformée en z est fait en remplaçant la variable s par :
+ *  To do this, the @f$s@f$ variable in Laplace transform is replaced by the following approximation:
  *  @f[
- *  s \to 2 f_e \cdot \frac{1 - z^{-1}}{1 + z^{-1}}
+ *  s \mapsto 2 f_e \cdot \frac{1 - z^{-1}}{1 + z^{-1}}
  *  @f]
  *
- *  @param ha Transformée de Laplace du système (fraction rationnelle)
- *  @param fe Fréquence d'échantillonnage
- *  @returns  Transformée en z
+ *  @param ha Laplace transform of the system (rational fraction)
+ *  @param fe Sampling frequency
+ *  @returns  Z transform (rational fraction)
  *
  *  @sa fd_vers_fa(), fa_vers_fd()
  */
-extern FRat<cfloat> trf_bilineaire(const FRat<cfloat> &ha, float fe);
+inline FRat<cfloat> bilinear_transform(const FRat<cfloat> &ha, float fe)
+{
+  return tsdf::trf_bilineaire(ha, fe);
+}
 
 
-extern float wa_vers_wd(float wa, float fe);
-extern float wd_vers_wa(float wd, float fe);
+inline float ωa2ωd(float ωa, float fe)
+{
+  return tsdf::ωa_vers_ωd(ωa, fe);
+}
+inline float ωd2ωa(float wd, float fe)
+{
+  return tsdf::ωd_vers_ωa(wd, fe);
+}
 
-/** @brief Conversion fréquence digitale vers fréquence analogique
+/** @brief Bilinear transform frequency warping (digital to analog).
  *
- * <h3>Fréquence digitale vers fréquence analogique</h3>
+ * <h3>Bilinear transform frequency warping (digital to analog)</h3>
  *
- *  Cette fonction convertit une fréquence digitale vers fréquence analogique (pré-warping pour la transformée bilinéaire).
  *
- *  @param fd Fréquence digitale (entre 0 et 0.5)
- *  @return   Fréquence analogique (non bornée, positive)
+ *  @param fd Digital frequency (between 0 et 0.5)
+ *  @return   Analog frequency (unbounded, positive)
  *
- *  La fréquence analogique est calculée ainsi :
+ *  The analog frequency is computed as:
  *  @f[
  *  f_a = \frac{\tan(\pi  f_d)}{\pi}
  *  @f]
  *
- *  Ce mapping est celui associé à la transformée bilinéaire.
+ *  This mapping is the one caused by the bilinear transform.
  *  */
-extern float fd_vers_fa(float fd);
+inline float fd2fa(float fd)
+{
+  return tsdf::fd_vers_fa(fd);
+}
 
-/** @brief Fréquence analogique vers fréquence digitale
+/** @brief Bilinear transform frequency warping (analog to digital).
  *
- *  <h3>Fréquence analogique vers fréquence digitale</h3>
+ *  <h3>Bilinear transform frequency warping (analog to digital)</h3>
  *
- *  @param fa Fréquence analogique (non bornée, positive)
- *  @return   Fréquence digitale (entre 0 et 0.5)
+ *  @param fa Analog frequency (unbounded, positive)
+ *  @return   Digital frequency (between 0 et 0.5)
  *
- * Fonction inverse de @ref fd_vers_fa() */
-extern float fa_vers_fd(float fa);
+ * Inverse function of de @ref fd2fa() */
+inline float fa2fd(float fa)
+{
+  return tsdf::fa_vers_fd(fa);
+}
 
 /** @} */
 
@@ -1116,161 +1265,194 @@ extern float fa_vers_fd(float fa);
   *  @{ */
 
 
-/** @brief Retarde le signal d'entrée de @f$n@f$ échantillons.
+/** @brief Delay the input signal by an integer number of samples.
  *
- *  <h3>Ligne à retard</h3>
+ *  <h3>Delay line</h3>
  *
- *  La fonction produit autant d'échantillons en sortie qu'il y en a en entrée.
- *  Les échantillons précédant le premier échantillon d'entrée sont supposés nuls.
+ *  This filter produce as many output samples as input samples.
+ *  The samples preceding the first one are assumed to be null.
  *
- *  @param n Délais entier (@f$n \geq 0@f$)
+ *  @param n Integer delay (@f$n \geq 0@f$)
  *
- *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_ligne_a_retard
  *  @image html filtrage-ligne-a-retard.png width=800px
  *  */
 template<typename T>
   sptr<FiltreGen<T>> delay_line(unsigned int n)
-  {
-    return tsdf::ligne_a_retard<T>(n);
-  }
-
-struct HilbertTransformeurConfig
 {
-  unsigned int ntaps = 63;
-  std::string fenetre = "hn";
-};
+  return tsdf::ligne_a_retard<T>(n);
+}
 
-/** @brief Définit un transformeur de Hilbert, qui convertit un signal réel en un signal analytique (complexe).
+using tsdf::HilbertTransformeurConfig;
+
+/** @brief Defines a Hilbert transformer (conversion from a real signal to a complex, analytic one.
  *
- * <h3>Transformeur de Hilbert</h3>
+ * <h3>Hilbert transformer</h3>
  *
- * Ce bloc calcul un signal analytique (complexe) à partir d'un signal réel,
- * par recomposition du signal initial retardé avec le signal filtré avec le filtre de Hilbert :
+ * This filter computes an analytic (complex) signal from a real one,
+ * by recomposition of the input signal (delayed) with the signal filtered with a Hilbert filter:
  *
  * @image  html fig-hilbert-transfo.PNG width=200px
  *
- * @param  n        Ordre du filtre
- * @param  fenetre  Choix de la fenêtre (voir @ref fenetre())
- * @return          Filtre float -> cfloat
+ * @param  n        Filter order
+ * @param  fenetre  Window choice (see @ref window())
+ * @return          Filter float -> cfloat
  *
- * @sa design_rif_hilbert(), hilbert(), hilbert_tfd()
+ * @sa design_fir_hilbert(), hilbert(), hilbert_dft()
  */
-extern sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
-  hilbert_transformeur(unsigned int n = 31, const std::string &fenetre = "hn");
+inline sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
+  hilbert_transformer(unsigned int n = 31, const std::string &fenetre = "hn")
+{
+  return tsdf::hilbert_transformeur(n, fenetre);
+}
 
-
-
-
-/** @cond private */
-extern void fsfir_plot(const ArrayXcf &f, unsigned int ntaps = 0);
-/** @endcond */
-
-/** @brief Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie)
+/** @brief Direct implementation of a FIR filter.
  *
- * <h3>Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie)</h3>
+ * <h3>Direct implementation of a FIR filter</h3>
  *
- *  Implémenté suivant l'équation :
+ *  Implemented with the convolution equation:
  *  @f[
       y_n = \sum h_k x_{n-k}
     @f]
 
- *  @param h Vector des coefficients du filtre
- *  @tparam T Type des données à traiter (float, cfloat, etc.)
- *  @tparam Tc Type des coefficients
- *  @return Bloc T -> T
+ *  @param h      Vector with filter coefficients.
+ *  @tparam T     Scalar data type (float, cfloat, etc.).
+ *  @tparam Tc    Coefficients type (float, cfloat, etc.).
+ *  @return       Filter T -> T
  *
- *  @sa filtre_rif_fft()
- *  @note Si le filtre a un nombre important de coefficients, utilisez plutôt @ref filtre_rif_fft(), qui sera plus efficace
- *  (filtrage dans le domaine fréquentiel).
+ *  @note  If the number of coefficients is important,
+ *  better usr the @ref filter_fir_fft(), which may be more efficient
+ *  (filtering in the frequency domain).
+ *
+ *  @sa filter_fir_fft()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filtre_rif(const Eigen::Ref<const Vector<Tc>> h);
+  sptr<FiltreGen<T>> filter_fir(const Eigen::Ref<const Vector<Tc>> h)
+{
+  return tsdf::filtre_rif(h);
+}
 
 
-/** @brief Implémentation efficace d'un filtre RIF par FFT
+/** @brief Identity filter.
  *
- *  <h3>Implémentation fréquentielle d'un filtre RIF</h3>
+ *  <h3>Identity filter</h3>
  *
- *  Ce bloc réalise un filtrage RIF via la technique OLA (Ovelap-And-Add).
- *  La complexité est donc bien moindre que l'implémentation standard si le nombre de coefficients @f$M@f$
- *  est important (de l'ordre de @f$\log M@f$ opérations par échantillons au lieu de @f$M@f$).
- *
- *  @param h Vector des coefficients du filtre
- *  @tparam T Type de données à traiter
- *  @return Filtre T -> T
- *
- *  Notez que cette technique introduit un délais un peu plus important que l'implémentation temporelle.
- *
- *  @sa filtre_rif()
+ *  This filter let the signal unchanged.
  */
 template<typename T>
-  sptr<FiltreGen<T>> filtre_rif_fft(const ArrayXf &h);
+  sptr<FiltreGen<T>> filter_id()
+{
+  return tsdf::filtre_id();
+}
 
-
-
-/** @brief Filtre RII (forme directe I), non recommandée (utiliser plutôt @ref filtre_sois() à la place).
+/** @brief Decimation by a factor 1:R
  *
- *  <h3>Filtrage RII (forme directe I)</h3>
+ *  <h3>Decimation by a factor 1:R</h3>
  *
- *  Ce bloc implémente un filtre à Réponse Impulsionnelle Infinie, sous la forme la plus simple (directe I),
- *  c'est-à-dire que le filtre est décomposé ainsi :
+ *  This "filter" delete @f$R-1@f$ samples every @f$R@f$ samples.
+ */
+template<typename T>
+  sptr<FiltreGen<T>> decimator(int R)
+{
+  return tsdf::decimateur(R);
+}
+
+
+
+
+/** @brief Efficient implementation of a FIR filter in the frequency domain.
+ *
+ *  <h3>Efficient implementation of a FIR filter in the frequency domain</h3>
+ *
+ *  This filter implements a FIR filter through the (Ovelap-And-Add) technique.
+ *  The complexity is thus much lower than the direct implementation if the number of coefficients @f$M@f$
+ *  is important (in the order of @f$\log M@f$ operations by sample instead of @f$M@f$).
+ *
+ *  @param h Vector with filter coefficients.
+ *  @tparam T Scalar type of input / output samples.
+ *  @return Filter T -> T
+ *
+ *  @note Note that this technique introduce a little more delay than the direct, time domain, implementation.
+ *
+ *  @sa filter_fir()
+ */
+template<typename T>
+  sptr<FiltreGen<T>> filter_fir_fft(const ArrayXf &h)
+{
+  return tsdf::filtre_rif_fft(h);
+}
+
+
+
+/** @brief IIR filter, direct form I implementation, not  recommanded (use rather @ref filter_sois() instead).
+ *
+ *  <h3>IIR filter, direct form I implementation</h3>
+ *
+ *  This filmter implements an IIR filter, using the most direct form (direct I),
+ *  that is, the filter is decomposed as:
  *  @f[
  *  H(z) = \frac{b_0 + b_1 z^{-1} + \dots}{a_0 + a_1 z^{-1} + \dots}
  *       = \left(b_0 + b_1 z^{-1} + \dots\right) \cdot \frac{1}{a_0 + a_1 z^{-1} + \dots}
  *  @f]
- *  (le filtre RIF correspondant au numérateur est calculé en premier, ensuite le filtre purement récursif est calculé).
+ *  and the FIR filter corresponding to the numerator is computed first, then the all-poles RII filter corresponding to the denominator.
  *
- *  @param h    Fonction de transfert
- *  @tparam T   Type de données à traiter
- *  @tparam Tc  Type des coefficients
- *  @return     Filtre T -> T
+ *  @param h    Transfert function (rational function)
+ *  @tparam T   Scalar type of input / output samples.
+ *  @tparam Tc  Coefficients type.
+ *  @return     Filter T -> T
  *
- *  @sa @ref filtre_sois()
+ *  @sa filter_sois()
  *
- *  @attention Si l'ordre du filtre est important, du fait des erreurs de troncature, cette implémentation a de fortes chances
- *  de diverger. L'implémentation sous forme de cascade de filtres RII du second ordre (@ref filtre_sois()) est alors recommendée.
+ *  @warning If the filter order is large, because of truncation errors,
+ *  this implementation a a lot of chance to diverge.
+ *  The alternative implementation through a cascade of second order RII filters (@ref filter_sois()) is then recommanded.
  *
  * */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filtre_rii(const FRat<Tc> &h);
+  sptr<FiltreGen<T>> filter_iir(const FRat<Tc> &h)
+{
+  return tsdf::filtre_rii(h);
+}
 
 
-/** @brief Création d'un filtre CIC, opérant sur des vecteurs de type T,
- *  et travaillant en interne avec le type Ti.
+/** @brief Creation of a CIC filter, processing on vectors of type T,
+ *  and computing internally with samples of type Ti.
  *
- *  <h3>Création d'un filtre CIC</h3>
+ *  <h3>Creation of a CIC filter</h3>
  *
- *  @param R Decimation ratio
- *  @param N Number of integrators / differentiators stages
- *  @param M Optionnal CIC design parameter (default is M=1)
+    @param config Main parameters of the CIC filter (see @ref CICConfig)
  *  @param mode 'd' for decimation or 'u' for upsampling.
- *  @tparam T Type d'entrée / sortie
- *  @tparam Ti Type pour les calculs interne (int, int64_t, ...)
+ *  @tparam T   Input / output type.
+ *  @tparam Ti  Internal sample type (int, int64_t, ...)
  *
- *  @note Pour le type interne, il faut absolument choisir un type entier, car la façon dont le filtre est
- *  implémenté fait que les calculs ne fonctionneront pas avec un type flottant.
+ *  @warning For the internal sample type,
+ *  it is highly recommanded to choose an integer type,
+ *  because the way the filter is implemented can make the filter
+ *  diverge with flotting point arithmetic.
  *
  *
- *  @par Exemple pour l'interpolation
- *  @snippet exemples-tsd-pub/src/ex-cic.cc exemple_cic_upsampling
+ *  @par Example for interpolation
+ *  @snippet exemples/src/filtrage/ex-cic.cc exemple_cic_upsampling
  *  @image html filtrage-cic-interpolation.png width=800px
- *  Notez les repliements du signal utile sur le spectre.
+ *  Note the frequency aliasings.
  *  <br>
- *  @par Exemple pour la décimation
- *  @snippet exemples-tsd-pub/src/ex-cic.cc exemple_cic_decimation
+ *  @par Example for decimation
+ *  @snippet exemples/src/filtrage/ex-cic.cc exemple_cic_decimation
  *  @image html filtrage-cic-decimation.png width=800px
  */
 template<typename T, typename Ti>
-  sptr<FiltreGen<T>> filtre_cic(int R, int N, int M = 1, char mode = 'd');
+  sptr<FiltreGen<T>> filter_cic(const CICConfig &config, char mode = 'd')
+{
+  return tsdf::filtre_cic(config, mode);
+}
+
+using tsdf::CICAnalyse;
 
 /** @brief This function computes and shows the frequency response of a CIC filter and
  *  then analyse the aliasing that occurs after decimation.
  *
- * @param R Decimation ratio
- * @param N Number of integrators / differentiators
- * @param M Design parameter (typically M=1)
+ *  @param config Main parameters of the CIC filter (see @ref CICConfig)
  * @param Fin Input sample frequency
  * @param Fint Fréquence où mesurer l'atténuation
  * @return A tuple with :
@@ -1301,15 +1483,16 @@ template<typename T, typename Ti>
  * Frequency response of a CIC filter, and aliasing, after decimation
  * @sa design_cic()
  **/
-extern std::tuple<FRat<float>, int, ArrayXf, ArrayXf> cic_analyse(int R, int N, int M, float Fin, float Fint = 0);
+inline CICAnalyse cic_analysis(const CICConfig &config, float Fin, float Fint = 0)
+{
+  return tsdf::cic_analyse(config, Fin, Fint);
+}
 
 
 
 /** @brief Frequency response of a CIC filter
  *
- * @param R decimation / interpolation factor
- * @param N number of integrators / differenciators
- * @param M design parameter
+ * @param config Main parameters of the CIC filter (see @ref CICConfig)
  * @param f normalized frequency, between -0.5 and 0.5 (can be a 1d vector)
  * @returns mag Output magnitude, computed at each frequency point
  *
@@ -1332,7 +1515,10 @@ extern std::tuple<FRat<float>, int, ArrayXf, ArrayXf> cic_analyse(int R, int N, 
  *
  *  @sa cic_transfert
  */
-extern ArrayXf cic_freq(int R, int N, int M, const ArrayXf &f);
+inline ArrayXf cic_freq(const CICConfig &config, const ArrayXf &f)
+{
+  return tsdf::cic_freq(config, f);
+}
 
 
 
@@ -1340,34 +1526,31 @@ extern ArrayXf cic_freq(int R, int N, int M, const ArrayXf &f);
 using RIIStructure = tsd::filtrage::RIIStructure;
 
 
-/** @brief Création d'un filtre RII sous forme d'une chaine de sections du second ordre.
+/** @brief IIR filter implementation through a cascad of second order sections.
  *
- *  <h3>Filtrage RII (chaine de sections du second ordre)</h3>
+ *  <h3>IIR filter implementation through a cascad of second order sections</h3>
  *
- *  La fonction de transfert passée en entrée est factorisée sous la forme d'une cascade
- *  de sections du second ordre
- *  (plus éventuellement une section du premier ordre si l'ordre est impair), permettant une
- *  implémentation efficace d'une filtre RII :
+ *  The given transfert function is factored into a cascad
+ *  of second order sections, and eventually a first order section if the whole filter order is odd,
+ *  enabling an efficient implementation of a IIR filter:
  *
  *  @f[
  *  H(z) = G\cdot\prod_{i=1}^{M} H_i(z) = G\cdot\prod_{i=1}^{M} \frac{1 + b_1^{(i)} z^{-1} + b_2^{(i)} z^{-2} }{1 - a_1^{(i)} z^{-1} - a_2^{(i)} z^{-2}}
  *  @f]
  *
- *  @param h Fonction de transfert, normalement complexe
- *  @param structure RIIStructure::FormeDirecte1 ou RIIStructure::FormeDirecte2 (voir notes ci-dessous)
- *  @return Filtre réel vers réel
+ *  @param h Transfert function.
+ *  @param structure RIIStructure::FormeDirecte1 or RIIStructure::FormeDirecte2 (see notes below)
+ *  @return real to real filter.
  *
- *  La forme directe 2 est légérement plus efficace que la forme 1. Cependant, si les coefficients du filtre
- *  sont amenés à changer en cours de fonctionnement, il vaut mieux utiliser la première forme, car la forme 2
- *  risque de générer des discontinuités.
+ *  The direct form II is a little more efficient than the form I. However, if the coefficients are to be reloaded while the filter is in use,
+ *  the form II can generate discontinuities, which is not the case with the first form.
  *
- *  @attention Il est recommandé que la fonction de transfert passée en entrée soit sous la forme pôles / zéros,
- *  et non pas sous la forme de la liste des coefficients, car avec cette dernière représentation, la position
- *  des pôles et zéros (et donc la réponse fréquentielle) est très instable (très sensible aux erreurs de troncature
- *  lors de la quantification des coefficients). Notez que la fonction @ref design_riia() renvoie bien une fonction
- *  de transfert sous la forme pôles / zéros.
+ *  @warning It is highly recommanded that the given transfert function is specified by its roots and poles rather by its coefficients,
+ *  because in the latter case, the
+ *  poles and zeros locations (and hence the frequency response) may be very unstable (high sensitivity to troncating errors).
+ *  Note that the function @ref design_iira() returns a correct tranfert function (zeros & poles).
  *
- *  @sa filtre_rii(), design_riia()
+ *  @sa filter_iir(), design_iira()
  */
 template<typename T>
   sptr<FiltreGen<T>> filter_sois(const FRat<cfloat> &h, RIIStructure structure = RIIStructure::FormeDirecte2)
@@ -1382,25 +1565,25 @@ template<typename T>
     return tsdf::filtre_sois<T>(h, structure);
   }
 
-/** @brief %Filtre RII du premier ordre (dit "RC numérique")
+/** @brief First order IIR filter (exponential filter).
  *
- *  <h3>%Filtre RII du premier ordre</h3>
+ *  <h3>First order IIR filter (exponential filter)</h3>
  *
- *  Ce filtre, dit "RC numérique", ou "filtre exponentiel", est un des filtres les plus simples, puisqu'il est
- *  entiérement caractérisé par un seul coefficient.
+ *  This filter, also called the "numerical RC filter", or "exponential filter",
+ *  is one of the simplest filter, as it is completely speficied by only one coefficient.
  *
- *  @param γ Facteur d'oubli
+ *  @param γ Forget factor.
  *
- *  Le filtre RII du premier ordre peut être défini par l'équation :
+ *  It is defined by the following equation:
  *  @f[
  *   y_{n+1} = (1-\gamma) * y_n + \gamma * x_n = y_n + \gamma * (x_n - y_n)
  *  @f]
  *
- *  Le paramètre @f$\gamma@f$ peut être réglé facilement en fonction du temps de réponse ou de la
- *  fréquence de coupure souhaitée (voir @ref rii1_coef()).
+ *  The @f$\gamma@f$ parameter (forget factor) can be tuned easily as a function of time constant or of
+ *  the desired cut-off frequency (see @ref iir1_coef()).
  *
- *  @sa rii1_fcoupure(), rii1_coef()
- *   */
+ *  @sa iir1_fcut(), iir1_coef()
+ */
 template<typename T>
   sptr<FiltreGen<T>> filter_iir1(float γ)
   {
