@@ -112,6 +112,7 @@ namespace tsd::filtrage {
   extern ArrayXf fenêtre_slepian(int N, float B);
 
 
+  // TODO : DOC
   struct FenInfos
   {
     /** @brief Atténuation pire lobe secondaire */
@@ -130,6 +131,7 @@ namespace tsd::filtrage {
     float atten_pls;
   };
 
+  // TODO : DOC
   extern FenInfos fenetre_analyse(const std::string &nom, const ArrayXf &x);
 
 
@@ -249,7 +251,7 @@ template<typename T>
 
 
 
-/** @brief Réponse impulsionnelle */
+/** @brief Réponse impulsionnelle. */
 template<typename T>
   ArrayXf repimp(const FRat<T> &h, int npts = -1);
 
@@ -394,12 +396,13 @@ template<typename T>
  *
  *  @param L Résolution fréquentielle.
  *  @param h Coefficients du filtre.
- *  @param symetrique Vrai si les coefficients sont symétriques autour de (N-1)/2 (filtre RIF de type I ou II).  Sinon un filtre de type III ou IV est supposé.
+ *  @param symetrique Vrai si les coefficients sont symétriques autour de @f$(N-1)/2@f$ (filtre RIF de type I ou II).  Sinon un filtre de type III ou IV est supposé.
  *  @returns Un tuple de deux vecteurs : le vecteur de fréquences (normalisées, entre 0 et 0,5),
  *  et la réponse en amplitude.
  *
  *  @warning La réelle symétrie (ou anti-symétrie) des coefficients n'est pas vérifiée !
  *
+ *  @sa frmag(), frphase()
  */
 extern std::tuple<ArrayXf, ArrayXf> rifamp(const Eigen::ArrayXf &h, int L = 1024, bool symetrique = true);
 
@@ -457,7 +460,7 @@ extern ArrayXf design_rif_hilbert(int n, const std::string &fenetre = "hn");
 
 
 
-/** @brief Spécificaiton d'un Biquad */
+/** @brief Spécification d'un Biquad */
 struct BiquadSpec
 {
   /** @brief Type de filtre biquad (voir @ref design_biquad()) */
@@ -531,7 +534,7 @@ extern FRat<float> design_biquad(const BiquadSpec &spec);
  *
  *
  * @param type    Type de filtre ("lp", "hp", "bp", "sb", ...).
- * @param f       Fréquence de coupure (ou centrale) normalisée (entre 0 et 0,5).
+ * @param f       Fréquence de coupure (ou centrale pour les filtres passe ou stoppe bande) normalisée, entre 0 et 0,5.
  * @param Q       Facteur de qualité (note : pour @f$Q>1/\sqrt(2)\sim 0{,71}@f$, il y aura une résonnance).
  * @param gain_dB Gain, en dB, pour les filtres de type résonnance ou plateau.
  *
@@ -582,10 +585,11 @@ extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogi
  *  - <b>Chebychev type II</b> (ondulations dans la bande coupée)
  *  - <b>Elliptique</b> (ondulations partout, mais bande de transition la plus étroite)
  *
- *  Le filtre est d'abort conçu dans le domaine analogique, puis converti en filtre digital grâce à la
+ *  Le filtre est d'abort conçu dans le domaine analogique (transformée de Laplace),
+ *  puis converti en filtre digital (transformée en z) grâce à la
  *  transformée bilinéaire.
  *
- * @param n           Ordre du filtre
+ * @param n           Ordre du filtre.
  * @param type        Type de filtre ("lp" pour passe-bas, "hp" pour passe-haut, ...)
  * @param prototype   "butt", "cheb1", "cheb2" ou "ellip"
  * @param fc          Fréquence de coupure normalisée (entre 0 et 0,5)
@@ -629,7 +633,7 @@ extern FRat<cfloat> design_riia(int n, const std::string &type,
  *
  *  @param n     Ordre du filtre (doit être impair).
  *  @param d     Vecteur définissant la réponse fréquentielle souhaitée (sur les fréquences positives).
- *  @returns     Vecteur des coefficients du filtre (dimension = n).
+ *  @returns     Vecteur des coefficients du filtre (dimension = @f$n@f$).
  *
  * @par Exemple
  * @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_freq

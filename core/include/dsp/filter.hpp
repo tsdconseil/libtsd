@@ -1,5 +1,7 @@
 #pragma once
 
+/** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
+
 #include "dsp/dsp.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/filtrage/frat.hpp"
@@ -20,9 +22,34 @@ namespace dsp::filter {
 
   namespace tsdf = tsd::filtrage;
 
-  /** @addtogroup filtrage-fenetres
+
+  /**  @addtogroup filtrage
     *  @{ */
 
+  /** @brief Vérification de la validité d'une fréquence normalisée.
+   *
+   * <h3>Vérification de la validité d'une fréquence normalisée</h3>
+   *
+   * Vérifie que la fréquence est comprise entre 0 et @f$0{,}5@f$.
+   *
+   * En cas d'échec, léve une exception.
+   *
+   * @param f Fréquence normalisée.
+   * @param msg Descriptif optionnel (affiché en cas d'échec).
+   *
+   * @sa echec(), msg_erreur()
+   */
+  inline void verifie_frequence_normalisee(float f, const std::string &msg = "")
+  {
+    return tsdf::verifie_frequence_normalisee(f, msg);
+  }
+
+
+  /** @} */
+
+
+  /** @addtogroup filtrage-fenetres
+    *  @{ */
 
 
   /** @cond private  */
@@ -79,6 +106,25 @@ namespace dsp::filter {
   inline ArrayXf window_chebychev(int n, float atten_db, bool symetrical = true)
   {
     return tsdf::fenêtre_chebychev(n, atten_db, symetrical);
+  }
+
+
+
+  /** @brief Slepian window creation.
+   *
+   *
+   */
+  static inline ArrayXf window_slepian(int N, float B)
+  {
+    return tsdf::fenêtre_slepian(N, B);
+  }
+
+
+  using FenInfos = tsdf::FenInfos;
+
+  static inline FenInfos window_analysis(const std::string &nom, const ArrayXf &x)
+  {
+    return tsdf::fenetre_analyse(nom, x);
   }
 
 
@@ -178,9 +224,9 @@ namespace dsp::filter {
  *
  *  @param h Transfert function to be analyzed.
  *  @param npts Frequency resolution.
- *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the magnitudes @f$y_k@f$.
+ *  @return A tuple of 2 vectors: the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the magnitudes @f$y_k@f$.
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/ex-filtrage-en.cc ex_frmag_en
  *  @image html frmag.png width=600px
  *
@@ -218,6 +264,14 @@ inline ArrayXcf repfreq(const ArrayXf &h, const ArrayXf &fr)
   return tsdf::repfreq(h, fr);
 }
 
+
+/** @brief Impulse response. */
+template<typename T>
+  ArrayXf repimp(const FRat<T> &h, int npts = -1)
+{
+  return tsdf::repimp(h, npts);
+}
+
 /** @brief Phase of FIR and IIR filters.
  *
  *  <h3>Phase of FIR and IIR filters</h3>
@@ -236,21 +290,20 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const FRat<T> &h, unsi
   return tsdf::frphase<T>(h, npts);
 }
 
-/** @brief Calcul du temps de groupe (délais en fonction de la fréquence).
+/** @brief Computes the group delay.
  *
- *  <h3>Temps de groupe</h3>
+ *  <h3>Group delay</h3>
  *
- *  Calcul du délais du filtre en fonction de la fréquence :
  *  @f[
  *  G(\omega) = \frac{d\arg H(\omega)}{d\omega}
  *  @f]
  *
- *  @param h Fonction de transfert à analyser
- *  @param npts Résolution fréquentielle
- *  @return Un tuple de deux vecteurs : le vecteur de fréquences (normalisées, entre 0 et 0,5),
- *  et le temps de groupe (en nombre d'échantillons).
+ *  @param h Transfert function to be analyzed.
+ *  @param npts Frequency resolution.
+ *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5),
+ *  et and the group delay (expressed in number of samples).
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/ex-filtrage.cc ex_frgroup
  *  @image html frgroup.png width=600px
  *
@@ -263,75 +316,177 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, unsi
 
 
 
-/** @brief Analyse d'un filtre linéaire (tracé des différentes réponses).
+/** @brief Analysis of a linear filter (plot the different responses).
  *
- *  <h3>Analyse d'un filtre linéaire</h3>
+ *  <h3>Analysis of a linear filter</h3>
  *
- * Cette fonction créée une nouvelle figure, et trace les réponses fréquentielles
- * et temporelles du filtre,
- * ainsi que le diagramme des zéros et des pôles.
+ * This function build a new figure, and plots the frequency
+ * and time response of the filter,
+ * alongside with the zeros / poles diagram.
  *
- *  @param h      Fonction de transfert à analyser (ou vecteur de coefficients).
- *  @param fe     Fréquence d'échantillonnage (optionnel).
- *  @return       La figure créée.
+ *  @param h      Transfert function to be analyzed.
+ *  @param fs     Sampling frequency.
+ *  @return       The new figure.
  *
- * @par Exemple
+ * @par Example
  * @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_analyse
  * @image html filtrage-analyse.png width=1000px
  *
- * */
+ * @sa filter_display()
+ */
 template<typename T>
   sptr<dsp::view::Figures> filter_analysis(const FRat<T> &h, float fs = 1.0f)
 {
   return tsdf::analyse_filtre(h, fs);
 }
 
+/** @brief Display impulse and frequency response of a filter.
+ *
+ *  <h3>Display impulse and frequency response of a filter.</h3>
+ *
+ * This function build a new figure, and plots the frequency
+ * and time response of the filter.
+ *
+ *  @param h      Transfert function to be analyzed.
+ *  @param fs     Sampling frequency.
+ *  @return       The new figure.
+ *
+ * @par Exeaple
+ * @snippet exemples/src/filtrage/ex-filtrage.cc exemple_affiche
+ * @image html filtrage-affiche.png width=1000px
+ *
+ * @sa filter_analysis() (for more plots)
+ */
+template<typename T>
+  tsd::vue::Figures filter_display(const FRat<T> &h, float fs = 1.0f)
+{
+  return tsdf::affiche_filtre(h, fe);
+}
+
 
 /** @cond undoc */
+
+
+template<typename T> ArrayXf repimp(const Vector<T> &h, int npts = -1)
+{
+  return tsdf::repimp(h, npts);
+}
+inline ArrayXcf repfreq(const ArrayXf &h, const ArrayXf &fr)
+{
+  return tsdf::repfreq(h, fr);
+}
+template<typename T> ArrayXf repfreq(const Vector<T> &h, int npts = 1024)
+{
+  return tsdf::repfreq<T>(h, npts);
+}
+
 template<typename T> std::tuple<ArrayXf, ArrayXf> frmag(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frmag<T>(h, npts);
 }
+
 template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frphase<T>(h, npts);
 }
+
 template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frgroup<T>(h, npts);
 }
-inline dsp::view::Figures analyse_filtre(const ArrayXf &h, float fe = 1.0f)
+
+inline dsp::view::Figures filter_analysis(const ArrayXf &h, float fe = 1.0f)
 {
   return tsdf::analyse_filtre(h, fe);
 }
+
+inline dsp::view::Figures filter_display(const ArrayXf &h, float fe = 1.0f)
+{
+  return tsdf::affiche_filtre(h, fe);
+}
+
 /** @endcond */
 
 
 
 
 
-/** @brief Tracé des pôles et zéros.
+/** @brief Poles / zeros diagram.
  *
- *  <h3>Tracé des pôles et des zéros</h3>
+ *  <h3>Poles / zeros diagram</h3>
  *
- *  La fonction de transfert passée en paramètre est factorisée sous la forme :
+ *  The transfert function is factored as:
  *  @f[
  *  H(z) = \frac{\prod z - z_i}{\prod z - p_i}
  *  @f]
  *
- *  où les @f$z_i@f$ et les @f$p_i@f$ sont ce que l'on appelle respectivement
- *  les zéros et les pôles de la fonctions de transfert.
+ *  where the @f$z_i@f$ and @f$p_i@f$ are called respectively
+ *  the zeros et poles.
  *
- *  @param h Fonction de transfert
- *  @param fig Figure sur laquelle sera tracé le diagramme des pôles et zéros.
+ *  @param h transfert function
+ *  @param fig Figure where to plot the zeros and poles.
  *
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_plz
  *  @image html filtrage-plz.png width=600px
  *  */
 template<typename T>
-  void plot_plz(dsp::view::Figure &fig, const FRat<T> &h);
+  void plot_plz(dsp::view::Figure &fig, const FRat<T> &h)
+{
+  tsdf::plot_plz(fig, h);
+}
+
+
+
+/** @brief Amplitude response of a symetrical or antisymetrical FIR filter (linear phase).
+ *
+ *  <h3>Amplitude response of a symetrical or antisymetrical FIR filter</h3>
+ *
+ *  This function computes the amplitude response @f$A(\omega)@f$, for a real FIR filter
+ *  with linear phase (the coefficients must be symetrical or antisymetrical around the central point).
+ *
+ *  For a symetrical filter, the response is:
+ *  @f[
+ *  A(\omega) = h_M + 2 \sum_{n=0}^{M-1} h_n \cos((M-n)\omega)
+ *  @f]
+ *
+ *  @param L Frequency resolution.
+ *  @param h Filter coefficients.
+ *  @param symetrical True if the coefficients are symetrical around @f$(N-1)/2@f$ (FIR filter of type I or II).  Otherwise, a filter of type III or IV is assumed.
+ *  @returns A tuple of two vectors: frequency vector (normalized, between 0 and 0.5),
+ *  and the amplitude response vector.
+ *
+ *  @warning The real symetry (or antisymetry) of the coefficients is not checked checked!
+ *
+ *  @sa frmag(), frphase()
+ */
+inline std::tuple<ArrayXf, ArrayXf> firamp(const Eigen::ArrayXf &h, int L = 1024, bool symetrique = true)
+{
+  return tsdf::rifamp(h, L, symetrique);
+}
+
+
+
+/** @brief Computes the delay of a linear phase FIR filter.
+ *
+ *  <h3>Computes the delay of a linear phase FIR filter</h3>
+ *
+ *  This function returns the delay, expressed in number of samples,
+ *  due to a linear phase FIR filter
+ *  (e.g. with symetrical or anti-symetrical coefficients):
+ *  @f[
+ *  \tau = \frac{N-1}{2}
+ *  @f]
+ *
+ *  @param N  Number of coefficients
+ *  @returns Delay @f$\tau@f$ of the filter.
+ *
+ */
+inline float fir_delay(int N)
+{
+  return tsdf::rif_delais(N);
+}
 
 
 /**  @}
@@ -347,20 +502,20 @@ struct SpecFreqIntervalle
   float poids = 1.0f;
 };
 
-/** @brief Approximation RIF d'un filtre de Hilbert.
+/** @brief Hilbert filter FIR approximation.
  *
- *  <h3>%Filtre de Hilbert (approximation RIF)</h3>
+ *  <h3>Hilbert filter FIR approximation</h3>
  *
- *  Cette fonction calcule le fenêtrage de la réponse temporelle théorique d'un filtre de Hilbert :
+ *  This function computes the windowed theoretical temporal response of a Hilbert filter:
  *  @f[
  *      h_k = \frac{2}{k\pi} \cdot \sin(k \pi / 2)^2 \cdot w_k;
  *  @f]
  *
- *  @param n ordre du filtre
- *  @param fenetre Type de fenetre (par défaut, fenêtre de Hann)
- *  @returns Tableau des coefficients
+ *  @param n Filter order
+ *  @param fenetre Window type (by default, Hann window)
+ *  @returns FIR filter coefficients
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/ex-filtrage.cc ex_design_rif_hilbert
  *  @image html design-rif-hilbert.png width=600px
  *
@@ -371,56 +526,70 @@ inline ArrayXf design_fir_hilbert(int n, const std::string &window = "hn")
   return tsdf::design_rif_hilbert(n, window);
 }
 
-/** @brief Design RII d'après un prototype analogique classique.
- *
- * <h3>Design RII d'après un prototype analogique classique</h3>
- *
- * Cette fonction renvoie une fonction de transfert <b>discrète</b>, sous forme de pôles et de zéros (idéal pour une implémentation sous la forme de sections du second ordre, voir @ref filtre_sois()).
- * Les prototypes supportés sont les suivants :
- *  - <b>Butterworth</b> (pas d'ondulation, bande de transition large)
- *  - <b>Chebychev type I</b> (ondulations dans la bande passante)
- *  - <b>Chebychev type II</b> (ondulations dans la bande coupée)
- *  - <b>Elliptique</b> (ondulations partout, mais bande de transition la plus étroite)
- *
- *  Le filtre est d'abort conçu dans le domaine analogique, puis converti en filtre digital grâce à la
- *  transformée bilinéaire.
- *
- * @param n           Ordre du filtre
- * @param type        Type de filtre ("lp" pour passe-bas, "hp" pour passe-haut, ...)
- * @param prototype   "butt", "cheb1", "cheb2" ou "ellip"
- * @param fc          Fréquence de coupure normalisée (entre 0 et 0,5)
- * @param δ_bp        Ondulation maximale en decibels dans la bande passante (utilisé seulement pour un filtre de Chebychev de type I ou un filtre elliptique).
- * @param δ_bc        Atténuation minimale en decibels dans la bande coupée (utilisé seulement pour un filtre de Chebychev type II ou un filtre elliptique).
- * @return h          Fonction de transfert (digitale)
- *
- * @par Exemple
- * @snippet exemples/src/ex-filtrage.cc ex_design_riia
- * @image html design-riia.png width=800px
- *
- * @sa trf_bilineaire(), @ref filtre_sois(), filtre_rii()
- */
-inline FRat<cfloat> design_iira(int n, const std::string &type,
-    const std::string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60)
-{
-  return tsdf::design_riia(n, type, prototype, fc, δ_bp, δ_bc);
-}
-
-
-
-/** @brief Type de filtre biquad (voir @ref design_biquad()) */
 using BiquadSpec = tsdf::BiquadSpec;
 
-/** @brief Design filtre biquad.
+
+
+/** @brief Biquad filter design.
  *
- * D'après https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html
+ * <h3>Biquad filter design</h3>
  *
- * @param Q Facteur de qualité
+ * For a more complete description, see @ref design_biquad().
  *
- *  */
+ * @param spec Specification (type, cutoff frequency, quality factor, etc.)
+ *
+ * @sa design_biquad()
+ */
 inline FRat<float> design_biquad(const BiquadSpec &spec)
 {
   return tsdf::design_biquad(spec);
 }
+
+/** @brief Biquad filter design.
+ *
+ * <h3>Biquad filter design</h3>
+ *
+ * These second order RII filter are adapted from analog prototype through the bilinear transform.
+ *
+ * The analog  prototypes are the following ones (defined for a cutoff pulsation of 1 radian/s, and @f$Q@f$ being the quality factor):
+ *
+ * - Low-pass filter:
+ * @f[
+ * H(s) = \frac{1}{s^2+\frac{1}{Q}s+1}
+ * @f]
+ * - High-pass filter:
+ * @f[
+ * H(s) = \frac{s^2}{s^2+\frac{1}{Q}s+1}
+ * @f]
+ * - Band-pass filter:
+ * @f[
+ * H(s) = \frac{s/Q}{s^2+\frac{1}{Q}s+1}
+ * @f]
+ * - Band-stop filter:
+ * @f[
+ * H(s) = \frac{s^2+1}{s^2+\frac{1}{Q}s+1}
+ * @f]
+ *
+ *
+ * @param type    Filter type ("lp", "hp", "bp", "sb", ...).
+ * @param f       Normalized cut-off frequncy (or central frequency for band-pass and band-stop), between 0 and 0.5.
+ * @param Q       Quality factor (note: for @f$Q>1/\sqrt(2)\sim 0{,71}@f$, there will be some resonnance).
+ * @param gain_dB Gain, in dB, used only for the filter of type resonnance or plateau.
+ *
+ * @par Example: low-pass filters, with different values for the quality factor
+ * @snippet exemples/src/filtrage/ex-filtrage.cc ex_biquad_lp
+ * @image html ex-biquad-pb.png width=800px
+ *
+ * @par Bibliography
+ * - <i>Cookbook formulae for audio equalizer biquad filter coefficients,</i> Robert Bristow-Johnson,
+ *      https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html,
+ * - <i>F0 and Q in filters, Mini tutorial,</i> Analog Devices,
+ */
+inline FRat<float> design_biquad(const std::string type, float f, float Q, float gain_dB = 0)
+{
+  return tsdf::design_biquad(type, f, Q, gain_dB);
+}
+
 
 /** @cond private
  */
@@ -440,7 +609,7 @@ enum class TypeFiltre
   COUPE_BANDE
 };
 
-extern FRat<cfloat> design_riia(unsigned int n, TypeFiltre type,
+extern FRat<cfloat> design_riia(int n, TypeFiltre type,
     PrototypeAnalogique prototype, float fcut, float δ_bp, float δ_bc);
 
 extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogique prototype, float fcut, float δ_bp, float δ_bc);
@@ -448,11 +617,78 @@ extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogi
 /** @endcond */
 
 
-/** @brief Design par échantillonnage fréquentiel.
+/** @brief IIR design from a classical analog prototype.
  *
- *  @param n  Ordre du filtre
- *  @param d  Vector définissant la réponse fréquentielle souhaitée (sur les fréquences positives)
- *  @returns  Vector des coefficients du filtre (dimension = n)
+ * <h3>IIR design from a classical analog prototype</h3>
+ *
+ * This function returns a <b>discrete</b> transfert function,
+ * in the form of poles and zeros
+ * (ideal for an implementation with second order sections, see @ref filter_sois()).
+ * The following prototypes are possible:
+ *  - <b>Butterworth</b> (no ondulation, wide transition band)
+ *  - <b>Chebychev type I</b> (ondulations in the pass-band)
+ *  - <b>Chebychev type II</b> (ondulations in the stop-band)
+ *  - <b>Elliptique</b> (ondulations everywhere, but shortest transition band)
+ *
+ *  The filter is first designed in the analog domain (Laplace transform),
+ *  then converted in digital form (z transform) with the
+ *  bilineair transform.
+ *
+ * @param n           Fitler order.
+ * @param type        Filter type ("lp" for low-pass, "hp" for high-pass, ...)
+ * @param prototype   "butt", "cheb1", "cheb2" or "ellip"
+ * @param fc          Normalized cut-off frequncy (or central frequency for band-pass and band-stop), between 0 and 0.5.
+ * @param δ_bp        Maximal ondulation (in decibels) in the pass-band (used only for Chebychev type I or elliptic filters).
+ * @param δ_bc        Minimal attenuation (in decibels) in the sto-band (used only for Chebychev type II or elliptic filters).
+ * @return h          Transfert function (digital)
+ *
+ * @par Example
+ * @snippet exemples/src/ex-filtrage.cc ex_design_riia
+ * @image html design-riia.png width=800px
+ *
+ * @sa trf_bilineaire(), @ref filtre_sois(), filtre_rii()
+ */
+inline FRat<cfloat> design_iira(int n, const std::string &type,
+    const std::string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60)
+{
+  return tsdf::design_riia(n, type, prototype, fc, δ_bp, δ_bc);
+}
+
+
+
+
+/** @brief Frequency sampling design.
+ *
+ *  <h3>Frequency sampling design</h3>
+ *
+ * This method enables to approximate with a FIR filter with @f$n@f$ coefficients (@f$n@f$ being odd)
+ * an arbitrary frequency response, given as a specification.
+ * The frequency specification must be given as a vector @f$d@f$ of @f$m=\frac{n+1}{2}@f$ real elements, of type:
+ * @f[
+ * d_k = H(f_k),\ f_k = k \cdot \frac{1}{2m-1},\ k = 0,\dots, m-1
+ * @f]
+ *
+ *
+ * The frequencies @f$f_k@f$ can be computed with the function @ref design_fir_freq_freqs().
+ *
+ * @note
+ * Note that the elements @f$m@f$ of the frequency response enable to specify uniquely  a real filter
+ * with @f$n=2m-1@f$ coefficients (indeed, each element of the response, except for the first,
+ * is used twice, for positive and negative frequencies).
+ * Thus, if @f$n\neq 2m-1@f$, the desired frequency response is, before computing the filter coefficients, resampled (by linear interpolation)
+ * with @f$m'@f$ values such as
+ * @f$n=2m'-1@f$ (in every case, the number of coefficients must be odd).
+ *
+ *
+ *  @param n     Filter order (must be odd).
+ *  @param d     Vector with desired frequency response (positives frequencies).
+ *  @returns     Vector with FIR filter coefficients (dimension = @f$n@f$).
+ *
+ * @par Example
+ * @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_freq
+ * @image html design-rif-freq.png width=800px
+ *
+ * @sa design_fir_freq_freqs()
  */
 inline ArrayXf design_fir_freq(int n, const ArrayXf &d)
 {
