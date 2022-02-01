@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -149,7 +147,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga5021fec520453
 <p>This method enables to approximate with a FIR filter with \(n\) coefficients ( \(n\) being odd) an arbitrary frequency response, given as a specification. The frequency specification must be given as a vector \(d\) of \(m=\frac{n+1}{2}\) real elements, of type: </p><p class="formulaDsp">
 \[ d_k = H(f_k),\ f_k = k \cdot \frac{1}{2m-1},\ k = 0,\dots, m-1 \]
 </p>
-<p>The frequencies \(f_k\) can be computed with the function design_fir_freq_freqs().</p>
+<p>The frequencies \(f_k\) can be computed with the function <a class="el" href="group__filtrage-design_ga78b8555fc17bbb458d7f82ec7ac746f7.html#ga78b8555fc17bbb458d7f82ec7ac746f7">design_fir_freq_freqs()</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>Note that the elements \(m\) of the frequency response enable to specify uniquely a real filter with \(n=2m-1\) coefficients (indeed, each element of the response, except for the first, is used twice, for positive and negative frequencies). Thus, if \(n\neq 2m-1\), the desired frequency response is, before computing the filter coefficients, resampled (by linear interpolation) with \(m&#39;\) values such as \(n=2m&#39;-1\) (in every case, the number of coefficients must be odd).</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -189,7 +187,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga5021fec520453
 <img src="design-rif-freq.png" alt="" width="800px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>design_fir_freq_freqs() </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga78b8555fc17bbb458d7f82ec7ac746f7.html#ga78b8555fc17bbb458d7f82ec7ac746f7" title="Computes the  frequencie values used for the sampling frequency technique design.">design_fir_freq_freqs()</a> </dd></dl>
 
 </div>
 </div>
@@ -199,7 +197,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga5021fec520453
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Linear filter design</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

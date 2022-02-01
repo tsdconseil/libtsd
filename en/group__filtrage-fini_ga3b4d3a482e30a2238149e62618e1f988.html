@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -139,17 +137,19 @@ template&lt;typename T , typename Tc &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Cette fonction permet de filtrer un signal de durée finie sans décalage temporel, à partir d'un filtre RIF quelquonque, qui est appliqué deux fois sur le signal : une fois normalement, et une fois dans le sens inverse du temps : </p><p class="formulaDsp">
+<h3>Zero-phase filtering (bi-directionnal)</h3>
+<p>This function can filter a finite length signal without any time delay, by using a FIR filter, which is applied twice: once normally, and once more time reversed: </p><p class="formulaDsp">
 \[ y = \left((x \star h)_{-.} \star h\right)_{-.} \]
 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">h</td><td>Coefficients du filtre </td></tr>
-    <tr><td class="paramname">x</td><td>Signal à filtrer </td></tr>
+    <tr><td class="paramname">h</td><td>RIF filter coefficients. </td></tr>
+    <tr><td class="paramname">x</td><td>Input signal </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Signal filtré, sans décalage temporel. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Output, filtered signal.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>filter() </dd></dl>
 
 </div>
 </div>
@@ -159,7 +159,7 @@ template&lt;typename T , typename Tc &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-fini.html">Filtering of finitge length signals</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

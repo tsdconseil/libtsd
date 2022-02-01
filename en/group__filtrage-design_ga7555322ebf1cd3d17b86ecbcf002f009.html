@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -145,22 +143,20 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga7555322ebf1cd
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Sinus cardinal normalisé avec fréquence de coupure paramétrable</h3>
+<h3>Normalized cardinal sine with configurable cut-off frequency</h3>
 <p class="formulaDsp">
 \[ y(t) = \frac{\sin(2 \pi t f_c)}{\pi t} \]
 </p>
-<p>La transformée de Fourier de cette fonction est une porte de largeur \(\pm f_c\), ce qui en fait donc le protype idéal pour un filtre passe-bas.</p>
+<p>The Fourier transform of this fonction is a door of width \(\pm f_c\), which is an ideal (yet not realizable) prototype for a low-pass filter.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">t</td><td>Point d'échantillonnage (en nombre d'échantillons) </td></tr>
-    <tr><td class="paramname">fc</td><td>Fréquence de coupure </td></tr>
+    <tr><td class="paramname">t</td><td>Temporal sampling point (as fractionnal number of samples). </td></tr>
+    <tr><td class="paramname">fc</td><td>Normalized cut-off frequency, between 0 and 0.5. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Valeur de \(y\)</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga61894cb8b2348ee66e2ae009d6710605.html#ga61894cb8b2348ee66e2ae009d6710605" title="Sinus cardinal normalisé avec fréquence de coupure 0,5.">sinc()</a>, <a class="el" href="group__filtrage-design.html#ga616632c573e9a53ab2ac4a29181ec8b0" title="Windowed sinc filter.">design_rif_fen()</a> </dd></dl>
-
-<p class="reference">References <a class="el" href="group__filtrage-design_ga61894cb8b2348ee66e2ae009d6710605.html#ga61894cb8b2348ee66e2ae009d6710605">dsp::filter::sinc()</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>\(y\) value</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga61894cb8b2348ee66e2ae009d6710605.html#ga61894cb8b2348ee66e2ae009d6710605" title="Normalized cardinal sine with configurable cut-off frequency at 0.5.">sinc()</a>, design_fir_fen() </dd></dl>
 
 </div>
 </div>
@@ -170,7 +166,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga7555322ebf1cd
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Linear filter design</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

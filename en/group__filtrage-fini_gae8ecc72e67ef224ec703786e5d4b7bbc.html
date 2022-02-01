@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -135,17 +133,17 @@ $(document).ready(function(){initNavTree('group__filtrage-fini_gae8ecc72e67ef224
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Calcul du signal analytique (via la TFD)</h3>
-<p>Cette fonction met tout simplement à zéro les fréquences négatives du signal, dans le domaine fréquentiel. Contrairement à <a class="el" href="group__filtrage-fini_gaae34a9b2dbd4a5744546f570f9b0b902.html#gaae34a9b2dbd4a5744546f570f9b0b902">hilbert()</a>, cette technique n'introduit aucun délais dans le domaine temporel.</p>
-<dl class="section attention"><dt>Attention</dt><dd>Du fait des hypothèses sous-jacentes à la la TFD, des artefacts peuvent apparaitre aux bords du signal.</dd></dl>
+<h3>Analytic signal computing (through DFT)</h3>
+<p>This function simply zeroes the negative frequency bins of the signal. Contrary to <a class="el" href="group__filtrage-fini_gaae34a9b2dbd4a5744546f570f9b0b902.html#gaae34a9b2dbd4a5744546f570f9b0b902">hilbert()</a>, this technique does not introduce any time domain delay.</p>
+<dl class="section warning"><dt>Warning</dt><dd>Because of the some hypothesys implicit to the DFT, artefacts may be introduced at the border of the signal.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>Signal d'entrée </td></tr>
+    <tr><td class="paramname">x</td><td>Input signal (real). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Signal analytique (complexe) </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>design_rif_hilbert(), <a class="el" href="group__filtrage-fini_gaae34a9b2dbd4a5744546f570f9b0b902.html#gaae34a9b2dbd4a5744546f570f9b0b902" title="Calcul du signal analytique (via un filtrage RIF).">hilbert()</a>, <a class="el" href="group__filtrage-tr_ga3545acfc84f5f5199d5d2b53b6b7e790.html#ga3545acfc84f5f5199d5d2b53b6b7e790" title="Définit un transformeur de Hilbert, qui convertit un signal réel en un signal analytique (complexe).">hilbert_transformeur()</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Output, analytic signal (complex).</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga4f99d862c783ff00300f429c08097720.html#ga4f99d862c783ff00300f429c08097720" title="Hilbert filter FIR approximation.">design_fir_hilbert()</a>, <a class="el" href="group__filtrage-fini_gaae34a9b2dbd4a5744546f570f9b0b902.html#gaae34a9b2dbd4a5744546f570f9b0b902" title="Analytic signal computing (through FIR filtering).">hilbert()</a>, <a class="el" href="group__filtrage-tr_ga32ad1f7088884cf49b89fe6bf55a8254.html#ga32ad1f7088884cf49b89fe6bf55a8254" title="Defines a Hilbert transformer (conversion from a real signal to a complex, analytic one.">hilbert_transformer()</a> </dd></dl>
 
 </div>
 </div>
@@ -155,7 +153,7 @@ $(document).ready(function(){initNavTree('group__filtrage-fini_gae8ecc72e67ef224
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-fini.html">Filtering of finitge length signals</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

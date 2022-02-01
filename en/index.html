@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -111,17 +109,35 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
 <div class="title">libtsd Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><b>Libtsd</b> is a C++ library for signal processing, based on the <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> library, laquelle permet d'effectuer des calculs vectorisés de manière simple et intuitive. La librairie Libtsd vous apporte les facilités du traitement du signal à haut niveau (code lisible et intuitif), du type que l'on trouve habituellement avec Matlab ou Python, mais avec les avantages du C++, notamment en terme de fonctionnement possible pour des traitement en temps réels.</p>
+<p>Elle est constituée des modules de base suivants, ne nécessitant aucune dépendance autre que Eigen (en version 3) :</p><ul>
+<li><a class="el" href="namespacedsp.html">dsp</a> : fonctions générales pour le traitement du signal (définition des structures abstraites pour les filtres / sources / puits de traitement)</li>
+<li>dsp::filter : design, conception et implémentation des filtres linéaires (LTI)</li>
+<li><a class="el" href="group__fourier.html">dsp::fourier</a> : traitements dans le domaine fréquentiel.</li>
+<li>dsp::tf : traitements temps / fréquences (STFT, CQT, ondelettes, ...).</li>
+<li><a class="el" href="group__telecom.html">dsp::telecom</a> : modulations / démodulations numériques et analogiques.</li>
+</ul>
+<p>Les modules optionnels suivant peuvent par ailleurs être utilisés :</p><ul>
+<li><a class="el" href="group__vue.html">dsp::view</a> : Tracés de courbes et la visualisation des données (dépendances : <a href="http://www.libpng.org">libpng</a> et <a href="https://www.freetype.org/">freetype</a>, pour l'affichage : <a href="https://www.gtkmm.org">libgtkmm 3</a>).</li>
+<li><a class="el" href="group__audio.html">dsp::audio</a> : Lecture et écriture de fichiers audio (dépendance : <a href="http://www.mega-nerd.com/libsndfile/">libsndfile</a>).</li>
+</ul>
+<h2>Style de code</h2>
+<p>La règle directrice qui a été choisie est de <b>simplifier au maximum les API</b>, afin de faciliter qu'elles soient le plus lisibles et claires possibles, et de manière à miniser le risque d'erreur ou de confusion pour l'utilisateur. Cela implique notamment les choix suivants :</p><ul>
+<li>Le nombre de classes C++ exposées est minimisé, soit en exposant dans la mesure du possible de simples fonctions, soit en exposant des classes abstraites, de manière à masquer les détails d'implémentations.</li>
+<li>Quitte à limiter la flexibilité, les templates ne sont pas systématiquement utilisés, et quand un type (flottant 32 bits par exemple) paraît adéquat pour une large gamme d'utilisation, il est utilisé directement. Cela permet notamment de bien séparer l'API (fichiers d'en-tête) de l'implémentation. </li>
+</ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

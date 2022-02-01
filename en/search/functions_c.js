@@ -1,8 +1,28 @@
 var searchData=
 [
-  ['tampon_5fcreation_304',['tampon_creation',['../group__tsd_ga87e2f84706927bd69a32533de6b45f57.html#ga87e2f84706927bd69a32533de6b45f57',1,'dsp']]],
-  ['title_305',['title',['../structdsp_1_1view_1_1_figure_a95a0944133207c2fcc876d32251dc067.html#a95a0944133207c2fcc876d32251dc067',1,'dsp::view::Figure']]],
-  ['titles_306',['titles',['../structdsp_1_1view_1_1_figure_a40ffeba5357651d9d6f81d7ce29880a3.html#a40ffeba5357651d9d6f81d7ce29880a3',1,'dsp::view::Figure']]],
-  ['trange_307',['trange',['../group__tsd-gen_ga27998efe01cdd09d5d70aff930a12251.html#ga27998efe01cdd09d5d70aff930a12251',1,'dsp']]],
-  ['trf_5fbilineaire_308',['trf_bilineaire',['../group__filtrage-design_ga0808fe215e03b672a5ff1d61af437b08.html#ga0808fe215e03b672a5ff1d61af437b08',1,'dsp::filter']]]
+  ['save_303',['save',['../structdsp_1_1view_1_1_figure_a3cac7f911dd19248688974f5c1a16ddd.html#a3cac7f911dd19248688974f5c1a16ddd',1,'dsp::view::Figure']]],
+  ['set_5fcolor_304',['set_color',['../structdsp_1_1view_1_1_figure_1_1_curve.html#a3502d5a57d49faff808868127ac20455',1,'dsp::view::Figure::Curve']]],
+  ['set_5fcolors_305',['set_colors',['../structdsp_1_1view_1_1_figure_1_1_curve.html#a9d2c936f90c24969b843589c5d17999f',1,'dsp::view::Figure::Curve']]],
+  ['set_5ffill_306',['set_fill',['../structdsp_1_1view_1_1_figure_1_1_curve.html#adb2a8b0b30d833e67123b282a7d74517',1,'dsp::view::Figure::Curve']]],
+  ['set_5fmarker_5fwidth_307',['set_marker_width',['../structdsp_1_1view_1_1_figure_1_1_curve.html#ae4bb2afa958e98afe7544bab7851d821',1,'dsp::view::Figure::Curve']]],
+  ['set_5fwidth_308',['set_width',['../structdsp_1_1view_1_1_figure_1_1_curve.html#a8925710ebc6d4facc9c7c9b47155bd47',1,'dsp::view::Figure::Curve']]],
+  ['set_5fσ_309',['set_σ',['../structdsp_1_1view_1_1_figure_1_1_curve.html#a23058c481a7940336bc18aa96007b9a3',1,'dsp::view::Figure::Curve']]],
+  ['show_310',['show',['../structdsp_1_1view_1_1_figure_aab3bc80458b2c0ba9f63b5dfcf09fa80.html#aab3bc80458b2c0ba9f63b5dfcf09fa80',1,'dsp::view::Figure']]],
+  ['sigcar_311',['sigcar',['../group__tsd-gen_ga1a87420fdcb0f5372ba25f3bf2d543de.html#ga1a87420fdcb0f5372ba25f3bf2d543de',1,'dsp']]],
+  ['sigchirp_312',['sigchirp',['../group__tsd-gen_gad2f6b92098943605f569f92fc23e6705.html#gad2f6b92098943605f569f92fc23e6705',1,'dsp']]],
+  ['sigchirp2_313',['sigchirp2',['../group__tsd-gen_gaaa4d62d70c30c10e62b91bc7b3751e3a.html#gaaa4d62d70c30c10e62b91bc7b3751e3a',1,'dsp']]],
+  ['sigcos_314',['sigcos',['../group__tsd-gen_gaecb1534e7fb9490c8371c9eaf8e6302d.html#gaecb1534e7fb9490c8371c9eaf8e6302d',1,'dsp']]],
+  ['sigexp_315',['sigexp',['../group__tsd-gen_ga1d298cc57b240806f0152f50c26c023c.html#ga1d298cc57b240806f0152f50c26c023c',1,'dsp']]],
+  ['siggauss_316',['siggauss',['../group__tsd-gen_ga685802375870ff4bf5224dc16ee2a382.html#ga685802375870ff4bf5224dc16ee2a382',1,'dsp']]],
+  ['siggsin_317',['siggsin',['../group__tsd-gen_ga4585a926cf826b7d76099a456fc2a1c3.html#ga4585a926cf826b7d76099a456fc2a1c3',1,'dsp']]],
+  ['sigimp_318',['sigimp',['../group__tsd-gen_ga5a16f728bc6eb4b45d9537ce74d6e41e.html#ga5a16f728bc6eb4b45d9537ce74d6e41e',1,'dsp']]],
+  ['sigscie_319',['sigscie',['../group__tsd-gen_ga06e59291ba722b49021b4b4e499b9ffe.html#ga06e59291ba722b49021b4b4e499b9ffe',1,'dsp']]],
+  ['sigsin_320',['sigsin',['../group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435',1,'dsp']]],
+  ['sigtri_321',['sigtri',['../group__tsd-gen_ga5ae3685f0514a3bfe8a532dd4e7ea103.html#ga5ae3685f0514a3bfe8a532dd4e7ea103',1,'dsp']]],
+  ['sinc_322',['sinc',['../group__filtrage-design_ga61894cb8b2348ee66e2ae009d6710605.html#ga61894cb8b2348ee66e2ae009d6710605',1,'dsp::filter']]],
+  ['sinc2_323',['sinc2',['../group__filtrage-design_ga7555322ebf1cd3d17b86ecbcf002f009.html#ga7555322ebf1cd3d17b86ecbcf002f009',1,'dsp::filter']]],
+  ['source_5fohc_324',['source_ohc',['../group__tsd-gen_gafd48d47e545bb89649aa946cfaa1cc1d.html#gafd48d47e545bb89649aa946cfaa1cc1d',1,'dsp']]],
+  ['source_5fohr_325',['source_ohr',['../group__tsd-gen_gafa093ae86ec773deb9339f4eb5d62009.html#gafa093ae86ec773deb9339f4eb5d62009',1,'dsp']]],
+  ['square_326',['square',['../group__tsd.html#ga032616a9b4de983608551889c95a25e1',1,'dsp']]],
+  ['subsample_327',['subsample',['../group__tsd_ga3c911a7d8abe998d272a7bb02c7064fd.html#ga3c911a7d8abe998d272a7bb02c7064fd',1,'dsp']]]
 ];

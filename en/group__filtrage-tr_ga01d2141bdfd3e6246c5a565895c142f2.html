@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -139,22 +137,22 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>Filtrage RII (chaine de sections du second ordre)</h3>
-<p>La fonction de transfert passée en entrée est factorisée sous la forme d'une cascade de sections du second ordre (plus éventuellement une section du premier ordre si l'ordre est impair), permettant une implémentation efficace d'une filtre RII :</p>
+<h3>IIR filter implementation through a cascad of second order sections</h3>
+<p>The given transfert function is factored into a cascad of second order sections, and eventually a first order section if the whole filter order is odd, enabling an efficient implementation of a IIR filter:</p>
 <p class="formulaDsp">
 \[ H(z) = G\cdot\prod_{i=1}^{M} H_i(z) = G\cdot\prod_{i=1}^{M} \frac{1 + b_1^{(i)} z^{-1} + b_2^{(i)} z^{-2} }{1 - a_1^{(i)} z^{-1} - a_2^{(i)} z^{-2}} \]
 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">h</td><td>Fonction de transfert, normalement complexe </td></tr>
-    <tr><td class="paramname">structure</td><td>RIIStructure::FormeDirecte1 ou RIIStructure::FormeDirecte2 (voir notes ci-dessous) </td></tr>
+    <tr><td class="paramname">h</td><td>Transfert function. </td></tr>
+    <tr><td class="paramname">structure</td><td>RIIStructure::FormeDirecte1 or RIIStructure::FormeDirecte2 (see notes below) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Filtre réel vers réel</dd></dl>
-<p>La forme directe 2 est légérement plus efficace que la forme 1. Cependant, si les coefficients du filtre sont amenés à changer en cours de fonctionnement, il vaut mieux utiliser la première forme, car la forme 2 risque de générer des discontinuités.</p>
-<dl class="section attention"><dt>Attention</dt><dd>Il est recommandé que la fonction de transfert passée en entrée soit sous la forme pôles / zéros, et non pas sous la forme de la liste des coefficients, car avec cette dernière représentation, la position des pôles et zéros (et donc la réponse fréquentielle) est très instable (très sensible aux erreurs de troncature lors de la quantification des coefficients). Notez que la fonction design_riia() renvoie bien une fonction de transfert sous la forme pôles / zéros.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-tr_ga2874f372bc3aa8d9ec798f65c42a65d4.html#ga2874f372bc3aa8d9ec798f65c42a65d4" title="Filtre RII (forme directe I), non recommandée (utiliser plutôt filtre_sois() à la place).">filtre_rii()</a>, design_riia() </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>real to real filter.</dd></dl>
+<p>The direct form II is a little more efficient than the form I. However, if the coefficients are to be reloaded while the filter is in use, the form II can generate discontinuities, which is not the case with the first form.</p>
+<dl class="section warning"><dt>Warning</dt><dd>It is highly recommanded that the given transfert function is specified by its roots and poles rather by its coefficients, because in the latter case, the poles and zeros locations (and hence the frequency response) may be very unstable (high sensitivity to troncating errors). Note that the function <a class="el" href="group__filtrage-design_gaf3b64868b4eb2cf771b6422826f91741.html#gaf3b64868b4eb2cf771b6422826f91741">design_iira()</a> returns a correct tranfert function (zeros &amp; poles).</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-tr_gab81fa0bbc8205f3207747316af796b5b.html#gab81fa0bbc8205f3207747316af796b5b" title="IIR filter, direct form I implementation, not recommanded (use rather filter_sois() instead).">filter_iir()</a>, <a class="el" href="group__filtrage-design_gaf3b64868b4eb2cf771b6422826f91741.html#gaf3b64868b4eb2cf771b6422826f91741" title="IIR design from a classical analog prototype.">design_iira()</a> </dd></dl>
 
 </div>
 </div>
@@ -164,7 +162,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['linspace_255',['linspace',['../group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f',1,'dsp']]],
-  ['logspace_256',['logspace',['../group__tsd-gen_ga446269e9bbe720468cd13e274fb215cb.html#ga446269e9bbe720468cd13e274fb215cb',1,'dsp']]]
+  ['kaiser_5fparam_278',['kaiser_param',['../group__filtrage-fenetres_ga6537fc91e7d68f427d56476ec827380d.html#ga6537fc91e7d68f427d56476ec827380d',1,'dsp::filter']]]
 ];

@@ -1,7 +1,6 @@
 var group__tsd =
 [
     [ "Signal generation", "group__tsd-gen.html", "group__tsd-gen" ],
-    [ "Date / time", "group__tsd-heure.html", "group__tsd-heure" ],
     [ "ArrayXb", "group__tsd.html#ga72277890c90d5dcb01d762c922f455f0", null ],
     [ "ArrayXXb", "group__tsd.html#ga78cf30dfd88757d6c65a82d4f056cde1", null ],
     [ "cdouble", "group__tsd.html#ga4dd4b56d5b37cea6492cfef744da67ed", null ],

@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -135,8 +133,8 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gafe10a6051b907
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Design filtre RII d'ordre 1</h3>
-<p>Cette fonction calcule le coefficient (facteur d'oubli) d'un filtre RII du premier ordre (filtre exponentiel), en fonction de la fréquence de coupure souhaitée.</p>
+<h3>First order RII design</h3>
+<p>This function computes the forget factor for a first order IIR filter (that is, an exponential filter), as a function of the desired cut-off frequency.</p>
 <p class="formulaDsp">
 \[ y_{n+1} = (1-\gamma) * y_n + \gamma * x_n = y_n + \gamma * (x_n - y_n) \]
 </p>
@@ -149,7 +147,8 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gafe10a6051b907
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Coeficient \(\gamma\) for the IIR filter </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Coeficient \(\gamma\) for the IIR filter</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga84e021bb749c3f4e5fcb8d3391e4d2fd.html#ga84e021bb749c3f4e5fcb8d3391e4d2fd" title="Transfert function of an exponential filter.">design_iir1()</a>, <a class="el" href="group__filtrage-design_ga90a2bdcb2664d53fed51d62bc4cf820e.html#ga90a2bdcb2664d53fed51d62bc4cf820e" title="Same as previous function, but take as input the time constant (in samples).">iir1_tc2coef()</a> </dd></dl>
 
 </div>
 </div>
@@ -159,7 +158,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gafe10a6051b907
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Linear filter design</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -129,19 +127,19 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>Filtre RII du premier ordre</h3>
-<p>Ce filtre, dit "RC numérique", ou "filtre exponentiel", est un des filtres les plus simples, puisqu'il est entiérement caractérisé par un seul coefficient.</p>
+<h3>First order IIR filter (exponential filter)</h3>
+<p>This filter, also called the "numerical RC filter", or "exponential filter", is one of the simplest filter, as it is completely speficied by only one coefficient.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">γ</td><td>Facteur d'oubli</td></tr>
+    <tr><td class="paramname">γ</td><td>Forget factor.</td></tr>
   </table>
   </dd>
 </dl>
-<p>Le filtre RII du premier ordre peut être défini par l'équation : </p><p class="formulaDsp">
+<p>It is defined by the following equation: </p><p class="formulaDsp">
 \[ y_{n+1} = (1-\gamma) * y_n + \gamma * x_n = y_n + \gamma * (x_n - y_n) \]
 </p>
-<p>Le paramètre \(\gamma\) peut être réglé facilement en fonction du temps de réponse ou de la fréquence de coupure souhaitée (voir rii1_coef()).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_gaa094c4ec3578c26d10aff050bda795fc.html#gaa094c4ec3578c26d10aff050bda795fc" title="Compute cut-off frequency, from forget factor of first order IIR filter.">rii1_fcoupure()</a>, rii1_coef() </dd></dl>
+<p>The \(\gamma\) parameter (forget factor) can be tuned easily as a function of time constant or of the desired cut-off frequency (see <a class="el" href="group__filtrage-design_gafe10a6051b907b4c2c55f85167952871.html#gafe10a6051b907b4c2c55f85167952871">iir1_coef()</a>).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga0672331d02358836f993638d33ad3a2e.html#ga0672331d02358836f993638d33ad3a2e" title="Compute cut-off frequency, from forget factor of first order IIR filter.">iir1_fcut()</a>, <a class="el" href="group__filtrage-design_gafe10a6051b907b4c2c55f85167952871.html#gafe10a6051b907b4c2c55f85167952871" title="Generate first order IIR filter forget factor (unique coefficient) from cut-off frequency.">iir1_coef()</a> </dd></dl>
 
 </div>
 </div>
@@ -151,7 +149,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

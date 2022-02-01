@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -139,22 +137,23 @@ template&lt;typename Tc , typename T  = Tc&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>Filtrage RIF et décimation</h3>
-<p>Cette structure permet l'application successive d'un filtrage RIF et d'une décimation, de manière efficace (sans calcul des échantillons supprimés). Le flux de sortie est décimé d'un facteur \(R\) par rapport au flux d'entrée.</p>
+<h3>FIR filtering with post-decimation</h3>
+<p>This structure implements successivly a FIR filter and a decimation in an efficient way (not computing the suppressed samples). The output stream is decimated by a factor \(R\) compared to the imput stream.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">R</td><td>Facteur de décimation </td></tr>
-    <tr><td class="paramname">h</td><td>Coefficients du filtre RIF anti-repliement. </td></tr>
+    <tr><td class="paramname">R</td><td>Decimation factor. </td></tr>
+    <tr><td class="paramname">h</td><td>Coefficients for the anti-aliasing FIR filter. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Tc</td><td>Type de coefficient </td></tr>
-    <tr><td class="paramname">T</td><td>Type d'entrée / sortie </td></tr>
+    <tr><td class="paramname">Tc</td><td>Coefficients type. </td></tr>
+    <tr><td class="paramname">T</td><td>Input / output samples type.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-rythme_gabe3d460a5f3cc23a8d1020e602d829aa.html#gabe3d460a5f3cc23a8d1020e602d829aa" title="FIR filtering with interpolation (polyphase implementation)">filter_fir_ups()</a> </dd></dl>
 
 </div>
 </div>
@@ -164,7 +163,7 @@ template&lt;typename Tc , typename T  = Tc&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-rythme.html">Sample rate conversions</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

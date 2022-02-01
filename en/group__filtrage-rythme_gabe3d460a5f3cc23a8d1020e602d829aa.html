@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -139,23 +137,24 @@ template&lt;typename Tc , typename T  = Tc&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>Filtrage RIF et interpolation</h3>
-<p>Cette structure permet le calcul efficace de la succession d'un sur-échantillonnage (insertion de R-1 zéros entre chaque échantillon d'entrée), et d'un filtrage (typiquement anti-repliement) RIF, grâce à une décomposition polyphase du filtre RIF.</p>
+<h3>FIR filtering with interpolation</h3>
+<p>This structure implements efficiently the cascade of over-sampling (zeros insertion), and FIR filtering (typically, an anti-aliasing filter), using a polyphase décomposition of the filter.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">h</td><td>Coefficients du filtre RIF anti-repliement. </td></tr>
-    <tr><td class="paramname">R</td><td>Facteur d'upsampling. </td></tr>
+    <tr><td class="paramname">h</td><td>Coefficients for the anti-aliasin FIR filter. </td></tr>
+    <tr><td class="paramname">R</td><td>Over-sampling factor. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Tc</td><td>Type des coefficients (float, double, etc.) </td></tr>
-    <tr><td class="paramname">T</td><td>Type des échantillons d'entrée / sortie (float, double, cfloat, etc.) </td></tr>
+    <tr><td class="paramname">Tc</td><td>Coefficients type (float, double, etc.) </td></tr>
+    <tr><td class="paramname">T</td><td>Input / output samples type (float, double, cfloat, etc.) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>un filtre (type T vers T), le flux de sortie étant upsamplé d'un facteur \(R\) par rapport au flux d'entrée. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A filter (type T to T), the output stream being oversampled by the factor \(R\) compared to the input stream.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-rythme_gaeb83cd2a4480df00043bf537543425f4.html#gaeb83cd2a4480df00043bf537543425f4" title="Computes the delay of a FIR upsampling filter.">filter_fir_ups_delay()</a>, <a class="el" href="group__filtrage-rythme_ga9ebb022ead11d5611f928bb768f43369.html#ga9ebb022ead11d5611f928bb768f43369" title="FIR filtering with post-decimation (compute only one output sample every  input ones).">filter_fir_decim()</a>, <a class="el" href="group__filtrage-tr_ga54d324ac64dbf0813dcd9fc405caa686.html#ga54d324ac64dbf0813dcd9fc405caa686" title="Direct implementation of a FIR filter.">filter_fir()</a> </dd></dl>
 
 </div>
 </div>
@@ -165,7 +164,7 @@ template&lt;typename Tc , typename T  = Tc&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-rythme.html">Sample rate conversions</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

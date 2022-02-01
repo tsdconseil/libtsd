@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -130,21 +128,21 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 <h3>Filter for DC (low frequencies) suppression</h3>
-<p>Implémente le filtre : </p><p class="formulaDsp">
+<p>Implement the following filter: </p><p class="formulaDsp">
 \[ y_k = x_k - x_{k-1} + \alpha y_{k-1} \]
 </p>
-<p> d'après The DC Blocking Filter, J M de Freitas, 2007</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fc</td><td>Fréquence de coupure normalisée (entre 0 et 0.5)</td></tr>
+    <tr><td class="paramname">fc</td><td>Normalized cut-off frequency (0 - 0.5)</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga87c1f28dc0156b078fe593b0550fab9d.html#ga87c1f28dc0156b078fe593b0550fab9d" title="Fonction de transfert pour un bloqueur DC.">design_bloqueur_dc()</a></dd></dl>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"></div><!-- fragment --> <div class="image">
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"></div><!-- fragment --> <div class="image">
 <img src="bloqueur-dc-ex.png" alt="" width="1000px"/>
 </div>
- </dd></dl>
+</dd></dl>
+<dl class="section user"><dt>bibliography</dt><dd><em>The DC Blocking Filter</em>, J M de Freitas, 2007</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_ga860c4cd5ec99d2471b460ea4e2c63bea.html#ga860c4cd5ec99d2471b460ea4e2c63bea" title="Transfert function for a DC blocker.">design_dc_blocker()</a> </dd></dl>
 
 </div>
 </div>
@@ -154,7 +152,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

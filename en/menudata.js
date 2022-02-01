@@ -26,9 +26,4 @@ var menudata={children:[
 {text:"Main Page",url:"index.html"},
 {text:"Modules",url:"modules.html"},
 {text:"Installation",url:"pageinstall.html"},
-{text:"Tutoriels",url:"pagetutos.html",children:[
-{text:"Tutoriel 1",url:"tuto1.html"},
-{text:"Tutoriel 2",url:"tuto2.html"},
-{text:"Tutoriel 3",url:"tuto3.html"}]},
-{text:"Licence",url:"pagelicence.html"},
-{text:"Bibliography",url:"pagebiblio.html"}]}
+{text:"Licence",url:"pagelicence.html"}]}

@@ -59,9 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagetutos.html"><span>Tutoriels</span></a></li>
       <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li><a href="pagebiblio.html"><span>Bibliography</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -130,14 +128,14 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 <h3>Rythm adapter, with arbitrary ratio</h3>
-<p>Cette fonction renvoi un bloc de ré-échantillonnage, permettant de changer le rythme d'un signal reçu au fil de l'eau. L'implémentation est basée sur une cascade de décimateurs (si le ratio est inférieur à 1) ou d'interpolateurs (si le ratio est supérieur à 1) demi-bandes, suivis d'un interpolateur de ratio arbitraire.</p>
+<p>This function returns a filter block for resampling, enabling to change the sampling rate of a streaming signal. The implementation is based on a cascad of half-band decimators (if ratio is less than 1) or interpolators (if the ratio is greater than 1), followed by an arbitrary rate interpolator.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ratio</td><td>Ratio de décimation / interpolation (rapport entre les fréquences d'échantillonnage de sortie et d'entrée). </td></tr>
+    <tr><td class="paramname">ratio</td><td>Decimation or interpolation ratio (ratio between the output and input sample frequencies). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__tsd_ga12f0296034639a47a7dd2dbfb048be0f.html#ga12f0296034639a47a7dd2dbfb048be0f" title="Finite signal resampling, with arbitrary ratio.">resample()</a>, filtre_rif_ups(), filtre_rif_decim() </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__tsd_ga12f0296034639a47a7dd2dbfb048be0f.html#ga12f0296034639a47a7dd2dbfb048be0f" title="Finite signal resampling, with arbitrary ratio.">resample()</a>, <a class="el" href="group__filtrage-rythme_gabe3d460a5f3cc23a8d1020e602d829aa.html#gabe3d460a5f3cc23a8d1020e602d829aa" title="FIR filtering with interpolation (polyphase implementation)">filter_fir_ups()</a>, <a class="el" href="group__filtrage-rythme_ga9ebb022ead11d5611f928bb768f43369.html#ga9ebb022ead11d5611f928bb768f43369" title="FIR filtering with post-decimation (compute only one output sample every  input ones).">filter_fir_decim()</a> </dd></dl>
 
 </div>
 </div>
@@ -147,7 +145,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-rythme.html">Sample rate conversions</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 09:14:25 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

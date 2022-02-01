@@ -27,13 +27,7 @@ var NAVTREE =
   [ "libtsd", "index.html", [
     [ "Modules", "modules.html", "modules" ],
     [ "Installation", "pageinstall.html", null ],
-    [ "Tutoriels", "pagetutos.html", [
-      [ "Tutoriel 1", "tuto1.html", null ],
-      [ "Tutoriel 2", "tuto2.html", null ],
-      [ "Tutoriel 3", "tuto3.html", null ]
-    ] ],
-    [ "Licence", "pagelicence.html", null ],
-    [ "Bibliography", "pagebiblio.html", null ]
+    [ "Licence", "pagelicence.html", null ]
   ] ]
 ];
 
