@@ -565,7 +565,7 @@ template<typename T>
   std::tuple<Vecteur<T>, Vecteur<T>, int, float> aligne_entier(const Vecteur<T> &x, const Vecteur<T> &y);
 
 
-/** @brief Informations calculées à partir du motif détecté */
+/** @brief Informations calculées à partir du motif détecté. */
 struct Detection
 {
   /** @brief en nombre d'échantillons (compris entre 0 et Ne-1),

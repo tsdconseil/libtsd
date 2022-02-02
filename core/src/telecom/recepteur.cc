@@ -197,7 +197,7 @@ struct RécepteurImpl: Récepteur
         || (modulo(fe, fsymb) != 0))
       echec("Récepteur : fréquences invalides (fe={} Hz, fsymb={} Hz).", fe, fsymb);
 
-    if(wf->est_fsk)
+    if(wf->infos.est_fsk)
     {
       discri = discriminateur_fm();
     }
@@ -240,8 +240,8 @@ struct RécepteurImpl: Récepteur
     demod = démodulateur_création(config_mod_données, config.config_demod);
 
     // Nombre de bits / symboles
-    nbits_par_symbole_données = wf->k;
-    nbits_par_symbole_entete  = fo_entete->k;
+    nbits_par_symbole_données = wf->infos.k;
+    nbits_par_symbole_entete  = fo_entete->infos.k;
     float df  = mod->delais();
 
     msg_majeur("Récepteur / modulateur : df = {}", df);
@@ -259,7 +259,7 @@ struct RécepteurImpl: Récepteur
     msg_majeur("Récepteur / modulateur : df = {}, di = {}", df, di);
 
     BitStream entete = config.format.entete;
-    entete.pad_mult(fo_entete->k);
+    entete.pad_mult(fo_entete->infos.k);
 
     // Pour flusher le modulateur
     BitStream et2 = entete;
@@ -280,7 +280,7 @@ struct RécepteurImpl: Récepteur
 
     tsd_assert(di >= 0);
 
-    if(wf->est_fsk)
+    if(wf->infos.est_fsk)
     {
       motif = discri->step(motif);
       // Conversion angle -> valeur entre -1 et 1
@@ -410,7 +410,7 @@ struct RécepteurImpl: Récepteur
 
     ArrayXcf x;
 
-    if(wf->est_fsk)
+    if(wf->infos.est_fsk)
     {
       // Ceci introduit un retard de 1 échantillon
       x = discri->step(x_);
@@ -472,7 +472,7 @@ struct RécepteurImpl: Récepteur
       if(config.format.fo_entete)
         fo_entete = config.format.fo_entete;
 
-      int nb_bits_par_symbole = fo_entete->k;
+      int nb_bits_par_symbole = fo_entete->infos.k;
       int nb_symb_entete = config.format.entete.lon() / nb_bits_par_symbole;
 
       trame.EbN0 = pow2db((db2pow(finger.SNR_dB) * osf) / nb_bits_par_symbole);

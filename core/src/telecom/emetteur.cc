@@ -62,7 +62,7 @@ struct ÉmetteurImpl: Émetteur
     //auto osf = mconfig.fe / mconfig.fsymb;
 
     int   d_ech           = (int) ceil(mod->delais());
-    int   nbits_par_symb  = mconfig.wf->k;
+    int   nbits_par_symb  = mconfig.wf->infos.k;
     //float nbits_par_echan = ((float) nbits_par_symb) / osf;
     //int   d_bit           = (int) ceil(d_ech * nbits_par_echan);
 
@@ -79,7 +79,7 @@ struct ÉmetteurImpl: Émetteur
     ArrayXcf x;
     if(fo_entete_specifique)
     {
-      nbits_par_symb  = config.format.fo_entete->k;
+      nbits_par_symb  = config.format.fo_entete->infos.k;
       mod->def_fo(config.format.fo_entete);
 
       BitStream tmp = config.format.entete;
@@ -87,7 +87,7 @@ struct ÉmetteurImpl: Émetteur
 
       ArrayXcf x1 = mod->step(tmp);
 
-      nbits_par_symb  = mconfig.wf->k;
+      nbits_par_symb  = mconfig.wf->infos.k;
       bs2.pad_mult(nbits_par_symb);
       mod->def_fo(config.format.modulation.wf);
       ArrayXcf x2 = mod->step(bs2);

@@ -1,7 +1,6 @@
 #include "tsd/tsd.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/telecom.hpp"
-#include "tsd/telecom/modulations.hpp"
 #include "tsd/figure.hpp"
 #include <Eigen/QR>
 
@@ -157,7 +156,7 @@ struct Egaliseur: FiltreGen<cfloat>
         if(errf == CMA)
         {
           g2 = 1; // For PSK, FSK
-          if(wf->est_qam)
+          if(wf->infos.est_qam)
             msg_erreur("TODO: scale factor for QAM and CMA.");
         }
 

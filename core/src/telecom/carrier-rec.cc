@@ -155,13 +155,13 @@ Ped ped_init(PedType type, sptr<FormeOnde> wf)
 {
   if(type == PedType::AUTO)
   {
-    if(wf->est_psk)
+    if(wf->infos.est_psk)
     {
       //if(wf.M >= 4) // QPSK, 8PSK, ...
         //scr.ted = ted_qpsk();
       type = PedType::POWER_LOOP;
     }
-    else if(wf->est_ask)
+    else if(wf->infos.est_ask)
     {
       type = PedType::TAN_LOOP;
     }
@@ -176,8 +176,8 @@ Ped ped_init(PedType type, sptr<FormeOnde> wf)
     }*/
   }
 
-  int M = wf->M;
-  if(wf->est_ask)
+  int M = wf->infos.M;
+  if(wf->infos.est_ask)
     M = 2;
 
   if(type == PedType::COSTA)

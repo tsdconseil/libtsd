@@ -455,7 +455,7 @@ struct DemodGen2: Démodulateur
     // Conversion index de symbole vers train binaire
     VERBOSE(msg(" demod: symboles -> train binaire...");)
     ArrayXi si2 = Eigen::Map<ArrayXi>(si.data(), si.size());
-    symdemap_binaire(bs, si2, modconfig.wf->k);
+    symdemap_binaire(bs, si2, modconfig.wf->infos.k);
     VERBOSE(msg("nb symboles décodés : {}, nb bits : {}", si.size(), bs.lon());)
 
 

@@ -65,7 +65,7 @@ void test_forme_onde(sptr<FormeOnde> fo)
 
   BitStream bs("0000111101010101"), bs2;
 
-  while((bs.lon() % fo->k) != 0)
+  while((bs.lon() % fo->infos.k) != 0)
     bs.push(0);
 
   ArrayXcf x = fo->génère_symboles(bs);
@@ -248,7 +248,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   msg_majeur("\n\n\n\n\nTest récepteur, OSF = {}, {}, filtre = {}, {}...\n\n\n\n\n", config.osf, *(config.fo), config.fo->filtre, config.avec_delais ? "delais-frac" : "delais-entier");
   RécepteurConfig rc;
 
-  int nreg_mls = 7 + config.fo->k;
+  int nreg_mls = 7 + config.fo->infos.k;
 
   if(config.nreg_mls >= 0)
     nreg_mls = config.nreg_mls;
@@ -540,7 +540,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   for(auto j = 0; j < nb_rep; j++)
   {
     float EsN0 = pow2db(config.osf * db2pow(SNR(j)));
-    float EbN0 = EsN0 - 10 * log10(fo->k);
+    float EbN0 = EsN0 - 10 * log10(fo->infos.k);
     float ber_theo = fo->ber(EbN0);
     res.ber_theo(j) = ber_theo;
     res.EbN0(j)     = EbN0;
@@ -574,7 +574,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     res.ber(j) = ber;
 
     float EsN0 = pow2db(config.osf * db2pow(SNR(j)));
-    float EbN0 = EsN0 - 10 * log10(fo->k);
+    float EbN0 = EsN0 - 10 * log10(fo->infos.k);
     float ber_theo = fo->ber(EbN0);
     msg("  SNR = {:.1f} dB, EsN0 = {:.1f} dB, EbN0 = {:.1f} dB, err=\033[32m{}\033[0m, ber=\033[32m{:.2e}\033[0m, ber theo={:.2e}", SNR(j), EsN0, EbN0, dst, ber, ber_theo);
     auto ep = t.det.position_prec - pos[j];
@@ -733,7 +733,7 @@ int bench_recepteur()
 
   for(auto m: lst_m)
   {
-    m->filtre = m->est_fsk ? SpecFiltreMiseEnForme::gaussien(2.0) : SpecFiltreMiseEnForme::srrc(0.25);
+    m->filtre = m->infos.est_fsk ? SpecFiltreMiseEnForme::gaussien(2.0) : SpecFiltreMiseEnForme::srrc(0.25);
     auto res = test_recepteur_unit(
     {
       .osf                    = osf,
@@ -894,7 +894,7 @@ int test_recepteur()
         for(auto avec_delais: {false, true})
         {
           float SNR_min = 4;
-          if(m->est_fsk)
+          if(m->infos.est_fsk)
             SNR_min = 15;
           auto res = test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = false});
           if(!res.succès)
@@ -1088,7 +1088,7 @@ int test_demod()
     bs2 = BitStream(bs2.array().tail(700));
 
     // Alignment of the two bit vectors (and phase ambiguity resolution)
-    auto res = cmp_bits_psk(bs, bs2, wf->k);
+    auto res = cmp_bits_psk(bs, bs2, wf->infos.k);
     //auto res = cmp_bits(bs, bs2);
 
     if(tests_debug_actif)

@@ -2,77 +2,110 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
-#include "tsd/tsd.hpp"
+#include "dsp/dsp.hpp"
 #include "tsd/telecom/bitstream.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/fourier.hpp"
+#include "dsp/filter.hpp"
+#include "dsp/fourier.hpp"
+#include "tsd/telecom.hpp"
+#include "dsp/figure.hpp"
 #include <vector>
 #include <random>
 
 
+namespace dsp::telecom {
 
-namespace tsd::vue {
-class Figures;
-}
 
-namespace tsd::telecom {
+  using tsd::MoniteursStats;
 
+
+namespace nfr = tsd::telecom;
+
+using nfr::BitStream; // TODO
 
 /** @addtogroup telecom-ps
  *  @{
  */
 
 
-/** @brief Spécification d'un filtre de mise en forme */
-struct SpecFiltreMiseEnForme
+/** @brief Specification of a shaping filter */
+struct ShapingFilterSpec
 {
-  /** @brief Pas de filtre, des impulsions brutes sont transmises */
-  static SpecFiltreMiseEnForme aucun();
-  /** @brief Filtrage gaussien */
-  static SpecFiltreMiseEnForme gaussien(float BT);
-  /** @brief Filtrage "NRZ" (moyenne glissante) */
-  static SpecFiltreMiseEnForme nrz();
-  /** @brief Filtrage SRRC (racine de cosinus sur-élevé) */
-  static SpecFiltreMiseEnForme srrc(float β);
+  ShapingFilterSpec(const nfr::SpecFiltreMiseEnForme &fr)
+  {
+    memcpy(this, &fr, sizeof(*this));
+  }
 
-  /** @brief Type de filtre. */
+  auto fr() const
+  {
+    nfr::SpecFiltreMiseEnForme res;
+    memcpy((void *) &res, this, sizeof(*this));
+    return res;
+  }
+
+
+  /** @brief No filtering, raw impulse are transmitted. */
+  static ShapingFilterSpec none()
+  {
+    return nfr::SpecFiltreMiseEnForme::aucun();
+  }
+
+  /** @brief Gaussian filter. */
+  static ShapingFilterSpec gaussian(float BT)
+  {
+    return nfr::SpecFiltreMiseEnForme::gaussien(BT);
+  }
+
+  /** @brief "NRZ" filtering (moving average). */
+  static ShapingFilterSpec nrz()
+  {
+    return nfr::SpecFiltreMiseEnForme::nrz();
+  }
+
+  /** @brief SRRC filtering (Square-Root Raised Cosine). */
+  static ShapingFilterSpec srrc(float β)
+  {
+    return nfr::SpecFiltreMiseEnForme::srrc(β);
+  }
+
+  /** @brief Filter type. */
   enum Type
   {
     /** @brief Filtrage NRZ (simple répétition des symboles) */
     NRZ,
     /** @brief Emisssion d'un train d'impulsions brut */
-    AUCUN,
+    NONE,
     /** @brief Filtrage Gaussien */
-    GAUSSIEN,
+    GAUSSIAN,
     /** @brief Racine de cosinus surélevé */
     SRRC
   };
 
-  /** @brief Type de filtre. */
+  /** @brief Filter type. */
   Type type = Type::SRRC;
 
-  /** @brief Produit B * T (filtre Gaussien) */
+  /** @brief BT product (Gaussian filter only). */
   float BT            = 0.8;
 
-  /** @brief Facteur de dépassement pour le filtre RCS (voir @ref design_rif_cs()) */
+  /** @brief Roll-off factor for SRRC filter (see @ref design_fir_rc()) */
   float β = 0.2;
 
-
-
-  /** @brief Calcul des coefficients d'un filtre de mise en forme
+  /** @brief Computes the coefficient of FIR shaping filter.
    *
-   *  <h3>%Filtre de mise en forme - coefficients</h3>
+   *  <h3>Coefficient of FIR shaping filter</h3>
    *
-   *  @param ncoefs Nombre de coefficients souhaités
-   *  @param osf    Facteur de sur-échantillonnage
-   *  @returns      Vecteur des coefficients
+   *  @param ncoefs Desired number of taps.
+   *  @param osf    Oversampling factor (e.g. numbers of samples per symbol).
+   *  @returns      Coefficient vector.
    */
-  ArrayXf get_coefs(int ncoefs, int osf) const;
+  ArrayXf get_coefs(int ncoefs, int osf) const
+  {
+    return fr().get_coefs(ncoefs, osf);
+  }
 
 
-  /** @brief Création d'un filtre de mise en forme avec sur-échantillonnage intégré
+  /** @brief Creation of a shaping filter with integrated over-sampling.
    *
-   *  <h3>%Filtre de mise en forme</h3>
+   *  <h3>Shaping filter</h3>
    *
    *  Création d'un filtre de mise en forme avec sur-échantillonnage intégré.
    *  Ce filtre prends accepte donc en entrée directement les symboles à encoder,
@@ -89,7 +122,10 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_adapte()
    */
-  sptr<FiltreGen<cfloat>> filtre_mise_en_forme(int ncoefs, int R) const;
+  sptr<FiltreGen<cfloat>> shaping_filter(int ncoefs, int R) const
+  {
+    return fr().filtre_mise_en_forme(ncoefs, R);
+  }
 
 
   /** @brief Idem filtre de mise en forme, mais sans le sur-échantillonnage
@@ -101,7 +137,10 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_mise_en_forme()
    */
-  sptr<FiltreGen<cfloat>> filtre_adapte(int ncoefs, int osf) const;
+  sptr<FiltreGen<cfloat>> matched_filter(int ncoefs, int osf) const
+  {
+    return fr().filtre_adapte(ncoefs, osf);
+  }
 
   /** @brief Filtrage adapté et sous-échantillonnage à la fréquence symbole intégré
    *
@@ -112,7 +151,10 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_mise_en_forme(), filtre_adapte()
    */
-  sptr<FiltreGen<cfloat>> filtre_adapte_decimation(int ncoefs, int osf) const;
+  sptr<FiltreGen<cfloat>> matched_filter_with_decimation(int ncoefs, int osf) const
+  {
+    return fr().filtre_adapte_decimation(ncoefs, osf);
+  }
 
   struct Analyse
   {
@@ -123,7 +165,10 @@ struct SpecFiltreMiseEnForme
 
 };
 
-extern std::ostream& operator<<(std::ostream &ss, const SpecFiltreMiseEnForme &t);
+inline std::ostream& operator<<(std::ostream &ss, const ShapingFilterSpec &t)
+{
+  return ss << t.fr();
+}
 
 
 
@@ -136,11 +181,21 @@ extern std::ostream& operator<<(std::ostream &ss, const SpecFiltreMiseEnForme &t
 
 
 
-/** @brief Spécification d'une forme d'onde */
-struct FormeOnde
+/** @brief WaveForm specification. */
+struct WaveForm
 {
-  /** @brief Génération des symboles I/Q à partir d'un flux binaire. */
-  virtual ArrayXcf génère_symboles(const BitStream &bs);
+  sptr<nfr::FormeOnde> fr;
+
+  WaveForm(sptr<nfr::FormeOnde> fo)
+  {
+    this->fr = fo;
+  }
+
+  /** @brief Generation of I/Q symbols from a binary stream. */
+  ArrayXcf make_symbols(const BitStream &bs)
+  {
+    return fr->génère_symboles(bs);
+  }
 
   /** @brief Génération des échantillons I/Q à partir d'un flux binaire (y compris filtre de mise en forme).
    *
@@ -155,9 +210,12 @@ struct FormeOnde
    *
    *
    */
-  ArrayXcf génère_échantillons(const BitStream &bs, int ncoefs, int osf, float &retard);
+  ArrayXcf make_samples(const BitStream &bs, int ncoefs, int osf, float &retard)
+  {
+    return fr->génère_échantillons(bs, ncoefs, osf, retard);
+  }
 
-
+# if 0
   // Contexte de démodulation,
   // pour les modulations à mémoire (par exemple, FSK, π/4-QPSK).
   // c'est-à-dire où la constellation n'est pas constante.
@@ -177,54 +235,77 @@ struct FormeOnde
     virtual void reset() = 0;
     virtual ArrayXcf step(const BitStream &bs) = 0;
   };
+# endif
 
-  virtual sptr<CtxGen> get_contexte_tx(int ncoefs, int osf);
+  sptr<nfr::FormeOnde::CtxGen> get_contexte_tx(int ncoefs, int osf)
+  {
+    return fr->get_contexte_tx(ncoefs, osf);
+  }
 
   /** @brief Décodage des symboles I/Q (par seuillage) et génération d'un train binaire. */
-  virtual void decode_symboles(BitStream &bs, const ArrayXcf &x);
+  void decode_symbols(BitStream &bs, const ArrayXcf &x)
+  {
+    fr->decode_symboles(bs, x);
+  }
 
   /** @brief Renvoie le ieme symbole de la constellation. */
-  virtual cfloat lis_symbole(unsigned int i) const = 0;
+  cfloat get_symbol(unsigned int i) const
+  {
+    return fr->lis_symbole(i);
+  }
 
   /** @brief Symbole le plus proche parmi les points de la constellation. */
-  virtual int symbole_plus_proche(const cfloat &point) const;
+  int closest_symbol(const cfloat &point) const
+  {
+    return fr->symbole_plus_proche(point);
+  }
 
   /** @brief Taux d'erreur binaire théorique (pour cette forme d'onde) en fonction du SNR normalisé. */
-  virtual float ber(float EbN0_dB) = 0;
+  float ber(float EbN0_dB)
+  {
+    return fr->ber(EbN0_dB);
+  }
 
   /** @brief Taux d'erreur binaire théorique en fonction du SNR normalisé. */
-  ArrayXf ber(const ArrayXf &EbN0_dB);
+  ArrayXf ber(const ArrayXf &EbN0_dB)
+  {
+    return fr->ber(EbN0_dB);
+  }
 
   /** @brief Renvoie les points de la constellation. */
-  virtual ArrayXcf constellation() const = 0;
+  ArrayXcf constellation() const
+  {
+    return fr->constellation();
+  }
 
   /** @brief Excursion fréquentielle, en multiple de la fréquence symbole. */
-  virtual float excursion() const;
+  float excursion() const
+  {
+    return fr->excursion();
+  }
 
   /** @brief Renvoie une description de la modulation (courte chaine de caractères). */
-  virtual std::string desc() const = 0;
-
-  /** @brief Renvoie une description de la modulation (courte chaine de caractères). */
-  virtual std::string desc_courte() const {return desc();}
-
-
+  std::string desc() const
+  {
+    return fr->desc();
+  }
 
   struct Infos
   {
     /** @brief Vrai pour les modulations PSK, ASK, QAM. */
-    bool est_lineaire = true;
+    bool is_linear = true;
 
     /** @brief Indique une modulation de phase */
-    bool est_psk = false;
+    bool is_psk = false;
 
     /** @brief Indique une modulation d'amplitude */
-    bool est_ask = false;
+    bool is_ask = false;
 
     /** @brief Indique une modulation de fréquence */
-    bool est_fsk = false;
+    bool is_fsk = false;
 
     /** @brief Indique une modulation en quadrature */
-    bool est_qam = false;
+    bool is_qam = false;
 
     /** @brief Indice de modulation (pour les modulations FSK) */
     float index = 1.0f;
@@ -236,16 +317,28 @@ struct FormeOnde
     int k;
   };
 
-  Infos infos;
-
-  int cnt = 0;
+  Infos infos() const
+  {
+    Infos res;
+    memcpy((void *) &res, &(fr->infos), sizeof(Infos));
+    return res;
+  }
 
   /** @brief Spécification du filtre de mise en forme */
-  SpecFiltreMiseEnForme filtre;
-
+  void set_shaping_filter(const ShapingFilterSpec &spec)
+  {
+    fr->filtre = spec.fr();
+  }
+  ShapingFilterSpec get_shaping_filter() const
+  {
+    return fr->filtre;
+  }
 };
 
-extern std::ostream& operator<<(std::ostream &ss, const FormeOnde &t);
+inline std::ostream& operator<<(std::ostream &ss, const WaveForm &t)
+{
+  return ss << t.fr;
+}
 
 /** @brief Création d'une forme d'onde de type modulation de phase.
  *
@@ -268,21 +361,27 @@ extern std::ostream& operator<<(std::ostream &ss, const FormeOnde &t);
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_psk2
  * @image html waveform-psk2.png "Taux d'erreur binaire" width=800px
  *
- * @sa forme_onde_qam(), forme_onde_qpsk()
+ * @sa waveform_qam(), waveform_qpsk()
  */
-extern sptr<FormeOnde> forme_onde_psk(unsigned int M, const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+inline sptr<WaveForm> waveform_psk(unsigned int M, const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+{
+  return std::make_shared<WaveForm>(nfr::forme_onde_psk(M, filtre.fr()));
+}
 
-/** @brief Création d'une forme d'onde BPSK.
+/** @brief Creation of a BPSK waveform.
  *
  * <h3>Création d'une forme d'onde BPSK</h3>
  *
  * Cette fonction est un raccourci vers @ref forme_onde_psk() pour M = 2.
  *
- * @sa forme_onde_psk(), forme_onde_qam(), forme_onde_fsk()
+ * @sa waveform_psk(), waveform_qam(), waveform_fsk()
  */
-extern sptr<FormeOnde> forme_onde_bpsk(const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+inline sptr<WaveForm> waveform_bpsk(const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+{
+  return std::make_shared<WaveForm>(nfr::forme_onde_bpsk(filtre.fr()));
+}
 
-/** @brief Création d'une forme d'onde M-ASK.
+/** @brief Creation of a M-ASK waveform.
  *
  * <h3>Création d'une forme d'onde M-ASK</h3>
  *
@@ -291,30 +390,39 @@ extern sptr<FormeOnde> forme_onde_bpsk(const SpecFiltreMiseEnForme &filtre = Spe
  * @f]
  *
  *
- * @sa forme_onde_psk(), forme_onde_bpsk(), forme_onde_qam(), forme_onde_fsk()
+ * @sa waveform_psk(), waveform_bpsk(), waveform_qam(), waveform_fsk()
  */
-extern sptr<FormeOnde> forme_onde_ask(int M = 2, float K1 = -1, float K2 = 2, const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+inline sptr<WaveForm> waveform_ask(int M = 2, float K1 = -1, float K2 = 2, const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+{
+  return std::make_shared<WaveForm>(nfr::forme_onde_ask(M, M, M, filtre.fr()));
+}
 
-/** @brief Création d'une forme d'onde QPSK.
+/** @brief Creation of a QPSK waveform.
  *
  * <h3>Création d'une forme d'onde QPSK</h3>
  *
  * Cette fonction est un raccourci vers @ref forme_onde_psk() pour M = 4.
  *
- * @sa forme_onde_psk(), forme_onde_qam(), forme_onde_fsk()
+ * @sa waveform_psk(), waveform_qam(), waveform_fsk()
  */
-extern sptr<FormeOnde> forme_onde_qpsk(const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+inline sptr<WaveForm> waveform_qpsk(const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+{
+  return std::make_shared<WaveForm>(nfr::forme_onde_qpsk(filtre.fr()));
+}
 
-/** @brief Création d'une forme d'onde π/4 - QPSK.
+/** @brief Creation of a π/4 - QPSK waveform.
  *
  * <h3>Création d'une forme d'onde π/4 - QPSK</h3>
  *
  *
- * @sa forme_onde_qpsk()
+ * @sa waveform_qpsk()
  */
-extern sptr<FormeOnde> forme_onde_π4_qpsk(const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+inline sptr<WaveForm> waveform_π4_qpsk(const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+{
+  return std::make_shared<WaveForm>(nfr::forme_onde_π4_qpsk(filtre.fr()));
+}
 
-/** @brief Création d'une forme d'onde QAM
+/** @brief Creation of a QAM waveform.
  *
  * <h3>Forme d'onde QAM</h3>
  *
@@ -325,11 +433,14 @@ extern sptr<FormeOnde> forme_onde_π4_qpsk(const SpecFiltreMiseEnForme &filtre =
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_qam
  * @image html waveform-qam.png "Constellations QAM16, QAM64, QAM256" width=800px
  *
- * @sa forme_onde_psk(), forme_onde_fsk()
+ * @sa waveform_psk(), waveform_fsk()
  */
-extern sptr<FormeOnde> forme_onde_qam(unsigned int M, const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+inline sptr<WaveForm> waveform_qam(unsigned int M, const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+{
+  return std::make_shared<WaveForm>(nfr::forme_onde_qam(M, filtre.fr()));
+}
 
-/** @brief Création d'une forme d'onde FSK.
+/** @brief Creation of a FSK waveform.
  *
  * <h3>Forme d'onde FSK</h3>
  *
@@ -350,9 +461,12 @@ extern sptr<FormeOnde> forme_onde_qam(unsigned int M, const SpecFiltreMiseEnForm
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_fsk
  * @image html waveform-fsk.png width=800px
  *
- * @sa forme_onde_psk(), forme_onde_qam()
+ * @sa waveform_psk(), waveform_qam()
  */
-extern sptr<FormeOnde> forme_onde_fsk(unsigned int M = 2, float index = 0.4, const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+inline sptr<WaveForm> waveform_fsk(unsigned int M = 2, float index = 0.4, const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+{
+  return std::make_shared<WaveForm>(nfr::forme_onde_fsk(M, index, filtre.fr()));
+}
 
 
 
@@ -368,14 +482,11 @@ extern sptr<FormeOnde> forme_onde_fsk(unsigned int M = 2, float index = 0.4, con
  */
 
 
+
+
 // Attention, démodulateur de protocole ! (à renommer)
 template<typename TC, typename TR>
-struct ProtocoleDemodulateur
-{
-  virtual ~ProtocoleDemodulateur(){};
-  virtual int configure(const TC &config) = 0;
-  virtual std::vector<TR> step(const ArrayXcf &x) = 0;
-};
+  using ProtocoleDemodulateur = nfr::ProtocoleDemodulateur<TC, TR>;
 
 /** @} */
 
@@ -416,13 +527,9 @@ struct ProtocoleDemodulateur
  *  @endcode
  */
 template<typename T>
-Vecteur<T> sah(const Vecteur<T> &x, int R)
+Vector<T> sah(const Vector<T> &x, int R)
 {
-  int n = x.rows();
-  Vecteur<T> y(n * R);
-  for(auto i = 0; i < n; i++)
-    y.segment(i*R, R).setConstant(x(i));
-  return y;
+  return nfr::sah(x, R);
 }
 
 /** @brief Conversion train binaire @f$\to@f$ index.
@@ -445,7 +552,10 @@ Vecteur<T> sah(const Vecteur<T> &x, int R)
  * @sa symdemap_binaire()
  *
  */
-extern ArrayXi symmap_binaire(const BitStream &x, int k);
+inline ArrayXi symmap_binaire(const BitStream &x, int k)
+{
+  return nfr::symmap_binaire(x, k);
+}
 
 /** @brief Conversion index @f$\to@f$ train binaire
  *
@@ -459,7 +569,10 @@ extern ArrayXi symmap_binaire(const BitStream &x, int k);
  * @param[out] bs Chaine binaire (valeurs : 0 ou 1)
  *
  */
-extern void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k);
+inline void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k)
+{
+  return nfr::symdemap_binaire(bs, x, k);
+}
 
 /** @brief Differential encoder (polynomial = @f$1/(1+X)@f$), MSB first.
  *
@@ -484,7 +597,10 @@ extern void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k);
  * @sa diff_decode()
  *
  */
-extern void diff_encode(BitStream &y, const BitStream &x);
+inline void diff_encode(BitStream &y, const BitStream &x)
+{
+  return nfr::diff_encode(y, x);
+}
 
 /** @brief Differential decoder (polynomial = 1+X), MSB first.
  *
@@ -504,7 +620,10 @@ extern void diff_encode(BitStream &y, const BitStream &x);
  * @sa diff_encode()
  *
  */
-extern void diff_decode(BitStream &y, const BitStream &x);
+inline void diff_decode(BitStream &y, const BitStream &x)
+{
+  return nfr::diff_decode(y, x);
+}
 
 /** @brief Hard decoding of LLR data.
  *
@@ -518,7 +637,10 @@ extern void diff_decode(BitStream &y, const BitStream &x);
  *  @param[out] y Train binaire de sortie
  *
  */
-extern void decode_hard(BitStream &y, const ArrayXf &llr);
+inline void decode_hard(BitStream &y, const ArrayXf &llr)
+{
+  return nfr::decode_hard(y, llr);
+}
 
 /** @} */
 
@@ -561,9 +683,12 @@ extern void decode_hard(BitStream &y, const ArrayXf &llr);
  *
  * @warning Le signal étant complexe, la puissance du bruit ajoutée est de @f$2\sigma^2@f$.
  *
- * @sa bruit_thermique()
+ * @sa thermal_noise()
  */
-extern ArrayXcf bruit_awgn(IArrayXcf &x, float σ);
+inline ArrayXcf awgn_noise(IArrayXcf &x, float σ)
+{
+  return nfr::bruit_awgn(x, σ);
+}
 
 /** @brief Ajoute un bruit blanc gaussien réel.
  *
@@ -575,14 +700,17 @@ extern ArrayXcf bruit_awgn(IArrayXcf &x, float σ);
  *
  * @param x Signal d'entrée (réel)
  * @param σ Ecart-type du bruit
- * @sa bruit_thermique()
+ * @sa thermal_noise()
  *
  */
-extern ArrayXf bruit_awgn(IArrayXf &x, float σ);
+inline ArrayXf bruit_awgn(IArrayXf &x, float σ)
+{
+  return nfr::bruit_awgn(x, σ);
+}
 
 
 /** @brief Type de canal (avec ou sans trajet dominant) */
-enum TypeCanal
+enum ChannelType
 {
   /** @brief Sans trajet dominant */
   RAYLEIGH = 0,
@@ -591,19 +719,19 @@ enum TypeCanal
 };
 
 /** @brief Configuration pour un canal dispersif */
-struct CanalDispersifConfig
+struct DispersiveChannelConfig : nfr::CanalDispersifConfig
 {
   /** Type de canal (avec ou sans trajet dominant) */
-  TypeCanal type;
+  ChannelType &channel_type = *((ChannelType *) &type);
 
   /** @brief Fréquence Doppler max */
-  float fd;
+  float &max_Doppler = fd;
 
   /** @brief Fréquence d'échantillonnage */
-  float fe;
+  float &fs = fe;
 
   /** @brief Facteur Ricien. */
-  float K;
+  float &Rician_factor = K;
 };
 
 
@@ -622,7 +750,10 @@ struct CanalDispersifConfig
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_canal_dispersif
  *  @image html canal-dispersif.png width=800px
  */
-extern sptr<Filtre<cfloat, cfloat, CanalDispersifConfig>> canal_dispersif(const CanalDispersifConfig &config);
+inline sptr<Filtre<cfloat, cfloat, nfr::CanalDispersifConfig>> dispersive_channel(const DispersiveChannelConfig &config)
+{
+  return nfr::canal_dispersif(config);
+}
 
 /** @} */
 
@@ -633,18 +764,22 @@ extern sptr<Filtre<cfloat, cfloat, CanalDispersifConfig>> canal_dispersif(const 
  */
 
 /** @brief Frequency Hopping Spread Sequence configuration */
-struct FHSSConfig
+struct FHSSConfig: nfr::FHSSConfig
 {
   /** @brief Séquence de sauts de fréquence */
-  Eigen::ArrayXi seq;
+  Eigen::ArrayXi &hop_sequence = seq;
+
   /** Facteur de sur-échantillonnage en entrée */
-  int osf_in;
+  int &osf_in2 = osf_in;
+
   /** Facteur de sur-échantillonnage en sortie */
-  int osf_out;
+  int &osf_out2 = osf_out;
+
   /** Fréquence individuelle de chaque saut, normalisée par rapport à la fréquence d'éch d'entrée */
-  float df;
+  float &df2 = df;
+
   /** Durée de chaque slot, en nombre de symboles de sortie */
-  int duree_slot = 0;
+  int &slot_duration = duree_slot;
 };
 
 /** @brief Instanciation of a FHSS (Frequency Hopping Spread Sequence) spreader
@@ -654,15 +789,18 @@ struct FHSSConfig
  *  @param config  Configuration structure
  *  @return Filtre cfloat @f$\to@f$ cfloat
  */
-extern sptr<Filtre<cfloat,cfloat,FHSSConfig>> fhss_modulation(const FHSSConfig &config);
+inline sptr<Filtre<cfloat,cfloat,nfr::FHSSConfig>> fhss_modulation(const FHSSConfig &config)
+{
+  return nfr::fhss_modulation(config);
+}
 
 
 /** @brief DSSS configuration */
-struct DSSSConfig
+struct DSSSConfig: nfr::DSSSConfig
 {
-  ArrayXf chips;
+  ArrayXf &chips_en = chips;
   // Facteur de sur-échantillonnage en entrée
-  int osf_in;
+  int &osf_in_en = osf_in;
 };
 
 
@@ -673,18 +811,20 @@ struct DSSSConfig
  *  @param config  Configuration structure
  *  @return Filtre cfloat @f$\to@f$ cfloat
  */
-
-extern sptr<Filtre<cfloat,cfloat,DSSSConfig>> dsss_modulation(const DSSSConfig &config);
+inline sptr<Filtre<cfloat,cfloat,nfr::DSSSConfig>> dsss_modulation(const DSSSConfig &config)
+{
+  return nfr::dsss_modulation(config);
+}
 
 
 /** @brief Configuration d'une transposition en bande de base */
-struct TranspoBBConfig
+struct TranspoBBConfig: nfr::TranspoBBConfig
 {
   /** @brief Fréquence intermédiaire (normalisée, entre 0 et 0,5). */
-  float fi = 0;
+  float &intermediate_frequency = fi;
 
   /** @brief Adaptation de rythme demandée (1 = aucune, 0.5 = 1/2, etc) */
-  float ratio_ar = 1;
+  float &ra_ratio = ratio_ar;
 };
 
 
@@ -712,7 +852,10 @@ struct TranspoBBConfig
  *  @sa TranspoBBConfig
  */
 template<typename T>
-  sptr<Filtre<T,cfloat,TranspoBBConfig>> transpo_bb(const TranspoBBConfig &config);
+  sptr<Filtre<T,cfloat,nfr::TranspoBBConfig>> transpo_bb(const TranspoBBConfig &config)
+{
+  return nfr::transpo_bb<T>(config);
+}
 
 
 
@@ -723,36 +866,38 @@ template<typename T>
  *  @{
  */
 
-struct Ted
+using nfr::Ted;
+
+/*struct Ted
 {
   // npts : nombre de points nécessaires
   // osf  : Index de sur-échantillonage
   unsigned int npts, osf;
-  virtual float calcule(cfloat x0, cfloat x1, cfloat x2) = 0;//const ArrayXcf &x) = 0;
-};
+  virtual float calcule(cfloat x0, cfloat x1, cfloat x2) = 0;
+};*/
 
 
 /** @brief Clock recovery configuration structure */
-struct ClockRecConfig
+struct ClockRecConfig: nfr::ClockRecConfig
 {
   /** @brief Input signal oversampling factor (e.g. ratio of input signal frequency vs symbol frequency) */
-  int osf = 8;
+  int &osf_en = osf;
 
   /** @brief Timing error detector object (default is Gardner detector). A ted can be created with the @ref ted_init() function. */
-  sptr<Ted> ted;
+  sptr<Ted> &ted_en = ted;
 
   /** @brief Interpolator object (default is cardinal cubic spline interpolator).
    *  A interpolator can be created for instance with the @ref itrp_sinc() function.*/
-  sptr<tsd::filtrage::Interpolateur<cfloat>> itrp;
+  sptr<tsd::filtrage::Interpolateur<cfloat>> &itrp_en = itrp;
 
   /** @brief Time constant of the loop, in symbols (default is 5 symbols) */
-  float tc = 5;
+  float &tc_en = tc;
 
   /** @brief Enable debug mode (generation of plots) */
-  bool debug_actif = false;
+  bool &debug_active = debug_actif;
 
   // Coefficients du filtre adapté
-  ArrayXf h_fa;
+  ArrayXf &matched_filter_coefs = h_fa;
 };
 
 
@@ -775,9 +920,15 @@ struct ClockRecConfig
  *
  *
  * @sa ted_init, itrp_sinc, itrp_cspline, itrp_lineaire **/
-extern sptr<FiltreGen<cfloat>> clock_rec_init(const ClockRecConfig &config);
+inline sptr<FiltreGen<cfloat>> clock_rec_new(const ClockRecConfig &config)
+{
+  return nfr::clock_rec_init(config);
+}
 
-extern sptr<FiltreGen<cfloat>> clock_rec2_init(const ClockRecConfig &config);
+inline sptr<FiltreGen<cfloat>> clock_rec2_new(const ClockRecConfig &config)
+{
+  return nfr::clock_rec2_init(config);
+}
 
 /** @brief Les différents types de détecteur d'erreur d'horloge */
 enum class TedType
@@ -788,20 +939,15 @@ enum class TedType
 };
 
 /** @brief Création d'un détecteur d'erreur d'horloge (ted / timing error detector) */
-extern sptr<Ted> ted_init(TedType type);
+inline sptr<Ted> ted_new(TedType type)
+{
+  return nfr::ted_init((nfr::TedType) type);
+}
 
 
 /** @brief Interface pour un détecteur de phase */
-using Ped = std::function<float (cfloat x)>;
+using Ped = nfr::Ped;
 
-/*struct Ped
-{
-  virtual float calcule(const std::complex<float> &x) = 0;
-  std::string nom;
-  unsigned int M = 2;
-  bool require_agc = false;
-  float agc_tc = 3.0f;
-};*/
 
 /** @brief Les différents types de détecteurs d'erreur de phase */
 enum class PedType
@@ -816,22 +962,40 @@ enum class PedType
 // M : 2^nb bits / symboles
 
 /** @brief Création d'un détecteur d'erreur de phase (ped / phase error detector) */
-extern Ped ped_init(PedType type, sptr<FormeOnde> wf);
+inline Ped ped_new(PedType type, sptr<WaveForm> wf)
+{
+  return nfr::ped_init((nfr::PedType) type, wf->fr);
+}
 
 
-extern Ped ped_costa(int M);
-extern Ped ped_ploop(int M);
-extern Ped ped_tloop(int M);
-extern Ped ped_decision(sptr<FormeOnde> wf);
+inline Ped ped_costa(int M){return nfr::ped_costa(M);}
+inline Ped ped_ploop(int M){return nfr::ped_ploop(M);}
+inline Ped ped_tloop(int M){return nfr::ped_tloop(M);}
+inline Ped ped_decision(sptr<WaveForm> wf){return nfr::ped_decision(wf->fr);}
+
+
 
 /** @brief Interface abstraite pour un filtre de boucle. */
-struct FiltreBoucle
+struct LoopFilter
 {
+  sptr<nfr::FiltreBoucle> fr;
+
+  LoopFilter(sptr<nfr::FiltreBoucle> fr)
+  {
+    this->fr = fr;
+  }
+
   /** @brief Calcul du prochain déphasage à appliquer à partir de l'erreur de phase courante */
-  virtual float step(float err_phase) = 0;
+  float step(float err_phase)
+  {
+    return fr->step(err_phase);
+  }
 
   /** @brief Redémarrage de la boucle */
-  virtual void reset() = 0;
+  void reset()
+  {
+    fr->reset();
+  }
 };
 
 /** @brief %Filtre de boucle du premier ordre
@@ -849,7 +1013,10 @@ struct FiltreBoucle
  *
  *  @sa filtre_boucle_ordre_2()
  */
-extern sptr<FiltreBoucle> filtre_boucle_ordre_1(float τ);
+inline sptr<LoopFilter> filter_loop_first_order(float τ)
+{
+  return std::make_shared<LoopFilter>(nfr::filtre_boucle_ordre_1(τ));
+}
 
 /** @brief %Filtre de boucle du seconde ordre
  *
@@ -874,7 +1041,10 @@ extern sptr<FiltreBoucle> filtre_boucle_ordre_1(float τ);
  *
  *  @sa filtre_boucle_ordre_1()
  */
-extern sptr<FiltreBoucle> filtre_boucle_ordre_2(float BL, float η);
+inline sptr<LoopFilter> filter_loop_second_order(float BL, float η)
+{
+  return std::make_shared<LoopFilter>(nfr::filtre_boucle_ordre_2(BL, η));
+}
 
 
 /** @} */
@@ -888,7 +1058,7 @@ extern sptr<FiltreBoucle> filtre_boucle_ordre_2(float BL, float η);
 struct ModConfig
 {
   /** @brief Spécifications de la forme d'onde */
-  sptr<FormeOnde> wf;
+  sptr<WaveForm> wf;
 
   /** @brief Fréquence d'échantillonnage (Hz) */
   float fe = 1;
@@ -902,14 +1072,33 @@ struct ModConfig
   bool sortie_reelle = true;
   bool debug_actif   = false;
 
-
   int ncoefs_filtre_mise_en_forme = 0;
+
+  auto fr() const
+  {
+    nfr::ModConfig res;
+    res.wf = wf->fr;
+    res.fe = fe;
+    res.fi = fi;
+    res.fsymb = fsymb;
+    res.sortie_reelle = sortie_reelle;
+    res.debug_actif = debug_actif;
+    res.ncoefs_filtre_mise_en_forme = ncoefs_filtre_mise_en_forme;
+    return res;
+  }
 };
 
 
 /** @brief Interface abstraite vers un modulateur */
-struct Modulateur
+struct Modulator
 {
+  sptr<nfr::Modulateur> mod;
+  Modulator(sptr<nfr::Modulateur> mod)
+  {
+    this->mod = mod;
+  }
+
+
   /** @brief Modulation.
    *
    *  <h3>Modulation</h3>
@@ -917,11 +1106,17 @@ struct Modulateur
    *  @param       bs  Train binaire
    *  @return      x   Flot d'échantillons I/Q
    */
-  virtual ArrayXcf step(const BitStream &bs) = 0;
+  virtual ArrayXcf step(const BitStream &bs)
+  {
+    return mod->step(bs);
+  }
 
 
   /** Compléte l'émission avec des échantillons à zéros, filtrés proprement */
-  virtual ArrayXcf flush(int nech) = 0;
+  virtual ArrayXcf flush(int nech)
+  {
+    return mod->flush(nech);
+  }
 
   /** @brief Délais, en nombre d'échantillons.
    *
@@ -929,18 +1124,30 @@ struct Modulateur
    *
    * Nombre d'échantillons entre le premier sorti et le début du premier symbole transmis.
    */
-  virtual float delais() const = 0;
+  virtual float delay() const
+  {
+    return mod->delais();
+  }
 
 
   // Modifie la forme d'onde
   // Intérêt : si filtre partagé par 2 modulateurs
   // (exemple : modulation différente en-tête et données)
-  virtual void def_fo(sptr<FormeOnde> wf) = 0;
+  virtual void set_waveform(sptr<WaveForm> wf)
+  {
+    mod->def_fo(wf->fr);
+  }
 };
 
 /** @brief Interface abstraite vers un démodulateur */
-struct Démodulateur
+struct Demodulator
 {
+  sptr<nfr::Démodulateur> fr;
+  Demodulator(sptr<nfr::Démodulateur> fr)
+  {
+    this->fr = fr;
+  }
+
   /** @brief Démodulation.
    *
    *  <h3>Démodulation</h3>
@@ -948,7 +1155,10 @@ struct Démodulateur
    *  @param      x   Flot I/Q à démoduler
    *  @param[out] bs  Train binaire (hard decision)
    */
-  virtual void step(const ArrayXcf &x, BitStream &bs){ArrayXXf llr; step(x, bs, llr);}
+  virtual void step(const ArrayXcf &x, BitStream &bs)
+  {
+    fr->step(x, bs);
+  }
 
   /** @brief Démodulation, avec calcul des LLR.
    *
@@ -958,7 +1168,10 @@ struct Démodulateur
    *  @param[out] bs  Train binaire (hard decision)
    *  @param[out] llr Log-vraisemblances de chaque symbole (une ligne par symbole possible, une colonne par échantillon)
    */
-  virtual void step(const ArrayXcf &x, BitStream &bs, ArrayXXf &llr) = 0;
+  virtual void step(const ArrayXcf &x, BitStream &bs, ArrayXXf &llr)
+  {
+    fr->step(x, bs, llr);
+  }
 
 
   /** @brief Délais, en nombre d'échantillons.
@@ -967,13 +1180,22 @@ struct Démodulateur
    *
    * Nombre d'échantillons entre le premier sorti et le début du premier symbole transmis.
    */
-  virtual float delais() = 0;
+  virtual float delay()
+  {
+    return fr->delais();
+  }
 
   /** Régle le décalage d'horloge, avec un délais compris entre -1 et 1
    */
-  virtual void regle_horloge(float delais){}
+  virtual void tune_clock(float delais)
+  {
+    fr->regle_horloge(delais);
+  }
 
-  virtual void reset(int cnt = 0) = 0;
+  virtual void reset(int cnt = 0)
+  {
+    fr->reset(cnt);
+  }
 };
 
 
@@ -994,7 +1216,10 @@ struct Démodulateur
  *
  * @sa démodulateur_création()
  */
-extern sptr<Modulateur> modulateur_création(const ModConfig &config);
+inline sptr<Modulator> modulator_new(const ModConfig &config)
+{
+  return std::make_shared<Modulator>(modulateur_création(config.fr()));
+}
 
 
 
@@ -1077,6 +1302,14 @@ struct DemodConfig
 
   /** @brief Affichage des signaux intermédiaires */
   bool debug_actif = false;
+
+  auto fr() const
+  {
+    nfr::DemodConfig res;
+    memcpy((void *) &res, this, sizeof(*this));
+    return res;
+  }
+
 };
 
 
@@ -1168,8 +1401,11 @@ struct DemodConfig
  *
  * @sa modulateur_création()
  */
-extern sptr<Démodulateur> démodulateur_création(const ModConfig &modconfig,
-                                                const DemodConfig &demodconfig = DemodConfig());
+inline sptr<Demodulator> demodulator_new(const ModConfig &modconfig,
+    const DemodConfig &demodconfig = DemodConfig())
+{
+  return std::make_shared<Demodulator>(nfr::démodulateur_création(modconfig.fr(), demodconfig.fr()));
+}
 
 
 /** @brief Définition du format d'une trame */
@@ -1182,26 +1418,31 @@ struct TrameFormat
   BitStream entete;
 
   /** @brief Optionnel : forme d'onde spécifique pour l'en-tête */
-  sptr<FormeOnde> fo_entete;
+  sptr<WaveForm> fo_entete;
 
   /** @brief Dimension des trames (nombre de bits utiles, après le motif de synchronisation). */
   int nbits = 0;
+
+  auto fr() const
+  {
+    nfr::TrameFormat res;
+    res.modulation = modulation.fr();
+    res.entete     = entete;
+    res.fo_entete  = fo_entete->fr;
+    res.nbits      = nbits;
+    return res;
+  }
 };
 
 
 
 /** @brief Structure de configuration d'un récepteur générique */
-struct RécepteurConfig
+struct PacketReceiverConfig
 {
   // TODO : gestion de plusieurs en-têtes...
 
   /** @brief Format des trames */
   TrameFormat format;
-
-  // std::vector<TrameFormat> formats;
-
-  // TODO: redondant avec format.modulation
-  //float fe = 0, fsymb = 0, fi = 0;
 
   /** @brief Configuration du démodulateur. */
   DemodConfig config_demod;
@@ -1226,11 +1467,37 @@ struct RécepteurConfig
 
   /** @brief Nombre de coefficient du filtre d'interpolation RIF utilisé avant le démodulateur pour corriger l'horloge. */
   int ncoefs_interpolateur = 15;
+
+  auto fr() const
+  {
+    nfr::RécepteurConfig res;
+
+    res.format = format.fr();
+    res.config_demod = config_demod.fr();
+    res.BS  = BS;
+    res.seuil = seuil;
+    res.SNR_mini = SNR_mini;
+    res.correl_fft = correl_fft;
+    res.callback_corr = callback_corr;
+    res.debug_actif = debug_actif;
+    res.ncoefs_interpolateur = ncoefs_interpolateur;
+
+    return res;
+  }
 };
 
 /** @brief Trame décodée par un récepteur */
 struct RécepteurTrame
 {
+  RécepteurTrame(const nfr::RécepteurTrame &fr)
+  {
+    det = fr.det;
+    bs  = fr.bs;
+    EbN0 = fr.EbN0;
+    x = fr.x;
+    x1 = fr.x1;
+  }
+
   /** @brief Paramètres RF calculés à partir du motif de synchronisation */
   tsd::fourier::Detection det;
 
@@ -1249,6 +1516,12 @@ struct RécepteurTrame
 
 struct RécepteurEtat
 {
+  RécepteurEtat(){}
+  RécepteurEtat(const nfr::RécepteurEtat &fr)
+  {
+    memcpy((void *) this, &fr, sizeof(*this));
+  }
+
   // Dim des blocs d'entrée
   int Ne;
 };
@@ -1256,18 +1529,41 @@ struct RécepteurEtat
 /** @brief Interface abstraite vers un récepteur de trames.
  *
  *  Documentation détaillée : @ref récepteur_création() */
-struct Récepteur
+struct PacketReceiver
 {
+  sptr<nfr::Récepteur> fr;
+
+  PacketReceiver(sptr<nfr::Récepteur> fr)
+  {
+    this->fr = fr;
+  }
+
   /** @brief Fonction de configuration */
-  virtual int configure(const RécepteurConfig &config) = 0;
+  virtual int configure(const PacketReceiverConfig &config)
+  {
+    return fr->configure(config.fr());
+  }
 
   /** @brief Traitement d'un buffer de données. */
-  virtual std::vector<RécepteurTrame> step(const ArrayXcf &x) = 0;
+  virtual std::vector<RécepteurTrame> step(const ArrayXcf &x)
+  {
+    std::vector<RécepteurTrame> res;
+    auto r = fr->step(x);
+    for(auto &t: r)
+      res.push_back(t);
+    return res;
+  }
 
   /** @brief Lecture des moniteurs CPU. */
-  virtual MoniteursStats moniteurs() = 0;
+  virtual MoniteursStats moniteurs()
+  {
+    return fr->moniteurs();
+  }
 
-  virtual RécepteurEtat get_etat() = 0;
+  virtual RécepteurEtat get_etat()
+  {
+    return fr->get_etat();
+  }
 };
 
 /** @brief Création d'un récepteur de trame.
@@ -1303,35 +1599,65 @@ struct Récepteur
  *
  *  @sa émetteur_création(), détecteur_création()
  */
-extern sptr<Récepteur> récepteur_création(const RécepteurConfig &rc);
+inline sptr<PacketReceiver> packet_receiver_new(const PacketReceiverConfig &rc)
+{
+  return std::make_shared<PacketReceiver>(nfr::récepteur_création(rc.fr()));
+}
 
 
 
 /** @brief Structure de configuration d'un récepteur_création générique */
-struct ÉmetteurConfig
+struct PacketEmitterConfig
 {
   /** @brief Format des trames */
   TrameFormat format;
 
   /** @brief Activation ou non des plots de mise au point */
   bool debug_actif = false;
+
+  auto fr() const
+  {
+    nfr::ÉmetteurConfig res;
+    res.format      = format.fr();
+    res.debug_actif = debug_actif;
+    return res;
+  }
 };
 
 
 /** @brief Interface abstraite vers un générateur de trames. */
-struct Émetteur
+struct PacketEmitter
 {
+  sptr<nfr::Émetteur> fr;
+
+  PacketEmitter(sptr<nfr::Émetteur> fr)
+  {
+    this->fr = fr;
+  }
+
   /** @brief Fonction de configuration */
-  virtual int configure(const ÉmetteurConfig &config) = 0;
+  virtual int configure(const PacketEmitterConfig &config)
+  {
+    return fr->configure(config.fr());
+  }
 
   /** @brief Traitement d'un buffer de données. */
-  virtual ArrayXcf step(const BitStream &x) = 0;
+  virtual ArrayXcf step(const BitStream &x)
+  {
+    return fr->step(x);
+  }
 
   /** @brief Lecture des moniteurs CPU. */
-  virtual MoniteursStats moniteurs() = 0;
+  virtual MoniteursStats moniteurs()
+  {
+    return fr->moniteurs();
+  }
 
   /** @brief Retard, en nombre d'échantillons */
-  virtual float retard() const = 0;
+  virtual float delay() const
+  {
+    return fr->retard();
+  }
 };
 
 /** @brief Création d'un générateur de trames.
@@ -1359,7 +1685,10 @@ struct Émetteur
  *
  *  @sa récepteur_création(), modulateur_création(), démodulateur_création()
  */
-extern sptr<Émetteur> émetteur_création(const ÉmetteurConfig &ec);
+inline sptr<PacketEmitter> packet_emitter_new(const PacketEmitterConfig &ec)
+{
+  return std::make_shared<PacketEmitter>(nfr::émetteur_création(ec.fr()));
+}
 
 
 
@@ -1404,7 +1733,10 @@ extern sptr<Émetteur> émetteur_création(const ÉmetteurConfig &ec);
  *  @image html doppler_psd.png width=600px
  *
  */
-extern ArrayXf doppler_distri(ArrayXd f, float fd, double fc);
+inline ArrayXf doppler_distri(ArrayXd f, float fd, double fc)
+{
+  return nfr::doppler_distri(f, fd, fc);
+}
 
 
 // @brief Compute thermal noise power
@@ -1427,11 +1759,22 @@ extern ArrayXf doppler_distri(ArrayXd f, float fd, double fc);
  *
  * @sa bruit_awgn()
  */
-extern float bruit_thermique(float bp, float T = 25);
+inline float thermal_noise(float bp, float T = 25)
+{
+  return nfr::bruit_thermique(bp, T);
+}
 
 /** @brief Paramétrage d'un émulateur de canal de propagation */
-struct ECPConfig
+struct CPEConfig
 {
+  auto fr() const
+  {
+    nfr::ECPConfig res;
+    memcpy((void *)&res, this, sizeof(*this));
+    return res;
+  }
+
+
   /** @brief Normalized signal to noise ratio (in dB) */
   float Eb_N0 = 0;
 
@@ -1467,7 +1810,10 @@ struct ECPConfig
  *  @param config Paramétrage
  *  @return Un Filtre cfloat @f$\to@f$ cfloat
  */
-extern sptr<Filtre<cfloat, cfloat, ECPConfig>> ecp_création(const ECPConfig &config);
+inline sptr<Filtre<cfloat, cfloat, nfr::ECPConfig>> ecp_new(const CPEConfig &config)
+{
+  return nfr::ecp_création(config.fr());
+}
 
 
 
@@ -1488,8 +1834,11 @@ extern sptr<Filtre<cfloat, cfloat, ECPConfig>> ecp_création(const ECPConfig &co
  *
  * @sa égaliseur_zfe()
  */
-extern sptr<FiltreGen<cfloat>> égaliseur_création(sptr<FormeOnde> wf, const std::string &structure, const std::string &errf,
-    float osf, float gain, int N1, int N2);
+inline sptr<FiltreGen<cfloat>> equalizer_new(sptr<WaveForm> wf, const std::string &structure, const std::string &errf,
+    float osf, float gain, int N1, int N2)
+{
+  return nfr::égaliseur_création(wf->fr, structure, errf, osf, gain, N1, N2);
+}
 
 /** @brief Calcul du filtre inverse par zéro-forçage.
  *
@@ -1513,7 +1862,10 @@ extern sptr<FiltreGen<cfloat>> égaliseur_création(sptr<FormeOnde> wf, const st
  *
  * @sa égaliseur_création()
  */
-extern ArrayXf égaliseur_zfe(IArrayXf h, int n);
+inline ArrayXf equalizer_zfe(IArrayXf h, int n)
+{
+  return nfr::égaliseur_zfe(h, n);
+}
 
 
 /** @} */
@@ -1544,7 +1896,10 @@ extern ArrayXf égaliseur_zfe(IArrayXf h, int n);
  *  @image html capa.png width=800px
  *
  */
-extern float capacite_canal_awgn(float snr, float B = 1);
+inline float awgn_channel_capacity(float snr, float B = 1)
+{
+  return nfr::capacite_canal_awgn(snr, B);
+}
 
 /** @} */
 
@@ -1559,6 +1914,21 @@ extern float capacite_canal_awgn(float snr, float B = 1);
 /** @brief Structure de configuration pour une PLL */
 struct PLLConfig
 {
+  auto fr() const
+  {
+    nfr::PLLConfig res;
+
+    res.sortie_porteuse = sortie_porteuse;
+    res.freq = freq;
+    res.loop_filter_order = 2;
+    res.bp = bp;
+    res.tc = tc;
+    res.ped = ped;
+    res.debug = debug;
+
+    return res;
+  }
+
   /** Sortie de la PLL :
    *   - si sortie_porteuse = false : le signal résiduel, sinon la porteuse reconstruite
    */
@@ -1603,7 +1973,7 @@ struct PLLConfig
    *  @endcode
    *
    *   */
-  Ped /*std::function<float (cfloat x)>*/ ped;//detecteur_erreur_phase;
+  Ped ped;
 
   /** @~french  @brief Activation du mode de mise au point (tracé des figures)
    *  @~english @brief Activation of the debug mode (plot figures) */
@@ -1614,6 +1984,20 @@ struct PLLConfig
 /** @brief Structure de configuration pour une PLL à sortie réelle */
 struct RPLLConfig
 {
+  auto fr() const
+  {
+    nfr::RPLLConfig res;
+
+    res.pll_interne = pll_interne.fr();
+    res.freq = freq;
+    res.ncoefs_bb = ncoefs_bb;
+    res.bp = bp;
+    res.debug = debug;
+
+    return res;
+  }
+
+
   /** @brief Paramètrage commun avec une PLL à sortie complexe */
   PLLConfig pll_interne;
 
@@ -1653,7 +2037,10 @@ struct RPLLConfig
  *  (or a modulated signal provided an adequat phase error detector is provided).
  *  For a complex carrier (complex exponential), see the function @ref cpll_création().
  */
-extern sptr<Filtre<float, float, RPLLConfig>> rpll_création(const RPLLConfig &config);
+inline sptr<Filtre<float, float, nfr::RPLLConfig>> rpll_new(const RPLLConfig &config)
+{
+  return nfr::rpll_création(config.fr());
+}
 
 /** @brief Création d'une PLL (boucle à vérouillage de phase) à sortie complexe
  *
@@ -1675,7 +2062,10 @@ extern sptr<Filtre<float, float, RPLLConfig>> rpll_création(const RPLLConfig &c
  *  This PLL is able to lock on a complex carrier
  *  (or a modulated signal provided an adequat phase error detector is provided).
  *  For a real carrier (sinusoidal signal), see the function @ref creation_pll().  */
-extern sptr<Filtre<cfloat, cfloat, PLLConfig>> cpll_création(const PLLConfig &config);
+inline sptr<Filtre<cfloat, cfloat, nfr::PLLConfig>> cpll_new(const PLLConfig &config)
+{
+  return nfr::cpll_création(config.fr());
+}
 
 /** @} */
 
@@ -1685,6 +2075,7 @@ extern sptr<Filtre<cfloat, cfloat, PLLConfig>> cpll_création(const PLLConfig &c
  */
 
 
+#if 0
 /** @brief Résultat de la comparaison de deux chaines binaires */
 struct CmpBitsRes
 {
@@ -1729,7 +2120,7 @@ struct CmpBitsRes
  *  @endcode
  *
  */
-extern CmpBitsRes cmp_bits(const BitStream &b0, const BitStream &b1);
+inline CmpBitsRes cmp_bits(const BitStream &b0, const BitStream &b1);
 
 /** @brief Idem @ref cmp_bits(), avec gestion des ambiguité de phase M-PSK
  *
@@ -1737,7 +2128,7 @@ extern CmpBitsRes cmp_bits(const BitStream &b0, const BitStream &b1);
  *
  */
 extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, int k);
-
+#endif
 
 /** @} */
 
@@ -1787,7 +2178,10 @@ extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, int k);
  * @par Exemple
  *
  */
-extern void plot_eye(tsd::vue::Figure &f, const ArrayXf &x, float T);
+inline void plot_eye(tsd::vue::Figure &f, const ArrayXf &x, float T)
+{
+  return nfr::plot_eye(f, x, T);
+}
 
 /** @} */
 
@@ -1796,10 +2190,18 @@ extern void plot_eye(tsd::vue::Figure &f, const ArrayXf &x, float T);
  */
 
 /** @brief Interface abstraite pour un estimateur de SNR. */
-struct EstimateurSNR
+struct SNREstimator
 {
+  sptr<nfr::EstimateurSNR> fr;
+
+  SNREstimator(sptr<nfr::EstimateurSNR> fr){this->fr = fr;}
+
+
   /** @brief Calcul deux vecteurs (S et N) correspondant resp. aux énergies du signal et du bruit, à partir d'un signal bruité x. */
-  virtual void step(const ArrayXcf &x, ArrayXf &S, ArrayXf &N) = 0;
+  virtual void step(const ArrayXcf &x, ArrayXf &S, ArrayXf &N)
+  {
+    return fr->step(x, S, N);
+  }
 };
 
 
@@ -1833,7 +2235,10 @@ struct EstimateurSNR
  *  higher order statistics. R. Matzner, 1993.</i>
  *
  */
-extern sptr<EstimateurSNR> snr_Matzner(float γ = 0.1);
+inline sptr<SNREstimator> snr_Matzner(float γ = 0.1)
+{
+  return std::make_shared<SNREstimator>(nfr::snr_Matzner(γ));
+}
 
 /** @} */
 
@@ -1989,13 +2394,19 @@ extern BitStream code_mls(int n);
  *
  *  @sa code_mls()
  */
-extern BitStream code_Barker(int n);
+inline BitStream code_Barker(int n)
+{
+  return nfr::code_Barker(n);
+}
 
 /** @cond
  *  Renvoie un polynôme primitif de degré reglen.
  *  Le polynôme renvoyé est stocké "à l'envers", le LSB étant le coefficient
  *  de X^{n-1}, et le MSB celui de X^0. */
-extern uint32_t polynome_primitif_binaire(int reglen);
+inline uint32_t primitive_polynom_binary(int reglen)
+{
+  return nfr::polynome_primitif_binaire(reglen);
+}
 /** @endcond */
 
 /** @brief Calcul d'un polynôme primitif.
@@ -2008,7 +2419,10 @@ extern uint32_t polynome_primitif_binaire(int reglen);
  *
  *  @sa code_mls()
  */
-extern Poly<int> polynome_primitif(int n);
+inline tsd::Poly<int> primitive_polynomial(int n)
+{
+  return nfr::polynome_primitif(n);
+}
 
 
 /** @} */

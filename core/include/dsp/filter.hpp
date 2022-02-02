@@ -508,9 +508,9 @@ struct SpecFreqIntervalle
  *      h_k = \frac{2}{k\pi} \cdot \sin(k \pi / 2)^2 \cdot w_k;
  *  @f]
  *
- *  @param n Filter order
- *  @param fenetre Window type (by default, Hann window)
- *  @returns FIR filter coefficients
+ *  @param n      Filter order
+ *  @param window Window type (by default, Hann window)
+ *  @returns      FIR filter coefficients
  *
  *  @par Example
  *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_hilbert
@@ -643,7 +643,7 @@ extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogi
  * @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_riia
  * @image html design-riia.png width=800px
  *
- * @sa trf_bilineaire(), @ref filtre_sois(), filtre_rii()
+ * @sa bilinear_transform(), @ref filter_sois(), filter_iir()
  */
 inline FRat<cfloat> design_iira(int n, const std::string &type,
     const std::string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60)
@@ -959,10 +959,23 @@ inline ArrayXf design_fir_prod(const ArrayXf &h1, const ArrayXf &h2)
 }
 
 
-// TODO : doc en
-/** @brief CIC filter configuration */
-using CICConfig = tsdf::CICConfig;
+/** @brief Main parameters for a CIC filter. */
+struct CICConfig
+{
+  /** @brief Decimation ratio */
+  int R = 1;
 
+  /** @brief Number of integrators / differentiators */
+  int N = 1;
+
+  /** @brief Design parameter (typically M=1) */
+  int M = 1;
+
+  tsdf::CICConfig fr() const
+  {
+    return {R, N, M};
+  }
+};
 
 
 
@@ -979,7 +992,7 @@ using CICConfig = tsdf::CICConfig;
  */
 inline FRat<float> design_cic(const CICConfig &config)
 {
-  return tsdf::design_cic(config);
+  return tsdf::design_cic(config.fr());
 }
 
 using tsdf::CICComp;
@@ -1024,7 +1037,7 @@ using tsdf::CICComp;
  *     Global response of CIC + compensation filters (spectrum) */
 inline CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float fc, int ncoefs)
 {
-  return tsdf::design_cic_comp(config, Fin, R2, fc, ncoefs);
+  return tsdf::design_cic_comp(config.fr(), Fin, R2, fc, ncoefs);
 }
 
 
@@ -1484,7 +1497,7 @@ using tsdf::CICAnalyse;
  **/
 inline CICAnalyse cic_analysis(const CICConfig &config, float Fin, float Fint = 0)
 {
-  return tsdf::cic_analyse(config, Fin, Fint);
+  return tsdf::cic_analyse(config.fr(), Fin, Fint);
 }
 
 
@@ -1516,7 +1529,7 @@ inline CICAnalyse cic_analysis(const CICConfig &config, float Fin, float Fint = 
  */
 inline ArrayXf cic_freq(const CICConfig &config, const ArrayXf &f)
 {
-  return tsdf::cic_freq(config, f);
+  return tsdf::cic_freq(config.fr(), f);
 }
 
 

@@ -107,7 +107,7 @@ struct DemodGen: Démodulateur
     }
     osf3 = osf2;
 
-    if(wf->est_fsk && (modconfig.fe * ratio_ra > ratio_osf_ideal * modconfig.fsymb))
+    if(wf->infos.est_fsk && (modconfig.fe * ratio_ra > ratio_osf_ideal * modconfig.fsymb))
     {
       ratio_ra_dp = modconfig.fsymb * ratio_osf_ideal / (modconfig.fe * ratio_ra);
       ra_dp = tsd::filtrage::filtre_reechan<cfloat>(ratio_ra_dp);
@@ -157,7 +157,7 @@ struct DemodGen: Démodulateur
     filtre_rssi2 = filtre_rii1<float>(rii1_tc_vers_coef(config.ndec.tc_rssi_fine)); // 3 symboles
 
 
-    if(!wf->est_fsk)
+    if(!wf->infos.est_fsk)
     {
       ped = ped_init(config.ndec.carrier_rec.ped, modconfig.wf);
 
@@ -265,7 +265,7 @@ struct DemodGen: Démodulateur
     //assert(!x_dn2.hasNaN());
 
     // En FSK, pas de carrier rec.
-    if(wf->est_fsk) // TODO : tester mode différentiel plutôt
+    if(wf->infos.est_fsk) // TODO : tester mode différentiel plutôt
     {
       // Incoherent demodulation
       //auto n = x_dn.rows();
@@ -318,7 +318,7 @@ struct DemodGen: Démodulateur
         x_clk = clock_rec->step(x_mf);// / (coarse_rssi + 1e-20f));
 
       msg(" demod: crrec...");
-      if(!wf->est_fsk) // TODO : tester mode différentiel plutôt
+      if(!wf->infos.est_fsk) // TODO : tester mode différentiel plutôt
         x_crr = carrier_rec->step(x_clk);
       else
         x_crr = x_clk;
@@ -335,7 +335,7 @@ struct DemodGen: Démodulateur
 
 
     // TODO: à mettre ailleurs
-    if(wf->est_psk && (wf->M == 4))
+    if(wf->infos.est_psk && (wf->infos.M == 4))
     {
       // La carrier rec fait en sorte que la phase soit nulle
       // (ce qui n'est pas le cas de la convention choisie pour QPSK)
@@ -347,7 +347,7 @@ struct DemodGen: Démodulateur
     // (4) Fine RSSI estimation
     ArrayXf ax = abs(x_clk_crr);
     // PB avec les modulations qui ne sont pas à amplitude constante !
-    if(wf->est_psk || wf->est_fsk)
+    if(wf->infos.est_psk || wf->infos.est_fsk)
     {
       ax = filtre_rssi2->step(ax);
     }
@@ -385,7 +385,7 @@ struct DemodGen: Démodulateur
         f.afficher("Démodulation / 1");
       }
 
-      if(wf->est_fsk)
+      if(wf->infos.est_fsk)
       {
         Figure f;
         f.plot(x_dn, "", "Discri. polaire, fech={:.1f} Hz, OSF={}",

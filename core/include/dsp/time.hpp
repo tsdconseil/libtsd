@@ -66,7 +66,7 @@ struct HourComposite
   }
 
   /** @brief Vérifie si les heures, minutes et secondes sont dans un intervalle valide. */
-  bool vérifie_validité() const
+  bool check_valid() const
   {
     return hc().vérifie_validité();
   }
@@ -100,8 +100,8 @@ struct Duration
   }
 
   /** @brief Constructeur, d'après un nombre de jours, heures, etc. */
-  Duration(int jours, int heures, int minutes, int secondes, int microsecondes = 0)
-  : Duration(tsdt::Durée(jours, heures, minutes, secondes, microsecondes))
+  Duration(int days, int hours, int minutes, int seconds, int microseconds = 0)
+  : Duration(tsdt::Durée(days, hours, minutes, seconds, microseconds))
   {
   }
 
@@ -113,13 +113,13 @@ struct Duration
   }
 
   /** @brief Constructeur statique, d'après un nombre de micro-secondes. */
-  static Duration microsecondes(int64_t cnt)
+  static Duration microseconds(int64_t cnt)
   {
     return tsdt::Durée::microsecondes(cnt);
   }
 
   /** @brief Constructeur statique, d'après un nombre de secondes. */
-  static Duration secondes(double cnt)
+  static Duration seconds(double cnt)
   {
     return tsdt::Durée::secondes(cnt);
   }
@@ -131,13 +131,13 @@ struct Duration
   }
 
   /** @brief Constructeur statique, d'après un nombre d'heures. */
-  static Duration heures(double cnt)
+  static Duration hours(double cnt)
   {
     return tsdt::Durée::heures(cnt);
   }
 
   /** @brief Constructeur statique, d'après un nombre de jours. */
-  static Duration jours(double cnt)
+  static Duration days(double cnt)
   {
     return tsdt::Durée::jours(cnt);
   }
@@ -147,13 +147,13 @@ struct Duration
 
 
   /** @brief %Durée totale, exprimés en nombre fractionnaire de jours. */
-  double nb_jours() const
+  double nb_days() const
   {
     return dr().nb_jours();
   }
 
   /** @brief %Durée totale, exprimés en nombre fractionnaire d'heures. */
-  double nb_heures() const
+  double nb_hours() const
   {
     return dr().nb_heures();
   }
@@ -165,19 +165,19 @@ struct Duration
   }
 
   /** @brief %Durée totale, exprimés en nombre fractionnaire de secondes. */
-  double nb_secondes() const
+  double nb_seconds() const
   {
     return dr().nb_secondes();
   }
 
   /** @brief %Durée totale, exprimés en nombre fractionnaire de millisecondes. */
-  double nb_millisecondes() const
+  double nb_milliseconds() const
   {
     return dr().nb_millisecondes();
   }
 
   /** @brief %Durée totale, exprimés en nombre fractionnaire de microsecondes. */
-  double nb_microsecondes() const
+  double nb_microseconds() const
   {
     return dr().nb_microsecondes();
   }
@@ -241,19 +241,19 @@ struct Calendar
   }
 
   /** @brief Nombre de jours entiers depuis le début de l'année en cours (= 0 pour le premier Janvier). */
-  int nb_jours_debut_année() const
+  int nb_days_since_beginning_of_year() const
   {
     return cl().nb_jours_debut_année();
   }
 
   /** @brief Vérifie si la date est valide (mois entre 1 et 12, jour entre 1 et 31, etc.) */
-  bool est_valide() const
+  bool is_valid() const
   {
     return cl().est_valide();
   }
 
   /** @brief Calcul du nombre de jours depuis le 1/1/1, 0h00 (= 0 pour le 1/1/1) */
-  int nb_jours_debut_ère() const
+  int nb_days_since_beginning_of_era() const
   {
     return cl().nb_jours_debut_ère();
   }
@@ -331,8 +331,8 @@ struct DateTime
   }
 
   /** @brief Constructeur, d'après l'année et un nombre fractionnaire de jours.
-   *  @param année Année
-   *  @param jour  Nombre fractionnaire de jours dans l'année (ex : 1.5 = 1er Janvier, 12h00).
+   *  @param year Année
+   *  @param day  Nombre fractionnaire de jours dans l'année (ex : 1.5 = 1er Janvier, 12h00).
    */
   DateTime(int year, double day)
   {
@@ -346,7 +346,7 @@ struct DateTime
    *
    *  @return Temps sidéral, en radians (entre 0 et @f$2\pi@f$).
    */
-  double temps_sidéral_Greenwich() const
+  double Greenwich_sidereal_time() const
   {
     return dt().temps_sidéral_Greenwich();
   }
@@ -360,13 +360,13 @@ struct DateTime
    *  @param longitude Longitude locale (en radians)
    *  @return Temps sidéral local, en radians (entre 0 et @f$2\pi@f$).
    */
-  double temps_sidéral_local(double longitude) const
+  double local_sidereal_time(double longitude) const
   {
     return dt().temps_sidéral_local(longitude);
   }
 
   /** @brief Nombre de "jours Juliens" (nombre de jours depuis le premier Janvier, 4713 BC, 12h00). */
-  double nb_jours_Julien() const
+  double nb_Julian_days() const
   {
     return dt().nb_jours_Julien();
   }
@@ -472,27 +472,18 @@ inline double gregorian2days(int année, double jour_année)
 
 
 
-/** @brief Vérifique que le mois et l'année sont bien dans l'intervalle supporté.
- *  @param année  Numéro d'année (suivant l'ère usuelle)
- *  @param mois   Numéro de mois (intervalle de validité : 1 - 12)
- *  @returns      Vrai ou faux
- */
-inline bool année_mois_valide(int année, int mois)
-{
-  return tsdt::année_mois_valide(année, mois);
-}
 
 /** @brief Nombre de jours pour un mois et une année donnée.
  *
  * <h3>Nombre de jours pour un mois et une année donnée</h3>
  *
- * @param année Numéro d'année suivant l'ère usuelle.
- * @param mois Numéro de mois (entre 1 et 12).
+ * @param year Numéro d'année suivant l'ère usuelle.
+ * @param month Numéro de mois (entre 1 et 12).
  * @returns Nombre de jours, entre 28 et 31.
  */
-inline int mois_nb_jours(int année, int mois)
+inline int month_nb_days(int year, int month)
 {
-  return tsdt::mois_nb_jours(année, mois);
+  return tsdt::mois_nb_jours(year, month);
 }
 
 /** @brief Vérifie si l'année est bissextile ou non.
@@ -503,7 +494,7 @@ inline int mois_nb_jours(int année, int mois)
  *
  *  Les années bissextiles (pour le calendrier grégorien) sont celles divisibles par 4 et non par 100, et ainsi que celles divisibles par 400.
  *
- *  @param année Numéro d'année suivant l'ère usuelle.
+ *  @param year Numéro d'année suivant l'ère usuelle.
  *  @returns Vrai ou faux
  *
  */
@@ -513,7 +504,7 @@ inline bool is_bissextil(int year)
 }
 
 /** @brief Vérifie si l'année est dans l'intervalle supporté (entre 1 and 9999).
- *  @param   année Numéro d'année à vérifier (comptée suivant l'ère usuelle)
+ *  @param   year Numéro d'année à vérifier (comptée suivant l'ère usuelle)
  *  @returns Vrai ou faux.
  */
 inline bool année_est_valide(int year)

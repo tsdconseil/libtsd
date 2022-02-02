@@ -257,7 +257,7 @@ template<typename derived>
 
 
 
-/** @brief Structure de configuration pour un filtre FFT (voir @ref filtre_fft()). */
+/** @brief Configuration structure for a FFT based filter (see @ref filter_fft()). */
 struct FFTFilterConfig: tsdF::FiltreFFTConfig
 {
   /** @brief Nombre d'échantillons par bloc temporel (ou zéro si déterminé automatiquement) */
@@ -300,7 +300,7 @@ struct FFTFilterConfig: tsdF::FiltreFFTConfig
  *
  *
  *
- *  @param config La structure de configuration (@ref FiltreFFTConfig) doit préciser la dimension @f$N_e@f$
+ *  @param config La structure de configuration (@ref FFTFilterConfig) doit préciser la dimension @f$N_e@f$
  *  des blocs temporels,
  *  le nombre minimum de zéros à insérer avant chaque bloc et avant de passer dans le domaine fréquentiel,
  *  ainsi qu'une callback permettant à l'appelant de modifier le signal dans le domaine fréquentiel.
@@ -313,7 +313,7 @@ struct FFTFilterConfig: tsdF::FiltreFFTConfig
  *
  *  @parblock
  *  @note Pour le problème plus spécifique du calcul efficace d'un filtre RIF (à partir de la FFT), utilisez plutôt
- *  @ref filtre_rif_fft(), qui est est basée sur cette fonction, et qui plus simple à utiliser.
+ *  @ref filter_fir_fft(), qui est est basée sur cette fonction, et qui plus simple à utiliser.
  *  @endparblock
  *
  *  @par Exemple : Filtrage passe-bas
@@ -499,9 +499,9 @@ inline std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y
  *  Y_n = X_n \cdot e^{\frac{-2\pi\mathbf{i}\tau \cdot n}{N}}
  *  @f]
  *
- *  @param x Signal à retarder ou avancer dans le temps.
- *  @param tau Délais à appliquer, en nombre d'échantillons (peut être positif ou négatif, et n'est pas forcément un nombre entier).
- *  @returns Signal décalé dans le temps.
+ *  @param x  Signal à retarder ou avancer dans le temps.
+ *  @param τ  Délais à appliquer, en nombre d'échantillons (peut être positif ou négatif, et n'est pas forcément un nombre entier).
+ *  @returns  Signal décalé dans le temps.
  *
  *
  * @par Exemple
@@ -531,6 +531,42 @@ template<typename T>
 }
 
 
+/** @brief Informations computed from the detected pattern. */
+struct Detection
+{
+  /** @brief en nombre d'échantillons (compris entre 0 et Ne-1),
+  *    depuis le début du bloc de données en cours. Par exemple :
+  *    - @f$0\  \Leftrightarrow@f$    Début du bloc en cours
+  *    - @f$1\  \Leftrightarrow@f$    Deuxième échantillon du bloc en cours
+  *    - @f$-1\  \Leftrightarrow@f$   Dernier échantillon du bloc précédent
+  *    - ... */
+  int position;
+
+  /** @brief Idem position, avec interpolation quadratique pour plus de précision */
+  float position_prec;
+
+  /** @brief Valeur absolue de la corrélation normalisée (valeur positive, entre 0 et 1) */
+  float score;
+
+  /** @brief Gain du signal (par rapport au motif passé en paramètre) */
+  float gain;
+
+  /** @brief Déphasage du signal (entre @f$-\pi/2@f$ et @f$\pi/2@f$) */
+  float θ;
+
+  /** @brief SNR estimé */
+  float SNR_dB;
+
+  /** @brief Ecart-type du bruit */
+  float σ_noise;
+
+  Detection(const tsdF::Detection &fr)
+  {
+    memcpy(this, &fr, sizeof(tsdF::Detection));
+  }
+};
+
+
 /** @brief Structure de configuration pour un corrélateur par FFT */
 struct DetectorConfig: tsdF::DetecteurConfig
 {
@@ -549,7 +585,8 @@ struct DetectorConfig: tsdF::DetecteurConfig
   tsdF::DetecteurConfig::Mode &mode = mode;
 
   /** @brief Callback utilisateur appellée à chaque fois que le motif est détecté. */
-  std::function<void (const tsdF::Detection &det)> &on_detection = gere_detection;
+  std::function<void (const Detection &det)> &on_detection
+      = *((std::function<void (const Detection &det)> *) &gere_detection);
 
   bool &compute_correlation_signal = calculer_signal_correlation;
 };
@@ -573,13 +610,13 @@ using tsdF::Detecteur;
  * exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle @f$[n-M+1\dots n]@f$.
  *
  * Le calcul étant fait de manière efficace dans le domaine fréquentiel via la technique Overlap-And-Add
- * (voir @ref filtre_fft()), la complexité est de l'ordre de @f$\log_2 M@f$ opérations
+ * (voir @ref filter_fft()), la complexité est de l'ordre de @f$\log_2 M@f$ opérations
  * par échantillon (si @f$M@f$ est une puissance de 2).
  *
  * Ce filtre peut-être utilisé de deux manières :
  *  - Tout d'abord, c'est un filtre qui renvoie, au fil de l'eau, les valeurs de corrélation (signal vert dans l'exemple ci-dessous),
  *  - Pour une utilisation plus simple, une callback utilisateur peut être appelée dès lors que la corrélation dépasse un certain seuil paramétrable. En paramètre de cette callback,
- *    est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure @ref DetecteurConfig::Detection) :
+ *    est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure @ref Detection) :
  *      - Valeur de la corrélation normalisée
  *      - Gain réel du signal (rapport d'amplitude entre le signal reçu et le motif théorique attendu)
  *      - Déphasage du signal reçu
@@ -686,7 +723,7 @@ inline std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const st
  *  @note Cette fonction est une spécialisation de la méthode des sous-espaces pour la détection d'exponentielles pures.
  *  Cependant, la méthode des sous-espaces elle-même est bien plus générale, et peut
  *  permettre de détecter d'autres types de signaux
- *  (voir la fonction @ref subspace_spectrum()).
+ *  (voir la fonction @ref psd_subspace()).
  *
  *  @warning Cette technique implique la décomposition en valeurs propres d'une matrice @f$m\times m@f$
  *  (la matrice d'auto-corrélation du signal), soit de l'ordre de @f$m^3@f$ opérations.
@@ -712,7 +749,16 @@ inline std::tuple<ArrayXf, ArrayXf> psd_subspace(const ArrayXcf &x, int Ns, int 
 
 
 /** @brief Choix d'un algorithme pour l'estimation de fréquence */
-using tsdF::FreqEstimMethode;
+enum FreqEstimMethode
+{
+  /** @brief Maximum de la valeur absolue de la FFT */
+  FFT,
+  /** @brief Méthode de Candan cf TODO */
+  CANDAN2,
+  /** @brief Interpolation quadratique */
+  QUADRATIC
+  // TODO
+};
 
 
 /** @brief Estimation de fréquence d'un signal périodique
@@ -731,9 +777,9 @@ using tsdF::FreqEstimMethode;
  *  @param x Signal dont on veut estimer la fréquence
  *  @param m Méthode d'estimation (voir l'énumération @ref FreqEstimMethode)
  *  @return Une fréquence normalisée (entre -0,5 et 0,5) */
-inline float freqestim(IArrayXcf x, FreqEstimMethode m = tsdF::FreqEstimMethode::CANDAN2)
+inline float freqestim(IArrayXcf x, FreqEstimMethode m = FreqEstimMethode::CANDAN2)
 {
-  return tsdF::freqestim(x, m);
+  return tsdF::freqestim(x, (tsdF::FreqEstimMethode) m);
 }
 
 

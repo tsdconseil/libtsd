@@ -50,7 +50,7 @@ struct ModGen : Modulateur
     valide = (configure(config) == 0);
   }
 
-  float delais()
+  float delais() const
   {
     return latence;
   }
@@ -155,14 +155,14 @@ struct ModGen : Modulateur
 
     ArrayXf vfreqs, vphase;
 
-    if(config.wf->est_fsk)
+    if(config.wf->infos.est_fsk)
     {
       // df = 0.5 * h * fsymb
       // df sur un symbole = 0.5 * h / osf
       // 2 π / osf <=> h = 2
       // => θ = h * 2 * pi / osf / 2 = h * pi / osf
 
-      auto Ω_max = (π * config.wf->index) / osf;
+      auto Ω_max = (π * config.wf->infos.index) / osf;
       // h = 2 -> Omega_max = 2 * pi / osf
 
       //msg("Ω max = {} degrés.", rad2deg(Ω_max));
@@ -221,7 +221,7 @@ struct ModGen : Modulateur
 
         f.subplot().plot_psd(x_filtre, fe1);
 
-        if(config.wf->est_fsk)
+        if(config.wf->infos.est_fsk)
         {
           f.subplot().plot(vfreqs, "", "Vfreqs");
           f.subplot().plot(vphase, "", "Phase (cumsum)");

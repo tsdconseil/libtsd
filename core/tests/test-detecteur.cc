@@ -110,7 +110,7 @@ static TestMotifResult test_motif(const TestMotifConfig &config)
 
 
 
-static BitStream pad_bs(const BitStream &bs, int nb_bits_par_symb)
+/*static BitStream pad_bs(const BitStream &bs, int nb_bits_par_symb)
 {
   BitStream bs2 = bs;
   int nbits = bs.lon();
@@ -118,7 +118,7 @@ static BitStream pad_bs(const BitStream &bs, int nb_bits_par_symb)
   for(auto i = 0; i < nzeros; i++)
     bs2.push(0);
   return bs2;
-}
+}*/
 
 
 int test_motifs()
@@ -132,7 +132,9 @@ int test_motifs()
     auto mod = modulateur_création(mconfig);
     auto bs = code_mls(4);//BitStream::rand(15);
 
-    ArrayXcf x = mod->step(pad_bs(bs, mconfig.wf->k));
+    //ArrayXcf x = mod->step(pad_bs(bs, mconfig.wf->infos.k));
+    bs.pad_mult(mconfig.wf->infos.k);
+    ArrayXcf x = mod->step(bs);
     test_motif({"bpsk-15bits", x});
 
 
@@ -140,12 +142,14 @@ int test_motifs()
     for(auto i = 0; i < 15; i += 2)
       bs.set(i, 1);
 
-    x = mod->step(pad_bs(bs, mconfig.wf->k));
+    bs.pad_mult(mconfig.wf->infos.k);
+    x = mod->step(bs);
     test_motif({"bpsk-15bits-010101", x});
 
 
     bs = BitStream::zéros(7) + BitStream::uns(8);
-    x = mod->step(pad_bs(bs, mconfig.wf->k));
+    bs.pad_mult(mconfig.wf->infos.k);
+    x = mod->step(bs);
     test_motif({"bpsk-15bits-000000011111111", x});
 
 
@@ -153,7 +157,8 @@ int test_motifs()
     mconfig.wf->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     mod = modulateur_création(mconfig);
     bs = code_mls(5);//BitStream::rand(31);
-    x = mod->step(pad_bs(bs, mconfig.wf->k));
+    bs.pad_mult(mconfig.wf->infos.k);
+    x = mod->step(bs);
     test_motif({"qpsk-31bits", x});
 
 
@@ -161,7 +166,8 @@ int test_motifs()
     mconfig.wf->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     mod = modulateur_création(mconfig);
     //bs = BitStream::rand(31);
-    x = mod->step(pad_bs(bs, mconfig.wf->k));
+    bs.pad_mult(mconfig.wf->infos.k);
+    x = mod->step(bs);
     test_motif({"π4qpsk-31bits", x});
   }
 

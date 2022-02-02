@@ -113,7 +113,7 @@ void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k)
 
 ArrayXcf FormeOnde::génère_symboles(const BitStream &bs)
 {
-  auto x = symmap_binaire(bs, k);
+  auto x = symmap_binaire(bs, infos.k);
   auto n = x.rows();
   ArrayXcf y(n);
   for(auto i = 0; i < n; i++)
@@ -180,14 +180,14 @@ ArrayXcf FormeOnde::génère_échantillons(const BitStream &bs, int ncoefs,
 
   ArrayXcf y = f->step(symbs);
 
-  if(est_fsk)
+  if(infos.est_fsk)
   {
     // df = 0.5 * h * fsymb
     // df sur un symbole = 0.5 * h / osf
     // 2 π / osf <=> h = 2
     // => θ = h * 2 * pi / osf / 2 = h * pi / osf
 
-    float Ω_max = (π_f * index) / osf;
+    float Ω_max = (π_f * infos.index) / osf;
     // h = 2 -> Omega_max = 2 * pi / osf
 
     msg("Ω max = {} degrés.", rad2deg(Ω_max));
@@ -253,7 +253,7 @@ void  FormeOnde::decode_symboles(BitStream &bs, const ArrayXcf &x)
     cnt = i;
     x2(i) = symbole_plus_proche(x(i));
   }
-  symdemap_binaire(bs, x2, k);
+  symdemap_binaire(bs, x2, infos.k);
 }
 
 
@@ -504,7 +504,7 @@ int FormeOnde::symbole_plus_proche(const cfloat &point) const
 {
   float bdist = 1e100;
   int res = 0;
-  for(auto i = 0; i < M; i++)
+  for(auto i = 0; i < infos.M; i++)
   {
     auto d2 = std::norm(point - lis_symbole(i));
     if(d2 < bdist)
@@ -513,12 +513,12 @@ int FormeOnde::symbole_plus_proche(const cfloat &point) const
       res = i;
     }
   }
-  tsd_assert((res >= 0) && (res < (int) M));
+  tsd_assert((res >= 0) && (res < (int) infos.M));
   return res;
 }
 
 
-struct WaveformASK: FormeOnde
+struct FormeOndeASK: FormeOnde
 {
   ArrayXcf symbs;
   float K1 = -1, K2 = 2;
@@ -530,24 +530,24 @@ struct WaveformASK: FormeOnde
 
   std::string desc_courte() const
   {
-    return fmt::format("{}-ASK({},{})", M, K1, K2);
+    return fmt::format("{}-ASK({},{})", infos.M, K1, K2);
   }
 
   std::string desc() const
   {
-    return fmt::format("{}-ASK({},{})", M, K1, K2);
+    return fmt::format("{}-ASK({},{})", infos.M, K1, K2);
   }
 
 
-  WaveformASK(int M, float K1, float K2, const SpecFiltreMiseEnForme &filtre)
+  FormeOndeASK(int M, float K1, float K2, const SpecFiltreMiseEnForme &filtre)
   {
     this->filtre  = filtre;
-    this->M       = M;
+    infos.M       = M;
     this->K1      = K1;
     this->K2      = K2;
-    est_lineaire  = true;
-    est_ask       = true;
-    k             = std::log2(M);
+    infos.est_lineaire  = true;
+    infos.est_ask       = true;
+    infos.k             = std::log2(M);
     symbs         = ask_constellation(M, K1, K2);
   }
 
@@ -560,24 +560,25 @@ struct WaveformASK: FormeOnde
   {
     // Equation 5.2.46 de Proakis
     float EbN0_lin = db2pow(EbN0);
-    return ((M-1.0f) / M) * erfc(sqrt(3.0f * log2((float) M) * EbN0_lin / (M*M - 1.0f)))/k;
+    return ((infos.M-1.0f) / infos.M)
+        * erfc(sqrt(3.0f * log2((float) infos.M) * EbN0_lin / (infos.M*infos.M - 1.0f)))/infos.k;
   }
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((int) index < M);
+    tsd_assert((int) index < infos.M);
     return symbs(index);
   }
 };
 
 
-struct WaveformPSK: FormeOnde
+struct FormeOndePSK: FormeOnde
 {
   ArrayXcf symbs;
 
   int symbole_plus_proche(const cfloat &x) const
   {
-    if(M == 2)
+    if(infos.M == 2)
       return x.real() > 0 ? 1 : 0;
       //return x.real() > 0 ? 0 : 1;
     return FormeOnde::symbole_plus_proche(x);
@@ -585,12 +586,12 @@ struct WaveformPSK: FormeOnde
 
   std::string desc_courte() const
   {
-    if(M == 2)
+    if(infos.M == 2)
       return "BPSK";
-    else if(M == 4)
+    else if(infos.M == 4)
       return "QPSK";
     else
-      return fmt::format("{}PSK", M);
+      return fmt::format("{}PSK", infos.M);
   }
 
   std::string desc() const
@@ -599,13 +600,13 @@ struct WaveformPSK: FormeOnde
   }
 
 
-  WaveformPSK(unsigned int M, const SpecFiltreMiseEnForme &filtre)
+  FormeOndePSK(unsigned int M, const SpecFiltreMiseEnForme &filtre)
   {
     this->filtre = filtre;
-    est_lineaire = true;
-    this->M = M;
-    est_psk = true;
-    k = std::log2(M);
+    infos.est_lineaire = true;
+    infos.M = M;
+    infos.est_psk = true;
+    infos.k = std::log2(M);
     symbs = psk_constellation(M);
   }
 
@@ -621,7 +622,7 @@ struct WaveformPSK: FormeOnde
 
 
     // Equation générale (valable sauf en BPSK)
-    float ber = erfc(std::sqrt(k*EbN0_lin)*sin(π/M))/k;
+    float ber = erfc(std::sqrt(infos.k*EbN0_lin)*sin(π/infos.M))/infos.k;
 
     // Si k = 1, M = 2 (BPSK) :
     // sin(pi/2) = 1
@@ -631,7 +632,7 @@ struct WaveformPSK: FormeOnde
     // sin(pi/4) = sqrt(2)/2
     // erfc(std::sqrt(ebnoD) * sqrt(2) * sqrt(2) / 2) = erfc(std::sqrt(ebnoD)) / 2
 
-    if(M == 2)
+    if(infos.M == 2)
       ber /= 2;
     return ber;
     //if(opt=='i')
@@ -641,13 +642,13 @@ struct WaveformPSK: FormeOnde
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((int) index < M);
+    tsd_assert((int) index < infos.M);
     return symbs(index);
   }
 };
 
 
-struct Waveform_π4QPSK: FormeOnde
+struct FormeOnde_π4QPSK: FormeOnde
 {
   ArrayXcf symbs[2];
 
@@ -668,11 +669,11 @@ struct Waveform_π4QPSK: FormeOnde
 
   struct Ctxπ4QPSK: FormeOnde::Ctx
   {
-    const Waveform_π4QPSK *parent;
+    const FormeOnde_π4QPSK *parent;
     int cnt = 0;
     const cfloat rot = std::polar(1.0f, -π_f/4);
 
-    Ctxπ4QPSK(const Waveform_π4QPSK *parent)
+    Ctxπ4QPSK(const FormeOnde_π4QPSK *parent)
     {
       this->parent = parent;
     }
@@ -698,13 +699,13 @@ struct Waveform_π4QPSK: FormeOnde
   }
 
 
-  Waveform_π4QPSK(const SpecFiltreMiseEnForme &filtre)
+  FormeOnde_π4QPSK(const SpecFiltreMiseEnForme &filtre)
   {
     this->filtre = filtre;
-    est_lineaire = true;
-    this->M = 4;
-    est_psk = true;
-    k = 2;
+    infos.est_lineaire = true;
+    infos.M = 4;
+    infos.est_psk = true;
+    infos.k = 2;
     symbs[0] = psk_constellation(4);
     symbs[1] = symbs[0] * std::polar(1.0f, π_f / 4);
   }
@@ -718,45 +719,45 @@ struct Waveform_π4QPSK: FormeOnde
   {
     // Ber idem QPSK
     float EbN0_lin = db2pow(EbN0);
-    return erfc(std::sqrt(k*EbN0_lin)*sin(π/M))/k;
+    return erfc(std::sqrt(infos.k*EbN0_lin)*sin(π/infos.M))/infos.k;
   }
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((int) index < M);
+    tsd_assert((int) index < infos.M);
     return symbs[cnt & 1](index);
   }
 };
 
 
-struct WaveformQAM: FormeOnde
+struct FormeOndeQAM: FormeOnde
 {
   ArrayXcf symbs;
 
   std::string desc_courte() const
   {
-    return fmt::format("QAM{}", M);
+    return fmt::format("QAM{}", infos.M);
   }
 
   std::string desc() const
   {
-    return fmt::format("QAM{}, {}", M, filtre);
+    return fmt::format("QAM{}, {}", infos.M, filtre);
   }
 
-  WaveformQAM(unsigned int M, const SpecFiltreMiseEnForme &filtre)
+  FormeOndeQAM(unsigned int M, const SpecFiltreMiseEnForme &filtre)
   {
     this->filtre = filtre;
-    est_lineaire = true;
-    this->M = M;
-    est_qam = true;
-    k = std::log2(M);
+    infos.est_lineaire = true;
+    infos.M = M;
+    infos.est_qam = true;
+    infos.k = std::log2(M);
     //nom = fmt::format("QAM{}", M);
 
     auto M2 = (unsigned int) std::sqrt(M);
 
     if(M2 * M2 != M)
     {
-      msg_erreur("Waveform QAM : M devrait être un carré (M = {}).", M);
+      msg_erreur("FormeOnde QAM : M devrait être un carré (M = {}).", M);
       return;
     }
 
@@ -796,14 +797,14 @@ struct WaveformQAM: FormeOnde
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((int) index < M);
+    tsd_assert((int) index < infos.M);
     return symbs(index);
   }
   float ber(float EbN0)
   {
     float ebnoD = std::pow(10.0f, EbN0/10);
     // eq 5.2.79 from proakis
-    return (2.0f/k)*(1-(1/sqrt(M)))*erfc(sqrt(3.0f*k*ebnoD/(2.0f*(M-1))));
+    return (2.0f/infos.k)*(1-(1/sqrt(infos.M)))*erfc(sqrt(3.0f*infos.k*ebnoD/(2.0f*(infos.M-1))));
     //return (1-carre(1-tmp))/k;
   }
 };
@@ -813,14 +814,14 @@ struct WaveformQAM: FormeOnde
 
 
 
-struct WaveformFSK: FormeOnde
+struct FormeOndeFSK: FormeOnde
 {
   ArrayXf symbs;
 
   struct CtxFSK: FormeOnde::Ctx
   {
     int OSF; // Comment le configurer ?
-    const WaveformFSK *fo;
+    const FormeOndeFSK *fo;
 
     // Etat de phase initial du symbole en cours
     cfloat etat_phase = 0;
@@ -833,20 +834,20 @@ struct WaveformFSK: FormeOnde
     ArrayXf   err;
     ArrayXcf  cands;
 
-    CtxFSK(const WaveformFSK *fo, int OSF)
+    CtxFSK(const FormeOndeFSK *fo, int OSF)
     {
       this->OSF = OSF;
       this->fo = fo;
 
-      int M = fo->M;
+      int M = fo->infos.M;
 
       symbs.resize(M);
       if(M != 2)
         echec("TODO: CtxFSK : M != 2");
 
       // Si index = 2, il faut un OSF > 1
-      symbs(0) = std::polar(1.0, - 2 * π * fo->index / (2 * OSF));
-      symbs(1) = std::polar(1.0, + 2 * π * fo->index / (2 * OSF));
+      symbs(0) = std::polar(1.0, - 2 * π * fo->infos.index / (2 * OSF));
+      symbs(1) = std::polar(1.0, + 2 * π * fo->infos.index / (2 * OSF));
 
       err.resize(M);
       cands.resize(M);
@@ -864,7 +865,7 @@ struct WaveformFSK: FormeOnde
     std::tuple<int, cfloat> step(cfloat x)
     {
       // Pour chaque symbole, on fait M hypothèses
-      for(auto i = 0; i < (int) fo->M; i++)
+      for(auto i = 0; i < (int) fo->infos.M; i++)
       {
         cands(i) = (cands(i) * symbs(i)) / std::abs(cands(i));
         err(i)   += std::norm(cands(i) - x); // std::norm ABS2
@@ -914,30 +915,30 @@ struct WaveformFSK: FormeOnde
   {
     std::string nom = format("{}{}SK",
         filtre.type == SpecFiltreMiseEnForme::Type::GAUSSIEN ? "G" : "",
-        index == 0.5 ? "M" : "F");
-    if(M != 2)
-      nom = fmt::format("{}{}", M, nom);
+            infos.index == 0.5 ? "M" : "F");
+    if(infos.M != 2)
+      nom = fmt::format("{}{}", infos.M, nom);
     return nom;
   }
 
   std::string desc() const
   {
-    return desc_courte() + fmt::format(", index={}", index);
+    return desc_courte() + fmt::format(", index={}", infos.index);
   }
 
   float excursion() const
   {
-    return index;
+    return infos.index;
   }
 
-  WaveformFSK(unsigned int M, float index, const SpecFiltreMiseEnForme &filtre)
+  FormeOndeFSK(unsigned int M, float index, const SpecFiltreMiseEnForme &filtre)
   {
-    est_lineaire = false;
-    this->M = M;
-    this->index = index;
+    infos.est_lineaire = false;
+    infos.M = M;
+    infos.index = index;
     this->filtre = filtre;
-    est_fsk = true;
-    k = std::log2(M);
+    infos.est_fsk = true;
+    infos.k = std::log2(M);
 
     //if(filt == 'g')
 //      filtre = SpecFiltreMiseEnForme::gaussien(BT, 31);
@@ -985,14 +986,14 @@ struct WaveformFSK: FormeOnde
   cfloat lis_symbole(unsigned int index) const
   {
     //return 0.0f;
-    tsd_assert((int) index < M);
+    tsd_assert((int) index < infos.M);
     return symbs(index);
   }
   float etat_phase = 0;
   cfloat lis_symbole(int index) const
   {
     //return 0.0f;
-    tsd_assert(index < M);
+    tsd_assert(index < infos.M);
     return symbs(index);
   }
 };
@@ -1006,23 +1007,23 @@ struct WaveformFSK: FormeOnde
 
 sptr<FormeOnde> forme_onde_fsk(unsigned int M, float index, const SpecFiltreMiseEnForme &filtre)
 {
-  return std::make_shared<WaveformFSK>(M, index, filtre);
+  return std::make_shared<FormeOndeFSK>(M, index, filtre);
 }
 
 
 sptr<FormeOnde> forme_onde_psk(unsigned int M, const SpecFiltreMiseEnForme &filtre)
 {
-  return std::make_shared<WaveformPSK>(M, filtre);
+  return std::make_shared<FormeOndePSK>(M, filtre);
 }
 
 sptr<FormeOnde> forme_onde_ask(int M, float M1, float M2, const SpecFiltreMiseEnForme &filtre)
 {
-  return std::make_shared<WaveformASK>(M, M1, M2, filtre);
+  return std::make_shared<FormeOndeASK>(M, M1, M2, filtre);
 }
 
 sptr<FormeOnde> forme_onde_qam(unsigned int M, const SpecFiltreMiseEnForme &filtre)
 {
-  return std::make_shared<WaveformQAM>(M, filtre);
+  return std::make_shared<FormeOndeQAM>(M, filtre);
 }
 
 sptr<FormeOnde> forme_onde_bpsk(const SpecFiltreMiseEnForme &filtre)
@@ -1041,7 +1042,7 @@ sptr<FormeOnde> forme_onde_qpsk(const SpecFiltreMiseEnForme &filtre)
 
 sptr<FormeOnde> forme_onde_π4_qpsk(const SpecFiltreMiseEnForme &filtre)
 {
-  return std::make_shared<Waveform_π4QPSK>(filtre);
+  return std::make_shared<FormeOnde_π4QPSK>(filtre);
 }
 
 
