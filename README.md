@@ -6,15 +6,12 @@ English documentation : https://tsdconseil.github.io/libtsd/en
 
 Documentation en français : https://tsdconseil.github.io/libtsd/fr
 
-<div class="panel panel-warning">
-**Warning**
-{: .panel-heading}
-<div class="panel-body">
+---
+***WARNING***
 
-WARNING DESCRIPTION
+sdfsdf
+---
 
-</div>
-</div>
 
 # License
 Libtsd is available under two distinct licensing options:
