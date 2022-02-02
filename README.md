@@ -1,10 +1,11 @@
 # libtsd
 C++ digital signal processing library
 
+# Resources
 
-English documentation : https://tsdconseil.github.io/libtsd/en
-
-Documentation en français : https://tsdconseil.github.io/libtsd/fr
+ - English documentation : https://tsdconseil.github.io/libtsd/en
+ - Documentation en français : https://tsdconseil.github.io/libtsd/fr
+ - Graphical demonstrator : lien à faire
 
 ---
 **Warning**
