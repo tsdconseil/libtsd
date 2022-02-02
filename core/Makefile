@@ -18,7 +18,7 @@ SOURCES += modulations
 SOURCES += etalement-spectre canalisation transpo-bb simulation
 SOURCES += image-bmp cmaps unites recepteur temps geometrie
 
-SOURCES_TEST += test-geometrie test-temps test-kalman test-telecom test-stats test-poly test-image 
+SOURCES_TEST += test-dsp test-geometrie test-temps test-kalman test-telecom test-stats test-poly test-image 
 SOURCES_TEST += test-cqt test-tod test-ra test-fenetres test-fourier test-filtres test-crec test-tsd 
 SOURCES_TEST += test-filtre-fft test-detecteur test-wav test-itrp test-filtrage-analyse
 

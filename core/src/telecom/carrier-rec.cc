@@ -440,7 +440,7 @@ std::tuple<float,float> localise_pic_frequence(const ArrayXcf &x)
 int SuiviPicFrequence::configure(unsigned int N)
 {
   this->N = N;
-  fft_plan = tsd::fourier::creation_fft_plan(N);
+  fft_plan = tsd::fourier::fftplan_création(N);
   return 0;
 }
 

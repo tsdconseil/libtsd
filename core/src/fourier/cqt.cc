@@ -309,7 +309,7 @@ struct CQT::Impl
   int abs_position = 0, nb_data_attendu = 0;
   ArrayXi kposition, kaposition;
   ArrayXf cirbuffer;
-  sptr<tsd::fourier::FFTPlanAbstrait> plan_fft;
+  sptr<tsd::fourier::FFTPlan> plan_fft;
 
   struct Sortie
   {
@@ -331,7 +331,7 @@ struct CQT::Impl
     kaposition  =  ArrayXi::Zero(cqtk.nfreqs);
     cirbuffer   = ArrayXf::Zero(cqtk.N);
 
-    plan_fft = creation_fft_plan(cqtk.N, true);
+    plan_fft = fftplan_création(cqtk.N, true);
   }
 
   void step(const ArrayXf &x)

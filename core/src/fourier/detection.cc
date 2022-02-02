@@ -107,7 +107,7 @@ struct DetecteurImpl: Detecteur
   ArrayXcf motif;
 
   bool pic_final_a_traiter = false;
-  DetecteurConfig::Detection pic_final;
+  Detection pic_final;
   int dernier_n;
 
   MoniteursStats moniteurs()
@@ -333,7 +333,7 @@ struct DetecteurImpl: Detecteur
       tsd_assert(idx >= -1);
 
       //infos("Detection motif ok, score = %.2f, seuil = %.2f (energie = %f, row = %d).", score_max, config.seuil, en(maxRow), maxRow);
-      DetecteurConfig::Detection det;
+      Detection det;
 
       // Position fractionnaire
       float δ = 0;
@@ -521,7 +521,7 @@ struct DetecteurImpl: Detecteur
 };
 
 
-ostream &operator <<(ostream &os, const DetecteurConfig::Detection &det)
+ostream &operator <<(ostream &os, const Detection &det)
 {
   os << fmt::format("Détection : score={:.3f}, pos={} ({:.3f}), gain={:.5e}, θ={:.1f}°, σ={:.2e}, SNR={:.1f} dB.",
       det.score, det.position, det.position_prec, det.gain, rad2deg(det.θ), det.σ_noise, det.SNR_dB);

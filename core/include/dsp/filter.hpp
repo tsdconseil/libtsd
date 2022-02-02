@@ -75,7 +75,7 @@ namespace dsp::filter {
    *  @sa window_kaiser(), window_chebychev()
    *
    *  @par Example: creation of a Von Hann window (also called Hanning)
-   *  @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_fenetre
+   *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
    *  @image html filtrage-fenetre.png width=600px
    */
   inline ArrayXf window(const std::string &type, int n, bool symetrical = true)
@@ -98,7 +98,7 @@ namespace dsp::filter {
    *  otherwise realization of a periodical window (which is better for spectral analysis applications).
    *  @return Column vector with the window coefficients (dimension of vector is @p n)
    *  @par Example: creation of a window with 60 dB of attenuation
-   *  @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_fenetre_cheby
+   *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre_cheby
    *  @image html filtrage-fenetre-cheby.png width=600px
    *
    *  @sa design_rif_fen()
@@ -177,7 +177,7 @@ namespace dsp::filter {
    *  @sa fenetre_kaiser1(), kaiser_param()
    *
    *  @par Example: creation of a window with 60 dB of attenuation
-   *  @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_fenetre_kaiser
+   *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre_kaiser
    *  @image html filtrage-fenetre-kaiser.png width=600px
    *   */
   inline ArrayXf window_kaiser(float atten_db, float df, bool symetrical = true)
@@ -227,7 +227,7 @@ namespace dsp::filter {
  *  @return A tuple of 2 vectors: the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the magnitudes @f$y_k@f$.
  *
  *  @par Example
- *  @snippet exemples/src/ex-filtrage-en.cc ex_frmag_en
+ *  @snippet exemples/src/filtrage/ex-filtrage-en.cc ex_frmag_en
  *  @image html frmag.png width=600px
  *
  *  @sa repfreq(), frgroup(), frphase()
@@ -259,10 +259,7 @@ template<typename T>
   return tsdf::repfreq(fr, fr);
 }
 
-inline ArrayXcf repfreq(const ArrayXf &h, const ArrayXf &fr)
-{
-  return tsdf::repfreq(h, fr);
-}
+
 
 
 /** @brief Impulse response. */
@@ -283,7 +280,7 @@ template<typename T>
  *
  *  @param h Transfert function to be analyzed.
  *  @param npts Frequency resolution.
- *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the phases @f$y_k@f (in radians)$.
+ *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the phases @f$y_k@f$ (in radians).
  */
 template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const FRat<T> &h, unsigned int npts = 1024)
 {
@@ -304,7 +301,7 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const FRat<T> &h, unsi
  *  et and the group delay (expressed in number of samples).
  *
  *  @par Example
- *  @snippet exemples/src/ex-filtrage.cc ex_frgroup
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_frgroup
  *  @image html frgroup.png width=600px
  *
  */
@@ -329,7 +326,7 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, unsi
  *  @return       The new figure.
  *
  * @par Example
- * @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_analyse
+ * @snippet exemples/src/filtrage/ex-filtrage.cc exemple_analyse
  * @image html filtrage-analyse.png width=1000px
  *
  * @sa filter_display()
@@ -360,7 +357,7 @@ template<typename T>
 template<typename T>
   tsd::vue::Figures filter_display(const FRat<T> &h, float fs = 1.0f)
 {
-  return tsdf::affiche_filtre(h, fe);
+  return tsdf::affiche_filtre(h, fs);
 }
 
 
@@ -428,7 +425,7 @@ inline dsp::view::Figures filter_display(const ArrayXf &h, float fe = 1.0f)
  *
  *
  *  @par Example
- *  @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_plz
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_plz
  *  @image html filtrage-plz.png width=600px
  *  */
 template<typename T>
@@ -461,9 +458,9 @@ template<typename T>
  *
  *  @sa frmag(), frphase()
  */
-inline std::tuple<ArrayXf, ArrayXf> firamp(const Eigen::ArrayXf &h, int L = 1024, bool symetrique = true)
+inline std::tuple<ArrayXf, ArrayXf> firamp(const Eigen::ArrayXf &h, int L = 1024, bool symetrical = true)
 {
-  return tsdf::rifamp(h, L, symetrique);
+  return tsdf::rifamp(h, L, symetrical);
 }
 
 
@@ -516,7 +513,7 @@ struct SpecFreqIntervalle
  *  @returns FIR filter coefficients
  *
  *  @par Example
- *  @snippet exemples/src/ex-filtrage.cc ex_design_rif_hilbert
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_hilbert
  *  @image html design-rif-hilbert.png width=600px
  *
  *  @sa hilbert(), hilbert_transformeur()
@@ -643,7 +640,7 @@ extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogi
  * @return h          Transfert function (digital)
  *
  * @par Example
- * @snippet exemples/src/ex-filtrage.cc ex_design_riia
+ * @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_riia
  * @image html design-riia.png width=800px
  *
  * @sa trf_bilineaire(), @ref filtre_sois(), filtre_rii()
@@ -838,7 +835,7 @@ inline ArrayXf design_fir_wnd_chebychev(int n, const std::string &type,
  *  @param fc Normalized cut-off frequency.
  *
  *  @par Example
- *  @snippet exemples/src/ex-filtrage.cc ex_design_rif_cs
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_cs
  *  @image html design-rif-cs.png width=800px
  *
  *  @sa design_fir_srrc() */
@@ -856,7 +853,7 @@ inline ArrayXf design_fir_rc(int n, float β, float fc)
  *  @param fc Normalized cut-off frequency.
  *
  *  @par Example
- *  @snippet exemples/src/ex-filtrage.cc ex_design_rif_rcs
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_rcs
  *  @image html design-rif-rcs.png width=800px
  *
  *  @sa design_fir_rc(), design_fir_srrc1()
@@ -962,7 +959,9 @@ inline ArrayXf design_fir_prod(const ArrayXf &h1, const ArrayXf &h2)
 }
 
 
-using tsdf::CICConfig;
+// TODO : doc en
+/** @brief CIC filter configuration */
+using CICConfig = tsdf::CICConfig;
 
 
 
@@ -1025,7 +1024,7 @@ using tsdf::CICComp;
  *     Global response of CIC + compensation filters (spectrum) */
 inline CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float fc, int ncoefs)
 {
-  return design_cic_comp(config, Fin, R2, fc, ncoefs);
+  return tsdf::design_cic_comp(config, Fin, R2, fc, ncoefs);
 }
 
 
@@ -1079,7 +1078,7 @@ inline FRat<float> design_dc_blocker(float fc)
  *  @return Digital transfert function.
  *
  *  @par Example
- *  @snippet exemples/src/ex-filtrage.cc ex_design_rii1
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rii1
  *  @image html design-rii1.png width=1000px
  *
  *  @sa iir1_coef()
@@ -1275,7 +1274,7 @@ inline float fa2fd(float fa)
  *  @param n Integer delay (@f$n \geq 0@f$)
  *
  *  @par Example
- *  @snippet exemples-tsd-pub/src/ex-filtrage.cc exemple_ligne_a_retard
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_ligne_a_retard
  *  @image html filtrage-ligne-a-retard.png width=800px
  *  */
 template<typename T>
@@ -1343,7 +1342,7 @@ template<typename Tc, typename T = Tc>
 template<typename T>
   sptr<FiltreGen<T>> filter_id()
 {
-  return tsdf::filtre_id();
+  return tsdf::filtre_id<T>();
 }
 
 /** @brief Decimation by a factor 1:R
@@ -1355,7 +1354,7 @@ template<typename T>
 template<typename T>
   sptr<FiltreGen<T>> decimator(int R)
 {
-  return tsdf::decimateur(R);
+  return tsdf::decimateur<T>(R);
 }
 
 
@@ -1380,7 +1379,7 @@ template<typename T>
 template<typename T>
   sptr<FiltreGen<T>> filter_fir_fft(const ArrayXf &h)
 {
-  return tsdf::filtre_rif_fft(h);
+  return tsdf::filtre_rif_fft<T>(h);
 }
 
 
@@ -1412,7 +1411,7 @@ template<typename T>
 template<typename Tc, typename T = Tc>
   sptr<FiltreGen<T>> filter_iir(const FRat<Tc> &h)
 {
-  return tsdf::filtre_rii(h);
+  return tsdf::filtre_rii<Tc, T>(h);
 }
 
 
@@ -1444,7 +1443,7 @@ template<typename Tc, typename T = Tc>
 template<typename T, typename Ti>
   sptr<FiltreGen<T>> filter_cic(const CICConfig &config, char mode = 'd')
 {
-  return tsdf::filtre_cic(config, mode);
+  return tsdf::filtre_cic<T,Ti>(config, mode);
 }
 
 using tsdf::CICAnalyse;
@@ -1604,7 +1603,7 @@ template<typename T>
  *  @param fc Normalized cut-off frequency (0 - 0.5)
  *
  * @par Example
- *  @snippet exemples/src/ex-filtrage.cc exemple_filtre_dc
+ *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_filtre_dc
  *  @image html bloqueur-dc-ex.png width=1000px
  *
  * @par bibliography
@@ -1861,9 +1860,9 @@ template<typename Tc, typename T = Tc>
 
 /** @brief To be documented : FIR filter optimized for half-band filtering. */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filter_fir_half_band(const Eigen::Ref<const Vecteur<Tc>> c)
+  sptr<FiltreGen<T>> filter_fir_half_band(const Eigen::Ref<const Vector<Tc>> c)
 {
-  return tsdf::filtre_rif_demi_bande(c);
+  return tsdf::filtre_rif_demi_bande<Tc,T>(c);
 }
 
 

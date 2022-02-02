@@ -364,8 +364,7 @@ namespace tsd::fourier
   struct RFFTPlan: FiltreGen<T, std::complex<T>>
   {
     int n;
-    //sptr<Filtre<cfloat>> cplan;
-    sptr<FFTPlanAbstrait> cplan;
+    sptr<FFTPlan> cplan;
 
     ArrayXcf twiddles;
 
@@ -379,13 +378,13 @@ namespace tsd::fourier
 
       if((n & 1) == 0)
       {
-        cplan     = creation_fft_plan(n/2);
+        cplan     = fftplan_création(n/2);
         twiddles  = fft_twiddles<T>(n);
       }
       else
       {
         // Si n est impair, on fait juste bêtement une FFT.
-        cplan = creation_fft_plan(n);
+        cplan = fftplan_création(n);
       }
 
       return 0;
@@ -440,16 +439,16 @@ namespace tsd::fourier
 
 
 
-  struct FFTPlan: FiltreGen<cfloat>, FFTPlanAbstrait
+  struct FFTPlanDefaut: FiltreGen<cfloat>, FFTPlan
   {
     bool normalize = true;
     bool avant = true;
     int n = 0, n2 = 0;
     ArrayXcf scratch, twiddles, chirp;
 
-    sptr<FFTPlan> sousplan;
+    sptr<FFTPlanDefaut> sousplan;
 
-    FFTPlan(int n = -1, bool avant = true, bool normalize = true)
+    FFTPlanDefaut(int n = -1, bool avant = true, bool normalize = true)
     {
       configure(n, avant, normalize);
     }
@@ -470,7 +469,7 @@ namespace tsd::fourier
         // n est pair
         if((n & 1) == 0)
         {
-          sousplan = std::make_shared<FFTPlan>(n / 2, avant, normalize);
+          sousplan = std::make_shared<FFTPlanDefaut>(n / 2, avant, normalize);
         }
         else
         {
@@ -556,20 +555,20 @@ namespace tsd::fourier
 
   };
 
-  std::function<sptr<FFTPlanAbstrait>()> fftplan_defaut = []()
+  std::function<sptr<FFTPlan>()> fftplan_defaut = []()
   {
-      return std::make_shared<FFTPlan>();
+      return std::make_shared<FFTPlanDefaut>();
   };
 
 
-  sptr<FFTPlanAbstrait> creation_fft_plan(int n, bool avant, bool normalize)
+  sptr<FFTPlan> fftplan_création(int n, bool avant, bool normalize)
   {
     auto res = fftplan_defaut();
     res->configure(n, avant, normalize);
     return res;
   }
 
-  sptr<FiltreGen<float, cfloat>> creation_rfft_plan(int n)
+  sptr<FiltreGen<float, cfloat>> rfftplan_création(int n)
   {
     return std::make_shared<RFFTPlan<float>>(n);
   }
@@ -593,7 +592,7 @@ namespace tsd::fourier
 
   struct FFTCorrelateurBloc
   {
-    FFTPlan plan;
+    FFTPlanDefaut plan;
 
     /** @note Should pad x0 and x1 with K zeros if K first lags are examined
      *  (e.g. n zeroes if all lags are used).
@@ -835,7 +834,8 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
 {
   ArrayXcf padded, X, last, x2;
   ArrayXcf svg;
-  FFTPlan plan;
+  // TODO !
+  FFTPlanDefaut plan;
   ArrayXf fenêtre;
 
   /** Nb ech. TFD */
@@ -1293,7 +1293,7 @@ int SpectrumConfig::Ns() const
 
 struct Spectrum: Filtre<cfloat,float,SpectrumConfig>
 {
-  sptr<FFTPlanAbstrait> plan;
+  sptr<FFTPlan> plan;
   // Fenêtre
   ArrayXf f;
   ArrayXf mag_moy, mag_cnt;

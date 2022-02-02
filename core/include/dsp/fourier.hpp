@@ -2,159 +2,162 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
+#include "dsp/dsp.hpp"
+#include "dsp/filter.hpp"
 #include "tsd/moniteur-cpu.hpp"
+#include "tsd/fourier.hpp"
 
 
-/** @brief Transformées classiques : TFR, TQC, ...  */
-namespace tsd::fourier
+/** @brief Signal transformations: FFT, CQT, ... */
+namespace dsp::fourier
 {
+  namespace tsdF = tsd::fourier;
+
 
 /** @addtogroup fourier
  *  @{
  */
 
-  /** @brief Classe abstraite pour un algorithme de calcul de FFT. */
-  struct FFTPlan
-  {
-    /** @brief Configuration
-     *  @param n          Nombre de points
-     *  @param avant      Si faux, FFT inverse
-     *  @param normalize  Si vrai, facteur de normalisation @f$1/\sqrt{N}@f$
-     */
-    virtual int configure(int n, bool avant, bool normalize = true) = 0;
+  /** @brief Abstract class for a FFT computing algorithm. */
+  using tsdF::FFTPlan;
 
-    /** @brief Calcul de la FFT */
-    virtual void step(const Eigen::Ref<const ArrayXcf> x, ArrayXcf &y, bool avant = true) = 0;
-  };
+  using tsdF::fftplan_defaut;
 
   /** @cond undoc */
-  extern std::function<sptr<FFTPlan>()> fftplan_defaut;
+  //extern std::function<sptr<FFTPlan>()> fftplan_defaut;
   /** @endcond */
 
-/** @brief Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT).
+/** @brief Creation of a FFT computing plan (to compute efficiently several FFT).
  *
- * <h3>Création d'un plan de calcul FFT</h3>
+ * <h3>Creation of a FFT computing plan</h3>
  *
- * Cette fonction permet de créer un bloc qui sera efficace pour calculer
- * plusieurs FFT de même dimension (les facteurs de rotation sont calculés une seule fois).
+ * This function will create a structure which will be efficient to compute sereral FFT
+ * with the same data length (the twiddle factors are only computed once).
  *
- * @param n           Dimension des vecteurs (paramètre optionnel)
- * @param avant       Si vrai, transformée directe, sinon transformée inverse.
- * @param normaliser  Si vrai, alors la transformée inclut un facteur de normalisation en @f$1/\sqrt{N}@f$ de manière à préserver l'énergie.
- * @return            Un pointeur vers une structure abstraite de type @ref FFTPlan.
+ * @param n           Vector length (optional parameter)
+ * @param forward     If true, direct transform, otherwise inverse transform.
+ * @param normalize   If true, then the transform includes a normalization factor of @f$1/\sqrt{N}@f$ so as to have the same total energy for the input and output samples.
+ * @return            A poin @ref Filtre cfloat vers cfloat.
  *
- * Le paramètre n n'a pas besoin d'être précisé, et la dimension des vecteurs peut changer en cours de route, si c'est le cas, les facteurs de rotations sont automatiquement réévalués.
+ * Note that the parameters n and forward can be left unspecified, or even changed later while calling the FFT plan.
  *
- * @note Si les échantillons d'entrée sont réels,
- * alors un plan plus efficace existe : @ref rfftplan_création().
+ * @note If the input samples are real,
+ * then a more efficient plan is possible: @ref rfftplan_new().
  *
- * @par Exemple
+ * @par Example
  * @code
- * int N = 1024; // Dimension des blocs
- * auto plan = fftplan_création();
+ * int N = 1024; // Bloc length
+ * auto plan = fftplan_new();
  * for(i = 0; i < n; i++)
  * {
  *    ArrayXcf x = ArrayXcf::Random(N);
- *    // X est la FFT de x
+ *    // X is the FFT of x
  *    ArrayXcf X = plan->step(x);
- *    // (équivalent à X = fft(x), mais plus efficace)
+ *    // (equivalent to X = fft(x), but more efficient)
  * }
  *
  * @endcode
  *
- * @sa rfftplan_création(), fft(), ifft()
+ * @sa rfftplan_new(), fft(), ifft()
  **/
-  extern sptr<FFTPlan> fftplan_création(int n = -1, bool avant = true, bool normaliser = true);
+inline sptr<FFTPlan> fftplan_new(int n = -1, bool forward = true, bool normalize = true)
+{
+  return tsdF::fftplan_création(n, forward, normalize);
+}
 
-/** @brief Création d'un plan de calcul FFT pour des signaux réels (pour calculer efficacement plusieurs FFT).
+/** @brief Creation of a FFT computing plan for real signals (to compute efficiently several FFT).
  *
- * <h3>Création d'un plan de calcul FFT (signaux réels)</h3>
+ * <h3>Creation of a FFT computing plan (real signals)</h3>
  *
- * Cette fonction vous permet de créer un filtre qui sera efficace pour calculer
- * plusieurs FFT <b>sur des vecteurs réels</b> de même dimension (les facteurs de rotation sont calculés une seule fois).
+ * This function will create a structure which will be efficient to compute sereral FFT
+ * <b>on real signals</b> with the same data length (the twiddle factors are only computed once).
  *
- * @param n       Dimension des vecteurs (paramètre optionnel)
- * @return Un @ref %Filtre float vers @ref cfloat.
+ * @param n       Vector length (optional parameter)
+ * @return        A filter block (float to @ref cfloat).
  *
- * Le paramètre n n'a pas besoin d'être précisé, et la dimension des vecteurs peut changer en cours de route, si c'est le cas, les facteurs de rotations sont automatiquement réévalués.
+ * Note that the parameters n and forward can be left unspecified, or even changed later while calling the FFT plan.
  *
  *
- * @par Exemple
+ * @par Example
  * @code
- * int N = 1024; // Dimension des blocs
- * auto plan = rfftplan_création();
+ * int N = 1024; // Bloc length
+ * auto plan = rfftplan_new();
  * for(i = 0; i < n; i++)
  * {
- *    // Le signal d'entrée doit être réel
+ *    // Input signal must be real
  *    ArrayXf x = ArrayXf::Random(N);
- *    // X est la FFT de x
+ *    // X is the FFT of x
  *    ArrayXcf X = plan->step(x);
- *    // (équivalent à X = rfft(x), ou X = fft(x), mais plus efficace)
+ *    // (equivalent to X = fft(x) or X = rfft(x), but more efficient)
  * }
  *
  * @endcode
  *
- * @sa fftplan_création(), fft(), ifft()
+ * @sa fftplan_new(), fft(), ifft()
  */
-extern sptr<FiltreGen<float, cfloat>> rfftplan_création(int n);
+inline sptr<FiltreGen<float, cfloat>> rfftplan_new(int n)
+{
+  return tsdF::rfftplan_création(n);
+}
 
 
-/** @brief FFT d'un vecteur réel.
+/** @brief FFT of a real vector.
  *
- *  <h3>FFT d'un vecteur réel</h3>
+ *  <h3>FFT of a real vector</h3>
  *
- *  Cette fonction calcule de manière efficace la FFT d'un vecteur réel <b>de dimension paire</b>
- *  (si le vecteur fourni comporte un nombre impair d'éléments, la routine standard de la FFT est appelée).
+ *  This function computes efficiently the FFT of a real vector <b>with even number of samples</b>
+ *  (if the provided vector has an odd number of elements, then the standard fft routine is called).
  *
- *  @note La fonction @ref fft() utilise automatiquement cette routine
- *  si le signal d'entrée est de type réel.
+ *  @note The @ref fft() function will use automatically this function if the input vector is real.
  */
 template<typename derived>
 ArrayXcf rfft(const Eigen::ArrayBase<derived> &x)
 {
-  static_assert(!est_complexe<typename derived::Scalar>(), "RFFT : le vecteur d'entrée ne peut pas être complexe.");
-  auto plan = tsd::fourier::rfftplan_création(x.rows());
-  return plan->step(x);
+  return tsdF::rfft(x);
 }
 
-/** @brief Ré-échantillonage zéro phase à partir de la TFD.
+/** @brief DFT based zero-phase resampling.
  *
- * <h3>Ré-échantillonage zéro phase à partir de la TFD</h3>
+ * <h3>DFT based zero-phase resampling</h3>
  *
- * Cette fonction change la fréquence d'échantillonnage d'un signal, sans délais, grâce à un calcul dans le domaine fréquentiel.
+ * This function will resample a signal, without introducing any delay,
+ * by working in the frequency domain.
  *
- * @param x     Vecteur d'entrée.
- * @param ratio Rapport entre la fréquence d'échantillonnage de sortie et celle d'entrée
- * (un ratio supérieur à 1 indique une interpolation, tandis que dans le cas contraire, on a affaire à une décimation).
+ * @param x     Input vector.
+ * @param ratio Desired ratio between output and input sample rates.
+ * (a ratio greater than 1 can be used for interpolation,
+ * and a ratio less than 1 for a decimation).
  *
- * @warning Notez que, du fait des hypothèses sous-jacentes à la TFD, des artefacts peuvent apparaitrent au bord du signal.
- * Pour atténuer ce phénomène, vous pouvez pré-appliquer une fenêtre ou bien insérer des zéros avant et après le signal
- * (ce ne sont cependendant pas des solutions parfaites).
+ * @warning Note that, because of some assumptions implicit with the DFT,
+ * some artefacts may be created at the signal borders.
+ * To mitigate this phenomena, one can pre-apply a window, or insert zeroes before and after the actual samples,
+ * but these are not perfect solutions.
  *
- * @par Exemple illustrant les artefacts aux bords du signal
+ * @par Example showing the spurius artefacts
  * @snippet exemples/src/fourier/ex-fourier.cc exemple_resample_freq
  * @image html fourier-resample.png width=1000px
  *
- * @sa reechan()
+ * @sa resample()
  */
 template<typename T>
-  Vecteur<T> reechan_freq(const Vecteur<T> &x, float ratio);
+  Vector<T> resample_freq(const Vector<T> &x, float ratio)
+{
+  return tsdF::reechan_freq(x, ratio);
+}
 
-/** @brief Transformée de Fourier Discrète (TFD) rapide
+/** @brief Fast discrete Fourier Transform (FFT).
  *
- *  <h3>Transformée de Fourier Discrète (TFD) rapide</h3>
+ *  <h3>Fast discrete Fourier Transform (FFT)</h3>
  *
- *  Cette fonction calcule la TFD <b>normalisée</b> d'un vecteur réel ou complexe :
+ *  This function will compute the <b>normalized</b> DFT of a real or complex vector:
  *  @f[
  *    X_n = \frac{1}{\sqrt{N}}\cdot\sum_{k=0}^{N-1} x_k \cdot e^{\frac{-2\pi\mathbf{i}kn}{N}}
  *  @f]
  *
- *  @param x  Vecteur d'entrée (domaine temporel)
- *  @returns X = TFD(x)
+ *  @param x    Input vector (time domain).
+ *  @returns    X = DFT(x)
  *
- *  @par Exemple
+ *  @par Example
  *  @code
  *  ArrayXf  x = randn(100);
  *  ArrayXcf X = fft(x);
@@ -165,31 +168,19 @@ template<typename T>
 template<typename derived>
 auto fft(const Eigen::ArrayBase<derived> &x)
 {
-  if constexpr(est_complexe<typename derived::Scalar>())
-  {
-    auto plan = tsd::fourier::fftplan_création(x.rows());
-    ArrayXcf x2 = x, y;
-    plan->step(x2, y, true);
-    return y;
-  }
-  else
-  {
-    return rfft(x);
-  }
+  return tsdF::fft(x);
 }
 
-
-
-
-/** @brief Transformée de Fourier Discrète Inverse
+/** @brief Inverse Fast discrete Fourier Transform
  *
- *  <h3>Transformée de Fourier Discrète Inverse</h3>
- *  Cette fonction calcule la TFD inverse <b>normalisée</b> d'un signal réel ou complexe :
+ *  <h3>Inverse Fast discrete Fourier Transform</h3>
+ *
+ *  This function will compute the <b>normalized</b> DFT inverse of a real or complex vector:
  *  @f[
  *    X_n = \frac{1}{\sqrt{N}}\cdot\sum_{k=0}^{N-1} x_k \cdot e^{\frac{+2\pi\mathbf{i}kn}{N}}
  *  @f]
  *
- *  @par Exemple
+ *  @par Example
  *  @code
  *  ArrayXcf x1 = ArrayXcf::Random(100);
  *  ArrayXcf X  = fft(x1);
@@ -204,137 +195,89 @@ auto fft(const Eigen::ArrayBase<derived> &x)
 template<typename derived>
 auto ifft(const Eigen::ArrayBase<derived> &X)
 {
-  auto plan = tsd::fourier::fftplan_création(X.rows(), false);
-  ArrayXcf X2 = X, Y;
-  plan->step(X2, Y, false);
-  return Y;
+  return tsdF::ifft(X);
 }
 
-/** @brief Décalage du spectre de manière à centrer les basses fréquences au milieu.
+/** @brief Spectrum shift so as to be centered on the low frequencies.
  *
- *  <h3>Décalage du spectre (centrage de basses fréquences)</h3>
+ *  <h3>Spectrum shift</h3>
  *
- *  Cette fonction décale le spectre passé en entrée de manière à centrer le 0 Hz au milieu.
- *  Plus précisémment, si le nombre d'échantillons @f$N@f$ est pair :
+ *  This function shift the input spectrum so as the 0 Hz bin is at the center.
+ *  If the number of samples is even:
  *  @f[
  *   X'_k = X_{k+N/2\ [N]}
  *  @f]
- *  Soit :
+ *  That is:
  *  @f[
  *   X' = \left[X_{N/2}, X_{N/2+1}, \dots, X_{N-1}, X_0, X_1, \dots, X_{N/2-1}\right]
  *  @f]
  *
- *  Et si @f$N@f$ est impair :
+ *  And if @f$N@f$ is odd:
  *  @f[
  *   X' = \left[X_{N/2+1}, X_{N/2+2}, \dots, X_{N-1}, X_0, X_1, \dots, X_{N/2}\right]
  *  @f]
  *
  *
- *  @param X spectre d'entrée, non centré (typiquement la sortie de la fonction @ref fft)
- *  @returns Spectre centré autour de 0 Hz.
+ *  @param X Input spectrum, uncentered (typicaly ouput of the @ref fft() function)
+ *  @returns 0 Hz centered spectrum.
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/fourier/ex-fourier.cc exemple_fftshift
  *  @image html fftshift.png width=800px
  *
  */
 template<typename derived>
-Vecteur<typename derived::Scalar> fftshift(const Eigen::ArrayBase<derived> &X)
+Vector<typename derived::Scalar> fftshift(const Eigen::ArrayBase<derived> &X)
 {
-  auto n = X.rows();
-  Vecteur<typename derived::Scalar> res = Vecteur<typename derived::Scalar>::Zero(n);
-  if((n & 1) == 0)
-  {
-    res.tail(n/2) = X.head(n/2);
-    res.head(n/2) = X.tail(n/2);
-  }
-  else
-  {
-    res.tail(1+n/2) = X.head(1+n/2);
-    res.head(n/2)   = X.tail(n/2);
-  }
-  return res;
+  return tsdF::fftshift(X);
 }
 
-/** @brief Modifie un vecteur de manière à ce qu'il soit conjugé symétrique.
+/** @brief Change a vector so as it has the conjugate symetry proporty.
  *
- *  <h3>Forçage de la symétrie conjugée</h3>
+ *  <h3>Forcing conjugate symetry</h3>
  *
- *  @param X Vecteur complexe (modifié par la fonction)
+ *  @param X Complex vector (input and output parameter)
  *
- *  Ecrase la deuxième partie du vecteur (qui correspond aux fréquences négatives),
- *  ainsi que la partie imaginaire du premier élément,
- *  et de l'élément médian si @f$n@f$ est pair.
- *  de manière à forcer la symétrie conjugée :
+ *  Over-write the second half of the vector (which contain negative frequency bins),
+ *  and also the imaginary part of the first element,
+ *  and, if @f$n@f$ is even, the middle element, so that the
+ *  resulting vector is conjugate symetrical:
  *  @f[
  *  X_{N-k} = X_k^\star
  *  @f]
  *
- *  @note La TFD inverse d'un tel signal sera forcément réelle.
+ *  @note The inverse DFT of such a signal will necessarily be real.
  */
 template<typename derived>
   void force_csym(Eigen::ArrayBase<derived> &X)
 {
-  // Rien à faire dans ce cas
-  if constexpr (!est_complexe<typename derived::Scalar>())
-    return;
-  else
-  {
-    int n = X.rows();
-    X(0).imag(0);
-
-    if((n & 1) == 0)
-      X(n/2).imag(0);
-    else
-      X(n/2+1) = conj(X(n/2));
-
-    X.tail(n/2-1) = X.segment(1,n/2-1).reverse().conjugate();
-  }
+  return tsdF::force_csym(X);
 }
 
-/** @cond undoc */
 
-  // A SUPPRIMER
 
-/** @brief Calcul de la cohérence entre deux vecteurs
- *
- *  <h3>Cohérence spectrale</h3>
- *
- *  Calcul de la cohérence spectrale entre deux vecteurs :
- *  @f[
- *  C_k = \frac{\left|X_k \cdot Y_k^\star\right|}{\left|X_k\right|\cdot \left|Y_k\right|} = \cos \left(\widehat{X_k, Y_k}\right)
- *  @f]
- *
- *  @f$X@f$ et @f$Y@f$ étant les TFD de @f$x@f$ et @f$y@f$.
- *
- *  Les @f$C_k@f$ sont donc compris entre -1 et 1, et indiquent à quel point les deux transformées de Fourier sont alignées.
- *
- *  @todo à tester et trouver une appli, un exemple */
-extern ArrayXf coherence(const ArrayXcf &x, const ArrayXcf &y);
-
-/** @endcond */
 
 /** @brief Structure de configuration pour un filtre FFT (voir @ref filtre_fft()). */
-struct FiltreFFTConfig
+struct FFTFilterConfig: tsdF::FiltreFFTConfig
 {
   /** @brief Nombre d'échantillons par bloc temporel (ou zéro si déterminé automatiquement) */
-  int dim_blocs_temporel = 0;
+  int &time_blocks_length = dim_blocs_temporel;
 
   /** @brief Nombre minimum de zéros insérés en début de bloc (<i>"zéro-padding"</i>) */
-  int nb_zeros_min = 0;
+  int &minimum_zeros_count = nb_zeros_min;
 
   /** @brief Si vrai, une fenêtre de Hann est utilisée, avec un recouvrement de 1/2
    *  pour un reconstruction parfaite. */
-  bool avec_fenetrage = false;
+  bool &enable_windowing = avec_fenetrage;
 
   /** @brief Callback appelée pour le traitement dans le domaine fréquentiel
    *  (à réaliser par l'utilisateur). */
-  std::function<void (ArrayXcf &)> traitement_freq;
+  std::function<void (ArrayXcf &)> &freq_domain_processing = traitement_freq;
 };
 
-/** @brief Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add).
+/** @brief Creation of frequency domain filter (OLA / OverLap-and-Add technique).
  *
- *  <h3>Création d'un filtre fréquentiel</h3>
+ *  <h3>Creation of frequency domain filter</h3>
  *
  *  Pour différentes raisons, il peut être plus intéressant de filtrer dans le domaine fréquentiel
  *  que temporel, par exemple pour alléger la charge de calcul
@@ -381,7 +324,11 @@ struct FiltreFFTConfig
  *
  *  @sa filtre_rif_fft(), filtre_rfft()
  */
-extern std::tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, int> filtre_fft(const FiltreFFTConfig &config);
+inline std::tuple<sptr<Filtre<cfloat, cfloat, tsdF::FiltreFFTConfig>>, int> filter_fft
+  (const FFTFilterConfig &config)
+{
+  return tsdF::filtre_fft(config);
+}
 
 
 
@@ -397,7 +344,10 @@ extern std::tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, int> filtre_fft
  *
  *  @sa ola_complexite_optimise()
  */
-extern void ola_complexite(int M, int Ne, float &C, int &Nf, int &Nz);
+inline void ola_complexity(int M, int Ne, float &C, int &Nf, int &Nz)
+{
+  return tsdF::ola_complexite(M, Ne, C, Nf, Nz);
+}
 
 /** @brief Calcul des paramètres optimaux pour un filtre par OLA.
  *
@@ -415,16 +365,11 @@ extern void ola_complexite(int M, int Ne, float &C, int &Nf, int &Nz);
  *  @sa ola_complexite()
  *
  */
-extern void ola_complexite_optimise(int M, float &C, int &Nf, int &Nz, int &Ne);
+inline void ola_complexity_optimize(int M, float &C, int &Nf, int &Nz, int &Ne)
+{
+  tsdF::ola_complexite_optimise(M, C, Nf, Nz, Ne);
+}
 
-// Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add) - signaux réels.
-// *
-// *  <h3>Création d'un filtre fréquentiel</h3>
-// *
-// *  Ce filtre est identique à @ref filtre_fft(), à l'exception du fait que les types d'entrées / sorties sont réels (implémentation plus efficace).
-// *
-// *  @sa filtre_fft()
-//extern std::tuple<sptr<Filtre<float, float, FiltreFFTConfig>>, int> filtre_rfft(const FiltreFFTConfig &config);
 
 /** @brief Transformée en z-chirp
  *
@@ -441,7 +386,10 @@ extern void ola_complexite_optimise(int M, float &C, int &Nf, int &Nz, int &Ne);
  *  @f[
  *    X\left(z_0 * W^n\right) = \sum_{k=0}^{N-1} x_k \cdot z_0^k \cdot W^{nk},\quad \textrm{pour }n=0,1,...,m-1
  *  @f] */
-extern ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0 = 1.0f);
+inline ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0 = 1.0f)
+{
+  return tsdF::czt(x, m, W, z0);
+}
 
 /** @} */
 
@@ -465,7 +413,10 @@ extern ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0 = 1.0f);
  *
  * @sa xcorr()
  */
-extern std::tuple<ArrayXf, ArrayXcf> ccorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf());
+inline std::tuple<ArrayXf, ArrayXcf> ccorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf())
+{
+  return tsdF::ccorr(x, y);
+}
 
 
 /** @brief Corrélation (non biaisée) entre deux signaux complexes
@@ -503,7 +454,10 @@ extern std::tuple<ArrayXf, ArrayXcf> ccorr(const ArrayXcf &x, const ArrayXcf &y 
  *
  * @sa xcorrb(), ccorr(), fft_correlateur()
  */
-extern std::tuple<ArrayXf, ArrayXcf> xcorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1);
+inline std::tuple<ArrayXf, ArrayXcf> xcorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1)
+{
+  return tsdF::xcorr(x, y, m);
+}
 
 
 /** @brief Corrélation (biaisée) entre deux signaux complexes.
@@ -522,7 +476,10 @@ extern std::tuple<ArrayXf, ArrayXcf> xcorr(const ArrayXcf &x, const ArrayXcf &y 
  *
  *  @sa xcorr(), ccorr()
  */
-extern std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1);
+inline std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1)
+{
+  return tsdF::xcorrb(x, y, m);
+}
 
 /** @brief Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).
  *
@@ -543,7 +500,7 @@ extern std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y
  *  @f]
  *
  *  @param x Signal à retarder ou avancer dans le temps.
- *  @param τ Délais à appliquer, en nombre d'échantillons (peut être positif ou négatif, et n'est pas forcément un nombre entier).
+ *  @param tau Délais à appliquer, en nombre d'échantillons (peut être positif ou négatif, et n'est pas forcément un nombre entier).
  *  @returns Signal décalé dans le temps.
  *
  *
@@ -553,84 +510,53 @@ extern std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y
  *
  **/
 template<typename T = float>
-  Vecteur<T> delais(const Vecteur<T> &x, float τ);
+  Vector<T> delay(const Vector<T> &x, float τ)
+{
+  return tsdF::delais(x, τ);
+}
 
 /** @brief Estimation du délais (à l'échantillon près) le
  *  plus probable entre deux signaux (via une corrélation) */
-extern int estimation_delais_entier(IArrayXcf x, IArrayXcf y, float &score);
+inline int delay_estimation_int(IArrayXcf x, IArrayXcf y, float &score)
+{
+  return tsdF::estimation_delais_entier(x, y, score);
+}
 
 
 /** @brief Alignement de deux signaux */
 template<typename T>
-  std::tuple<Vecteur<T>, Vecteur<T>, int, float> aligne_entier(const Vecteur<T> &x, const Vecteur<T> &y);
-
-
-/** @brief Informations calculées à partir du motif détecté */
-struct Detection
+  std::tuple<Vector<T>, Vector<T>, int, float> align_int(const Vector<T> &x, const Vector<T> &y)
 {
-  /** @brief en nombre d'échantillons (compris entre 0 et Ne-1),
-  *    depuis le début du bloc de données en cours. Par exemple :
-  *    - @f$0\  \Leftrightarrow@f$    Début du bloc en cours
-  *    - @f$1\  \Leftrightarrow@f$    Deuxième échantillon du bloc en cours
-  *    - @f$-1\  \Leftrightarrow@f$   Dernier échantillon du bloc précédent
-  *    - ... */
-  int position;
-
-  /** @brief Idem position, avec interpolation quadratique pour plus de précision */
-  float position_prec;
-
-  /** @brief Valeur absolue de la corrélation normalisée (valeur positive, entre 0 et 1) */
-  float score;
-
-  /** @brief Gain du signal (par rapport au motif passé en paramètre) */
-  float gain;
-
-  /** @brief Déphasage du signal (entre @f$-\pi/2@f$ et @f$\pi/2@f$) */
-  float θ;
-
-  /** @brief SNR estimé */
-  float SNR_dB;
-
-  /** @brief Ecart-type du bruit */
-  float σ_noise;
-};
+  return tsdF::aligne_entier(x, y);
+}
 
 
 /** @brief Structure de configuration pour un corrélateur par FFT */
-struct DetecteurConfig
+struct DetectorConfig: tsdF::DetecteurConfig
 {
   /* @brief Nombre minimum d'échantillons / par bloc temporel (si 0 : déterminé automatiquement). */
-  uint32_t Ne = 0;
+  uint32_t &Ns        = Ne;
 
   /* @brief Motif à détecter */
-  ArrayXcf motif;
+  ArrayXcf &pattern   = motif;
 
   /* @brief Seuil de détection, entre 0 et 1. */
-  float seuil = 0.5;
+  float &threshold    = seuil;
 
-  bool debug_actif = false;
+  bool &debug_active  = debug_actif;
 
   /** @brief Mode de calcul du produit de corrélation : FFT avec OLA ou simple filtre RIF */
-  enum Mode
-  {
-    MODE_OLA = 0,
-    MODE_RIF = 1
-  } mode = MODE_OLA;
+  tsdF::DetecteurConfig::Mode &mode = mode;
 
   /** @brief Callback utilisateur appellée à chaque fois que le motif est détecté. */
-  std::function<void (const Detection &det)> gere_detection;
+  std::function<void (const tsdF::Detection &det)> &on_detection = gere_detection;
 
-  bool calculer_signal_correlation = false;
+  bool &compute_correlation_signal = calculer_signal_correlation;
 };
 
-extern std::ostream &operator <<(std::ostream &os, const Detection &det);
 
 
-/** @brief Structure abstraite pour un corrélateur à base de FFT ou de filtre RIF */
-struct Detecteur: Filtre<cfloat, float, DetecteurConfig>
-{
-  virtual MoniteursStats moniteurs() = 0;
-};
+using tsdF::Detecteur;
 
 /** @brief Détecteur par corrélation.
  *
@@ -668,28 +594,11 @@ struct Detecteur: Filtre<cfloat, float, DetecteurConfig>
  * @snippet exemples/src/fourier/ex-fourier.cc ex_fft_correlateur
  * @image html fft_correlateur.png width=800px
  */
-extern sptr<Detecteur>
-  détecteur_création(const DetecteurConfig &config = DetecteurConfig());
-
-
-
-// Alignement de deux signaux suivant un délais variable
-//extern sptr<ProcesseurConfigurable<cfloat, cfloat, int>> creation_aligneur();
-
-// ?
-struct AlignementSignal
+inline sptr<Detecteur>
+  detector_new(const DetectorConfig &config = DetectorConfig())
 {
-public:
-  AlignementSignal();
-
-  int configure(int N);
-  void step(const ArrayXXcf &x, const ArrayXXcf &y, int delais);
-
-private:
-  struct Impl;
-  sptr<Impl> impl;
-};
-
+  return tsdF::détecteur_création(config);
+}
 
 
 
@@ -702,7 +611,10 @@ private:
  */
 
 // Calcul des fréquences normalisées associée à une psd
-extern ArrayXf psd_freqs(int n, bool complexe = true);
+inline ArrayXf psd_freqs(int n, bool complexe = true)
+{
+  return tsdF::psd_freqs(n, complexe);
+}
 
 /** @brief PSD (corrélogramme)
  *
@@ -728,19 +640,7 @@ extern ArrayXf psd_freqs(int n, bool complexe = true);
 template<typename derived>
 std::tuple<ArrayXf, ArrayXf> psd(const Eigen::ArrayBase<derived> &x)
 {
-  ArrayXf fen = tsd::filtrage::fenetre("hn", x.rows(), false);
-  auto xf = x * fen;
-
-  if constexpr(est_complexe<typename derived::Scalar>())
-  {
-    ArrayXf Y = 10.0f * (fft(xf)).abs2().log10();
-    return {psd_freqs(x.rows(), true), fftshift(Y)};
-  }
-  else
-  {
-    ArrayXf Y = 10.0f * (rfft(xf)).abs2().log10();
-    return {psd_freqs(x.rows(), false), Y.head(Y.rows() / 2).eval()};
-  }
+  return tsdF::psd(x);
 }
 
 /** @brief PSD (méthode de Welch - par moyennage).
@@ -762,7 +662,10 @@ std::tuple<ArrayXf, ArrayXf> psd(const Eigen::ArrayBase<derived> &x)
  * @sa psd(), psd_subspace()
  *
  */
-extern std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const std::string fen = "hn");
+inline std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const std::string fen = "hn")
+{
+  return tsdF::psd_welch(x, N, fen);
+}
 
 
 /** @brief Calcul d'un spectre par la méthode des sous-espaces
@@ -802,20 +705,15 @@ extern std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const st
  *  le nombre de signaux à détecter (en effet, un cosinus ou sinus peut se représenter comme la somme de deux exponentielles complexes).
  *
  */
-extern std::tuple<ArrayXf, ArrayXf> psd_subspace(const ArrayXcf &x, int Ns, int Nf = 1024, int m = 0);//, const SubSpaceSpectrumConfig &config);
+inline std::tuple<ArrayXf, ArrayXf> psd_subspace(const ArrayXcf &x, int Ns, int Nf = 1024, int m = 0)
+{
+  return tsdF::psd_subspace(x, Ns, Nf, m);
+}
 
 
 /** @brief Choix d'un algorithme pour l'estimation de fréquence */
-enum FreqEstimMethode
-{
-  /** @brief Maximum de la valeur absolue de la FFT */
-  FFT,
-  /** @brief Méthode de Candan cf TODO */
-  CANDAN2,
-  /** @brief Interpolation quadratique */
-  QUADRATIC
-  // TODO
-};
+using tsdF::FreqEstimMethode;
+
 
 /** @brief Estimation de fréquence d'un signal périodique
  *
@@ -833,7 +731,10 @@ enum FreqEstimMethode
  *  @param x Signal dont on veut estimer la fréquence
  *  @param m Méthode d'estimation (voir l'énumération @ref FreqEstimMethode)
  *  @return Une fréquence normalisée (entre -0,5 et 0,5) */
-extern float freqestim(IArrayXcf x, FreqEstimMethode m = CANDAN2);
+inline float freqestim(IArrayXcf x, FreqEstimMethode m = tsdF::FreqEstimMethode::CANDAN2)
+{
+  return tsdF::freqestim(x, m);
+}
 
 
 
@@ -862,7 +763,10 @@ extern float freqestim(IArrayXcf x, FreqEstimMethode m = CANDAN2);
  *  @param frequence Fréquence à  détecter (normalisée à  la fréquence d'échantillonnage, entre -0,5 et 0,5).
  *  @returns         Score normalisé entre 0 et 1.
  *  @sa filtre_goertzel() */
-extern float goertzel(const ArrayXf &x, float frequence);
+inline float goertzel(const ArrayXf &x, float frequence)
+{
+  return tsdF::goertzel(x, frequence);
+}
 
 /** @brief %Filtre de Goertzel (calcul au fil de l'eau)
  *
@@ -893,56 +797,24 @@ extern float goertzel(const ArrayXf &x, float frequence);
  *
  *  @sa goertzel()
  */
-extern sptr<FiltreGen<float>> filtre_goertzel(float frequence, int N);
+inline sptr<FiltreGen<float>> filter_goertzel(float frequence, int N)
+{
+  return tsdF::filtre_goertzel(frequence, N);
+}
 
 
 
 
 /** @brief Configuration pour le calcul de spectre en temps réel */
-struct SpectrumConfig
-{
-  /** @brief Dimension des blocs d'entrée */
-  int BS = 1024;
+using tsdF::SpectrumConfig;
 
-  /** @brief Nombre de spectres moyennés */
-  int nmeans = 10;
-
-  /** @brief Pour le multi-threading ou le balayage fréquentiel */
-  int nsubs  = 1;
-
-  /** @brief Configuration du balayage fréquentiel */
-  struct
-  {
-    /** @brief Activation */
-    bool active = false;
-
-    /** @brief Nombre de pas de fréquence */
-    int  step   = 1024;
-
-    /** @brief Nombres de points à masquer en basse fréquence */
-    int masque_bf = 0;
-
-    /** @brief Nombres de points à masquer en haute fréquence */
-    int masque_hf = 0;
-
-  } sweep;
-
-  /** @brief Dim FFT */
-  int Nf() const;
-
-  /** @brief Dim spectre */
-  int Ns() const;
-
-  /** @brief Type de fenêtrage */
-  tsd::filtrage::Fenetre fenetre = tsd::filtrage::Fenetre::HANN;
-
-  /** @brief Plan de calcul FFT (optionnel) */
-  sptr<FFTPlan> plan;
-};
 
 
 /** @brief Calcul de spectre en temps réel */
-sptr<Filtre<cfloat,float,SpectrumConfig>> rt_spectrum(const SpectrumConfig &config);
+inline sptr<Filtre<cfloat,float,SpectrumConfig>> rt_spectrum(const SpectrumConfig &config)
+{
+  return tsdF::rt_spectrum(config);
+}
 
 /** @} */
 
@@ -959,7 +831,10 @@ namespace tsd::tf {
  *
  *  @param x Signal à analyser
  *  @param N Dimension des blocs d'analyse */
-extern ArrayXXf periodogramme_tfd(const ArrayXcf &x, int N);
+inline ArrayXXf periodogram_dft(const ArrayXcf &x, int N)
+{
+  return tsd::tf::periodogramme_tfd(x, N);
+}
 
 /** @brief Calcul d'un spectrogramme à partir de la CQT
  *
@@ -972,7 +847,10 @@ extern ArrayXXf periodogramme_tfd(const ArrayXcf &x, int N);
  *  @param γ    Rapport entre deux fréquences d'analyse successives
  *  @param ofs  Fréquence d'échantillonnage de sortie (Hz)
  */
-extern ArrayXXf periodogramme_cqt(const ArrayXf &x, float fe, float fmin, float fmax, float γ, float ofs);
+inline ArrayXXf periodogram_cqt(const ArrayXf &x, float fe, float fmin, float fmax, float γ, float ofs)
+{
+  return tsd::tf::periodogramme_cqt(x, fe, fmin, fmax, γ, ofs);
+}
 
 /* @} */
 

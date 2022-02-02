@@ -57,13 +57,8 @@ static TestMotifResult test_motif(const TestMotifConfig &config)
 
   DetecteurConfig dconfig;
   dconfig.debug_actif    = false;
-  dconfig.gere_detection = [&](const DetecteurConfig::Detection &det)
+  dconfig.gere_detection = [&](const Detection &det)
   {
-    //msg("Detection : {}. pos cor = {}", det, det.position_prec + cnt_ech);
-    //if(ndet++)
-    //{
-    //  echec("Nb détections invalides");
-    //}
     ndet++;
     etemps += carré(det.position_prec + cnt_ech - 10 * M);
     ephase += carré(rad2deg(det.θ));
@@ -259,7 +254,7 @@ void test_detecteur_unit(float σ, int BS, DetecteurConfig::Mode mode)
   DetecteurConfig config;
   config.mode = mode;
   config.debug_actif = true;
-  config.gere_detection = [&](const DetecteurConfig::Detection &det)
+  config.gere_detection = [&](const Detection &det)
   {
     msg("Detection : {}.", det);
     auto pos_abs = det.position_prec + cnt_ech;

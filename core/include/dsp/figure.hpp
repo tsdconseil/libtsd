@@ -257,21 +257,14 @@ namespace dsp::view
       f.enregistrer(chemin_fichier, dim);
     }
 
-    std::string lis_nom() const
+    std::string get_name() const
     {
       return f.lis_nom();
     }
-    void def_nom(const std::string &s)
+    void set_name(const std::string &s)
     {
       f.def_nom(s);
     }
-
-    /** @brief Attends que l'utilisateur ferme toutes les fenêtres graphiques.
-     */
-    /*static void wait_mmi()
-    {
-      tsd::vue::attente_ihm();
-    }*/
 
     Figure clone() const
     {

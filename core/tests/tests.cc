@@ -9,11 +9,12 @@ extern test_routine_t test_detecteur, test_unites, test_filtre_fft, test_crec, t
   test_fenetres, test_tod, test_cqt, test_image, test_poly, test_stats, test_telecom, test_kalman,
   test_geometrie, test_date_heure, test_itrp, test_delais_filtres, test_filtre_adapte, test_formes_ondes,
   test_itrp_irreg, test_recepteur, bench_recepteur, test_motifs, test_bitstream,
-  test_filtrage_analyse;
+  test_filtrage_analyse, test_dsp;
 
 
 static std::vector<Test> tests =
 {
+  {"dsp",           &test_dsp},
   {"tsd",           &test_tsd},
   {"bitstream",     &test_bitstream},
   {"motifs",        &test_motifs},

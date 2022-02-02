@@ -398,10 +398,11 @@ inline int next_power_of_2(unsigned int i)
  */
 template<typename D1, typename D2>
   std::tuple<Vector<typename D1::Scalar>, Vector<typename D2::Scalar>>
-    pad_zeros(const Eigen::ArrayBase<D1> &b1,
-              const Eigen::ArrayBase<D2> &b2)
+    pad_zeros(const Eigen::ArrayBase<D1> &x,
+              const Eigen::ArrayBase<D2> &y,
+              bool p2 = false)
 {
-  return tsd::pad_zeros(b1, b2);
+  return tsd::pad_zeros(x, y, p2);
 }
 
 

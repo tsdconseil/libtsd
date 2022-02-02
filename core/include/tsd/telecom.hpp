@@ -886,7 +886,7 @@ struct RécepteurConfig
 struct RécepteurTrame
 {
   /** @brief Paramètres RF calculés à partir du motif de synchronisation */
-  tsd::fourier::DetecteurConfig::Detection det;
+  tsd::fourier::Detection det;
 
   /** @brief Données démodulées */
   BitStream bs;

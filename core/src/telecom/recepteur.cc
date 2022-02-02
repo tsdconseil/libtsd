@@ -62,7 +62,7 @@ struct RécepteurImpl: Récepteur
 
   int dim_motif = 0;
 
-  vector<DetecteurConfig::Detection> fingers;
+  vector<Detection> fingers;
 
   RécepteurTrame trame; // Trame en cours de réception
 
@@ -354,7 +354,7 @@ struct RécepteurImpl: Récepteur
     // TODO: renommer en M
     dim_motif               = config_detecteur.motif.rows();
     config_detecteur.seuil  = config.seuil;
-    config_detecteur.gere_detection = [&](const DetecteurConfig::Detection &det)
+    config_detecteur.gere_detection = [&](const Detection &det)
       {
         if(det.SNR_dB >= config.SNR_mini)
         {

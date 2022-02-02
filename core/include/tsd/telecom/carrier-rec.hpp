@@ -15,7 +15,7 @@ public:
   int configure(unsigned int N);
   void step(const ArrayXcf &x, float &freq_detectee, float &snr);
 private:
-  sptr<tsd::fourier::FFTPlanAbstrait> fft_plan;
+  sptr<tsd::fourier::FFTPlan> fft_plan;
   unsigned int N;
 };
 
