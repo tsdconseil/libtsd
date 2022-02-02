@@ -7,7 +7,7 @@ English documentation : https://tsdconseil.github.io/libtsd/en
 Documentation en français : https://tsdconseil.github.io/libtsd/fr
 
 ---
-**Warning
+**Warning**
 
 The library is still in state of testing.
 
