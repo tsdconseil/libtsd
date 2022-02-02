@@ -21,4 +21,4 @@ Another reason to purchase a license is that a one year technical support is inc
 For more information about contracting a commercial license, please  e-mail contact.AT.tsdconseil.fr
 
 ## Contributions
-As this project is dual licensed (GPL V3 for open source projects, or commercial license for proprietary project), I need that any contributor accept a copyright assignment (see todo link).  
+As this project is dual licensed (GPL V3 for open source projects, or commercial license for proprietary project), I need that any contributor accept a copyright assignment (see todo link), otherwise I could not be able to grant proprietary licenses.  
