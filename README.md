@@ -1,10 +1,18 @@
 # libtsd
 C++ digital signal processing library
 
+# Resources
 
-English documentation : https://tsdconseil.github.io/libtsd/en
+ - English documentation : https://tsdconseil.github.io/libtsd/en
+ - Documentation en français : https://tsdconseil.github.io/libtsd/fr
+ - Graphical demonstrator : lien à faire
 
-Documentation en français : https://tsdconseil.github.io/libtsd/fr
+---
+**Warning**
+
+The library is still in state of testing.
+
+---
 
 
 # License
@@ -19,3 +27,6 @@ Otherwise, e.g. if you are building a proprietary software, then you should purc
 Another reason to purchase a license is that a one year technical support is included with it.
 
 For more information about contracting a commercial license, please  e-mail contact.AT.tsdconseil.fr
+
+## Contributions
+As this project is dual licensed (GPL V3 for open source projects, or commercial license for proprietary project), I need that any contributor accept a copyright assignment (see https://github.com/tsdconseil/libtsd/wiki/Copyright-assignment), otherwise I could not be able to grant proprietary licenses.  
