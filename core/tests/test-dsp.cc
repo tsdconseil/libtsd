@@ -10,6 +10,7 @@
 #include "dsp/time.hpp"
 #include "dsp/figure.hpp"
 #include "dsp/telecom.hpp"
+#include "dsp/stats.hpp"
 
 using namespace dsp;
 using namespace dsp::fourier;
@@ -78,6 +79,12 @@ int test_dsp()
     Figure f;
     f.plot(spec.get_coefs(63, 4), "", "Matched filter");
     f.show();
+  }
+
+  // dsp::stats
+  {
+    ArrayXf x = randn(10);
+    ArrayXf y = dsp::stats::levinson_real(x);
   }
 
   return 0;

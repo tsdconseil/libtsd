@@ -2,11 +2,14 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
-#include "tsd/tsd.hpp"
-#include "tsd/fourier.hpp"
+#include "dsp/dsp.hpp"
+#include "dsp/fourier.hpp"
+#include "tsd/stats.hpp"
 
-namespace tsd::stats {
+namespace dsp::stats {
 
+
+  namespace nfr = tsd::stats;
 
   /** @addtogroup stats
    *  @{
@@ -48,7 +51,10 @@ r_n\\
    * @f[
    *  x_n = \sum_{k=1}^{n} a_k x_{n-k} + e_n
    * @f] */
-  ArrayXf levinson_reel(const ArrayXf &r);
+  inline ArrayXf levinson_real(const ArrayXf &r)
+  {
+    return nfr::levinson_reel(r);
+  }
 
 
   /** @brief Récursion de Levinson - Durbin (cas général)
@@ -86,7 +92,10 @@ r_n\\
    *  @return     Solution @f$x@f$
    *
    *  */
-  extern ArrayXf levinson(const ArrayXf &l1, const ArrayXf &c1, const ArrayXf &y);
+  inline ArrayXf levinson(const ArrayXf &l1, const ArrayXf &c1, const ArrayXf &y)
+  {
+    return nfr::levinson(l1, c1, y);
+  }
 
   /** @brief Calcul d'une matrice d'auto-corrélation à partir d'un vecteur de corrélations
    *
@@ -108,23 +117,9 @@ r_n\\
    * @return R
    */
   template<typename derived>
-  auto r_vers_R(const Eigen::ArrayBase<derived> &r)
+  auto r2R(const Eigen::ArrayBase<derived> &r)
   {
-    using T = typename derived::Scalar;
-    using rtype = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
-    int n = r.rows();
-    rtype R(n, n);
-    for(auto i = 0; i < n; i++)
-    {
-      for(auto j = 0; j < n; j++)
-      {
-        R(i,j) = r(std::abs(i-j));
-        if constexpr(est_complexe<T>())
-          if(j > i)
-            R(i,j) = conj(R(i,j));
-      }
-    }
-    return R;
+    return nfr::r_vers_R(r);
   }
 
   /** @brief Calcul de la matrice de covariance pour un signal supposé <b>stationnaire</b> et <b>centré</b>.
@@ -138,16 +133,9 @@ r_n\\
    *  @f]
    **/
   template<typename T>
-  auto covmtx(const Vecteur<T> &x, int m)
+  auto covmtx(const Vector<T> &x, int m)
   {
-    // Si le signal est stationnaire :
-    // R_ij = cov(x_(k+i) , x_(k+j)) = cov(x_0, x_(j-i))
-    // Donc ligne 0 = cov(x0,x0), cov(x0,x1), etc.
-    //      ligne 1 = cov(x1,x0), cov(x1,x1), etc.
-    //              = cov(x0,x1)*, cov(x0,x0) etc.
-    // Donc matrice auto-ajointe ou symétrique ?
-    auto [lags, cr] = tsd::fourier::xcorr(x, x, m);
-    return r_vers_R(cr.tail(m));
+    return nfr::covmtx(x, m);
   }
 
 
@@ -164,7 +152,10 @@ r_n\\
    * @param p Nombre de coefficients du modèle
    * @returns Les coefficients du filtre @f$a(z)@f$ et le vecteur d'erreur.
    */
-  extern std::tuple<ArrayXf, ArrayXf> lpc(const ArrayXf &x, int p);
+  inline std::tuple<ArrayXf, ArrayXf> lpc(const ArrayXf &x, int p)
+  {
+    return nfr::lpc(x, p);
+  }
 
   /** @brief %Filtre de Wiener (RIF)
    *
@@ -185,12 +176,28 @@ r_n\\
    *  @return Coefficients du filtre d'égalisation optimal (filtre @f$h@f$)
    *
    */
-  extern ArrayXf wiener_rif(const MatrixXf &Rxy, const ArrayXf &rx, int p);
+  inline ArrayXf wiener_fir(const MatrixXf &Rxy, const ArrayXf &rx, int p)
+  {
+    return nfr::wiener_rif(Rxy, rx, p);
+  }
 
 
   /** @brief Paramètrage analyse sous-espace */
   struct SubSpaceSpectrumConfig
   {
+    auto fr() const
+    {
+      nfr::SubSpaceSpectrumConfig res;
+      res.methode = (nfr::SubSpaceSpectrumConfig::Method) methode;
+      res.debug_actif = debug_actif;
+      res.Ns = Ns;
+      res.Nf = Nf;
+      res.est_sigexp = est_sigexp;
+      res.balayage = balayage;
+      return res;
+    }
+
+
     /** @brief Méthode de calcul */
     enum Method
     {
@@ -230,6 +237,14 @@ r_n\\
   /** @brief Résultat d'une analyse de sous-espace */
   struct SubSpaceSpectrum
   {
+    SubSpaceSpectrum(const nfr::SubSpaceSpectrum &fr)
+    {
+      var = fr.var;
+      spectrum = fr.spectrum;
+      Ns = fr.Ns;
+    }
+
+
     /** @brief Valeurs des variables pour chaque point de spectre.
      *
      * (index ligne = valeurs de spectre, index colonne = variable)
@@ -265,7 +280,10 @@ r_n\\
    *  @par Bibliographie
    *  <i>Statistical signal processing and modelling</i>, M.H. Hayes, 1996
    */
-  extern SubSpaceSpectrum subspace_spectrum(const MatrixXcf &R, const SubSpaceSpectrumConfig &config);
+  inline SubSpaceSpectrum subspace_spectrum(const MatrixXcf &R, const SubSpaceSpectrumConfig &config)
+  {
+    return nfr::subspace_spectrum(R, config.fr());
+  }
 
 
 
