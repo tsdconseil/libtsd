@@ -80,7 +80,7 @@ struct ÉmetteurImpl: Émetteur
     if(fo_entete_specifique)
     {
       nbits_par_symb  = config.format.fo_entete->infos.k;
-      mod->def_fo(config.format.fo_entete);
+      mod->def_forme_onde(config.format.fo_entete);
 
       BitStream tmp = config.format.entete;
       tmp.pad_mult(nbits_par_symb);
@@ -89,7 +89,7 @@ struct ÉmetteurImpl: Émetteur
 
       nbits_par_symb  = mconfig.wf->infos.k;
       bs2.pad_mult(nbits_par_symb);
-      mod->def_fo(config.format.modulation.wf);
+      mod->def_forme_onde(config.format.modulation.wf);
       ArrayXcf x2 = mod->step(bs2);
       x = vconcat(x1, x2);
     }

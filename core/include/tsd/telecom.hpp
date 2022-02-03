@@ -932,10 +932,17 @@ struct Modulateur
   virtual float delais() const = 0;
 
 
-  // Modifie la forme d'onde
-  // Intérêt : si filtre partagé par 2 modulateurs
-  // (exemple : modulation différente en-tête et données)
-  virtual void def_fo(sptr<FormeOnde> wf) = 0;
+  /** @brief Modifie la forme d'onde en cours de route.
+   *
+   *  <h3>Modifie la forme d'onde en cours de route</h3>
+   *
+   *
+   *  Intérêt : si le filtre de mise en forme est partagé par 2 modulateurs,
+   *  ce qui peut arriver par exemple si la modulation est différente
+   *  pour l'en-tête et les données (au moment du changement de forme d'onde,
+   *  l'état du filtre de mise en forme est préservé).
+   */
+  virtual void def_forme_onde(sptr<FormeOnde> fo) = 0;
 };
 
 /** @brief Interface abstraite vers un démodulateur */
@@ -980,9 +987,70 @@ struct Démodulateur
 /** @brief Création d'un modulateur numérique.
  *  <h3>Création d'un modulateur numérique</h3>
  *
- * Un modulateur consiste ici à convertir un train binaire en un signal bande de
- * base (ou déjà transposé à une fréquence intermédiaire), mis en forme et sur-échantilloné
- * (de manière à être prêt à être transmis à un ADC).
+ *
+ * Le bloc modulateur permet de convertir un train binaire en un
+ * signal bande de base (ou déjà transposé à une fréquence intermédiaire),
+ * mis en forme et sur-échantilloné (de manière à être prêt à être transmis à un ADC).
+ *
+ *
+ * La structure de paramètrage (@ref ModConfig) spécifie la forme d'onde
+ * (type de modulation, filtre de mise en forme),
+ * ainsi que les paramètres de fréquence, notamment :
+ * - La fréquence symbole @f$f_{symb}@f$ (<code>fsymb</code>),
+ * - La fréquence d'échantillonnage souhaitée en sortie @f$f_e@f$ (<code>fe</code>),
+ * - La fréquence intermédiaire souhaitée en sortie @f$f_i@f$ (<code>fi</code>).
+ *
+ *
+ * Le facteur de sur-échantillonnage global vaut donc :
+ * @f[
+ * R = \frac{f_e}{f_{symb}}
+ * @f]
+ *
+ * Afin de réduire la complexité de calcul,
+ * ce facteur global est décomposé en deux
+ * parties :
+ * @f[
+ * R = R_1 \cdot R_2
+ * @f]
+ *
+ * Le facteur @f$R_1@f$ sera appliqué au moment de l'application
+ * du filtre de mise en forme, et le facteur @f$R_2@f$ par un interpolateur final.
+ *
+ * Les différentes étapes sont les suivantes :
+ *   - <b>Génération des symboles :</b> les bits d'entrées sont regroupés par
+ *   groupes de @f$k@f$ bits (@f$k@f$ étant le nombre de bits par symbole de la forme d'onde configurée),
+ *   et chaque groupe de @f$k@f$ bits est transformé en un symbole de la constellation.
+ *   - <b>Filtre de mise en forme et sur-échantillonnage :</b>
+ *   le filtre est implémenté sous forme polyphase et permet de passer
+ *   de 1 échantillon / symbole à @f$R_1@f$ échantillons / symbole :
+ *    @f[
+ *     x_n = \sum_k h_k \cdot u_{(n-k)/R_1}
+ *    @f]
+ *   - <b>Adaptation de rythme :</b>
+ *   cet étage d'interpolation permet de passer
+ *   de @f$R_1@f$ à @f$R=R_1\cdot R_2@f$ échantillons / symbole.
+ *   - <b>Transposition :</b>
+ *   cet étage (actif uniquement si le paramètre @f$f_i@f$ est non nul)
+ *   permet de transposer le signal bande de base vers
+ *   la fréquence intermédiaire @f$f_i@f$ :
+ *   @f[
+ *     y_k = e^{2\pi\mathbf{i} k f_i / f_e} \cdot x_k
+ *    @f]
+ *      Par ailleurs, si le paramètre <code>sortie_réelle</code> est actif,
+ *      la partie imaginaire du résultat est mise à zéro :
+ * @f[
+ *  z_k = \mathcal{R}(y_k)
+ * @f]
+ *
+ * @warning Attention :
+ *   L'étage d'adaptation de rythme est pour l'instant désactivé, si bien que le changement de rythme
+ *   est entièrement à la charge du filtre de mise en forme (implémentation RIF polyphase),
+ *   ce qui peut être assez coûteux en charge de calcul si @f$R@f$ (facteur global de rééchantillonnage)
+ *   est élevé.
+ *
+ * @par Schéma-bloc
+ * <img src="modulateur.png" align="left" width="300px"/>
+ * <div style="clear: both"></div>
  *
  * @par Exemple 1 : modulation BPSK (avec filtre NRZ)
  * @snippet exemples/src/sdr/ex-sdr.cc ex_modulateur
@@ -997,7 +1065,7 @@ struct Démodulateur
 extern sptr<Modulateur> modulateur_création(const ModConfig &config);
 
 
-
+//  * @image html modulateur.png "Architecture modulateur" width=300px
 
 enum class ItrpType
 {
@@ -1341,7 +1409,8 @@ struct Émetteur
  * La structure de configuration (@ref ÉmetteurConfig) indique le format de la trame, c'est-à-dire :
  *   - L'en-tête de synchronisation,
  *   - Le nombre de bits utiles,
- *   - Les paramètres de modulation
+ *   - Les paramètres de la modulation.
+ *
  *
  * Ce bloc va concaténer l'en-tête avec les bits utiles de manière à générer des échantillons I/Q à partir des bits utiles,
  * en s'occupant des éventuels problème de padding (si plusieurs bits / symbole).
@@ -1353,6 +1422,14 @@ struct Émetteur
  * Notez que la forme d'onde n'est pas forcément identique pour l'en-tête et pour les données utiles,
  * si le champs ÉmetteurConfig::format.fo_entete est renseigné.
  *
+ *
+ * @par Schéma-bloc
+ * <img src="emetteur.png" align="left" width="500px"/>
+ * <div style="clear: both"></div>
+ *
+ * @warning
+ * L'application d'un code correcteur n'est pas encore implémentée.
+ *
  * @par Exemple
  * @snippet exemples/src/sdr/ex-sdr.cc ex_émetteur
  * @image html ex-emetteur.png width=1000px
@@ -1362,7 +1439,7 @@ struct Émetteur
 extern sptr<Émetteur> émetteur_création(const ÉmetteurConfig &ec);
 
 
-
+//  * @image html emetteur.png "Architecture du bloc émetteur de trames" width=600px
 
 /** @} */
 

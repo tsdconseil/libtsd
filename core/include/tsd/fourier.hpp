@@ -76,7 +76,7 @@ namespace tsd::fourier
  * plusieurs FFT <b>sur des vecteurs réels</b> de même dimension (les facteurs de rotation sont calculés une seule fois).
  *
  * @param n       Dimension des vecteurs (paramètre optionnel)
- * @return Un @ref %Filtre float vers @ref cfloat.
+ * @return Un %Filtre float vers @ref cfloat.
  *
  * Le paramètre n n'a pas besoin d'être précisé, et la dimension des vecteurs peut changer en cours de route, si c'est le cas, les facteurs de rotations sont automatiquement réévalués.
  *
@@ -653,7 +653,7 @@ struct Detecteur: Filtre<cfloat, float, DetecteurConfig>
  * Ce filtre peut-être utilisé de deux manières :
  *  - Tout d'abord, c'est un filtre qui renvoie, au fil de l'eau, les valeurs de corrélation (signal vert dans l'exemple ci-dessous),
  *  - Pour une utilisation plus simple, une callback utilisateur peut être appelée dès lors que la corrélation dépasse un certain seuil paramétrable. En paramètre de cette callback,
- *    est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure @ref DetecteurConfig::Detection) :
+ *    est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure @ref Detection) :
  *      - Valeur de la corrélation normalisée
  *      - Gain réel du signal (rapport d'amplitude entre le signal reçu et le motif théorique attendu)
  *      - Déphasage du signal reçu

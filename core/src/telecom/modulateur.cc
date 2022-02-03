@@ -38,11 +38,11 @@ struct ModGen : Modulateur
 
   sptr<FiltreGen<cfloat>> filtre_mise_en_forme;
 
-  sptr<FormeOnde> wf;
+  sptr<FormeOnde> forme_onde;
 
-  void def_fo(sptr<FormeOnde> wf)
+  void def_forme_onde(sptr<FormeOnde> fo)
   {
-    this->wf = wf;
+    this->forme_onde = fo;
   }
 
   ModGen(const ModConfig &config)
@@ -60,7 +60,7 @@ struct ModGen : Modulateur
     latence = 0;
     this->config = config;
 
-    wf = config.wf;
+    forme_onde = config.wf;
 
     msg("<h3>Configuration modulateur</h3>");
     msg("Configuration : fe={} Hz, fi={} Hz, fsymb={} Hz.",
@@ -138,18 +138,11 @@ struct ModGen : Modulateur
   ArrayXcf step(const BitStream &bs)
   {
     // TODO : utiliser config.wf->génère_échantillons
-    auto x = wf->génère_symboles(bs);
+    auto x = forme_onde->génère_symboles(bs);
     auto x_symb = x;
 
     // Filtre de mise en forme, avec sur-échantillonnage intégré
     x = filtre_mise_en_forme->step(x);
-
-    // Fait maintenant directement dans le filtre
-    /*if(config.wf->filtre.type == SpecFiltreMiseEnForme::GAUSSIEN)
-    {
-      auto ma = tsd::filtrage::filtre_mg<cfloat,cdouble>(osf);
-      x = ma->step(x);
-    }*/
 
     ArrayXcf x_filtre = x;
 

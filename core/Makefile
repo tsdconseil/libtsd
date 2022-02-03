@@ -6,7 +6,7 @@ NOM_PROJET = libtsd
 
 # Fichiers sources
 
-SOURCES := tests-gen moniteur-cpu kalman modele-imu doa stats tod cqt limits clock-rec mod demod-dec demod-ndec carrier-rec itrp wav 
+SOURCES := tests-gen moniteur-cpu kalman modele-imu doa stats tod cqt limits clock-rec modulateur demod-dec demod-ndec carrier-rec itrp wav 
 SOURCES += fourier  prbs telecom ecp bitstream 
 SOURCES += estimation-delais detection emetteur
 SOURCES += analyse-filtre ra fenetres divers

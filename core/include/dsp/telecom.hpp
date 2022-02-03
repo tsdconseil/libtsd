@@ -1135,7 +1135,7 @@ struct Modulator
   // (exemple : modulation différente en-tête et données)
   virtual void set_waveform(sptr<WaveForm> wf)
   {
-    mod->def_fo(wf->fr);
+    mod->def_forme_onde(wf->fr);
   }
 };
 
