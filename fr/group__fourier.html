@@ -134,21 +134,24 @@ Sous-modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_f_f_t_plan.html">tsd::fourier::FFTPlan</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe abstraite pour un algorithme de calcul de FFT.  <a href="structtsd_1_1fourier_1_1_f_f_t_plan.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html">tsd::fourier::FiltreFFTConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration pour un filtre FFT (voir <a class="el" href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">filtre_fft()</a>).  <a href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#details">Plus de détails...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Fonctions</h2></td></tr>
-<tr class="memitem:gaa012c409a050fb19c6950108ed710493"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; FFTPlanAbstrait &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">tsd::fourier::creation_fft_plan</a> (int n=-1, bool avant=true, bool normaliser=true)</td></tr>
-<tr class="memdesc:gaa012c409a050fb19c6950108ed710493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT).  <a href="group__fourier_gaa012c409a050fb19c6950108ed710493.html#gaa012c409a050fb19c6950108ed710493">Plus de détails...</a><br /></td></tr>
-<tr class="separator:gaa012c409a050fb19c6950108ed710493"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa926a5297dc5da12d31075248bf067cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; float, <a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">tsd::fourier::creation_rfft_plan</a> (int n)</td></tr>
-<tr class="memdesc:gaa926a5297dc5da12d31075248bf067cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un plan de calcul FFT pour des signaux réels (pour calculer efficacement plusieurs FFT).  <a href="group__fourier_gaa926a5297dc5da12d31075248bf067cf.html#gaa926a5297dc5da12d31075248bf067cf">Plus de détails...</a><br /></td></tr>
-<tr class="separator:gaa926a5297dc5da12d31075248bf067cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga627b1a4554ce57ea788d2c0e4d2834f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1fourier_1_1_f_f_t_plan.html">FFTPlan</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier_ga627b1a4554ce57ea788d2c0e4d2834f5.html#ga627b1a4554ce57ea788d2c0e4d2834f5">tsd::fourier::fftplan_création</a> (int n=-1, bool avant=true, bool normaliser=true)</td></tr>
+<tr class="memdesc:ga627b1a4554ce57ea788d2c0e4d2834f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT).  <a href="group__fourier_ga627b1a4554ce57ea788d2c0e4d2834f5.html#ga627b1a4554ce57ea788d2c0e4d2834f5">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga627b1a4554ce57ea788d2c0e4d2834f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64726afc2b29864b61dedee6c3180a4f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; float, <a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier_ga64726afc2b29864b61dedee6c3180a4f.html#ga64726afc2b29864b61dedee6c3180a4f">tsd::fourier::rfftplan_création</a> (int n)</td></tr>
+<tr class="memdesc:ga64726afc2b29864b61dedee6c3180a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un plan de calcul FFT pour des signaux réels (pour calculer efficacement plusieurs FFT).  <a href="group__fourier_ga64726afc2b29864b61dedee6c3180a4f.html#ga64726afc2b29864b61dedee6c3180a4f">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ga64726afc2b29864b61dedee6c3180a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga12477679c85009ab019ca46622f8b81b"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
 <tr class="memitem:ga12477679c85009ab019ca46622f8b81b"><td class="memTemplItemLeft" align="right" valign="top">ArrayXcf&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">tsd::fourier::rfft</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;x)</td></tr>
-<tr class="memdesc:ga12477679c85009ab019ca46622f8b81b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de la FFT d'un signal réel.  <a href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:ga12477679c85009ab019ca46622f8b81b"><td class="mdescLeft">&#160;</td><td class="mdescRight">FFT d'un vecteur réel.  <a href="group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ga12477679c85009ab019ca46622f8b81b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad03258343d19a0333615f67e009faf18"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gad03258343d19a0333615f67e009faf18"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">tsd::fourier::reechan_freq</a> (const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;x, float ratio)</td></tr>
@@ -188,7 +191,7 @@ Fonctions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

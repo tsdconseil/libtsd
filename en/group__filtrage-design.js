@@ -1,5 +1,10 @@
 var group__filtrage_design =
 [
+    [ "CICConfig", "structdsp_1_1filter_1_1_c_i_c_config.html", [
+      [ "M", "structdsp_1_1filter_1_1_c_i_c_config.html#a3a7681609de5c73e4357973469a5bfd7", null ],
+      [ "N", "structdsp_1_1filter_1_1_c_i_c_config.html#a9df1674bf14d90931e7be9879b1c5bab", null ],
+      [ "R", "structdsp_1_1filter_1_1_c_i_c_config.html#ae36d98023ba23d366c65a571287a724a", null ]
+    ] ],
     [ "bilinear_transform", "group__filtrage-design_gae0890465291de1fd88cf31d49fb5e75c.html#gae0890465291de1fd88cf31d49fb5e75c", null ],
     [ "design_biquad", "group__filtrage-design_ga35e455b68cdd1c219bafd8461964ed2e.html#ga35e455b68cdd1c219bafd8461964ed2e", null ],
     [ "design_biquad", "group__filtrage-design_ga72820ee3439d3de0ede847eaeb8332a0.html#ga72820ee3439d3de0ede847eaeb8332a0", null ],

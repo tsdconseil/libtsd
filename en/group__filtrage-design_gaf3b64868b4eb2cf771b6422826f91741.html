@@ -187,11 +187,29 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gaf3b64868b4eb2
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>h Transfert function (digital)</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"></div><!-- fragment --><div class="image">
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
+<div class="line">  <span class="comment">// Test des 4 types de filtre, avec les paramètres suivants :</span></div>
+<div class="line">  <span class="comment">// - Filtres passe-bas (lp = low-pass)</span></div>
+<div class="line">  <span class="comment">// - Fréquence de coupure       = fe/4</span></div>
+<div class="line">  <span class="comment">// - Ondulation bande passante  = 1 dB  (Chebychev type I &amp; elliptique)</span></div>
+<div class="line">  <span class="comment">// - Atténuation bande coupée   = 60 dB (Chebychev type II &amp; elliptique)</span></div>
+<div class="line">  Figures f;</div>
+<div class="line">  <span class="keywordflow">for</span>(<span class="keyword">auto</span> type: {<span class="stringliteral">&quot;butt&quot;</span>, <span class="stringliteral">&quot;cheb1&quot;</span>, <span class="stringliteral">&quot;cheb2&quot;</span>, <span class="stringliteral">&quot;ellip&quot;</span>})</div>
+<div class="line">  {</div>
+<div class="line">    <span class="keyword">auto</span> h = design_riia(10, <span class="stringliteral">&quot;lp&quot;</span>, type, 0.25, 1, 60);</div>
+<div class="line">    <span class="keyword">auto</span> [fr, xm] = <a class="code" href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">frmag</a>(h);</div>
+<div class="line"> </div>
+<div class="line">    f.subplot().plot(fr, 20 * log10(xm), <span class="stringliteral">&quot;b-&quot;</span>, type);</div>
+<div class="line">    <span class="comment">// Pour pouvoir comparer les réponses entre elles</span></div>
+<div class="line">    f.gcf().def_rdi({0, -100, 0.5, 100});</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="ttc" id="agroup__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26_html_ga9d800b2c1bc4d55b004507cf55d23f26"><div class="ttname"><a href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">dsp::filter::frmag</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; frmag(const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</div><div class="ttdoc">Magnitude of a FIR or IIR filter.</div><div class="ttdef"><b>Definition:</b> filter.hpp:236</div></div>
+</div><!-- fragment --><div class="image">
 <img src="design-riia.png" alt="" width="800px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>trf_bilineaire(), filtre_sois(), filtre_rii() </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-design_gae0890465291de1fd88cf31d49fb5e75c.html#gae0890465291de1fd88cf31d49fb5e75c" title="Bilinear transform: conversion from Laplace transform to z transform.">bilinear_transform()</a>, <a class="el" href="group__filtrage-tr_ga01d2141bdfd3e6246c5a565895c142f2.html#ga01d2141bdfd3e6246c5a565895c142f2">filter_sois()</a>, <a class="el" href="group__filtrage-tr_gab81fa0bbc8205f3207747316af796b5b.html#gab81fa0bbc8205f3207747316af796b5b" title="IIR filter, direct form I implementation, not recommanded (use rather filter_sois() instead).">filter_iir()</a> </dd></dl>
 
 </div>
 </div>
@@ -201,7 +219,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gaf3b64868b4eb2
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Linear filter design</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

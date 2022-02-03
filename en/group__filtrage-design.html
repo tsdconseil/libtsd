@@ -111,6 +111,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design.html',''); init
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Linear filter design<div class="ingroups"><a class="el" href="group__filtrage.html">Linear filtering</a></div></div>  </div>
@@ -118,6 +119,12 @@ $(document).ready(function(){initNavTree('group__filtrage-design.html',''); init
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1filter_1_1_c_i_c_config.html">dsp::filter::CICConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main parameters for a CIC filter.  <a href="structdsp_1_1filter_1_1_c_i_c_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga4f99d862c783ff00300f429c08097720"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design_ga4f99d862c783ff00300f429c08097720.html#ga4f99d862c783ff00300f429c08097720">dsp::filter::design_fir_hilbert</a> (int n, const std::string &amp;window=&quot;hn&quot;)</td></tr>
@@ -178,10 +185,10 @@ float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gro
 <tr class="memitem:gaa5f59c7b43c7b48d7ba0e581ccf6559b"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design_gaa5f59c7b43c7b48d7ba0e581ccf6559b.html#gaa5f59c7b43c7b48d7ba0e581ccf6559b">dsp::filter::design_fir_prod</a> (const ArrayXf &amp;h1, const ArrayXf &amp;h2)</td></tr>
 <tr class="memdesc:gaa5f59c7b43c7b48d7ba0e581ccf6559b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the FIR filter equivalent to the serie concatenation of two other FIR filters.  <a href="group__filtrage-design_gaa5f59c7b43c7b48d7ba0e581ccf6559b.html#gaa5f59c7b43c7b48d7ba0e581ccf6559b">More...</a><br /></td></tr>
 <tr class="separator:gaa5f59c7b43c7b48d7ba0e581ccf6559b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga08512214bd74dbe27586383e365515c8"><td class="memItemLeft" align="right" valign="top">FRat&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design_ga08512214bd74dbe27586383e365515c8.html#ga08512214bd74dbe27586383e365515c8">dsp::filter::design_cic</a> (const CICConfig &amp;config)</td></tr>
+<tr class="memitem:ga08512214bd74dbe27586383e365515c8"><td class="memItemLeft" align="right" valign="top">FRat&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design_ga08512214bd74dbe27586383e365515c8.html#ga08512214bd74dbe27586383e365515c8">dsp::filter::design_cic</a> (const <a class="el" href="structdsp_1_1filter_1_1_c_i_c_config.html">CICConfig</a> &amp;config)</td></tr>
 <tr class="memdesc:ga08512214bd74dbe27586383e365515c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">CIC filter theorical transfert function.  <a href="group__filtrage-design_ga08512214bd74dbe27586383e365515c8.html#ga08512214bd74dbe27586383e365515c8">More...</a><br /></td></tr>
 <tr class="separator:ga08512214bd74dbe27586383e365515c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f2173688d22cc33a723f419a4f16ad6"><td class="memItemLeft" align="right" valign="top">CICComp&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design_ga0f2173688d22cc33a723f419a4f16ad6.html#ga0f2173688d22cc33a723f419a4f16ad6">dsp::filter::design_cic_comp</a> (const CICConfig &amp;config, float Fin, int R2, float fc, int ncoefs)</td></tr>
+<tr class="memitem:ga0f2173688d22cc33a723f419a4f16ad6"><td class="memItemLeft" align="right" valign="top">CICComp&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design_ga0f2173688d22cc33a723f419a4f16ad6.html#ga0f2173688d22cc33a723f419a4f16ad6">dsp::filter::design_cic_comp</a> (const <a class="el" href="structdsp_1_1filter_1_1_c_i_c_config.html">CICConfig</a> &amp;config, float Fin, int R2, float fc, int ncoefs)</td></tr>
 <tr class="memdesc:ga0f2173688d22cc33a723f419a4f16ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Design of a compensation FIR filter for a CIC filter.  <a href="group__filtrage-design_ga0f2173688d22cc33a723f419a4f16ad6.html#ga0f2173688d22cc33a723f419a4f16ad6">More...</a><br /></td></tr>
 <tr class="separator:ga0f2173688d22cc33a723f419a4f16ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga860c4cd5ec99d2471b460ea4e2c63bea"><td class="memItemLeft" align="right" valign="top">FRat&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design_ga860c4cd5ec99d2471b460ea4e2c63bea.html#ga860c4cd5ec99d2471b460ea4e2c63bea">dsp::filter::design_dc_blocker</a> (float fc)</td></tr>
@@ -222,7 +229,7 @@ float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gro
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,8 +1,19 @@
 var searchData=
 [
-  ['window_335',['window',['../group__filtrage-fenetres_ga706ccaa31a98165ef2ab547c58c91030.html#ga706ccaa31a98165ef2ab547c58c91030',1,'dsp::filter']]],
-  ['window_5fchebychev_336',['window_chebychev',['../group__filtrage-fenetres_ga9cc408559289d0c65ff3ead969142ef0.html#ga9cc408559289d0c65ff3ead969142ef0',1,'dsp::filter']]],
-  ['window_5fkaiser_337',['window_kaiser',['../group__filtrage-fenetres_ga500529d253fbf136f1205af18f5ef188.html#ga500529d253fbf136f1205af18f5ef188',1,'dsp::filter']]],
-  ['window_5fkaiser1_338',['window_kaiser1',['../group__filtrage-fenetres_ga08aad1412735e3bac291ecf52caf2b31.html#ga08aad1412735e3bac291ecf52caf2b31',1,'dsp::filter']]],
-  ['window_5fslepian_339',['window_slepian',['../group__filtrage-fenetres.html#ga7ff0b15c76ae29e368f29c588de27cf5',1,'dsp::filter']]]
+  ['r2r_774',['r2R',['../group__stats_ga975686dc8b8b3253a5f091ed64335946.html#ga975686dc8b8b3253a5f091ed64335946',1,'dsp::stats']]],
+  ['rad2deg_775',['rad2deg',['../group__tsd_gadc91159bccfe889e8ea77cb0ce271144.html#gadc91159bccfe889e8ea77cb0ce271144',1,'dsp']]],
+  ['randb_776',['randb',['../group__tsd-gen_ga8157b41897e4cc405e65950cc717c299.html#ga8157b41897e4cc405e65950cc717c299',1,'dsp']]],
+  ['randi_777',['randi',['../group__tsd-gen_ga1cf1528f0f4585fa4f94f99657be9343.html#ga1cf1528f0f4585fa4f94f99657be9343',1,'dsp']]],
+  ['randn_778',['randn',['../group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d',1,'dsp']]],
+  ['randu_779',['randu',['../group__tsd-gen_ga5513bd26507e84f3a48a33798fcae62f.html#ga5513bd26507e84f3a48a33798fcae62f',1,'dsp']]],
+  ['repfreq_780',['repfreq',['../group__filtrage-analyse_gaf55ebe66ce37b1115ba98ddb10d07d7a.html#gaf55ebe66ce37b1115ba98ddb10d07d7a',1,'dsp::filter']]],
+  ['repimp_781',['repimp',['../group__filtrage-analyse.html#gae8d046965d64d7aa129d55732a074bff',1,'dsp::filter']]],
+  ['resample_782',['resample',['../group__tsd_ga12f0296034639a47a7dd2dbfb048be0f.html#ga12f0296034639a47a7dd2dbfb048be0f',1,'dsp']]],
+  ['resample_5ffreq_783',['resample_freq',['../group__fourier_ga6ad838f2376ec368f6eda1cd16b26897.html#ga6ad838f2376ec368f6eda1cd16b26897',1,'dsp::fourier']]],
+  ['reset_784',['reset',['../structdsp_1_1telecom_1_1_loop_filter.html#a8ed1c73e5747c3457fcc1ce4355c5391',1,'dsp::telecom::LoopFilter']]],
+  ['rfft_785',['rfft',['../group__fourier_ga99e8170874cdabb968f7993dca1c36b5.html#ga99e8170874cdabb968f7993dca1c36b5',1,'dsp::fourier']]],
+  ['rfftplan_5fnew_786',['rfftplan_new',['../group__fourier_ga8b18fbeef18db10dbebed68d183c1595.html#ga8b18fbeef18db10dbebed68d183c1595',1,'dsp::fourier']]],
+  ['rotation_5fvec_787',['rotation_vec',['../group__tsd_ga74bbc1e6e39f65a259d8d8f2da4be54d.html#ga74bbc1e6e39f65a259d8d8f2da4be54d',1,'dsp']]],
+  ['rpll_5fnew_788',['rpll_new',['../group__telecom-crec_gab40eb8928a92d201ef777267f9062618.html#gab40eb8928a92d201ef777267f9062618',1,'dsp::telecom']]],
+  ['rt_5fspectrum_789',['rt_spectrum',['../group__fourier-freq.html#ga81dfb1c43122f58eda529ccb12db2906',1,'dsp::fourier']]]
 ];

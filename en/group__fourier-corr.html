@@ -110,16 +110,58 @@ $(document).ready(function(){initNavTree('group__fourier-corr.html',''); initRes
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Correlation and time delays<div class="ingroups"><a class="el" href="group__fourier.html">Fourier transform</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html">dsp::fourier::Detection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informations computed from the detected pattern.  <a href="structdsp_1_1fourier_1_1_detection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detector_config.html">dsp::fourier::DetectorConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration pour un corrélateur par FFT.  <a href="structdsp_1_1fourier_1_1_detector_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga3b30312d20e6d1bf72be2ea7f682680a"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXcf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga3b30312d20e6d1bf72be2ea7f682680a.html#ga3b30312d20e6d1bf72be2ea7f682680a">dsp::fourier::ccorr</a> (const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf())</td></tr>
+<tr class="memdesc:ga3b30312d20e6d1bf72be2ea7f682680a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrélation circulaire (normalisée) entre deux signaux complexes.  <a href="group__fourier-corr_ga3b30312d20e6d1bf72be2ea7f682680a.html#ga3b30312d20e6d1bf72be2ea7f682680a">More...</a><br /></td></tr>
+<tr class="separator:ga3b30312d20e6d1bf72be2ea7f682680a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga35b89433faa936a7d6eb20fc5f71ceaa"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXcf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga35b89433faa936a7d6eb20fc5f71ceaa.html#ga35b89433faa936a7d6eb20fc5f71ceaa">dsp::fourier::xcorr</a> (const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</td></tr>
+<tr class="memdesc:ga35b89433faa936a7d6eb20fc5f71ceaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrélation (non biaisée) entre deux signaux complexes.  <a href="group__fourier-corr_ga35b89433faa936a7d6eb20fc5f71ceaa.html#ga35b89433faa936a7d6eb20fc5f71ceaa">More...</a><br /></td></tr>
+<tr class="separator:ga35b89433faa936a7d6eb20fc5f71ceaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4af548e49479425d30e464ef319a3a62"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXcf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga4af548e49479425d30e464ef319a3a62.html#ga4af548e49479425d30e464ef319a3a62">dsp::fourier::xcorrb</a> (const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</td></tr>
+<tr class="memdesc:ga4af548e49479425d30e464ef319a3a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrélation (biaisée) entre deux signaux complexes.  <a href="group__fourier-corr_ga4af548e49479425d30e464ef319a3a62.html#ga4af548e49479425d30e464ef319a3a62">More...</a><br /></td></tr>
+<tr class="separator:ga4af548e49479425d30e464ef319a3a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8534834f7df3a3162e3408e01824e887"><td class="memTemplParams" colspan="2">template&lt;typename T  = float&gt; </td></tr>
+<tr class="memitem:ga8534834f7df3a3162e3408e01824e887"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga8534834f7df3a3162e3408e01824e887.html#ga8534834f7df3a3162e3408e01824e887">dsp::fourier::delay</a> (const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;x, float τ)</td></tr>
+<tr class="memdesc:ga8534834f7df3a3162e3408e01824e887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).  <a href="group__fourier-corr_ga8534834f7df3a3162e3408e01824e887.html#ga8534834f7df3a3162e3408e01824e887">More...</a><br /></td></tr>
+<tr class="separator:ga8534834f7df3a3162e3408e01824e887"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga199d58b3523810649e8cf451d4dac093"><td class="memItemLeft" align="right" valign="top"><a id="ga199d58b3523810649e8cf451d4dac093"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr.html#ga199d58b3523810649e8cf451d4dac093">dsp::fourier::delay_estimation_int</a> (<a class="el" href="group__tsd.html#gaf362773b2de03d52bbb68e45b8dd7dc6">IArrayXcf</a> x, <a class="el" href="group__tsd.html#gaf362773b2de03d52bbb68e45b8dd7dc6">IArrayXcf</a> y, float &amp;score)</td></tr>
+<tr class="memdesc:ga199d58b3523810649e8cf451d4dac093"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimation du délais (à l'échantillon près) le plus probable entre deux signaux (via une corrélation) <br /></td></tr>
+<tr class="separator:ga199d58b3523810649e8cf451d4dac093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad1a0e010843c0b3a505b1f47982688c1"><td class="memTemplParams" colspan="2"><a id="gad1a0e010843c0b3a505b1f47982688c1"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gad1a0e010843c0b3a505b1f47982688c1"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt;, <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt;, int, float &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier-corr.html#gad1a0e010843c0b3a505b1f47982688c1">dsp::fourier::align_int</a> (const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;x, const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;y)</td></tr>
+<tr class="memdesc:gad1a0e010843c0b3a505b1f47982688c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alignement de deux signaux. <br /></td></tr>
+<tr class="separator:gad1a0e010843c0b3a505b1f47982688c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga089a06312af84b4b89a5101598da7185"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; Detecteur &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-corr_ga089a06312af84b4b89a5101598da7185.html#ga089a06312af84b4b89a5101598da7185">dsp::fourier::detector_new</a> (const <a class="el" href="structdsp_1_1fourier_1_1_detector_config.html">DetectorConfig</a> &amp;config=<a class="el" href="structdsp_1_1fourier_1_1_detector_config.html">DetectorConfig</a>())</td></tr>
+<tr class="memdesc:ga089a06312af84b4b89a5101598da7185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détecteur par corrélation.  <a href="group__fourier-corr_ga089a06312af84b4b89a5101598da7185.html#ga089a06312af84b4b89a5101598da7185">More...</a><br /></td></tr>
+<tr class="separator:ga089a06312af84b4b89a5101598da7185"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

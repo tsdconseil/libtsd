@@ -160,7 +160,15 @@ $(document).ready(function(){initNavTree('group__filtrage-fenetres_ga500529d253f
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Column vector with window coefficients. </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>fenetre_kaiser1(), <a class="el" href="group__filtrage-fenetres_ga6537fc91e7d68f427d56476ec827380d.html#ga6537fc91e7d68f427d56476ec827380d" title="Computation of the parameters of a Kaiser filter.">kaiser_param()</a></dd></dl>
-<dl class="section user"><dt>Example: creation of a window with 60 dB of attenuation</dt><dd><div class="fragment"></div><!-- fragment --><div class="image">
+<dl class="section user"><dt>Example: creation of a window with 60 dB of attenuation</dt><dd><div class="fragment"><div class="line"> </div>
+<div class="line">  <span class="comment">// Spécifications :</span></div>
+<div class="line">  <span class="comment">// - 60 dB d&#39;atténuation,</span></div>
+<div class="line">  <span class="comment">// - largeur du lobe principale = 1/10 de la fréquence d&#39;échantillonnage</span></div>
+<div class="line">  ArrayXf x = fenêtre_kaiser(60, 0.1);</div>
+<div class="line">  <span class="keyword">auto</span> [fr, xm] = <a class="code" href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">frmag</a>(x);</div>
+<div class="line"> </div>
+<div class="ttc" id="agroup__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26_html_ga9d800b2c1bc4d55b004507cf55d23f26"><div class="ttname"><a href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">dsp::filter::frmag</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; frmag(const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</div><div class="ttdoc">Magnitude of a FIR or IIR filter.</div><div class="ttdef"><b>Definition:</b> filter.hpp:236</div></div>
+</div><!-- fragment --><div class="image">
 <img src="filtrage-fenetre-kaiser.png" alt="" width="600px"/>
 </div>
  </dd></dl>
@@ -173,7 +181,7 @@ $(document).ready(function(){initNavTree('group__filtrage-fenetres_ga500529d253f
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-fenetres.html">Windows</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

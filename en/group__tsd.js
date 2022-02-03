@@ -28,7 +28,7 @@ var group__tsd =
     [ "modulo_2π", "group__tsd_gab29dd54ed4873322265e3122d103d2b1.html#gab29dd54ed4873322265e3122d103d2b1", null ],
     [ "modulo_pm_π", "group__tsd_gae8150cfe8217bd94c82c97fa5e97d94d.html#gae8150cfe8217bd94c82c97fa5e97d94d", null ],
     [ "next_power_of_2", "group__tsd_ga17e5c5690d22a97fd703bd1270555f22.html#ga17e5c5690d22a97fd703bd1270555f22", null ],
-    [ "pad_zeros", "group__tsd_ga44fc72932a39e613008e1571453dff58.html#ga44fc72932a39e613008e1571453dff58", null ],
+    [ "pad_zeros", "group__tsd_ga9aeedb6fd6f1e94af48b79a68ec4dec7.html#ga9aeedb6fd6f1e94af48b79a68ec4dec7", null ],
     [ "phase_unwrap", "group__tsd_ga6c699f8522822c1046cfb6417dfdcc83.html#ga6c699f8522822c1046cfb6417dfdcc83", null ],
     [ "pow2db", "group__tsd_ga63a127231c8e785f679d653c9680181a.html#ga63a127231c8e785f679d653c9680181a", null ],
     [ "rad2deg", "group__tsd_gadc91159bccfe889e8ea77cb0ce271144.html#gadc91159bccfe889e8ea77cb0ce271144", null ],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['curve_205',['Curve',['../structdsp_1_1view_1_1_figure_1_1_curve.html',1,'dsp::view::Figure']]]
+  ['amconfig_524',['AMConfig',['../structdsp_1_1telecom_1_1_a_m_config.html',1,'dsp::telecom']]]
 ];

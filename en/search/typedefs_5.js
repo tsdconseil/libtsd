@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['oarrayxf_355',['OArrayXf',['../group__tsd.html#ga333186de09a44f7aa48674d2c0391428',1,'dsp']]]
+  ['ped_976',['Ped',['../group__telecom-crec.html#ga1de5001bcada3f66c39a1c15099e9027',1,'dsp::telecom']]]
 ];

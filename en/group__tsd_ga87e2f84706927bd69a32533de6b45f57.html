@@ -163,7 +163,7 @@ template&lt;typename T &gt; </div>
 <div class="line">      {</div>
 <div class="line">        <span class="comment">// Ici, on est certain d&#39;avoir 512 échantillons</span></div>
 <div class="line">        tsd_assert(x.rows() == 512);</div>
-<div class="line">        ArrayXcf X = fft(x);</div>
+<div class="line">        ArrayXcf X = <a class="code" href="group__fourier_ga1b27c9c60ac6b9c7c46f204dff8459fb.html#ga1b27c9c60ac6b9c7c46f204dff8459fb">fft</a>(x);</div>
 <div class="line">      });</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 10000 échantillons à traiter</span></div>
@@ -175,6 +175,7 @@ template&lt;typename T &gt; </div>
 <div class="line">  t-&gt;step(x);</div>
 <div class="line"> </div>
 <div class="line"> </div>
+<div class="ttc" id="agroup__fourier_ga1b27c9c60ac6b9c7c46f204dff8459fb_html_ga1b27c9c60ac6b9c7c46f204dff8459fb"><div class="ttname"><a href="group__fourier_ga1b27c9c60ac6b9c7c46f204dff8459fb.html#ga1b27c9c60ac6b9c7c46f204dff8459fb">dsp::fourier::fft</a></div><div class="ttdeci">auto fft(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">Fast discrete Fourier Transform (FFT).</div><div class="ttdef"><b>Definition:</b> fourier.hpp:169</div></div>
 </div><!-- fragment -->Note that 10000 not being a multiple of 512, the last samples are not processed (they would be if the method t-&gt;step()) is called with more samples). </dd></dl>
 
 </div>
@@ -185,7 +186,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

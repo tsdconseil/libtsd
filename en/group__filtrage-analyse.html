@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__filtrage-analyse.html',''); ini
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
-<p>Ces fonctions ont pour but d'analyser les filtres linéaires (LTI). Voici par exemple quelques courbes qu'il est possible de tracer :</p>
+<p>These functions can help to analyze the different responses of a LTI filter. Below are some responses that are possible to plot:</p>
 <div class="image">
 <img src="filtrage-analyse.png" alt="" width="1000px"/>
 </div>
@@ -137,9 +137,13 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gae8d046965d64d7aa129d55732a074bff"><td class="memTemplItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse.html#gae8d046965d64d7aa129d55732a074bff">dsp::filter::repimp</a> (const FRat&lt; T &gt; &amp;h, int npts=-1)</td></tr>
 <tr class="memdesc:gae8d046965d64d7aa129d55732a074bff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Impulse response. <br /></td></tr>
 <tr class="separator:gae8d046965d64d7aa129d55732a074bff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabce5b2ff2d0a33bf3d255550b4909abc"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gabce5b2ff2d0a33bf3d255550b4909abc"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse_gabce5b2ff2d0a33bf3d255550b4909abc.html#gabce5b2ff2d0a33bf3d255550b4909abc">dsp::filter::frphase</a> (const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</td></tr>
+<tr class="memdesc:gabce5b2ff2d0a33bf3d255550b4909abc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Phase of FIR and IIR filters.  <a href="group__filtrage-analyse_gabce5b2ff2d0a33bf3d255550b4909abc.html#gabce5b2ff2d0a33bf3d255550b4909abc">More...</a><br /></td></tr>
+<tr class="separator:gabce5b2ff2d0a33bf3d255550b4909abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7e0a0028a2c2eba7870bf5dc1bef70ac"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga7e0a0028a2c2eba7870bf5dc1bef70ac"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse_ga7e0a0028a2c2eba7870bf5dc1bef70ac.html#ga7e0a0028a2c2eba7870bf5dc1bef70ac">dsp::filter::frgroup</a> (const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</td></tr>
-<tr class="memdesc:ga7e0a0028a2c2eba7870bf5dc1bef70ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Phase of FIR and IIR filters.  <a href="group__filtrage-analyse_ga7e0a0028a2c2eba7870bf5dc1bef70ac.html#ga7e0a0028a2c2eba7870bf5dc1bef70ac">More...</a><br /></td></tr>
+<tr class="memdesc:ga7e0a0028a2c2eba7870bf5dc1bef70ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the group delay.  <a href="group__filtrage-analyse_ga7e0a0028a2c2eba7870bf5dc1bef70ac.html#ga7e0a0028a2c2eba7870bf5dc1bef70ac">More...</a><br /></td></tr>
 <tr class="separator:ga7e0a0028a2c2eba7870bf5dc1bef70ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga35a32d268d320ec69bec9d0c5fa45934"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga35a32d268d320ec69bec9d0c5fa45934"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; dsp::view::Figures &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse_ga35a32d268d320ec69bec9d0c5fa45934.html#ga35a32d268d320ec69bec9d0c5fa45934">dsp::filter::filter_analysis</a> (const FRat&lt; T &gt; &amp;h, float fs=1.0f)</td></tr>
@@ -153,9 +157,9 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga94f4a5af262d729c9d59f9f54cce1500"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse_ga94f4a5af262d729c9d59f9f54cce1500.html#ga94f4a5af262d729c9d59f9f54cce1500">dsp::filter::plot_plz</a> (<a class="el" href="structdsp_1_1view_1_1_figure.html">dsp::view::Figure</a> &amp;fig, const FRat&lt; T &gt; &amp;h)</td></tr>
 <tr class="memdesc:ga94f4a5af262d729c9d59f9f54cce1500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poles / zeros diagram.  <a href="group__filtrage-analyse_ga94f4a5af262d729c9d59f9f54cce1500.html#ga94f4a5af262d729c9d59f9f54cce1500">More...</a><br /></td></tr>
 <tr class="separator:ga94f4a5af262d729c9d59f9f54cce1500"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab23535eb57e824e048c9579f91e53fe8"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse_gab23535eb57e824e048c9579f91e53fe8.html#gab23535eb57e824e048c9579f91e53fe8">dsp::filter::firamp</a> (const Eigen::ArrayXf &amp;h, int L=1024, bool symetrique=true)</td></tr>
-<tr class="memdesc:gab23535eb57e824e048c9579f91e53fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amplitude response of a symetrical or antisymetrical FIR filter (linear phase).  <a href="group__filtrage-analyse_gab23535eb57e824e048c9579f91e53fe8.html#gab23535eb57e824e048c9579f91e53fe8">More...</a><br /></td></tr>
-<tr class="separator:gab23535eb57e824e048c9579f91e53fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadcc57f3c4cafc7d1b7720080203f641a"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse_gadcc57f3c4cafc7d1b7720080203f641a.html#gadcc57f3c4cafc7d1b7720080203f641a">dsp::filter::firamp</a> (const Eigen::ArrayXf &amp;h, int L=1024, bool symetrical=true)</td></tr>
+<tr class="memdesc:gadcc57f3c4cafc7d1b7720080203f641a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amplitude response of a symetrical or antisymetrical FIR filter (linear phase).  <a href="group__filtrage-analyse_gadcc57f3c4cafc7d1b7720080203f641a.html#gadcc57f3c4cafc7d1b7720080203f641a">More...</a><br /></td></tr>
+<tr class="separator:gadcc57f3c4cafc7d1b7720080203f641a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaae684340c4bab3a62c3320efe0e02e37"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse_gaae684340c4bab3a62c3320efe0e02e37.html#gaae684340c4bab3a62c3320efe0e02e37">dsp::filter::fir_delay</a> (int N)</td></tr>
 <tr class="memdesc:gaae684340c4bab3a62c3320efe0e02e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the delay of a linear phase FIR filter.  <a href="group__filtrage-analyse_gaae684340c4bab3a62c3320efe0e02e37.html#gaae684340c4bab3a62c3320efe0e02e37">More...</a><br /></td></tr>
 <tr class="separator:gaae684340c4bab3a62c3320efe0e02e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,7 +169,7 @@ template&lt;typename T &gt; </td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

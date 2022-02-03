@@ -111,6 +111,7 @@ $(document).ready(function(){initNavTree('group__filtrage-tr.html',''); initResi
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#enum-members">Énumérations</a> &#124;
 <a href="#func-members">Fonctions</a>  </div>
   <div class="headertitle">
@@ -120,6 +121,12 @@ $(document).ready(function(){initNavTree('group__filtrage-tr.html',''); initResi
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <p>Dans ce groupe, sont définies des structures de filtrage <b>avec contexte</b>, pour le traitement de données au fil de l'eau (filtrage temps réel). </p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_c_i_c_analyse.html">tsd::filtrage::CICAnalyse</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat de l'analyse d'un filtre CIC.  <a href="structtsd_1_1filtrage_1_1_c_i_c_analyse.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Énumérations</h2></td></tr>
 <tr class="memitem:ga13374529e6b52ebc019e56364f77fd26"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga13374529e6b52ebc019e56364f77fd26.html#ga13374529e6b52ebc019e56364f77fd26">tsd::filtrage::RIIStructure</a> { <a class="el" href="group__filtrage-tr_ga13374529e6b52ebc019e56364f77fd26.html#gga13374529e6b52ebc019e56364f77fd26aabf3c884b3568e1894f5dd78268877b5">tsd::filtrage::FormeDirecte1</a>
@@ -134,14 +141,14 @@ $(document).ready(function(){initNavTree('group__filtrage-tr.html',''); initResi
 Fonctions</h2></td></tr>
 <tr class="memitem:gadcfe67be07957ca7c4c3ad701de3040a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gadcfe67be07957ca7c4c3ad701de3040a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_gadcfe67be07957ca7c4c3ad701de3040a.html#gadcfe67be07957ca7c4c3ad701de3040a">tsd::filtrage::ligne_a_retard</a> (int n)</td></tr>
-<tr class="memdesc:gadcfe67be07957ca7c4c3ad701de3040a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retarde le signal d'entrée de \(n\) échantillons.  <a href="group__filtrage-tr_gadcfe67be07957ca7c4c3ad701de3040a.html#gadcfe67be07957ca7c4c3ad701de3040a">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:gadcfe67be07957ca7c4c3ad701de3040a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retarde le signal d'entrée d'un nombre entier d'échantillons.  <a href="group__filtrage-tr_gadcfe67be07957ca7c4c3ad701de3040a.html#gadcfe67be07957ca7c4c3ad701de3040a">Plus de détails...</a><br /></td></tr>
 <tr class="separator:gadcfe67be07957ca7c4c3ad701de3040a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga356686c39dac5832591f2a78bc1c06d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre.html">Filtre</a>&lt; float, <a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, HilbertTransformeurConfig &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga356686c39dac5832591f2a78bc1c06d0.html#ga356686c39dac5832591f2a78bc1c06d0">tsd::filtrage::hilbert_transformeur</a> (int n=31, const std::string &amp;fenetre=&quot;hn&quot;)</td></tr>
 <tr class="memdesc:ga356686c39dac5832591f2a78bc1c06d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définit un transformeur de Hilbert, qui convertit un signal réel en un signal analytique (complexe).  <a href="group__filtrage-tr_ga356686c39dac5832591f2a78bc1c06d0.html#ga356686c39dac5832591f2a78bc1c06d0">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ga356686c39dac5832591f2a78bc1c06d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga906266ad9c9331316631cb47a66e1631"><td class="memTemplParams" colspan="2">template&lt;typename Tc , typename T  = Tc&gt; </td></tr>
 <tr class="memitem:ga906266ad9c9331316631cb47a66e1631"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga906266ad9c9331316631cb47a66e1631.html#ga906266ad9c9331316631cb47a66e1631">tsd::filtrage::filtre_rif</a> (const Eigen::Ref&lt; const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; Tc &gt;&gt; h)</td></tr>
-<tr class="memdesc:ga906266ad9c9331316631cb47a66e1631"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie)  <a href="group__filtrage-tr_ga906266ad9c9331316631cb47a66e1631.html#ga906266ad9c9331316631cb47a66e1631">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:ga906266ad9c9331316631cb47a66e1631"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie).  <a href="group__filtrage-tr_ga906266ad9c9331316631cb47a66e1631.html#ga906266ad9c9331316631cb47a66e1631">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ga906266ad9c9331316631cb47a66e1631"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7d7f55089bd4aa658e625497b5929a9c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga7d7f55089bd4aa658e625497b5929a9c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga7d7f55089bd4aa658e625497b5929a9c.html#ga7d7f55089bd4aa658e625497b5929a9c">tsd::filtrage::filtre_id</a> ()</td></tr>
@@ -163,7 +170,7 @@ Fonctions</h2></td></tr>
 <tr class="memitem:gae67720ea9e2decfec0a31ca94091a9c0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt; <a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_gae67720ea9e2decfec0a31ca94091a9c0.html#gae67720ea9e2decfec0a31ca94091a9c0">tsd::filtrage::filtre_cic</a> (const <a class="el" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, char mode='d')</td></tr>
 <tr class="memdesc:gae67720ea9e2decfec0a31ca94091a9c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un filtre CIC, opérant sur des vecteurs de type T, et travaillant en interne avec le type Ti.  <a href="group__filtrage-tr_gae67720ea9e2decfec0a31ca94091a9c0.html#gae67720ea9e2decfec0a31ca94091a9c0">Plus de détails...</a><br /></td></tr>
 <tr class="separator:gae67720ea9e2decfec0a31ca94091a9c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga74642104d73a6f4a944dd24b08b790f2"><td class="memItemLeft" align="right" valign="top">CICAnalyse&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2.html#ga74642104d73a6f4a944dd24b08b790f2">tsd::filtrage::cic_analyse</a> (const <a class="el" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, float Fin, float Fint=0)</td></tr>
+<tr class="memitem:ga74642104d73a6f4a944dd24b08b790f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structtsd_1_1filtrage_1_1_c_i_c_analyse.html">CICAnalyse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2.html#ga74642104d73a6f4a944dd24b08b790f2">tsd::filtrage::cic_analyse</a> (const <a class="el" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, float Fin, float Fint=0)</td></tr>
 <tr class="memdesc:ga74642104d73a6f4a944dd24b08b790f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes and shows the frequency response of a CIC filter and then analyse the aliasing that occurs after decimation.  <a href="group__filtrage-tr_ga74642104d73a6f4a944dd24b08b790f2.html#ga74642104d73a6f4a944dd24b08b790f2">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ga74642104d73a6f4a944dd24b08b790f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga22324bf08ee05e6a666e58ce584e8659"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga22324bf08ee05e6a666e58ce584e8659.html#ga22324bf08ee05e6a666e58ce584e8659">tsd::filtrage::cic_freq</a> (const <a class="el" href="structtsd_1_1filtrage_1_1_c_i_c_config.html">CICConfig</a> &amp;config, const ArrayXf &amp;f)</td></tr>
@@ -191,7 +198,7 @@ Fonctions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

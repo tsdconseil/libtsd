@@ -118,23 +118,25 @@ $(document).ready(function(){initNavTree('group__filtrage.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
-<p>Ce module regroupe des fonctions pour le design, l'analyse et l'implémentation des filtres LTI (Linear Time Invariant) discrets.</p>
-<p>Ces filtres sont représentés dans la librairie soit par un tableau de coefficients pour les filtres RIF (classe <a href="https://eigen.tuxfamily.org/dox/group__TutorialArrayClass.html" rel="external nofollow" target="_blank"><code>Eigen::ArrayXf</code></a>), ou par une fonction de transfert (classe FRat) dans le cas général (filtres RII).</p>
-<p>Une fois le design d'un filtre effectué, celui-ci peut être utilisé pour traiter directement un vecteur (signal de durée finie), ce sont les fonctions filtrer(), <a class="el" href="group__filtrage-fini_ga3b4d3a482e30a2238149e62618e1f988.html#ga3b4d3a482e30a2238149e62618e1f988">filtfilt()</a>, etc. décrite dans le sous-module <a class="el" href="group__filtrage-fini.html">Filtering of finitge length signals</a>. Pour traiter des signaux reçus continus (par exemple, pour du traitement en temps réel), différentes structures avec contexte sont disponibles, décrite dans le sous-module <a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a>. </p>
-<table class="memberdecls">
+<p>This modules contains Functions for the design, analysis and implementation of dicrete LTI (Linear Time Invariant) filters</p>
+<p>Filters are represented in the librairy either, for FIR filters, by a vector of coefficients (class <a href="https://eigen.tuxfamily.org/dox/group__TutorialArrayClass.html" rel="external nofollow" target="_blank"><code>Eigen::ArrayXf</code></a>), or by their tranfert function (class FRat) in the general case (IIR or FIR filters).</p>
+<p>Once the design of a filter is done, it can be used to process directly a vector (finite length signal), with such functions as <a class="el" href="group__filtrage-fini_ga1a11475aa835980ad7a61b67350b76c1.html#ga1a11475aa835980ad7a61b67350b76c1">filter()</a>, <a class="el" href="group__filtrage-fini_ga3b4d3a482e30a2238149e62618e1f988.html#ga3b4d3a482e30a2238149e62618e1f988">filtfilt()</a>, etc. described in the section <a class="el" href="group__filtrage-fini.html">Filtering of finitge length signals</a>. To process streaming signals (for instance, real-time signal processing), different structures with context are available, described in the section <a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a>.</p>
+<p><img src="ex-biquad-0.png" alt="" width="400px" style="float: right; margin: 10px" class="inline"/></p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;dsp/filter.hpp&quot;</span></div>
+</div><!-- fragment --> <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 Sous-modules</h2></td></tr>
 <tr class="memitem:group__filtrage-analyse"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-analyse.html">Analysis of linear filters</a></td></tr>
-<tr class="memdesc:group__filtrage-analyse"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonctions diverses pour analyser les différentes réponses d'un filtre LTI. <br /></td></tr>
+<tr class="memdesc:group__filtrage-analyse"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functions to analyze the different responses of a LTI filter. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__filtrage-design"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-design.html">Linear filter design</a></td></tr>
-<tr class="memdesc:group__filtrage-design"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conception de filtres RIF ou RII (calcul des fonctions de transfert, coefficients) <br /></td></tr>
+<tr class="memdesc:group__filtrage-design"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conception of FIR or IIR filters (transfert function or coefficients computations) <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__filtrage-fenetres"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-fenetres.html">Windows</a></td></tr>
 <tr class="memdesc:group__filtrage-fenetres"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classical windows for FIR filter conception or spectral analysis. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__filtrage-fini"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-fini.html">Filtering of finitge length signals</a></td></tr>
-<tr class="memdesc:group__filtrage-fini"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtering of finitge length signals. <br /></td></tr>
+<tr class="memdesc:group__filtrage-fini"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtering of finite length signals. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__filtrage-tr"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a></td></tr>
 <tr class="memdesc:group__filtrage-tr"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of continuous streaming filter. <br /></td></tr>
@@ -154,7 +156,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

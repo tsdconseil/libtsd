@@ -121,7 +121,7 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;tsd/tsd.hpp&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;tsd/fourier.hpp&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacetsd_1_1telecom.html">tsd::telecom</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>tsd::telecom {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
@@ -131,7 +131,7 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keywordtype">int</span> configure(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> N);</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordtype">void</span> step(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keywordtype">float</span> &amp;freq_detectee, <span class="keywordtype">float</span> &amp;snr);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  sptr&lt;tsd::fourier::FFTPlanAbstrait&gt; fft_plan;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  sptr&lt;tsd::fourier::FFTPlan&gt; fft_plan;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> N;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
@@ -234,17 +234,16 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="ttc" id="agroup__tsd_html_gad33f675879923d93b4769f0709e96f31"><div class="ttname"><a href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00083">tsd.hpp:83</a></div></div>
-<div class="ttc" id="anamespacetsd_1_1telecom_html"><div class="ttname"><a href="namespacetsd_1_1telecom.html">tsd::telecom</a></div><div class="ttdef"><b>Definition:</b> <a href="bitstream_8hpp_source.html#l00005">bitstream.hpp:5</a></div></div>
-<div class="ttc" id="astructtsd_1_1telecom_1_1_p_l_l1_config_a67c94c7f9e75c9d726d55e06b1717e34_html_a67c94c7f9e75c9d726d55e06b1717e34"><div class="ttname"><a href="structtsd_1_1telecom_1_1_p_l_l1_config_a67c94c7f9e75c9d726d55e06b1717e34.html#a67c94c7f9e75c9d726d55e06b1717e34">tsd::telecom::PLL1Config::tc</a></div><div class="ttdeci">float tc</div><div class="ttdef"><b>Definition:</b> <a href="carrier-rec_8hpp_source.html#l00046">carrier-rec.hpp:46</a></div></div>
-<div class="ttc" id="astructtsd_1_1telecom_1_1_p_l_l1_config_html"><div class="ttname"><a href="structtsd_1_1telecom_1_1_p_l_l1_config.html">tsd::telecom::PLL1Config</a></div><div class="ttdef"><b>Definition:</b> <a href="carrier-rec_8hpp_source.html#l00043">carrier-rec.hpp:44</a></div></div>
+<div class="ttc" id="agroup__tsd_html_gad33f675879923d93b4769f0709e96f31"><div class="ttname"><a href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:83</div></div>
+<div class="ttc" id="astructtsd_1_1telecom_1_1_p_l_l1_config_a67c94c7f9e75c9d726d55e06b1717e34_html_a67c94c7f9e75c9d726d55e06b1717e34"><div class="ttname"><a href="structtsd_1_1telecom_1_1_p_l_l1_config_a67c94c7f9e75c9d726d55e06b1717e34.html#a67c94c7f9e75c9d726d55e06b1717e34">tsd::telecom::PLL1Config::tc</a></div><div class="ttdeci">float tc</div><div class="ttdef"><b>Definition:</b> carrier-rec.hpp:46</div></div>
+<div class="ttc" id="astructtsd_1_1telecom_1_1_p_l_l1_config_html"><div class="ttname"><a href="structtsd_1_1telecom_1_1_p_l_l1_config.html">tsd::telecom::PLL1Config</a></div><div class="ttdef"><b>Definition:</b> carrier-rec.hpp:44</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_761a2ca73a74301a2ece799a0de2d706.html">tsd</a></li><li class="navelem"><a class="el" href="dir_c695ee0cd6c30db38e260116c2eb4f30.html">telecom</a></li><li class="navelem"><b>carrier-rec.hpp</b></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['cic_5fanalysis_209',['cic_analysis',['../group__filtrage-tr_gad69bc9614f9e79a9b0db6e5c9ac4bf06.html#gad69bc9614f9e79a9b0db6e5c9ac4bf06',1,'dsp::filter']]],
-  ['cic_5ffreq_210',['cic_freq',['../group__filtrage-tr_ga021e79b3c30f99d8c6c9b6744795c7f0.html#ga021e79b3c30f99d8c6c9b6744795c7f0',1,'dsp::filter']]],
-  ['clear_211',['clear',['../structdsp_1_1view_1_1_figure.html#a06095c8174bc1e20a34b63f45647aee4',1,'dsp::view::Figure']]],
-  ['clone_212',['clone',['../structdsp_1_1view_1_1_figure.html#a0ac1662242c1886a217dae45da23cb00',1,'dsp::view::Figure']]],
-  ['cumsum_213',['cumsum',['../group__tsd_gac6062dd92418b37724dfb5751f08dd2d.html#gac6062dd92418b37724dfb5751f08dd2d',1,'dsp']]]
+  ['ber_573',['ber',['../structdsp_1_1telecom_1_1_wave_form.html#a6c2cb38f6628cfaea6eb0daf904eb8cc',1,'dsp::telecom::WaveForm::ber(float EbN0_dB)'],['../structdsp_1_1telecom_1_1_wave_form.html#a098dec87b2902d8178f35081e31fea90',1,'dsp::telecom::WaveForm::ber(const ArrayXf &amp;EbN0_dB)']]],
+  ['bilinear_5ftransform_574',['bilinear_transform',['../group__filtrage-design_gae0890465291de1fd88cf31d49fb5e75c.html#gae0890465291de1fd88cf31d49fb5e75c',1,'dsp::filter']]],
+  ['bruit_5fawgn_575',['bruit_awgn',['../group__telecom-simu_gaac7273e6726afa6955e6f44ee97bb780.html#gaac7273e6726afa6955e6f44ee97bb780',1,'dsp::telecom']]]
 ];

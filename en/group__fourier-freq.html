@@ -110,25 +110,65 @@ $(document).ready(function(){initNavTree('group__fourier-freq.html',''); initRes
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Spectral estimation<div class="ingroups"><a class="el" href="group__fourier.html">Fourier transform</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>Ce module regroupe des fonctions liées à l'estimation du spectre de puissance (ou PSD pour <em>Power Spectral Density</em>) d'un signal numérique :</p><ul>
-<li>Estimation de la PSD complète :<ul>
-<li><b>Méthodes non paramétriques</b> (sans hypothèse sur la nature du signal) : périodogramme (psd()), méthode Welch (psd_welch()),</li>
-<li><b>Méthodes paramétriques</b> : MUSIC (MUltiple SIgnal Classification) (psd_subspace())</li>
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<p>These are functions related to Power Spectral Density (PSD) estimation:</p><ul>
+<li>Complete estimation of the PSD:<ul>
+<li><b>Non parametric methods</b> (without doing any assumptions on the nature of the signal): periodogram (<a class="el" href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">psd()</a>), Welch method (<a class="el" href="group__fourier-freq_ga259d17f676f64103058ebfda8fd1f890.html#ga259d17f676f64103058ebfda8fd1f890">psd_welch()</a>),</li>
+<li><b>Parametric methods</b>: MUSIC (MUltiple SIgnal Classification) (<a class="el" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f">psd_subspace()</a>)</li>
 </ul>
 </li>
-<li>Estimation de la PSD pour une fréquence spécifique (goertzel(), filtre_goertzel()).</li>
-<li>Estimation la plus fine possible de la fréquence d'un signal exponentiel (ou sinusoïdal) pur (freqestim()). </li>
+<li>PSD estimation for a specific frequency (<a class="el" href="group__fourier-freq_ga4067a208b4edabab6a4a9db8d7271d50.html#ga4067a208b4edabab6a4a9db8d7271d50">goertzel()</a>, <a class="el" href="group__fourier-freq_gaa426c76a53ae38615bc1e1c27d9e9cc0.html#gaa426c76a53ae38615bc1e1c27d9e9cc0">filter_goertzel()</a>).</li>
+<li>Frequency estimation for a single tone signal (<a class="el" href="group__fourier-freq_ga9795f0f1d85e796c4114c79d55a55326.html#ga9795f0f1d85e796c4114c79d55a55326">freqestim()</a>). </li>
 </ul>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga949e91d67bb0669a70edd5070f9c6fb1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga949e91d67bb0669a70edd5070f9c6fb1.html#ga949e91d67bb0669a70edd5070f9c6fb1">dsp::fourier::FreqEstimMethode</a> { <a class="el" href="group__fourier-freq_ga949e91d67bb0669a70edd5070f9c6fb1.html#gga949e91d67bb0669a70edd5070f9c6fb1a4776ced840f117a5ab81ec7980bf3d0a">dsp::fourier::FFT</a>
+, <a class="el" href="group__fourier-freq_ga949e91d67bb0669a70edd5070f9c6fb1.html#gga949e91d67bb0669a70edd5070f9c6fb1abdb9f97e591bd23e05fb94902086f406">dsp::fourier::CANDAN2</a>
+, <a class="el" href="group__fourier-freq_ga949e91d67bb0669a70edd5070f9c6fb1.html#gga949e91d67bb0669a70edd5070f9c6fb1a7265a63151b7a5231077504cd57bf595">dsp::fourier::QUADRATIC</a>
+ }</td></tr>
+<tr class="memdesc:ga949e91d67bb0669a70edd5070f9c6fb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Choix d'un algorithme pour l'estimation de fréquence.  <a href="group__fourier-freq_ga949e91d67bb0669a70edd5070f9c6fb1.html#ga949e91d67bb0669a70edd5070f9c6fb1">More...</a><br /></td></tr>
+<tr class="separator:ga949e91d67bb0669a70edd5070f9c6fb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga08f018f24a7fbf89ef9ae9d943357bfa"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:ga08f018f24a7fbf89ef9ae9d943357bfa"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">dsp::fourier::psd</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;x)</td></tr>
+<tr class="memdesc:ga08f018f24a7fbf89ef9ae9d943357bfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">PSD (corrélogramme)  <a href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">More...</a><br /></td></tr>
+<tr class="separator:ga08f018f24a7fbf89ef9ae9d943357bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga259d17f676f64103058ebfda8fd1f890"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga259d17f676f64103058ebfda8fd1f890.html#ga259d17f676f64103058ebfda8fd1f890">dsp::fourier::psd_welch</a> (const ArrayXcf &amp;x, int N, const std::string fen=&quot;hn&quot;)</td></tr>
+<tr class="memdesc:ga259d17f676f64103058ebfda8fd1f890"><td class="mdescLeft">&#160;</td><td class="mdescRight">PSD (méthode de Welch - par moyennage).  <a href="group__fourier-freq_ga259d17f676f64103058ebfda8fd1f890.html#ga259d17f676f64103058ebfda8fd1f890">More...</a><br /></td></tr>
+<tr class="separator:ga259d17f676f64103058ebfda8fd1f890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3e20e2985ca88a4e55babfb8f56fed2f"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f">dsp::fourier::psd_subspace</a> (const ArrayXcf &amp;x, int Ns, int Nf=1024, int m=0)</td></tr>
+<tr class="memdesc:ga3e20e2985ca88a4e55babfb8f56fed2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul d'un spectre par la méthode des sous-espaces.  <a href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f">More...</a><br /></td></tr>
+<tr class="separator:ga3e20e2985ca88a4e55babfb8f56fed2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9795f0f1d85e796c4114c79d55a55326"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga9795f0f1d85e796c4114c79d55a55326.html#ga9795f0f1d85e796c4114c79d55a55326">dsp::fourier::freqestim</a> (<a class="el" href="group__tsd.html#gaf362773b2de03d52bbb68e45b8dd7dc6">IArrayXcf</a> x, <a class="el" href="group__fourier-freq_ga949e91d67bb0669a70edd5070f9c6fb1.html#ga949e91d67bb0669a70edd5070f9c6fb1">FreqEstimMethode</a> m=FreqEstimMethode::CANDAN2)</td></tr>
+<tr class="memdesc:ga9795f0f1d85e796c4114c79d55a55326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimation de fréquence d'un signal périodique.  <a href="group__fourier-freq_ga9795f0f1d85e796c4114c79d55a55326.html#ga9795f0f1d85e796c4114c79d55a55326">More...</a><br /></td></tr>
+<tr class="separator:ga9795f0f1d85e796c4114c79d55a55326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4067a208b4edabab6a4a9db8d7271d50"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_ga4067a208b4edabab6a4a9db8d7271d50.html#ga4067a208b4edabab6a4a9db8d7271d50">dsp::fourier::goertzel</a> (const ArrayXf &amp;x, float frequence)</td></tr>
+<tr class="memdesc:ga4067a208b4edabab6a4a9db8d7271d50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de Goertzel (calcul sur un buffer).  <a href="group__fourier-freq_ga4067a208b4edabab6a4a9db8d7271d50.html#ga4067a208b4edabab6a4a9db8d7271d50">More...</a><br /></td></tr>
+<tr class="separator:ga4067a208b4edabab6a4a9db8d7271d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa426c76a53ae38615bc1e1c27d9e9cc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; float &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq_gaa426c76a53ae38615bc1e1c27d9e9cc0.html#gaa426c76a53ae38615bc1e1c27d9e9cc0">dsp::fourier::filter_goertzel</a> (float frequence, int N)</td></tr>
+<tr class="memdesc:gaa426c76a53ae38615bc1e1c27d9e9cc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de Goertzel (calcul au fil de l'eau)  <a href="group__fourier-freq_gaa426c76a53ae38615bc1e1c27d9e9cc0.html#gaa426c76a53ae38615bc1e1c27d9e9cc0">More...</a><br /></td></tr>
+<tr class="separator:gaa426c76a53ae38615bc1e1c27d9e9cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81dfb1c43122f58eda529ccb12db2906"><td class="memItemLeft" align="right" valign="top"><a id="ga81dfb1c43122f58eda529ccb12db2906"></a>
+<a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga49563cdd8dd690813216546e10751779.html#ga49563cdd8dd690813216546e10751779">Filtre</a>&lt; <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, float, SpectrumConfig &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fourier-freq.html#ga81dfb1c43122f58eda529ccb12db2906">dsp::fourier::rt_spectrum</a> (const SpectrumConfig &amp;config)</td></tr>
+<tr class="memdesc:ga81dfb1c43122f58eda529ccb12db2906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de spectre en temps réel. <br /></td></tr>
+<tr class="separator:ga81dfb1c43122f58eda529ccb12db2906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

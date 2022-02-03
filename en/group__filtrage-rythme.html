@@ -119,17 +119,18 @@ $(document).ready(function(){initNavTree('group__filtrage-rythme.html',''); init
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
-<p>La façon la plus simple pour changer la fréquence d'échantillonnage d'un signal <b>de durée finie</b> est d'utiliser la fonction <a class="el" href="group__tsd_ga12f0296034639a47a7dd2dbfb048be0f.html#ga12f0296034639a47a7dd2dbfb048be0f">resample()</a> (définie dans tsd.hpp).</p>
-<p>Les fonctions ci-dessous vous permettrons de traiter des signaux <b>au fil de l'eau</b>, grâce à des filtres avec contexte.</p>
-<p>Le filtre de rééchantillonnage le plus général (taux de rééchantillonnage arbitraire) est créé avec la fonction filtre_reechan(). Les autres filtres sont plus spécifiques (taux de rééchantillonnage entiers ou fractionnaires).</p>
-<div class="fragment"><div class="line"><span class="comment">// Divise la fréquence d&#39;échantillonnage par 100</span></div>
-<div class="line"><span class="keyword">auto</span> f = filtre_reechan(0.01);</div>
+<p>The most straightforward way to change the sampling rate of a signal <b>of finite length</b> is to use the <a class="el" href="group__tsd_ga12f0296034639a47a7dd2dbfb048be0f.html#ga12f0296034639a47a7dd2dbfb048be0f">resample()</a> function (defined in <code><a class="el" href="dsp_8hpp_source.html">dsp/dsp.hpp</a></code>).</p>
+<p>The functions described below enable on the contrary to process streaming signals, using filter structures with context.</p>
+<p>The most general resampling filter (arbitrary resampling ratio) can be instanciated with the function <a class="el" href="group__filtrage-rythme_gab41a9b26a85431efe45675385edb5605.html#gab41a9b26a85431efe45675385edb5605">filter_resample()</a>. The other filters are more specific (integer or rational resampmling rate).</p>
+<div class="fragment"><div class="line"><span class="comment">// Divide the sampling frequency by 100</span></div>
+<div class="line"><span class="keyword">auto</span> f = <a class="code" href="group__filtrage-rythme_gab41a9b26a85431efe45675385edb5605.html#gab41a9b26a85431efe45675385edb5605">filter_resample</a>(0.01);</div>
 <div class="line">ArrayXf y = f-&gt;step(x);</div>
+<div class="ttc" id="agroup__filtrage-rythme_gab41a9b26a85431efe45675385edb5605_html_gab41a9b26a85431efe45675385edb5605"><div class="ttname"><a href="group__filtrage-rythme_gab41a9b26a85431efe45675385edb5605.html#gab41a9b26a85431efe45675385edb5605">dsp::filter::filter_resample</a></div><div class="ttdeci">sptr&lt; FiltreGen&lt; T &gt; &gt; filter_resample(float ratio)</div><div class="ttdoc">Rythm adapter, with arbitrary ratio.</div><div class="ttdef"><b>Definition:</b> filter.hpp:1942</div></div>
 </div><!-- fragment --> <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 Sous-modules</h2></td></tr>
 <tr class="memitem:group__filtrage-rythme-itrp"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-rythme-itrp.html">Interpolators</a></td></tr>
-<tr class="memdesc:group__filtrage-rythme-itrp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Several classical interpolation structures (lineair, polynomial, sinc, etc.) <br /></td></tr>
+<tr class="memdesc:group__filtrage-rythme-itrp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Several classical interpolation structures (linear, polynomial, sinc, etc.) <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -144,11 +145,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9ebb022ead11d5611f928bb768f43369"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-rythme_ga9ebb022ead11d5611f928bb768f43369.html#ga9ebb022ead11d5611f928bb768f43369">dsp::filter::filter_fir_decim</a> (const Eigen::Ref&lt; const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; Tc &gt;&gt; h, unsigned int R)</td></tr>
 <tr class="memdesc:ga9ebb022ead11d5611f928bb768f43369"><td class="mdescLeft">&#160;</td><td class="mdescRight">FIR filtering with post-decimation (compute only one output sample every \(R\) input ones).  <a href="group__filtrage-rythme_ga9ebb022ead11d5611f928bb768f43369.html#ga9ebb022ead11d5611f928bb768f43369">More...</a><br /></td></tr>
 <tr class="separator:ga9ebb022ead11d5611f928bb768f43369"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga56b02dfa41f6ab0d9bb1e32db1a80526"><td class="memTemplParams" colspan="2"><a id="ga56b02dfa41f6ab0d9bb1e32db1a80526"></a>
+<tr class="memitem:ga5149368ec03dc59eb95919c8cdfe605c"><td class="memTemplParams" colspan="2"><a id="ga5149368ec03dc59eb95919c8cdfe605c"></a>
 template&lt;typename Tc , typename T  = Tc&gt; </td></tr>
-<tr class="memitem:ga56b02dfa41f6ab0d9bb1e32db1a80526"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-rythme.html#ga56b02dfa41f6ab0d9bb1e32db1a80526">dsp::filter::filter_fir_half_band</a> (const Eigen::Ref&lt; const Vecteur&lt; Tc &gt;&gt; c)</td></tr>
-<tr class="memdesc:ga56b02dfa41f6ab0d9bb1e32db1a80526"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be documented : FIR filter optimized for half-band filtering. <br /></td></tr>
-<tr class="separator:ga56b02dfa41f6ab0d9bb1e32db1a80526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5149368ec03dc59eb95919c8cdfe605c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-rythme.html#ga5149368ec03dc59eb95919c8cdfe605c">dsp::filter::filter_fir_half_band</a> (const Eigen::Ref&lt; const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; Tc &gt;&gt; c)</td></tr>
+<tr class="memdesc:ga5149368ec03dc59eb95919c8cdfe605c"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be documented : FIR filter optimized for half-band filtering. <br /></td></tr>
+<tr class="separator:ga5149368ec03dc59eb95919c8cdfe605c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabe3d460a5f3cc23a8d1020e602d829aa"><td class="memTemplParams" colspan="2">template&lt;typename Tc , typename T  = Tc&gt; </td></tr>
 <tr class="memitem:gabe3d460a5f3cc23a8d1020e602d829aa"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-rythme_gabe3d460a5f3cc23a8d1020e602d829aa.html#gabe3d460a5f3cc23a8d1020e602d829aa">dsp::filter::filter_fir_ups</a> (const Eigen::Ref&lt; const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; Tc &gt;&gt; h, unsigned int R)</td></tr>
 <tr class="memdesc:gabe3d460a5f3cc23a8d1020e602d829aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">FIR filtering with interpolation (polyphase implementation)  <a href="group__filtrage-rythme_gabe3d460a5f3cc23a8d1020e602d829aa.html#gabe3d460a5f3cc23a8d1020e602d829aa">More...</a><br /></td></tr>
@@ -174,7 +175,7 @@ template&lt;typename Tc , typename T  = Tc&gt; </td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

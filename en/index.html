@@ -114,30 +114,43 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">libtsd Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><b>Libtsd</b> is a C++ library for signal processing, based on the <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> library, laquelle permet d'effectuer des calculs vectorisés de manière simple et intuitive. La librairie Libtsd vous apporte les facilités du traitement du signal à haut niveau (code lisible et intuitif), du type que l'on trouve habituellement avec Matlab ou Python, mais avec les avantages du C++, notamment en terme de fonctionnement possible pour des traitement en temps réels.</p>
-<p>Elle est constituée des modules de base suivants, ne nécessitant aucune dépendance autre que Eigen (en version 3) :</p><ul>
-<li><a class="el" href="namespacedsp.html">dsp</a> : fonctions générales pour le traitement du signal (définition des structures abstraites pour les filtres / sources / puits de traitement)</li>
-<li>dsp::filter : design, conception et implémentation des filtres linéaires (LTI)</li>
-<li><a class="el" href="group__fourier.html">dsp::fourier</a> : traitements dans le domaine fréquentiel.</li>
-<li>dsp::tf : traitements temps / fréquences (STFT, CQT, ondelettes, ...).</li>
-<li><a class="el" href="group__telecom.html">dsp::telecom</a> : modulations / démodulations numériques et analogiques.</li>
+<div class="textblock"><p><b>Libtsd</b> is a C++ library for signal processing, based on the <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> library, which enable to do vectorized computations in a simple and intuitive way. The libtsd library bring routines for signal processing (readable and intuitive code), the kind that can be usually found in Matlab, Scilab or Python environments, but with the advantages of C++, especially in terms of possible real-time processing.</p>
+<p>The library consists in the following modules, requiring no other dependancies than Eigen (in version 3):</p><ul>
+<li><a class="el" href="group__tsd.html">dsp</a> : general function for signal proessing (abstract structures for filters, sources and data sinks),</li>
+<li><a class="el" href="group__filtrage.html">dsp::filter</a> : design, analysis and implementation of linear filters (LTI).</li>
+<li><a class="el" href="group__fourier.html">dsp::fourier</a> : frequency domain processings.</li>
+<li><a class="el" href="group__temps-frequence.html">dsp::tf</a> : Time / frequency processings (STFT, CQT, wavelets, ...).</li>
+<li><a class="el" href="group__telecom.html">dsp::telecom</a> : digital and analog modulations and demodulations.</li>
+<li><a class="el" href="group__stats.html">dsp::stats</a> : processings based on signals statistics (linear prediction, sub-spaces methods, ...)</li>
+<li><a class="el" href="group__tsd-temps.html">dsp::time</a> : functions and structures useful for processing dates and times, calendars, etc.</li>
 </ul>
-<p>Les modules optionnels suivant peuvent par ailleurs être utilisés :</p><ul>
-<li><a class="el" href="group__vue.html">dsp::view</a> : Tracés de courbes et la visualisation des données (dépendances : <a href="http://www.libpng.org">libpng</a> et <a href="https://www.freetype.org/">freetype</a>, pour l'affichage : <a href="https://www.gtkmm.org">libgtkmm 3</a>).</li>
-<li><a class="el" href="group__audio.html">dsp::audio</a> : Lecture et écriture de fichiers audio (dépendance : <a href="http://www.mega-nerd.com/libsndfile/">libsndfile</a>).</li>
+<p>The following optional modules car also be used:</p><ul>
+<li><a class="el" href="group__vue.html">dsp::view</a> : Simple plotting functions (dependancies : <a href="http://www.libpng.org">libpng</a> and <a href="https://www.freetype.org/">freetype</a>).</li>
 </ul>
-<h2>Style de code</h2>
-<p>La règle directrice qui a été choisie est de <b>simplifier au maximum les API</b>, afin de faciliter qu'elles soient le plus lisibles et claires possibles, et de manière à miniser le risque d'erreur ou de confusion pour l'utilisateur. Cela implique notamment les choix suivants :</p><ul>
-<li>Le nombre de classes C++ exposées est minimisé, soit en exposant dans la mesure du possible de simples fonctions, soit en exposant des classes abstraites, de manière à masquer les détails d'implémentations.</li>
-<li>Quitte à limiter la flexibilité, les templates ne sont pas systématiquement utilisés, et quand un type (flottant 32 bits par exemple) paraît adéquat pour une large gamme d'utilisation, il est utilisé directement. Cela permet notamment de bien séparer l'API (fichiers d'en-tête) de l'implémentation. </li>
+<p>Some more applicative modules are also being developped:</p><ul>
+<li><a class="el" href="group__kalman.html">dsp::kalman</a> : Kalman filtering (lineair and non linear),</li>
+<li><a class="el" href="group__apps-doa.html">dsp::apps::doa</a> : Computings related to antenna arrays.</li>
 </ul>
+<h2>Code style</h2>
+<p>The guiding rule that has been choosen is to <b>simplify the best possible the API</b>, so as they are easily readable, and so as to minimize the risk of mistake or confusion for the user. This imply the following decisions:</p><ul>
+<li>The number of exposed C++ class is minimized, either by exposing when possible only simple function (C style), or using pointers to abstracts classes, so as to mask the implementation details.</li>
+<li>Even if it limits the flexibility, templates are not systematically used, and when a single type (for instance 32 bits floating point) is possible, it is used directly. This enables to well distinguis the API (header files) from the implementation (source files).</li>
+</ul>
+<h2>Naming conventions</h2>
+<ul>
+<li>The functions, variables and methods are written in lower case, and the words are separated with an underscore (_) : <code>a_function</code>,</li>
+<li>The classes and structures are written in camelcase: <code>AClass</code>,</li>
+<li>The constants are written in upper case, the words being separated with underscores: <code>A_CONSTANT</code>.</li>
+</ul>
+<h2>Abstract classes</h2>
+<p>The abstract classes are instanciated by a method of the kind <code>module_name_new()</code>, which returns a smart pointer to a class instance (<code>std::shared_ptr&lt;T&gt;</code>, abbreviated in <code><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586" title="Short-cut for a shared pointer.">dsp::sptr&lt;T&gt;</a></code>). </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

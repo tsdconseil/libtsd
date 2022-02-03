@@ -138,7 +138,7 @@ template&lt;typename Derived &gt; </div>
       </table>
 </div><div class="memdoc">
 <h3>Ré-échantillonnage</h3>
-<p>Cette fonction ré-échantillone un signal suivant un facteur de décimation ( \(r &lt; 1\)) ou d'interpolation ( \(r &gt; 1\)) arbitraire.</p>
+<p>Cette fonction ré-échantillonne un signal suivant un facteur de décimation ( \(r &lt; 1\)) ou d'interpolation ( \(r &gt; 1\)) arbitraire.</p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Signal d'entrée </td></tr>
@@ -147,9 +147,9 @@ template&lt;typename Derived &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Signal ré-échantillonné</dd></dl>
-<p>Notez qu'un filtre (voir une cascade de filtres) est automatiquement inséré (avant la décimation ou après le sur-échantillonnage) de manière à éviter le repliement de spectre.</p>
+<dl class="section note"><dt>Note</dt><dd>Un filtre (voir une cascade de filtres) est automatiquement inséré (avant la décimation ou après le sur-échantillonnage) de manière à éviter le repliement de spectre.</dd></dl>
 <dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__filtrage-rythme_gaa8d8ee8baddd8e8b24a4d2b11cbe883b.html#gaa8d8ee8baddd8e8b24a4d2b11cbe883b" title="Adatateur de rythme, ratio arbitraire.">filtre_reechan()</a> (pour traiter des signaux au fil de l'eau), <a class="el" href="group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18" title="Ré-échantillonage zéro phase à partir de la TFD.">reechan_freq()</a> (rééchantillonnnage sans retard).</dd></dl>
-<dl class="section user"><dt>Exemple :</dt><dd><div class="fragment"><div class="line"> </div>
+<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// Sinusoïde échantillonnée à 1/5ième de la fréquence d&#39;échantillonnage</span></div>
 <div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga75902afd67b092895425e71c6f4189ba.html#ga75902afd67b092895425e71c6f4189ba">sigsin</a>(0.2, 40);</div>
 <div class="line"> </div>
@@ -162,14 +162,12 @@ template&lt;typename Derived &gt; </div>
 <div class="line">  f.subplot().plot(y);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__tsd-gen_ga75902afd67b092895425e71c6f4189ba_html_ga75902afd67b092895425e71c6f4189ba"><div class="ttname"><a href="group__tsd-gen_ga75902afd67b092895425e71c6f4189ba.html#ga75902afd67b092895425e71c6f4189ba">tsd::sigsin</a></div><div class="ttdeci">ArrayXf sigsin(float f, int n)</div><div class="ttdoc">Calcul efficace d'une sinusoide.</div></div>
-<div class="ttc" id="agroup__tsd_gaa81c94cfe63e40ff44d3b196e5c7a568_html_gaa81c94cfe63e40ff44d3b196e5c7a568"><div class="ttname"><a href="group__tsd_gaa81c94cfe63e40ff44d3b196e5c7a568.html#gaa81c94cfe63e40ff44d3b196e5c7a568">tsd::reechan</a></div><div class="ttdeci">auto reechan(const Eigen::ArrayBase&lt; Derived &gt; &amp;x, float r)</div><div class="ttdoc">Ré-échantillonnage d'un signal suivant un facteur arbitraire.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00696">tsd.hpp:696</a></div></div>
+<div class="ttc" id="agroup__tsd_gaa81c94cfe63e40ff44d3b196e5c7a568_html_gaa81c94cfe63e40ff44d3b196e5c7a568"><div class="ttname"><a href="group__tsd_gaa81c94cfe63e40ff44d3b196e5c7a568.html#gaa81c94cfe63e40ff44d3b196e5c7a568">tsd::reechan</a></div><div class="ttdeci">auto reechan(const Eigen::ArrayBase&lt; Derived &gt; &amp;x, float r)</div><div class="ttdoc">Ré-échantillonnage d'un signal suivant un facteur arbitraire.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:696</div></div>
 </div><!-- fragment --><div class="image">
 <img src="resample.png" alt="" width="800px"/>
 </div>
 </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Du fait des filtres anti-repliement utilisés, le signal d'entrée est retardé. Pour ré-échantilloner sans introduire de retard, voir aussi la fonction <a class="el" href="group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">reechan_freq()</a>. </dd></dl>
-
-<p class="definition">Définition à la ligne <a class="el" href="tsd_8hpp_source.html#l00696">696</a> du fichier <a class="el" href="tsd_8hpp_source.html">tsd.hpp</a>.</p>
 
 </div>
 </div>
@@ -179,7 +177,7 @@ template&lt;typename Derived &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

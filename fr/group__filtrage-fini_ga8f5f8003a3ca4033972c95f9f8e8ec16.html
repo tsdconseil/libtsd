@@ -137,11 +137,11 @@ template&lt;typename T , typename Tc &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Filtrage d'un signal par un filtre défini par sa fonction de transfert.</p>
+<h3>Filtrage d'un signal par un filtre défini par sa fonction de transfert</h3>
 <p>Cette fonction ne fonctionne que sur un signal de durée finie. Pour filtrer des données reçues au fil de l'eau, il faut utiliser une des structure avec contexte (voir <a class="el" href="group__filtrage-tr_ga906266ad9c9331316631cb47a66e1631.html#ga906266ad9c9331316631cb47a66e1631">filtre_rif()</a>, <a class="el" href="group__filtrage-tr_gaa9f50480711c12fa1d5c9649047f07b8.html#gaa9f50480711c12fa1d5c9649047f07b8">filtre_sois()</a>, etc.).</p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">h</td><td>Fonction de transfert ou coefficients du filtre à appliquer (peut être un filtre RIF ou RII) </td></tr>
+    <tr><td class="paramname">h</td><td>Fonction de transfert (RIF ou RII) ou coefficients (RIF seulement) du filtre à appliquer. </td></tr>
     <tr><td class="paramname">x</td><td>Signal d'entrée à filtrer </td></tr>
   </table>
   </dd>
@@ -150,9 +150,8 @@ template&lt;typename T , typename Tc &gt; </div>
 <p>Pour un filtre RIF, cette fonction calcule le produit de convolution : </p><p class="formulaDsp">
 \[ y_n = (h \star x)_n = \sum_{k=0}^{K-1} h_k\cdot x_{n-k} \]
 </p>
-<p>Calcul autant d'échantillons de sortie qu'il y a d'échantillons d'entrée (calcul de \(y_n\) suivant la formule ci-dessus pour \(n=0\dots N-1\)), en introduisant des zéros avant le signal. </p>
-
-<p class="definition">Définition à la ligne <a class="el" href="filtrage_8hpp_source.html#l01549">1549</a> du fichier <a class="el" href="filtrage_8hpp_source.html">filtrage.hpp</a>.</p>
+<p>Calcul autant d'échantillons de sortie qu'il y a d'échantillons d'entrée (calcul de \(y_n\) suivant la formule ci-dessus pour \(n=0\dots N-1\)), en introduisant des zéros avant le signal.</p>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__filtrage-fini_ga717bbb50f79ab36f6299e031d0e8412b.html#ga717bbb50f79ab36f6299e031d0e8412b" title="Filtrage zéro-phase (bi-directionnel)">filtfilt()</a> </dd></dl>
 
 </div>
 </div>
@@ -162,7 +161,7 @@ template&lt;typename T , typename Tc &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-fini.html">Filtrage sur des signaux de durée finie</a></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -10,7 +10,6 @@ var group__vue =
         [ "set_σ", "structdsp_1_1view_1_1_figure_1_1_curve.html#a23058c481a7940336bc18aa96007b9a3", null ]
       ] ],
       [ "clear", "structdsp_1_1view_1_1_figure.html#a06095c8174bc1e20a34b63f45647aee4", null ],
-      [ "clone", "structdsp_1_1view_1_1_figure.html#a0ac1662242c1886a217dae45da23cb00", null ],
       [ "plot", "structdsp_1_1view_1_1_figure_a9595973cf2e7036edab53b42b4ad6d97.html#a9595973cf2e7036edab53b42b4ad6d97", null ],
       [ "plot_img", "structdsp_1_1view_1_1_figure_a55f1c938b00528f43896591840dac62f.html#a55f1c938b00528f43896591840dac62f", null ],
       [ "plot_psd", "structdsp_1_1view_1_1_figure_abdb47e81f4d5bcbbf15e2aa812e5a4a0.html#abdb47e81f4d5bcbbf15e2aa812e5a4a0", null ],

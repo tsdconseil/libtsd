@@ -110,10 +110,13 @@ $(document).ready(function(){initNavTree('group__telecom-eq.html',''); initResiz
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Egalisation de canal<div class="ingroups"><a class="el" href="group__telecom.html">Telecommunications</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <p>L'égalisation de canal a pour but de corriger les distortions sur le signal reçu, qui sont supposées comme étant le résultat d'une convolution par filtre de réponse inconnue mais supposée constante (ou variant très lentement).</p>
 <p>Dans la figure suivante, le canal est modélisé par un filtre linéaire H(z) et un bruit blanc additif gaussien :</p>
 <div class="image">
@@ -124,12 +127,22 @@ $(document).ready(function(){initNavTree('group__telecom-eq.html',''); initResiz
 <li>Zéro forcing (calcul d'un filtre FIR inverse), via la fonction equalizer_zfe</li>
 <li>LMS (Least Mean Square) et CMA (Constant Modulus Algorithm), via les fonctions equalizer_init et equalizer_process. </li>
 </ul>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gadef73a48efb7511b3746713fd736e974"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-eq_gadef73a48efb7511b3746713fd736e974.html#gadef73a48efb7511b3746713fd736e974">dsp::telecom::equalizer_new</a> (<a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_wave_form.html">WaveForm</a> &gt; wf, const std::string &amp;structure, const std::string &amp;errf, float osf, float gain, int N1, int N2)</td></tr>
+<tr class="memdesc:gadef73a48efb7511b3746713fd736e974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un égaliseur.  <a href="group__telecom-eq_gadef73a48efb7511b3746713fd736e974.html#gadef73a48efb7511b3746713fd736e974">More...</a><br /></td></tr>
+<tr class="separator:gadef73a48efb7511b3746713fd736e974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga50e7ad3b57b33c13ec14fce2d9b16790"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-eq_ga50e7ad3b57b33c13ec14fce2d9b16790.html#ga50e7ad3b57b33c13ec14fce2d9b16790">dsp::telecom::equalizer_zfe</a> (<a class="el" href="group__tsd.html#gab3555070d67ba50a7d11d081a9009f66">IArrayXf</a> h, int n)</td></tr>
+<tr class="memdesc:ga50e7ad3b57b33c13ec14fce2d9b16790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul du filtre inverse par zéro-forçage.  <a href="group__telecom-eq_ga50e7ad3b57b33c13ec14fce2d9b16790.html#ga50e7ad3b57b33c13ec14fce2d9b16790">More...</a><br /></td></tr>
+<tr class="separator:ga50e7ad3b57b33c13ec14fce2d9b16790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

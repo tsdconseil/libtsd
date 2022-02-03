@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['next_5fpower_5fof_5f2_284',['next_power_of_2',['../group__tsd_ga17e5c5690d22a97fd703bd1270555f22.html#ga17e5c5690d22a97fd703bd1270555f22',1,'dsp']]]
+  ['j2000_713',['J2000',['../structdsp_1_1time_1_1_date_time_ab93c94bb887c5a95cfa939c374b252a1.html#ab93c94bb887c5a95cfa939c374b252a1',1,'dsp::time::DateTime']]]
 ];

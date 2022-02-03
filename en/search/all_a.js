@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['licence_111',['Licence',['../pagelicence.html',1,'']]],
-  ['linear_20filter_20design_112',['Linear filter design',['../group__filtrage-design.html',1,'']]],
-  ['linear_20filtering_113',['Linear filtering',['../group__filtrage.html',1,'']]],
-  ['linspace_114',['linspace',['../group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f',1,'dsp']]],
-  ['logspace_115',['logspace',['../group__tsd-gen_ga446269e9bbe720468cd13e274fb215cb.html#ga446269e9bbe720468cd13e274fb215cb',1,'dsp']]]
+  ['k_266',['k',['../structdsp_1_1telecom_1_1_code.html#ab99661c09a358f64063dfe06609f2e10',1,'dsp::telecom::Code']]],
+  ['kaiser_5fparam_267',['kaiser_param',['../group__filtrage-fenetres_ga6537fc91e7d68f427d56476ec827380d.html#ga6537fc91e7d68f427d56476ec827380d',1,'dsp::filter']]],
+  ['kalman_20filtering_268',['Kalman filtering',['../group__kalman.html',1,'']]]
 ];

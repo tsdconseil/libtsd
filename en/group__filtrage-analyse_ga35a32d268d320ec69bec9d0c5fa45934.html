@@ -147,7 +147,11 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The new figure.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"></div><!-- fragment --><div class="image">
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  <span class="comment">// Pour cet exemple, on prend une moyenne glissante d&#39;ordre 10</span></div>
+<div class="line">  ArrayXf h = ArrayXf::Ones(10) / 10;</div>
+<div class="line">  <span class="keyword">auto</span> f = analyse_filtre(h);</div>
+<div class="line">  f.afficher();</div>
+</div><!-- fragment --><div class="image">
 <img src="filtrage-analyse.png" alt="" width="1000px"/>
 </div>
 </dd></dl>
@@ -161,7 +165,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-analyse.html">Analysis of linear filters</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,12 +1,9 @@
 var searchData=
 [
-  ['rad2deg_294',['rad2deg',['../group__tsd_gadc91159bccfe889e8ea77cb0ce271144.html#gadc91159bccfe889e8ea77cb0ce271144',1,'dsp']]],
-  ['randb_295',['randb',['../group__tsd-gen_ga8157b41897e4cc405e65950cc717c299.html#ga8157b41897e4cc405e65950cc717c299',1,'dsp']]],
-  ['randi_296',['randi',['../group__tsd-gen_ga1cf1528f0f4585fa4f94f99657be9343.html#ga1cf1528f0f4585fa4f94f99657be9343',1,'dsp']]],
-  ['randn_297',['randn',['../group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d',1,'dsp']]],
-  ['randu_298',['randu',['../group__tsd-gen_ga5513bd26507e84f3a48a33798fcae62f.html#ga5513bd26507e84f3a48a33798fcae62f',1,'dsp']]],
-  ['repfreq_299',['repfreq',['../group__filtrage-analyse_gaf55ebe66ce37b1115ba98ddb10d07d7a.html#gaf55ebe66ce37b1115ba98ddb10d07d7a',1,'dsp::filter']]],
-  ['repimp_300',['repimp',['../group__filtrage-analyse.html#gae8d046965d64d7aa129d55732a074bff',1,'dsp::filter']]],
-  ['resample_301',['resample',['../group__tsd_ga12f0296034639a47a7dd2dbfb048be0f.html#ga12f0296034639a47a7dd2dbfb048be0f',1,'dsp']]],
-  ['rotation_5fvec_302',['rotation_vec',['../group__tsd_ga74bbc1e6e39f65a259d8d8f2da4be54d.html#ga74bbc1e6e39f65a259d8d8f2da4be54d',1,'dsp']]]
+  ['levinson_715',['levinson',['../group__stats_ga8de0ac3f54acae478ab59c21af98b3d8.html#ga8de0ac3f54acae478ab59c21af98b3d8',1,'dsp::stats']]],
+  ['levinson_5freal_716',['levinson_real',['../group__stats_ga72364b7a142a7d61c91f10b3d1d6b0c6.html#ga72364b7a142a7d61c91f10b3d1d6b0c6',1,'dsp::stats']]],
+  ['linspace_717',['linspace',['../group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f',1,'dsp']]],
+  ['local_5fsidereal_5ftime_718',['local_sidereal_time',['../structdsp_1_1time_1_1_date_time_affcab3daf0f9467b3bff3db486dd7e6b.html#affcab3daf0f9467b3bff3db486dd7e6b',1,'dsp::time::DateTime']]],
+  ['logspace_719',['logspace',['../group__tsd-gen_ga446269e9bbe720468cd13e274fb215cb.html#ga446269e9bbe720468cd13e274fb215cb',1,'dsp']]],
+  ['lpc_720',['lpc',['../group__stats_gab24c60d98ec9488517709cdc4aad5277.html#gab24c60d98ec9488517709cdc4aad5277',1,'dsp::stats']]]
 ];

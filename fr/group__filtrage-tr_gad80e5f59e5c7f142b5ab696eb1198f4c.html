@@ -134,20 +134,20 @@ template&lt;typename Tc , typename T  = Tc&gt; </div>
 <p> (le filtre RIF correspondant au numérateur est calculé en premier, ensuite le filtre purement récursif est calculé).</p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">h</td><td>Fonction de transfert </td></tr>
+    <tr><td class="paramname">h</td><td>Fonction de transfert (fraction rationnelle). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="tparams"><dt>Paramètres du template</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>Type de données à traiter </td></tr>
-    <tr><td class="paramname">Tc</td><td>Type des coefficients </td></tr>
+    <tr><td class="paramname">T</td><td>Type de données à traiter. </td></tr>
+    <tr><td class="paramname">Tc</td><td>Type des coefficients. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Renvoie</dt><dd><a class="el" href="structtsd_1_1_filtre.html" title="Structure abstraite pour un filtre de données configurable.">Filtre</a> T -&gt; T</dd></dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Filtre T -&gt; T.</dd></dl>
 <dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__filtrage-tr_gaa9f50480711c12fa1d5c9649047f07b8.html#gaa9f50480711c12fa1d5c9649047f07b8">filtre_sois()</a></dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Si l'ordre du filtre est important, du fait des erreurs de troncature, cette implémentation a de fortes chances de diverger. L'implémentation sous forme de cascade de filtres RII du second ordre (<a class="el" href="group__filtrage-tr_gaa9f50480711c12fa1d5c9649047f07b8.html#gaa9f50480711c12fa1d5c9649047f07b8">filtre_sois()</a>) est alors recommendée. </dd></dl>
+<dl class="section warning"><dt>Avertissement</dt><dd>Si l'ordre du filtre est important, du fait des erreurs de troncature, cette implémentation a de fortes chances de diverger. L'implémentation sous forme de cascade de filtres RII du second ordre (<a class="el" href="group__filtrage-tr_gaa9f50480711c12fa1d5c9649047f07b8.html#gaa9f50480711c12fa1d5c9649047f07b8">filtre_sois()</a>) est alors recommendée. </dd></dl>
 
 </div>
 </div>
@@ -157,7 +157,7 @@ template&lt;typename Tc , typename T  = Tc&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implémentation de filtres au fil de l&#39;eau</a></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__filtrage-tr.html',''); initResi
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
-<p>Dans ce groupe, sont définies des structures de filtrage <b>avec contexte</b>, pour le traitement de données au fil de l'eau (filtrage temps réel). </p>
+<p>In this group, are defined some filtering structures <b>with context</b>, for the processing of streaming signals (real-time filtering). </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -149,13 +149,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:gab81fa0bbc8205f3207747316af796b5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">IIR filter, direct form I implementation, not recommanded (use rather <a class="el" href="group__filtrage-tr_ga01d2141bdfd3e6246c5a565895c142f2.html#ga01d2141bdfd3e6246c5a565895c142f2">filter_sois()</a> instead).  <a href="group__filtrage-tr_gab81fa0bbc8205f3207747316af796b5b.html#gab81fa0bbc8205f3207747316af796b5b">More...</a><br /></td></tr>
 <tr class="separator:gab81fa0bbc8205f3207747316af796b5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6e3c28b1c54a58c9531cab25cdf99ee7"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Ti &gt; </td></tr>
-<tr class="memitem:ga6e3c28b1c54a58c9531cab25cdf99ee7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga6e3c28b1c54a58c9531cab25cdf99ee7.html#ga6e3c28b1c54a58c9531cab25cdf99ee7">dsp::filter::filter_cic</a> (const CICConfig &amp;config, char mode='d')</td></tr>
+<tr class="memitem:ga6e3c28b1c54a58c9531cab25cdf99ee7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga6e3c28b1c54a58c9531cab25cdf99ee7.html#ga6e3c28b1c54a58c9531cab25cdf99ee7">dsp::filter::filter_cic</a> (const <a class="el" href="structdsp_1_1filter_1_1_c_i_c_config.html">CICConfig</a> &amp;config, char mode='d')</td></tr>
 <tr class="memdesc:ga6e3c28b1c54a58c9531cab25cdf99ee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creation of a CIC filter, processing on vectors of type T, and computing internally with samples of type Ti.  <a href="group__filtrage-tr_ga6e3c28b1c54a58c9531cab25cdf99ee7.html#ga6e3c28b1c54a58c9531cab25cdf99ee7">More...</a><br /></td></tr>
 <tr class="separator:ga6e3c28b1c54a58c9531cab25cdf99ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad69bc9614f9e79a9b0db6e5c9ac4bf06"><td class="memItemLeft" align="right" valign="top">CICAnalyse&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_gad69bc9614f9e79a9b0db6e5c9ac4bf06.html#gad69bc9614f9e79a9b0db6e5c9ac4bf06">dsp::filter::cic_analysis</a> (const CICConfig &amp;config, float Fin, float Fint=0)</td></tr>
+<tr class="memitem:gad69bc9614f9e79a9b0db6e5c9ac4bf06"><td class="memItemLeft" align="right" valign="top">CICAnalyse&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_gad69bc9614f9e79a9b0db6e5c9ac4bf06.html#gad69bc9614f9e79a9b0db6e5c9ac4bf06">dsp::filter::cic_analysis</a> (const <a class="el" href="structdsp_1_1filter_1_1_c_i_c_config.html">CICConfig</a> &amp;config, float Fin, float Fint=0)</td></tr>
 <tr class="memdesc:gad69bc9614f9e79a9b0db6e5c9ac4bf06"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes and shows the frequency response of a CIC filter and then analyse the aliasing that occurs after decimation.  <a href="group__filtrage-tr_gad69bc9614f9e79a9b0db6e5c9ac4bf06.html#gad69bc9614f9e79a9b0db6e5c9ac4bf06">More...</a><br /></td></tr>
 <tr class="separator:gad69bc9614f9e79a9b0db6e5c9ac4bf06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga021e79b3c30f99d8c6c9b6744795c7f0"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga021e79b3c30f99d8c6c9b6744795c7f0.html#ga021e79b3c30f99d8c6c9b6744795c7f0">dsp::filter::cic_freq</a> (const CICConfig &amp;config, const ArrayXf &amp;f)</td></tr>
+<tr class="memitem:ga021e79b3c30f99d8c6c9b6744795c7f0"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage-tr_ga021e79b3c30f99d8c6c9b6744795c7f0.html#ga021e79b3c30f99d8c6c9b6744795c7f0">dsp::filter::cic_freq</a> (const <a class="el" href="structdsp_1_1filter_1_1_c_i_c_config.html">CICConfig</a> &amp;config, const ArrayXf &amp;f)</td></tr>
 <tr class="memdesc:ga021e79b3c30f99d8c6c9b6744795c7f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frequency response of a CIC filter.  <a href="group__filtrage-tr_ga021e79b3c30f99d8c6c9b6744795c7f0.html#ga021e79b3c30f99d8c6c9b6744795c7f0">More...</a><br /></td></tr>
 <tr class="separator:ga021e79b3c30f99d8c6c9b6744795c7f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga01d2141bdfd3e6246c5a565895c142f2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -180,7 +180,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['wavelet_20transform_198',['Wavelet transform',['../group__temps-frequence-tod.html',1,'']]],
-  ['window_199',['window',['../group__filtrage-fenetres_ga706ccaa31a98165ef2ab547c58c91030.html#ga706ccaa31a98165ef2ab547c58c91030',1,'dsp::filter']]],
-  ['window_5fchebychev_200',['window_chebychev',['../group__filtrage-fenetres_ga9cc408559289d0c65ff3ead969142ef0.html#ga9cc408559289d0c65ff3ead969142ef0',1,'dsp::filter']]],
-  ['window_5fkaiser_201',['window_kaiser',['../group__filtrage-fenetres_ga500529d253fbf136f1205af18f5ef188.html#ga500529d253fbf136f1205af18f5ef188',1,'dsp::filter']]],
-  ['window_5fkaiser1_202',['window_kaiser1',['../group__filtrage-fenetres_ga08aad1412735e3bac291ecf52caf2b31.html#ga08aad1412735e3bac291ecf52caf2b31',1,'dsp::filter']]],
-  ['window_5fslepian_203',['window_slepian',['../group__filtrage-fenetres.html#ga7ff0b15c76ae29e368f29c588de27cf5',1,'dsp::filter']]],
-  ['windows_204',['Windows',['../group__filtrage-fenetres.html',1,'']]]
+  ['upsample_490',['upsample',['../group__tsd_gae61a1e1dbe59ea503098b8a5a3d46d02.html#gae61a1e1dbe59ea503098b8a5a3d46d02',1,'dsp']]],
+  ['usb_491',['USB',['../structdsp_1_1telecom_1_1_a_m_config_adbd46c51a24b9fe2f5b454683cc5304f.html#adbd46c51a24b9fe2f5b454683cc5304fa45fad7d6b7c2daecee8e08169b3a985c',1,'dsp::telecom::AMConfig']]]
 ];

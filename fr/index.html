@@ -117,14 +117,14 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><p><b>Libtsd</b> est une librairie pour le traitement du signal en C++ fondée sur la librairie <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, laquelle permet d'effectuer des calculs vectorisés de manière simple et intuitive. La librairie Libtsd vous apporte les facilités du traitement du signal à haut niveau (code lisible et intuitif), du type que l'on trouve habituellement avec Matlab ou Python, mais avec les avantages du C++, notamment en terme de fonctionnement possible pour des traitement en temps réels.</p>
 <p>Elle est constituée des modules de base suivants, ne nécessitant aucune dépendance autre que Eigen (en version 3) :</p><ul>
 <li><a class="el" href="group__tsd.html">tsd</a> : fonctions générales pour le traitement du signal (définition des structures abstraites pour les filtres / sources / puits de traitement)</li>
-<li><a class="el" href="group__filtrage.html">tsd::filtrage</a> : design, conception et implémentation des filtres linéaires (LTI)</li>
+<li><a class="el" href="group__filtrage.html">tsd::filtrage</a> : design, analyse et implémentation des filtres linéaires (LTI)</li>
 <li><a class="el" href="group__fourier.html">tsd::fourier</a> : traitements dans le domaine fréquentiel.</li>
 <li><a class="el" href="group__temps-frequence.html">tsd::tf</a> : traitements temps / fréquences (STFT, CQT, ondelettes, ...).</li>
 <li><a class="el" href="group__telecom.html">tsd::telecom</a> : modulations / démodulations numériques et analogiques.</li>
 <li><a class="el" href="group__stats.html">tsd::stats</a> : traitements basés sur les statistiques du signal (prédiction linéaire, méthode des sous-espaces, ...)</li>
 <li><a class="el" href="group__tsd-temps.html">tsd::temps</a> : fonctions et structures utiles pour la gestion des dates et heures, calendriers, etc.</li>
 </ul>
-<p>Les modules optionnels suivant peuvent par ailleurs être utilisés :</p><ul>
+<p>Les modules optionnels suivants peuvent par ailleurs être utilisés :</p><ul>
 <li><a class="el" href="group__vue.html">tsd::vue</a> : Tracés de courbes et la visualisation des données (dépendances : <a href="http://www.libpng.org">libpng</a> et <a href="https://www.freetype.org/">freetype</a>).</li>
 </ul>
 <p>Des modules plus applicatifs sont par ailleurs en cours de mise au point :</p><ul>
@@ -132,17 +132,25 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li><a class="el" href="group__apps-doa.html">tsd::apps::doa</a> : Calculs relatifs aux réseaux d'antennes</li>
 </ul>
 <h2>Style de code</h2>
-<p>La règle directrice qui a été choisie est de <b>simplifier au maximum les API</b>, afin de faciliter qu'elles soient le plus lisibles et claires possibles, et de manière à miniser le risque d'erreur ou de confusion pour l'utilisateur. Cela implique notamment les choix suivants :</p><ul>
+<p>La règle directrice qui a été choisie est de <b>simplifier au maximum les API</b>, afin qu'elles soient le plus lisibles et claires possibles, et de manière à miniser le risque d'erreur ou de confusion pour l'utilisateur. Cela implique notamment les choix suivants :</p><ul>
 <li>Le nombre de classes C++ exposées est minimisé, soit en exposant dans la mesure du possible de simples fonctions, soit en exposant des classes abstraites, de manière à masquer les détails d'implémentations.</li>
-<li>Quitte à limiter la flexibilité, les templates ne sont pas systématiquement utilisés, et quand un type (par exemple flottant simple ou double précision) paraît adéquat, il est utilisé directement. Cela permet de bien séparer l'API (fichiers d'en-tête) de l'implémentation, et aussi de réduire les temps de compilation. </li>
+<li>Quitte à limiter la flexibilité, les templates ne sont pas systématiquement utilisés, et quand un type (par exemple flottant simple ou double précision) paraît adéquat, il est utilisé directement. Cela permet de bien séparer l'API (fichiers d'en-tête) de l'implémentation, et aussi de réduire les temps de compilation.</li>
 </ul>
+<h2>Conventions de nommage</h2>
+<ul>
+<li>Les fonctions, variables et méthodes sont écrites en minuscules, les mots sont séparés avec le tiret du bas (_) : <code>une_fonction</code>,</li>
+<li>Les classes et structures sont écrites en "casse de chameau" (<em>camelcase</em>) : <code>UneClasse</code>,</li>
+<li>Les constantes en majuscules, les mots séparés par le tiret du bas : <code>UNE_CONSTANTE</code>.</li>
+</ul>
+<h2>Classes abstraites</h2>
+<p>Les classes abstraites sont instanciées par une méthode de type <code>nom_module_crée()</code>, qui renvoie un pointeur intelligent vers une instance de la classe (<code>std::shared_ptr&lt;T&gt;</code>, abbrégé en <code><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500" title="Raccourci pour définir un pointeur partagé">tsd::sptr&lt;T&gt;</a></code>). </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:06 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:55 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

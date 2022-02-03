@@ -128,7 +128,13 @@ template&lt;typename T , typename Tacc &gt; </div>
       </table>
 </div><div class="memdoc">
 <h3>Moyenne glissante</h3>
-<p>Ce filtre est une implémentation optimisée d'une moyenne glissante.</p>
+<p>Ce filtre est une implémentation optimisée d'une moyenne glissante : </p><p class="formulaDsp">
+\[ y_n = \frac{1}{N}\cdot\sum_{k=0}^{K-1} x_{n-k} \]
+</p>
+ <dl class="section remark"><dt>Remarques</dt><dd>Ce filtre est implémenté efficacement grâce à un intégrateur et à un peigne de profondeur \(K\) : <p class="formulaDsp">
+\[ y_n = y_{n-1} + \frac{x_n - x_{n-K}}{K} \]
+</p>
+</dd></dl>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
     <tr><td class="paramname">K</td><td>profondeur de la moyenne </td></tr>
@@ -138,17 +144,10 @@ template&lt;typename T , typename Tacc &gt; </div>
 <dl class="tparams"><dt>Paramètres du template</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>Type de données à traiter </td></tr>
-    <tr><td class="paramname">Tacc</td><td>Type à utiliser pour l'accumulateur</td></tr>
+    <tr><td class="paramname">Tacc</td><td>Type à utiliser pour l'accumulateur </td></tr>
   </table>
   </dd>
 </dl>
-<p class="formulaDsp">
-\[ y_n = \frac{1}{N}\cdot\sum_{k=0}^{K-1} x_{n-k} \]
-</p>
- <dl class="section remark"><dt>Remarques</dt><dd>Ce filtre est implémenté efficacement grâce à un intégrateur et à un peigne de profondeur \(K\) : <p class="formulaDsp">
-\[ y_n = y_{n-1} + \frac{x_n - x_{n-K}}{K} \]
-</p>
- </dd></dl>
 
 </div>
 </div>
@@ -158,7 +157,7 @@ template&lt;typename T , typename Tacc &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implémentation de filtres au fil de l&#39;eau</a></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

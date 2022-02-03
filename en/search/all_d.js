@@ -1,4 +1,27 @@
 var searchData=
 [
-  ['oarrayxf_125',['OArrayXf',['../group__tsd.html#ga333186de09a44f7aa48674d2c0391428',1,'dsp']]]
+  ['n_311',['N',['../structdsp_1_1filter_1_1_c_i_c_config.html#a9df1674bf14d90931e7be9879b1c5bab',1,'dsp::filter::CICConfig']]],
+  ['n_312',['n',['../structdsp_1_1telecom_1_1_code.html#aeca63bc0a6dd90b973a10cbea6cbd504',1,'dsp::telecom::Code']]],
+  ['nb_5fdays_313',['nb_days',['../structdsp_1_1time_1_1_duration.html#a3a2960f9bd005046579a056ff33c826c',1,'dsp::time::Duration']]],
+  ['nb_5fdays_5fsince_5fbeginning_5fof_5fera_314',['nb_days_since_beginning_of_era',['../structdsp_1_1time_1_1_calendar.html#aaa05874737f0ab4ce4a175de88219498',1,'dsp::time::Calendar']]],
+  ['nb_5fdays_5fsince_5fbeginning_5fof_5fyear_315',['nb_days_since_beginning_of_year',['../structdsp_1_1time_1_1_calendar.html#ab55a82c9cbc5323087aad4bf15369810',1,'dsp::time::Calendar']]],
+  ['nb_5fhours_316',['nb_hours',['../structdsp_1_1time_1_1_duration.html#a2e801c3541263b2c5a308f3f5c6e8557',1,'dsp::time::Duration']]],
+  ['nb_5fjulian_5fdays_317',['nb_Julian_days',['../structdsp_1_1time_1_1_date_time.html#a4c6879377c5c4d73d184e173294e099a',1,'dsp::time::DateTime']]],
+  ['nb_5fmicroseconds_318',['nb_microseconds',['../structdsp_1_1time_1_1_duration.html#a49286bf72618a6e755f8d4c9ea31b9be',1,'dsp::time::Duration']]],
+  ['nb_5fmilliseconds_319',['nb_milliseconds',['../structdsp_1_1time_1_1_duration.html#a6ae7e40b2f53972eaa9ffe46f69aa2c1',1,'dsp::time::Duration']]],
+  ['nb_5fminutes_320',['nb_minutes',['../structdsp_1_1time_1_1_duration.html#a6631f13d8bd4d4ab57b8dbdd10813583',1,'dsp::time::Duration']]],
+  ['nb_5fseconds_321',['nb_seconds',['../structdsp_1_1time_1_1_duration.html#ab5639cf26cd740fb99755d6b396c2a2d',1,'dsp::time::Duration']]],
+  ['nbits_322',['nbits',['../structdsp_1_1telecom_1_1_trame_format.html#acad880df50e732f86e97dac0bb845958',1,'dsp::telecom::TrameFormat']]],
+  ['ncoefs_5fbb_323',['ncoefs_bb',['../structdsp_1_1telecom_1_1_r_p_l_l_config.html#a1872c861d0ead98c041d53584ed014d9',1,'dsp::telecom::RPLLConfig']]],
+  ['ncoefs_5finterpolateur_324',['ncoefs_interpolateur',['../structdsp_1_1telecom_1_1_packet_receiver_config.html#a6b339419104827248d5bb8ddafa0d3e3',1,'dsp::telecom::PacketReceiverConfig']]],
+  ['next_5fpower_5fof_5f2_325',['next_power_of_2',['../group__tsd_ga17e5c5690d22a97fd703bd1270555f22.html#ga17e5c5690d22a97fd703bd1270555f22',1,'dsp']]],
+  ['nf_326',['Nf',['../structdsp_1_1stats_1_1_sub_space_spectrum_config.html#a4b8ed2c601a79d1c680c34909e7dff70',1,'dsp::stats::SubSpaceSpectrumConfig']]],
+  ['nom_327',['nom',['../structdsp_1_1telecom_1_1_code.html#ae9f8a68994ca646bfc57c8ba69628664',1,'dsp::telecom::Code']]],
+  ['none_328',['none',['../structdsp_1_1telecom_1_1_shaping_filter_spec.html#ab596bace2492e2e00136e83e408c3364',1,'dsp::telecom::ShapingFilterSpec']]],
+  ['none_329',['NONE',['../structdsp_1_1telecom_1_1_shaping_filter_spec_ae907d863ad978902ad5746d91b07b989.html#ae907d863ad978902ad5746d91b07b989a9640fe4a86840ef4340d19d72d50e503',1,'dsp::telecom::ShapingFilterSpec']]],
+  ['now_330',['now',['../structdsp_1_1time_1_1_date_time.html#af9fe7b5efa935de4e5df7a9f87aa795c',1,'dsp::time::DateTime']]],
+  ['nrz_331',['NRZ',['../structdsp_1_1telecom_1_1_shaping_filter_spec_ae907d863ad978902ad5746d91b07b989.html#ae907d863ad978902ad5746d91b07b989a32e21d7b1a56cfca18d9cd4510d27b68',1,'dsp::telecom::ShapingFilterSpec']]],
+  ['nrz_332',['nrz',['../structdsp_1_1telecom_1_1_shaping_filter_spec.html#a6356d284f85acf1e2c0cbaa70b4f19b0',1,'dsp::telecom::ShapingFilterSpec']]],
+  ['ns_333',['Ns',['../structdsp_1_1stats_1_1_sub_space_spectrum_config.html#acde0c85fbe4462d201d9b668181a94c4',1,'dsp::stats::SubSpaceSpectrumConfig::Ns()'],['../structdsp_1_1stats_1_1_sub_space_spectrum.html#a250b3e8d768b2359fd8ffe4a6f92d1e3',1,'dsp::stats::SubSpaceSpectrum::Ns()']]],
+  ['ntics_334',['ntics',['../structdsp_1_1time_1_1_date_time.html#a821a48b31dc93ffcda6516a05451b107',1,'dsp::time::DateTime']]]
 ];

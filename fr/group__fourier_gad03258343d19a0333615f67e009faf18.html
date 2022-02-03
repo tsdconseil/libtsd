@@ -141,12 +141,12 @@ template&lt;typename T &gt; </div>
 <p>Cette fonction change la fréquence d'échantillonnage d'un signal, sans délais, grâce à un calcul dans le domaine fréquentiel.</p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>Signal d'entrée </td></tr>
+    <tr><td class="paramname">x</td><td>Vecteur d'entrée. </td></tr>
     <tr><td class="paramname">ratio</td><td>Rapport entre la fréquence d'échantillonnage de sortie et celle d'entrée (un ratio supérieur à 1 indique une interpolation, tandis que dans le cas contraire, on a affaire à une décimation).</td></tr>
   </table>
   </dd>
 </dl>
-<p>Notez que, du fait des hypothèses sous-jacentes à la TFD, des artefacts peuvent apparaitrent au bord du signal. Pour atténuer ce phénomène, vous pouvez pré-appliquer une fenêtre ou bien insérer des zéros avant et après le signal (ce ne sont cependendant pas des solutions parfaites).</p>
+<dl class="section warning"><dt>Avertissement</dt><dd>Notez que, du fait des hypothèses sous-jacentes à la TFD, des artefacts peuvent apparaitrent au bord du signal. Pour atténuer ce phénomène, vous pouvez pré-appliquer une fenêtre ou bien insérer des zéros avant et après le signal (ce ne sont cependendant pas des solutions parfaites).</dd></dl>
 <dl class="section user"><dt>Exemple illustrant les artefacts aux bords du signal</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(0, 1 - 1.0/10, 10);</div>
 <div class="line">  <span class="comment">// Interpolation d&#39;un facteur 10 (10 fois plus d&#39;échantillons en sortie)</span></div>
@@ -159,7 +159,7 @@ template&lt;typename T &gt; </div>
 <div class="line">  f.plot(t2, y, <span class="stringliteral">&quot;g-&quot;</span>,  <span class="stringliteral">&quot;y&quot;</span>);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__fourier_gad03258343d19a0333615f67e009faf18_html_gad03258343d19a0333615f67e009faf18"><div class="ttname"><a href="group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18">tsd::fourier::reechan_freq</a></div><div class="ttdeci">Vecteur&lt; T &gt; reechan_freq(const Vecteur&lt; T &gt; &amp;x, float ratio)</div><div class="ttdoc">Ré-échantillonage zéro phase à partir de la TFD.</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> <a href="tsd_8hpp_source.html#l00916">tsd.hpp:916</a></div></div>
+<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:915</div></div>
 </div><!-- fragment --><div class="image">
 <img src="fourier-resample.png" alt="" width="1000px"/>
 </div>
@@ -174,7 +174,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><a class="el" href="namespacetsd_1_1fourier.html">fourier</a></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

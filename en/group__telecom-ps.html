@@ -110,10 +110,14 @@ $(document).ready(function(){initNavTree('group__telecom-ps.html',''); initResiz
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Mise en forme des symboles<div class="ingroups"><a class="el" href="group__telecom.html">Telecommunications</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <p>Ce module contient quelques fonctions pour transformer une séquence binaire en un signal continu (ou pseudo-continu, puisque l'on travaille dans le domaine numérique, où les signaux sont discrétisés et échantillonnés avec une fréquence d'échantillonnage finie).</p>
 <p>Les étapes classiques pour cette mise en forme sont les suivantes (voir figure ci-dessous) : création des symboles (constellation) à partir de la séquence binaire (chaque symbole permettant de coder un ou plusieurs bits), sur-échantillonnage (suivant le rapport de sur-échantillonnage souhaité), puis filtrage de mise en forme (Gaussien, RC, moyenne mobile, etc.).</p>
 <p>Les fonctions suivantes sont proposées :</p><ul>
@@ -126,12 +130,41 @@ $(document).ready(function(){initNavTree('group__telecom-ps.html',''); initResiz
 </ul>
 </li>
 </ul>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_shaping_filter_spec.html">dsp::telecom::ShapingFilterSpec</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specification of a shaping filter.  <a href="structdsp_1_1telecom_1_1_shaping_filter_spec.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga375747854552a3f1725e48372495d8c3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga375747854552a3f1725e48372495d8c3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">dsp::telecom::sah</a> (const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;x, int R)</td></tr>
+<tr class="memdesc:ga375747854552a3f1725e48372495d8c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample and hold oversampling.  <a href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">More...</a><br /></td></tr>
+<tr class="separator:ga375747854552a3f1725e48372495d8c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac5d015c476414feb8c24c8a08afeab57"><td class="memItemLeft" align="right" valign="top">ArrayXi&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_gac5d015c476414feb8c24c8a08afeab57.html#gac5d015c476414feb8c24c8a08afeab57">dsp::telecom::symmap_binaire</a> (const BitStream &amp;x, int k)</td></tr>
+<tr class="memdesc:gac5d015c476414feb8c24c8a08afeab57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion train binaire \(\to\) index.  <a href="group__telecom-ps_gac5d015c476414feb8c24c8a08afeab57.html#gac5d015c476414feb8c24c8a08afeab57">More...</a><br /></td></tr>
+<tr class="separator:gac5d015c476414feb8c24c8a08afeab57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0cec499fa6d1029bedb293d7657460ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_ga0cec499fa6d1029bedb293d7657460ec.html#ga0cec499fa6d1029bedb293d7657460ec">dsp::telecom::symdemap_binaire</a> (BitStream &amp;bs, const ArrayXi &amp;x, int k)</td></tr>
+<tr class="memdesc:ga0cec499fa6d1029bedb293d7657460ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion index \(\to\) train binaire.  <a href="group__telecom-ps_ga0cec499fa6d1029bedb293d7657460ec.html#ga0cec499fa6d1029bedb293d7657460ec">More...</a><br /></td></tr>
+<tr class="separator:ga0cec499fa6d1029bedb293d7657460ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0dc79b713413814e11923d0dacd5b6a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_ga0dc79b713413814e11923d0dacd5b6a8.html#ga0dc79b713413814e11923d0dacd5b6a8">dsp::telecom::diff_encode</a> (BitStream &amp;y, const BitStream &amp;x)</td></tr>
+<tr class="memdesc:ga0dc79b713413814e11923d0dacd5b6a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Differential encoder (polynomial = \(1/(1+X)\)), MSB first.  <a href="group__telecom-ps_ga0dc79b713413814e11923d0dacd5b6a8.html#ga0dc79b713413814e11923d0dacd5b6a8">More...</a><br /></td></tr>
+<tr class="separator:ga0dc79b713413814e11923d0dacd5b6a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf39029ce9bdeecc98c24847024a8f487"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_gaf39029ce9bdeecc98c24847024a8f487.html#gaf39029ce9bdeecc98c24847024a8f487">dsp::telecom::diff_decode</a> (BitStream &amp;y, const BitStream &amp;x)</td></tr>
+<tr class="memdesc:gaf39029ce9bdeecc98c24847024a8f487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Differential decoder (polynomial = 1+X), MSB first.  <a href="group__telecom-ps_gaf39029ce9bdeecc98c24847024a8f487.html#gaf39029ce9bdeecc98c24847024a8f487">More...</a><br /></td></tr>
+<tr class="separator:gaf39029ce9bdeecc98c24847024a8f487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0697c7f0ac49088c4a3b1d6913c2a582"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-ps_ga0697c7f0ac49088c4a3b1d6913c2a582.html#ga0697c7f0ac49088c4a3b1d6913c2a582">dsp::telecom::decode_hard</a> (BitStream &amp;y, const ArrayXf &amp;llr)</td></tr>
+<tr class="memdesc:ga0697c7f0ac49088c4a3b1d6913c2a582"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hard decoding of LLR data.  <a href="group__telecom-ps_ga0697c7f0ac49088c4a3b1d6913c2a582.html#ga0697c7f0ac49088c4a3b1d6913c2a582">More...</a><br /></td></tr>
+<tr class="separator:ga0697c7f0ac49088c4a3b1d6913c2a582"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

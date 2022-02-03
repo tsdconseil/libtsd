@@ -269,35 +269,30 @@ $(document).ready(function(){initNavTree('figure_8hpp_source.html',''); initResi
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      f.enregistrer(chemin_fichier, dim);</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    }</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    std::string lis_nom()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    std::string get_name()<span class="keyword"> const</span></div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="keyword">    </span>{</div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      <span class="keywordflow">return</span> f.lis_nom();</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordtype">void</span> def_nom(<span class="keyword">const</span> std::string &amp;s)</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordtype">void</span> set_name(<span class="keyword">const</span> std::string &amp;s)</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    {</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      f.def_nom(s);</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="comment">/*static void wait_mmi()</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">    {</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment">      tsd::vue::attente_ihm();</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment">    }*/</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    Figure clone()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      <span class="keywordflow">return</span> f.clone();</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    }</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  };</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno"><a class="line" href="structdsp_1_1view_1_1_figure.html#a0ac1662242c1886a217dae45da23cb00">  276</a></span>&#160;    <a class="code" href="structdsp_1_1view_1_1_figure.html">Figure</a> <a class="code" href="structdsp_1_1view_1_1_figure.html#a0ac1662242c1886a217dae45da23cb00">clone</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      <span class="keywordflow">return</span> f.<a class="code" href="structdsp_1_1view_1_1_figure.html#a0ac1662242c1886a217dae45da23cb00">clone</a>();</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    }</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;  };</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;  <span class="keyword">using</span> Figures = tsd::vue::Figures;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  <span class="keyword">using</span> Figures = tsd::vue::Figures;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;}</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; </div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160; </div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;}</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
 <div class="ttc" id="agroup__tsd_html_gab3555070d67ba50a7d11d081a9009f66"><div class="ttname"><a href="group__tsd.html#gab3555070d67ba50a7d11d081a9009f66">dsp::IArrayXf</a></div><div class="ttdeci">tsd::IArrayXf IArrayXf</div><div class="ttdoc">Input floating point array (const)</div><div class="ttdef"><b>Definition:</b> dsp.hpp:51</div></div>
 <div class="ttc" id="astructdsp_1_1view_1_1_figure_1_1_curve_html"><div class="ttname"><a href="structdsp_1_1view_1_1_figure_1_1_curve.html">dsp::view::Figure::Curve</a></div><div class="ttdoc">Courbe (telle que renvoyée par la méthode plot()).</div><div class="ttdef"><b>Definition:</b> figure.hpp:37</div></div>
 <div class="ttc" id="astructdsp_1_1view_1_1_figure_1_1_curve_html_a23058c481a7940336bc18aa96007b9a3"><div class="ttname"><a href="structdsp_1_1view_1_1_figure_1_1_curve.html#a23058c481a7940336bc18aa96007b9a3">dsp::view::Figure::Curve::set_σ</a></div><div class="ttdeci">void set_σ(IArrayXf σ)</div><div class="ttdoc">Définit, pour chaque point de la courbe, l'écart-type.</div><div class="ttdef"><b>Definition:</b> figure.hpp:67</div></div>
@@ -315,14 +310,13 @@ $(document).ready(function(){initNavTree('figure_8hpp_source.html',''); initResi
 <div class="ttc" id="astructdsp_1_1view_1_1_figure_abdb47e81f4d5bcbbf15e2aa812e5a4a0_html_abdb47e81f4d5bcbbf15e2aa812e5a4a0"><div class="ttname"><a href="structdsp_1_1view_1_1_figure_abdb47e81f4d5bcbbf15e2aa812e5a4a0.html#abdb47e81f4d5bcbbf15e2aa812e5a4a0">dsp::view::Figure::plot_psd</a></div><div class="ttdeci">Curve plot_psd(const Eigen::ArrayBase&lt; Derived &gt; &amp;y, float fe=1.0, const std::string &amp;format=&quot;&quot;, const std::string &amp;titre=&quot;&quot;, Ts &amp;&amp;... args)</div><div class="ttdoc">Affiche le spectre d'un signal.</div><div class="ttdef"><b>Definition:</b> figure.hpp:136</div></div>
 <div class="ttc" id="astructdsp_1_1view_1_1_figure_html"><div class="ttname"><a href="structdsp_1_1view_1_1_figure.html">dsp::view::Figure</a></div><div class="ttdoc">Figure with Matlab / Scilab type API.</div><div class="ttdef"><b>Definition:</b> figure.hpp:26</div></div>
 <div class="ttc" id="astructdsp_1_1view_1_1_figure_html_a06095c8174bc1e20a34b63f45647aee4"><div class="ttname"><a href="structdsp_1_1view_1_1_figure.html#a06095c8174bc1e20a34b63f45647aee4">dsp::view::Figure::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Efface la figure.</div><div class="ttdef"><b>Definition:</b> figure.hpp:82</div></div>
-<div class="ttc" id="astructdsp_1_1view_1_1_figure_html_a0ac1662242c1886a217dae45da23cb00"><div class="ttname"><a href="structdsp_1_1view_1_1_figure.html#a0ac1662242c1886a217dae45da23cb00">dsp::view::Figure::clone</a></div><div class="ttdeci">Figure clone() const</div><div class="ttdoc">Attends que l'utilisateur ferme toutes les fenêtres graphiques.</div><div class="ttdef"><b>Definition:</b> figure.hpp:276</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_1bf2b1879fb9fd927eb060f67ab1a00f.html">dsp</a></li><li class="navelem"><b>figure.hpp</b></li>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

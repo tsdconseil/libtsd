@@ -110,10 +110,16 @@ $(document).ready(function(){initNavTree('group__telecom-crec.html',''); initRes
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Recouvrement de porteuse<div class="ingroups"><a class="el" href="group__telecom.html">Telecommunications</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <p>Le recouvrement d'horloge consiste à essayer d'échantillonner le signal reçu au bon instant, c'est-à-dire de manière synchronisée avec l'horloge de l'émetteur. Si cette opération n'est pas effectuée, le risque est que le décalage temporel induise des erreurs en réception, comme dans l'exemple ci-dessous : </p><div class="image">
 <img src="clock-bad.png" alt="" width="400px"/>
 </div>
@@ -130,12 +136,70 @@ $(document).ready(function(){initNavTree('group__telecom-crec.html',''); initRes
 <img src="crec.png" alt="" width="400px"/>
 </div>
 <p>Un exemple complet peut être trouvé dans la documentation de la fonction carrier_rec_process. </p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_clock_rec_config.html">dsp::telecom::ClockRecConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock recovery configuration structure.  <a href="structdsp_1_1telecom_1_1_clock_rec_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_loop_filter.html">dsp::telecom::LoopFilter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface abstraite pour un filtre de boucle.  <a href="structdsp_1_1telecom_1_1_loop_filter.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_p_l_l_config.html">dsp::telecom::PLLConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration pour une PLL.  <a href="structdsp_1_1telecom_1_1_p_l_l_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_r_p_l_l_config.html">dsp::telecom::RPLLConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration pour une PLL à sortie réelle.  <a href="structdsp_1_1telecom_1_1_r_p_l_l_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga1de5001bcada3f66c39a1c15099e9027"><td class="memItemLeft" align="right" valign="top"><a id="ga1de5001bcada3f66c39a1c15099e9027"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec.html#ga1de5001bcada3f66c39a1c15099e9027">dsp::telecom::Ped</a> = nfr::Ped</td></tr>
+<tr class="memdesc:ga1de5001bcada3f66c39a1c15099e9027"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface pour un détecteur de phase. <br /></td></tr>
+<tr class="separator:ga1de5001bcada3f66c39a1c15099e9027"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga8143a70798ec3fbc8ac8ee6998316f9f"><td class="memItemLeft" align="right" valign="top"><a id="ga8143a70798ec3fbc8ac8ee6998316f9f"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec.html#ga8143a70798ec3fbc8ac8ee6998316f9f">dsp::telecom::TedType</a> </td></tr>
+<tr class="memdesc:ga8143a70798ec3fbc8ac8ee6998316f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les différents types de détecteur d'erreur d'horloge. <br /></td></tr>
+<tr class="separator:ga8143a70798ec3fbc8ac8ee6998316f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad674c92c04654ffa9efd62db5d104396"><td class="memItemLeft" align="right" valign="top"><a id="gad674c92c04654ffa9efd62db5d104396"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec.html#gad674c92c04654ffa9efd62db5d104396">dsp::telecom::PedType</a> </td></tr>
+<tr class="memdesc:gad674c92c04654ffa9efd62db5d104396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les différents types de détecteurs d'erreur de phase. <br /></td></tr>
+<tr class="separator:gad674c92c04654ffa9efd62db5d104396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gae64b3aff3f96e27c1381d3492de3aaab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga42e62080f2cbc1318c989898cd931521.html#ga42e62080f2cbc1318c989898cd931521">FiltreGen</a>&lt; <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec_gae64b3aff3f96e27c1381d3492de3aaab.html#gae64b3aff3f96e27c1381d3492de3aaab">dsp::telecom::clock_rec_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_clock_rec_config.html">ClockRecConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:gae64b3aff3f96e27c1381d3492de3aaab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creation of a clock recovery object.  <a href="group__telecom-crec_gae64b3aff3f96e27c1381d3492de3aaab.html#gae64b3aff3f96e27c1381d3492de3aaab">More...</a><br /></td></tr>
+<tr class="separator:gae64b3aff3f96e27c1381d3492de3aaab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5732ea960409871ddc8812028277f1d"><td class="memItemLeft" align="right" valign="top"><a id="gab5732ea960409871ddc8812028277f1d"></a>
+<a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; Ted &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec.html#gab5732ea960409871ddc8812028277f1d">dsp::telecom::ted_new</a> (<a class="el" href="group__telecom-crec.html#ga8143a70798ec3fbc8ac8ee6998316f9f">TedType</a> type)</td></tr>
+<tr class="memdesc:gab5732ea960409871ddc8812028277f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un détecteur d'erreur d'horloge (ted / timing error detector) <br /></td></tr>
+<tr class="separator:gab5732ea960409871ddc8812028277f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga12b48ad851a2c3b0d4774e841641af04"><td class="memItemLeft" align="right" valign="top"><a id="ga12b48ad851a2c3b0d4774e841641af04"></a>
+<a class="el" href="group__telecom-crec.html#ga1de5001bcada3f66c39a1c15099e9027">Ped</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec.html#ga12b48ad851a2c3b0d4774e841641af04">dsp::telecom::ped_new</a> (<a class="el" href="group__telecom-crec.html#gad674c92c04654ffa9efd62db5d104396">PedType</a> type, <a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_wave_form.html">WaveForm</a> &gt; wf)</td></tr>
+<tr class="memdesc:ga12b48ad851a2c3b0d4774e841641af04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un détecteur d'erreur de phase (ped / phase error detector) <br /></td></tr>
+<tr class="separator:ga12b48ad851a2c3b0d4774e841641af04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaaf32ab927106bf6c229ab26927f2d99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_loop_filter.html">LoopFilter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec_gaaaf32ab927106bf6c229ab26927f2d99.html#gaaaf32ab927106bf6c229ab26927f2d99">dsp::telecom::filter_loop_first_order</a> (float τ)</td></tr>
+<tr class="memdesc:gaaaf32ab927106bf6c229ab26927f2d99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de boucle du premier ordre  <a href="group__telecom-crec_gaaaf32ab927106bf6c229ab26927f2d99.html#gaaaf32ab927106bf6c229ab26927f2d99">More...</a><br /></td></tr>
+<tr class="separator:gaaaf32ab927106bf6c229ab26927f2d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac33ecab308cec14f14d7e7c622dd0c4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_loop_filter.html">LoopFilter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec_gac33ecab308cec14f14d7e7c622dd0c4d.html#gac33ecab308cec14f14d7e7c622dd0c4d">dsp::telecom::filter_loop_second_order</a> (float BL, float η)</td></tr>
+<tr class="memdesc:gac33ecab308cec14f14d7e7c622dd0c4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de boucle du seconde ordre  <a href="group__telecom-crec_gac33ecab308cec14f14d7e7c622dd0c4d.html#gac33ecab308cec14f14d7e7c622dd0c4d">More...</a><br /></td></tr>
+<tr class="separator:gac33ecab308cec14f14d7e7c622dd0c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab40eb8928a92d201ef777267f9062618"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga49563cdd8dd690813216546e10751779.html#ga49563cdd8dd690813216546e10751779">Filtre</a>&lt; float, float, nfr::RPLLConfig &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec_gab40eb8928a92d201ef777267f9062618.html#gab40eb8928a92d201ef777267f9062618">dsp::telecom::rpll_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_r_p_l_l_config.html">RPLLConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:gab40eb8928a92d201ef777267f9062618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'une PLL (boucle à vérouillage de phase) à sortie réelle.  <a href="group__telecom-crec_gab40eb8928a92d201ef777267f9062618.html#gab40eb8928a92d201ef777267f9062618">More...</a><br /></td></tr>
+<tr class="separator:gab40eb8928a92d201ef777267f9062618"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadd39e41afef8b05d44875dac926e92b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga49563cdd8dd690813216546e10751779.html#ga49563cdd8dd690813216546e10751779">Filtre</a>&lt; <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, nfr::PLLConfig &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-crec_gadd39e41afef8b05d44875dac926e92b8.html#gadd39e41afef8b05d44875dac926e92b8">dsp::telecom::cpll_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_p_l_l_config.html">PLLConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:gadd39e41afef8b05d44875dac926e92b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'une PLL (boucle à vérouillage de phase) à sortie complexe.  <a href="group__telecom-crec_gadd39e41afef8b05d44875dac926e92b8.html#gadd39e41afef8b05d44875dac926e92b8">More...</a><br /></td></tr>
+<tr class="separator:gadd39e41afef8b05d44875dac926e92b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

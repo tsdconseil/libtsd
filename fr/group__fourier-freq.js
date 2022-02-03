@@ -10,9 +10,9 @@ var group__fourier_freq =
       [ "masque_hf", "structtsd_1_1fourier_1_1_spectrum_config.html#a06d5b3f04f1e3130d5a34fd47bb8841b", null ],
       [ "nmeans", "structtsd_1_1fourier_1_1_spectrum_config.html#a4116b993770515898c75589db23ef00a", null ],
       [ "nsubs", "structtsd_1_1fourier_1_1_spectrum_config.html#a4721e82ca6e80d22cd503bf4cddf11db", null ],
-      [ "plan", "structtsd_1_1fourier_1_1_spectrum_config.html#a7a44befe10a27e0c15739fb69a1b9730", null ],
+      [ "plan", "structtsd_1_1fourier_1_1_spectrum_config.html#aebe8ed756c76c567c85f2ed13a66f733", null ],
       [ "step", "structtsd_1_1fourier_1_1_spectrum_config.html#af699e1a07f4161694a0e6725a9a61599", null ],
-      [ "sweep", "structtsd_1_1fourier_1_1_spectrum_config.html#a52fc7c322709aeacdc10adb685f9dee0", null ]
+      [ "sweep", "structtsd_1_1fourier_1_1_spectrum_config.html#aac4ed008729b4bda98d4859698d7ae6a", null ]
     ] ],
     [ "FreqEstimMethode", "group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148", [
       [ "FFT", "group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a44381f9d1cc2a9f9d29ff687b5ac1776", null ],

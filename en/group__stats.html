@@ -110,18 +110,59 @@ $(document).ready(function(){initNavTree('group__stats.html',''); initResizable(
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Statistical signal processing</div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>Ce module regroupe les fonctions liées à l'interprétation statistique des signaux, plus précisément sous forme de signaux stationnaires (on suppose que \(\mathbb{E}[x_{n}x^\star_{n+k}]\) est indépendant de \(n\)).</p>
-<p>Un concept important pour caractériser de tels signaux est la corrélation (ou l'auto-corrélation), calculable à partir de la fonction xcorr() du module <a class="el" href="group__fourier.html">tsd::fourier</a>. </p>
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
+<p>This modules contains functions related to the statistical interpretation of signals, that is here, stationnary signals (it is assumed that \(\mathbb{E}[x_{n}x^\star_{n+k}]\) is independant of \(n\)).</p>
+<p>A key concept to caracterize such signals is the correlation (or auto-correlation), that can be computed with the function <a class="el" href="group__fourier-corr_ga35b89433faa936a7d6eb20fc5f71ceaa.html#ga35b89433faa936a7d6eb20fc5f71ceaa">xcorr()</a> from the "dsp::fourier" namespace.</p>
+<dl class="section warning"><dt>Warning</dt><dd>Experimental module (very limited functionalities, incomplete tests, unstabilized API). </dd></dl>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1stats_1_1_sub_space_spectrum_config.html">dsp::stats::SubSpaceSpectrumConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramètrage analyse sous-espace.  <a href="structdsp_1_1stats_1_1_sub_space_spectrum_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1stats_1_1_sub_space_spectrum.html">dsp::stats::SubSpaceSpectrum</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une analyse de sous-espace.  <a href="structdsp_1_1stats_1_1_sub_space_spectrum.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga72364b7a142a7d61c91f10b3d1d6b0c6"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__stats_ga72364b7a142a7d61c91f10b3d1d6b0c6.html#ga72364b7a142a7d61c91f10b3d1d6b0c6">dsp::stats::levinson_real</a> (const ArrayXf &amp;r)</td></tr>
+<tr class="memdesc:ga72364b7a142a7d61c91f10b3d1d6b0c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résolution de l'équation \(Ra = -r\).  <a href="group__stats_ga72364b7a142a7d61c91f10b3d1d6b0c6.html#ga72364b7a142a7d61c91f10b3d1d6b0c6">More...</a><br /></td></tr>
+<tr class="separator:ga72364b7a142a7d61c91f10b3d1d6b0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8de0ac3f54acae478ab59c21af98b3d8"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__stats_ga8de0ac3f54acae478ab59c21af98b3d8.html#ga8de0ac3f54acae478ab59c21af98b3d8">dsp::stats::levinson</a> (const ArrayXf &amp;l1, const ArrayXf &amp;c1, const ArrayXf &amp;y)</td></tr>
+<tr class="memdesc:ga8de0ac3f54acae478ab59c21af98b3d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Récursion de Levinson - Durbin (cas général)  <a href="group__stats_ga8de0ac3f54acae478ab59c21af98b3d8.html#ga8de0ac3f54acae478ab59c21af98b3d8">More...</a><br /></td></tr>
+<tr class="separator:ga8de0ac3f54acae478ab59c21af98b3d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga975686dc8b8b3253a5f091ed64335946"><td class="memTemplParams" colspan="2">template&lt;typename derived &gt; </td></tr>
+<tr class="memitem:ga975686dc8b8b3253a5f091ed64335946"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__stats_ga975686dc8b8b3253a5f091ed64335946.html#ga975686dc8b8b3253a5f091ed64335946">dsp::stats::r2R</a> (const Eigen::ArrayBase&lt; derived &gt; &amp;r)</td></tr>
+<tr class="memdesc:ga975686dc8b8b3253a5f091ed64335946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul d'une matrice d'auto-corrélation à partir d'un vecteur de corrélations.  <a href="group__stats_ga975686dc8b8b3253a5f091ed64335946.html#ga975686dc8b8b3253a5f091ed64335946">More...</a><br /></td></tr>
+<tr class="separator:ga975686dc8b8b3253a5f091ed64335946"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga319e12c57d0e3325410c5161d18e5ac6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga319e12c57d0e3325410c5161d18e5ac6"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__stats_ga319e12c57d0e3325410c5161d18e5ac6.html#ga319e12c57d0e3325410c5161d18e5ac6">dsp::stats::covmtx</a> (const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;x, int m)</td></tr>
+<tr class="memdesc:ga319e12c57d0e3325410c5161d18e5ac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de la matrice de covariance pour un signal supposé <b>stationnaire</b> et <b>centré</b>.  <a href="group__stats_ga319e12c57d0e3325410c5161d18e5ac6.html#ga319e12c57d0e3325410c5161d18e5ac6">More...</a><br /></td></tr>
+<tr class="separator:ga319e12c57d0e3325410c5161d18e5ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab24c60d98ec9488517709cdc4aad5277"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; ArrayXf, ArrayXf &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__stats_gab24c60d98ec9488517709cdc4aad5277.html#gab24c60d98ec9488517709cdc4aad5277">dsp::stats::lpc</a> (const ArrayXf &amp;x, int p)</td></tr>
+<tr class="memdesc:gab24c60d98ec9488517709cdc4aad5277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analyse LPC (prédiction linéaire)  <a href="group__stats_gab24c60d98ec9488517709cdc4aad5277.html#gab24c60d98ec9488517709cdc4aad5277">More...</a><br /></td></tr>
+<tr class="separator:gab24c60d98ec9488517709cdc4aad5277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef219ca609d25b7de8069f707505ffc1"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__stats_gaef219ca609d25b7de8069f707505ffc1.html#gaef219ca609d25b7de8069f707505ffc1">dsp::stats::wiener_fir</a> (const MatrixXf &amp;Rxy, const ArrayXf &amp;rx, int p)</td></tr>
+<tr class="memdesc:gaef219ca609d25b7de8069f707505ffc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de Wiener (RIF)  <a href="group__stats_gaef219ca609d25b7de8069f707505ffc1.html#gaef219ca609d25b7de8069f707505ffc1">More...</a><br /></td></tr>
+<tr class="separator:gaef219ca609d25b7de8069f707505ffc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa84c3e401017d307d0a85c14c9f76659"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdsp_1_1stats_1_1_sub_space_spectrum.html">SubSpaceSpectrum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__stats_gaa84c3e401017d307d0a85c14c9f76659.html#gaa84c3e401017d307d0a85c14c9f76659">dsp::stats::subspace_spectrum</a> (const MatrixXcf &amp;R, const <a class="el" href="structdsp_1_1stats_1_1_sub_space_spectrum_config.html">SubSpaceSpectrumConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:gaa84c3e401017d307d0a85c14c9f76659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul d'une réponse générale par la méthode des sous-espaces.  <a href="group__stats_gaa84c3e401017d307d0a85c14c9f76659.html#gaa84c3e401017d307d0a85c14c9f76659">More...</a><br /></td></tr>
+<tr class="separator:gaa84c3e401017d307d0a85c14c9f76659"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

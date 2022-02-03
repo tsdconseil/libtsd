@@ -8,7 +8,7 @@ var group__telecom_mods =
       [ "wf", "structtsd_1_1telecom_1_1_mod_config.html#a3519e21cb088b076491729842356a4d1", null ]
     ] ],
     [ "Modulateur", "structtsd_1_1telecom_1_1_modulateur.html", [
-      [ "delais", "structtsd_1_1telecom_1_1_modulateur_a45269d05c5c78e538dc095e395d04a0f.html#a45269d05c5c78e538dc095e395d04a0f", null ],
+      [ "delais", "structtsd_1_1telecom_1_1_modulateur_a7e424d1f69f4e22cd329be8a1d4b452c.html#a7e424d1f69f4e22cd329be8a1d4b452c", null ],
       [ "flush", "structtsd_1_1telecom_1_1_modulateur_afd14e783b798ed971141acefe85001f5.html#afd14e783b798ed971141acefe85001f5", null ],
       [ "step", "structtsd_1_1telecom_1_1_modulateur_a2cb8101086816efdaf9405c6f7ffdc97.html#a2cb8101086816efdaf9405c6f7ffdc97", null ]
     ] ],
@@ -22,17 +22,17 @@ var group__telecom_mods =
       [ "DemodDecConfig", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html", [
         [ "actif", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config_a013da36511fe1cb1eb4820e396e3a339.html#a013da36511fe1cb1eb4820e396e3a339", null ],
         [ "BL", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#ae3406c2a31c249e2aa7e8f401d6620cc", null ],
-        [ "carrier_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a33d083a621321d8a15a341ef97d89ede", null ],
-        [ "clock_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#aef42590d67b917e6006aadd5064669c6", null ],
+        [ "carrier_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a6e4dd8ec5b0041c5f2e35cbb6b67c016", null ],
+        [ "clock_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a080e13fc138b07ac8600b44cb57d3ccd", null ],
         [ "tc", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a77f07944616de47730fe51ea5c455902", null ],
         [ "η", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a28e38f7c3f422d571991ac75e39e55f2", null ]
       ] ],
       [ "DemodNDecConfig", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_n_dec_config.html", [
-        [ "carrier_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_n_dec_config.html#acdf6a05da454b59c0936a32f98c4fe40", null ],
-        [ "clock_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_n_dec_config.html#a27ca1ff38a51f64977fc81092544f5a4", null ],
+        [ "carrier_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_n_dec_config.html#a71ce6653b4340684beca0f2378d4e5f6", null ],
+        [ "clock_rec", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_n_dec_config.html#aa11578305994af1eba360810a4ad3942", null ],
         [ "tc_rssi_coarse", "structtsd_1_1telecom_1_1_demod_config_1_1_demod_n_dec_config.html#a2a77c8771ad3d43ecfba4495d8612e64", null ]
       ] ],
-      [ "architecture", "structtsd_1_1telecom_1_1_demod_config.html#aa5f369a9adb3f5fdda7ac959ee2c3b0b", null ],
+      [ "architecture", "structtsd_1_1telecom_1_1_demod_config.html#a04859d995e1e3630d8b7f0abe32e802e", null ],
       [ "debug_actif", "structtsd_1_1telecom_1_1_demod_config.html#ab91d533e03661fda661ee5860fa908cd", null ]
     ] ],
     [ "TrameFormat", "structtsd_1_1telecom_1_1_trame_format.html", [
@@ -54,7 +54,7 @@ var group__telecom_mods =
     ] ],
     [ "RécepteurTrame", "structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html", [
       [ "bs", "structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a52bf3cb9c17396d05bba0b3b8d00bc1d", null ],
-      [ "det", "structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a0bf6dfd73d72acbfdc99b56e3607a6a6", null ],
+      [ "det", "structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#ad53b045488218e7dd241c4b6072f3398", null ],
       [ "EbN0", "structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a3207abb5461b12dfdb79ab489370d6c0", null ],
       [ "x", "structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#aaeea5815935653b29234b3d3f1419f86", null ],
       [ "x1", "structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#adf4ceb9fe1d84d0f10f9d5e390cfb0db", null ]

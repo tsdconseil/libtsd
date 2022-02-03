@@ -110,22 +110,69 @@ $(document).ready(function(){initNavTree('group__telecom-simu.html',''); initRes
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Simulation<div class="ingroups"><a class="el" href="group__telecom.html">Telecommunications</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <p>Ce module contient quelques fonctions relatives à la simulation des canaux de propagation :</p><ul>
 <li>Simulation de bruit blanc gaussien (awgn)</li>
 <li>Simulation de canaux dispersifs : multi-trajets, modèles de Rice, Rayleigh (fading_chn_init et fading_chn_process)</li>
 <li>Simulation de déséquilibre I/Q (iqi_simu)</li>
 <li>Simulation complète : distortions précédentes + erreurs d'horloge, de phase, de fréquence, .... (chn_simu_prm et chn_simu). </li>
 </ul>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_dispersive_channel_config.html">dsp::telecom::DispersiveChannelConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration pour un canal dispersif.  <a href="structdsp_1_1telecom_1_1_dispersive_channel_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_c_p_e_config.html">dsp::telecom::CPEConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramétrage d'un émulateur de canal de propagation.  <a href="structdsp_1_1telecom_1_1_c_p_e_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga54026a7d1121da81388781553bcd3acb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#ga54026a7d1121da81388781553bcd3acb">dsp::telecom::ChannelType</a> { <a class="el" href="group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#gga54026a7d1121da81388781553bcd3acba180559a33b5f3ea5e81e432ea4fc842b">dsp::telecom::RAYLEIGH</a> = 0
+, <a class="el" href="group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#gga54026a7d1121da81388781553bcd3acba50d033843db4489d807b90f41ec41fd4">dsp::telecom::RICE</a>
+ }</td></tr>
+<tr class="memdesc:ga54026a7d1121da81388781553bcd3acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de canal (avec ou sans trajet dominant)  <a href="group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#ga54026a7d1121da81388781553bcd3acb">More...</a><br /></td></tr>
+<tr class="separator:ga54026a7d1121da81388781553bcd3acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gafe27c11ebf46fd1784b6f70ac22ba237"><td class="memItemLeft" align="right" valign="top">ArrayXcf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_gafe27c11ebf46fd1784b6f70ac22ba237.html#gafe27c11ebf46fd1784b6f70ac22ba237">dsp::telecom::awgn_noise</a> (<a class="el" href="group__tsd.html#gaf362773b2de03d52bbb68e45b8dd7dc6">IArrayXcf</a> &amp;x, float σ)</td></tr>
+<tr class="memdesc:gafe27c11ebf46fd1784b6f70ac22ba237"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute un bruit blanc gaussien complexe.  <a href="group__telecom-simu_gafe27c11ebf46fd1784b6f70ac22ba237.html#gafe27c11ebf46fd1784b6f70ac22ba237">More...</a><br /></td></tr>
+<tr class="separator:gafe27c11ebf46fd1784b6f70ac22ba237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac7273e6726afa6955e6f44ee97bb780"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_gaac7273e6726afa6955e6f44ee97bb780.html#gaac7273e6726afa6955e6f44ee97bb780">dsp::telecom::bruit_awgn</a> (<a class="el" href="group__tsd.html#gab3555070d67ba50a7d11d081a9009f66">IArrayXf</a> &amp;x, float σ)</td></tr>
+<tr class="memdesc:gaac7273e6726afa6955e6f44ee97bb780"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute un bruit blanc gaussien réel.  <a href="group__telecom-simu_gaac7273e6726afa6955e6f44ee97bb780.html#gaac7273e6726afa6955e6f44ee97bb780">More...</a><br /></td></tr>
+<tr class="separator:gaac7273e6726afa6955e6f44ee97bb780"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf3eb9bfed33eaa2426fa4497b17159e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga49563cdd8dd690813216546e10751779.html#ga49563cdd8dd690813216546e10751779">Filtre</a>&lt; <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, nfr::CanalDispersifConfig &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_gaf3eb9bfed33eaa2426fa4497b17159e0.html#gaf3eb9bfed33eaa2426fa4497b17159e0">dsp::telecom::dispersive_channel</a> (const <a class="el" href="structdsp_1_1telecom_1_1_dispersive_channel_config.html">DispersiveChannelConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:gaf3eb9bfed33eaa2426fa4497b17159e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un simulateur de canal dispersif.  <a href="group__telecom-simu_gaf3eb9bfed33eaa2426fa4497b17159e0.html#gaf3eb9bfed33eaa2426fa4497b17159e0">More...</a><br /></td></tr>
+<tr class="separator:gaf3eb9bfed33eaa2426fa4497b17159e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad5915dca9e01e52b7b62f3ebabace15d"><td class="memItemLeft" align="right" valign="top">ArrayXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_gad5915dca9e01e52b7b62f3ebabace15d.html#gad5915dca9e01e52b7b62f3ebabace15d">dsp::telecom::doppler_distri</a> (ArrayXd f, float fd, double fc)</td></tr>
+<tr class="memdesc:gad5915dca9e01e52b7b62f3ebabace15d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Densité spectrale due au Doppler (modèle statistique).  <a href="group__telecom-simu_gad5915dca9e01e52b7b62f3ebabace15d.html#gad5915dca9e01e52b7b62f3ebabace15d">More...</a><br /></td></tr>
+<tr class="separator:gad5915dca9e01e52b7b62f3ebabace15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1b7a972c1504c1b867bf6f0854cd5472"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_ga1b7a972c1504c1b867bf6f0854cd5472.html#ga1b7a972c1504c1b867bf6f0854cd5472">dsp::telecom::thermal_noise</a> (float bp, float T=25)</td></tr>
+<tr class="memdesc:ga1b7a972c1504c1b867bf6f0854cd5472"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de la puissance du bruit thermique.  <a href="group__telecom-simu_ga1b7a972c1504c1b867bf6f0854cd5472.html#ga1b7a972c1504c1b867bf6f0854cd5472">More...</a><br /></td></tr>
+<tr class="separator:ga1b7a972c1504c1b867bf6f0854cd5472"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga12996ca90f2488c7d90699601474f0f1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="group__tsd_ga49563cdd8dd690813216546e10751779.html#ga49563cdd8dd690813216546e10751779">Filtre</a>&lt; <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, nfr::ECPConfig &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_ga12996ca90f2488c7d90699601474f0f1.html#ga12996ca90f2488c7d90699601474f0f1">dsp::telecom::ecp_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_c_p_e_config.html">CPEConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:ga12996ca90f2488c7d90699601474f0f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un émulateur de canal de propagation.  <a href="group__telecom-simu_ga12996ca90f2488c7d90699601474f0f1.html#ga12996ca90f2488c7d90699601474f0f1">More...</a><br /></td></tr>
+<tr class="separator:ga12996ca90f2488c7d90699601474f0f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2c02d0f3abe2e40702ef898ada08be2a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-simu_ga2c02d0f3abe2e40702ef898ada08be2a.html#ga2c02d0f3abe2e40702ef898ada08be2a">dsp::telecom::awgn_channel_capacity</a> (float snr, float B=1)</td></tr>
+<tr class="memdesc:ga2c02d0f3abe2e40702ef898ada08be2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capacité d'un canal AWGN.  <a href="group__telecom-simu_ga2c02d0f3abe2e40702ef898ada08be2a.html#ga2c02d0f3abe2e40702ef898ada08be2a">More...</a><br /></td></tr>
+<tr class="separator:ga2c02d0f3abe2e40702ef898ada08be2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

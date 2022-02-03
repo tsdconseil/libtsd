@@ -148,7 +148,7 @@ template&lt;typename Derived &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Resampled signal</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>A filter (or even a cascad of filters) is automatically inserted (before decimation or after interpolation) so as to avoir spectrum aliasing.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>filter_resampling() (to process infinite time signal), resample_freq() (zero-delay resampling).</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>filter_resampling() (to process infinite <a class="el" href="namespacedsp_1_1time.html">time</a> signal), <a class="el" href="group__fourier_ga6ad838f2376ec368f6eda1cd16b26897.html#ga6ad838f2376ec368f6eda1cd16b26897" title="DFT based zero-phase resampling.">resample_freq()</a> (zero-delay resampling).</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// Sinusoïde échantillonnée à 1/5ième de la fréquence d&#39;échantillonnage</span></div>
 <div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">sigsin</a>(0.2, 40);</div>
@@ -161,12 +161,12 @@ template&lt;typename Derived &gt; </div>
 <div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;b-o&quot;</span>);</div>
 <div class="line">  f.subplot().plot(y);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_ga4de086ec7949d7f349b833b91b130435_html_ga4de086ec7949d7f349b833b91b130435"><div class="ttname"><a href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">dsp::sigsin</a></div><div class="ttdeci">static ArrayXf sigsin(float f, int n)</div><div class="ttdoc">Efficient computing of a sinusoid.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:890</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga4de086ec7949d7f349b833b91b130435_html_ga4de086ec7949d7f349b833b91b130435"><div class="ttname"><a href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">dsp::sigsin</a></div><div class="ttdeci">static ArrayXf sigsin(float f, int n)</div><div class="ttdoc">Efficient computing of a sinusoid.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:891</div></div>
 </div><!-- fragment --><div class="image">
 <img src="resample.png" alt="" width="800px"/>
 </div>
 </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Because of the anti-aliasing filters, the output signal will be delayed compared to the input one. To resample without intruducing delay, one can use resample_freq(). </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Because of the anti-aliasing filters, the output signal will be delayed compared to the input one. To resample without intruducing delay, one can use <a class="el" href="group__fourier_ga6ad838f2376ec368f6eda1cd16b26897.html#ga6ad838f2376ec368f6eda1cd16b26897">resample_freq()</a>. </dd></dl>
 
 </div>
 </div>
@@ -176,7 +176,7 @@ template&lt;typename Derived &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

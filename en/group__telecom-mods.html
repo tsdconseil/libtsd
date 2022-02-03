@@ -111,7 +111,9 @@ $(document).ready(function(){initNavTree('group__telecom-mods.html',''); initRes
 
 <div class="header">
   <div class="summary">
-<a href="#groups">Sous-modules</a>  </div>
+<a href="#groups">Sous-modules</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Modulations numériques<div class="ingroups"><a class="el" href="group__telecom.html">Telecommunications</a></div></div>  </div>
 </div><!--header-->
@@ -129,13 +131,61 @@ Sous-modules</h2></td></tr>
 <tr class="memitem:group__telecom-mods-wf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-mods-wf.html">Formes d'ondes</a></td></tr>
 <tr class="memdesc:group__telecom-mods-wf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définition des formes d'ondes classiques (FSK, PSK, etc.). <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_mod_config.html">dsp::telecom::ModConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramétrage d'un modulateur numérique.  <a href="structdsp_1_1telecom_1_1_mod_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_modulator.html">dsp::telecom::Modulator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface abstraite vers un modulateur.  <a href="structdsp_1_1telecom_1_1_modulator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_demodulator.html">dsp::telecom::Demodulator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface abstraite vers un démodulateur.  <a href="structdsp_1_1telecom_1_1_demodulator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_demod_config.html">dsp::telecom::DemodConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramétrage d'un démodulateur numérique.  <a href="structdsp_1_1telecom_1_1_demod_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_trame_format.html">dsp::telecom::TrameFormat</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définition du format d'une trame.  <a href="structdsp_1_1telecom_1_1_trame_format.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_packet_receiver_config.html">dsp::telecom::PacketReceiverConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration d'un récepteur générique.  <a href="structdsp_1_1telecom_1_1_packet_receiver_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html">dsp::telecom::RécepteurTrame</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trame décodée par un récepteur.  <a href="structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_packet_receiver.html">dsp::telecom::PacketReceiver</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface abstraite vers un récepteur de trames.  <a href="structdsp_1_1telecom_1_1_packet_receiver.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_packet_emitter_config.html">dsp::telecom::PacketEmitterConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure de configuration d'un récepteur_création générique.  <a href="structdsp_1_1telecom_1_1_packet_emitter_config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1telecom_1_1_packet_emitter.html">dsp::telecom::PacketEmitter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface abstraite vers un générateur de trames.  <a href="structdsp_1_1telecom_1_1_packet_emitter.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga33861c98ecb45c2195b6bd90c3c179f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_modulator.html">Modulator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-mods_ga33861c98ecb45c2195b6bd90c3c179f5.html#ga33861c98ecb45c2195b6bd90c3c179f5">dsp::telecom::modulator_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_mod_config.html">ModConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:ga33861c98ecb45c2195b6bd90c3c179f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un modulateur numérique.  <a href="group__telecom-mods_ga33861c98ecb45c2195b6bd90c3c179f5.html#ga33861c98ecb45c2195b6bd90c3c179f5">More...</a><br /></td></tr>
+<tr class="separator:ga33861c98ecb45c2195b6bd90c3c179f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad9ce7099a88285e5e541380b97ce5b89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_demodulator.html">Demodulator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-mods_gad9ce7099a88285e5e541380b97ce5b89.html#gad9ce7099a88285e5e541380b97ce5b89">dsp::telecom::demodulator_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_mod_config.html">ModConfig</a> &amp;modconfig, const <a class="el" href="structdsp_1_1telecom_1_1_demod_config.html">DemodConfig</a> &amp;demodconfig=<a class="el" href="structdsp_1_1telecom_1_1_demod_config.html">DemodConfig</a>())</td></tr>
+<tr class="memdesc:gad9ce7099a88285e5e541380b97ce5b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un démodulateur numérique.  <a href="group__telecom-mods_gad9ce7099a88285e5e541380b97ce5b89.html#gad9ce7099a88285e5e541380b97ce5b89">More...</a><br /></td></tr>
+<tr class="separator:gad9ce7099a88285e5e541380b97ce5b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga03bb0e3785a255adef585a268e5900e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_packet_receiver.html">PacketReceiver</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-mods_ga03bb0e3785a255adef585a268e5900e4.html#ga03bb0e3785a255adef585a268e5900e4">dsp::telecom::packet_receiver_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_packet_receiver_config.html">PacketReceiverConfig</a> &amp;rc)</td></tr>
+<tr class="memdesc:ga03bb0e3785a255adef585a268e5900e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un récepteur de trame.  <a href="group__telecom-mods_ga03bb0e3785a255adef585a268e5900e4.html#ga03bb0e3785a255adef585a268e5900e4">More...</a><br /></td></tr>
+<tr class="separator:ga03bb0e3785a255adef585a268e5900e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga01dd30b8f645c6b6b3d48cc1ae8ff090"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt; <a class="el" href="structdsp_1_1telecom_1_1_packet_emitter.html">PacketEmitter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-mods_ga01dd30b8f645c6b6b3d48cc1ae8ff090.html#ga01dd30b8f645c6b6b3d48cc1ae8ff090">dsp::telecom::packet_emitter_new</a> (const <a class="el" href="structdsp_1_1telecom_1_1_packet_emitter_config.html">PacketEmitterConfig</a> &amp;ec)</td></tr>
+<tr class="memdesc:ga01dd30b8f645c6b6b3d48cc1ae8ff090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Création d'un générateur de trames.  <a href="group__telecom-mods_ga01dd30b8f645c6b6b3d48cc1ae8ff090.html#ga01dd30b8f645c6b6b3d48cc1ae8ff090">More...</a><br /></td></tr>
+<tr class="separator:ga01dd30b8f645c6b6b3d48cc1ae8ff090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

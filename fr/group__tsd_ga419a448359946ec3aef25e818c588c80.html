@@ -145,7 +145,7 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
     <tr><td class="paramname">N</td><td>dimension des paquets de sortie </td></tr>
-    <tr><td class="paramname">callback</td><td>Fonction utilisateur qui sera appelée à chaque fois qu'un nouveau paquet de dimension N est disponible. </td></tr>
+    <tr><td class="paramname">callback</td><td>Fonction utilisateur qui sera appelée à chaque fois qu'un nouveau paquet de dimension \(N\) est disponible. </td></tr>
   </table>
   </dd>
 </dl>
@@ -175,8 +175,8 @@ template&lt;typename T &gt; </div>
 <div class="line">  t-&gt;step(x);</div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__fourier_gab72b5f60cadc9a0efb5ee5a376697381_html_gab72b5f60cadc9a0efb5ee5a376697381"><div class="ttname"><a href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">tsd::fourier::fft</a></div><div class="ttdeci">auto fft(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">Transformée de Fourier Discrète (TFD) rapide.</div><div class="ttdef"><b>Definition:</b> <a href="fourier_8hpp_source.html#l00158">fourier.hpp:158</a></div></div>
-</div><!-- fragment -->Notez que 10000 n'étant pas un multiple de 512, les derniers échantillons ne sont traités (ils le seront si la méthode t-&gt;step()) est appelée à nouveau avec d'autres échantillons). </dd></dl>
+<div class="ttc" id="agroup__fourier_gab72b5f60cadc9a0efb5ee5a376697381_html_gab72b5f60cadc9a0efb5ee5a376697381"><div class="ttname"><a href="group__fourier_gab72b5f60cadc9a0efb5ee5a376697381.html#gab72b5f60cadc9a0efb5ee5a376697381">tsd::fourier::fft</a></div><div class="ttdeci">auto fft(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">Transformée de Fourier Discrète (TFD) rapide.</div><div class="ttdef"><b>Definition:</b> fourier.hpp:166</div></div>
+</div><!-- fragment -->Notez que 10000 n'étant pas un multiple de 512, les derniers échantillons ne sont pas traités (ils le seront si la méthode t-&gt;step()) est appelée à nouveau avec d'autres échantillons). </dd></dl>
 
 </div>
 </div>
@@ -186,7 +186,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li>
-    <li class="footer">Généré le Lundi 31 Janvier 2022 11:16:05 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

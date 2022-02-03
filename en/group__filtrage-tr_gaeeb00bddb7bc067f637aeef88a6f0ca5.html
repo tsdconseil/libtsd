@@ -137,7 +137,21 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"></div><!-- fragment --> <div class="image">
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">float</span> fc = 0.01;</div>
+<div class="line">  <span class="keywordtype">int</span> n = 500;</div>
+<div class="line">  ArrayXf x = 0.2 * <a class="code" href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">sigsin</a>(0.1, n) + 1.0f;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> filtre = filtre_dc&lt;float&gt;(fc);</div>
+<div class="line"> </div>
+<div class="line">  ArrayXf y = filtre-&gt;step(x);</div>
+<div class="line"> </div>
+<div class="line">  Figures f;</div>
+<div class="line">  f.subplot(221).plot(x, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal d&#39;entrée&quot;</span>);</div>
+<div class="line">  f.subplot(222).plot_psd(x, 1, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Spectre signal d&#39;entrée&quot;</span>);</div>
+<div class="line">  f.subplot(223).plot(y, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal de sortie&quot;</span>);</div>
+<div class="line">  f.subplot(224).plot_psd(y.tail(y.rows()-200), 1, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Spectre signal de sortie&quot;</span>);</div>
+<div class="ttc" id="agroup__tsd-gen_ga4de086ec7949d7f349b833b91b130435_html_ga4de086ec7949d7f349b833b91b130435"><div class="ttname"><a href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">dsp::sigsin</a></div><div class="ttdeci">static ArrayXf sigsin(float f, int n)</div><div class="ttdoc">Efficient computing of a sinusoid.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:891</div></div>
+</div><!-- fragment --> <div class="image">
 <img src="bloqueur-dc-ex.png" alt="" width="1000px"/>
 </div>
 </dd></dl>
@@ -152,7 +166,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a></li>
-    <li class="footer">Generated on Tue Feb 1 2022 15:08:26 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Thu Feb 3 2022 08:24:59 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>
