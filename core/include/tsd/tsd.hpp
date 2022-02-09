@@ -9,6 +9,7 @@
 #include <cstdarg>
 #include <vector>
 #include <numbers>
+#include <random>
 #include <fmt/core.h>
 #include <fmt/ostream.h>
 #include <fmt/color.h>
@@ -1002,6 +1003,9 @@ namespace tsd
    *  @sa randu(), randb()
    */
   extern ArrayXf randn(int n);
+
+  /** @brief Générateur aléatoire utilisé en interne */
+  extern std::default_random_engine generateur_aleatoire;
 
   /** @cond private */
 

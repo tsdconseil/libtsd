@@ -11,6 +11,34 @@ using namespace tsd::vue;
 using namespace tsd::filtrage;
 
 
+static void test_filtre_boucle_ordre_1()
+{
+  msg_majeur("Test filtre de boucle d'ordre 1...");
+
+  // Constante de temps
+  auto τ = 5;
+  auto flt = filtre_boucle_ordre_1(τ);
+
+  // Vérifie la constante de temps
+  int n = 100;
+  ArrayXf y(n);
+  y(0) = 0;
+  for(auto i = 1; i < n; i++)
+    y(i) = flt->step(1 - y(i-1));
+
+  Figure f;
+  f.plot(y);
+  f.afficher("Test filtre boucle ordre 1");
+
+  msg("y(5) = {}", y(5));
+
+  // Attendu : 63 % à τ
+  tsd_assert(abs(y(5) - 0.632) < 1e-3);
+
+  msg("ok.");
+}
+
+
 static void verifie_delais(const ArrayXf &x, int pos_attendue, const std::string &desc)
 {
   //tsd_assert_msg((x.minCoeff() == 0) && (x.maxCoeff() == 1) && (x.sum() == 1), "vérification délais : valeur invalide (v = {})", x.transpose());
@@ -238,6 +266,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 {
   TestRecepteurRes res;
   srand(0x124DF531);
+  generateur_aleatoire.seed(0x124DF531);
 
   if(config.avec_plot)
   {
@@ -254,14 +283,14 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     nreg_mls = config.nreg_mls;
   rc.format.entete  = code_mls(nreg_mls); // 127 bits
 
-  msg("Dimension de l'en-tête : {} bits.", rc.format.entete.lon());
-
   // Note : le padding de l'en-tête (multiple de k)
   // est fait automatiquement dans l'émetteur et dans le récepteur
 
   ArrayXf full_corr;
 
   int nbits = config.nbits == -1 ? 64 : config.nbits;
+
+  msg("Dimension de l'en-tête : {} bits, data : {} bits.", rc.format.entete.lon(), nbits);
 
   auto fo = config.fo;
 
@@ -557,8 +586,9 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     if(config.avec_plot)
     {
       Figures f;
-      f.subplot().plot(t.bs.array(), "|b", "Données reçues");
-      f.subplot().plot(data.array(), "|g", "Données envoyées");
+      f.subplot().plot(t.bs.array(), "o|b", "Données reçues");
+      f.subplot().plot(data.array(), "o|g", "Données envoyées");
+      f.subplot().plot(data.array() - t.bs.array(), "o|r", "Erreurs");
       f.afficher(fmt::format("Trame décodée vs envoyée (#{})", j));
     }
     if(data.lon() != t.bs.lon())
@@ -598,6 +628,8 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
     float nb_err_attendues = ber_theo * data.lon();
 
+    msg("  Nb erreurs = {}, attendues = {}", dst, nb_err_attendues);
+
     // Tolérance car le BER théorique ne prends pas en compte
     // l'erreur de phase et de gain
     if(config.check_errs && (dst > 5 + nb_err_attendues * 3.0))
@@ -618,8 +650,8 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     }
   }
 
-  if(config.avec_plot)
-    stdo.flush();
+  //if(config.avec_plot)
+  //  stdo.flush();
 
   res.EbN0 = res.EbN0.reverse().eval();
   res.SNR = res.SNR.reverse().eval();
@@ -678,30 +710,32 @@ int bench_recepteur_a()
     .ncoefs_filtre_mise_en_forme  = 63
   });
 
+  if(tests_debug_actif)
   {
-    Figure f;
-    f.plot(res.SNR, res.EbN0, "b-o", "Eb/N0 = f(SNR)");
-    f.afficher("BPSK - Eb/N0");
-  }
+    {
+      Figure f;
+      f.plot(res.SNR, res.EbN0, "b-o", "Eb/N0 = f(SNR)");
+      f.afficher("BPSK - Eb/N0");
+    }
 
-  {
-    Figure f;
-    f.axes().def_echelle("lin", "log");
-    f.plot(res.EbN0, res.ber_theo, "g-o", "Ber théorique");
-    f.plot(res.EbN0, res.ber, "b-o", "Ber simulé");
-    f.titres("BPSK - BER = f(Eb/N0)", "Eb/N0", "ber");
-    f.def_rdi({res.EbN0.minCoeff() - 1, 1e-6, res.EbN0.maxCoeff() + 1, 1.0});
-    f.afficher("BPSK - BER");
+    {
+      Figure f;
+      f.axes().def_echelle("lin", "log");
+      f.plot(res.EbN0, res.ber_theo, "g-o", "Ber théorique");
+      f.plot(res.EbN0, res.ber, "b-o", "Ber simulé");
+      f.titres("BPSK - BER = f(Eb/N0)", "Eb/N0", "ber");
+      f.def_rdi({res.EbN0.minCoeff() - 1, 1e-6, res.EbN0.maxCoeff() + 1, 1.0});
+      f.afficher("BPSK - BER");
+    }
+    {
+      Figures f;
+      f.subplot().plot(res.SNR, res.err_phase * (180 / π), "r-o", "Erreur de phase (degrés)");
+      f.gcf().titres("", "SNR (dB)");
+      f.subplot().plot(res.SNR, res.err_pos, "r-o", "Erreur de position");
+      f.gcf().titres("", "SNR (dB)");
+      f.afficher("BPSK - Erreurs détection");
+    }
   }
-  {
-    Figures f;
-    f.subplot().plot(res.SNR, res.err_phase * (180 / π), "r-o", "Erreur de phase (degrés)");
-    f.gcf().titres("", "SNR (dB)");
-    f.subplot().plot(res.SNR, res.err_pos, "r-o", "Erreur de position");
-    f.gcf().titres("", "SNR (dB)");
-    f.afficher("BPSK - Erreurs détection");
-  }
-
 
 
 
@@ -897,19 +931,18 @@ int test_recepteur()
           if(m->infos.est_fsk)
             SNR_min = 15;
           auto res = test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = false});
+          stdo.def_dossier_sortie("./build/test-log/recepteur");
           if(!res.succès)
           {
             test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = true});
-
-            msg_erreur("Le test unitaire du récepteur a échoué : osf={}, fo={}", osf, *m);
-
+            echec("Le test unitaire du récepteur a échoué : osf={}, fo={}", osf, *m);
             return -1;
           }
         }
     }
   }
 
-  stdo.def_dossier_sortie("./build/test-log/recepteur");
+
   return 0;
 }
 
@@ -1124,15 +1157,16 @@ void test_sah()
 }
 
 
-static void test_emetteur()
+static void test_émetteur()
 {
+  msg_majeur("Test émetteur...");
   RécepteurConfig rc;
-  rc.format.entete = BitStream::rand(127);
+  rc.format.entete            = BitStream::rand(127);
   rc.format.modulation.wf     = forme_onde_bpsk();
   rc.format.modulation.fe     = 1e6;
   rc.format.modulation.fsymb  = 1e5;
-  rc.format.nbits = 256;
-  rc.debug_actif = true;
+  rc.format.nbits             = 256;
+  rc.debug_actif              = true;
 
   ÉmetteurConfig ec;
   ec.debug_actif = true;
@@ -1158,11 +1192,14 @@ static void test_emetteur()
 
   tsd_assert(tr.size() == 1u);
   tsd_assert(tr[0].bs == bs);
+
+  msg("ok.");
 }
 
 int test_telecom()
 {
-  test_emetteur();
+  test_filtre_boucle_ordre_1();
+  test_émetteur();
   test_filtre_adapte();
   test_discri_fm();
   test_fsk();

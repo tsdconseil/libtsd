@@ -61,13 +61,16 @@ void test_itrp_retard()
 
     ArrayXf y2 = tsd::fourier::delais(x, delais(i));
 
-    Figures fs;
-    fs.subplot().plot(x, "", "x");
-    fs.subplot().plot(y1, "g-", "délais RIF");
-    fs.subplot().plot(y2, "m-", "délais FFT");
-    fs.subplot().plot(y2-y1, "r-", "Différence");
-    fs.subplot().plot(y2-x, "r-", "Différence sans corr");
-    fs.afficher(fmt::format("Test retard = {}", delais(i)));
+    if(tests_debug_actif)
+    {
+      Figures fs;
+      fs.subplot().plot(x, "", "x");
+      fs.subplot().plot(y1, "g-", "délais RIF");
+      fs.subplot().plot(y2, "m-", "délais FFT");
+      fs.subplot().plot(y2-y1, "r-", "Différence");
+      fs.subplot().plot(y2-x, "r-", "Différence sans corr");
+      fs.afficher(fmt::format("Test retard = {}", delais(i)));
+    }
   }
 }
 
@@ -108,7 +111,7 @@ int test_itrp()
 
     Figure f, f2;
 
-    for(auto δ = 0.0f; δ <= 1.0f+1e-7f; δ += 0.1f)
+    for(auto δ = 0.0f; δ <= 1.0f; δ += 0.1f)
     {
       Couleur cl{255*δ,0,255*(1-δ)};
       ArrayXf h = itrp->coefs(δ);
@@ -122,9 +125,11 @@ int test_itrp()
       c.def_couleur(cl);
     }
 
-    f.afficher(format("Interpolateur {} - réponse impulsionnelle", itrp->nom));
-    f2.afficher(format("Interpolateur {} - réponse fréquentielle", itrp->nom));
-
+    if(tests_debug_actif)
+    {
+      f.afficher(format("Interpolateur {} - réponse impulsionnelle", itrp->nom));
+      f2.afficher(format("Interpolateur {} - réponse fréquentielle", itrp->nom));
+    }
     //analyse_filtre(h, 1.0f, itrp->nom);
   }
 

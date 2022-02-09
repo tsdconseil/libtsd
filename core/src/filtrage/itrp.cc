@@ -10,10 +10,10 @@ namespace tsd::filtrage {
     InterpolateurSincConfig config;
     ArrayXXf lut;
 
-    ArrayXf coefs(float phase)
+    ArrayXf coefs(float τ)
     {
-      tsd_assert((phase >= 0) && (phase <= 1));
-      int lut_index = phase * config.nphases;
+      tsd_assert_msg((τ >= 0) && (τ <= 1), "InterpolateurSinc::coefs(τ={}) : délais invalide.", τ);
+      int lut_index = τ * config.nphases;
       tsd_assert(lut_index >= 0);
       tsd_assert(lut_index <= config.nphases);
       return lut.col(lut_index);

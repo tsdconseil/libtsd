@@ -48,17 +48,12 @@ BitStream BitStream::rand(int nbits)
 {
   BitStream r;
   r.resize(nbits);
-  //std::default_random_engine gene;
-  std::mt19937 gene;
+  //std::mt19937 gene;
   std::uniform_int_distribution<> dis(0, 255);
   for(auto j = 0u; j < r.buffer.size(); j++)
   {
-    r.buffer[j] = dis(gene);
-    //msg("rand[{}] = {}", j, r.buffer[j]);
+    r.buffer[j] = dis(generateur_aleatoire);
   }
-  //r.pos = nbits;
-  //for(auto j = 0u; j < n; j++)
-    //r.set(j, dis(generator));
   return r;
 }
 

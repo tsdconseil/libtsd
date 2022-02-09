@@ -1333,11 +1333,11 @@ struct Axes::Impl
 
       canva.set_align(Align::DEBUT, Align::CENTRE);
 
-      int yc = p0.y + i * h1 + h1/2;//12;
+      int yc = p0.y + i * h1 + h1/2;
 
       // Comment faire pour que tous les labels aient la même échelle ?
       canva.set_dim_fonte(config.legende.dim);
-      canva.texte(p0.x + 5, yc+2, ch.nom, /*(3*l)/4 - 8*/ li_max, h1-2);
+      canva.texte(p0.x + 5, yc+2, ch.nom, li_max, h1-2);
 
 
       int trait_xmin = p0.x+10+li_max,

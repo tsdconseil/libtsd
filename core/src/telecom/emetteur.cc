@@ -49,16 +49,23 @@ struct ÉmetteurImpl: Émetteur
   ArrayXcf step(const BitStream &bs)
   {
     BitStream bs2;
+    auto &mconfig = config.format.modulation;
 
     bool fo_entete_specifique = config.format.fo_entete ? true : false;
+
+
 
     if(fo_entete_specifique)
       bs2 = bs;
     else
-      bs2 = config.format.entete + bs;
+    {
+      BitStream et2 = config.format.entete;
+      et2.pad_mult(mconfig.wf->infos.k);
+      bs2 = et2 + bs;
+    }
 
     // Ajoute des zéros pour flusher
-    auto &mconfig = config.format.modulation;
+
     //auto osf = mconfig.fe / mconfig.fsymb;
 
     int   d_ech           = (int) ceil(mod->delais());

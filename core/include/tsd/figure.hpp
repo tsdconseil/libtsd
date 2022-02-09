@@ -272,7 +272,7 @@ struct Canva
   void rectangle(const Pointf &p0, const Pointf &p1);
   void ligne(float x0, float y0, float x1, float y1);
   void ligne(const Pointf &p0, const Pointf &p1);
-  void fleche(const Pointf &p0, const Pointf &p1);
+  void fleche(const Pointf &p0, const Pointf &p1, float dim = 5);
 
   void texte(float x0, float y0,
       const std::string &texte,
@@ -349,6 +349,8 @@ struct ARendable
 };
 
 
+
+
 struct Axes
 {
   Axes();
@@ -420,6 +422,9 @@ struct Figure: ARendable
 
     /** @brief Définit la dimension (en pixels) des marqueurs. */
     void def_dim_marqueur(int dim);
+
+    void def_légende(const std::string &titre);
+
   //private:
     struct Impl;
     sptr<Impl> impl;
@@ -554,6 +559,14 @@ struct Figure: ARendable
   }
 
 
+  /** Retourne la dernière courbe créée */
+  //Courbe glc();
+
+  /** Retourne la ieme courbe */
+  //Courbe gc(int i);
+
+
+  std::vector<Courbe> &courbes();
 
   void def_rdi_min(const Rectf &rdi);
   void def_rdi(const Rectf &rdi);
@@ -687,6 +700,8 @@ private:
 
      Figure gcf();
 
+     Figure gf(int sel);
+
 
      /** @brief Enregistrement sous la forme d'un fichier image */
      //void enregistrer(const std::string &chemin_fichier, int sx = -1, int sy = -1) const;
@@ -704,6 +719,11 @@ private:
     sptr<Impl> impl;
   };
 
+
+  struct AFigures
+  {
+    Figures figures;
+  };
 
 
   struct EvtPlotConfig

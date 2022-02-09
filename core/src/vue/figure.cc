@@ -152,6 +152,9 @@ struct Figure::Impl: Rendable
 {
   bool log_x = false, log_y = false;
   std::string nom;
+
+  std::string titre;
+
   // TODO : enlever ce mutable
   mutable Axes axes;
   bool a_rdi_min = false, a_rdi = false;
@@ -409,7 +412,7 @@ struct Figure::Impl: Rendable
   {
     auto config = axes.get_config();
 
-    std::string res = config.titre;
+    std::string res = /*config.*/titre;
     if((courbes.size() == 1) && (res.empty()))
       res = courbes[0].impl->nom;
 
@@ -423,9 +426,10 @@ struct Figure::Impl: Rendable
 
     config.legende.position = pos_cartouche;
 
+    config.series.clear();
+
     if((!courbes.empty()) && (!courbes[0].impl->nom.empty()))
     {
-      config.series.clear();
       for(auto &c: courbes)
       {
         ConfigSerie cs;
@@ -820,6 +824,11 @@ void Figure::Courbe::def_σ(IArrayXf σ)
   impl->σ = σ;
 }
 
+void Figure::Courbe::def_légende(const std::string &titre)
+{
+  impl->nom = titre;
+}
+
 void Figure::Courbe::def_dim_marqueur(int dim)
 {
   impl->dim_marqueur = dim;
@@ -965,6 +974,13 @@ void Figures::clear()
   *impl = Impl();
 }
 
+Figure Figures::gf(int sel)
+{
+  if(sel >= (int) impl->subplots.size())
+    echec("Figures::gcf({}) : index invalide (n figures = {})", sel, impl->subplots.size());
+  return impl->subplots[sel];
+}
+
 Figure Figures::subplot(int n, int m, int pos_)
 {
   int pos = pos_;
@@ -1023,6 +1039,11 @@ Figure Figures::subplot(int i)
 }
 
 
+std::vector<Figure::Courbe> &Figure::courbes()
+{
+  return impl->courbes;
+}
+
 void Figure::def_rdi_min(const Rectf &rdi)
 {
   tsd_assert(impl);
@@ -1059,8 +1080,7 @@ Figure::Courbe Figure::plot_minmax(const ArrayXf &x, const ArrayXf &y1, const Ar
 
 Figure::Courbe Figure::plot_iq_int(const ArrayXcf &z, const std::string &format, const std::string &titre)
 {
-  // TODO
-  //this->axes().set_isoview(true);
+  axes().set_isoview(true);
   auto x = z.real();
   auto y = z.imag();
   auto res = impl->plot(x, y, format, titre);
@@ -1141,7 +1161,7 @@ Figure::Courbe Figure::plot_psd_int(IArrayXcf y, float fe, const std::string &fo
   //if(fe != 1)
     //impl->axes.get_config().axe_horizontal.label += " (Hz)";
 
-  return plot(freq, Y, format, titre/*titre.empty() ? "PSD" : titre*/);
+  return plot(freq, Y, format, titre);
 }
 
 Figure::Courbe Figure::plot_int(const ArrayXf &x, const ArrayXf &y, const std::string &format, const std::string &titre)
@@ -1238,7 +1258,7 @@ Figure::Courbe Figure::Impl::plot(const ArrayXf &x, const ArrayXf &y_, const std
     if(present(format, c.code))
       res.impl->couleur = c.couleur;
 
-  res.impl->accu = present(format, 'a');
+  res.impl->accu = present(format, 'A');
 
   struct CodeTrait {char code; Trait trait;};
 
@@ -1283,7 +1303,7 @@ void Figure::def_pos_legende(const std::string &code)
 
 void Figure::titre(const std::string &titre_global)
 {
-  impl->axes.get_config().titre = titre_global;
+  impl->/*axes.get_config().*/titre = titre_global;
 }
 
 void Figure::titres(const std::string &titre_global,
@@ -1293,7 +1313,8 @@ void Figure::titres(const std::string &titre_global,
   auto &c = impl->axes.get_config();
   c.axe_horizontal.label  = axe_x;
   c.axe_vertical.label    = axe_y;
-  c.titre                 = titre_global;
+  impl->titre = titre_global;
+  //c.titre                 = titre_global;
 }
 
 

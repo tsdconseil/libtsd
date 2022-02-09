@@ -816,32 +816,22 @@ struct Image::Impl
     this->ep = ep;
   }
 
-  /*void ligne(const Pointf &p0, const Pointf &p1, StyleLigne style)
-  {
-    if((p0.x == floor(p0.x))
-    else
-    {
-      for(auto k = -ep/2; k <= (ep-1)/2; k++)
-        ligne_aa_int(p0.x, p0.y+k, p1.x, p1.y+k, style);
-    }
-  }*/
 
-  void fleche(const Point &p0, const Point &p1, StyleLigne style)
+  void fleche(const Point &p0, const Point &p1, StyleLigne style, float lg = 5)
   {
     ligne(p0, p1, style);
 
     float alpha = atan2(p1.y-p0.y,p1.x-p0.x);
 
-    float theta1 = 0.85*π  + alpha;
-    float theta2 = -0.85*π + alpha;
+    float θ1 = 0.85*π  + alpha;
+    float θ2 = -0.85*π + alpha;
     Point p;
-    p.x = p1.x + 5 * cos(theta1); // TODO : longueur paramétrable
-    p.y = p1.y + 5 * sin(theta1);
-
+    p.x = p1.x + lg * cos(θ1);
+    p.y = p1.y + lg * sin(θ1);
     ligne(p1, p, style);
-    p.x = p1.x + 5 * cos(theta2); // TODO : longueur paramétrable
-    p.y = p1.y + 5 * sin(theta2);
 
+    p.x = p1.x + lg * cos(θ2);
+    p.y = p1.y + lg * sin(θ2);
     ligne(p1, p, style);
   }
 
@@ -1236,7 +1226,7 @@ void Image::def_couleur_remplissage(const Couleur &c){impl->def_couleur_rempliss
 void Image::def_epaisseur(int ep){impl->def_epaisseur(ep);}
 void Image::ligne_aa(float x0, float y0, float x1, float y1, StyleLigne style){impl->ligne_aa(x0, y0, x1, y1, style);}
 void Image::ligne(const Point &p0, const Point &p1, StyleLigne style){impl->ligne(p0, p1, style);}
-void Image::fleche(const Point &p0, const Point &p1, StyleLigne style){impl->fleche(p0, p1, style);}
+void Image::fleche(const Point &p0, const Point &p1, StyleLigne style, float lg){impl->fleche(p0, p1, style, lg);}
 //void Image::ligne(const Pointf &p0, const Pointf &p1, StyleLigne style){impl->ligne(p0, p1, style);}
 void Image::point(const Point &p0){impl->point(p0);}
 void Image::point(const Point &p0, const Couleur &c, float alpha){impl->point(p0, c, alpha);}

@@ -11,9 +11,13 @@
 
 using namespace std;
 
+
+
+
 namespace tsd {
 
 
+default_random_engine generateur_aleatoire;
 
 /** @brief Calcul de la matrice de covariance
  *  @param m Dimension de la matrice (nombre de délais examinés) */
@@ -396,12 +400,12 @@ ArrayXb randb(int n)
 
 ArrayXi randi(int M, int n)
 {
-  static default_random_engine generateur;
+  //static default_random_engine generateur;
   uniform_int_distribution<int> distribution(0, M-1);
   ArrayXi X(n);
   auto ptr = X.data();
   for(auto i = 0; i < n; i++)
-    *ptr++ = distribution(generateur);
+    *ptr++ = distribution(generateur_aleatoire);
   return X;
 }
 
@@ -409,13 +413,14 @@ ArrayXi randi(int M, int n)
 ArrayXf randn(int n)
 {
   //static /*default_random_engine*//*mt19937_64*/minstd_rand0 generateur;
-  static default_random_engine generateur;
+  //generateur.seed()
+
   normal_distribution<float> distribution(0.0f, 1.0f);
   //msg("      randn({})...", n);
   ArrayXf X(n);
   auto ptr = X.data();
   for(auto i = 0; i < n; i++)
-    *ptr++ = distribution(generateur);
+    *ptr++ = distribution(generateur_aleatoire);
   //msg("      ok.");
   return X;
 }
@@ -424,13 +429,13 @@ ArrayXf randn(int n)
 
 ArrayXXf randn_2d(unsigned int n, unsigned int m)
 {
-  static default_random_engine generateur;
+  //static default_random_engine generateur;
   normal_distribution<float> distribution(0.0f, 1.0f);
 
   ArrayXXf X(n, m);
   auto ptr = X.data();
   for(auto i = 0u; i < m*n; i++)
-    *ptr++ = distribution(generateur);
+    *ptr++ = distribution(generateur_aleatoire);
   return X;
 }
 

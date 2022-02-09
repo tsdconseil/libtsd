@@ -640,25 +640,55 @@ struct Detecteur: Filtre<cfloat, float, DetecteurConfig>
  * reçu en continu et
  * un motif fixe @f$(h_k)@f$ de dimension @f$M@f$ :
  * @f[
- * y_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k-(M-1)} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k-(M-1)}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}}
+ * c_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}}
  * @f]
  *
- * Les @f$y_n@f$ sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est
- * exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle @f$[n-M+1\dots n]@f$.
+ * Les @f$c_n@f$ sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est
+ * exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle @f$[n\dots n + M[@f$.
  *
- * Le calcul étant fait de manière efficace dans le domaine fréquentiel via la technique Overlap-And-Add
- * (voir @ref filtre_fft()), la complexité est de l'ordre de @f$\log_2 M@f$ opérations
+ *
+ * Le calcul pouvant être fait soit grâce à un filtre RIF
+ * (avec une complexité de l'ordre de @f$M@f$ opérations / échantillon),
+ * soit de manière efficace dans le domaine fréquentiel
+ * via la technique <i>Overlap-And-Add</i> (bloc @ref filtre_fft()),
+ * la complexité étant alors de l'ordre de @f$\log_2(M)@f$ opérations
  * par échantillon (si @f$M@f$ est une puissance de 2).
+
  *
- * Ce filtre peut-être utilisé de deux manières :
- *  - Tout d'abord, c'est un filtre qui renvoie, au fil de l'eau, les valeurs de corrélation (signal vert dans l'exemple ci-dessous),
- *  - Pour une utilisation plus simple, une callback utilisateur peut être appelée dès lors que la corrélation dépasse un certain seuil paramétrable. En paramètre de cette callback,
- *    est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure @ref Detection) :
- *      - Valeur de la corrélation normalisée
- *      - Gain réel du signal (rapport d'amplitude entre le signal reçu et le motif théorique attendu)
- *      - Déphasage du signal reçu
- *      - Ecart-type du bruit
- *      - SNR estimé
+ * Ensuite, les pics isolés correspondant à des positions possibles de motif sont détectés.
+ * Les deux critères suivants sont vérifiés~:
+ * - Score @f$c_n@f$ supérieur à un seuil paramétrable,
+ * - Absence de pic de score supérieur dans un voisinage de @f$\pm@f$ la moitié de la durée
+     du motif de synchronisation.
+ *
+ * Pour chaque position possible, les paramètres suivants sont alors estimés :
+ *   <b>Gain complexe du signal</b> (rapport complexe entre le signal reçu et le motif théorique attendu) :
+ *     @f[
+ *      g \sim \frac{\displaystyle{\sum_{k=0}^{M-1} x_{n+k} \cdot h_k^\star}}{\displaystyle{\sum_{k=0}^{M-1} |h_k|^2}}
+ *     @f]
+ *     De cette valeur complexe, on en déduit le gain en amplitude et le déphasage :
+ *     @f[
+ *     A = \left|g\right|,\quad \phi = \arg g
+ *     @f]
+ *  <b>Ecart-type du bruit et SNR :</b>
+ *       Pour estimer le niveau de bruit, on note simplement que
+ *       @f$x_n - g^\star h_n \sim x_n - g h_n = b_n@f$, ainsi il suffit de
+ *       mesurer l'énergie du signal @f$x_n - g h_n@f$ pour avoir le niveau du bruit :
+ *       @f[
+ *       \epsilon_b \sim \mathbb{E}\left[\left|x_n - g h_n\right|^2\right]
+ *       @f]
+ *       Cependant, le signal reçu sera en général affecté d'un retard non entier qui,
+ *       si il ne posera pas de problème pour l'estimation de gain (puisque le
+ *       signal est suréchantillonné), pourrait conduire sur-estimer le bruit. C'est pourquoi avant estimation de celui-ci,
+ *       le signal est décalé d'un pas fractionnaire afin de minimiser l'erreur.
+ *
+ * Pour chaque motif détecté, une callback utilisateur est appelée,
+ * avec l'ensemble des paramètres estimés ainsi que le score de corrélation normalisé.
+ *
+ *
+ * @par Schéma-bloc
+ * <img src="detecteur.png" align="left" width="300px"/>
+ * <div style="clear: both"></div>
  *
  * @param config Structure de configuration
  * @return Filtre cfloat @f$\to@f$ float, qui prend en entrée des échantillons, et sort, au fil de l'eau,

@@ -28,23 +28,26 @@ struct SpecFiltreMiseEnForme
 {
   /** @brief Pas de filtre, des impulsions brutes sont transmises */
   static SpecFiltreMiseEnForme aucun();
-  /** @brief Filtrage gaussien */
+
+  /** @brief Filtre gaussien + moyenne glissante. */
   static SpecFiltreMiseEnForme gaussien(float BT);
-  /** @brief Filtrage "NRZ" (moyenne glissante) */
+
+  /** @brief Filtre "NRZ" (moyenne glissante). */
   static SpecFiltreMiseEnForme nrz();
-  /** @brief Filtrage SRRC (racine de cosinus sur-élevé) */
+
+  /** @brief Filtre RCS (racine de cosinus sur-élevé). */
   static SpecFiltreMiseEnForme srrc(float β);
 
   /** @brief Type de filtre. */
   enum Type
   {
-    /** @brief Filtrage NRZ (simple répétition des symboles) */
+    /** @brief Filtrage "NRZ" (moyenne glissante) */
     NRZ,
-    /** @brief Emisssion d'un train d'impulsions brut */
+    /** @brief Pas de filtre, émisssion d'un train d'impulsions brut. */
     AUCUN,
-    /** @brief Filtrage Gaussien */
+    /** @brief Filtrage gaussien + moyenne glissante. */
     GAUSSIEN,
-    /** @brief Racine de cosinus surélevé */
+    /** @brief Filtre RCS (racine de cosinus sur-élevé). */
     SRRC
   };
 
@@ -990,7 +993,7 @@ struct Démodulateur
  *
  * Le bloc modulateur permet de convertir un train binaire en un
  * signal bande de base (ou déjà transposé à une fréquence intermédiaire),
- * mis en forme et sur-échantilloné (de manière à être prêt à être transmis à un ADC).
+ * mis en forme et sur-échantillonné (de manière à être prêt à être transmis à un ADC).
  *
  *
  * La structure de paramètrage (@ref ModConfig) spécifie la forme d'onde
@@ -1020,7 +1023,7 @@ struct Démodulateur
  *   - <b>Génération des symboles :</b> les bits d'entrées sont regroupés par
  *   groupes de @f$k@f$ bits (@f$k@f$ étant le nombre de bits par symbole de la forme d'onde configurée),
  *   et chaque groupe de @f$k@f$ bits est transformé en un symbole de la constellation.
- *   - <b>Filtre de mise en forme et sur-échantillonnage :</b>
+ *   - <b>%Filtre de mise en forme et sur-échantillonnage :</b>
  *   le filtre est implémenté sous forme polyphase et permet de passer
  *   de 1 échantillon / symbole à @f$R_1@f$ échantillons / symbole :
  *    @f[
@@ -1680,7 +1683,7 @@ struct PLLConfig
    *  @endcode
    *
    *   */
-  Ped /*std::function<float (cfloat x)>*/ ped;//detecteur_erreur_phase;
+  Ped ped;
 
   /** @~french  @brief Activation du mode de mise au point (tracé des figures)
    *  @~english @brief Activation of the debug mode (plot figures) */

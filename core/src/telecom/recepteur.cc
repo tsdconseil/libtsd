@@ -188,7 +188,7 @@ struct RécepteurImpl: Récepteur
     if(config.format.fo_entete)
     {
       fo_entete = config.format.fo_entete;
-      msg_majeur("Récepteur: fo entete = {}",  *config.format.fo_entete);
+      msg_majeur("Récepteur: fo entete = {}",  *fo_entete);
       msg_majeur("Récepteur: fo données = {}", *wf);
     }
 

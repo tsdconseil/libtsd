@@ -43,13 +43,13 @@ struct ShapingFilterSpec
   }
 
 
-  /** @brief No filtering, raw impulse are transmitted. */
+  /** @brief No filtering, raw impulses are transmitted. */
   static ShapingFilterSpec none()
   {
     return nfr::SpecFiltreMiseEnForme::aucun();
   }
 
-  /** @brief Gaussian filter. */
+  /** @brief Gaussian + moving average filter. */
   static ShapingFilterSpec gaussian(float BT)
   {
     return nfr::SpecFiltreMiseEnForme::gaussien(BT);
@@ -70,13 +70,13 @@ struct ShapingFilterSpec
   /** @brief Filter type. */
   enum Type
   {
-    /** @brief Filtrage NRZ (simple répétition des symboles) */
+    /** @brief "NRZ" filtering (moving average). */
     NRZ,
-    /** @brief Emisssion d'un train d'impulsions brut */
+    /** @brief No filtering, raw impulses are transmitted. */
     NONE,
-    /** @brief Filtrage Gaussien */
+    /** @brief Gaussian + moving average filter. */
     GAUSSIAN,
-    /** @brief Racine de cosinus surélevé */
+    /** @brief Square root raised cosine filter. */
     SRRC
   };
 
@@ -107,20 +107,21 @@ struct ShapingFilterSpec
    *
    *  <h3>Shaping filter</h3>
    *
-   *  Création d'un filtre de mise en forme avec sur-échantillonnage intégré.
-   *  Ce filtre prends accepte donc en entrée directement les symboles à encoder,
-   *  et génère un signal sur-échantillonné (facteur R = @f$f_e/f_{symb}@f$ passé en paramètre) et filtré.
+   *  Creation of a shaping filter with integrated over-sampling.
+   *  This filter block accepts as input symbols,
+   *  and generate an oversampled (by a factor of @f$R@f$, as given in parameter)
+   *  and pulse shaped signal.
    *
-   *  Les coefficients du filtre sont normalisés en énergie :
+   *  The filter coefficients are energy-normalized:
    *  @f[
    *  \sum h_k^2 = R
    *  @f]
-   *  de manière à ce que la puissance moyenne en entrée et en sortie du filtre soit identique.
+   *  so as the mean power at the input and output of the filter are identical.
    *
-   *  @param ncoefs Nombre de coefficients
-   *  @param R      Facteur de sur-échantillonnage
+   *  @param ncoefs Number of taps for RIF filter.
+   *  @param R      Oversampling ratio.
    *
-   *  @sa filtre_adapte()
+   *  @sa matched_filter()
    */
   sptr<FiltreGen<cfloat>> shaping_filter(int ncoefs, int R) const
   {
@@ -128,28 +129,28 @@ struct ShapingFilterSpec
   }
 
 
-  /** @brief Idem filtre de mise en forme, mais sans le sur-échantillonnage
+  /** @brief Same as @ref shaping_filter() method,  but without upsampling.
    *
-   *  <h3>%Filtre adapté</h3>
+   *  <h3>Matched filter</h3>
    *
-   *  @param ncoefs Nombre de coefficients
-   *  @param osf Facteur de sur-échantillonnage
+   *  @param ncoefs Number of taps for RIF filter.
+   *  @param osf    Oversampling ratio.
    *
-   *  @sa filtre_mise_en_forme()
+   *  @sa shaping_filter()
    */
   sptr<FiltreGen<cfloat>> matched_filter(int ncoefs, int osf) const
   {
     return fr().filtre_adapte(ncoefs, osf);
   }
 
-  /** @brief Filtrage adapté et sous-échantillonnage à la fréquence symbole intégré
+  /** @brief Matched filter and downsampling at symbol rate.
    *
-   *  <h3>%Filtre adapté avec sous-échantillonnage à la fréquence symbole</h3>
+   *  <h3>Matched filter and downsampling at symbol rate</h3>
    *
-   *  @param ncoefs Nombre de coefficients
-   *  @param osf Facteur de sur-échantillonnage en entrée
+   *  @param ncoefs Number of taps for RIF filter.
+   *  @param osf    Input oversampling ratio.
    *
-   *  @sa filtre_mise_en_forme(), filtre_adapte()
+   *  @sa shaping_filter(), matched_filter()
    */
   sptr<FiltreGen<cfloat>> matched_filter_with_decimation(int ncoefs, int osf) const
   {
@@ -1011,7 +1012,7 @@ struct LoopFilter
  *
  *  @param τ Constante de temps du filtre (en nombre d'échantillons).
  *
- *  @sa filtre_boucle_ordre_2()
+ *  @sa filter_loop_order_2()
  */
 inline sptr<LoopFilter> filter_loop_first_order(float τ)
 {
@@ -1036,10 +1037,10 @@ inline sptr<LoopFilter> filter_loop_first_order(float τ)
  *  @param BL  Bande passante (normalisée à la fréquence d'échantillonnage) de la boucle
  *  @param η   Facteur d'amortissement
  *
- *  @par Bibliographie
+ *  @par Bibliography
  *  <i>DVBS2 : Carrier phase synchronization techniques for broadband satellite transmissions, ESA, 2003</i>
  *
- *  @sa filtre_boucle_ordre_1()
+ *  @sa filter_loop_order_1()
  */
 inline sptr<LoopFilter> filter_loop_second_order(float BL, float η)
 {

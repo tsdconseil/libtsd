@@ -62,6 +62,9 @@ struct ModGen : Modulateur
 
     forme_onde = config.wf;
 
+    if(!forme_onde)
+      echec("Création modulateur : forme d'onde non spécifiée.");
+
     msg("<h3>Configuration modulateur</h3>");
     msg("Configuration : fe={} Hz, fi={} Hz, fsymb={} Hz.",
           config.fe, config.fi, config.fsymb);
@@ -132,17 +135,23 @@ struct ModGen : Modulateur
     if(nech <= 0)
       return ArrayXcf();
     // Nombre d'échantillons d'entrée = 1/osf * nombre d'échantillons de sortie
-    return filtre_mise_en_forme->step(ArrayXcf::Zero((int) ceil((1.0 * nech) / osf)));
+    //return filtre_mise_en_forme->step(ArrayXcf::Zero((int) ceil((1.0 * nech) / osf)));
+    return step(ArrayXcf::Zero((int) ceil((1.0 * nech) / osf)));
   }
 
+  // D'après les données binaires
   ArrayXcf step(const BitStream &bs)
   {
-    // TODO : utiliser config.wf->génère_échantillons
-    auto x = forme_onde->génère_symboles(bs);
-    auto x_symb = x;
+    return step(forme_onde->génère_symboles(bs));
+  }
+
+    // D'après les symboles
+  ArrayXcf step(const ArrayXcf &x_)
+  {
+    //auto x_symb = x;
 
     // Filtre de mise en forme, avec sur-échantillonnage intégré
-    x = filtre_mise_en_forme->step(x);
+    ArrayXcf x = filtre_mise_en_forme->step(x_);
 
     ArrayXcf x_filtre = x;
 
@@ -167,8 +176,13 @@ struct ModGen : Modulateur
       // Conversion phase -> IQ
 
       ArrayXf xr = x.real();
+
+      float denom = xr.abs().maxCoeff();
+      if(denom == 0)
+        denom = 1.0f;
+
       // normalisation entre [-fmax,fmax]
-      vfreqs = xr * (Ω_max / xr.abs().maxCoeff());
+      vfreqs = xr * (Ω_max / denom);
 
       // TODO : échantillon précédent !
       vphase = cumsum(vfreqs);
@@ -195,11 +209,11 @@ struct ModGen : Modulateur
 
       {
         Figures f;
-        f.subplot().plot(bs.array(), "|b", "Signal binaire");
+        //f.subplot().plot(bs.array(), "|b", "Signal binaire");
 
-        f.subplot().plot(x_symb, "|", "Symboles");
+        f.subplot().plot(x_, "|", "Symboles");
 
-        f.subplot().plot_iq(x_symb, "ob", "Constellation");
+        f.subplot().plot_iq(x_, "ob", "Constellation");
 
         f.subplot().plot(x_filtre, "", "Pulse shaping");
 

@@ -395,15 +395,16 @@ struct Canva::Impl
     ajoute_element(d);
   }
 
-  void fleche(const Pointf &p0, const Pointf &p1, const Pinceau &pinceau)
+  void fleche(const Pointf &p0, const Pointf &p1, const Pinceau &pinceau, float dim_pixel = 5)
   {
     if(std::isinf(p0.y) || std::isinf(p1.y))
       return;
     Impl::CanvaElement d;
-    d.p0      = p0;
-    d.p1      = p1;
-    d.type    = Impl::CanvaElement::FLECHE;
-    d.pinceau = pinceau;
+    d.p0          = p0;
+    d.p1          = p1;
+    d.type        = Impl::CanvaElement::FLECHE;
+    d.pinceau     = pinceau;
+    d.dim_pixels  = dim_pixel;
     ajoute_element(d);
   }
 
@@ -694,7 +695,7 @@ struct Canva::Impl
       }
       else if(d.type == Impl::CanvaElement::FLECHE)
       {
-        O1.fleche(pos0, pos1, d.pinceau.dotted ? Image::POINTILLEE : Image::PLEINE);
+        O1.fleche(pos0, pos1, d.pinceau.dotted ? Image::POINTILLEE : Image::PLEINE, d.dim_pixels);
       }
       else if(d.type == Impl::CanvaElement::CHAINE)
       {
@@ -936,9 +937,9 @@ void Canva::set_couleur(const Couleur &coul)
   impl->pinceau.couleur_trait = coul;
 }
 
-void Canva::fleche(const Pointf &p0, const Pointf &p1)
+void Canva::fleche(const Pointf &p0, const Pointf &p1, float dim)
 {
-  impl->fleche(p0,p1, impl->pinceau);
+  impl->fleche(p0,p1, impl->pinceau, dim);
 }
 
 void Canva::ligne(const Pointf &p0, const Pointf &p1)

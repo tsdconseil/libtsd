@@ -317,7 +317,7 @@ void test_detecteur_unit(float σ, int BS, DetecteurConfig::Mode mode)
       msg_avert("Erreur relative σ trop importante");
     }
 
-    if(abs(err_SNR) > 0.5)
+    if(abs(err_SNR) > 1)
     {
       err = 1;
       msg_avert("Erreur SNR trop importante");

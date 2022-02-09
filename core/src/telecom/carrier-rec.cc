@@ -15,6 +15,7 @@ template <typename T> int sign(T val) {
 }
 
 
+#if 0
 /** Calcul d'exponentielle à partir d'une LUT */
 struct LUTOsc
 {
@@ -35,6 +36,7 @@ struct LUTOsc
     return table(x0);
   }
 };
+#endif
 
 
 
@@ -126,10 +128,10 @@ Ped ped_costa(int M)
 }
 Ped ped_ploop(int M)
 {
-  return [M](cfloat x){
-  // Apparement, qd l'amplitude est légérement supérieure à 1, il y amplification exponentielle du gain ?
-  //
-  return (std::pow(x, M)).imag() / M;
+  return [M](cfloat x)
+  {
+    // Attention, nécessite une CAG en amont
+    return (std::pow(x, M)).imag() / M;
   };
   //return (std::arg(std::pow(x, M))) / M;
 }
@@ -602,40 +604,42 @@ struct RPLL: Filtre<T, T, RPLLConfig>
   }
 };
 
+
+
+
 // Création d'un signal périodique accroché sur un autre,
 // tel que passé en entrée
 template<typename T>
-struct CPLL: Filtre<T, T, PLLConfig>
+struct CPLL: Filtre<T, T, PLLConfig>, AFigures
 {
-  LUTOsc lut_osc;
-
-  //sptr<SourceGen<cfloat>> ol;
   sptr<FiltreBoucle> lf;
+  OLUT lut;
 
-  float theta = 0;
+  float θ = 0;
+  Ped ped;
 
-  CPLL(const PLLConfig &cfg): lut_osc(256)
+  CPLL(const PLLConfig &cfg)
   {
     Configurable<PLLConfig>::configure(cfg);
   }
 
-  // On peut faire un suivi à l'ordre :
-  // - Ordre 1 : erreur de phase uniquement
-  // - Ordre 2 : erreur de fréquence
+  // Suivi à l'ordre :
+  // - 1 : erreur de phase uniquement
+  // - 2 : erreur de fréquence
   int configure_impl(const PLLConfig &c)
   {
     auto &config = Configurable<PLLConfig>::config;
-
-    if(!config.ped)
-      config.ped = [](cfloat x){return std::arg(x);};
+    config = c;
 
     msg("Configuration cpll : fréq oscillateur = {}.", -c.freq);
-    //osc = source_ohc(-c.freq);
 
-    /*if(config.sortie_porteuse)
-      ol  = source_ohc(0);
-    else*/
-    //ol = source_ohc(c.freq);
+    if(!config.ped)
+    {
+      msg("cpll : ped par défaut.");
+      ped = [](cfloat x){return std::arg(x);};
+    }
+    else
+      ped = config.ped;
 
     if(config.loop_filter_order == 1)
       lf = filtre_boucle_ordre_1(config.tc);
@@ -644,50 +648,47 @@ struct CPLL: Filtre<T, T, PLLConfig>
 
     return 0;
   }
+
   void step(const Eigen::Ref<const Vecteur<T>> x, Vecteur<T> &y)
   {
     auto &config = Configurable<PLLConfig>::config;
     auto n = x.rows();
     y.resize(n);
 
-    ArrayXf pe, vtheta;
+    ArrayXf pe, vθ;
     if(config.debug)
     {
       pe.resize(n);
-      vtheta.resize(n);
+      vθ.resize(n);
     }
+
+    tsd_assert(ped);
 
     for(auto i = 0; i < n; i++)
     {
-      // TODO: utiliser un oscillateur LUT ici
-      //y(i) = x(i) * lut_osc.step(-theta);//;
-      y(i) = x(i) * std::polar(1.0f, -theta);
+      y(i) = x(i) * lut.step(-θ);
 
-      auto err = config.ped(y(i));
+      auto err = ped(y(i));
 
       if(config.debug)
       {
-        vtheta(i) = theta;
+        vθ(i) = θ;
         pe(i) = err;
       }
-      theta = lf->step(err);
+      θ = lf->step(err);
     }
 
     if(config.debug)
     {
-      Figures f;
-
-      f.subplot().plot_iq(x, "ab", "Entrée");
-      f.subplot().plot_iq(y, "ag", "Sortie");
-
-      //f.subplot(nl,nc,ids++);
-      //f.plot(vrssi, "-b", "RSSI");
-      f.subplot().plot(pe * 180 / pi, "-b", "Erreur de phase (deg.)");
-      f.subplot().plot(vtheta * 180 / pi, "-b", "Phase (deg.)");
-
-      //f.subplot(nl,nc,ids++);
-      //f.plot_iq(ploop, ".b", "PED");
-      f.afficher("Recouvrement de porteuse");
+      auto &figs = AFigures::figures;
+      figs.clear();
+      figs.subplot().plot_iq(x, "Ab", "Entrée");
+      figs.gcf().def_rdi({-1.1f,-1.1f,2.2f,2.2f});
+      figs.subplot().plot_iq(y, "Ag", "Sortie");
+      figs.gcf().def_rdi({-1.1f,-1.1f,2.2f,2.2f});
+      figs.subplot().plot(pe * 180 / π_f, "-b", "Erreur de phase (deg.)");
+      figs.subplot().plot(vθ * 180 / π_f, "-b", "Phase (deg.)");
+      figs.afficher("Recouvrement de porteuse");
     }
 
     if constexpr(CREC_MODE_SAFE)
@@ -695,82 +696,6 @@ struct CPLL: Filtre<T, T, PLLConfig>
       if(y.hasNaN())
         msg_erreur("Carrier rec : NaN.");
     }
-
-#   if 0
-    auto n = x.rows();
-
-
-    ArrayXf vtheta(n), verr(n);
-    ArrayXcf mem_nco(n), mem_cor(n);
-
-    // On a maintenant un signal, qui serait constant et égal à 1 si on était accroché.
-    for(auto i = 0; i < n; i++)
-    {
-      // TODO : utiliser plutôt un oscillateur lut.
-      //
-      cfloat rot = ol->step(1)(0);
-      //
-
-      //cfloat rot = std::polar(1.0f, theta);
-      cfloat cor = x2(i) * conj(rot);
-      float  err = config.detecteur_erreur_phase(cor);
-
-      //auto err = std::arg(e1);
-      θ = lf->step(err);
-
-      // Pour débug
-      mem_nco(i)    = rot;
-      mem_cor(i)    = cor;
-      verr(i)       = err;
-      vtheta(i)     = θ;
-    }
-
-    if(config.sortie_porteuse)
-      y = ?;
-    else
-      y = mem_cor;
-
-
-
-
-    if(config.debug)
-    {
-      Figure f("PLL (1)");
-
-      f.subplot(321);
-      f.plot(real(x), "b-", "Signal entree");
-      f.subplot(322);
-      f.plot_psd(x);
-      f.subplot(323);
-      f.plot(x1.real(), "b-", "transposition (I)");
-      f.plot(x1.imag(), "g-", "transposition (Q)");
-      f.subplot(324);
-      f.plot_psd(x1);
-      f.subplot(325);
-      f.plot(x2.real(), "b-", "passe-bas (I)");
-      f.plot(x2.imag(), "g-", "passe-bas (Q)");
-      f.subplot(326);
-      f.plot_psd(x2);
-
-      f.afficher();
-
-      Figure f2("PLL (2)");
-      f2.subplot(311);
-      f2.plot(verr * 180 / pi, "r-", "Erreur de phase (degres)");
-      f2.subplot(312);
-      f2.plot(vtheta * 180 / pi, "b-", "Phase (degres)");
-
-
-
-      //Figure fig("Démo PLL");
-
-      f2.subplot(313);
-      f2.plot(real(x), "b-", "Signal a suivre");
-      auto c = f2.plot(real(y), "g-", "PLL");
-      c.def_epaisseur(2);
-      f2.afficher();
-    }
-#   endif
   }
 };
 

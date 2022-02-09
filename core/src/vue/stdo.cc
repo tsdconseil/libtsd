@@ -5,6 +5,7 @@
 #include <functional>
 #include <filesystem>
 #include <mutex>
+#include <cstdio>
 
 namespace tsd::vue {
 
@@ -36,6 +37,7 @@ static struct StdoPrivA
 
 void Stdo::flush()
 {
+
   if(priv.elems.empty())
     return;
 
@@ -43,10 +45,12 @@ void Stdo::flush()
     //std::filesystem::create_directory(dossier_sortie);
   //cutils::fichiers::creation_dossier_si_inexistant(dossier_sortie);
 
-  if(!priv.dossier_sortie.empty())
+  if(!priv.dossier_sortie.empty() && !priv.elems.empty())
   {
     auto fn = priv.dossier_sortie + "/index.html";
     std::string s;
+
+    //msg("Flush stdo : {} elems...", priv.elems.size());
 
     for(auto &e: priv.elems)
     {
@@ -81,6 +85,8 @@ void Stdo::flush()
 
 void Stdo::def_dossier_sortie(const std::string &chemin)
 {
+  flush();
+
   priv.mode_rt        = false;
   priv.dossier_sortie = chemin;
 
@@ -118,6 +124,7 @@ void Stdo::printf(const std::string &s)
   elmt.type = Element::CHAINE;
   elmt.chaine = s;
   priv.elems.push_back(elmt);
+  //::printf("priv : %d éléms.\n", (int) priv.elems.size());
   priv.mtx.unlock();
 }
 

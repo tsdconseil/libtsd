@@ -1050,6 +1050,8 @@ sptr<FormeOnde> forme_onde_π4_qpsk(const SpecFiltreMiseEnForme &filtre)
 
 ArrayXf SpecFiltreMiseEnForme::get_coefs(int ncoefs, int osf) const
 {
+  tsd_assert_msg(osf > 0, "SpecFiltreMiseEnForme : osf invalide ({})", osf);
+
   ArrayXf coefs = ArrayXf::Zero(osf);
   coefs(0) = 1;
 

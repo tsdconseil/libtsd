@@ -226,9 +226,8 @@ struct Image
   void ligne(const Point &p0, const Point &p1, StyleLigne style = PLEINE);
 
 
-  void fleche(const Point &p0, const Point &p1, StyleLigne style = PLEINE);
+  void fleche(const Point &p0, const Point &p1, StyleLigne style = PLEINE, float lg = 5);
 
-  //void ligne(const Pointf &p0, const Pointf &p1, StyleLigne style = PLEINE);
   void point(const Point &p0);
   void point(const Point &p0, const Couleur &c);
   void point(const Point &p0, const Couleur &c, float alpha);
