@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['protocoles_1035',['Protocoles',['../group__telecom-protos.html',1,'']]]
+  ['plotting_1032',['Plotting',['../group__telecom-plots.html',1,'']]],
+  ['protocols_1033',['Protocols',['../group__telecom-protos.html',1,'']]]
 ];

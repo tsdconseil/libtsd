@@ -1,6 +1,6 @@
 var group__telecom_mods =
 [
-    [ "Formes d'ondes", "group__telecom-mods-wf.html", "group__telecom-mods-wf" ],
+    [ "Waveforms", "group__telecom-mods-wf.html", "group__telecom-mods-wf" ],
     [ "ModConfig", "structdsp_1_1telecom_1_1_mod_config.html", [
       [ "fe", "structdsp_1_1telecom_1_1_mod_config.html#a697bc4aecc5a682f12c04d6689a03a67", null ],
       [ "fi", "structdsp_1_1telecom_1_1_mod_config.html#a53ab881df04d73541e18e6855706fe2b", null ],

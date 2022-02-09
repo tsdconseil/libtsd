@@ -127,21 +127,26 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
 </div><div class="memdoc">
 <h3>Détecteur par corrélation</h3>
 <p>Cette fonction calcule, au fil de l'eau, la corrélation normalisée entre un signal \((x_k)\) reçu en continu et un motif fixe \((h_k)\) de dimension \(M\) : </p><p class="formulaDsp">
-\[ y_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k-(M-1)} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k-(M-1)}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}} \]
+\[ c_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}} \]
 </p>
-<p>Les \(y_n\) sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle \([n-M+1\dots n]\).</p>
-<p>Le calcul étant fait de manière efficace dans le domaine fréquentiel via la technique Overlap-And-Add (voir <a class="el" href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">filtre_fft()</a>), la complexité est de l'ordre de \(\log_2 M\) opérations par échantillon (si \(M\) est une puissance de 2).</p>
-<p>Ce filtre peut-être utilisé de deux manières :</p><ul>
-<li>Tout d'abord, c'est un filtre qui renvoie, au fil de l'eau, les valeurs de corrélation (signal vert dans l'exemple ci-dessous),</li>
-<li>Pour une utilisation plus simple, une callback utilisateur peut être appelée dès lors que la corrélation dépasse un certain seuil paramétrable. En paramètre de cette callback, est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure DetecteurConfig::Detection) :<ul>
-<li>Valeur de la corrélation normalisée</li>
-<li>Gain réel du signal (rapport d'amplitude entre le signal reçu et le motif théorique attendu)</li>
-<li>Déphasage du signal reçu</li>
-<li>Ecart-type du bruit</li>
-<li>SNR estimé</li>
+<p>Les \(c_n\) sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle \([n\dots n + M[\).</p>
+<p>Le calcul pouvant être fait soit grâce à un filtre RIF (avec une complexité de l'ordre de \(M\) opérations / échantillon), soit de manière efficace dans le domaine fréquentiel via la technique <em>Overlap-And-Add</em> (bloc <a class="el" href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">filtre_fft()</a>), la complexité étant alors de l'ordre de \(\log_2(M)\) opérations par échantillon (si \(M\) est une puissance de 2).</p>
+<p>Ensuite, les pics isolés correspondant à des positions possibles de motif sont détectés. Les deux critères suivants sont vérifiés~:</p><ul>
+<li>Score \(c_n\) supérieur à un seuil paramétrable,</li>
+<li>Absence de pic de score supérieur dans un voisinage de \(\pm\) la moitié de la durée du motif de synchronisation.</li>
 </ul>
-</li>
-</ul>
+<p>Pour chaque position possible, les paramètres suivants sont alors estimés : <b>Gain complexe du signal</b> (rapport complexe entre le signal reçu et le motif théorique attendu) : </p><p class="formulaDsp">
+\[ g \sim \frac{\displaystyle{\sum_{k=0}^{M-1} x_{n+k} \cdot h_k^\star}}{\displaystyle{\sum_{k=0}^{M-1} |h_k|^2}} \]
+</p>
+<p> De cette valeur complexe, on en déduit le gain en amplitude et le déphasage : </p><p class="formulaDsp">
+\[ A = \left|g\right|,\quad \phi = \arg g \]
+</p>
+<p> <b>Ecart-type du bruit et SNR :</b> Pour estimer le niveau de bruit, on note simplement que \(x_n - g^\star h_n \sim x_n - g h_n = b_n\), ainsi il suffit de mesurer l'énergie du signal \(x_n - g h_n\) pour avoir le niveau du bruit : </p><p class="formulaDsp">
+\[ \epsilon_b \sim \mathbb{E}\left[\left|x_n - g h_n\right|^2\right] \]
+</p>
+<p> Cependant, le signal reçu sera en général affecté d'un retard non entier qui, si il ne posera pas de problème pour l'estimation de gain (puisque le signal est suréchantillonné), pourrait conduire sur-estimer le bruit. C'est pourquoi avant estimation de celui-ci, le signal est décalé d'un pas fractionnaire afin de minimiser l'erreur.</p>
+<p>Pour chaque motif détecté, une callback utilisateur est appelée, avec l'ensemble des paramètres estimés ainsi que le score de corrélation normalisé.</p>
+<dl class="section user"><dt>Schéma-bloc</dt><dd><img src="detecteur.png" alt="" align="left" width="300px" class="inline"/> <div style="clear: both"></div></dd></dl>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
     <tr><td class="paramname">config</td><td>Structure de configuration </td></tr>
@@ -172,7 +177,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
 <div class="line">  DetecteurConfig config;</div>
 <div class="line">  config.motif  = motif;</div>
 <div class="line">  config.Ne     = M;</div>
-<div class="line">  config.gere_detection = [&amp;](<span class="keyword">const</span> DetecteurConfig::Detection &amp;det)</div>
+<div class="line">  config.gere_detection = [&amp;](<span class="keyword">const</span> Detection &amp;det)</div>
 <div class="line">  {</div>
 <div class="line">    msg(<span class="stringliteral">&quot;Detection : {}.&quot;</span>, det);</div>
 <div class="line">    pos_detection = det.position;</div>
@@ -206,7 +211,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><a class="el" href="namespacetsd_1_1fourier.html">fourier</a></li>
-    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:13 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

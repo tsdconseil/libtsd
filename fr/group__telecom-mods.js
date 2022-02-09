@@ -8,6 +8,7 @@ var group__telecom_mods =
       [ "wf", "structtsd_1_1telecom_1_1_mod_config.html#a3519e21cb088b076491729842356a4d1", null ]
     ] ],
     [ "Modulateur", "structtsd_1_1telecom_1_1_modulateur.html", [
+      [ "def_forme_onde", "structtsd_1_1telecom_1_1_modulateur_a1d10ecfb845e575f9d8b44bb0ecec340.html#a1d10ecfb845e575f9d8b44bb0ecec340", null ],
       [ "delais", "structtsd_1_1telecom_1_1_modulateur_a7e424d1f69f4e22cd329be8a1d4b452c.html#a7e424d1f69f4e22cd329be8a1d4b452c", null ],
       [ "flush", "structtsd_1_1telecom_1_1_modulateur_afd14e783b798ed971141acefe85001f5.html#afd14e783b798ed971141acefe85001f5", null ],
       [ "step", "structtsd_1_1telecom_1_1_modulateur_a2cb8101086816efdaf9405c6f7ffdc97.html#a2cb8101086816efdaf9405c6f7ffdc97", null ]

@@ -144,19 +144,19 @@ $(document).ready(function(){initNavTree('structdsp_1_1telecom_1_1_shaping_filte
 </table>
 </div><div class="memdoc">
 <h3>Shaping filter</h3>
-<p>Création d'un filtre de mise en forme avec sur-échantillonnage intégré. Ce filtre prends accepte donc en entrée directement les symboles à encoder, et génère un signal sur-échantillonné (facteur R = \(f_e/f_{symb}\) passé en paramètre) et filtré.</p>
-<p>Les coefficients du filtre sont normalisés en énergie : </p><p class="formulaDsp">
+<p>Creation of a shaping filter with integrated over-sampling. This filter block accepts as input symbols, and generate an oversampled (by a factor of \(R\), as given in parameter) and pulse shaped signal.</p>
+<p>The filter coefficients are energy-normalized: </p><p class="formulaDsp">
 \[ \sum h_k^2 = R \]
 </p>
-<p> de manière à ce que la puissance moyenne en entrée et en sortie du filtre soit identique.</p>
+<p> so as the mean power at the input and output of the filter are identical.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ncoefs</td><td>Nombre de coefficients </td></tr>
-    <tr><td class="paramname">R</td><td>Facteur de sur-échantillonnage</td></tr>
+    <tr><td class="paramname">ncoefs</td><td>Number of taps for RIF filter. </td></tr>
+    <tr><td class="paramname">R</td><td>Oversampling ratio.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>filtre_adapte() </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structdsp_1_1telecom_1_1_shaping_filter_spec_af4a5092bbf668b0ce3b90527dd57a426.html#af4a5092bbf668b0ce3b90527dd57a426" title="Same as shaping_filter() method, but without upsampling.">matched_filter()</a> </dd></dl>
 
 </div>
 </div>
@@ -166,7 +166,7 @@ $(document).ready(function(){initNavTree('structdsp_1_1telecom_1_1_shaping_filte
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li><li class="navelem"><a class="el" href="structdsp_1_1telecom_1_1_shaping_filter_spec.html">ShapingFilterSpec</a></li>
-    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

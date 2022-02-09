@@ -126,7 +126,36 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gade6cc0295c587c9a
       </table>
 </div><div class="memdoc">
 <h3>Création d'un modulateur numérique</h3>
-<p>Un modulateur consiste ici à convertir un train binaire en un signal bande de base (ou déjà transposé à une fréquence intermédiaire), mis en forme et sur-échantilloné (de manière à être prêt à être transmis à un ADC).</p>
+<p>Le bloc modulateur permet de convertir un train binaire en un signal bande de base (ou déjà transposé à une fréquence intermédiaire), mis en forme et sur-échantillonné (de manière à être prêt à être transmis à un ADC).</p>
+<p>La structure de paramètrage (<a class="el" href="structtsd_1_1telecom_1_1_mod_config.html">ModConfig</a>) spécifie la forme d'onde (type de modulation, filtre de mise en forme), ainsi que les paramètres de fréquence, notamment :</p><ul>
+<li>La fréquence symbole \(f_{symb}\) (<code>fsymb</code>),</li>
+<li>La fréquence d'échantillonnage souhaitée en sortie \(f_e\) (<code>fe</code>),</li>
+<li>La fréquence intermédiaire souhaitée en sortie \(f_i\) (<code>fi</code>).</li>
+</ul>
+<p>Le facteur de sur-échantillonnage global vaut donc : </p><p class="formulaDsp">
+\[ R = \frac{f_e}{f_{symb}} \]
+</p>
+<p>Afin de réduire la complexité de calcul, ce facteur global est décomposé en deux parties : </p><p class="formulaDsp">
+\[ R = R_1 \cdot R_2 \]
+</p>
+<p>Le facteur \(R_1\) sera appliqué au moment de l'application du filtre de mise en forme, et le facteur \(R_2\) par un interpolateur final.</p>
+<p>Les différentes étapes sont les suivantes :</p><ul>
+<li><b>Génération des symboles :</b> les bits d'entrées sont regroupés par groupes de \(k\) bits ( \(k\) étant le nombre de bits par symbole de la forme d'onde configurée), et chaque groupe de \(k\) bits est transformé en un symbole de la constellation.</li>
+<li><b>Filtre de mise en forme et sur-échantillonnage :</b> le filtre est implémenté sous forme polyphase et permet de passer de 1 échantillon / symbole à \(R_1\) échantillons / symbole : <p class="formulaDsp">
+\[ x_n = \sum_k h_k \cdot u_{(n-k)/R_1} \]
+</p>
+</li>
+<li><b>Adaptation de rythme :</b> cet étage d'interpolation permet de passer de \(R_1\) à \(R=R_1\cdot R_2\) échantillons / symbole.</li>
+<li><b>Transposition :</b> cet étage (actif uniquement si le paramètre \(f_i\) est non nul) permet de transposer le signal bande de base vers la fréquence intermédiaire \(f_i\) : <p class="formulaDsp">
+\[ y_k = e^{2\pi\mathbf{i} k f_i / f_e} \cdot x_k \]
+</p>
+ Par ailleurs, si le paramètre <code>sortie_réelle</code> est actif, la partie imaginaire du résultat est mise à zéro : <p class="formulaDsp">
+\[ z_k = \mathcal{R}(y_k) \]
+</p>
+</li>
+</ul>
+<dl class="section warning"><dt>Avertissement</dt><dd>Attention : L'étage d'adaptation de rythme est pour l'instant désactivé, si bien que le changement de rythme est entièrement à la charge du filtre de mise en forme (implémentation RIF polyphase), ce qui peut être assez coûteux en charge de calcul si \(R\) (facteur global de rééchantillonnage) est élevé.</dd></dl>
+<dl class="section user"><dt>Schéma-bloc</dt><dd><img src="modulateur.png" alt="" align="left" width="300px" class="inline"/> <div style="clear: both"></div></dd></dl>
 <dl class="section user"><dt>Exemple 1 : modulation BPSK (avec filtre NRZ)</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  ModConfig config;</div>
 <div class="line">  config.wf     = <a class="code" href="group__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5.html#ga1a54a4e979c98d41008a0f598e148cf5">forme_onde_bpsk</a>();</div>
@@ -166,7 +195,7 @@ Exemples de modulation BPSK</div></div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
 <div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Signal modulé QPSK (SRRC)&quot;</span>);</div>
 <div class="ttc" id="agroup__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe_html_ga1f04b6504ee95df5e89426658680eefe"><div class="ttname"><a href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">tsd::telecom::forme_onde_qpsk</a></div><div class="ttdeci">sptr&lt; FormeOnde &gt; forme_onde_qpsk(const SpecFiltreMiseEnForme &amp;filtre=SpecFiltreMiseEnForme::nrz())</div><div class="ttdoc">Création d'une forme d'onde QPSK.</div></div>
-<div class="ttc" id="astructtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_html_aca431f80b6dc90b9d6c835c54ec4638c"><div class="ttname"><a href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#aca431f80b6dc90b9d6c835c54ec4638c">tsd::telecom::SpecFiltreMiseEnForme::srrc</a></div><div class="ttdeci">static SpecFiltreMiseEnForme srrc(float β)</div><div class="ttdoc">Filtrage SRRC (racine de cosinus sur-élevé)</div></div>
+<div class="ttc" id="astructtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_html_aca431f80b6dc90b9d6c835c54ec4638c"><div class="ttname"><a href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#aca431f80b6dc90b9d6c835c54ec4638c">tsd::telecom::SpecFiltreMiseEnForme::srrc</a></div><div class="ttdeci">static SpecFiltreMiseEnForme srrc(float β)</div><div class="ttdoc">Filtre RCS (racine de cosinus sur-élevé).</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-modulateur2.png" alt="" width="800px"/>
 <div class="caption">
@@ -182,7 +211,7 @@ Exemples de modulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods.html">Modulations numériques</a></li>
-    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

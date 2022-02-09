@@ -13,6 +13,7 @@ var group__vue =
       [ "attente_ihm", "structtsd_1_1vue_1_1_figure.html#a9ce2a3e1390c5be5a54fbee164bb0da2", null ],
       [ "canva", "structtsd_1_1vue_1_1_figure_a31393dca1c4f57308a8ebfa89ef144f8.html#a31393dca1c4f57308a8ebfa89ef144f8", null ],
       [ "clear", "structtsd_1_1vue_1_1_figure.html#a2bd69fd385d35c56cc287f3665c40555", null ],
+      [ "courbes", "structtsd_1_1vue_1_1_figure_ac2b78d47e53d04509942c4ea3ec47c67.html#ac2b78d47e53d04509942c4ea3ec47c67", null ],
       [ "lis_nom", "structtsd_1_1vue_1_1_figure.html#a7970bc20a458a41f8ebd36ccbb1ca0d2", null ],
       [ "plot", "structtsd_1_1vue_1_1_figure_a07b98c462feb2b177aa78b67599561e7.html#a07b98c462feb2b177aa78b67599561e7", null ],
       [ "plot_img", "structtsd_1_1vue_1_1_figure_a2dc831754d8289adc4783f12a3bc9059.html#a2dc831754d8289adc4783f12a3bc9059", null ],

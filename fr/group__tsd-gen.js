@@ -20,5 +20,6 @@ var group__tsd_gen =
     [ "sigsin", "group__tsd-gen_ga75902afd67b092895425e71c6f4189ba.html#ga75902afd67b092895425e71c6f4189ba", null ],
     [ "sigtri", "group__tsd-gen_ga6dbbe0547c4bc49f54910ed1e2af411f.html#ga6dbbe0547c4bc49f54910ed1e2af411f", null ],
     [ "source_ohc", "group__tsd-gen_ga74cd312449138bb7a6d352898d06b76c.html#ga74cd312449138bb7a6d352898d06b76c", null ],
-    [ "source_ohr", "group__tsd-gen_gaadd3d3b6ee96a8ce94133ea1dc9be67b.html#gaadd3d3b6ee96a8ce94133ea1dc9be67b", null ]
+    [ "source_ohr", "group__tsd-gen_gaadd3d3b6ee96a8ce94133ea1dc9be67b.html#gaadd3d3b6ee96a8ce94133ea1dc9be67b", null ],
+    [ "generateur_aleatoire", "group__tsd-gen.html#ga0b1a4f358418e63b7e0563736b3c36be", null ]
 ];

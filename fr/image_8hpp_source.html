@@ -338,110 +338,109 @@ $(document).ready(function(){initNavTree('image_8hpp_source.html',''); initResiz
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  <span class="keywordtype">void</span> ligne(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1, StyleLigne style = PLEINE);</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  <span class="keywordtype">void</span> fleche(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1, StyleLigne style = PLEINE);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  <span class="keywordtype">void</span> fleche(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1, StyleLigne style = PLEINE, <span class="keywordtype">float</span> lg = 5);</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="comment">//void ligne(const Pointf &amp;p0, const Pointf &amp;p1, StyleLigne style = PLEINE);</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordtype">void</span> point(<span class="keyword">const</span> Point &amp;p0);</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  <span class="keywordtype">void</span> point(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Couleur &amp;c);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <span class="keywordtype">void</span> point(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Couleur &amp;c, <span class="keywordtype">float</span> alpha);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  <span class="keywordtype">void</span> rectangle(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordtype">void</span> rectangle(<span class="keyword">const</span> Rect &amp;r);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keywordtype">void</span> ellipse(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  <span class="keywordtype">void</span> cercle(<span class="keyword">const</span> Point &amp;p0, <span class="keywordtype">int</span> r);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordtype">void</span> rectangle_plein(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <span class="keywordtype">void</span> ellipse_pleine(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  <span class="keywordtype">void</span> cercle_plein(<span class="keyword">const</span> Point &amp;p0, <span class="keywordtype">int</span> r);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  Dim texte_dim(<span class="keyword">const</span> std::string &amp;s, <span class="keywordtype">float</span> dim);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="keyword">enum</span> Alignement</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  {</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    DEBUT,</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    MILIEU,</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    FIN</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  };</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <span class="keywordtype">void</span> puts(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> std::string &amp;s, <span class="keywordtype">float</span> dim, Alignement align_horizontal = Alignement::DEBUT, Alignement align_vertical = Alignement::DEBUT);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Point &amp;pos, Image src, Rect rdi_source);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Rect &amp;rdi, Image src);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Point &amp;pos, Image src);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  <span class="keywordtype">void</span> puti_avec_gamma(<span class="keyword">const</span> Point &amp;pos, Image src);</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Point &amp;pos, Image src, <span class="keywordtype">float</span> γ);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="comment">// Pose uniquement le gamma, avec la couleur en cours</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  <span class="keywordtype">void</span> put_gamma(<span class="keyword">const</span> Point &amp;pos, Image src);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  Image rotation_90() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="comment">// Blend, in-place</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  <span class="keywordtype">void</span> blend(Image src);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  Image blend_nv(Image src);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  <span class="keywordtype">void</span> enregister(<span class="keyword">const</span> std::string &amp;chemin);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  <span class="keywordtype">void</span> charger(<span class="keyword">const</span> std::string &amp;chemin);</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  Image sous_image(<span class="keywordtype">int</span> x0, <span class="keywordtype">int</span> y0, <span class="keywordtype">int</span> l, <span class="keywordtype">int</span> h);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  Dim get_dim() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">int</span> sx()<span class="keyword"> const</span>{<span class="keywordflow">return</span> get_dim().l;}</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">int</span> sy()<span class="keyword"> const</span>{<span class="keywordflow">return</span> get_dim().h;}</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">bool</span> empty()<span class="keyword"> const</span>{<span class="keywordflow">return</span> sx() * sy() == 0;}</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;  <span class="keyword">struct </span>Impl;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;  sptr&lt;Impl&gt; impl;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;};</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="keyword">struct </span>Font</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;{</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  <span class="keyword">virtual</span> ~Font(){}</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  <span class="keyword">virtual</span> Image rendre(<span class="keyword">const</span> std::string &amp;s, <span class="keywordtype">float</span> scale = 1.0f) = 0;</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;};</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordtype">void</span> point(<span class="keyword">const</span> Point &amp;p0);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordtype">void</span> point(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Couleur &amp;c);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  <span class="keywordtype">void</span> point(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Couleur &amp;c, <span class="keywordtype">float</span> alpha);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <span class="keywordtype">void</span> rectangle(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  <span class="keywordtype">void</span> rectangle(<span class="keyword">const</span> Rect &amp;r);</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordtype">void</span> ellipse(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keywordtype">void</span> cercle(<span class="keyword">const</span> Point &amp;p0, <span class="keywordtype">int</span> r);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  <span class="keywordtype">void</span> rectangle_plein(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordtype">void</span> ellipse_pleine(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> Point &amp;p1);</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <span class="keywordtype">void</span> cercle_plein(<span class="keyword">const</span> Point &amp;p0, <span class="keywordtype">int</span> r);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  Dim texte_dim(<span class="keyword">const</span> std::string &amp;s, <span class="keywordtype">float</span> dim);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="keyword">enum</span> Alignement</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    DEBUT,</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    MILIEU,</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    FIN</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  };</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  <span class="keywordtype">void</span> puts(<span class="keyword">const</span> Point &amp;p0, <span class="keyword">const</span> std::string &amp;s, <span class="keywordtype">float</span> dim, Alignement align_horizontal = Alignement::DEBUT, Alignement align_vertical = Alignement::DEBUT);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Point &amp;pos, Image src, Rect rdi_source);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Rect &amp;rdi, Image src);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Point &amp;pos, Image src);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="keywordtype">void</span> puti_avec_gamma(<span class="keyword">const</span> Point &amp;pos, Image src);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  <span class="keywordtype">void</span> puti(<span class="keyword">const</span> Point &amp;pos, Image src, <span class="keywordtype">float</span> γ);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="comment">// Pose uniquement le gamma, avec la couleur en cours</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="keywordtype">void</span> put_gamma(<span class="keyword">const</span> Point &amp;pos, Image src);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  Image rotation_90() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  <span class="comment">// Blend, in-place</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keywordtype">void</span> blend(Image src);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  Image blend_nv(Image src);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;  <span class="keywordtype">void</span> enregister(<span class="keyword">const</span> std::string &amp;chemin);</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  <span class="keywordtype">void</span> charger(<span class="keyword">const</span> std::string &amp;chemin);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  Image sous_image(<span class="keywordtype">int</span> x0, <span class="keywordtype">int</span> y0, <span class="keywordtype">int</span> l, <span class="keywordtype">int</span> h);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  Dim get_dim() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">int</span> sx()<span class="keyword"> const</span>{<span class="keywordflow">return</span> get_dim().l;}</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">int</span> sy()<span class="keyword"> const</span>{<span class="keywordflow">return</span> get_dim().h;}</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">bool</span> empty()<span class="keyword"> const</span>{<span class="keywordflow">return</span> sx() * sy() == 0;}</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  <span class="keyword">struct </span>Impl;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;  sptr&lt;Impl&gt; impl;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;};</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keyword">struct </span>Font</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;{</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;  <span class="keyword">virtual</span> ~Font(){}</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  <span class="keyword">virtual</span> Image rendre(<span class="keyword">const</span> std::string &amp;s, <span class="keywordtype">float</span> scale = 1.0f) = 0;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;};</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="keyword">extern</span> sptr&lt;Font&gt; fonte_ft_creation();</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="keyword">extern</span> sptr&lt;Font&gt; fonte_ft_creation();</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="keyword">struct </span>TexteConfiguration</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;{</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  Couleur couleur      = Couleur{0,0,0};</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  Couleur couleur_fond = Couleur{255,255,255,0};</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  <span class="keywordtype">float</span> scale             = 0.5;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  <span class="keywordtype">int</span> thickness           = 1;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  <span class="keywordtype">int</span> fontface            = 1;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  Dim dim_max             = {-1,-1};</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  Point org               = {0,0};</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keywordtype">float</span> transparence      = 0.3;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  <span class="keyword">enum</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  {</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    ALIGN_GAUCHE = 0,</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    ALIGN_CENTRE,</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    ALIGN_DROIT</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  } alignement = ALIGN_GAUCHE;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;};</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="keyword">struct </span>TexteProps</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;{</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keywordtype">float</span> scale_out;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  std::vector&lt;int&gt; xdim, ypos, ydim;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;};</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">// Affiche du texte, éventuellement sur plusieurs lignes</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">// L&#39;image de sortie est créée.</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="keyword">extern</span> Image texte_creation_image(<span class="keyword">const</span> std::string &amp;s,</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                                        <span class="keyword">const</span> TexteConfiguration &amp;config,</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                                        TexteProps *props = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="keyword">struct </span>TexteConfiguration</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;{</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  Couleur couleur      = Couleur{0,0,0};</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  Couleur couleur_fond = Couleur{255,255,255,0};</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="keywordtype">float</span> scale             = 0.5;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  <span class="keywordtype">int</span> thickness           = 1;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  <span class="keywordtype">int</span> fontface            = 1;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  Dim dim_max             = {-1,-1};</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  Point org               = {0,0};</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  <span class="keywordtype">float</span> transparence      = 0.3;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keyword">enum</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  {</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    ALIGN_GAUCHE = 0,</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    ALIGN_CENTRE,</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    ALIGN_DROIT</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  } alignement = ALIGN_GAUCHE;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;};</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="keyword">struct </span>TexteProps</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;{</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <span class="keywordtype">float</span> scale_out;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  std::vector&lt;int&gt; xdim, ypos, ydim;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;};</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">// Affiche du texte, éventuellement sur plusieurs lignes</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">// L&#39;image de sortie est créée.</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="keyword">extern</span> Image texte_creation_image(<span class="keyword">const</span> std::string &amp;s,</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                                        <span class="keyword">const</span> TexteConfiguration &amp;config,</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                                        TexteProps *props = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">// Affiche du texte dans un cadre semi-transparent au dessus d&#39;une image existante.</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> texte_ajoute(Image O, <span class="keyword">const</span> TexteConfiguration &amp;config,</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    <span class="keyword">const</span> std::string &amp;s, ...);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">// Affiche du texte dans un cadre semi-transparent au dessus d&#39;une image existante.</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> texte_ajoute(Image O, <span class="keyword">const</span> TexteConfiguration &amp;config,</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keyword">const</span> std::string &amp;s, ...);</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;}</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;}</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160; </div>
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
 <div class="ttc" id="anamespacetsd_1_1vue_html"><div class="ttname"><a href="namespacetsd_1_1vue.html">tsd::vue</a></div><div class="ttdef"><b>Definition:</b> figure.hpp:9</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -449,7 +448,7 @@ $(document).ready(function(){initNavTree('image_8hpp_source.html',''); initResiz
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_761a2ca73a74301a2ece799a0de2d706.html">tsd</a></li><li class="navelem"><a class="el" href="dir_0296d068139bc48443467479bcfd8e30.html">vue</a></li><li class="navelem"><b>image.hpp</b></li>
-    <li class="footer">Généré le Jeudi 3 Février 2022 08:24:54 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

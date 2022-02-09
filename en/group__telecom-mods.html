@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libtsd: Modulations numériques</title>
+<title>libtsd: Digital modulations</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -115,21 +115,21 @@ $(document).ready(function(){initNavTree('group__telecom-mods.html',''); initRes
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Modulations numériques<div class="ingroups"><a class="el" href="group__telecom.html">Telecommunications</a></div></div>  </div>
+<div class="title">Digital modulations<div class="ingroups"><a class="el" href="group__telecom.html">Telecommunications</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <p><img src="8psk.png" alt="" style="float: right;" class="inline"/></p>
-<p>Ce module permet de :</p><ul>
-<li>Moduler un signal binaire suivant une forme d'onde quelconque (cela comprenant les étape d'encodage, le filtrage de mise en forme, et éventuellement la transposition en fréquence) : modulateur().</li>
-<li>Démoduler un signal RF (y compris toutes les étapes classiques : conversion en bande de base, recouvrement de porteuse et d'horloge, filtre adapté, décodage) : demodulateur().</li>
-<li>Générer et décoder des trames avec un formatage simple (en-tête de synchronisation + données utiles + éventuel CRC), avec les fonctions emetteur() et recepteur(). </li>
+<p>This module enable to:</p><ul>
+<li>Modulate a binary signal according to a given waveform (that is, constellation mapping, shaping filter, and optionnaly frequency transposition): <a class="el" href="group__telecom-mods_ga33861c98ecb45c2195b6bd90c3c179f5.html#ga33861c98ecb45c2195b6bd90c3c179f5">modulator_new()</a>.</li>
+<li>Demodulate a baseband or IF signal (optionnal baseband transposition, carrier and clock recovery, matched filter, constellation demapping): <a class="el" href="group__telecom-mods_gad9ce7099a88285e5e541380b97ce5b89.html#gad9ce7099a88285e5e541380b97ce5b89">demodulator_new()</a>.</li>
+<li>Build and decode frames with a simple format (synchronisation header + payload), with the functions <a class="el" href="group__telecom-mods_ga01dd30b8f645c6b6b3d48cc1ae8ff090.html#ga01dd30b8f645c6b6b3d48cc1ae8ff090">packet_emitter_new()</a> et <a class="el" href="group__telecom-mods_ga03bb0e3785a255adef585a268e5900e4.html#ga03bb0e3785a255adef585a268e5900e4">packet_receiver_new()</a>. </li>
 </ul>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 Sous-modules</h2></td></tr>
-<tr class="memitem:group__telecom-mods-wf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-mods-wf.html">Formes d'ondes</a></td></tr>
-<tr class="memdesc:group__telecom-mods-wf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définition des formes d'ondes classiques (FSK, PSK, etc.). <br /></td></tr>
+<tr class="memitem:group__telecom-mods-wf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__telecom-mods-wf.html">Waveforms</a></td></tr>
+<tr class="memdesc:group__telecom-mods-wf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definition of classical waveforms (FSK, PSK, etc.). <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -185,7 +185,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Feb 3 2022 08:25:00 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Wed Feb 9 2022 15:18:19 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['egalisation_20de_20canal_1017',['Egalisation de canal',['../group__telecom-eq.html',1,'']]],
-  ['error_20correction_20codes_1018',['Error correction codes',['../group__telecom-codes.html',1,'']]]
+  ['error_20correcting_20codes_1020',['Error correcting codes',['../group__telecom-codes.html',1,'']]],
+  ['error_20rate_20measurements_1021',['Error rate measurements',['../group__telecom-ber.html',1,'']]]
 ];
