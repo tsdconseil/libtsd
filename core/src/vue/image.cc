@@ -194,7 +194,8 @@ const Couleur
       ypos[i] = dim_totale.h;
       Dim dim = O.texte_dim(lignes[i], scale);
 
-      dim.h += 5; // Ajoute un peu d'espace entre les lignes
+      if(i + 1 < lignes.size())
+        dim.h += 5; // Ajoute un peu d'espace entre les lignes
 
       dim_totale.l = std::max(dim.l, dim_totale.l);
 

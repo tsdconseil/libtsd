@@ -169,7 +169,7 @@ struct Figure::Impl: Rendable
   Impl()
   {
     if(mode_impression)
-      axes.get_config().legende.dim = 0.8;
+      axes.get_config().legende.dim = 0.7;
     canva_utilisateur.set_allocation({1,1});
   }
 

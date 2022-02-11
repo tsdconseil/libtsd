@@ -725,7 +725,7 @@ struct Canva::Impl
           std::swap(config.dim_max.l, config.dim_max.h);
         }
 
-        DBG(msg("  creation image, dmax = {}, dimax_in = {}...", config.dim_max, d.dim););
+        DBG(msg("  creation image, echelle = {}, dmax = {}, dimax_in = {}...", fonte, config.dim_max, d.dim););
 
         auto i = tsd::vue::texte_creation_image(d.chaine, config);
 

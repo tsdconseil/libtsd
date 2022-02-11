@@ -2,10 +2,11 @@
 #include "tsd/figure.hpp"
 
 #define DBG(AA)
-//AA
 
 
 #include <deque>
+
+using namespace std;
 
 
 namespace tsd::vue
@@ -13,7 +14,6 @@ namespace tsd::vue
 
   // Définit les dimensions
   static const auto
-    //HAUTEUR_X_VALEURS = 15,
     ECART_X_VALEURS   = 4,
     HAUTEUR_X_VALEURS = 20,
     HAUTEUR_X_LABEL   = 25,
@@ -22,10 +22,9 @@ namespace tsd::vue
 
   static const auto
     FONTE_TITRE    = 1.0,
-    FONTE_X_LABEL  = 0.6;//, //0.4,
-    //FONTE_X_VALEUR = 0.6; //0.5;
+    FONTE_X_LABEL  = 0.6;
 
-  void ConfigGrille::from_style(const std::string &style)
+  void ConfigGrille::from_style(const string &style)
   {
     if(style == ".")
     {
@@ -49,7 +48,7 @@ namespace tsd::vue
     }
   }
 
-  std::string ConfigGrille::vers_style() const
+  string ConfigGrille::vers_style() const
   {
     if((lg_tiret == 1) && (lg_trou == 2))
       return ".";
@@ -72,9 +71,9 @@ namespace tsd::vue
     return score_back > score_grid;
   }
 
-  ConfigAxes::Legende::Position::Position(const std::string &id)
+  ConfigAxes::Legende::Position::Position(const string &id)
   {
-    struct PosCart {std::string code; Type pos;};
+    struct PosCart {string code; Type pos;};
     static const PosCart codes[] =
     {
         {"ne", NORD_EST},
@@ -92,7 +91,7 @@ namespace tsd::vue
         type = c.pos;
   }
 
-  ConfigAxes::Legende::Position::operator std::string() const
+  ConfigAxes::Legende::Position::operator string() const
   {
     if(type == NORD_EST)
       return "ne";
@@ -200,7 +199,7 @@ namespace tsd::vue
     auto res = tmp / pixels_par_lsb + decalage_zero;
 
     if(config.echelle_logarithmique)
-      return std::pow(10.0f, res);
+      return pow(10.0f, res);
 
     return res;
   }
@@ -214,7 +213,7 @@ namespace tsd::vue
 static double calcule_tic(float tic_min)
 {
   double res = 1;
-  double pnorm = std::pow(10.0, (double) std::floor(std::log10(tic_min)));
+  double pnorm = pow(10.0, (double) floor(log10(tic_min)));
 
   float v = tic_min / pnorm;
   // 0.15  -> 1.5  -> tic = 0.2
@@ -268,7 +267,7 @@ struct Axes::Impl
   mutable Couleur couleur_avant_plan = {255,255,255};
   mutable Couleur fond_grille;
 
-  //mutable std::string ech_x, ech_y;
+  //mutable string ech_x, ech_y;
 
 
   void post_rendu(Canva canva_) const
@@ -276,7 +275,7 @@ struct Axes::Impl
     if(config.legende.afficher)
     {
       Canva canva = canva_.vue(Rect{0, 0, sx, sy});
-      dessine_cartouche_legende(canva);
+      affiche_cartouche_legende(canva);
     }
   }
 
@@ -732,7 +731,7 @@ struct Axes::Impl
     // Calcul des tics majeurs et mineurs
 
     // δ = diff vmax - vmin, en unité utilisateur
-    float δ = std::abs(vmax - vmin);
+    float δ = abs(vmax - vmin);
 
     // exemple : δ = 15
     // => unité = 1
@@ -764,20 +763,20 @@ struct Axes::Impl
 
     // En mode logarithmique, travaille au mimimun par puissance entière de 10
     if(mode_log)
-      tic_majeur = std::ceil(tic_majeur);
+      tic_majeur = ceil(tic_majeur);
 
     if(axe.config.ecart_pixel != -1)
       tic_majeur = axe.config.ecart_pixel * (δ / axe.dim);
 
-    if((tic_majeur == 0) || (std::isnan(tic_majeur)))
+    if((tic_majeur == 0) || (isnan(tic_majeur)))
     {
       msg_avert("Tic majeur : {}", tic_majeur);
       return;
     }
 
-    if(tic_majeur <= std::numeric_limits<double>::epsilon())
+    if(tic_majeur <= numeric_limits<double>::epsilon())
     {
-      tic_majeur = 10 * std::numeric_limits<double>::epsilon();
+      tic_majeur = 10 * numeric_limits<double>::epsilon();
       DBG(msg_avert("tcm < eps -> {}...", tic_majeur);)
     }
 
@@ -801,7 +800,7 @@ struct Axes::Impl
     auto adapt = [&](double v)
     {
       if(mode_log)
-        return std::pow(10.0f, v);
+        return pow(10.0f, v);
       return v;
     };
 
@@ -845,14 +844,14 @@ struct Axes::Impl
 
 
 
-        double R = std::pow(10.0f, tk + tic_majeur) / config.grille_majeure.sous_graduation;
+        double R = pow(10.0f, tk + tic_majeur) / config.grille_majeure.sous_graduation;
         int k = 1;
-        double tkm = log10(std::pow(10.0, tk) + k * R);
+        double tkm = log10(pow(10.0, tk) + k * R);
         while(tkm < tk + tic_majeur)
         {
           if(axe.tic_ok(adapt(tkm)))
             axe.tics_mineurs_pos.push_back(adapt(tkm));
-          tkm = log10(std::pow(10.0, tk) + k * R);
+          tkm = log10(pow(10.0, tk) + k * R);
           k++;
         }
       }
@@ -871,7 +870,7 @@ struct Axes::Impl
     if(zero_present)
     {
       // => On a forcément un tic à zéro
-      double rmax = std::max(-vmin, vmax);
+      double rmax = max(-vmin, vmax);
       double tk = 0;//tic_majeur;
       while(tk < rmax)
       {
@@ -895,8 +894,8 @@ struct Axes::Impl
       if(vmin >= 0)
       {
         // => Le plus petit multiple de tic_majeur > config.min
-        DBG(msg("vmin={}, tmaj={} --> ceil={}", vmin, tic_majeur, tic_majeur * std::ceil(vmin / tic_majeur));)
-        tk = tic_majeur * std::ceil(vmin / tic_majeur);
+        DBG(msg("vmin={}, tmaj={} --> ceil={}", vmin, tic_majeur, tic_majeur * ceil(vmin / tic_majeur));)
+        tk = tic_majeur * ceil(vmin / tic_majeur);
 
         if(!axe.tic_ok(adapt(tk)))
           tk += tic_majeur;
@@ -916,7 +915,7 @@ struct Axes::Impl
       else
       {
         // => Le plus grand multiple de tic_majeur < vmax
-        tk = -tic_majeur * std::ceil(-vmax / tic_majeur);
+        tk = -tic_majeur * ceil(-vmax / tic_majeur);
 
         DBG(msg("  -> essai premier tic = {} LSB.", tk));
 
@@ -939,7 +938,7 @@ struct Axes::Impl
     {
       if((axe.tics_majeurs_pos.size() <= 1) && (pixels_par_tic_majeur_min > 1))
       {
-        pixels_par_tic_majeur_min = std::floor(pixels_par_tic_majeur_min * 0.8f);
+        pixels_par_tic_majeur_min = floor(pixels_par_tic_majeur_min * 0.8f);
         if(pixels_par_tic_majeur_min >= 2)
         {
           DBG(msg("Calcul tics : aucun tic majeur trouvé, ré-essai en réduisant l'écart / pixel..."));
@@ -991,7 +990,7 @@ struct Axes::Impl
     return Point{x_vers_pixel(x), y_vers_pixel(y)};
   }
 
-  std::tuple<float, float> posf(float x, float y) const
+  tuple<float, float> posf(float x, float y) const
   {
     return {axe_horizontal.valeur_vers_pixelf(x),
             axe_vertical.valeur_vers_pixelf(y)};
@@ -1029,7 +1028,7 @@ struct Axes::Impl
 
     for(auto t: axe_vertical.tics_majeurs_pos)
     {
-      std::string s;
+      string s;
       if(axe_vertical.config.echelle_logarithmique)
         s = fmt::format("{:.1e}", t);
       else
@@ -1170,7 +1169,7 @@ struct Axes::Impl
     }
   }
 
-  void affiche_tic_majeur(Canva &O, float v, int lg, int x0, const std::string &val) const
+  void affiche_tic_majeur(Canva &O, float v, int lg, int x0, const string &val) const
   {
     int y = y_vers_pixel(v);
 
@@ -1248,10 +1247,11 @@ struct Axes::Impl
   }
 
 
-  void dessine_cartouche_legende(Canva &canva) const
+  void affiche_cartouche_legende(Canva &canva) const
   {
     DBG(msg("raxes: legende..."));
     if((sx_graphique < 100) || (sy_graphique < 100))
+      // Pas assez de place
       return;
 
     bool a_description = false;
@@ -1272,30 +1272,64 @@ struct Axes::Impl
 
     int n = config.series.size();
 
-    //int h1 = 25;
-
     Image tmp;
-    int li_max = 0;
-    int ly_max = 0;
+
+
+    float dim_texte = config.legende.dim;
+
+    DBG(msg("Calcul dim max légende : échelle = {}", dim_texte));
+
+    // Calcul dimension maximale des différents textes
+    int lx_max = 0, ly_max = 0;
     for(auto i = 0; i < n; i++)
     {
-      auto dim = tmp.texte_dim(config.series[i].nom, config.legende.dim);
+      auto dim = tmp.texte_dim(config.series[i].nom, dim_texte);
       DBG(msg("dim[{}] : {}", i, dim);)
-      li_max = std::max(dim.l, li_max);
-      ly_max = std::max(dim.h, ly_max);
+      lx_max = max(dim.l, lx_max);
+      ly_max = max(dim.h, ly_max);
     }
 
-    int l = std::min(sx_graphique / 3, li_max + 50);
-    int h = std::min(sy_graphique / 2, /*h1 * n*/ (ly_max+2) * n);
-    DBG(msg("l = {}, h = {}", l, h));
+    // 187x28
+    // 165x22
+    //
 
-    li_max = l - 50;
-    int h1 = (int) ceil((1.0f * h) / n);
-    h = h1 * n;
+    int hauteur_max     = sy_graphique / 2;
+    int hauteur_totale  = (ly_max + 2) * n;
 
-    if((li_max < 0) || (h1 <= 8))
+    int largeur_max     = sx_graphique / 3;
+    int largeur_totale  = lx_max + 50;
+
+    DBG(msg("l = {}, lmax = {}, h = {}, hmax = {}", largeur_totale, largeur_max, hauteur_totale, hauteur_max));
+
+    largeur_totale = min(largeur_max, largeur_totale);
+
+    if(hauteur_totale > hauteur_max)
+    {
+      // Diminue l'échelle de manière à avoir la même échelle finale pour tous les éléments
+      dim_texte *= (1.0f * hauteur_max) / hauteur_totale;
+      hauteur_totale = hauteur_max;
+    }
+
+    DBG(msg("Après seuillage : largeur totale = {}, hauteur totale = {}", largeur_totale, hauteur_totale));
+
+    lx_max = largeur_totale - 50;
+    int h1 = (int) ceil((1.0f * hauteur_totale) / n);
+    hauteur_totale = h1 * n;
+
+    // -> h1 = 30
+
+    DBG(msg("Après arrondi : largeur totale = {}, hauteur totale = {}", largeur_totale, hauteur_totale));
+    DBG(msg("h1 = {}", h1));
+
+    // Normalement, h1 = hauteur de la ligne la plus haute + 2 pixels
+    // Ex : rép : 10, Filtre : 8
+
+    // Sauf si : legende.dim trop élevé, et seuillage à sy_graphique / (2 * n)
+
+    if((lx_max < 0) || (h1 <= 8))
     {
       DBG(msg("raxes: espace trop petit pour la légende."));
+      // Légende non affichée
       return;
     }
 
@@ -1304,25 +1338,28 @@ struct Axes::Impl
       yoffset = 35;
 
     // Nord ouest
-    Rect r = Rect{marge_gauche + 2, 2+yoffset, l, h};
-    if(config.legende.position.type == ConfigAxes::Legende::Position::NORD_EST)
-      r.x = marge_gauche + sx_graphique - l - 2;
-    else if(config.legende.position.type == ConfigAxes::Legende::Position::SUD_EST)
+    Rect r = Rect{marge_gauche + 2, 2+yoffset, largeur_totale, hauteur_totale};
+
+    switch(config.legende.position.type)
     {
-      r.x  = marge_gauche + sx_graphique - l - 2;
-      r.y  = marge_haute + sy_graphique - h - 2;
-    }
-    else if(config.legende.position.type == ConfigAxes::Legende::Position::SUD_OUEST)
-    {
-      r.y  = marge_haute + sy_graphique - h - 2;
+      case ConfigAxes::Legende::Position::Type::NORD_EST:
+        r.x = marge_gauche + sx_graphique - largeur_totale - 2;
+        break;
+      case ConfigAxes::Legende::Position::Type::SUD_EST:
+        r.x  = marge_gauche + sx_graphique - largeur_totale - 2;
+        r.y  = marge_haute + sy_graphique - hauteur_totale - 2;
+        break;
+      case ConfigAxes::Legende::Position::Type::SUD_OUEST:
+        r.y  = marge_haute + sy_graphique - hauteur_totale - 2;
+      default:
+        ;
     }
 
     Point p0 = r.tl();
 
     canva.set_couleur(couleur_avant_plan);
     canva.set_remplissage(true, config.couleur_arriere_plan);
-    canva.rectangle(p0.x, p0.y, p0.x + l - 1, p0.y + h - 1);
-
+    canva.rectangle(p0.x, p0.y, p0.x + largeur_totale - 1, p0.y + hauteur_totale + 2);//- 1);
 
     for(auto i = 0; i < n; i++)
     {
@@ -1336,12 +1373,12 @@ struct Axes::Impl
       int yc = p0.y + i * h1 + h1/2;
 
       // Comment faire pour que tous les labels aient la même échelle ?
-      canva.set_dim_fonte(config.legende.dim);
-      canva.texte(p0.x + 5, yc+2, ch.nom, li_max, h1-2);
+      canva.set_dim_fonte(dim_texte);
+      canva.texte(p0.x + 5, yc+2, ch.nom, lx_max, h1-2);
 
 
-      int trait_xmin = p0.x+10+li_max,
-          trait_xmax = p0.x+l-5;
+      int trait_xmin = p0.x+10+lx_max,
+          trait_xmax = p0.x+largeur_totale-5;
 
       if(ch.remplissage)
       {
@@ -1370,7 +1407,7 @@ struct Axes::Impl
 
 
 
-void Axes::def_echelle(const std::string &x, const std::string &y)
+void Axes::def_echelle(const string &x, const string &y)
 {
   impl->config.axe_horizontal.echelle_logarithmique = x == "log";
   impl->config.axe_vertical.echelle_logarithmique   = y == "log";
@@ -1463,8 +1500,8 @@ void ConfigAxes::def_rdi_visible(float xmin, float xmax, float ymin, float ymax)
 {
   DBG(msg("axes : def_rdi_visible({}x{} -> {}x{}", xmin, ymin, xmax, ymax);)
 
-  if(std::isnan(xmin) || std::isnan(ymin)  || std::isnan(xmax) || std::isnan(ymax)
-    || std::isinf(xmin) || std::isinf(ymin)  || std::isinf(xmax) || std::isinf(ymax))
+  if(isnan(xmin) || isnan(ymin)  || isnan(xmax) || isnan(ymax)
+    || isinf(xmin) || isinf(ymin)  || isinf(xmax) || isinf(ymax))
   {
     msg_erreur("def rdi visible : xmin = {}, ymin = {}, xmax = {}, ymax = {}", xmin, ymin, xmax, ymax);
     return;
@@ -1505,8 +1542,8 @@ void ConfigAxes::def_rdi_visible(float xmin, float xmax, float ymin, float ymax)
   if(axe_horizontal.echelle_logarithmique)
   {
     float r = xmax / xmin;
-    axe_horizontal.vmin = xmin / std::pow(r, 0.1);
-    axe_horizontal.vmax = xmax * std::pow(r, 0.1);
+    axe_horizontal.vmin = xmin / pow(r, 0.1);
+    axe_horizontal.vmax = xmax * pow(r, 0.1);
   }
   else
   {
@@ -1519,12 +1556,12 @@ void ConfigAxes::def_rdi_visible(float xmin, float xmax, float ymin, float ymax)
   {
     // PB ICI !!!
     double r = ymax / ymin;
-    double r2 = std::pow(r, 0.1);
+    double r2 = pow(r, 0.1);
 
     axe_vertical.vmin   = ymin;
     axe_vertical.vmax   = ymax;
 
-    if(!std::isinf(r2))
+    if(!isinf(r2))
     {
       axe_vertical.vmin /= r2;
       axe_vertical.vmax *= r2;
@@ -1542,21 +1579,21 @@ void ConfigAxes::def_rdi_visible(float xmin, float xmax, float ymin, float ymax)
 
 Axes::Axes()
 {
-  impl = std::make_shared<Impl>();
+  impl = make_shared<Impl>();
   impl->axe_vertical.vertical   = true;
   impl->axe_horizontal.vertical = false;
 }
 
-ConfigAxe::operator std::string() const
+ConfigAxe::operator string() const
 {
   return fmt::format("[afficher={}, label={}, unite={}, vmin={}, vmax={}]", afficher, label, unite, vmin, vmax);
 }
 
-ConfigAxes::operator std::string() const
+ConfigAxes::operator string() const
 {
   return fmt::format(
       "[axe vertical:{}, axe horizontal:{}, titre:{}, carp:{}, iso:{}, ar:{}, nbseries={}]",
-      (std::string) axe_vertical, (std::string) axe_horizontal,
+      (string) axe_vertical, (string) axe_horizontal,
       titre, couleur_arriere_plan, mode_isoview, aspect_ratio, series.size());
 }
 
