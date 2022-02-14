@@ -292,6 +292,28 @@ sptr<FiltreGen<cfloat>> égaliseur_création(sptr<FormeOnde> wf, const std::stri
 }
 
 
+Eigen::MatrixXf égaliseur_zfe_matrice(IArrayXf h, int n)
+{
+  int m = h.rows();
+  // (2) Construit la matrice de filtrage : n + m - 1 lignes, n colonnes
+  Eigen::MatrixXf F = Eigen::MatrixXf::Zero(n + m -1, n);
+
+  // Ligne 0 à m-1
+  for(auto i = 0; i < m; i++)
+    F.block(i,0,1,i+1) = h.segment(0, i+1).reverse().transpose();
+
+  // Ligne m à n-1
+  for(auto i = m; i <= n-1; i++)
+    F.block(i,i+1-m,1,m) = h.reverse().transpose();
+
+  // Ligne n à n+m-2
+  for(auto i = n; i < n+m-1; i++)
+    for(auto j = 1; j <= m-1-(i-n); j++)
+      F(i,n-j) = h(j+(i-n));
+
+  return F;
+}
+
 ArrayXf égaliseur_zfe(IArrayXf h, int n)
 {
   int m = h.rows();
@@ -302,35 +324,19 @@ ArrayXf égaliseur_zfe(IArrayXf h, int n)
     return ArrayXf();
   }
 
+  Eigen::MatrixXf F = égaliseur_zfe_matrice(h, n);
+
   // (1) Calcule un délais
   // Suppose que h et g sont centrées, delai = m/2 + n/2
-  auto d = (int) round(m/2 + n/2);
+  auto d = (int) round((m + n)/2.0f);
 
-  // (2) Construit la matrice de filtrage : n+m-1 lignes, n colonnes
-  Eigen::MatrixXf F = Eigen::MatrixXf::Zero(n+m-1,n);
+  Eigen::VectorXf δ = Eigen::VectorXf::Zero(n + m - 1);
+  δ(d) = 1.0f;
 
-  // Ligne 0 à m-1
-  for(auto i = 0; i < m; i++)
-    F.block(i,0,1,i+1) = h.segment(0, i+1).reverse().transpose();//h(i+1:-1:1)';
-
-  // Ligne m à n-1
-  for(auto i = m; i <= n-1; i++)
-  {
-    // i = m : col = [1...1+m-1]
-    // i = n-1: col = [n-m...n-1]
-    F.block(i,i+1-m,1,m) = h.reverse().transpose();//h($:-1:1)';
-  }
-
-  // Ligne n à n+m-2
-  for(auto i = n; i < n+m-1; i++)
-    for(auto j = 1; j <= m-1-(i-n); j++)
-      F(i,n-j) = h(j+(i-n));
-
-  Eigen::VectorXf δ = Eigen::VectorXf::Zero(n+m-1);
-  δ(d, 0) = 1.0f;
-
-  //g = F \ δ;
+  // g = F \ δ;
   ArrayXf g = F.colPivHouseholderQr().solve(δ).array();
+
+  //msg("F * g = {}", (F * g.matrix()).transpose());
 
   return g;
 }

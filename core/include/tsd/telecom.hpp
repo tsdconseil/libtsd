@@ -1585,15 +1585,29 @@ extern sptr<FiltreGen<cfloat>> égaliseur_création(sptr<FormeOnde> wf, const st
  *
  * @note Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).
  *
- * @warning Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).
+ * @warning
+ *  - L'inversion n'est qu'approximative, le filtre inverse exact ayant une réponse impulsionnelle de support non borné.
+ *  - Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).
  *
  * @param h Réponse impulsionnelle du canal,
  * @param n Nombre de coefficients souhaités pour le filtre inverse.
  * @returns %Filtre RIF inverse (coefficients).
  *
+ *  @par Exemple
+ *  @snippet exemples/src/sdr/ex-sdr.cc ex_eg_zfe
+ *  @image html zfe-0.png "Réponses impulsionnelles (canal et du filtre d'égalisation)" width=800px
+ *  <br/>
+ *  @image html zfe-1.png "Réponses fréquentielles  (canal et du filtre d'égalisation)" width=800px
+ *  <br/>
+ *  @image html zfe-2.png "Exemple d'égalisation sur une flux NRZ" width=800px
+ *
  * @sa égaliseur_création()
  */
 extern ArrayXf égaliseur_zfe(IArrayXf h, int n);
+
+
+
+extern Eigen::MatrixXf égaliseur_zfe_matrice(IArrayXf h, int n);
 
 
 /** @} */

@@ -899,7 +899,6 @@ struct Figures::Impl: Rendable
 
   void rendre(Canva canva) const
   {
-    //infos("Rendu figure en cours...");
     int nsubs = subplots.size();
 
     auto [nrows, ncols] = get_nm();
@@ -907,41 +906,29 @@ struct Figures::Impl: Rendable
     tsd_assert((ncols >= 1) && (nrows >= 1));
     tsd_assert_msg(nsubs <= (ncols * nrows), "nsubs = {}, m = {}, n = {}", nsubs, ncols, nrows);
 
-    //std::vector<Image> sO;
     auto rdi = canva.get_rdi();
-    int mx = rdi.l / ncols,
-        my = rdi.h / nrows;
+    int mx = rdi.l / ncols, my = rdi.h / nrows;
 
     DBG(msg("parcours subplots..."));
     int i = 0;
     for(auto &s: subplots)
     {
-      int px = (i % ncols) * mx;
-      int py = (i / ncols) * my;
-      Canva sub = canva.clip(Rect{px, py, mx, my}, Rect{0, 0, mx, my});
-      s.rendre(sub);
+      int col = i % ncols, row = i / ncols;
+      int px = col * mx;
+      int py = row * my;
+      // Ajoute une marge verticale
+      int hauteur = my - 15;
+      //if(row != (nrows - 1))
+      //hauteur -= 15;
+      if(hauteur > 0)
+      {
+        Canva sub = canva.clip(Rect{px, py, mx, hauteur}, Rect{0, 0, mx, hauteur});
+        s.rendre(sub);
+      }
       i++;
     }
-      //rendre_subplot(s, sO, mx, my);
-    //DBG(msg("fin parcours subplots."));
 
     DBG(msg("ok.");)
-
-    //if((ncols == 1) && (nrows == 1)) //&& (sO.size() == 1))
-      //return;
-
-    /*Image O(sx, sy);
-    O.remplir(Couleur::Blanc);
-
-    for(auto i = 0u; i < sO.size(); i++)
-    {
-      int px = (i % ncols) * mx;
-      int py = (i / ncols) * my;
-      O.puti({px, py, mx, my}, sO[i]);
-    }
-
-    DBG(msg("Fait.");)
-    return O;*/
   }
 
 

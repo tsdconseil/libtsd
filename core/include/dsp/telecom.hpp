@@ -1841,25 +1841,37 @@ inline sptr<FiltreGen<cfloat>> equalizer_new(sptr<WaveForm> wf, const std::strin
   return nfr::égaliseur_création(wf->fr, structure, errf, osf, gain, N1, N2);
 }
 
-/** @brief Calcul du filtre inverse par zéro-forçage.
+/** @brief Compute an inverse filter by zero-forcing.
  *
- * <h3>Calcul du filtre inverse par zéro-forçage</h3>
+ * <h3>Compute an inverse filter by zero-forcing</h3>
  *
- * Etant donné la réponse du canal @f$h@f$, cette fonction calcule les coefficients
- * d'un filtre RIF @f$g@f$, en essayant d'approximer
+ * Given the channel impulse response @f$h@f$, this function computes the coefficients
+ * of a FIR filter @f$g@f$, trying to approximate:
  * @f[
- * g\star h = \delta_d
+ * g\star h \sim \delta_d
  * @f],
  *
- * @f$d@f$ étant un délais global. Autrement dit, @f$g@f$ est un filtre inverse (au délais près) de @f$h@f$.
+ * where @f$d@f$ is the global delay of the channel plus equalization filter pair.
+ * That is, @f$g@f$ is the inverse filter (up to some delay @f$d@f$) of @f$h@f$.
  *
  * @note Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).
  *
- * @warning Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).
+ * @warning
+ *  - The inversion is only approximative, as the exact filter inverse would have an infinite number taps.
+ *  - Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).
  *
  * @param h Réponse impulsionnelle du canal,
  * @param n Nombre de coefficients souhaités pour le filtre inverse.
  * @returns %Filtre RIF inverse (coefficients).
+ *
+ *  @par Example
+ *  @snippet exemples/src/sdr/ex-sdr.cc ex_eg_zfe
+ *  @image html zfe-0.png "Impulse responses (channel and equalization filter)" width=800px
+ *  <br/>
+ *  @image html zfe-1.png "Frequency responses (channel and equalization filter)" width=800px
+ *  <br/>
+ *  @image html zfe-2.png "Equalization example on a NRZ signal" width=800px
+ *
  *
  * @sa égaliseur_création()
  */
