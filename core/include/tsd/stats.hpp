@@ -8,6 +8,19 @@
 namespace tsd::stats {
 
 
+  template<typename T>
+    T variance(const Vecteur<T> &vec)
+  {
+    return vec.square().mean() - carré(vec.mean());
+  }
+
+  template<typename T>
+    T stdev(const Vecteur<T> &vec)
+  {
+    return std::sqrt(variance(vec));
+  }
+
+
   /** @addtogroup stats
    *  @{
    */

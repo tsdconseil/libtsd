@@ -18,6 +18,7 @@ extern "C"
 
 #define VERBOSE(AA)
 
+using namespace std;
 
 namespace tsd::vue {
 
@@ -28,13 +29,13 @@ struct FreeTypeFont: Font
   FT_Face face;
   float echelle = 1;
 
-  std::mutex mutex;
+  mutex mut;
 
   struct CarSpec
   {
     uint32_t charcode;
     int echelle;
-    std::strong_ordering operator<=>(const CarSpec&) const = default;
+    strong_ordering operator<=>(const CarSpec&) const = default;
   };
 
   struct CarRendu
@@ -44,7 +45,7 @@ struct FreeTypeFont: Font
     int bitmap_left = 0, bitmap_top = 0;
   };
 
-  std::map<CarSpec, CarRendu> cache;
+  map<CarSpec, CarRendu> cache;
 
   ~FreeTypeFont()
   {
@@ -59,7 +60,7 @@ struct FreeTypeFont: Font
 
   int init()
   {
-    const std::lock_guard<std::mutex> lock(mutex);
+    const lock_guard<mutex> lock(mut);
     init_ok = false;
     if(FT_Init_FreeType(&library))
     {
@@ -67,22 +68,9 @@ struct FreeTypeFont: Font
       return -1;
     }
 
-    /* create face object */
-    //std::string fn = "./build/debug/data/fonts/goudy_bookletter_1911.otf";
-    //std::string fn = "./build/debug/data/fonts/OpenSans-Light.ttf";
-    // std::string fn = "./build/debug/data/fonts/OpenSans-Regular.ttf";
-    /*
-#   ifdef WIN
-    // TODO
-    std::string fn = "C:/msys64/usr/share/tsd/OpenSans-Regular.ttf";
-#   else
-    std::string fn = "/usr/share/tsd/OpenSans-Regular.ttf";
-#   endif
-  */
+    string nom = "OpenSans-Regular.ttf";
 
-    std::string nom = "OpenSans-Regular.ttf";
-
-    std::vector<std::string> cds =
+    vector<string> cds =
       {
           "./data/fonts",             // Installeur win32
           "/usr/share/tsd",           // Installeur linux
@@ -90,10 +78,10 @@ struct FreeTypeFont: Font
           "./build/debug-linux/data/fonts"  // Mode dév
       };
 
-    std::string fn;
+    string fn;
     for(auto &s: cds)
     {
-      if(std::filesystem::exists(s + "/" + nom))
+      if(filesystem::exists(s + "/" + nom))
       {
         fn = s + "/" + nom;
         break;
@@ -111,6 +99,8 @@ struct FreeTypeFont: Font
       msg_erreur("FT_New_Face (fichier non trouvé : [{}]).", fn);
       return -1;
     }
+
+    FT_Select_Charmap(face , ft_encoding_unicode);
 
     /* use 50pt at 100dpi */
     /* set character size
@@ -173,11 +163,6 @@ struct FreeTypeFont: Font
 
       res.bitmap_left = slot->bitmap_left;
       res.bitmap_top = slot->bitmap_top;
-      //Point pos2{pos.x + (int) slot->bitmap_left, slot->bitmap_top};
-      //dim.l   = std::max(pos2.x + sx, dim.l);
-      //top_max = std::max(top_max, (int) slot->bitmap_top);
-      //imgs.push_back(img);
-      //poss.push_back(pos2);
       VERBOSE(msg("ok.");)
     }
 
@@ -187,9 +172,9 @@ struct FreeTypeFont: Font
     return res;
   }
 
-  Image rendre(const std::string &s, float echelle)
+  Image rendre(const string &s, float echelle)
   {
-    const std::lock_guard<std::mutex> lock(mutex);
+    const lock_guard<mutex> lock(mut);
 
     if(!init_ok || (s.size() == 0))
       return Image();
@@ -208,8 +193,8 @@ struct FreeTypeFont: Font
     }
 
     int n = s.size();
-    std::vector<Image> imgs;
-    std::vector<Point> poss;
+    vector<Image> imgs;
+    vector<Point> poss;
     Point pos{0,0};
     Dim dim{0,0};
     int top_max = 0;
@@ -220,10 +205,12 @@ struct FreeTypeFont: Font
     {
       uint32_t charcode;
 
+      // UTF8 sur un octet
       if((s[i] & (1 << 7)) == 0)
       {
         charcode = s[i];
       }
+      // UTF8 sur deux octets
       else if((s[i] & (1 << 5)) == 0)
       {
         charcode = (s[i] & 0b11111);
@@ -235,11 +222,56 @@ struct FreeTypeFont: Font
         charcode = (charcode << 6) | (s[i+1] & 0b111111);
         i++;
       }
+      // UTF8 sur trois octets
+      else if((s[i] & (1 << 4)) == 0)
+      {
+        if(i+2 >= n)
+        {
+          msg_erreur("PB UTF8");
+          break;
+        }
+        charcode = (s[i] & 0b1111);
+        charcode = (charcode << 6) | (s[i+1] & 0b111111);
+        charcode = (charcode << 6) | (s[i+2] & 0b111111);
+        i += 2;
+      }
+      // UTF8 sur quatre octets
+      else //if((s[i] & (1 << 2)) == 0)
+      {
+        if(i+3 >= n)
+        {
+          msg_erreur("PB UTF8");
+          break;
+        }
+        charcode = (s[i] & 0b11);
+        charcode = (charcode << 6) | (s[i+1] & 0b111111);
+        charcode = (charcode << 6) | (s[i+2] & 0b111111);
+        charcode = (charcode << 6) | (s[i+3] & 0b111111);
+        i += 3;
+      }
+#     if 0
       else
       {
-        msg_erreur("TODO : UTF8 3 / 4 octets.");
+        if(i+3 >= n)
+        {
+          msg_erreur("PB UTF8");
+          break;
+        }
+        msg_erreur("TODO : UTF8 4 octets / cas spécial : s = {:b}.{:b}.{:b}.{:b}.",
+            (unsigned char) s[i], (unsigned char) s[i+1], (unsigned char) s[i+2], (unsigned char) s[i+3]);
         break;
+        /*
+        charcode = (s[i] & 0b11);
+        charcode = (charcode << 6) | (s[i+1] & 0b111111);
+        charcode = (charcode << 6) | (s[i+2] & 0b111111);
+        charcode = (charcode << 6) | (s[i+3] & 0b111111);*/
       }
+      /*else
+      {
+        msg_erreur("TODO : UTF8 4 octets.");
+        break;
+      }*/
+#     endif
 
       CarSpec sp;
       sp.charcode = charcode;
@@ -249,68 +281,20 @@ struct FreeTypeFont: Font
       if(!rendu.img.empty())
       {
         Point pos2{pos.x + rendu.bitmap_left, rendu.bitmap_top};
-        dim.l   = std::max(pos2.x + rendu.img.sx(), dim.l);
-        top_max = std::max(top_max, rendu.bitmap_top);
+        dim.l   = max(pos2.x + rendu.img.sx(), dim.l);
+        top_max = max(top_max, rendu.bitmap_top);
         imgs.push_back(rendu.img);
         poss.push_back(pos2);
       }
 
       pos.x += rendu.inc_x;
       pos.y += rendu.inc_y;
-
-#     if 0
-      int gl_index = FT_Get_Char_Index(face, charcode);
-      VERBOSE(msg("load glyph...");)
-      // C'est ça qu'il faudrait "cacher"
-      auto error = FT_Load_Glyph(face, gl_index, FT_LOAD_RENDER);
-      VERBOSE(msg("ok.");)
-      /* ignore errors */
-      if(error)
-        continue;
-
-      auto slot = face->glyph;
-      auto &bmp = slot->bitmap;
-
-      int sx = bmp.width, sy = bmp.rows;
-
-      if((s[i] != ' ') && (sx * sy == 0))
-      {
-        msg_avert("Caractère 0x{:02x} : sx = {}, sy = {}.", s[i], sx, sy);
-      }
-
-      if(sx * sy > 0)
-      {
-        VERBOSE(msg("dessin gl...");)
-        Image img(sx, sy);
-
-        //img.remplir(Couleur{255,255,255,0});
-        auto ptr  = (int32_t *) img.data();
-        for(auto y = 0; y < sy; y++)
-        {
-          for(auto x = 0; x < sx; x++)
-          {
-            int32_t val = (bmp.buffer[y * sx + x] & 0xff);
-            *ptr++ = 0 | (0 << 8) | (0 << 16) | (val << 24);
-          }
-        }
-
-        Point pos2{pos.x + (int) slot->bitmap_left, slot->bitmap_top};
-        dim.l   = std::max(pos2.x + sx, dim.l);
-        top_max = std::max(top_max, (int) slot->bitmap_top);
-        imgs.push_back(img);
-        poss.push_back(pos2);
-        VERBOSE(msg("ok.");)
-      }
-
-      pos.x += slot->advance.x / 64;
-      pos.y += slot->advance.y / 64;
-#     endif
     }
 
     for(auto i = 0u; i < imgs.size(); i++)
     {
       poss[i].y = top_max - poss[i].y;
-      dim.h = std::max(dim.h, poss[i].y + imgs[i].sy());
+      dim.h = max(dim.h, poss[i].y + imgs[i].sy());
     }
 
     VERBOSE(msg("assemblage...");)
@@ -339,7 +323,7 @@ struct FreeTypeFont: Font
 
 sptr<Font> fonte_ft_creation()
 {
-  return std::make_shared<FreeTypeFont>();
+  return make_shared<FreeTypeFont>();
 }
 }
 

@@ -363,10 +363,10 @@ struct Canva::Impl
   void ellipse(const Pointf &p, float a, float b, float theta, const Pinceau &pinceau)
   {
     Impl::CanvaElement d;
-    d.p0 = p;
-    d.a  = a;
-    d.b  = b;
-    d.type = Impl::CanvaElement::ELLIPSE;
+    d.p0      = p;
+    d.a       = a;
+    d.b       = b;
+    d.type    = Impl::CanvaElement::ELLIPSE;
     d.pinceau = pinceau;
     ajoute_element(d);
   }
@@ -791,13 +791,13 @@ struct Canva::Impl
         DBG(msg("  -> dx={} pixels, dy = {} pixels", dx, dy);)
 
         Point tl{pos0.x-dx,pos0.y-dy}, br{pos0.x+dx,pos0.y+dy};
-
-        //msg("Cercle")
         O1.ellipse(tl, br);
 
         if(d.pinceau.remplir)
-          O1.ellipse_pleine(tl + Point{ep,ep}, br - Point{ep,ep});
-          //O1.cercle_plein(pos0, d.r - ep); // rayon ????
+        {
+          Point δ{ep, ep};
+          O1.ellipse_pleine(tl + δ, br - δ);
+        }
       }
       else if(d.type == Impl::CanvaElement::ELLIPSE)
       {
@@ -812,7 +812,10 @@ struct Canva::Impl
         O1.ellipse(tl, br);
 
         if(d.pinceau.remplir)
-          O1.ellipse_pleine(tl + Point{ep,ep}, br - Point{ep,ep});
+        {
+          Point δ{ep, ep};
+          O1.ellipse_pleine(tl + δ, br - δ);
+        }
       }
       else if((d.type == Impl::CanvaElement::MARQUEUR) && (pos0.y != -1))
       {

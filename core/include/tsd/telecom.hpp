@@ -1559,17 +1559,40 @@ extern sptr<Filtre<cfloat, cfloat, ECPConfig>> ecp_création(const ECPConfig &co
  *  @{
  */
 
-/** @brief Création d'un égaliseur
+/** @brief Création d'un égaliseur basé sur un ou des filtres RIF ajustés itérativement.
  *
- * <h3>Création d'un égaliseur</h3>
+ * <h3>Egaliseur RIF</h3>
  *
+ * Création d'un égaliseur, échantillonné soit à la fréquence syumbole (@f$K = 1@f$), ou
+ * échantillonné avec une période fractionnaire (@f$K > 1@f$).
+ * Les structures d'égalisation suivantes sont possibles :
+ *  - <b>Feed Forward Equalization (FFE)</b> <code>(structure = "dde")</code> :
+ *       Un filtre RIF est réglé (à chaque période symbole) afin de minimiser le carré de l'erreur de sortie.
+ *  - <b>Decision Feedback Equalization (DFE)</b> <code>(strucuture = "dfe")</code> :
+ *      A la fois un filtre RIF direct (fonctionnant à @f$K\cdot f_{symb}@f$) et
+ *      un filtre RIF de rétro-action (fonctionnant à la fréquence symbole) sur les décisions sont utilisés.
  *
+ * Les fonctions d'erreur suivantes sont possibles :
+ *  - <b>Basé sur la décision symbole</b> <code>(errf = "slicer")</code> : @f$E=(d-y)^2@f$. Avec cette fonction d'erreur, l'algorithme est aussi appelé LMS (Least Mean Square).
+ *  - <b>Amplitude constante</b> (CMA / Constant Modulus Algorithm) <code>(errf = "cma")</code>
+ *       @f$E=\left(R-|y|^2\right)^2@f$
+ *
+ * @image html ffe.png "Egalisation FFE" width=600px
+ *
+ * @param forme_onde        Forme d'onde (utilisée seulement si la fonction d'erreur est basée sur la décision symbole).
+ * @param structure         Structure d'égalisation (directe : "ffe", ou avec rétro-actions : "dfe").
+ * @param fonction_erreur   Fonction d'erreur (basé sur la décision symbole : "dec", ou constant modulus algorithm : "cma").
+ * @param K                 Facteur de sur-échantillonnage.
+ * @param α                 Taux de mise à jour pour l'algorithme LMS.
+ * @param N1                Nombre de coefficients du filtre RIF d'égalisation.
+ * @param N2                Nombre de coefficients du filtre RIF pour les rétro-actions (seulement si structure DFE).
  *
  *
  * @sa égaliseur_zfe()
  */
-extern sptr<FiltreGen<cfloat>> égaliseur_création(sptr<FormeOnde> wf, const std::string &structure, const std::string &errf,
-    float osf, float gain, int N1, int N2);
+extern sptr<FiltreGen<cfloat>> égaliseur_rif_création(sptr<FormeOnde> forme_onde,
+    const std::string &structure, const std::string &fonction_erreur,
+    int K, float α, int N1, int N2);
 
 /** @brief Calcul du filtre inverse par zéro-forçage.
  *
@@ -1582,6 +1605,8 @@ extern sptr<FiltreGen<cfloat>> égaliseur_création(sptr<FormeOnde> wf, const st
  * @f],
  *
  * @f$d@f$ étant un délais global. Autrement dit, @f$g@f$ est un filtre inverse (au délais près) de @f$h@f$.
+ *
+ * @image html zfe.png "Egalisation ZFE" width=600px
  *
  * @note Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).
  *

@@ -198,39 +198,7 @@ static Eigen::Matrix3f rotmat_3d_R2(float α)
   return R;
 }*/
 
-template<typename T>
-  Eigen::Matrix<T, 3, 3> rotmat_3d_R1(T α)
-{
-  auto ca = cos(α), sa = sin(α);
-  Eigen::Matrix<T, 3, 3> R;
-  R << 1, 0, 0,
-       0, ca, sa,
-       0, -sa, ca;
-  return R;
-}
 
-
-template<typename T>
-  Eigen::Matrix<T, 3, 3> rotmat_3d_R2(T α)
-{
-  auto ca = cos(α), sa = sin(α);
-  Eigen::Matrix<T, 3, 3> R;
-  R << ca, 0, -sa,
-       0, 1, 0,
-       sa, 0, ca;
-  return R;
-}
-
-template<typename T>
-  Eigen::Matrix<T, 3, 3> rotmat_3d_R3(T α)
-{
-  auto ca = cos(α), sa = sin(α);
-  Eigen::Matrix<T, 3, 3> R;
-  R << ca, sa, 0,
-       -sa, ca, 0,
-       0, 0, 1;
-  return R;
-}
 
 
 /*static Eigen::Matrix3f rotmat_3d_R3(float α)

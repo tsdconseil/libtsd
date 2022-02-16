@@ -12,6 +12,7 @@
 
 #define DBG_AXES(AA)
 
+using namespace std;
 
 namespace tsd::vue {
 
@@ -44,7 +45,7 @@ struct Image::Impl
     return {sx, sy};
   }
 
-  void charger(const std::string &chemin)
+  void charger(const string &chemin)
   {
 
 #   if LIBTSD_USE_PNG
@@ -150,12 +151,12 @@ struct Image::Impl
 #   endif
   }
 
-  void enregister(const std::string &chemin)
+  void enregister(const string &chemin)
   {
 
 #   if LIBTSD_USE_PNG
 
-    std::string ch = chemin;
+    string ch = chemin;
 
     if((chemin.size() < 4) || (chemin[chemin.size()-4] != '.'))
       ch += ".png";
@@ -278,7 +279,7 @@ struct Image::Impl
     for(auto x = xmin; x < xmax; x++)
     {
       // Plutôt vertical, il faut utiliser les pixels adjacents horizontaux
-      if(std::abs(Y(x+1)-Y(x)) > 1)
+      if(abs(Y(x+1)-Y(x)) > 1)
       {
 
       }
@@ -304,7 +305,7 @@ struct Image::Impl
 
     auto ptr = bitmap + x + y * sx;
     auto ip = (bgra *) &cd;
-    float a0 = std::sqrt(a);
+    float a0 = sqrt(a);
     float b0 = 1 - a0;
 
     for(auto k = 0u; k < 4; k++)
@@ -344,17 +345,17 @@ struct Image::Impl
 
     }
 
-    bool plutot_verticale = std::abs(y1 - y0) > std::abs(x1 - x0);
+    bool plutot_verticale = abs(y1 - y0) > abs(x1 - x0);
 
     if(plutot_verticale)
     {
-      std::swap(x0 , y0);
-      std::swap(x1 , y1);
+      swap(x0 , y0);
+      swap(x1 , y1);
     }
     if(x0 > x1)
     {
-      std::swap(x0,x1);
-      std::swap(y0,y1);
+      swap(x0,x1);
+      swap(y0,y1);
     }
 
     //compute the slope
@@ -653,8 +654,8 @@ struct Image::Impl
       DBG_AXES(msg("puti : pos = {}", pos);)
       Point pos2 = pos;
 
-      int x0 = std::max(-pos.x, 0);
-      int y0 = std::max(-pos.y, 0);
+      int x0 = max(-pos.x, 0);
+      int y0 = max(-pos.y, 0);
 
       if(pos2.x < 0)
         pos2.x = 0;
@@ -705,7 +706,7 @@ struct Image::Impl
       return;
 
 
-    //auto srci = std::dynamic_pointer_cast<ImageBmp>(src);
+    //auto srci = dynamic_pointer_cast<ImageBmp>(src);
     //tsd_assert(srci);
 
 
@@ -734,7 +735,7 @@ struct Image::Impl
     }
 
     Image res(s1->sx, s2->sy);
-    //auto r2 = std::dynamic_pointer_cast<ImageBmp>(res);
+    //auto r2 = dynamic_pointer_cast<ImageBmp>(res);
 
     auto optr = (bgra *) res.impl->bitmap;
     auto iptr1 = (const bgra *) s1->bitmap;
@@ -842,8 +843,8 @@ struct Image::Impl
       int inc = 1;
       if(style == StyleLigne::POINTILLEE)
         inc *= 3;
-      auto ymin = std::max(0, std::min(p0.y, p1.y));
-      auto ymax = std::min(sy - 1, std::max(p0.y, p1.y));
+      auto ymin = max(0, min(p0.y, p1.y));
+      auto ymax = min(sy - 1, max(p0.y, p1.y));
 
       for(auto y = ymin; y <= ymax; y += inc)
         for(auto k = -ep/2; k <= (ep-1)/2; k++)
@@ -854,8 +855,8 @@ struct Image::Impl
       int inc = 1;
       if(style == StyleLigne::POINTILLEE)
         inc *= 3;
-      auto xmin = std::max(0, std::min(p0.x, p1.x));
-      auto xmax = std::min(sx - 1, std::max(p0.x, p1.x));
+      auto xmin = max(0, min(p0.x, p1.x));
+      auto xmax = min(sx - 1, max(p0.x, p1.x));
       for(auto x = xmin; x <= xmax; x += inc)
         for(auto k = -ep/2; k <= (ep-1)/2; k++)
           point({x, p0.y+k});
@@ -889,8 +890,8 @@ struct Image::Impl
 
   inline bgra pixel_e(int x, int y) const
   {
-    x = std::min(x, sx-1);
-    y = std::min(y, sy-1);
+    x = min(x, sx-1);
+    y = min(y, sy-1);
     return *(bitmap + y * sx + x);
   }
 
@@ -1002,7 +1003,7 @@ struct Image::Impl
       for(auto l = 0; l < 2; l++)
       {
         point({ctr.x + x, ctr.y + y}, c, alpha);
-        std::swap(x, y);
+        swap(x, y);
       }
     }
   }
@@ -1025,9 +1026,9 @@ struct Image::Impl
   {
     float x, y;
     // xy = f(t)
-    virtual std::tuple<float,float> xy(float t) = 0;
+    virtual tuple<float,float> xy(float t) = 0;
     // xy = f(t)
-    virtual std::tuple<float,float> der(float t) = 0;
+    virtual tuple<float,float> der(float t) = 0;
   };
 
   struct Ellipse2: Courbe2
@@ -1039,15 +1040,14 @@ struct Image::Impl
       this->yc = yc;
       this->rx = rx;
       this->ry = ry;
-
       x = rx;
       y = 0;
     }
-    std::tuple<float,float> xy(float t)
+    tuple<float,float> xy(float t)
     {
       return {xc + rx * cos(2*π*t), yc + ry * sin(2*π*t)};
     }
-    std::tuple<float,float> der(float t)
+    tuple<float,float> der(float t)
     {
       return {-2*π*rx * sin(2*π*t), 2*π*ry * cos(2*π*t)};
     }
@@ -1067,7 +1067,9 @@ struct Image::Impl
       auto [x, y]   = courbe->xy(t);
       auto [dx, dy] = courbe->der(t);
       //msg("t = {}, pos={}x{}, der={}x{}", t, x, y, dx, dy);
-      if(std::abs(dx) > std::abs(dy))
+
+      // OK
+      if(abs(dx) > abs(dy))
       {
         // Utilise deux pixels verticaux
         // cherche x entier
@@ -1081,6 +1083,7 @@ struct Image::Impl
         point({xi, yi+1}, cd, alpha);
         t += abs(0.5f / dx);
       }
+      // NOK
       else
       {
         // Utilise deux pixels horizontaux
@@ -1122,8 +1125,8 @@ struct Image::Impl
 
     for(auto j = 1; j <= i; j++)
     {
-      float rac = std::sqrt(r*r - j*j);
-      int d1 = std::ceil(rac);
+      float rac = sqrt(r*r - j*j);
+      int d1 = ceil(rac);
       if(d1 < T)
         i--;
 
@@ -1142,14 +1145,14 @@ struct Image::Impl
 
   void rectangle_plein(const Point &p0, const Point &p1)
   {
-    int xmin = std::max(0, std::min(p0.x, p1.x));
-    int ymin = std::max(0, std::min(p0.y, p1.y));
-    int xmax = std::min(sx-1,std::max(p0.x, p1.x));
-    int ymax = std::min(sy-1,std::max(p0.y, p1.y));
+    int xmin = max(0, min(p0.x, p1.x));
+    int ymin = max(0, min(p0.y, p1.y));
+    int xmax = min(sx-1,max(p0.x, p1.x));
+    int ymax = min(sy-1,max(p0.y, p1.y));
 
     if(xmax >= xmin)
       for(auto y = ymin; y <= ymax; y++)
-        std::fill(&(bitmap[y*sx+xmin]), &(bitmap[y*sx+xmax+1]), cf);
+        fill(&(bitmap[y*sx+xmin]), &(bitmap[y*sx+xmax+1]), cf);
   }
   void ellipse_pleine(const Point &p0, const Point &p1)
   {
@@ -1160,7 +1163,7 @@ struct Image::Impl
     for(auto r2 = r; r2 >= 0; r2--)
       cercle(p0, r2, cf, r2 == r);
   }
-  Dim texte_dim(const std::string &s, float dim)
+  Dim texte_dim(const string &s, float dim)
   {
     return ftfonte->rendre(s, dim).get_dim();
   }
@@ -1175,7 +1178,7 @@ struct Image::Impl
     return p0 - dim / 2;
   }
 
-  void puts(const Point &p0, const std::string &s, float dim, Alignement align_horizontal, Alignement align_vertical)
+  void puts(const Point &p0, const string &s, float dim, Alignement align_horizontal, Alignement align_vertical)
   {
     if(s.empty())
       return;
@@ -1199,7 +1202,7 @@ sptr<Font> Image::Impl::ftfonte;
 
 Image::Image(int sx, int sy, void *data)
 {
-  impl = std::make_shared<Image::Impl>(sx, sy, data);
+  impl = make_shared<Image::Impl>(sx, sy, data);
 }
 
 void Image::remplir(const Couleur &c)
@@ -1207,7 +1210,7 @@ void Image::remplir(const Couleur &c)
   if(!empty())
   {
     def_couleur_remplissage(c);
-    std::fill(impl->bitmap, impl->bitmap + sx()*sy(), impl->cf);
+    fill(impl->bitmap, impl->bitmap + sx()*sy(), impl->cf);
   }
 }
 
@@ -1238,8 +1241,8 @@ void Image::cercle(const Point &p0, int r){impl->cercle(p0, r);}
 void Image::rectangle_plein(const Point &p0, const Point &p1){impl->rectangle_plein(p0, p1);}
 void Image::ellipse_pleine(const Point &p0, const Point &p1){impl->ellipse_pleine(p0, p1);}
 void Image::cercle_plein(const Point &p0, int r){impl->cercle_plein(p0, r);}
-Dim Image::texte_dim(const std::string &s, float dim){return impl->texte_dim(s, dim);}
-void Image::puts(const Point &p0, const std::string &s, float dim, Alignement align_horizontal, Alignement align_vertical){impl->puts(p0, s, dim, align_horizontal, align_vertical);}
+Dim Image::texte_dim(const string &s, float dim){return impl->texte_dim(s, dim);}
+void Image::puts(const Point &p0, const string &s, float dim, Alignement align_horizontal, Alignement align_vertical){impl->puts(p0, s, dim, align_horizontal, align_vertical);}
 void Image::puti(const Point &pos, Image src, Rect rdi_source){impl->puti(pos, src, rdi_source);}
 void Image::puti(const Rect &rdi, Image src){impl->puti(rdi, src);}
 void Image::puti(const Point &pos, Image src){impl->puti(pos, src);}
@@ -1248,8 +1251,8 @@ void Image::puti(const Point &pos, Image src, float γ){impl->puti(pos, src, γ)
 Image Image::rotation_90() const{return impl->rotation_90();}
 void Image::blend(Image src){impl->blend(src);}
 Image Image::blend_nv(Image src){return impl->blend_nv(src);}
-void Image::enregister(const std::string &chemin){impl->enregister(chemin);}
-void Image::charger(const std::string &chemin){impl->charger(chemin);}
+void Image::enregister(const string &chemin){impl->enregister(chemin);}
+void Image::charger(const string &chemin){impl->charger(chemin);}
 Image Image::sous_image(int x0, int y0, int l, int h){return impl->sous_image(x0, y0, l, h);}
 Dim Image::get_dim() const {return impl->dim();}
 void Image::put_gamma(const Point &pos, Image src){impl->put_gamma(pos, src);}
