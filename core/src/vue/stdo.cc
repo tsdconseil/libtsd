@@ -135,7 +135,7 @@ void Stdo::fin()
 {
   if(priv.mode_rt)
   {
-    msg("tsd::stdo : attente fin ihm.");
+    //msg("tsd::stdo : attente fin ihm.");
     if(stdo_fin)
       stdo_fin();
   }

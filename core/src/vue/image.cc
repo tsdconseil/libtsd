@@ -144,17 +144,16 @@ const Couleur
 
 
 
-  Image affiche_texte(
-                   const std::vector<std::string> &lignes,
-                   const TexteConfiguration &config,
-                   TexteProps *props = nullptr)
+Image affiche_texte(
+    const std::vector<std::string> &lignes,
+    const TexteConfiguration &config,
+    TexteProps *props = nullptr)
 {
-    Image O(1, 1);
-    O.remplir(config.couleur_fond);
+  Image O(1, 1);
+  O.remplir(config.couleur_fond);
 
   // On applique d'abord les paramètres demandés, et on regarde si tout rentre
   // Sinon, on diminue le scale, et on recommence, jusqu'à ce que tout rentre.
-
   float scale = config.scale;
   int nl = lignes.size();
 

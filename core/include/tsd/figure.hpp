@@ -265,6 +265,10 @@ struct Canva
   void set_couleur(const Couleur &coul);
   void set_epaisseur(int ep);
   void set_remplissage(bool remplir, const Couleur &coul = Couleur{255,255,255});
+
+
+  void set_texte_arrière_plan(bool actif, const Couleur &coul = Couleur::Blanc);
+
   void set_dotted(bool dotted);
   void set_align(Align hor, Align vert);
   void rectangle(float x0, float y0, float x1, float y1);
@@ -772,6 +776,10 @@ private:
   // Active les réglages pour un mode impression par défaut
   extern void set_mode_impression();
 
+}
+
+namespace tsd::ihm {
+extern void init(bool create_gtk_thread = false);
 }
 
 

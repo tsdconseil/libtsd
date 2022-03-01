@@ -82,7 +82,7 @@ template<typename T>
   Figures f;
   auto [fr, mag] = frmag(h);
 
-  auto y = repimp(h);
+  ArrayXf y = repimp(h);
 
   //f.subplot().plot(y, y.rows() < 50 ? "s-b" : "-b", "Réponse impulsionnelle");
   f.subplot().plot(y, "|b", "Réponse impulsionnelle");

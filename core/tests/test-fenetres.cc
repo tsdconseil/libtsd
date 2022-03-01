@@ -8,20 +8,10 @@ using namespace tsd::filtrage;
 using namespace tsd::fourier;
 using namespace tsd::vue;
 
-
-
-
-
-
-
-
-
-
-
-void test_fenetre(const std::string &nom, const ArrayXf &x)
+/*void test_fenetre(const std::string &nom, const ArrayXf &x)
 {
   fenetre_analyse(nom, x);
-}
+}*/
 
 void verifie_fenetre(const std::string &nom, const ArrayXf &x, const FenInfos &ref)
 {
@@ -37,7 +27,9 @@ void verifie_fenetre(const std::string &nom, const ArrayXf &x, const FenInfos &r
     msg_erreur("Fenetre {} avec Nan.", nom);
   }
   //int n = x.rows();
-  auto mes = fenetre_analyse(nom, x);
+  auto mes = fenetre_analyse(nom, x, tests_debug_actif);
+  if(tests_debug_actif)
+    mes.fig.afficher();
   //auto err1 = std::max(ref.atten_ls - mes.atten_pls, 0.0f);
   auto err1 = std::abs(ref.atten_ls - mes.atten_ls);
   msg("  erreur atten : {:.2f} dB", err1);

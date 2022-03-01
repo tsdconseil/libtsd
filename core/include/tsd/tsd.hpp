@@ -383,7 +383,7 @@ namespace tsd
    *
    */
   template<typename T>
-   Vecteur<T> sousech(const Vecteur<T> &x, int R)
+   auto sousech(const Vecteur<T> &x, int R)
    {
     return Eigen::Map<const Vecteur<T>,0,Eigen::InnerStride<>>(
         x.data(), x.rows() / R, Eigen::InnerStride<>(R));
@@ -407,14 +407,24 @@ namespace tsd
    *  @sa sousech()
    *
    */
-  template<typename T>
+  template<typename D>
+      auto surech(const Eigen::ArrayBase<D> &x, int R)
+  {
+    using T = typename D::Scalar;
+    Vecteur<T> y = Vecteur<T>::Zero(x.rows()*R);
+    auto map = Eigen::Map<Vecteur<T>,0,Eigen::InnerStride<>>(y.data(), y.rows() / R, Eigen::InnerStride<>(R));
+    map = x;
+    return y;
+  }
+
+  /*template<typename T>
    Vecteur<T> surech(const Vecteur<T> &x, int R)
    {
     Vecteur<T> y = Vecteur<T>::Zero(x.rows()*R);
     auto map = Eigen::Map<Vecteur<T>,0,Eigen::InnerStride<>>(y.data(), y.rows() / R, Eigen::InnerStride<>(R));
     map = x;
     return y;
-   }
+   }*/
 
   /** @brief Conversion decibels vers linéaire
    *

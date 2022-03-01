@@ -793,13 +793,11 @@ namespace tsd::filtrage
 
     ChaineSOIS(const FRat<cfloat> &h, RIIStructure structure)
     {
-      //infos("Construction d'une chaine de sections du second ordre.");
       auto z = h.numer.roots(), p = h.denom.roots();
       auto nz = z.rows(), np = p.rows();
-      //infos("%d zéros, %d racines", nz, np);
 
       // pour l'instant
-      tsd_assert_msg(nz == np, "SOIS : numerateur et dénominateur doivent avoir la même dimension");
+      tsd_assert_msg(nz == np, "SOIS : numérateur et dénominateur doivent avoir la même dimension (nz={}, np={})", nz, np);
 
       // Pool qui contient tous les index a priori, on vient puiser dedans
       set<int> pool;
@@ -901,8 +899,6 @@ namespace tsd::filtrage
       {
         gain = h.numer.mlt.real() / h.denom.mlt.real();
       }
-
-
     }
 
     void step(const Eigen::Ref<const Vecteur<T>> x, Vecteur<T> &y)
@@ -935,23 +931,22 @@ namespace tsd::filtrage
   template<typename T>
   sptr<FiltreGen<T>> filtre_sois(const FRat<float> &h, RIIStructure structure)
   {
-    auto numer = h.numer, denom = h.denom;
-
-
-
+    auto &numer = h.numer, &denom = h.denom;
 
     FRat<cfloat> h2;
-    h2.numer.mlt = h.numer.mlt;
-    h2.numer.mode_racines = h.numer.mode_racines;
-    h2.numer.coefs = h.numer.coefs;
-    h2.denom.mlt = h.denom.mlt;
-    h2.denom.mode_racines = h.denom.mode_racines;
-    h2.denom.coefs = h.denom.coefs;
+    h2.numer.mlt          = numer.mlt;
+    h2.numer.mode_racines = numer.mode_racines;
+    h2.numer.coefs        = numer.coefs;
+    h2.denom.mlt          = denom.mlt;
+    h2.denom.mode_racines = denom.mode_racines;
+    h2.denom.coefs        = denom.coefs;
 
     if(!numer.mode_racines)
-      h2.numer = Poly<cfloat>::from_roots(h.numer.roots()) * h.numer.coefs(h.numer.coefs.rows() - 1);
+      h2.numer = Poly<cfloat>::from_roots(numer.roots())
+                  * numer.coefs(numer.coefs.rows() - 1);
     if(!denom.mode_racines)
-      h2.denom = Poly<cfloat>::from_roots(h.denom.roots()) * h.denom.coefs(h.denom.coefs.rows() - 1);
+      h2.denom = Poly<cfloat>::from_roots(denom.roots())
+                  * denom.coefs(denom.coefs.rows() - 1);
 
 
     return make_shared<ChaineSOIS<T,T,T>>(h2, structure);

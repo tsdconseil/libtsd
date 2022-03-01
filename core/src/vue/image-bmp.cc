@@ -533,16 +533,17 @@ struct Image::Impl
     {
       for(auto x = 0; x < isx; x++)
       {
-        auto iv = src.impl->pixel(x, y);
-        float a = iv.bgra[3] / 255.0f;
+        const auto &iv = src.impl->pixel(x, y);
         auto &ov = pixel(x + pos.x, y + pos.y);
+        float a = iv.bgra[3] / 255.0f;
+        float a_or = ov.bgra[3] / 255.0f;
 
         for(auto k = 0; k < 3; k++)
           ov.bgra[k]      = (1 - a) * ov.bgra[k] + a * cd.bgra[k];
-        //ov.bgra[3]  = 255;//iv.bgra[3];
-        //ov.bgra[3]  = 255 - (255 - iv.bgra[3]) / 4;
-        ov.bgra[3]  = iv.bgra[3];
-        if(iv.bgra[3] > 0)
+
+        ov.bgra[3]  = max(iv.bgra[3], ov.bgra[3]);
+
+        if((iv.bgra[3] > 0) && (a_or == 0))
           ov.bgra[3]  = 255 - (255 - iv.bgra[3]) / 2;
       }
     }

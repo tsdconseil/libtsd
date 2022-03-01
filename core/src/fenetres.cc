@@ -395,25 +395,17 @@ FenInfos filtre_pb_analyse(const ArrayXf &h)
   return filtre_pb_analyse(h.rows(), fr, mag);
 }
 
-FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag)
+FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bool do_plot)
 {
   std::string nom = "";
   FenInfos res;
 
   res.symetrique = res.periodique = false;
 
-  //msg_majeur("Test de la fenêtre [{}], {} points...", nom, n);
-
-
-  //ArrayXf x2 = ArrayXf::Zero(n+m);
-  //x2.head(n) = x;
-
   {
     ArrayXf Hl = 20*log10(mag);
     // Recherche deuxième lobe
     int i = premier_max_local(Hl);
-
-    //int j = premier_min_local(xm);
 
     auto lst = trouve(Hl < -3);
 
@@ -422,15 +414,15 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag)
     if(!lst.empty())
       j = lst[0];
 
-    Figures fig;
+
     Figure f;
 
-    if(tests_debug_actif)
+    if(do_plot)
     {
-      f = fig.subplot(211);
-      f.plot(fr, mag, "b-", "Vue linéaire");
-
+      f = res.fig.subplot(211);
+      f.plot(fr, mag, "b-");
       f.plot(fr(i), mag(i), "rs");
+      f.titre("Vue linéaire");
     }
 
     res.largeur_lp = j / (/*2.0f **/1.0f * fr.rows());
@@ -441,25 +433,21 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag)
     i2 += i;
     res.atten_pls = -Hl(i);
 
-    if(tests_debug_actif)
+    if(do_plot)
     {
       f.plot(fr(j), mag(j), "gs");
 
       f.canva().set_couleur(tsd::vue::Couleur::Bleu);
       f.canva().set_dim_fonte(0.6);
-      f.canva().texte(0.1, 0.9,
-          format("Largeur lobe principal : {:.5f} (={:.2f}/N)\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
-              res.largeur_lp, res.largeur_lp * ncoefs, res.atten_pls, res.atten_ls));
+      f.canva().texte({0.1f, 0.9f},
+              fmt::format("Largeur lobe principal : {:.5f} (={:.2f}/N)\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
+              res.largeur_lp, res.largeur_lp * ncoefs, res.atten_pls, res.atten_ls),
+              {0.4f, 0.2f});
 
-
-      f = fig.subplot(212);
-
+      f = res.fig.subplot(212);
 
       f.plot(fr, Hl, "b-");
-      f.titre("Vue log.");
-
-
-
+      f.titre("Vue logarithmique");
       f.plot(fr(i), Hl(i), "rs");
       f.plot(fr(i2), Hl(i2), "ms");
     }
@@ -468,28 +456,20 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag)
     msg("  Largeur lobe principal : {:.3f} (j={}, = {}/N)", res.largeur_lp, j, res.largeur_lp * ncoefs);
     msg("  Atténuation premier lobe secondaire : {:.1f} dB.", res.atten_pls);
     msg("  Atténuation pire lobe secondaire :    {:.1f} dB.", res.atten_ls);
-
-
-    //fig.gca().ligne(fr(j), 0, fr(j), -50);
-
-
-    if(tests_debug_actif)
-      fig.afficher("Réponse fréquentielle");
-
   }
   return res;
 }
 
 
 
-FenInfos fenetre_analyse(const std::string &nom, const ArrayXf &x)
+FenInfos fenetre_analyse(const std::string &nom, const ArrayXf &x, bool do_plot)
 {
   int n = x.rows();
   FRat<float> frat(x / x.sum());
   auto [fr,xm] = frmag(frat, 4096);
 
 
-  auto res = filtre_pb_analyse(x.rows(), fr, xm);
+  auto res = filtre_pb_analyse(x.rows(), fr, xm, do_plot);
 
   {
     res.symetrique = true;

@@ -1,6 +1,6 @@
 #pragma once
 
-/** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
+/** (C) 2022 J. Arzi / GPL V3 - see LICENSE file. */
 
 #include "dsp/dsp.hpp"
 #include "tsd/telecom/bitstream.hpp"
@@ -198,22 +198,26 @@ struct WaveForm
     return fr->génère_symboles(bs);
   }
 
-  /** @brief Génération des échantillons I/Q à partir d'un flux binaire (y compris filtre de mise en forme).
+  /** @brief Generation of I/Q samples from a binary stream (including upsampling and shaping filter).
    *
-   * <h3>Génération des échantillons I/Q à partir d'un flux binaire</h3>
+   * <h3>Generation of I/Q samples from a binary stream</h3>
    *
-   * Cette fonction génère, à partir d'un train binaire, des échantillons I/Q, comprenant le filtre de mise en forme et le sur-échantillonnage.
+   * This function will create, from a binary sequence, I/Q samples.
+   * The following steps are done:
+   *   - Constellation mapping,
+   *   - Upsampling,
+   *   - Shaping filter.
    *
-   * @param bs            Train binaire à encoder.
-   * @param ncoefs        Nombre de coefficient pour l'implémentation du filtre.
-   * @param osf           Facteur de sur-échantillonnage.
-   * @param[out] retard   Retard, en nombre d'échantillon, entre le début du flux de sortie, et le milieu du premier symbole (le retard est du au filtre de mise en forme).
+   * @param bs            Binary sequence.
+   * @param ncoefs        Number of taps for shaping filter implementation.
+   * @param osf           Oversampling factor.
+   * @param[out] delay    Delay, in number of output samples, between the beginning of the output I/Q stream, and the middle of the first symbol (the delay is due to the shaping filter).
    *
    *
    */
-  ArrayXcf make_samples(const BitStream &bs, int ncoefs, int osf, float &retard)
+  ArrayXcf make_samples(const BitStream &bs, int ntaps, int osf, float &delay)
   {
-    return fr->génère_échantillons(bs, ncoefs, osf, retard);
+    return fr->génère_échantillons(bs, ntaps, osf, delay);
   }
 
 # if 0
@@ -243,81 +247,83 @@ struct WaveForm
     return fr->get_contexte_tx(ncoefs, osf);
   }
 
-  /** @brief Décodage des symboles I/Q (par seuillage) et génération d'un train binaire. */
+  /** @brief Decoding of I/Q symbols to binary sequence. */
   void decode_symbols(BitStream &bs, const ArrayXcf &x)
   {
     fr->decode_symboles(bs, x);
   }
 
-  /** @brief Renvoie le ieme symbole de la constellation. */
+  /** @brief Returns the symbol number i from the constellation, as a complex value. */
   cfloat get_symbol(unsigned int i) const
   {
     return fr->lis_symbole(i);
   }
 
-  /** @brief Symbole le plus proche parmi les points de la constellation. */
+  /** @brief Returns the index to the closest symbol in the constellation. */
   int closest_symbol(const cfloat &point) const
   {
     return fr->symbole_plus_proche(point);
   }
 
-  /** @brief Taux d'erreur binaire théorique (pour cette forme d'onde) en fonction du SNR normalisé. */
+  /** @brief Theoretical binary error rate (ber), for this waveform, as a function of the normalized SNR. */
   float ber(float EbN0_dB)
   {
     return fr->ber(EbN0_dB);
   }
 
-  /** @brief Taux d'erreur binaire théorique en fonction du SNR normalisé. */
+  /** @brief Theoretical binary error rate (ber), for this waveform, as a function of the normalized SNR. */
   ArrayXf ber(const ArrayXf &EbN0_dB)
   {
     return fr->ber(EbN0_dB);
   }
 
-  /** @brief Renvoie les points de la constellation. */
+  /** @brief Returns all the points of the constellation. */
   ArrayXcf constellation() const
   {
     return fr->constellation();
   }
 
-  /** @brief Excursion fréquentielle, en multiple de la fréquence symbole. */
+  /** @brief Get frequency excursion fréquentielle, in multiple of symbol frequency. */
   float excursion() const
   {
     return fr->excursion();
   }
 
-  /** @brief Renvoie une description de la modulation (courte chaine de caractères). */
+  /** @brief A short description of this waveform. */
   std::string desc() const
   {
     return fr->desc();
   }
 
+  /** @brief Miscelaneous informations about this waveform. */
   struct Infos
   {
-    /** @brief Vrai pour les modulations PSK, ASK, QAM. */
+    /** @brief True for modulation such as PSK, ASK, QAM, false for FSK. */
     bool is_linear = true;
 
-    /** @brief Indique une modulation de phase */
+    /** @brief True for linear and constant amplitude modulation. */
     bool is_psk = false;
 
-    /** @brief Indique une modulation d'amplitude */
+    /** @brief Amplitude only modulation. */
     bool is_ask = false;
 
-    /** @brief Indique une modulation de fréquence */
+    /** @brief Frequency modulation. */
     bool is_fsk = false;
 
-    /** @brief Indique une modulation en quadrature */
+    /** @brief Quadrature modulation (phase & amplitude). */
     bool is_qam = false;
 
-    /** @brief Indice de modulation (pour les modulations FSK) */
+    /** @brief Modulation index (valid only for FSK modulations) */
     float index = 1.0f;
 
-    /** @brief Nombre de symboles possibles */
+    /** @brief Total number of possible symbols. */
     int M;
 
-    /** @brief Nombre de bits par symbole (@f$\log_2(M)@f$) */
+    /** @brief Number of bits conveyed by each symbole (@f$k=\log_2(M)@f$) */
     int k;
   };
 
+  /** @brief Get waveform informations. */
   Infos infos() const
   {
     Infos res;
@@ -325,11 +331,13 @@ struct WaveForm
     return res;
   }
 
-  /** @brief Spécification du filtre de mise en forme */
+  /** @brief Change the shaping filter. */
   void set_shaping_filter(const ShapingFilterSpec &spec)
   {
     fr->filtre = spec.fr();
   }
+
+  /** @brief Read shaping filter specifications. */
   ShapingFilterSpec get_shaping_filter() const
   {
     return fr->filtre;
@@ -341,26 +349,25 @@ inline std::ostream& operator<<(std::ostream &ss, const WaveForm &t)
   return ss << t.fr;
 }
 
-/** @brief Création d'une forme d'onde de type modulation de phase.
+/** @brief Phase modulation.
  *
- * <h3>Modulation de phase</h3>
+ * <h3>Phase modulation</h3>
  *
- * Création d'une forme d'onde M-PSK. Le résultat peut être utilisé pour créer un modulateur
- * (@ref modulateur_création()) ou un démodulateur (@ref démodulateur_création()).
+ * Creation of M-PSK waveform.
  *
- * @param M Nombre de bits / symboles.
- * @param filtre Filtre de mise en forme (par défaut : NRZ)
- * @return Pointeur vers une forme d'onde abstraite (@ref FormeOnde).
+ * @param   M         Number of bits / symbol.
+ * @param   filtre    Shaping filter (default: NRZ)
+ * @return            Abstract waveform pointer (@ref WaveForm).
  *
- * @warning @f$M@f$ doit être une puissance de 2.
+ * @warning @f$M@f$ must be a power of 2.
  *
- * @par Exemple 1 : tracé de quelques constellations PSK
+ * @par Example 1: Some PSK modulations
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_psk
- * @image html waveform-psk.png "Exemples de formes d'ondes PSK : BPSK, QPSK, 8PSK, 16PSK" width=800px
+ * @image html waveform-psk.png "Waveforms examples: BPSK, QPSK, 8PSK, 16PSK" width=800px
  *
- * @par Exemple 2 : Calcul de taux d'erreur binaires
+ * @par Example 2: Theoretical bit error rates
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_psk2
- * @image html waveform-psk2.png "Taux d'erreur binaire" width=800px
+ * @image html waveform-psk2.png "BER" width=800px
  *
  * @sa waveform_qam(), waveform_qpsk()
  */
@@ -371,9 +378,9 @@ inline sptr<WaveForm> waveform_psk(unsigned int M, const ShapingFilterSpec &filt
 
 /** @brief Creation of a BPSK waveform.
  *
- * <h3>Création d'une forme d'onde BPSK</h3>
+ * <h3>Creation of a BPSK waveform</h3>
  *
- * Cette fonction est un raccourci vers @ref forme_onde_psk() pour M = 2.
+ * Same as @ref waveform_psk() for @f$M = 2@f$.
  *
  * @sa waveform_psk(), waveform_qam(), waveform_fsk()
  */
@@ -384,7 +391,7 @@ inline sptr<WaveForm> waveform_bpsk(const ShapingFilterSpec &filtre = ShapingFil
 
 /** @brief Creation of a M-ASK waveform.
  *
- * <h3>Création d'une forme d'onde M-ASK</h3>
+ * <h3>Creation of a M-ASK waveform</h3>
  *
  * @f[
  * x_n = K_1 + \frac{s_n}{M-1}\cdot K_2
@@ -393,80 +400,80 @@ inline sptr<WaveForm> waveform_bpsk(const ShapingFilterSpec &filtre = ShapingFil
  *
  * @sa waveform_psk(), waveform_bpsk(), waveform_qam(), waveform_fsk()
  */
-inline sptr<WaveForm> waveform_ask(int M = 2, float K1 = -1, float K2 = 2, const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+inline sptr<WaveForm> waveform_ask(int M = 2, float K1 = -1, float K2 = 2, const ShapingFilterSpec &filter = ShapingFilterSpec::nrz())
 {
-  return std::make_shared<WaveForm>(nfr::forme_onde_ask(M, M, M, filtre.fr()));
+  return std::make_shared<WaveForm>(nfr::forme_onde_ask(M, M, M, filter.fr()));
 }
 
 /** @brief Creation of a QPSK waveform.
  *
- * <h3>Création d'une forme d'onde QPSK</h3>
+ * <h3>Creation of a QPSK waveform</h3>
  *
- * Cette fonction est un raccourci vers @ref forme_onde_psk() pour M = 4.
+ * Same as @ref waveform_psk() for @f$M = 4@f$.
  *
  * @sa waveform_psk(), waveform_qam(), waveform_fsk()
  */
-inline sptr<WaveForm> waveform_qpsk(const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+inline sptr<WaveForm> waveform_qpsk(const ShapingFilterSpec &filter = ShapingFilterSpec::nrz())
 {
-  return std::make_shared<WaveForm>(nfr::forme_onde_qpsk(filtre.fr()));
+  return std::make_shared<WaveForm>(nfr::forme_onde_qpsk(filter.fr()));
 }
 
 /** @brief Creation of a π/4 - QPSK waveform.
  *
- * <h3>Création d'une forme d'onde π/4 - QPSK</h3>
+ * <h3>Creation of a π/4 - QPSK waveform</h3>
  *
+ * Alternate between two QPSK constellations rotated by @f$\pi/4@f$.
  *
  * @sa waveform_qpsk()
  */
-inline sptr<WaveForm> waveform_π4_qpsk(const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+inline sptr<WaveForm> waveform_π4_qpsk(const ShapingFilterSpec &filter = ShapingFilterSpec::nrz())
 {
-  return std::make_shared<WaveForm>(nfr::forme_onde_π4_qpsk(filtre.fr()));
+  return std::make_shared<WaveForm>(nfr::forme_onde_π4_qpsk(filter.fr()));
 }
 
 /** @brief Creation of a QAM waveform.
  *
- * <h3>Forme d'onde QAM</h3>
+ * <h3>Creation of a QAM waveform</h3>
  *
- * Création d'une forme d'onde en modulation d'amplitude en quadrature :
- * les points de la constellation forment une grille régulière.
+ * Constellation points are put on a regular grid.
  *
- * @par Exemple : tracé de constellations QAM
+ * @par Example: QAM constellations plotting
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_qam
- * @image html waveform-qam.png "Constellations QAM16, QAM64, QAM256" width=800px
+ * @image html waveform-qam.png "QAM16, QAM64, QAM256 constellations" width=800px
  *
  * @sa waveform_psk(), waveform_fsk()
  */
-inline sptr<WaveForm> waveform_qam(unsigned int M, const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+inline sptr<WaveForm> waveform_qam(unsigned int M, const ShapingFilterSpec &filter = ShapingFilterSpec::nrz())
 {
-  return std::make_shared<WaveForm>(nfr::forme_onde_qam(M, filtre.fr()));
+  return std::make_shared<WaveForm>(nfr::forme_onde_qam(M, filter.fr()));
 }
 
 /** @brief Creation of a FSK waveform.
  *
- * <h3>Forme d'onde FSK</h3>
+ * <h3>Creation of a FSK waveform</h3>
  *
- * Création d'une forme d'onde en modulation de fréquence (FSK, pour <i>Frequency Shift Keying</i>).
- *
- * Cette modulation est caractérisée par <b>l'indice de modulation</b>, qui est le rapport entre l'excursion maximale (deux fois la déviation) et le débit symbole :
+ * FSK is for Frequency Shift Keying.
+ * The main parameter of this modulation is the <b>modulation index</b>,
+ * which is the ratio between the maximal excursion (that is, twice the deviation) and the symbol rate:
  * @f[
  * h = \frac{2 \Delta f}{f_{symb}}
  * @f]
  *
- * la fréquence instantanée variant entre @f$f_c - \Delta f@f$ et @f$f_c + \Delta f@f$.
+ * the instantaneous frequency varying between @f$f_c - \Delta f@f$ and @f$f_c + \Delta f@f$.
  *
- * @param M Nombre de valeurs possibles par symbole,
- * @param index Indice de modulation
- * @param filtre  Type de filtrage
+ * @param M       Number of possible values for each symbol.
+ * @param index   Modulation index.
+ * @param filtre  Shaping filter.
  *
- * @par Exemple
+ * @par Example
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_fsk
  * @image html waveform-fsk.png width=800px
  *
  * @sa waveform_psk(), waveform_qam()
  */
-inline sptr<WaveForm> waveform_fsk(unsigned int M = 2, float index = 0.4, const ShapingFilterSpec &filtre = ShapingFilterSpec::nrz())
+inline sptr<WaveForm> waveform_fsk(unsigned int M = 2, float index = 0.4, const ShapingFilterSpec &filter = ShapingFilterSpec::nrz())
 {
-  return std::make_shared<WaveForm>(nfr::forme_onde_fsk(M, index, filtre.fr()));
+  return std::make_shared<WaveForm>(nfr::forme_onde_fsk(M, index, filter.fr()));
 }
 
 
@@ -501,14 +508,15 @@ template<typename TC, typename TR>
  *
  *  <h3>Sample and hold oversampling</h3>
  *
- *  Each sample of the input signal is repeated @p R times.
- *  For instance, if R = 2, and @f$x = x_0, x_1, \dots@f$, then @f$y = x_0, x_0, x_1, x_1, \dots@f$
+ *  Each sample of the input signal is repeated @f$R@f$ times.
+ *  For instance, if @f$R = 2@f$, and @f$x = x_0, x_1, \dots@f$,
+ *  then @f$y = x_0, x_0, x_1, x_1, \dots@f$
  *
- *  This function can be used to generate NRZ data stream.
+ *  This function can be used to generate NRZ sequence.
  *
- *  @param x input vector
- *  @param R number of samples to hold.
- *  @returns Oversampled signal
+ *  @param x Input vector.
+ *  @param R Number of samples to hold (e.g. oversampling factor).
+ *  @returns Oversampled signal.
  *
  *
  *  @par Example 1: duplicating values
@@ -519,7 +527,7 @@ template<typename TC, typename TR>
  *    // y = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]
  *  @endcode
  *
- *  @par Example 2: generating a random NRZ data stream
+ *  @par Example 2: generating a pseudo-random NRZ sequence
  *  @code
  *    int nsymbs = 5;  // Number of symbol to generate
  *    int osf    = 10; // Over-sampling ratio
@@ -533,27 +541,27 @@ Vector<T> sah(const Vector<T> &x, int R)
   return nfr::sah(x, R);
 }
 
-/** @brief Conversion train binaire @f$\to@f$ index.
+/** @brief Conversion from binary sequence @f$\to@f$ symbol index sequence.
  *
- * <h3>Conversion train binaire @f$\to@f$ index</h3>
+ * <h3>Conversion from binary sequence @f$\to@f$ symbol index sequence</h3>
  *
- * Cette fonction convertit un vecteur binaire (valeurs : 0 ou 1),
- * en un vecteur de symboles, avec @f$k@f$ bits / symboles,
- * suivant l'encodage binaire standard :
+ * This function convert a binary vector (0 and 1),
+ * to symbols indexes, using @f$k@f$ bits / symbol,
+ * according to the following binary encoding:
  * @f[
  * y_i = \sum_{j=0}^{k-1} x_{ki+j} 2^j,\quad i = 0,\dots,(n+k-1)/k
  * @f]
  *
- * @param x Signal d'entrée (valeurs : 0 ou 1)
- * @param k Nombre de bits par symbole
- * @return Vecteurs de @f$(n+k-1)/k@f$ échantillons.
+ * @param x Input bit stream (zeros and ones).
+ * @param k Number of bits / symbol.
+ * @return Vector with @f$(n+k-1)/k@f$ samples.
  *
- * @note Si le nombre d'échantillons @f$n@f$ du signal d'entrée n'est pas un multiple de @f$k@f$, des zéros sont insérés à la fin de manière à produire le dernier échantillon.
+ * @note If the number of samples @f$n@f$ of the input vector is not a multiple of @f$k@f$, zeros are inserted at the end to complete the last symbol.
  *
- * @sa symdemap_binaire()
+ * @sa symunmap_binary()
  *
  */
-inline ArrayXi symmap_binaire(const BitStream &x, int k)
+inline ArrayXi symmap_binary(const BitStream &x, int k)
 {
   return nfr::symmap_binaire(x, k);
 }
@@ -565,35 +573,38 @@ inline ArrayXi symmap_binaire(const BitStream &x, int k)
  * Cette fonction réalise l'inverse de @ref symmap_binaire(), c'est-à-dire qu'à partir d'une suite de symboles
  * entiers compris entre 0 et @f$2^{k}-1@f$, elle produit une chaine de symboles binaires (0 ou 1).
  *
- * @param x Signal d'entrée
- * @param k Nombre de bits par symbole
- * @param[out] bs Chaine binaire (valeurs : 0 ou 1)
+ * @param x     Input vector.
+ * @param k     Number of bits / symbol.
+ * @param[out]  bs Binary sequence (zeros and ones).
  *
+ *
+ * @sa summap_binary()
  */
-inline void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k)
+inline void symunmap_binary(BitStream &bs, const ArrayXi &x, int k)
 {
   return nfr::symdemap_binaire(bs, x, k);
 }
 
 /** @brief Differential encoder (polynomial = @f$1/(1+X)@f$), MSB first.
  *
- * <h3>Encodeur différentiel</h3>
+ * <h3>Differential encoder</h3>
  *
- * Cette fonction génére un train binaire encodé de manière différentielle :
+ * This function build a differentially encoded binary sequence:
  * @f[
  * y_n = x_n \oplus y_{n-1}
  * @f]
  *
- * Soit la fonction de transfert :
+ * That is, the transfert function is:
  * @f[
  * P = \frac{1}{1+X}
  * @f]
  *
- * Typiquement utilisé en DBPSK : dans ce cas, la phase est inchangée pour @f$x_n=0@f$,
- * et décalée de 180° pour @f$x_n=1@f$.
+ * This can be used for instance in DBPSK modulation:
+ * in this case, the phase is unchanged for @f$x_n=0@f$,
+ * and shifted of 180° for @f$x_n=1@f$.
  *
- * @param x Train binaire d'entrée (@f$n@f$ bits)
- * @param y Train binaire de sortie (@f$n@f$ bits)
+ * @param x Input binary sequence (@f$n@f$ bits)
+ * @param y Output binary sequence (@f$n@f$ bits)
  *
  * @sa diff_decode()
  *
@@ -605,7 +616,7 @@ inline void diff_encode(BitStream &y, const BitStream &x)
 
 /** @brief Differential decoder (polynomial = 1+X), MSB first.
  *
- * <h3>Décodeur différentiel</h3>
+ * <h3>Differential decoder</h3>
  *
  * Restauration du signal original à partir d'un signal encodé en différentiel :
  * @f[
@@ -615,8 +626,8 @@ inline void diff_encode(BitStream &y, const BitStream &x)
  * @note Le bit précédent le premier (@f$x_{-1}@f$) n'est pas connu, aussi il n'est pas possible de calculer
  * @f$y_0@f$. Par conséquent, le train binaire de sortie contiendra 1 bit de moins que le train d'entrée.
  *
- * @param x Train binaire d'entrée (@f$n@f$ bits)
- * @param y Train binaire de sortie (@f$n-1@f$ bits)
+ * @param x Input binary sequence (@f$n@f$ bits)
+ * @param y Output binary sequence (@f$n-1@f$ bits)
  *
  * @sa diff_encode()
  *

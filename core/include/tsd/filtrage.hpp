@@ -129,10 +129,12 @@ namespace tsd::filtrage {
 
     /** @brief Atténuation premier lobe secondaire */
     float atten_pls;
+
+    tsd::vue::Figures fig;
   };
 
   // TODO : DOC
-  extern FenInfos fenetre_analyse(const std::string &nom, const ArrayXf &x);
+  extern FenInfos fenetre_analyse(const std::string &nom, const ArrayXf &x, bool do_plot = true);
 
 
   /** @brief Calcul du paramètre @f$\beta@f$ et de l'ordre d'un filtre de Kaiser.
@@ -340,7 +342,7 @@ template<typename T>
 
 
 extern FenInfos filtre_pb_analyse(const ArrayXf &h);
-extern FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag);
+extern FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bool do_plot = true);
 
 /** @cond undoc */
 template<typename T> ArrayXf repimp(const Vecteur<T> &h, int npts = -1);

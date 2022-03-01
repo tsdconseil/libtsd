@@ -1270,6 +1270,7 @@ Figure::Courbe Figure::Impl::plot(const ArrayXf &x, const ArrayXf &y_, const std
       {'o', Marqueur::CERCLE},
       {'*', Marqueur::ETOILE},
       {'.', Marqueur::POINT},
+      {'+', Marqueur::CROIX},
       //{'x', Marqueur::CROIX},
       {'s', Marqueur::CARRE},
       {'d', Marqueur::DIAMANT},

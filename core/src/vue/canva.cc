@@ -32,7 +32,10 @@ struct Canva::Impl
     float dim_fonte         = -1;
     bool dotted             = false;
     float alpha             = 1;
-    //bool coord_mode_pixels  = false;
+
+
+    bool texte_arrière_plan_actif = false;
+    Couleur texte_arrière_couleur = Couleur::Blanc;
   };
 
 
@@ -607,9 +610,6 @@ struct Canva::Impl
 
         //msg("Canva / dessin image rect = {}, dim img = {}, dim O1={}", r, d.img.get_dim(), O1.get_dim());
         //msg("Centre affichage dans coord image : {} x {}", cx, cy);
-
-
-
         auto i = d.img;
 
         // r : unités pixels
@@ -709,10 +709,19 @@ struct Canva::Impl
 
         tsd::vue::TexteConfiguration config;
 
+        if(d.pinceau.texte_arrière_plan_actif)
+          config.couleur_fond = d.pinceau.texte_arrière_couleur;
         config.couleur    = d.pinceau.couleur_trait;
         config.scale      = fonte;
         config.thickness  = d.pinceau.epaisseur;
-        config.dim_max    = Dim{O1.sx() - pos0.x, O1.sy() - pos0.y};
+
+
+        int m = 0;
+
+        if(d.pinceau.texte_arrière_plan_actif)
+          m = 2;
+
+        config.dim_max    = Dim{O1.sx() - pos0.x - 2*m, O1.sy() - pos0.y - 2*m};
 
 
         if(d.dim.l > 0)
@@ -732,6 +741,17 @@ struct Canva::Impl
         DBG(msg("  ok : {}...", i.get_dim()););
         if(i.empty())
           continue;
+
+
+
+        if(d.pinceau.texte_arrière_plan_actif)
+        {
+          // Ajoute une marge
+          Image pg(i.sx() + 2 * m, i.sy() + 2 * m);
+          pg.remplir(d.pinceau.texte_arrière_couleur);
+          pg.puti({m,  m}, i);
+          i = pg;
+        }
 
         if((pos0.x < 0) || (pos0.y < 0))
         {
@@ -762,12 +782,6 @@ struct Canva::Impl
           py = pos0.y - i.sy() / 2 - 1;
 
         DBG(msg("  puti : @{}x{}, dim = {}.", px, py, i.get_dim()));
-
-
-        /*if(d.chaine.substr(0, 3) == "0 dBm")
-        {
-          msg("  puti : @{}x{}, dim = {}.", px, py, i.get_dim());
-        }*/
 
         //msg("  puti : '{}' @{}x{}, dim = {}, pos0.y={}, sy={}, d.p1.y={}, d.p0={}.", d.chaine, px, py, i.get_dim(), pos0.y, i.sy(), d.p1.y, d.p0);
 
@@ -902,6 +916,12 @@ void Canva::set_epaisseur(int ep)
 void Canva::set_dotted(bool dotted)
 {
   impl->pinceau.dotted = dotted;
+}
+
+void Canva::set_texte_arrière_plan(bool actif, const Couleur &coul)
+{
+  impl->pinceau.texte_arrière_plan_actif = actif;
+  impl->pinceau.texte_arrière_couleur = coul;
 }
 
 void Canva::set_remplissage(bool remplir, const Couleur &coul)

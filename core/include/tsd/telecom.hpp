@@ -154,7 +154,7 @@ struct FormeOnde
    * @param bs            Train binaire à encoder.
    * @param ncoefs        Nombre de coefficient pour l'implémentation du filtre.
    * @param osf           Facteur de sur-échantillonnage.
-   * @param[out] retard   Retard, en nombre d'échantillon, entre le début du flux de sortie, et le milieu du premier symbole (le retard est du au filtre de mise en forme).
+   * @param[out] retard   Retard, en nombre d'échantillons de sortie, entre le début du flux de sortie, et le milieu du premier symbole (le retard est du au filtre de mise en forme).
    *
    *
    */
@@ -211,13 +211,13 @@ struct FormeOnde
   virtual std::string desc_courte() const {return desc();}
 
 
-
+  /** @brief Informations diverses sur cette forme d'onde. */
   struct Infos
   {
-    /** @brief Vrai pour les modulations PSK, ASK, QAM. */
+    /** @brief Vrai pour les modulations PSK, ASK, QAM, faux pour FSK. */
     bool est_lineaire = true;
 
-    /** @brief Indique une modulation de phase */
+    /** @brief Indique une modulation de phase (linéaire et amplitude constante). */
     bool est_psk = false;
 
     /** @brief Indique une modulation d'amplitude */
@@ -257,7 +257,7 @@ extern std::ostream& operator<<(std::ostream &ss, const FormeOnde &t);
  * Création d'une forme d'onde M-PSK. Le résultat peut être utilisé pour créer un modulateur
  * (@ref modulateur_création()) ou un démodulateur (@ref démodulateur_création()).
  *
- * @param M Nombre de bits / symboles.
+ * @param M Nombre de bits / symbole.
  * @param filtre Filtre de mise en forme (par défaut : NRZ)
  * @return Pointeur vers une forme d'onde abstraite (@ref FormeOnde).
  *
@@ -267,7 +267,7 @@ extern std::ostream& operator<<(std::ostream &ss, const FormeOnde &t);
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_psk
  * @image html waveform-psk.png "Exemples de formes d'ondes PSK : BPSK, QPSK, 8PSK, 16PSK" width=800px
  *
- * @par Exemple 2 : Calcul de taux d'erreur binaires
+ * @par Exemple 2 : Taux d'erreur binaires théoriques
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_psk2
  * @image html waveform-psk2.png "Taux d'erreur binaire" width=800px
  *
@@ -279,7 +279,7 @@ extern sptr<FormeOnde> forme_onde_psk(unsigned int M, const SpecFiltreMiseEnForm
  *
  * <h3>Création d'une forme d'onde BPSK</h3>
  *
- * Cette fonction est un raccourci vers @ref forme_onde_psk() pour M = 2.
+ * Cette fonction est un raccourci vers @ref forme_onde_psk() pour @f$M = 2@f$.
  *
  * @sa forme_onde_psk(), forme_onde_qam(), forme_onde_fsk()
  */
@@ -302,7 +302,7 @@ extern sptr<FormeOnde> forme_onde_ask(int M = 2, float K1 = -1, float K2 = 2, co
  *
  * <h3>Création d'une forme d'onde QPSK</h3>
  *
- * Cette fonction est un raccourci vers @ref forme_onde_psk() pour M = 4.
+ * Cette fonction est un raccourci vers @ref forme_onde_psk() pour @f$M = 4@f$.
  *
  * @sa forme_onde_psk(), forme_onde_qam(), forme_onde_fsk()
  */
@@ -312,6 +312,7 @@ extern sptr<FormeOnde> forme_onde_qpsk(const SpecFiltreMiseEnForme &filtre = Spe
  *
  * <h3>Création d'une forme d'onde π/4 - QPSK</h3>
  *
+ *  Alterne entre 2 constellations QPSK décalées de @f$\pi/4@f$.
  *
  * @sa forme_onde_qpsk()
  */
@@ -345,9 +346,9 @@ extern sptr<FormeOnde> forme_onde_qam(unsigned int M, const SpecFiltreMiseEnForm
  *
  * la fréquence instantanée variant entre @f$f_c - \Delta f@f$ et @f$f_c + \Delta f@f$.
  *
- * @param M Nombre de valeurs possibles par symbole,
- * @param index Indice de modulation
- * @param filtre  Type de filtrage
+ * @param M       Nombre de valeurs possibles par symbole.
+ * @param index   Indice de modulation.
+ * @param filtre  Type de mise en forme.
  *
  * @par Exemple
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_fsk
@@ -388,21 +389,22 @@ struct ProtocoleDemodulateur
  */
 
 
-/** @brief Sample and hold oversampling
+/** @brief Sur-échantillonnage par répétition (sample and hold).
  *
- *  <h3>Sample and hold oversampling</h3>
+ *  <h3>Sur-échantillonnage par répétition (sample and hold)</h3>
  *
- *  Each sample of the input signal is repeated @p R times.
- *  For instance, if R = 2, and @f$x = x_0, x_1, \dots@f$, then @f$y = x_0, x_0, x_1, x_1, \dots@f$
+ *  Chaque échantillon d'entrée est répété en sortie @f$R@f$ fois.
+ *  Par exemple, si @f$R = 2@f$, et @f$x = x_0, x_1, \dots@f$,
+ *  alors @f$y = x_0, x_0, x_1, x_1, \dots@f$
  *
- *  This function can be used to generate NRZ data stream.
+ *  Cette fonction peut être utilisée par exemple pour généré une séquence NRZ.
  *
- *  @param x input vector
- *  @param R number of samples to hold.
- *  @returns Oversampled signal
+ *  @param x Vecteur d'entrée
+ *  @param R Facteur de sur-échantillonnage.
+ *  @returns Signal sur-échantillonné.
  *
  *
- *  @par Example 1: duplicating values
+ *  @par Exemple 1 : répétition des valeurs
  *  @code
  *    ArrayXf x(5);
  *    x << 0, 1, 2, 3, 4;
@@ -410,12 +412,11 @@ struct ProtocoleDemodulateur
  *    // y = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]
  *  @endcode
  *
- *  @par Example 2: generating a random NRZ data stream
+ *  @par Exemple 2 : génération d'une séquence NRZ pseudo-aléatoire
  *  @code
- *    int nsymbs = 5;  // Number of symbol to generate
- *    int osf    = 10; // Over-sampling ratio
- *    ArrayXf y = sah(randb(nsymbs), osf);
- *    // Will generate nsymbs * osf samples (each symbol is repeated osf times)
+ *    int nsymbs = 5;
+ *    int osf    = 10; // Facteur de sur-échantillonnage
+ *    ArrayXf y = sah(randb(nsymbs), osf).cast<float>();
  *  @endcode
  */
 template<typename T>
@@ -428,12 +429,12 @@ Vecteur<T> sah(const Vecteur<T> &x, int R)
   return y;
 }
 
-/** @brief Conversion train binaire @f$\to@f$ index.
+/** @brief Conversion séquence binaire @f$\to@f$ vers séquence d'index symbole.
  *
- * <h3>Conversion train binaire @f$\to@f$ index</h3>
+ * <h3>Conversion séquence binaire @f$\to@f$ vers séquence d'index symbole</h3>
  *
  * Cette fonction convertit un vecteur binaire (valeurs : 0 ou 1),
- * en un vecteur de symboles, avec @f$k@f$ bits / symboles,
+ * en un vecteur de symboles, avec @f$k@f$ bits / symbole,
  * suivant l'encodage binaire standard :
  * @f[
  * y_i = \sum_{j=0}^{k-1} x_{ki+j} 2^j,\quad i = 0,\dots,(n+k-1)/k
@@ -461,10 +462,12 @@ extern ArrayXi symmap_binaire(const BitStream &x, int k);
  * @param k Nombre de bits par symbole
  * @param[out] bs Chaine binaire (valeurs : 0 ou 1)
  *
+ *
+ * @sa symmap_binaire()
  */
 extern void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k);
 
-/** @brief Differential encoder (polynomial = @f$1/(1+X)@f$), MSB first.
+/** @brief Encodage différentiel (polynôme = @f$1/(1+X)@f$), MSB first.
  *
  * <h3>Encodeur différentiel</h3>
  *

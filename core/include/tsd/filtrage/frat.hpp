@@ -440,7 +440,7 @@ struct Poly
       if(coefs.rows() <= 1)
         return Vecteur<std::complex<float>>();
 
-      Vecteur<T> v = coefs;
+      Vecteur<T> v = coefs / coefs.maxCoeff();
 
       // Obligé, sinon la fonction Eigen se bloque (exemple : filtre Gaussien)
       while((v.rows() > 1) && (std::abs(v(v.rows()-1)) < 1e-8)) //== 0.0f))
@@ -449,6 +449,8 @@ struct Poly
       // Polynome nul
       if((v.rows() == 1) && (v(0) == 0.0f))
         return Vecteur<std::complex<float>>();
+
+      msg("Calcul racines : v = {}", v);
 
       solver.compute(v);
       auto &r = solver.roots();
@@ -546,7 +548,29 @@ public:
     denom = Poly<T>::one();
   }
 
+  /** @brief Développement des numérateur et dénominateur sous la forme de polynômes définis par leurs coefficients. */
+  FRat<T> developpe() const
+  {
+    FRat<T> res;
+    res.denom = denom.vers_coefs();
+    res.numer = numer.vers_coefs();
+    return res;
+  }
 
+  /** @brief Extraction de la partie réelle des numérateurs et dénominateurs (attention ce n'est pas la partie réelle de la fraction !). */
+  auto real() const
+  {
+    if constexpr(est_complexe<T>())
+    {
+      FRat<typename T::value_type> res;
+      res.denom = denom.real();
+      res.numer = numer.real();
+      // (a/b).real = a.r * (1/b).r - a.i * (1/b).i
+      return res;
+    }
+    else
+      return *this;
+  }
 
   /** @brief Fraction rationnelle d'un filtre RIF.
    *
