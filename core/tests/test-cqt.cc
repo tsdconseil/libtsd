@@ -1,16 +1,9 @@
-#include "tsd/tsd.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/fourier.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/fourier/cqt.hpp"
-#include "tsd/wav.hpp"
 #include "tsd/tests.hpp"
 
-
-using namespace tsd;
 using namespace tsd::tf;
 using namespace tsd::tf::cqt;
-using namespace tsd::fourier;
-using namespace tsd::vue;
 
 
 ArrayXf cqt_chirp(float fs, float fmin, float fmax, float duration)

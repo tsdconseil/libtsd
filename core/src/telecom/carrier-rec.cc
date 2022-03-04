@@ -1,6 +1,6 @@
 #include "tsd/telecom/carrier-rec.hpp"
 #include "tsd/telecom.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include <cmath>
 #include <cassert>
 

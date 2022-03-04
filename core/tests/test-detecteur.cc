@@ -1,18 +1,5 @@
-#include "tsd/fourier.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/telecom.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
-#include <stdio.h>
-#include <random>
-
-
-
-using namespace tsd;
-using namespace tsd::fourier;
-using namespace tsd::vue;
-using namespace tsd::telecom;
-
-
 
 
 struct TestMotifConfig
@@ -230,7 +217,7 @@ void test_detecteur_unit(float σ, int BS, DetecteurConfig::Mode mode)
     ArrayXcf motif2 = motif;
     float p = o.position - floor(o.position);
     if(p > 0.01)
-      motif2 = tsd::fourier::delais(motif, p);
+      motif2 = tsd::fourier::délais(motif, p);
     x.segment(floor(o.position), M)  = motif2 * std::polar(o.gain, o.phase);
   }
 

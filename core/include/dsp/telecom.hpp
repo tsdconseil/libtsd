@@ -123,7 +123,7 @@ struct ShapingFilterSpec
    *
    *  @sa matched_filter()
    */
-  sptr<FiltreGen<cfloat>> shaping_filter(int ncoefs, int R) const
+  sptr<FilterGen<cfloat>> shaping_filter(int ncoefs, int R) const
   {
     return fr().filtre_mise_en_forme(ncoefs, R);
   }
@@ -138,7 +138,7 @@ struct ShapingFilterSpec
    *
    *  @sa shaping_filter()
    */
-  sptr<FiltreGen<cfloat>> matched_filter(int ncoefs, int osf) const
+  sptr<FilterGen<cfloat>> matched_filter(int ncoefs, int osf) const
   {
     return fr().filtre_adapte(ncoefs, osf);
   }
@@ -152,7 +152,7 @@ struct ShapingFilterSpec
    *
    *  @sa shaping_filter(), matched_filter()
    */
-  sptr<FiltreGen<cfloat>> matched_filter_with_decimation(int ncoefs, int osf) const
+  sptr<FilterGen<cfloat>> matched_filter_with_decimation(int ncoefs, int osf) const
   {
     return fr().filtre_adapte_decimation(ncoefs, osf);
   }
@@ -762,7 +762,7 @@ struct DispersiveChannelConfig : nfr::CanalDispersifConfig
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_canal_dispersif
  *  @image html canal-dispersif.png width=800px
  */
-inline sptr<Filtre<cfloat, cfloat, nfr::CanalDispersifConfig>> dispersive_channel(const DispersiveChannelConfig &config)
+inline sptr<Filter<cfloat, cfloat, nfr::CanalDispersifConfig>> dispersive_channel(const DispersiveChannelConfig &config)
 {
   return nfr::canal_dispersif(config);
 }
@@ -801,7 +801,7 @@ struct FHSSConfig: nfr::FHSSConfig
  *  @param config  Configuration structure
  *  @return Filtre cfloat @f$\to@f$ cfloat
  */
-inline sptr<Filtre<cfloat,cfloat,nfr::FHSSConfig>> fhss_modulation(const FHSSConfig &config)
+inline sptr<Filter<cfloat,cfloat,nfr::FHSSConfig>> fhss_modulation(const FHSSConfig &config)
 {
   return nfr::fhss_modulation(config);
 }
@@ -823,7 +823,7 @@ struct DSSSConfig: nfr::DSSSConfig
  *  @param config  Configuration structure
  *  @return Filtre cfloat @f$\to@f$ cfloat
  */
-inline sptr<Filtre<cfloat,cfloat,nfr::DSSSConfig>> dsss_modulation(const DSSSConfig &config)
+inline sptr<Filter<cfloat,cfloat,nfr::DSSSConfig>> dsss_modulation(const DSSSConfig &config)
 {
   return nfr::dsss_modulation(config);
 }
@@ -864,7 +864,7 @@ struct TranspoBBConfig: nfr::TranspoBBConfig
  *  @sa TranspoBBConfig
  */
 template<typename T>
-  sptr<Filtre<T,cfloat,nfr::TranspoBBConfig>> transpo_bb(const TranspoBBConfig &config)
+  sptr<Filter<T,cfloat,nfr::TranspoBBConfig>> transpo_bb(const TranspoBBConfig &config)
 {
   return nfr::transpo_bb<T>(config);
 }
@@ -932,12 +932,12 @@ struct ClockRecConfig: nfr::ClockRecConfig
  *
  *
  * @sa ted_init, itrp_sinc, itrp_cspline, itrp_lineaire **/
-inline sptr<FiltreGen<cfloat>> clock_rec_new(const ClockRecConfig &config)
+inline sptr<FilterGen<cfloat>> clock_rec_new(const ClockRecConfig &config)
 {
   return nfr::clock_rec_init(config);
 }
 
-inline sptr<FiltreGen<cfloat>> clock_rec2_new(const ClockRecConfig &config)
+inline sptr<FilterGen<cfloat>> clock_rec2_new(const ClockRecConfig &config)
 {
   return nfr::clock_rec2_init(config);
 }
@@ -1822,7 +1822,7 @@ struct CPEConfig
  *  @param config Paramétrage
  *  @return Un Filtre cfloat @f$\to@f$ cfloat
  */
-inline sptr<Filtre<cfloat, cfloat, nfr::ECPConfig>> ecp_new(const CPEConfig &config)
+inline sptr<Filter<cfloat, cfloat, nfr::ECPConfig>> ecp_new(const CPEConfig &config)
 {
   return nfr::ecp_création(config.fr());
 }
@@ -1846,10 +1846,10 @@ inline sptr<Filtre<cfloat, cfloat, nfr::ECPConfig>> ecp_new(const CPEConfig &con
  *
  * @sa égaliseur_zfe()
  */
-inline sptr<FiltreGen<cfloat>> equalizer_new(sptr<WaveForm> wf, const std::string &structure, const std::string &errf,
+inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::string &structure, const std::string &errf,
     float osf, float gain, int N1, int N2)
 {
-  return nfr::égaliseur_création(wf->fr, structure, errf, osf, gain, N1, N2);
+  return nfr::égaliseur_rif_création(wf->fr, structure, errf, osf, gain, N1, N2);
 }
 
 /** @brief Compute an inverse filter by zero-forcing.
@@ -2061,7 +2061,7 @@ struct RPLLConfig
  *  (or a modulated signal provided an adequat phase error detector is provided).
  *  For a complex carrier (complex exponential), see the function @ref cpll_création().
  */
-inline sptr<Filtre<float, float, nfr::RPLLConfig>> rpll_new(const RPLLConfig &config)
+inline sptr<Filter<float, float, nfr::RPLLConfig>> rpll_new(const RPLLConfig &config)
 {
   return nfr::rpll_création(config.fr());
 }
@@ -2086,7 +2086,7 @@ inline sptr<Filtre<float, float, nfr::RPLLConfig>> rpll_new(const RPLLConfig &co
  *  This PLL is able to lock on a complex carrier
  *  (or a modulated signal provided an adequat phase error detector is provided).
  *  For a real carrier (sinusoidal signal), see the function @ref creation_pll().  */
-inline sptr<Filtre<cfloat, cfloat, nfr::PLLConfig>> cpll_new(const PLLConfig &config)
+inline sptr<Filter<cfloat, cfloat, nfr::PLLConfig>> cpll_new(const PLLConfig &config)
 {
   return nfr::cpll_création(config.fr());
 }
@@ -2342,10 +2342,10 @@ struct FMDemodConfig
  * @sa demodulateurAM(), modulateurFM()
  *
  */
-extern sptr<Filtre<float, float, AMConfig>> modulateurAM();
+extern sptr<Filter<float, float, AMConfig>> modulateurAM();
 
 /** @brief TODO */
-extern sptr<Filtre<cfloat, float, AMConfig>> demodulateurAM();
+extern sptr<Filter<cfloat, float, AMConfig>> demodulateurAM();
 
 /** @brief Discrimination polaire pour la démodulation FM.
  *
@@ -2376,10 +2376,10 @@ extern sptr<Filtre<cfloat, float, AMConfig>> demodulateurAM();
  * @snippet exemples/src/sdr/ex-sdr.cc ex_discriminateur_fm
  * @image html ex-discriminateur-fm.png width=800px
  */
-extern sptr<FiltreGen<cfloat,float>> discriminateur_fm();
+extern sptr<FilterGen<cfloat,float>> discriminateur_fm();
 
 /** @brief TODO */
-extern sptr<Filtre<cfloat, cfloat, FMDemodConfig>> demodulateurFM();
+extern sptr<Filter<cfloat, cfloat, FMDemodConfig>> demodulateurFM();
 
 /** @} */
 

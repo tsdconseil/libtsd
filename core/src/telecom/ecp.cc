@@ -1,5 +1,5 @@
 #include "tsd/telecom.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include <cmath>
 
 using namespace tsd::vue;

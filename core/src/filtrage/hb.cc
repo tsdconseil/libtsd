@@ -4,7 +4,7 @@
 
 #include "tsd/tsd.hpp"
 #include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 
 using namespace std;
 using namespace tsd::vue;

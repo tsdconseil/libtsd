@@ -1,11 +1,5 @@
-#include "tsd/tsd.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
-
-using namespace tsd;
-using namespace tsd::filtrage;
-using namespace tsd::vue;
 
 
 static void test_frmag()

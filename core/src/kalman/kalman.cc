@@ -1,6 +1,6 @@
 #include "tsd/tsd.hpp"
 #include "tsd/apps/kalman.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include <Eigen/Dense>
 
 

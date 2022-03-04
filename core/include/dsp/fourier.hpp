@@ -37,7 +37,7 @@ namespace dsp::fourier
  * @param n           Vector length (optional parameter)
  * @param forward     If true, direct transform, otherwise inverse transform.
  * @param normalize   If true, then the transform includes a normalization factor of @f$1/\sqrt{N}@f$ so as to have the same total energy for the input and output samples.
- * @return            A poin @ref Filtre cfloat vers cfloat.
+ * @return            A poin @ref Filter cfloat vers cfloat.
  *
  * Note that the parameters n and forward can be left unspecified, or even changed later while calling the FFT plan.
  *
@@ -95,7 +95,7 @@ inline sptr<FFTPlan> fftplan_new(int n = -1, bool forward = true, bool normalize
  *
  * @sa fftplan_new(), fft(), ifft()
  */
-inline sptr<FiltreGen<float, cfloat>> rfftplan_new(int n)
+inline sptr<FilterGen<float, cfloat>> rfftplan_new(int n = -1)
 {
   return tsdF::rfftplan_création(n);
 }
@@ -279,52 +279,50 @@ struct FFTFilterConfig: tsdF::FiltreFFTConfig
  *
  *  <h3>Creation of frequency domain filter</h3>
  *
- *  Pour différentes raisons, il peut être plus intéressant de filtrer dans le domaine fréquentiel
- *  que temporel, par exemple pour alléger la charge de calcul
- *  (les convolutions deviennent de simples produits termes à termes en fréquentiel).
- *  Par filtrage fréquentiel, on entends le fait de pouvoir modifier terme par terme les composantes
- *  de la transformée de Fourier d'un signal, puis de pouvoir restituer un signal temporel.
+ *  For different purposes, it can be convenient to apply filtering in the frequency domain rather
+ *  than in the time domain, for instante to reduce the computing load.
+ *  (time domain convolutions become simple term by term product in the frequency domain).
+ *  By frequency domain filtering, we mean here to be able to adjust term by term the different bins of the DFT of a signal,
+ *  and then to build the result in the time domain.
  *
- *  Afin de travailler dans le domaine fréquentiel, les données sont regroupées par blocs
- *  de @f$N_e@f$ échantillons, et pour chacun de ces blocs les opérations suivantes sont effectuées :
- *   - <b>Fenêtrage et recouvrement</b> (optionnel) : Afin de lisser les traitements d'un blocs à
- *      l'autre, une fenêtre d'apodisation peut être appliquée (par défaut,
- *      une fenêtre de Hann avec un recouvrement de 50 %, de manière à avoir une reconstruction parfaite).
- *   - <b>Zéro-padding</b> : De manière à avoir pouvoir calculer efficacement les FFT,
- *   des zéros sont ajoutés afin d'avoir des blocs dont la dimension est une puissance de 2. Après zéro-padding, la dimension des blocs vaut @f$N=2^k\geq N_e@f$.
- *   - <b>Transformée de Fourier :</b> via une FFT.
- *   - <b>Traitement dans le domaine fréquentiel</b> : à faire par l'utilisateur (callback passée en paramètre, voir ci-dessous).
- *   - <b>Transformée de Fourier inverse : </b> via une FFT inverse.
- *   - <b>Recomposition des blocs temporels</b> : par OLA (<i>OverLap-and-Add</i>).
+ *  So as to work in the frequency domain, samples are grouped into blocks of
+ *  @f$N_e@f$ samples, and for each of these blocks the following operations are performed:
+ *   - <b>Windowing and overlap</b> (optional): so as to smooth processings from one block to the next one,
+ *      an apodisation window is applied (by default,
+ *      a Hann window with an overlap of 50 %, so as to enable perfect reconstruction of the time domain signal).
+ *   - <b>Zero-padding</b> : So as to compute efficiently the FFT,
+ *   zeros are inserted, making the length of each block equal to some power of 2.
+ *   So, after zero-padding, the blocks length is @f$N=2^k\geq N_e@f$.
+ *   - <b>Fourier transform:</b> through a FFT.
+ *   - <b>Frequency domain processing</b> : through a callback provided by the caller (see below).
+ *   - <b>Inverse Fourier transform</b>.
+ *   - <b>Recomposition of time domain blocks</b>: through the OLA technique (<i>OverLap-and-Add</i>).
  *
+ *  @param config Configuration structure (@ref FFTFilterConfig) which specify:
+ *   - Dimension @f$N_e@f$ of input time-domain blocks,
+ *   - Minimal number of zeros to be inserted at the beginnning of each block,
+ *   - User callback for frequency domain processing.
  *
- *
- *
- *  @param config La structure de configuration (@ref FFTFilterConfig) doit préciser la dimension @f$N_e@f$
- *  des blocs temporels,
- *  le nombre minimum de zéros à insérer avant chaque bloc et avant de passer dans le domaine fréquentiel,
- *  ainsi qu'une callback permettant à l'appelant de modifier le signal dans le domaine fréquentiel.
- *
- *  @return Un tuple de deux éléments :
- *    - le filtre OLA,
- *    - un entier indiquant la dimension @f$N@f$ des FFT (c'est-à-dire
- *      la dimension des vecteurs qui seront passés à la callback)
+ *  @return A tuple with two elements:
+ *    - the OLA filter,
+ *    - an integer which is the dimension @f$N@f$ of the FFT (that is,
+ *      the dimension of the vectors that will be given to the callback).
  *
  *
  *  @parblock
- *  @note Pour le problème plus spécifique du calcul efficace d'un filtre RIF (à partir de la FFT), utilisez plutôt
- *  @ref filter_fir_fft(), qui est est basée sur cette fonction, et qui plus simple à utiliser.
+ *  @note For the more specific problem of efficient FIR filter computing (using the FFT), use rather
+ *  @ref filter_fir_fft(), which is based on this function, and is simpler to use.
  *  @endparblock
  *
- *  @par Exemple : Filtrage passe-bas
- *  Dans cet exemple, on filtre passe-bas un signal en mettant tout simplement à zéro la moitié des composantes fréquentielles.
+ *  @par Example: Low-pass filter
+ *  In this example, we low-pass filter a signal by simply zeroing half the spectrum.
  *  @snippet exemples/src/fourier/ex-ola.cc ex_ola_pb
  *  @image html ex-ola-pb.png width=800px
  *
  *
- *  @sa filtre_rif_fft(), filtre_rfft()
+ *  @sa filter_fir_fft(), filter_rfft(), ola_complexity(), ola_complexity_optimize()
  */
-inline std::tuple<sptr<Filtre<cfloat, cfloat, tsdF::FiltreFFTConfig>>, int> filter_fft
+inline std::tuple<sptr<Filter<cfloat, cfloat, tsdF::FiltreFFTConfig>>, int> filter_fft
   (const FFTFilterConfig &config)
 {
   return tsdF::filtre_fft(config);
@@ -332,60 +330,62 @@ inline std::tuple<sptr<Filtre<cfloat, cfloat, tsdF::FiltreFFTConfig>>, int> filt
 
 
 
-/** @brief Calcul de la complexité d'un filtre OLA, par échantillon d'entrée, en FLOPS.
+/** @brief Compute the complexity of an OLA filter, in FLOPS by input sample.
  *
- * <h3>Calcul de la complexité d'un filtre OLA</h3>
+ * <h3>Complexity of an OLA filter</h3>
  *
- *  @param M  Taille de filtre (ou motif à détecter)
- *  @param Ne Taille de bloc d'entrée
- *  @param[out] C  Complexité, en FLOPS
- *  @param[out] Nf Dimension de la FFT
- *  @param[out] Nz Nombre de zéros insérés pour chaque bloc de FFT (Nf = Ne + Nz)
+ *  @param M    Time-domain filter length (in samples),
+ *  @param Ne   Input block length,
+ *  @param[out] C  Complexity, in FLOPS by input sample,
+ *  @param[out] Nf FFT dimension,
+ *  @param[out] Nz Number of zeros inserted for each FFT block (@f$N_f = N_e + N_z@f$)
  *
- *  @sa ola_complexite_optimise()
+ *  @sa ola_complexity_optimize()
  */
 inline void ola_complexity(int M, int Ne, float &C, int &Nf, int &Nz)
 {
-  return tsdF::ola_complexite(M, Ne, C, Nf, Nz);
+  return tsdF::ola_complexité(M, Ne, C, Nf, Nz);
 }
 
-/** @brief Calcul des paramètres optimaux pour un filtre par OLA.
+/** @brief Compute optimal parameters for an OLA filter.
  *
- * <h3>Calcul des paramètres optimaux pour un filtre par OLA</h3>
+ * <h3>Optimal parameters for an OLA filter</h3>
  *
- * Cette fonction calcul la taille de bloc optimale pour le calcul d'un filtrage par OLA.
- * L'optimum est trouvé pour @f$N_e = 2^k - (M-1)@f$, @f$k@f$ étant déterminé par recherche exhaustive.
+ * This function computes the optimal input block length for an OLA process (see @ref filter_fft()).
+ * The optimum is found for @f$N_e = 2^k - (M-1)@f$, @f$k@f$
+ * being found by exhaustive search.
  *
- *  @param M  Taille de filtre (ou motif à détecter)
- *  @param[out] C  Complexité, en FLOPS
- *  @param[out] Nf Dimension de la FFT
- *  @param[out] Nz Nombre de zéros insérés pour chaque bloc de FFT (Nf = Ne + Nz)
- *  @param[out] Ne Taille de bloc d'entrée
+ *  @param M  Time-domain filter length (in samples),
+ *  @param[out] C  Complexity, in FLOPS by input sample,
+ *  @param[out] Nf FFT dimension,
+ *  @param[out] Nz Number of zeros inserted for each FFT block (@f$N_f = N_e + N_z@f$)
+ *  @param[out] Ne Optimal input block length.
  *
- *  @sa ola_complexite()
+ *  @sa ola_complexity()
  *
  */
 inline void ola_complexity_optimize(int M, float &C, int &Nf, int &Nz, int &Ne)
 {
-  tsdF::ola_complexite_optimise(M, C, Nf, Nz, Ne);
+  tsdF::ola_complexité_optimise(M, C, Nf, Nz, Ne);
 }
 
 
-/** @brief Transformée en z-chirp
+/** @brief Z-chirp transform.
  *
- *  <h3>Transformée en z-chirp</h3>
+ *  <h3>Z-chirp transform</h3>
  *
- *  Calcule la transformée en z sur les points suivants :
+ *  Evaluate the z transform on the following points:
  *    @f$z_0 \cdot W^n@f$, pour @f$n=0,1,...,m-1@f$
  *
- *  @param x  Séquence d'entrée
- *  @param m  Nombre de points d'évaluation
- *  @param W  Raison de la série géométrique
- *  @param z0 Terme initial
- *  @returns Les valeurs de la transformée en @f$z@f$ de @f$x@f$ :
+ *  @param x  Input vector
+ *  @param m  Number of evaluation points
+ *  @param W  Progression of the geometric serie
+ *  @param z0 Initial term
+ *  @returns The values of @f$H(z)@f$:
  *  @f[
  *    X\left(z_0 * W^n\right) = \sum_{k=0}^{N-1} x_k \cdot z_0^k \cdot W^{nk},\quad \textrm{pour }n=0,1,...,m-1
- *  @f] */
+ *  @f]
+ */
 inline ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0 = 1.0f)
 {
   return tsdF::czt(x, m, W, z0);
@@ -397,114 +397,114 @@ inline ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0 = 1.0f)
  *  @{
  */
 
-/** @brief Corrélation circulaire (normalisée) entre deux signaux complexes
+/** @brief Circular correlation (normalized) between two complex vectors.
  *
- *  <h3>Produit de corrélation circulaire</h3>
+ *  <h3>Circular correlation product</h3>
  *
- *  Calcul de la corrélation circulaire (normalisée) entre deux signaux complexes (calcul efficace via des FFT) :
+ *  FFT-based computing of:
  * @f[
  * c_n = \frac{1}{N} \cdot \sum_{k=0}^{N-1} x_k y^{\star}_{k+n[N]},\ \ n=0\dots N-1
  * @f]
  *
- *  @param x Premier vecteur
- *  @param y Deuxième vecteur (éventuellement égal au premier pour avoir l'auto-corrélation)
- *  @returns Premiers vecteur : index des retards @f$n@f$ (soit @f$0, 1, ..., N-1@f$), deuxième vecteur : @f$c_n@f$.
+ *  @param x First vector
+ *  @param y Second vector (if not specified, the auto-correlation is computed)
+ *  @returns First vector: index of time lags @f$n@f$ (that is @f$0, 1, ..., N-1@f$), second vector: @f$c_n@f$.
  *
  *
- * @sa xcorr()
+ * @sa xcorr(), xcoorb()
  */
-inline std::tuple<ArrayXf, ArrayXcf> ccorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf())
+inline auto ccorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf())
 {
   return tsdF::ccorr(x, y);
 }
 
 
-/** @brief Corrélation (non biaisée) entre deux signaux complexes
+/** @brief Unbiased correlation between two complex vectors
  *
- *  <h3>Produit de corrélation (avec correction de biais)</h3>
+ *  <h3>Correlation product (with bias correction)</h3>
  *
- *  Calcule la corrélation entre deux signaux complexes (calcul efficace via des FFT),
- *  soit pour un délais négatif (@f$\tau=-(m-1)\dots -1@f$) :
+ *  Compute the correlation between 2 complex vectors (through FFT),
+ *  that is, for negative lags (@f$\tau=-(m-1)\dots -1@f$) :
  *  @f[
  *  c(\tau) = \frac{1}{N-\tau} \cdot \sum_{k=0}^{N-1-\tau} x_{k-\tau} y^{\star}_k
  *  @f]
- *  Et, pour les délais positifs (@f$\tau=0\dots m-1@f$):
+ *  And, for positive lages (@f$\tau=0\dots m-1@f$):
  *  @f[
  *  c(\tau) = \frac{1}{N-\tau} \cdot \sum_{k=0}^{N-1-\tau} x_k y^{\star}_{k+\tau}
  *  @f]
  *
- *  Les délais étant échantillonnés de manière régulière entre @f$-(m-1)@f$ et @f$m-1@f$ :
+ *  Lags are sampled uniformly between @f$-(m-1)@f$ et @f$m-1@f$ :
  *  @f[
  *   \tau = \textrm{linspace}(-(m-1), m-1, 2m-1) = -(m-1), -(m-2), \dots, -1, 0, 1, \dots, (m-2), (m-1)
  *  @f]
  *
+ *  @param x First vector
+ *  @param y Second vector (if not specified, the auto-correlation is computed)
+ *  @param m Number of delays to be computed (if negative, then take @f$m=N@f$).
+ *  @returns First vector: index of time lags @f$n@f$ (that is @f$0, 1, ..., N-1@f$), second vector: @f$c_n@f$.
  *
  *
- *  @param x Premier vecteur
- *  @param y Deuxième vecteur (éventuellement égal au premier pour avoir l'auto-corrélation)
- *  @param m Nombre de délais à examiner (si négatif, alors fait comme si @f$m=N@f$).
- *  @returns Un tuple de deux vecteurs de dimension @f$2m-1@f$ : délais @f$\tau_k@f$ et corrélation @f$c(\tau_k)@f$.
+ * @note The vectors are implicitly zero-padded so as to be able to compute efficiently the correlation in the frequency domain.
  *
- *
- * @note Les signaux sont complétés en interne avec des zéros pour pouvoir effectuer efficacement la corrélation dans le domaine fréquentiel.
- *
- * @par Exemple
+ * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_xcorr
  * @image html xcorr.png width=800px
  *
- * @sa xcorrb(), ccorr(), fft_correlateur()
+ * @sa xcorrb(), ccorr(), detector_new()
  */
-inline std::tuple<ArrayXf, ArrayXcf> xcorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1)
+inline auto xcorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1)
 {
   return tsdF::xcorr(x, y, m);
 }
 
 
-/** @brief Corrélation (biaisée) entre deux signaux complexes.
+/** @brief Correlation (biased) between two complex vectors.
  *
- *  <h3>Produit de corrélation (sans correction de biais)</h3>
+ *  <h3>Correlation product (without bias correction)</h3>
  *
- *  Calcule la corrélation entre deux signaux complexes (calcul efficace via des FFT) :
+ *  Computes (through FFT):
  *  @f[
  *  c_n = \frac{1}{N} \cdot \sum_{k=0}^{N-1-k} x_k y^{\star}_{k+n},\ \ n=-m\dots m-1
  *  @f]
  *
- *  @param x Premier vecteur
- *  @param y Deuxième vecteur (éventuellement égal au premier pour avoir l'auto-corrélation)
- *  @param m Nombre de délais à examiner (si négatif, alors fait comme si @f$m=N@f$).
- *  @returns Un tuple de deux vecteurs de dimension @f$2m@f$ : délais et corrélation.
+ *  @param x First vector
+ *  @param y Second vector (if not specified, the auto-correlation is computed)
+ *  @param m Number of delays to be computed (if negative, then take @f$m=N@f$).
+ *  @returns First vector: index of time lags @f$n@f$ (that is @f$0, 1, ..., N-1@f$), second vector: @f$c_n@f$.
  *
- *  @sa xcorr(), ccorr()
+ *  @sa xcorr(), ccorr(), detector_new()
  */
-inline std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1)
+inline auto xcorrb(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1)
 {
   return tsdF::xcorrb(x, y, m);
 }
 
-/** @brief Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).
+/** @brief FFT-based delaying of a vector.
  *
- *  <h3>Délais</h3>
+ *  <h3>FFT-based delaying of a vector</h3>
  *
- *  Réalise un délais entier (décalage du signal) ou fractionnaire (basé sur la FFT) :
+ *  Apply a fractionnal delay to the input signal:
  *  @f[
  *  y_k = x_{k-\tau}
  *  @f]
  *
  *
- *  Le délais peut être positif (pour retarder le signal), ou négatif (pour avancer le signal).
+ *  The delay can be positive (to effectively delay the signal), or negative
+ *  (to have the signal earlier).
  *
- *  @note Si le délais passé en paramètre est un entier, un simple décalage est effectué.
- *  Sinon, le délais est appliqué dans le domaine fréquentiel (après avoir complété le signal d'entrée avec des zéros afin d'atténuer les effets de bords dus à la périodicité de la FFT) :
+ *  @note If the request delay is an integer, a simple shift of the vector is done.
+ *  Otherwise, the delay is applied in the frequency domain
+ *  (after the input signal has been zero-padded so as to mitigate border effects):
  *  @f[
  *  Y_n = X_n \cdot e^{\frac{-2\pi\mathbf{i}\tau \cdot n}{N}}
  *  @f]
  *
- *  @param x  Signal à retarder ou avancer dans le temps.
- *  @param τ  Délais à appliquer, en nombre d'échantillons (peut être positif ou négatif, et n'est pas forcément un nombre entier).
- *  @returns  Signal décalé dans le temps.
+ *  @param x  Vector of samples.
+ *  @param τ  Delay to be applied, in number of samples (can be positive or negative, and not necessarily an integer).
+ *  @returns  Time shifted vector.
  *
  *
- * @par Exemple
+ * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_delais
  * @image html ex-delais.png width=800px
  *
@@ -512,18 +512,17 @@ inline std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y
 template<typename T = float>
   Vector<T> delay(const Vector<T> &x, float τ)
 {
-  return tsdF::delais(x, τ);
+  return tsdF::délais(x, τ);
 }
 
-/** @brief Estimation du délais (à l'échantillon près) le
- *  plus probable entre deux signaux (via une corrélation) */
-inline int delay_estimation_int(IArrayXcf x, IArrayXcf y, float &score)
+
+/** @brief Delay estimation between two vectors. */
+inline std::tuple<float, float> delay_estimation(IArrayXcf x, IArrayXcf y)
 {
-  return tsdF::estimation_delais_entier(x, y, score);
+  return tsdF::estimation_délais(x, y);
 }
 
-
-/** @brief Alignement de deux signaux */
+/** @brief Alignement of two vectors */
 template<typename T>
   std::tuple<Vector<T>, Vector<T>, int, float> align_int(const Vector<T> &x, const Vector<T> &y)
 {
@@ -534,30 +533,30 @@ template<typename T>
 /** @brief Informations computed from the detected pattern. */
 struct Detection
 {
-  /** @brief en nombre d'échantillons (compris entre 0 et Ne-1),
-  *    depuis le début du bloc de données en cours. Par exemple :
-  *    - @f$0\  \Leftrightarrow@f$    Début du bloc en cours
-  *    - @f$1\  \Leftrightarrow@f$    Deuxième échantillon du bloc en cours
-  *    - @f$-1\  \Leftrightarrow@f$   Dernier échantillon du bloc précédent
+  /** @brief Position in number of samples (between @f$-N_e@f$ and @f$N_e-1@f$),
+  *    since the beginning of current block. For instance:
+  *    - @f$0\  \Leftrightarrow@f$    First sample of current block
+  *    - @f$1\  \Leftrightarrow@f$    Second sample of current block
+  *    - @f$-1\  \Leftrightarrow@f$   Last sample of previous block
   *    - ... */
   int position;
 
-  /** @brief Idem position, avec interpolation quadratique pour plus de précision */
-  float position_prec;
+  /** @brief Same a position field, but using quadratic interpolation for sub-sample accuracy. */
+  float position_frac;
 
-  /** @brief Valeur absolue de la corrélation normalisée (valeur positive, entre 0 et 1) */
+  /** @brief Absolute value of the normalized correlation (positive value, between 0 et 1). */
   float score;
 
-  /** @brief Gain du signal (par rapport au motif passé en paramètre) */
+  /** @brief Signal gain (comparing to the expected pattern). */
   float gain;
 
-  /** @brief Déphasage du signal (entre @f$-\pi/2@f$ et @f$\pi/2@f$) */
+  /** @brief Signal phase (between @f$-\pi/2@f$ and @f$\pi/2@f$) */
   float θ;
 
-  /** @brief SNR estimé */
+  /** @brief Estimated SNR. */
   float SNR_dB;
 
-  /** @brief Ecart-type du bruit */
+  /** @brief Estimated standard deviation of the noise. */
   float σ_noise;
 
   Detection(const tsdF::Detection &fr)
@@ -567,24 +566,24 @@ struct Detection
 };
 
 
-/** @brief Structure de configuration pour un corrélateur par FFT */
+/** @brief Configuration structure for a FFT based detector. */
 struct DetectorConfig: tsdF::DetecteurConfig
 {
-  /* @brief Nombre minimum d'échantillons / par bloc temporel (si 0 : déterminé automatiquement). */
+  /* @brief Minimum number of samples for each time-domain block (if 0 : computed automatically). */
   uint32_t &Ns        = Ne;
 
-  /* @brief Motif à détecter */
+  /* @brief Pattern to be detected. */
   ArrayXcf &pattern   = motif;
 
-  /* @brief Seuil de détection, entre 0 et 1. */
+  /* @brief Detection threshold, between 0 et 1. */
   float &threshold    = seuil;
 
   bool &debug_active  = debug_actif;
 
-  /** @brief Mode de calcul du produit de corrélation : FFT avec OLA ou simple filtre RIF */
+  /** @brief Computing mode of the correlation product: FFT with OLA or simple FIR filter. */
   tsdF::DetecteurConfig::Mode &mode = mode;
 
-  /** @brief Callback utilisateur appellée à chaque fois que le motif est détecté. */
+  /** @brief User callback called each time the pattern is detected. */
   std::function<void (const Detection &det)> &on_detection
       = *((std::function<void (const Detection &det)> *) &gere_detection);
 
@@ -595,39 +594,39 @@ struct DetectorConfig: tsdF::DetecteurConfig
 
 using tsdF::Detecteur;
 
-/** @brief Détecteur par corrélation.
+/** @brief Correlation-based pattern detector.
  *
- * <h3>Détecteur par corrélation</h3>
+ * <h3>Correlation-based pattern detector</h3>
  *
- * Cette fonction calcule, au fil de l'eau, la corrélation normalisée entre un signal @f$(x_k)@f$
- * reçu en continu et
- * un motif fixe @f$(h_k)@f$ de dimension @f$M@f$ :
+ * This block will compute the normalized correlation between a streaming signal @f$(x_k)@f$
+ * and a fixed pattern @f$(h_k)@f$ of dimension @f$M@f$ :
  * @f[
  * y_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k-(M-1)} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k-(M-1)}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}}
  * @f]
  *
- * Les @f$y_n@f$ sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est
- * exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle @f$[n-M+1\dots n]@f$.
+ * The @f$y_n@f$ are thus between 0 and 1, and will be equal to 1 only if the signal is exactly equal to the pattern (up to some scale factor)
+ * on the interval @f$[n-M+1\dots n]@f$.
  *
- * Le calcul étant fait de manière efficace dans le domaine fréquentiel via la technique Overlap-And-Add
- * (voir @ref filter_fft()), la complexité est de l'ordre de @f$\log_2 M@f$ opérations
- * par échantillon (si @f$M@f$ est une puissance de 2).
+ * The computing being done in the frequency domain through the Overlap-And-Add technique
+ * (see @ref filter_fft()), the complexity is of order @f$\log_2 M@f$ operations
+ * per sample (if @f$M@f$ is a power of 2).
  *
- * Ce filtre peut-être utilisé de deux manières :
- *  - Tout d'abord, c'est un filtre qui renvoie, au fil de l'eau, les valeurs de corrélation (signal vert dans l'exemple ci-dessous),
- *  - Pour une utilisation plus simple, une callback utilisateur peut être appelée dès lors que la corrélation dépasse un certain seuil paramétrable. En paramètre de cette callback,
- *    est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure @ref Detection) :
- *      - Valeur de la corrélation normalisée
- *      - Gain réel du signal (rapport d'amplitude entre le signal reçu et le motif théorique attendu)
- *      - Déphasage du signal reçu
- *      - Ecart-type du bruit
- *      - SNR estimé
+ * This block will:
+ *  - Return, as output, the correlation signal (green signal in the example below),
+ *  - Call a user callback whenever the  correlation is above a configurable threshold.
+ *  As parameters of this callback,
+ *    the following informations are given (see the structure @ref Detection):
+ *      - Peak value of the normalized correlation,
+ *      - Real gain of the sinal (amplitude ratio between the received signal and the expected pattern),
+ *      - Relative phase of the received signal (compared to the expected pattern),
+ *      - Noise standard deviation,
+ *      - Estimated SNR.
  *
- * @param config Structure de configuration
- * @return Filtre cfloat @f$\to@f$ float, qui prend en entrée des échantillons, et sort, au fil de l'eau,
- * la corrélation normalisée avec le motif.
+ * @param config Configuration structure
+ * @return %Filter cfloat @f$\to@f$ float, that take as input samples, and produces as output,
+ * the normalized correlation with the pattern.
  *
- * @par Exemple
+ * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_fft_correlateur
  * @image html fft_correlateur.png width=800px
  */
@@ -653,22 +652,22 @@ inline ArrayXf psd_freqs(int n, bool complexe = true)
   return tsdF::psd_freqs(n, complexe);
 }
 
-/** @brief PSD (corrélogramme)
+/** @brief PSD (correlogram).
  *
- * <h3>PSD (corrélogramme)</h3>
+ * <h3>PSD (correlogram)</h3>
  *
- * Calcul du corrélogramme avec une fenêtre de Hann :
+ * Computes the correlogram using a Hann window:
  *
  * @f[
  * S(k) = \left|TFD(x \cdot w)(k)\right|
  * @f]
  *
- * Le spectre est centré autour de 0 Hz (vecteur de fréquences : linspace(-0.5,0.5-1.0/N,N)).
+ * The resulting spectrum is 0 Hz centered (frequency vector: linspace(-0.5,0.5-1.0/N,N)).
  *
- * @param x   Signal à analyser.
- * @return Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.
+ * @param x   Signal to be analyzed.
+ * @return    A tuple with two elements: frequences vectors (normalized, between -0.5 and 0.5), and the spectrum.
  *
- * @par Exemple
+ * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_psd2
  * @image html ex-psd2.png "PSD signal triangulaire" width=800px
  *
@@ -680,17 +679,17 @@ std::tuple<ArrayXf, ArrayXf> psd(const Eigen::ArrayBase<derived> &x)
   return tsdF::psd(x);
 }
 
-/** @brief PSD (méthode de Welch - par moyennage).
+/** @brief PSD (Welch method - spectrum averaging).
  *
- * <h3> PSD par la méthode de Welch</h3>
+ * <h3> PSD using Welch method</h3>
  *
- * Cette fonction est une estimation de la PSD par la technique du moyennage :
- * plusieur PSD sont calculées sur des fenêtres (pondérées et avec du recouvrement), puis moyennées.
+ * This function estimates the PSD using the spectrum averaging method:
+ * several PSD are computed using windowed parts of the signal (optionnaly with some overlap), then averaged.
  *
- * @param x   Signal à analyser.
- * @param N   Dimension des sous-fenêtres (autrement dit, la résolution de la PSD résultante).
- * @param fen Choix du fenêtrage.
- * @return Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.
+ * @param x   Signal to be analyzed.
+ * @param N   Dimension of each window (that is, the resulting PSD resolution), in number of samples.
+ * @param fen Type of windowing ("hn", "hm", "re", ...).
+ * @return A tuple with two elements: frequences vectors (normalized, between -0.5 and 0.5), and the spectrum.
  *
  * @par Exemple
  * @snippet exemples/src/fourier/ex-fourier.cc ex_psd3
@@ -714,11 +713,11 @@ inline std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const st
  *
  *  La formule utilisée ici est celle de l'algorithme MUSIC (MUltiple SIgnal Classification).
  *
- *  @param x  Signal à analyser
+ *  @param x  Signal to be analyzed.
  *  @param Ns Nombre d'exponentielles pures attendues
  *  @param Nf Résolution fréquentielle (en nombre de points)
  *  @param m  Dimension de la matrice d'auto-corrélation (si non précisé = dimension du signal)
- *  @returns Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.
+ *  @returns A tuple with two elements: frequences vectors (normalized, between -0.5 and 0.5), and the spectrum.
  *
  *  @note Cette fonction est une spécialisation de la méthode des sous-espaces pour la détection d'exponentielles pures.
  *  Cependant, la méthode des sous-espaces elle-même est bien plus générale, et peut
@@ -744,7 +743,7 @@ inline std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const st
  */
 inline std::tuple<ArrayXf, ArrayXf> psd_subspace(const ArrayXcf &x, int Ns, int Nf = 1024, int m = 0)
 {
-  return tsdF::psd_subspace(x, Ns, Nf, m);
+  return tsdF::psd_sousesp(x, Ns, Nf, m);
 }
 
 
@@ -843,7 +842,7 @@ inline float goertzel(const ArrayXf &x, float frequence)
  *
  *  @sa goertzel()
  */
-inline sptr<FiltreGen<float>> filter_goertzel(float frequence, int N)
+inline sptr<FilterGen<float>> filter_goertzel(float frequence, int N)
 {
   return tsdF::filtre_goertzel(frequence, N);
 }
@@ -857,7 +856,7 @@ using tsdF::SpectrumConfig;
 
 
 /** @brief Calcul de spectre en temps réel */
-inline sptr<Filtre<cfloat,float,SpectrumConfig>> rt_spectrum(const SpectrumConfig &config)
+inline sptr<Filter<cfloat,float,SpectrumConfig>> rt_spectrum(const SpectrumConfig &config)
 {
   return tsdF::rt_spectrum(config);
 }

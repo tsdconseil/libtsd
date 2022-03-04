@@ -2,7 +2,7 @@
 
 #include "dsp/dsp.hpp"
 #include "tsd/vue/image.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 
 
 namespace dsp::view

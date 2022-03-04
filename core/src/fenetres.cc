@@ -1,6 +1,6 @@
 #include "tsd/tsd.hpp"
 #include "tsd/fourier.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/tests.hpp"
 
@@ -225,25 +225,28 @@ ArrayXf fenetre(const std::string &type, int n, bool symetrique)
   return fenetre(parse_fenêtre(type), n, symetrique);
 }
 
-ArrayXf fenetre(Fenetre type, int n, bool symetrique)
+ArrayXf fenetre(Fenetre type, int n, bool symétrique)
 {
   ArrayXf x = ArrayXf::Zero(n);
+
+  //if(((n & 1) == 0) && symétrique)
+    //msg_avert("Demande de création d'une fenêtre symétrique avec un nombre pair de coefficients (n = {})", n);
 
   if(type == Fenetre::AUCUNE)
     x.setOnes();
   else if(type == Fenetre::HANN)
   {
-    x = Hamming_generalise(0.5, n, symetrique);
+    x = Hamming_generalise(0.5, n, symétrique);
   }
   else if(type == Fenetre::HAMMING)
   {
     float a = 0.54;
     //auto a = 0.53836f; // TO CHECK
-    x = Hamming_generalise(a, n, symetrique);
+    x = Hamming_generalise(a, n, symétrique);
   }
   else if(type == Fenetre::TRIANGLE)
   {
-    ArrayXf t = fen_inter(n, symetrique);
+    ArrayXf t = fen_inter(n, symétrique);
 
     // -0.5 -> 0
     // 0    -> 1
@@ -272,7 +275,7 @@ ArrayXf fenetre(Fenetre type, int n, bool symetrique)
   else if(type == Fenetre::BLACKMAN)
   {
     // https://en.wikipedia.org/wiki/Window_function#Blackman_window
-    ArrayXf t = 2 * π * fen_inter(n, symetrique) + π;
+    ArrayXf t = 2 * π * fen_inter(n, symétrique) + π;
     auto α = 0.16f;
     auto a0 = (1 - α)/2;
     auto a1 = 0.5f;
@@ -409,7 +412,7 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bo
 
     auto lst = trouve(Hl < -3);
 
-    int j = mag.rows();
+    int j = -1;//mag.rows();
 
     if(!lst.empty())
       j = lst[0];
@@ -421,21 +424,27 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bo
     {
       f = res.fig.subplot(211);
       f.plot(fr, mag, "b-");
-      f.plot(fr(i), mag(i), "rs");
+      if(i >= 0)
+        f.plot(fr(i), mag(i), "rs");
       f.titre("Vue linéaire");
     }
 
-    res.largeur_lp = j / (/*2.0f **/1.0f * fr.rows());
+    res.largeur_lp = j / (1.0f * fr.rows());
 
-    int i2;
+    int i2 = i;
 
-    res.atten_ls  = -Hl.segment(i, Hl.rows() - i - 1).maxCoeff(&i2);
-    i2 += i;
-    res.atten_pls = -Hl(i);
+    if(i >= 0)
+    {
+      res.atten_ls  = -Hl.tail(Hl.rows() - i - 1).maxCoeff(&i2);
+      //res.atten_ls  = -Hl.segment(i, Hl.rows() - i - 1).maxCoeff(&i2);
+      i2 += i;
+      res.atten_pls = -Hl(i);
+    }
 
     if(do_plot)
     {
-      f.plot(fr(j), mag(j), "gs");
+      if(j >= 0)
+        f.plot(fr(j), mag(j), "gs");
 
       f.canva().set_couleur(tsd::vue::Couleur::Bleu);
       f.canva().set_dim_fonte(0.6);
@@ -448,8 +457,10 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bo
 
       f.plot(fr, Hl, "b-");
       f.titre("Vue logarithmique");
-      f.plot(fr(i), Hl(i), "rs");
-      f.plot(fr(i2), Hl(i2), "ms");
+      if(i >= 0)
+        f.plot(fr(i), Hl(i), "rs");
+      if(i2 >= 0)
+        f.plot(fr(i2), Hl(i2), "ms");
     }
 
     msg("  Atténuation lobe principal : {:.1f} dB.", -Hl(0));

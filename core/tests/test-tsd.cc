@@ -1,10 +1,6 @@
-#include "tsd/tsd.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
-#include <iostream>
 
-using namespace tsd;
-using namespace tsd::vue;
 using namespace std;
 
 

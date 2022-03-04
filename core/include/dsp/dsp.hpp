@@ -79,7 +79,7 @@ template<typename T>
  *
  * <h3>Vertical concatenation</h3>
  *
- * This function merge 2 column vectors:
+ * This function merges 2 column vectors:
  * @f[
  * c = \left(
  * \begin{array}{c}
@@ -283,7 +283,7 @@ inline int find_first(IArrayXb x)
  *
  */
 template<typename T>
- Vector<T> subsample(const Vector<T> &x, int pas)
+ Vector<T> downsample(const Vector<T> &x, int pas)
  {
   return tsd::sousech(x, pas);
  }
@@ -303,7 +303,7 @@ template<typename T>
  *  @snippet exemples/src/ex-tsd.cc ex_surech
  *  @image html surech.png width=800px
  *
- *  @sa subsample()
+ *  @sa downsample()
  *
  */
 template<typename T>
@@ -312,6 +312,23 @@ template<typename T>
   return tsd::surech(x, R);
  }
 
+/** @brief Linear to decibel conversion.
+ *
+ *  <h3>Linear to decibel conversion</h3>
+ *
+ *  @param x Value in linear units
+ *  @returns Valeur en dB:
+ *  @f[
+ *    y = 10 \log_{10}(x)
+ *  @f]
+ *
+ *  @sa db2pow()
+ */
+template<typename T>
+  auto pow2db(const T &x)
+{
+  return tsd::pow2db(x);
+}
 
 /** @brief Decibels to linear conversion.
  *
@@ -331,23 +348,7 @@ template<typename T>
   return tsd::db2pow(x);
 }
 
-/** @brief Linear to decibel conversion.
- *
- *  <h3>Linear to decibel conversion</h3>
- *
- *  @param x Value in linear units
- *  @returns Valeur en dB:
- *  @f[
- *    y = 10 \log_{10}(x)
- *  @f]
- *
- *  @sa db2pow()
- */
-template<typename T>
-  auto pow2db(const T &x)
-{
-  return tsd::pow2db(x);
-}
+
 
 
 
@@ -442,7 +443,7 @@ template<typename Ts, typename C = Void>
  *  @tparam Te Input type
  *  @tparam Ts Output type */
 template<typename Te, typename Ts = Te>
-using FiltreGen = tsd::FiltreGen<Te, Ts>;
+using FilterGen = tsd::FiltreGen<Te, Ts>;
 
 
 /** @brief Generic, run-time configurable, filter
@@ -451,7 +452,7 @@ using FiltreGen = tsd::FiltreGen<Te, Ts>;
  *  @tparam  Tc Configuration type
  */
 template<typename Te, typename Ts = Te, typename Tc = Void>
-using Filtre = tsd::Filtre<Te, Ts, Tc>;
+using Filter = tsd::Filtre<Te, Ts, Tc>;
 
 
 
@@ -514,7 +515,7 @@ template<typename Derived>
  *
  */
 template<typename T>
-  sptr<Sink<T,int>> tampon_creation(int N,
+  sptr<Sink<T,int>> buffer_new(int N,
       std::function<void (const Vector<T> &)> callback)
 {
   return tsd::tampon_création(N, callback);
@@ -952,7 +953,7 @@ static inline ArrayXf sigtri(int p, int n)
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
-static inline ArrayXf sigcar(int p, int n)
+static inline ArrayXf sigsquare(int p, int n)
 {
   return tsd::sigcar(p, n);
 }
@@ -988,7 +989,7 @@ static inline ArrayXf sigimp(int n, int p = 0)
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
-static inline ArrayXf sigscie(int p, int n)
+static inline ArrayXf sigsawtooth(int p, int n)
 {
   return tsd::sigscie(p, n);
 }

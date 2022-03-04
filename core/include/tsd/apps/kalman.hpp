@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tsd/tsd.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/geometrie.hpp"
 
 
@@ -420,7 +420,7 @@ std::tuple<MatrixXf, float> dare(const MatrixXf &A,
  * à savoir une marche aléatoire scalaire. Différentes valeurs de bruit de process sont testées,
  * en gardant le bruit d'observation constant.
  * @snippet exemples/src/ex-kalman.cc ex_kalman_ssg
- * @image html ex-kalman-ssg.png width=800px
+ * @image html ex-kalman-ssg.png "Steady-state Kalman gain vs process noise deviation" width=800px
  *
  * @sa dare()
  */

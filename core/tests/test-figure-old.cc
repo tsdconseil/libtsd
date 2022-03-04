@@ -1,7 +1,7 @@
 #include "tsd/tsd.hpp"
 #include "tsd/vue/image.hpp"
 #include "tsd/vue/axes.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 
 
 using namespace tsd;

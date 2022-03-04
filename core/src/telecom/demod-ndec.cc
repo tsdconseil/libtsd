@@ -1,7 +1,7 @@
 #include "tsd/tsd.hpp"
 #include "tsd/telecom.hpp"
 #include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 
 
 #define VERBOSE(AA)

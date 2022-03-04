@@ -1,7 +1,7 @@
 #include "tsd/telecom.hpp"
 #include "tsd/tsd.hpp"
 #include "tsd/fourier.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include <iostream>
 
 using namespace tsd::vue;

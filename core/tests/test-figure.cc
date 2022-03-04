@@ -1,10 +1,4 @@
-#include "tsd/tsd.hpp"
-#include "tsd/vue/image.hpp"
-#include "tsd/figure.hpp"
-
-
-using namespace tsd;
-using namespace tsd::vue;
+#include "tsd/tsd-all.hpp"
 
 
 static void test_unites_unit(const std::vector<double> &tics, const std::string &unit = "")

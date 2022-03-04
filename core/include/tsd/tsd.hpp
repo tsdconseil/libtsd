@@ -426,6 +426,28 @@ namespace tsd
     return y;
    }*/
 
+  /** @brief Conversion linéaire vers decibels
+   *
+   *  <h3>Conversion linéaire vers decibels</h3>
+   *
+   *  @param x Valeur en linéaire
+   *  @returns Valeur en dB :
+   *  @f[
+   *    y = 10 \log_{10}(x)
+   *  @f]
+   *
+   *  @sa db2pow()
+   */
+  template<typename T>
+    auto pow2db(const T &x)
+  {
+    if constexpr (std::is_integral_v<T>)
+        return 10 * std::log10(x * 1.0);
+    else
+      return 10 * std::log10(x);
+  }
+
+
   /** @brief Conversion decibels vers linéaire
    *
    *  <h3>Conversion decibels vers linéaire</h3>
@@ -447,26 +469,6 @@ namespace tsd
       return std::pow((T) 10, x/10);
   }
 
-  /** @brief Conversion linéaire vers decibels
-   *
-   *  <h3>Conversion linéaire vers decibels</h3>
-   *
-   *  @param x Valeur en linéaire
-   *  @returns Valeur en dB :
-   *  @f[
-   *    y = 10 \log_{10}(x)
-   *  @f]
-   *
-   *  @sa db2pow()
-   */
-  template<typename T>
-    auto pow2db(const T &x)
-  {
-    if constexpr (std::is_integral_v<T>)
-        return 10 * std::log10(x * 1.0);
-    else
-      return 10 * std::log10(x);
-  }
 
   /** @brief Retourne la plus petite puissance de 2 supérieure ou égale à i.
    *

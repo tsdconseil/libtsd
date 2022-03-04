@@ -1,11 +1,5 @@
-#include "tsd/tsd.hpp"
-#include "tsd/fourier.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
-#include <cstdio>
-
-using namespace tsd;
-using namespace tsd::fourier;
-using namespace tsd::vue;
 
 int test_filtre_fft()
 {

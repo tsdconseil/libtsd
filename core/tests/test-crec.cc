@@ -1,14 +1,6 @@
-#include "tsd/tsd.hpp"
-#include "tsd/telecom.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/filtrage.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 
-using namespace tsd;
-using namespace tsd::telecom;
-using namespace tsd::filtrage;
-using namespace tsd::vue;
 
 int test_ped(const std::string &nom, Ped ped)
 {
@@ -61,7 +53,7 @@ int test_clkrec()
   ArrayXcf y = mod->step(xb);
 
 
-  ArrayXcf y2 = tsd::fourier::delais(y, 8.4);
+  ArrayXcf y2 = tsd::fourier::délais(y, 8.4);
   //ArrayXcf y2 = tsd::fourier::delais_entier(y, 3);
 
   auto f = filtre_mg<cfloat,cdouble>(mc.fe / mc.fsymb);

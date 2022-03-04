@@ -4,7 +4,7 @@
 
 #include "tsd/tsd.hpp"
 #include "tsd/filtrage/frat.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 
 namespace tsd::vue {
   struct Figure;

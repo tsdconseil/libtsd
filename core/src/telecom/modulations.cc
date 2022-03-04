@@ -2,7 +2,7 @@
 #include "tsd/telecom.hpp"
 #include "tsd/telecom/bitstream.hpp"
 #include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include <iostream>
 #include <cassert>
 

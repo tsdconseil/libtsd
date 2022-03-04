@@ -1,15 +1,8 @@
-#include "tsd/tsd.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/fourier/tod.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/filtrage.hpp"
 #include "tsd/tests.hpp"
 
-using namespace tsd;
 using namespace tsd::tf::tod;
-using namespace tsd::filtrage;
-using namespace tsd::vue;
-
-
 
 
 void infos_ondelette(sptr<Ondelette<float>> ondelette)

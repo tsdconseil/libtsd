@@ -1,5 +1,5 @@
 #include "tsd/tsd.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include <cstdarg>
 #include <thread>
 #include <functional>

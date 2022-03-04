@@ -1,19 +1,35 @@
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/fourier.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 
-
 using namespace std;
-using namespace tsd;
-using namespace tsd::filtrage;
-using namespace tsd::fourier;
-using namespace tsd::vue;
 
+static void test_fftplan()
+{
+  ArrayXcf x = ArrayXcf::Random(101);
 
+  auto plan = fftplan_création();
 
-void test_fftshift(int n)
+  ArrayXcf y1, y2;
+  plan->step(x, y1);
+  plan->step(x, y2, false);
+
+  tsd_assert((y1 - fft(x)).abs().maxCoeff() < 1e-7);
+  tsd_assert((y2 - ifft(x)).abs().maxCoeff() < 1e-7);
+}
+
+static void test_rfftplan()
+{
+  ArrayXf x = ArrayXf::Random(101);
+
+  auto plan = rfftplan_création();
+
+  ArrayXcf y;
+  plan->step(x, y);
+
+  tsd_assert((y - rfft(x)).abs().maxCoeff() < 1e-7);
+}
+
+static void test_fftshift(int n)
 {
   ArrayXf x = linspace(0,n-1,n);
   ArrayXf y = fftshift(x);
@@ -41,14 +57,14 @@ void test_fftshift(int n)
 }
 
 
-void test_fftshift()
+static void test_fftshift()
 {
   msg("test fftshift...");
   test_fftshift(15);
   test_fftshift(16);
 }
 
-void test_goertzel()
+static void test_goertzel()
 {
   {
     int n = 100;
@@ -96,7 +112,7 @@ void test_goertzel()
   }
 }
 
-static void test_resample()
+static void test_reechan()
 {
   int n = 16;
 
@@ -164,7 +180,7 @@ Vecteur<T> tfd(const Vecteur<T> &x, bool inv = false)
 
 
 template<typename Tin, typename Tout>
-static int test_fft_valide(int n, bool alea, bool inv)
+static void test_fft_valide(int n, bool alea, bool inv)
 {
 
   msg("Vérification validité FFT (n={}, alea={}, inv={})...", n, alea, inv);
@@ -223,29 +239,21 @@ static int test_fft_valide(int n, bool alea, bool inv)
   }
 
   tsd_assert_msg(err < 1e-2, "Erreur FFT");
-
-  return 0;
 }
 
-static int test_fft()
+static void test_fft()
 {
   msg_majeur("Tests FFT...");
 
   for(auto i : {16, 1, 2, 3, 4, 5, 8, 10, 17, 128, 129, 1024})
   {
-    if(test_fft_valide<cfloat,cfloat>(i, false, false))
-      return -1;
-    if(test_fft_valide<cfloat,cfloat>(i, true, false))
-      return -1;
-    if(test_fft_valide<cfloat,cfloat>(i, true, true))
-      return -1;
+    test_fft_valide<cfloat,cfloat>(i, false, false);
+    test_fft_valide<cfloat,cfloat>(i, true, false);
+    test_fft_valide<cfloat,cfloat>(i, true, true);
 
     // Test RFFT
-    if(test_fft_valide<float,cfloat>(i, false, false))
-      return -1;
-    if(test_fft_valide<float,cfloat>(i, true, false))
-      return -1;
-
+    test_fft_valide<float,cfloat>(i, false, false);
+    test_fft_valide<float,cfloat>(i, true, false);
   }
 
 
@@ -286,14 +294,11 @@ static int test_fft()
   msg("erreur rfft + ifft = {}", err);
 
   if(err > 5e-6)
-    return -1;
-
-  return 0;
+    echec("Test fft : erreur trop importante.");
 }
 
 static ArrayXf test_signal(int n = 15*1024)
 {
-
   ArrayXf x0(n);
   ArrayXf wnd = fenetre("hn", n / 2);
 
@@ -323,13 +328,13 @@ static int test_delais_fractionnaire(float d)
   Vecteur<T> x0 = test_signal();
 
 
-  if constexpr (std::is_same<T, cfloat>::value)
+  if constexpr (is_same<T, cfloat>::value)
   {
-    x0 *= std::polar(1.0f, -π_f/4);
+    x0 *= polar(1.0f, -π_f/4);
   }
 
 
-  Vecteur<T> x1 = tsd::fourier::delais(x0, d);
+  Vecteur<T> x1 = tsd::fourier::délais(x0, d);
   int n = x0.rows();
   tsd_assert(x0.rows() == x1.rows());
 
@@ -396,89 +401,77 @@ static int test_delais_fractionnaire(float d)
 
 
 
-// Test de delais + estimation_delais_entier
-static int test_delais_unitaire(float refdelay, float snr_db = 40.0)
+// Test délais + estimation_délais
+static void test_delais_unitaire(float délais_vrai, float snr_db, int type_signal, int N)
 {
-  //float delay;
+  msg("test avec délais = {}, type signal = {}, N = {}...",
+      délais_vrai, (type_signal == 0) ? "impulsion gaussienne" : "randn", N);
 
-  msg("test with delay = {}...", refdelay);
+  ArrayXcf x0;
 
-  //tsd::transforms::DelayEstimation<T, float, float> estimator;
-  //assert(estimator.setup(n) == 0);
+  if(type_signal == 0)
+    x0 = test_signal(N);
+  else
+  {
+    x0 = randn(N);
+    //x0 = linspace(-1,1,N);
+  }
 
-  ArrayXf x0 = test_signal();
-  //int n = x0.rows();
 
-  float es = x0.square().mean();
+  if(std::floor(délais_vrai) == délais_vrai)
+    msg(" -> délais entier");
+  else
+    msg(" -> délais fractionnaire");
 
   // Apply some delay
+  ArrayXcf x1 = délais(x0, délais_vrai);
 
-
-
-
-  ArrayXf x1 = tsd::fourier::delais(x0, refdelay);
-  //tsd::transforms::intdelay<T>(x1, x0, round(refdelay));
-
+  //float es = x0.square().mean();
   // snr_db = 10 log_10(E[S]/E[N])
   // E[S]/E[N] = 10^(snr_db / 10)
-  float sn = pow(10.0, snr_db / 10.0);
-  // E[N] = sigma�
-
-  float σ = sqrt((1.0 / sn) * es);
-
-  msg("SNR = {},  dB, σ = {}", snr_db, σ);
-
-  // Apply some noise
-  //x0 += sigma * tsd::randn(n);
-  //x1 += sigma * tsd::randn(n);
-
+  //float sn = pow(10.0, snr_db / 10.0);
+  // E[N] = sigma²
+  //float σ = sqrt((1.0 / sn) * es);
+  //msg("SNR = {},  dB, σ = {}", snr_db, σ);
 
   // Pour vérifier que le score est indépendant de la norme des signaux
-  x1 *= 4;
   x0 *= 7;
+  x1 *= 4;
 
-
-  // USE FFT to apply the delay
-  float score;
   ArrayXcf X0 = x0, X1 = x1;
-  int d = tsd::fourier::estimation_delais_entier(X0, X1, score);
-  //assert(estimator.process(x0, x1, delay) == 0);
+  auto [d, score] = estimation_délais(X0, X1);
 
   if(tests_debug_actif)
   {
     Figure f;
-    f.plot(x0, "b-", "x0");
-    f.plot(x1, "g-", "x1");
-    f.titre(fmt::format("Délais réf={:.2g}, détecté={}, score={}", refdelay, d, score));
-    f.afficher(fmt::format("test-delais-{:.2f}.png", refdelay));
+    f.plot(x0/7, "b-", "x0");
+    f.plot(x1/4, "g-", "x1");
+    f.titre(fmt::format("Délais réf={:.2g}, détecté={}, score={}", délais_vrai, d, score));
+    f.afficher(fmt::format("test-delais-{:.2f}.png", délais_vrai));
+
+    {
+      Figure f;
+      auto [lags, c] = xcorrb(x0, x1);
+      f.plot(lags, c);
+      f.afficher("XCORRB");
+    }
   }
 
-  //if(refdelay != 0)
-    //assert(cutils::TestUtil::verifie_valeur(delay, refdelay, 0.144, "delay") == 0);
+  auto err_pos = abs(d - délais_vrai);
+  auto err_score = abs(score - 1);
 
-  auto err = d - refdelay;
+  msg("Délais vrai = {}, estimé = {} (erreur = \033[33m{}\033[0m), score = \033[33m{}\033[0m", délais_vrai, d, err_pos, score);
 
-  msg("Délais vrai = {}, estimé = {}, erreur = {}, score = {}", refdelay, d, err, score);
+  float tol_pos = (N == 32) ? 0.1 : 0.02;
+  float tol_score = 0.4;
 
-  if(abs(err) >= 1)
-  {
-    msg_erreur("Erreur trop importante.");
-    return -1;
-  }
-
-  if(abs(score - 1) >= 1e-4)
-  {
-    msg_erreur("test_delais_unitaire : le score devrait être proche de 1 (il vaut {}).", score);
-    return -1;
-  }
-
-
-  return 0;
+  tsd_assert_msg(err_pos < tol_pos/*0.02*/, "test_delais_unitaire : erreur délais trop importante : {}.", err_pos);
+  tsd_assert_msg(err_score < tol_score/*1e-4*/, "test_delais_unitaire : le score devrait être proche de 1 (il vaut {}).", score);
 }
 
 
 
-std::tuple<ArrayXf, ArrayXcf> xcorr_ref(const ArrayXcf &x, const ArrayXcf &y, int m = -1, bool biais = false)
+static tuple<ArrayXf, ArrayXcf> xcorr_ref(const ArrayXcf &x, const ArrayXcf &y, int m = -1, bool biais = false)
 {
   int n = x.rows();
   if(m == -1)
@@ -529,22 +522,29 @@ std::tuple<ArrayXf, ArrayXcf> xcorr_ref(const ArrayXcf &x, const ArrayXcf &y, in
 
 
 
-int test_xcorr()
+static void test_xcorr(bool biaisé)
 {
-  msg_majeur("Tests xcorr...");
+  msg_majeur("Tests xcorr{}...", biaisé ? "b" : "");
   for(int n : {1, 2, 3, 10, 15, 16, 21, 32})
   {
-    msg("Test xcorr..., n = {}", n);
+    msg("Test xcorr{}..., n = {}", biaisé ? "b" : "", n);
     ArrayXcf a1 = ArrayXf::Random(n);
     ArrayXcf a2 = ArrayXf::Random(n);
-    auto [lags, c] = xcorr(a1, a2);
+
+    ArrayXf lags;
+    ArrayXcf c;
+
+    if(biaisé)
+      tie(lags, c) = xcorrb(a1, a2);
+    else
+      tie(lags, c) = xcorr(a1, a2);
 
     // n=1 : 0
     // n=2 : -1 0 1
     // n=3 : -2 -1 0 1 2
     // ...
 
-    auto [lags_ref, cref] = xcorr_ref(a1, a2, n, false);
+    auto [lags_ref, cref] = xcorr_ref(a1, a2, n, biaisé);
 
     //msg("n = {}, lags =\n {}", n, lags.transpose());
 
@@ -563,10 +563,9 @@ int test_xcorr()
     tsd_assert_msg(err < 1e-5, "Erreur xcorr");
     msg("ok.");
   }
-  return 0;
 }
 
-int test_ccorr()
+static void test_ccorr()
 {
   msg_majeur("Tests ccorr...");
   for(int n : {1, 2, 3, 10, 15, 16, 21, 32})
@@ -597,10 +596,9 @@ int test_ccorr()
 
     msg("ok.");
   }
-  return 0;
 }
 
-int test_align_entier()
+static void test_align_entier()
 {
   msg_majeur("Tests de la fonction 'aligne_entier'...");
 
@@ -626,11 +624,9 @@ int test_align_entier()
     tsd_assert_msg(abs(s - 1) < 1e-3, "aligne_entier : score invalide.");
     tsd_assert_msg(err < 1e-3, "aligne_entier : vecteur invalide.");
   }
-
-  return 0;
 }
 
-int test_csym(int n)
+static void test_csym(int n)
 {
   ArrayXcf X = ArrayXcf::Random(n);
 
@@ -652,11 +648,12 @@ int test_csym(int n)
 
   tsd_assert_msg(err1 < 1e-3, "Erreur csym trop importante");
   tsd_assert_msg(err2 < 1e-7, "Erreur csym trop importante");
-  return 0;
 }
 
 int test_fourier()
 {
+  test_fftplan();
+  test_rfftplan();
   test_goertzel();
 
   test_fftshift();
@@ -672,38 +669,38 @@ int test_fourier()
 
     fmt::print("f1 = {}, f2 = {}\n", f1, f2);
     fmt::print("Erreur = {}\n", err);
-    //exit(0);
   }
 
-
-
-  if(test_fft())
-    return -1;
+  test_fft();
 
   for(auto n: {3, 4, 5, 63, 64, 511, 512, 1000, 1001})
     test_csym(n);
 
-  test_resample();
+  test_reechan();
 
 
-  msg_majeur("Test delais...");
+  msg_majeur("Test délais...");
   for(float f: {0.f, 250.f, 1.f, 10.f, -10.f, 0.5f, 0.1f, 1.5f})
   {
     test_delais_fractionnaire<cfloat>(f);
     test_delais_fractionnaire<float>(f);
   }
 
-  if(test_ccorr())
-    return -1;
-
-  if(test_xcorr())
-    return -1;
+  test_ccorr();
+  test_xcorr(false);
+  test_xcorr(true);
 
 
-
-  for(float f: {0.f, 1.f, 10.f, 20.f, 30.f, 40.f, -50.f, 11.f, 1.1f})
-    if(test_delais_unitaire(f))
-      return -1;
+  for(auto N: {32, 1024, 15*1024})
+    for(auto type_signal : {0, 1})
+      for(float f: {0.f, 1.f, 10.f, 20.f, 30.f, 40.f, -50.f, 11.f, 1.1f})
+      {
+        if((N == 32) && (type_signal == 0))
+          continue;
+        if((N == 32) && (abs(f) > 10))
+          continue;
+        test_delais_unitaire(f, 40, type_signal, N);
+      }
 
   test_align_entier();
 

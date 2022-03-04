@@ -4,34 +4,10 @@
 ///////////////////////////////////////////////////////////////////////////
 
 
-#include "dsp/dsp.hpp"
-#include "dsp/fourier.hpp"
-#include "dsp/filter.hpp"
+#include "dsp/dsp-all.hpp"
 #include "dsp/time.hpp"
-#include "dsp/figure.hpp"
-#include "dsp/telecom.hpp"
-#include "dsp/stats.hpp"
 
-using namespace dsp;
-using namespace dsp::fourier;
-using namespace dsp::filter;
 using namespace dsp::time;
-using namespace dsp::view;
-using namespace dsp::telecom;
-
-
-
-/*struct Fr
-{
-  int champs_fr;
-};
-
-struct En: Fr
-{
-  int &en_field = champs_fr;
-};*/
-
-
 
 
 

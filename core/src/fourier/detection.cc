@@ -1,5 +1,5 @@
 #include "tsd/fourier.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/filtrage.hpp"
 
 using namespace std;
@@ -139,7 +139,7 @@ struct DetecteurImpl: Detecteur
     {
       float C;
       int Nf, Nz;
-      tsd::fourier::ola_complexite_optimise(M, C, Nf, Nz, Ne);
+      tsd::fourier::ola_complexité_optimise(M, C, Nf, Nz, Ne);
       msg("FFT corrélateur : calcul auto Ne optimal : M={} --> Ne={},Nz={},Nf=Ne+Nz={},C={} FLOPS/ech", M, Ne, Nz, Nf, C);
     }
 
@@ -443,7 +443,7 @@ struct DetecteurImpl: Detecteur
       // TODO: un peu arbitraire
       //if(abs(δ) > 0.01)
       //{
-      recu_theo = delais(recu_theo, δ);
+      recu_theo = délais(recu_theo, δ);
       //}
 
 

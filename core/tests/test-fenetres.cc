@@ -1,17 +1,6 @@
-#include "tsd/filtrage.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 
-using namespace tsd;
-using namespace tsd::filtrage;
-using namespace tsd::fourier;
-using namespace tsd::vue;
-
-/*void test_fenetre(const std::string &nom, const ArrayXf &x)
-{
-  fenetre_analyse(nom, x);
-}*/
 
 void verifie_fenetre(const std::string &nom, const ArrayXf &x, const FenInfos &ref)
 {
@@ -69,7 +58,16 @@ int test_fenetres()
 {
   msg_majeur("Test des fenêtres...");
 
-  int n = 128;
+
+  {
+    // Vérification petites fenêtres
+    for(auto n: {1, 2, 3, 4, 5})
+    {
+      verifie_fenetre("hn", fenetre("hn", n, true), {0, 0, true});
+      verifie_fenetre("hn", fenetre("hn", n, false), {0, 0, false});
+    }
+  }
+
 
   auto nn = {127, 128};
 
@@ -140,7 +138,7 @@ int test_fenetres()
 
   // Spec directement du coefficient de forme
   msg("Test kaiser, β = {}", 1.25);
-  verifie_fenetre("kaiser", fenêtre_kaiser1(n, 1.25, false), {29.47f, 1.19f/n});
+  verifie_fenetre("kaiser", fenêtre_kaiser1(128, 1.25, false), {29.47f, 1.19f/128});
 
 
   // Pourquoi commenté ?

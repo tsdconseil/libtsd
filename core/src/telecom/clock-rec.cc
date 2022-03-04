@@ -1,6 +1,6 @@
 #include "tsd/telecom.hpp"
 #include "tsd/filtrage/spline.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 
 using namespace tsd::vue;
 

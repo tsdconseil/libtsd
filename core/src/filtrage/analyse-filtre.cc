@@ -1,6 +1,6 @@
 #include "tsd/tsd.hpp"
 #include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include <iostream>
 
 using namespace tsd::vue;
@@ -84,9 +84,16 @@ template<typename T>
 
   ArrayXf y = repimp(h);
 
-  //f.subplot().plot(y, y.rows() < 50 ? "s-b" : "-b", "Réponse impulsionnelle");
   f.subplot().plot(y, "|b", "Réponse impulsionnelle");
-  f.subplot().plot(fr, 20*log10(mag), "", "Réponse fréquentielle (log)");
+
+  ArrayXf lmag = 20*log10(mag);
+
+  // Nettoyage des valeurs négligeables
+  for(auto i = 0; i < lmag.rows(); i++)
+    if(abs(lmag(i)) < 1e-5)
+      lmag(i) = 0;
+
+  f.subplot().plot(fr, lmag, "", "Réponse fréquentielle (log)");
   return f;
 }
 

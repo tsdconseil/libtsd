@@ -1,6 +1,5 @@
-#include "tsd/tsd.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/wav.hpp"
-#include <assert.h>
 
 int test_wav()
 {

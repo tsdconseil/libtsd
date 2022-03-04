@@ -1,8 +1,5 @@
-#include "tsd/tsd.hpp"
-#include "tsd/stats.hpp"
+#include "tsd/tsd-all.hpp"
 
-using namespace tsd;
-using namespace tsd::stats;
 
 void test_levinson()
 {

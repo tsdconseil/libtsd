@@ -1,14 +1,5 @@
-#include "tsd/tsd.hpp"
-#include "tsd/telecom.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/fourier.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
-#include <cstdio>
-
-using namespace tsd;
-using namespace tsd::telecom;
-using namespace tsd::vue;
-using namespace tsd::filtrage;
 
 
 static void test_filtre_boucle_ordre_1()
@@ -181,10 +172,10 @@ void test_discri_fm()
   auto discri = discriminateur_fm();
   ArrayXf z = discri->step(y);
 
-  float score;
+
   ArrayXcf x2 = x;
   ArrayXcf z2 = z;
-  auto d = tsd::fourier::estimation_delais_entier(x2, z2, score);
+  auto [d, score] = tsd::fourier::estimation_délais(x2, z2);
 
   msg("Délais détecté : {} (corr = {})", d, score);
 
@@ -420,7 +411,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
     if(config.avec_delais)
     {
-      xde = tsd::fourier::delais(xd, τ);
+      xde = tsd::fourier::délais(xd, τ);
 
       if(config.avec_plot)
       {

@@ -107,7 +107,7 @@ ArrayXf design_rif_gaussien_telecom(int n, float BT, int osf)
     msg_avert("design_rif_gaussien_telecom: BT={}, osf={} : résolution insuffisante pour sampler correctement la forme d'onde Gaussienne", BT, osf);
     h1(n/2) = 1;
     // Le délais introduit une distortion car le signal Gaussien ne respecte pas le critère de Nyquist.
-    h1 = tsd::fourier::delais(h1, -dec_nrz);
+    h1 = tsd::fourier::délais(h1, -dec_nrz);
   }
 
   ArrayXf h0 = ArrayXf::Ones(osf) / osf;

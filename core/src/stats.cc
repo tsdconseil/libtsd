@@ -2,7 +2,7 @@
 #include "tsd/stats.hpp"
 #include "tsd/fourier.hpp"
 #include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 
 using namespace tsd::fourier;
 using namespace tsd::vue;
@@ -233,7 +233,7 @@ namespace tsd::stats {
 
 
 namespace tsd::fourier {
-  std::tuple<ArrayXf, ArrayXf> psd_subspace(const ArrayXcf &x, int Ns, int Nf, int m)
+  std::tuple<ArrayXf, ArrayXf> psd_sousesp(const ArrayXcf &x, int Ns, int Nf, int m)
   {
     tsd::stats::SubSpaceSpectrumConfig config;
     config.Ns = Ns;

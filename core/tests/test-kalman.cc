@@ -1,11 +1,9 @@
-#include "tsd/tsd.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/apps/kalman.hpp"
-#include "tsd/figure.hpp"
 #include "tsd/tests.hpp"
 
-using namespace tsd;
 using namespace tsd::kalman;
-using namespace tsd::vue;
+
 
 static void test_modele_ma()
 {

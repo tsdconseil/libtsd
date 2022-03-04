@@ -1,7 +1,7 @@
 // implémentation filtre CIC.
 
 #include "tsd/tsd.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/filtrage/frat.hpp"
 

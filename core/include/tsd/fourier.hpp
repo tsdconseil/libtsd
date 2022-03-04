@@ -25,7 +25,7 @@ namespace tsd::fourier
      */
     virtual int configure(int n, bool avant, bool normalize = true) = 0;
 
-    /** @brief Calcul de la FFT */
+    /** @brief Calcul de la FFT ou IFFT. */
     virtual void step(const Eigen::Ref<const ArrayXcf> x, ArrayXcf &y, bool avant = true) = 0;
   };
 
@@ -98,7 +98,7 @@ namespace tsd::fourier
  *
  * @sa fftplan_création(), fft(), ifft()
  */
-extern sptr<FiltreGen<float, cfloat>> rfftplan_création(int n);
+extern sptr<FiltreGen<float, cfloat>> rfftplan_création(int n = -1);
 
 
 /** @brief FFT d'un vecteur réel.
@@ -338,7 +338,8 @@ struct FiltreFFTConfig
  *
  *  Pour différentes raisons, il peut être plus intéressant de filtrer dans le domaine fréquentiel
  *  que temporel, par exemple pour alléger la charge de calcul
- *  (les convolutions deviennent de simples produits termes à termes en fréquentiel).
+ *  (les convolutions dans le domaine temporel deviennent de simples
+ *  produits termes à termes en fréquentiel).
  *  Par filtrage fréquentiel, on entends le fait de pouvoir modifier terme par terme les composantes
  *  de la transformée de Fourier d'un signal, puis de pouvoir restituer un signal temporel.
  *
@@ -379,7 +380,7 @@ struct FiltreFFTConfig
  *  @image html ex-ola-pb.png width=800px
  *
  *
- *  @sa filtre_rif_fft(), filtre_rfft()
+ *  @sa filtre_rif_fft(), filtre_rfft(), ola_complexité(), ola_complexité_optimise()
  */
 extern std::tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, int> filtre_fft(const FiltreFFTConfig &config);
 
@@ -393,29 +394,29 @@ extern std::tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, int> filtre_fft
  *  @param Ne Taille de bloc d'entrée
  *  @param[out] C  Complexité, en FLOPS
  *  @param[out] Nf Dimension de la FFT
- *  @param[out] Nz Nombre de zéros insérés pour chaque bloc de FFT (Nf = Ne + Nz)
+ *  @param[out] Nz Nombre de zéros insérés pour chaque bloc de FFT (@f$N_f = N_e + N_z@f$)
  *
- *  @sa ola_complexite_optimise()
+ *  @sa ola_complexité_optimise()
  */
-extern void ola_complexite(int M, int Ne, float &C, int &Nf, int &Nz);
+extern void ola_complexité(int M, int Ne, float &C, int &Nf, int &Nz);
 
 /** @brief Calcul des paramètres optimaux pour un filtre par OLA.
  *
  * <h3>Calcul des paramètres optimaux pour un filtre par OLA</h3>
  *
- * Cette fonction calcul la taille de bloc optimale pour le calcul d'un filtrage par OLA.
+ * Cette fonction calcul la taille de bloc optimale pour le calcul d'un filtrage par OLA (voir @ref filtre_fft()).
  * L'optimum est trouvé pour @f$N_e = 2^k - (M-1)@f$, @f$k@f$ étant déterminé par recherche exhaustive.
  *
  *  @param M  Taille de filtre (ou motif à détecter)
  *  @param[out] C  Complexité, en FLOPS
  *  @param[out] Nf Dimension de la FFT
- *  @param[out] Nz Nombre de zéros insérés pour chaque bloc de FFT (Nf = Ne + Nz)
+ *  @param[out] Nz Nombre de zéros insérés pour chaque bloc de FFT (@f$N_f = N_e + N_z@f$)
  *  @param[out] Ne Taille de bloc d'entrée
  *
- *  @sa ola_complexite()
+ *  @sa ola_complexité()
  *
  */
-extern void ola_complexite_optimise(int M, float &C, int &Nf, int &Nz, int &Ne);
+extern void ola_complexité_optimise(int M, float &C, int &Nf, int &Nz, int &Ne);
 
 // Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add) - signaux réels.
 // *
@@ -449,7 +450,7 @@ extern ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0 = 1.0f);
  *  @{
  */
 
-/** @brief Corrélation circulaire (normalisée) entre deux signaux complexes
+/** @brief Corrélation circulaire (normalisée) entre deux vecteurs complexes.
  *
  *  <h3>Produit de corrélation circulaire</h3>
  *
@@ -460,15 +461,15 @@ extern ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0 = 1.0f);
  *
  *  @param x Premier vecteur
  *  @param y Deuxième vecteur (éventuellement égal au premier pour avoir l'auto-corrélation)
- *  @returns Premiers vecteur : index des retards @f$n@f$ (soit @f$0, 1, ..., N-1@f$), deuxième vecteur : @f$c_n@f$.
+ *  @returns Premier vecteur : index des retards @f$n@f$ (soit @f$0, 1, ..., N-1@f$), deuxième vecteur : @f$c_n@f$.
  *
  *
- * @sa xcorr()
+ * @sa xcorr(), xcorrb()
  */
 extern std::tuple<ArrayXf, ArrayXcf> ccorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf());
 
 
-/** @brief Corrélation (non biaisée) entre deux signaux complexes
+/** @brief Corrélation (non biaisée) entre deux vecteurs complexes
  *
  *  <h3>Produit de corrélation (avec correction de biais)</h3>
  *
@@ -501,12 +502,12 @@ extern std::tuple<ArrayXf, ArrayXcf> ccorr(const ArrayXcf &x, const ArrayXcf &y 
  * @snippet exemples/src/fourier/ex-fourier.cc ex_xcorr
  * @image html xcorr.png width=800px
  *
- * @sa xcorrb(), ccorr(), fft_correlateur()
+ * @sa xcorrb(), ccorr(), détecteur_création()
  */
 extern std::tuple<ArrayXf, ArrayXcf> xcorr(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1);
 
 
-/** @brief Corrélation (biaisée) entre deux signaux complexes.
+/** @brief Corrélation (biaisée) entre deux vecteurs complexes.
  *
  *  <h3>Produit de corrélation (sans correction de biais)</h3>
  *
@@ -520,7 +521,7 @@ extern std::tuple<ArrayXf, ArrayXcf> xcorr(const ArrayXcf &x, const ArrayXcf &y 
  *  @param m Nombre de délais à examiner (si négatif, alors fait comme si @f$m=N@f$).
  *  @returns Un tuple de deux vecteurs de dimension @f$2m@f$ : délais et corrélation.
  *
- *  @sa xcorr(), ccorr()
+ *  @sa xcorr(), ccorr(), détecteur_création()
  */
 extern std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y = ArrayXcf(), int m = -1);
 
@@ -553,11 +554,16 @@ extern std::tuple<ArrayXf, ArrayXcf> xcorrb(const ArrayXcf &x, const ArrayXcf &y
  *
  **/
 template<typename T = float>
-  Vecteur<T> delais(const Vecteur<T> &x, float τ);
+  Vecteur<T> délais(const Vecteur<T> &x, float τ);
 
-/** @brief Estimation du délais (à l'échantillon près) le
+
+// Fonction supprimée
+//extern int estimation_délais_entier(IArrayXcf x, IArrayXcf y, float &score);
+
+
+/** @brief Estimation du délais le
  *  plus probable entre deux signaux (via une corrélation) */
-extern int estimation_delais_entier(IArrayXcf x, IArrayXcf y, float &score);
+extern std::tuple<float, float> estimation_délais(IArrayXcf x, IArrayXcf y);
 
 
 /** @brief Alignement de deux signaux */
@@ -568,7 +574,7 @@ template<typename T>
 /** @brief Informations calculées à partir du motif détecté. */
 struct Detection
 {
-  /** @brief en nombre d'échantillons (compris entre 0 et Ne-1),
+  /** @brief Position en nombre d'échantillons (compris entre @f$-N_e@f$ et @f$N_e-1@f$),
   *    depuis le début du bloc de données en cours. Par exemple :
   *    - @f$0\  \Leftrightarrow@f$    Début du bloc en cours
   *    - @f$1\  \Leftrightarrow@f$    Deuxième échantillon du bloc en cours
@@ -832,7 +838,7 @@ extern std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const st
  *  le nombre de signaux à détecter (en effet, un cosinus ou sinus peut se représenter comme la somme de deux exponentielles complexes).
  *
  */
-extern std::tuple<ArrayXf, ArrayXf> psd_subspace(const ArrayXcf &x, int Ns, int Nf = 1024, int m = 0);//, const SubSpaceSpectrumConfig &config);
+extern std::tuple<ArrayXf, ArrayXf> psd_sousesp(const ArrayXcf &x, int Ns, int Nf = 1024, int m = 0);//, const SubSpaceSpectrumConfig &config);
 
 
 /** @brief Choix d'un algorithme pour l'estimation de fréquence */

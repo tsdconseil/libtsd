@@ -1,7 +1,7 @@
 #include "tsd/tsd.hpp"
 #include "tsd/fourier.hpp"
 #include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/fourier/cqt.hpp"
 
 using namespace tsd;

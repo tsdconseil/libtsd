@@ -1,16 +1,5 @@
-#include "tsd/tsd.hpp"
-#include "tsd/telecom.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/filtrage.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
-
-
-using namespace tsd;
-using namespace tsd::telecom;
-using namespace tsd::filtrage;
-using namespace tsd::vue;
-
 
 
 int test_itrp_irreg()
@@ -45,7 +34,7 @@ int test_itrp_irreg()
 
 void test_itrp_retard()
 {
-  auto itrp = tsd::filtrage::itrp_sinc<cfloat>({15, 1024, 0.5, "hn"});
+  auto itrp = itrp_sinc<cfloat>({15, 1024, 0.5, "hn"});
   ArrayXf delais = linspace(0, 1, 11);
 
   int M = 50;
@@ -57,9 +46,9 @@ void test_itrp_retard()
     auto filtre = filtre_rif<float,float>(h);
 
     ArrayXf y1 = filtre->step(x);
-    y1 = tsd::fourier::delais(y1, -7);
+    y1 = délais(y1, -7);
 
-    ArrayXf y2 = tsd::fourier::delais(x, delais(i));
+    ArrayXf y2 = délais(x, delais(i));
 
     if(tests_debug_actif)
     {

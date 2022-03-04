@@ -1,7 +1,7 @@
   #include "tsd/tsd.hpp"
 #include "tsd/fourier.hpp"
 #include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/moniteur-cpu.hpp"
 
 
@@ -376,23 +376,26 @@ namespace tsd::fourier
     {
       this->n = n;
 
-      if((n & 1) == 0)
+      if(n > 0)
       {
-        cplan     = fftplan_création(n/2);
-        twiddles  = fft_twiddles<T>(n);
-      }
-      else
-      {
-        // Si n est impair, on fait juste bêtement une FFT.
-        cplan = fftplan_création(n);
+        if((n & 1) == 0)
+        {
+          cplan     = fftplan_création(n/2);
+          twiddles  = fft_twiddles<T>(n);
+        }
+        else
+        {
+          // Si n est impair, on fait juste bêtement une FFT.
+          cplan = fftplan_création(n);
+        }
       }
 
       return 0;
     }
     void step(const Eigen::Ref<const Vecteur<T>> x, Vecteur<std::complex<T>> &y)
     {
-      if(n != x.rows())
-        configure(n);
+      if(x.rows() != n)
+        configure(x.rows());
       if((n & 1) == 0)
       {
         y.resize(n);
@@ -693,24 +696,31 @@ namespace tsd::fourier
 
 
   template<typename T>
-  Vecteur<std::complex<T>> delais_fractionnaire_c(const Vecteur<std::complex<T>> &x, float tau)
+  Vecteur<std::complex<T>> delais_fractionnaire_c(const Vecteur<std::complex<T>> &x, float τ)
   {
     int n = 2 * x.rows();
 
-    // (1) Compléte par des zéros à gauche et à droite
+    // (1) Complète par des zéros à gauche et à droite
     Vecteur<std::complex<T>> x2 = Vecteur<std::complex<T>>::Zero(n);
     x2.segment(n/4, n/2) = x;
 
     // Modulation dans le domaine fréquentiel
     Vecteur<std::complex<T>> X = fft(x2);
 
-    ArrayXcf rot = sigexp(-tau / n, n);
+    //ArrayXcf rot = sigexp(-τ / n, n);
+    //force_csym(rot);
 
-    force_csym(rot);
+    ArrayXcf rot(n);
+    for(auto i = 0; i < n; i++)
+    {
+      rot(i) = std::polar(1.0f, -2*π_f*i*τ/n + π_f*τ);
+    }
+
+    rot = fftshift(rot);
 
     X *= rot;
 
-    // Now depadd
+    // Retire le padding
     return ifft(X).segment(n/4, n/2);
   }
 
@@ -718,7 +728,7 @@ namespace tsd::fourier
 
   // PB : ne marche pas si T = complexe
   template<typename T = float>
-  Vecteur<T> delais_fractionnaire_r(const Vecteur<T> &x, float tau)
+  Vecteur<T> delais_fractionnaire_r(const Vecteur<T> &x, float τ)
   {
     uint32_t i, n = 2 * x.rows();
 
@@ -731,7 +741,7 @@ namespace tsd::fourier
 
     std::complex<T> rot(1.0, 0), dphi;
 
-    dphi = std::polar<T>((T) 1.0, (T) - tau * 2 * π / n);
+    dphi = std::polar<T>((T) 1.0, (T) - τ * 2 * π / n);
 
     // TODO
     // Attention X(0).real -> freq(0)
@@ -755,27 +765,27 @@ namespace tsd::fourier
   }
 
   template<typename T = float>
-  Vecteur<T> delais_entier(const Vecteur<T> &x, int delais)
+  Vecteur<T> delais_entier(const Vecteur<T> &x, int τ)
   {
-    if(delais == 0)
+    if(τ == 0)
       return x;
 
     int n = x.rows();
     Vecteur<T> y = Vecteur<T>::Zero(n);
 
     // Delais positif
-    if(delais > 0)
-      y.tail(n - delais) = x.head(n - delais);
+    if(τ > 0)
+      y.tail(n - τ) = x.head(n - τ);
     // Delais négatif
     else
-      y.head(n+delais) = x.tail(n+delais);
+      y.head(n + τ) = x.tail(n + τ);
 
     return y;
   }
 
 
   template<typename T>
-    Vecteur<T> delais(const Vecteur<T> &x, float delais)
+    Vecteur<T> délais(const Vecteur<T> &x, float delais)
   {
     if(std::floor(delais) != delais)
     {
@@ -785,7 +795,9 @@ namespace tsd::fourier
         return delais_fractionnaire_r(x, delais);
     }
     else
+    {
       return delais_entier<T>(x, (int) delais);
+    }
   }
 
 
@@ -796,14 +808,14 @@ namespace tsd::fourier
 // Complexité, par échantillon d'entrée, en FLOPS
 // M  : taille de filtre ou motif
 // Ne : taille de bloc d'entrée
-void ola_complexite(int M, int Ne, float &C, int &Nf, int &Nz)
+void ola_complexité(int M, int Ne, float &C, int &Nf, int &Nz)
 {
   Nf = prochaine_puissance_de_2(Ne + M - 1);
   Nz = Nf - Ne;
   C = (1.0f / Ne) * 2 * 5 * Nf * log(1.0f*Nf) / log(2.0f);
 }
 
-void ola_complexite_optimise(int M, float &C_, int &Nf_, int &Nz_, int &Ne_)
+void ola_complexité_optimise(int M, float &C_, int &Nf_, int &Nz_, int &Ne_)
 {
   // Nf doit être au minimum égal à M
   int kmin = ceil(log(M) / log(2));
@@ -812,7 +824,7 @@ void ola_complexite_optimise(int M, float &C_, int &Nf_, int &Nz_, int &Ne_)
   {
     int Nf, Nz, Ne = (1 << k) - (M - 1);
     float C;
-    ola_complexite(M, Ne, C, Nf, Nz);
+    ola_complexité(M, Ne, C, Nf, Nz);
     if((k == kmin) || (C < C_))
     {
       Nf_   = Nf;
@@ -1583,10 +1595,10 @@ template
 
 
 template
-Vecteur<float> delais<float>(const Vecteur<float> &x, float delay);
+Vecteur<float> délais<float>(const Vecteur<float> &x, float delay);
 
 template
-Vecteur<cfloat> delais<cfloat>(const Vecteur<cfloat> &x, float delay);
+Vecteur<cfloat> délais<cfloat>(const Vecteur<cfloat> &x, float delay);
 
 
 

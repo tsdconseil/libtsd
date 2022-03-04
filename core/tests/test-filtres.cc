@@ -1,14 +1,7 @@
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/filtrage/frat.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/fourier.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 
 using namespace std;
-using namespace tsd;
-using namespace tsd::filtrage;
-using namespace tsd::vue;
 
 /** @brief Appel un filtre, non pas directement sur l'ensemble d'un vecteur,
  *  mais en coupant le vecteur en tronçons de longueur BS.
@@ -93,15 +86,15 @@ ArrayXf design_rif_rcs_alt(int nc, float bet, float fc)
 {
   ArrayXf h_cs    = design_rif_cs (nc, bet, fc);
 
-  ArrayXcf HC = tsd::fourier::fft(h_cs);
+  ArrayXcf HC = fft(h_cs);
 
   HC = HC.sqrt().eval();
-  tsd::fourier::force_csym(HC);
-  ArrayXf h2 = tsd::fourier::ifft(HC).real();
+  force_csym(HC);
+  ArrayXf h2 = ifft(HC).real();
 
 
 
-  return h2;//tsd::fourier::fftshift(h2);
+  return h2;//fftshift(h2);
 }
 
 static void test_rcs1()
@@ -405,7 +398,7 @@ void test_design_passe_bas(const T &h, float atten_min = -1, float err_max = 0.1
 void test_filtrage_ola()
 {
   msg_majeur("Test filtrage OLA (domaine fréquentiel)...");
-  tsd::fourier::FiltreFFTConfig config;
+  FiltreFFTConfig config;
 
   config.avec_fenetrage         = true;
   config.dim_blocs_temporel     = 512;
@@ -418,7 +411,7 @@ void test_filtrage_ola()
     };
 
 
-  auto [ola, N] = tsd::fourier::filtre_fft(config);
+  auto [ola, N] = filtre_fft(config);
 
 
   ArrayXcf x = signal_test();
@@ -517,7 +510,7 @@ void test_rif_vs_rif_fft()
   msg("y1 : {} - {}", y1.minCoeff(), y1.maxCoeff());
   msg("y2 : {} - {}", y2.minCoeff(), y2.maxCoeff());
 
-  auto [y1p,y2p,i,score] = tsd::fourier::aligne_entier(y1, y2);
+  auto [y1p,y2p,i,score] = aligne_entier(y1, y2);
 
   ArrayXf err = (y1p - y2p).head(y1p.rows() - 4 * h.rows());
   auto errmax = err.abs().maxCoeff();
@@ -749,14 +742,14 @@ int test_filtres()
       if(nc <= 127)
       {
         msg("Mode Cheby....");
-        h = tsd::filtrage::design_rif_eq(nc, {{0, 0.2, 1}, {0.3, 0.5, 0}}, false);
+        h = design_rif_eq(nc, {{0, 0.2, 1}, {0.3, 0.5, 0}}, false);
         test_design_passe_bas(h);
       }
 
 
 
       msg("Mode Linf....");
-      h = tsd::filtrage::design_rif_eq(nc, {{0, 0.2, 1}, {0.3, 0.5, 0}}, tests_debug_actif, false);
+      h = design_rif_eq(nc, {{0, 0.2, 1}, {0.3, 0.5, 0}}, tests_debug_actif, false);
       test_design_passe_bas(h);
     }
 
@@ -767,7 +760,7 @@ int test_filtres()
     /*for(int nc : {15, 63, 127})
     {
       msg("  NC = {}", nc);
-      h = tsd::filtrage::design_rif_eq(nc, {{0, 0.2, 1}, {0.3, 0.5, 0}}, true);
+      h = design_rif_eq(nc, {{0, 0.2, 1}, {0.3, 0.5, 0}}, true);
       test_design_passe_bas(h);
     }*/
 
@@ -778,7 +771,7 @@ int test_filtres()
   test_gaussien();
 
 
-  ArrayXf h = tsd::filtrage::design_rif_rcs(63, 0.1, 1.0/(2*8));
+  ArrayXf h = design_rif_rcs(63, 0.1, 1.0/(2*8));
 
   if(tests_debug_actif)
   {

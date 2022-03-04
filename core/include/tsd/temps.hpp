@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <iosfwd>
 #include <compare>
+#include <tuple>
 
 namespace tsd::temps {
 

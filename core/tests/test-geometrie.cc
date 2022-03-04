@@ -1,6 +1,6 @@
 #include "tsd/tsd.hpp"
 #include "tsd/geometrie.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/tests.hpp"
 
 

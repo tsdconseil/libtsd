@@ -1291,7 +1291,7 @@ inline float fa2fd(float fa)
  *  @image html filtrage-ligne-a-retard.png width=800px
  *  */
 template<typename T>
-  sptr<FiltreGen<T>> delay_line(unsigned int n)
+  sptr<FilterGen<T>> delay_line(unsigned int n)
 {
   return tsdf::ligne_a_retard<T>(n);
 }
@@ -1313,7 +1313,7 @@ using tsdf::HilbertTransformeurConfig;
  *
  * @sa design_fir_hilbert(), hilbert(), hilbert_dft()
  */
-inline sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
+inline sptr<Filter<float, cfloat, HilbertTransformeurConfig>>
   hilbert_transformer(unsigned int n = 31, const std::string &fenetre = "hn")
 {
   return tsdf::hilbert_transformeur(n, fenetre);
@@ -1340,7 +1340,7 @@ inline sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
  *  @sa filter_fir_fft()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filter_fir(const Eigen::Ref<const Vector<Tc>> h)
+  sptr<FilterGen<T>> filter_fir(const Eigen::Ref<const Vector<Tc>> h)
 {
   return tsdf::filtre_rif(h);
 }
@@ -1353,7 +1353,7 @@ template<typename Tc, typename T = Tc>
  *  This filter let the signal unchanged.
  */
 template<typename T>
-  sptr<FiltreGen<T>> filter_id()
+  sptr<FilterGen<T>> filter_id()
 {
   return tsdf::filtre_id<T>();
 }
@@ -1365,7 +1365,7 @@ template<typename T>
  *  This "filter" delete @f$R-1@f$ samples every @f$R@f$ samples.
  */
 template<typename T>
-  sptr<FiltreGen<T>> decimator(int R)
+  sptr<FilterGen<T>> decimator(int R)
 {
   return tsdf::decimateur<T>(R);
 }
@@ -1390,7 +1390,7 @@ template<typename T>
  *  @sa filter_fir()
  */
 template<typename T>
-  sptr<FiltreGen<T>> filter_fir_fft(const ArrayXf &h)
+  sptr<FilterGen<T>> filter_fir_fft(const ArrayXf &h)
 {
   return tsdf::filtre_rif_fft<T>(h);
 }
@@ -1422,7 +1422,7 @@ template<typename T>
  *
  * */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filter_iir(const FRat<Tc> &h)
+  sptr<FilterGen<T>> filter_iir(const FRat<Tc> &h)
 {
   return tsdf::filtre_rii<Tc, T>(h);
 }
@@ -1454,7 +1454,7 @@ template<typename Tc, typename T = Tc>
  *  @image html filtrage-cic-decimation.png width=800px
  */
 template<typename T, typename Ti>
-  sptr<FiltreGen<T>> filter_cic(const CICConfig &config, char mode = 'd')
+  sptr<FilterGen<T>> filter_cic(const CICConfig &config, char mode = 'd')
 {
   return tsdf::filtre_cic<T,Ti>(config, mode);
 }
@@ -1565,14 +1565,14 @@ using RIIStructure = tsd::filtrage::RIIStructure;
  *  @sa filter_iir(), design_iira()
  */
 template<typename T>
-  sptr<FiltreGen<T>> filter_sois(const FRat<cfloat> &h, RIIStructure structure = RIIStructure::FormeDirecte2)
+  sptr<FilterGen<T>> filter_sois(const FRat<cfloat> &h, RIIStructure structure = RIIStructure::FormeDirecte2)
   {
     return tsdf::filtre_sois<T>(h, structure);
   }
 
 
 template<typename T>
-  sptr<FiltreGen<T>> filter_sois(const FRat<float> &h, RIIStructure structure = RIIStructure::FormeDirecte2)
+  sptr<FilterGen<T>> filter_sois(const FRat<float> &h, RIIStructure structure = RIIStructure::FormeDirecte2)
   {
     return tsdf::filtre_sois<T>(h, structure);
   }
@@ -1597,7 +1597,7 @@ template<typename T>
  *  @sa iir1_fcut(), iir1_coef()
  */
 template<typename T>
-  sptr<FiltreGen<T>> filter_iir1(float γ)
+  sptr<FilterGen<T>> filter_iir1(float γ)
   {
     return tsdf::filtre_rii1<T>(γ);
   }
@@ -1625,7 +1625,7 @@ template<typename T>
  * @sa design_dc_blocker()
  */
 template<typename T>
-  sptr<FiltreGen<T>> filter_dc(float fc)
+  sptr<FilterGen<T>> filter_dc(float fc)
   {
     return tsdf::filtre_dc<T>(fc);
   }
@@ -1650,7 +1650,7 @@ template<typename T>
  *
  */
 template<typename T, typename Tacc>
-  sptr<FiltreGen<T>> filter_ma(unsigned int K)
+  sptr<FilterGen<T>> filter_ma(unsigned int K)
   {
     return tsdf::filtre_mg<T,Tacc>(K);
   }
@@ -1866,14 +1866,14 @@ template<typename T>
  * @sa filter_fir_ups()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filter_fir_decim(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
+  sptr<FilterGen<T>> filter_fir_decim(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
   {
     return tsdf::filtre_rif_decim(h, R);
   }
 
 /** @brief To be documented : FIR filter optimized for half-band filtering. */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filter_fir_half_band(const Eigen::Ref<const Vector<Tc>> c)
+  sptr<FilterGen<T>> filter_fir_half_band(const Eigen::Ref<const Vector<Tc>> c)
 {
   return tsdf::filtre_rif_demi_bande<Tc,T>(c);
 }
@@ -1897,7 +1897,7 @@ template<typename Tc, typename T = Tc>
  *  @sa filter_fir_ups_delay(), filter_fir_decim(), filter_fir()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filter_fir_ups(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
+  sptr<FilterGen<T>> filter_fir_ups(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
   {
     return tsdf::filtre_rif_ups(h, R);
   }
@@ -1939,7 +1939,7 @@ inline float filter_fir_ups_delay(int nc, int R)
  *  @sa resample(), filter_fir_ups(), filter_fir_decim()
  **/
 template<typename T>
-  sptr<FiltreGen<T>> filter_resample(float ratio)
+  sptr<FilterGen<T>> filter_resample(float ratio)
   {
     return tsdf::filtre_reechan<T>(ratio);
   }
@@ -1953,7 +1953,7 @@ template<typename T>
  *
  *  @sa itrp_cpline(), itrp_linear(), itrp_lagrange(), itrp_sinc()
  */
-template<typename T> sptr<FiltreGen<T>> filter_itrp(float ratio, sptr<Interpolator<T>> itrp = itrp_cspline<T>())
+template<typename T> sptr<FilterGen<T>> filter_itrp(float ratio, sptr<Interpolator<T>> itrp = itrp_cspline<T>())
     {
     return tsdf::filtre_itrp<T>(ratio, itrp);
     }

@@ -1,9 +1,9 @@
-#include "tsd/tsd.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
+#include "tsd/temps.hpp"
 #include <tuple>
-#include "../include/tsd/temps.hpp"
 
-using namespace tsd;
+
 using namespace tsd::temps;
 
 

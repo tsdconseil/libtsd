@@ -1,5 +1,5 @@
 #include "tsd/tsd.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/fourier.hpp"
 

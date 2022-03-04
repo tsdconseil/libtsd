@@ -1,13 +1,6 @@
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/figure.hpp"
-#include "tsd/fourier.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 
-using namespace tsd;
-using namespace tsd::filtrage;
-using namespace tsd::fourier;
-using namespace tsd::vue;
 
 struct ResultatPurete
 {

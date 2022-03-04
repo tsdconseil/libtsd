@@ -1,6 +1,6 @@
 #include "tsd/telecom.hpp"
 #include "tsd/fourier.hpp"
-#include "tsd/figure.hpp"
+#include "tsd/vue.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/moniteur-cpu.hpp"
 
@@ -308,7 +308,7 @@ struct RécepteurImpl: Récepteur
 
     float C;
     int Nf, Nz;
-    ola_complexite_optimise(M, C, Nf, Nz, Ne);
+    ola_complexité_optimise(M, C, Nf, Nz, Ne);
 
     msg("Récepteur : calcul auto Ne optimal : M={} --> Ne={},Nz={},Nf=Ne+Nz={},C={} FLOPS/ech", M, Ne, Nz, Nf, C);
     config_detecteur.Ne = Ne;

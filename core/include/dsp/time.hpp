@@ -273,6 +273,12 @@ struct DateComposite
   /** @brief Heure dans la journée */
   HourComposite hour;
 
+  DateComposite(const Calendar &day, const HourComposite &hour)
+  {
+    this->day  = day;
+    this->hour = hour;
+  }
+
   DateComposite(const tsdt::DateComposite &dc)
   {
     day   = dc.jour;
