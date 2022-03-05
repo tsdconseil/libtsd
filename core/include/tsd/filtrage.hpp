@@ -681,39 +681,8 @@ extern ArrayXf design_rif_eq2(int n, IArrayXf D, IArrayXf W, bool debug = false)
 
 extern ArrayXf design_rif_eq(int n, const std::vector<SpecFreqIntervalle> &spec, bool debug = false, bool cheby_mode = true);
 
-/** @brief Sinus cardinal normalisé avec fréquence de coupure paramétrable.
- *
- *  <h3>Sinus cardinal normalisé avec fréquence de coupure paramétrable</h3>
- *
- *  @f[
- *  y(t) = \frac{\sin(2 \pi t f_c)}{\pi  t}
- *  @f]
- *
- *  La transformée de Fourier de cette fonction est une porte de largeur @f$\pm f_c@f$,
- *  ce qui en fait donc le protype idéal (mais non réalisable) pour un filtre passe-bas.
- *
- *  @param t Point d'échantillonnage temporel (en nombre d'échantillons)
- *  @param fc Fréquence de coupure
- *  @returns Valeur de @f$y@f$
- *
- *  @sa sinc(), design_rif_fen() */
-extern float sinc2(float t, float fc);
 
-/** @brief Sinus cardinal normalisé avec fréquence de coupure 0,5.
- *
- *  <h3>Sinus cardinal normalisé</h3>
- *  Calcul d'un sinus cardinal (fréquence de coupure 0,5) :
- *  @f[
- *  y(t) = \frac{\sin(\pi t)}{\pi  t}
- *  @f]
- *
- *  @param t Point d'échantillonnage (en nombre d'échantillons)
- *  @returns Valeur de @f$y@f$
- *
- *  @sa sinc2()
- *
- *  */
-extern float sinc(float t);
+
 
 /** @brief Design RIF par sinus-cardinal fenêtré.
  *

@@ -863,7 +863,7 @@ enum FreqEstimMethode
  *  la fonction renvoie une des deux valeurs possibles de fréquence (@f$f@f$ ou @f$-f@f$).
  *
  *  @warning Si le signal d'entrée est composé de plusieurs fréquences distinctes, cette fonction
- *  n'est pas adaptée. Utilisez plutôt un algorithme de type sous-espace (voir @ref psd_subspace()).
+ *  n'est pas adaptée. Utilisez plutôt un algorithme de type sous-espace (voir @ref psd_sousesp()).
  *
  *
  *  @param x Signal dont on veut estimer la fréquence

@@ -692,7 +692,7 @@ int test_fourier()
 
 
   for(auto N: {32, 1024, 15*1024})
-    for(auto type_signal : {0, 1})
+    for(auto type_signal : {0})//), 1})
       for(float f: {0.f, 1.f, 10.f, 20.f, 30.f, 40.f, -50.f, 11.f, 1.1f})
       {
         if((N == 32) && (type_signal == 0))

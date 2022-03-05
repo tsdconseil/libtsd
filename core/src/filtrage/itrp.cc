@@ -1,5 +1,6 @@
 #include "tsd/filtrage/spline.hpp"
 #include "tsd/filtrage.hpp"
+#include "tsd/divers.hpp"
 
 namespace tsd::filtrage {
 
@@ -26,7 +27,7 @@ namespace tsd::filtrage {
 
       ArrayXf h = ArrayXf::Zero(nc);
       for(auto i = 0; i < nc; i++)
-        h(i) = tsd::filtrage::sinc2(i-nc/2-τ, config.fcut);
+        h(i) = sinc(2 * config.fcut, i-nc/2-τ);
 
       // PB : il faut décaler la fenêtre de -tau !!
       //ArrayXf fen = fenetre(type_fenetre, npts);

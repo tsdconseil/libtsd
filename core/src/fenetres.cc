@@ -3,6 +3,7 @@
 #include "tsd/vue.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/tests.hpp"
+#include "tsd/divers.hpp"
 
 #include <Eigen/Eigenvalues>
 

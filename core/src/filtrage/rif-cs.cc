@@ -1,6 +1,7 @@
 #include "tsd/tsd.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/fourier.hpp"
+#include "tsd/divers.hpp"
 
 using namespace std;
 

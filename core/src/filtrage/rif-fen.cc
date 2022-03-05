@@ -8,36 +8,9 @@
 namespace tsd::filtrage {
 
 
-// TODO : à clarifier !!!
-float sinc2(float t, float fc)
-{
-  if(std::abs(t) < 1e-7f)
-    return 2 * fc;
-  return sin(2 * π * t * fc) / (π * t);
 
-  //   return std::sin(T * omega / 2) / (omega / 2);
-  // T*o/2 = 2pi*t*fc
-  // o/2 = pi*t
 
-  // <=> o = 2*pi*t
-  //     T = 2 * fc
 
-  // TFI d'une fonction porte fréquentielle, de la largeur 2fc
-  //return std::sqrt(2*π_f) * tsd::sinc(2 * fc, 2 * π * t);
-}
-
-// TODO : à clarifier !!!
-float sinc(float t)
-{
-  // sin(pi t) / pi t
-
-  if(std::abs(t) < 1e-7f)
-    return 1;
-  return std::sin(π_f*t) / (π_f*t);
-
-  //return std::sqrt(2*π_f) * tsd::sinc(1, 2 * π * t);
-  //return sinc2(t, 0.5f);
-}
 
 static ArrayXf coefs_filtre_sinc(int n, float fc)
 {
@@ -47,14 +20,14 @@ static ArrayXf coefs_filtre_sinc(int n, float fc)
   if((n & 1) == 1)
   {
     for(auto i = 0; i < n; i++)
-      h(i) = sinc2(i - n/2, fc);
+      h(i) = sinc(2*fc, i - n/2);
   }
   else
   {
     // n = 4
     // -1..2
     for(auto i = 0; i < n; i++)
-      h(i) = sinc2(i - (n-1)/2, fc);
+      h(i) = sinc(2*fc, i - (n-1)/2);
   }
   return h;
 }

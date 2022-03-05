@@ -727,6 +727,7 @@ inline ArrayXf design_fir_eq(unsigned int n, IArrayXf d, IArrayXf w, bool debug 
   return tsdf::design_rif_eq(n, d, w, debug);
 }
 
+#if 0
 /** @brief Normalized cardinal sine with configurable cut-off frequency
  *
  *  <h3>Normalized cardinal sine with configurable cut-off frequency</h3>
@@ -748,24 +749,12 @@ inline float sinc2(float t, float fc)
   return tsdf::sinc2(t, fc);
 }
 
-/** @brief Normalized cardinal sine with configurable cut-off frequency at 0.5.
- *
- *  <h3>Normalized cardinal sine</h3>
- *  Compute a cardinal sine with configurable cut-off frequency at 0.5:
- *  @f[
- *  y(t) = \frac{\sin(\pi t)}{\pi  t}
- *  @f]
- *
- *  @param t Temporal sampling point (as fractionnal number of samples).
- *  @returns Normalized cut-off frequency, between 0 and 0.5.
- *
- *  @sa sinc2()
- *
- *  */
+
 inline float sinc(float t)
 {
   return tsdf::sinc(t);
 }
+#endif
 
 /** @brief Windowed cardinal sine FIR design.
  *

@@ -9,13 +9,25 @@
 namespace tsd {
 
 
-float sinc(float T, float ω)
+float sinc(float T, float f)
 {
-  auto a = T * ω / 2;
+  auto a = π_f * T * f;
   if(std::abs(a) < 1e-7f)
     return T;
-  return (sqrt(2.0f) / tsd::π_f) * std::sin(T * ω / 2) / ω;
+  return std::sin(a) / (π_f * f);
 }
+
+float sinc(float t)
+{
+  // Fréquence de coupure = 1/2 <-> largeur = 1
+  return sinc(1, t);
+}
+
+
+/*float sinc2(float t, float fc)
+{
+  return sinc(2 * fc, t);
+}*/
 
 
 float Dirichlet(int N, float Ω)
