@@ -468,7 +468,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
     mc.fe     = fech2;
     mc.fi     = 57e3;
     mc.fsymb  = 1187.5 * 2; // Encodage de Manchester
-    mc.wf     = forme_onde_bpsk();
+    mc.forme_onde     = forme_onde_bpsk();
     demod_rds = démodulateur_création(mc, dc);
 
     // Filtrage audio

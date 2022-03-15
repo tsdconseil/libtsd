@@ -38,7 +38,7 @@ int test_clkrec()
   msg_majeur("Test recouvrement d'horloge...");
 
   ModConfig mc;
-  mc.wf             = forme_onde_psk(2);
+  mc.forme_onde             = forme_onde_psk(2);
   mc.debug_actif    = true;
   mc.fe             = 800e3;//1e6;
   mc.fi             = 0;
@@ -108,7 +108,7 @@ int test_crec()
   config.tc = 10;
 
   ModConfig mc;
-  mc.wf = forme_onde_psk(2);
+  mc.forme_onde = forme_onde_psk(2);
   mc.debug_actif    = true;
   mc.fe             = 1e6;
   mc.fi             = 0;

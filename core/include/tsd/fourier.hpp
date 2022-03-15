@@ -137,10 +137,10 @@ ArrayXcf rfft(const Eigen::ArrayBase<derived> &x)
  * @snippet exemples/src/fourier/ex-fourier.cc exemple_resample_freq
  * @image html fourier-resample.png width=1000px
  *
- * @sa reechan()
+ * @sa rééchan()
  */
 template<typename T>
-  Vecteur<T> reechan_freq(const Vecteur<T> &x, float ratio);
+  Vecteur<T> rééchan_freq(const Vecteur<T> &x, float ratio);
 
 /** @brief Transformée de Fourier Discrète (TFD) rapide
  *
@@ -178,7 +178,15 @@ auto fft(const Eigen::ArrayBase<derived> &x)
   }
 }
 
-
+/** @brief Fréquences normalisées associées à chaque bin d'une TFD / FFT.
+ *
+ *  <h3>Fréquences normalisées associées à chaque bin d'une TFD / FFT</h3>
+ *
+ *  @param n          Dimension de la TFD / FFT
+ *  @param avec_shift Si vrai, suppose que fftshift a été appelé (fréquence négatives au début).
+ *
+ */
+extern ArrayXf tfd_freqs(int n, bool avec_shift = false);
 
 
 /** @brief Transformée de Fourier Discrète Inverse

@@ -450,7 +450,7 @@ struct Poly
       if((v.rows() == 1) && (v(0) == 0.0f))
         return Vecteur<std::complex<float>>();
 
-      msg("Calcul racines : v = {}", v);
+      //msg("Calcul racines : v = {}", v);
 
       solver.compute(v);
       auto &r = solver.roots();

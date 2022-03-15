@@ -19,6 +19,29 @@ std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const std::stri
   return {freqs, 10.0f * S.log10()};
 }
 
+ArrayXf tfd_freqs(int n, bool avec_shift)
+{
+  if(avec_shift)
+  {
+    if((n & 1) == 0)
+      return linspace(-0.5,0.5-1.0/n,n);
+    return linspace(-0.5+1.0/n, 0.5, n);
+  }
+
+  ArrayXf f(n);
+  if((n & 1) == 0)
+  {
+    f.head(n/2) = linspace(0, 0.5-1.0/n, n/2);
+    f.tail(n/2) = linspace(-0.5, -1.0/n, n/2);
+  }
+  else
+  {
+    f.head(n/2+1) = linspace(0, 0.5-0.5/n, n/2+1);
+    f.tail(n/2)   = linspace(-0.5, -1.0/n, n/2);
+  }
+  return f;
+}
+
 ArrayXf psd_freqs(int n, bool complexe)
 {
   /*

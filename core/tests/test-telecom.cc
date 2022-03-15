@@ -295,7 +295,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   rc.format.modulation.fsymb                        = 1e3;
   rc.format.modulation.fe                           = rc.format.modulation.fsymb * config.osf;
   rc.format.modulation.fi                           = 0;
-  rc.format.modulation.wf                           = fo;
+  rc.format.modulation.forme_onde                           = fo;
   rc.config_demod.debug_actif                       = config.avec_plot;
   rc.config_demod.dec.carrier_rec.BL                = config.carrier_rec_bl;
   rc.SNR_mini                                       = -10;
@@ -947,7 +947,7 @@ int test_filtre_adapte()
     int osf = 2;
 
     auto fmef = sf.filtre_mise_en_forme(15, osf);
-    auto fa   = sf.filtre_adapte(15, osf);
+    auto fa   = sf.filtre_adapté(15, osf);
 
     int n = 30;
     ArrayXcf x = ArrayXcf::Zero(n);
@@ -1016,7 +1016,7 @@ void test_fsk()
   auto bs = randstream(16);
 
   ModConfig cfg;
-  cfg.wf            = forme_onde_fsk(2, 4);//2, index, filt, BT);
+  cfg.forme_onde            = forme_onde_fsk(2, 4);//2, index, filt, BT);
   cfg.debug_actif   = true;
   cfg.fe            = 10e3;
   cfg.fi            = 500;
@@ -1075,7 +1075,7 @@ int test_demod()
 
     ModConfig modcfg;
     DemodConfig cfg;
-    modcfg.wf          = wf;//waveform_psk(M, filtre);
+    modcfg.forme_onde          = wf;//waveform_psk(M, filtre);
     modcfg.fe          = 100e3;
     modcfg.fi          = 0;
     modcfg.fsymb       = 20e3;
@@ -1153,7 +1153,7 @@ static void test_émetteur()
   msg_majeur("Test émetteur...");
   RécepteurConfig rc;
   rc.format.entete            = BitStream::rand(127);
-  rc.format.modulation.wf     = forme_onde_bpsk();
+  rc.format.modulation.forme_onde     = forme_onde_bpsk();
   rc.format.modulation.fe     = 1e6;
   rc.format.modulation.fsymb  = 1e5;
   rc.format.nbits             = 256;

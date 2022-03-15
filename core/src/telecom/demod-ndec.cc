@@ -56,37 +56,19 @@ struct DemodGen: Démodulateur
     this->config = config;
     this->modconfig = modconfig;
 
-    auto &wf = modconfig.wf;
+    auto &fo = modconfig.forme_onde;
 
     discri = discriminateur_fm();
-    // Initialization of a demodulator object.
-    //
-    // Calling Sequence
-    //  demod = demod_init(name,fs,fi,fsymb)
-    //  demod = demod_init(wf,fs,fi,fsymb)
-    //
-    // Parameters
-    // name: classical waveform name ('bpsk', 'qpsk', 'qam16', ...)
-    // wf: Waveform object (created with <link linkend="wf_init">wf_init</link>)
-    // fs: Input sample frequency
-    // fi: Intermediate (or RF) frequency
-    // fsymb: Symbol frequency
-    //
-    // Examples
-    //  // QPSK demodulator (NRZ matched filter),
-    //  // sampling frequency = 1 MHz, IF = 200 KHz, FSYMB = 20 KHz
-    //  demod = demod_init('qpsk', 1e6, 200e3, 20e3);
-    //
 
-    if(!wf)
+    if(!fo)
     {
-      msg_erreur("Démodulateur : la waveform doit être renseignée.");
+      msg_erreur("Démodulateur : la forme d'onde doit être renseignée.");
       return -1;
     }
 
     if(fmod(modconfig.fe,modconfig.fsymb) != 0)
     {
-      msg_avert("demod_init: sample frequency must be a multiple of symbol frequency ?");
+      msg_avert("Démodulateur : sample frequency must be a multiple of symbol frequency ?");
     }
 
     this->osf2 = this->osf = modconfig.fe / modconfig.fsymb;
@@ -95,9 +77,9 @@ struct DemodGen: Démodulateur
 
     float ratio_osf_ideal = 8;
 
-    if(modconfig.fe > ratio_osf_ideal * wf->excursion() * modconfig.fsymb)
+    if(modconfig.fe > ratio_osf_ideal * fo->excursion() * modconfig.fsymb)
     {
-      ratio_ra = wf->excursion() * modconfig.fsymb * ratio_osf_ideal / modconfig.fe;
+      ratio_ra = fo->excursion() * modconfig.fsymb * ratio_osf_ideal / modconfig.fe;
       ra = tsd::filtrage::filtre_reechan<cfloat>(ratio_ra);
       //osf2 = ratio_osf_ideal;
       osf2 = ratio_ra * modconfig.fe / modconfig.fsymb;
@@ -107,7 +89,7 @@ struct DemodGen: Démodulateur
     }
     osf3 = osf2;
 
-    if(wf->infos.est_fsk && (modconfig.fe * ratio_ra > ratio_osf_ideal * modconfig.fsymb))
+    if(fo->infos.est_fsk && (modconfig.fe * ratio_ra > ratio_osf_ideal * modconfig.fsymb))
     {
       ratio_ra_dp = modconfig.fsymb * ratio_osf_ideal / (modconfig.fe * ratio_ra);
       ra_dp = tsd::filtrage::filtre_reechan<cfloat>(ratio_ra_dp);
@@ -117,12 +99,14 @@ struct DemodGen: Démodulateur
           ratio_ra_dp, osf2, osf3);
     }
 
-    psf = wf->filtre.filtre_adapte(modconfig.ncoefs_filtre_mise_en_forme, osf3);
+    psf = fo->filtre.filtre_adapté(modconfig.ncoefs_filtre_mise_en_forme, osf3);
     TranspoBBConfig config_tbb;
     config_tbb.fi = modconfig.fi / modconfig.fe;
     dn = transpo_bb<cfloat>(config_tbb);
 
     auto ted  = ted_init(config.ndec.clock_rec.ted);
+
+    tsd_assert(ted);
 
     sptr<Interpolateur<cfloat>> itrp;
     if(config.ndec.clock_rec.itrp == ItrpType::CSPLINE)
@@ -139,31 +123,32 @@ struct DemodGen: Démodulateur
 
 
 
-    //
+    ClockRecConfig crecconfig;
+    crecconfig.ted          = ted;
+    crecconfig.itrp         = itrp;
+    crecconfig.osf          = osf3;
+    crecconfig.tc           = config.ndec.clock_rec.tc;
+    crecconfig.debug_actif  = config.debug_actif;
+    crecconfig.h_fa         = modconfig.forme_onde->filtre.get_coefs(modconfig.ncoefs_filtre_mise_en_forme, osf3);
+
+    msg("crecconfig.tc = {}", crecconfig.tc);
+
     if(config.ndec.clock_rec.mode_ml)
-    {
-      ClockRecConfig crecconfig;
-      crecconfig.itrp         = itrp;
-      crecconfig.osf          = osf3;
-      crecconfig.h_fa         = modconfig.wf->filtre.get_coefs(modconfig.ncoefs_filtre_mise_en_forme, osf3);
-      crecconfig.tc           = config.ndec.clock_rec.tc;
-      crecconfig.debug_actif  = config.debug_actif;
       clock_rec = clock_rec2_init(crecconfig);
-    }
     else
-      clock_rec = clock_rec_init({(int) osf3, ted, itrp, config.ndec.clock_rec.tc, config.debug_actif});
+      clock_rec = clock_rec_init(crecconfig);
 
     filtre_rssi = filtre_rii1<float>(rii1_tc_vers_coef(config.ndec.tc_rssi_coarse * osf3)); // 10 symboles
     filtre_rssi2 = filtre_rii1<float>(rii1_tc_vers_coef(config.ndec.tc_rssi_fine)); // 3 symboles
 
 
-    if(!wf->infos.est_fsk)
+    if(!fo->infos.est_fsk)
     {
-      ped = ped_init(config.ndec.carrier_rec.ped, modconfig.wf);
+      ped = ped_init(config.ndec.carrier_rec.ped, modconfig.forme_onde);
 
 
       PLLConfig crr_config;
-      crr_config.ped = ped_init(PedType::AUTO, modconfig.wf);
+      crr_config.ped = ped_init(PedType::AUTO, modconfig.forme_onde);
       crr_config.loop_filter_order = 2;
       msg_avert("TODO: config loop filter.");
       //crr_config.
@@ -172,7 +157,8 @@ struct DemodGen: Démodulateur
 
       //carrier_rec = carrier_rec_init(crr_config);
       carrier_rec = cpll_création(crr_config);
-      msg("Démod init : fe = {} Hz, fi = {} Hz, fsymb = {} Hz.", modconfig.fe, modconfig.fi, modconfig.fsymb);
+      msg("Démod init : fe = {} Hz, fi = {} Hz, fsymb = {} Hz.",
+          modconfig.fe, modconfig.fi, modconfig.fsymb);
     }
 
     valide = true;
@@ -192,7 +178,7 @@ struct DemodGen: Démodulateur
 
   void step(const ArrayXcf &x_, BitStream &bs, ArrayXXf &llr)
   {
-    auto &wf = modconfig.wf;
+    auto &wf = modconfig.forme_onde;
 
     if(!valide)
       return;
@@ -248,7 +234,7 @@ struct DemodGen: Démodulateur
 
 #   if 0
     // (2) Carrier recovery
-    if(!config.wf->est_fsk)
+    if(!config.forme_onde->est_fsk)
       x_crr = carrier_rec->step(x_dn);
     else
     {

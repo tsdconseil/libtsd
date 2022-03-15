@@ -280,7 +280,7 @@ struct CQTNoyaux
     for(auto i = 0; i < nfreqs; i++)
     {
       ArrayXf tmp1 = (noyaux.col(i).head(ksize(i))).abs();
-      ArrayXf tmp = reechan(tmp1,1.0f/d);
+      ArrayXf tmp  = rééchan(tmp1,1.0f/d);
       int ns = (int) floor(ksize(i)/d);
       int nm = (int) floor(kimin(i)/d);
       if(nm < 1)

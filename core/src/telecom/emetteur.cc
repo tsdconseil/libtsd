@@ -40,7 +40,7 @@ struct ÉmetteurImpl: Émetteur
     if(config.format.fo_entete)
     {
       msg_majeur("Émetteur: fo entete = {}", *config.format.fo_entete);
-      msg_majeur("Émetteur: fo données = {}", *config.format.modulation.wf);
+      msg_majeur("Émetteur: fo données = {}", *config.format.modulation.forme_onde);
     }
 
     return 0;
@@ -60,7 +60,7 @@ struct ÉmetteurImpl: Émetteur
     else
     {
       BitStream et2 = config.format.entete;
-      et2.pad_mult(mconfig.wf->infos.k);
+      et2.pad_mult(mconfig.forme_onde->infos.k);
       bs2 = et2 + bs;
     }
 
@@ -69,7 +69,7 @@ struct ÉmetteurImpl: Émetteur
     //auto osf = mconfig.fe / mconfig.fsymb;
 
     int   d_ech           = (int) ceil(mod->delais());
-    int   nbits_par_symb  = mconfig.wf->infos.k;
+    int   nbits_par_symb  = mconfig.forme_onde->infos.k;
     //float nbits_par_echan = ((float) nbits_par_symb) / osf;
     //int   d_bit           = (int) ceil(d_ech * nbits_par_echan);
 
@@ -94,9 +94,9 @@ struct ÉmetteurImpl: Émetteur
 
       ArrayXcf x1 = mod->step(tmp);
 
-      nbits_par_symb  = mconfig.wf->infos.k;
+      nbits_par_symb  = mconfig.forme_onde->infos.k;
       bs2.pad_mult(nbits_par_symb);
-      mod->def_forme_onde(config.format.modulation.wf);
+      mod->def_forme_onde(config.format.modulation.forme_onde);
       ArrayXcf x2 = mod->step(bs2);
       x = vconcat(x1, x2);
     }

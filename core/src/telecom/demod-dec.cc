@@ -34,6 +34,9 @@ struct RecHorlogeConfig
   bool debug_actif = false;
 
   int ncoefs_filtre_mise_en_forme = 0;
+
+  ItrpType itrp = ItrpType::LINEAIRE;
+  int itrp_lagrange_degré = 1;
 };
 
 
@@ -94,9 +97,20 @@ struct RecHorloge
 
     //itrp = itrp_sinc<cfloat>(7, 0.4, "hn");
     //itrp = itrp_sinc<cfloat>(2*config.osf+1, 0.5, "hn");
-    itrp = itrp_lineaire<cfloat>();
+    //itrp = itrp_lineaire<cfloat>();
 
-    fa = config.forme_onde->filtre.filtre_adapte(config.ncoefs_filtre_mise_en_forme, config.osf);
+    if(config.itrp == ItrpType::CSPLINE)
+      itrp = itrp_cspline<cfloat>();
+    else if(config.itrp == ItrpType::LINEAIRE)
+      itrp = itrp_lineaire<cfloat>();
+    else if(config.itrp == ItrpType::LAGRANGE)
+      itrp = itrp_lagrange<cfloat>(config.itrp_lagrange_degré);
+    else
+    {
+      echec("clock rec: itrp inconnu.");
+    }
+
+    fa = config.forme_onde->filtre.filtre_adapté(config.ncoefs_filtre_mise_en_forme, config.osf);
 
     reset();
 
@@ -252,21 +266,23 @@ struct DemodGen2: Démodulateur
     osf   = fe / fsymb;
     cnt1  = osf-1;
 
-    tsd_assert_msg(modconfig.wf, "Démodulateur : la forme d'onde doit être renseignée.");
+    tsd_assert_msg(modconfig.forme_onde, "Démodulateur : la forme d'onde doit être renseignée.");
 
     msg("Configuration démod: fe={}, fsymb={} (OSF={}), excursion={}",
-        fe, fsymb, osf, modconfig.wf->excursion());
+        fe, fsymb, osf, modconfig.forme_onde->excursion());
 
     // Configuration du recouvrement d'horloge
     if(config.dec.clock_rec.actif)
     {
       RecHorlogeConfig rhmc;
-      rhmc.forme_onde   = modconfig.wf;
-      rhmc.osf          = osf;
-      rhmc.debug_actif  = config.debug_actif;
-      rhmc.tc           = config.dec.clock_rec.tc;
-      rhmc.actif        = config.dec.clock_rec.actif;
-      rhmc.ncoefs_filtre_mise_en_forme = modconfig.ncoefs_filtre_mise_en_forme;
+      rhmc.itrp                         = config.dec.clock_rec.itrp;
+      rhmc.itrp_lagrange_degré          = config.dec.clock_rec.itrp_lagrange_degré;
+      rhmc.forme_onde                   = modconfig.forme_onde;
+      rhmc.osf                          = osf;
+      rhmc.debug_actif                  = config.debug_actif;
+      rhmc.tc                           = config.dec.clock_rec.tc;
+      rhmc.actif                        = config.dec.clock_rec.actif;
+      rhmc.ncoefs_filtre_mise_en_forme  = modconfig.ncoefs_filtre_mise_en_forme;
       rec_horloge.configure(rhmc);
     }
 
@@ -290,7 +306,7 @@ struct DemodGen2: Démodulateur
       transpo = transpo_bb<cfloat>(config_tbb);
     }
 
-    ctx_fo = modconfig.wf->get_ctx(osf);
+    ctx_fo = modconfig.forme_onde->get_ctx(osf);
 
     reset(0);
 
@@ -455,7 +471,7 @@ struct DemodGen2: Démodulateur
     // Conversion index de symbole vers train binaire
     VERBOSE(msg(" demod: symboles -> train binaire...");)
     ArrayXi si2 = Eigen::Map<ArrayXi>(si.data(), si.size());
-    symdemap_binaire(bs, si2, modconfig.wf->infos.k);
+    symdemap_binaire(bs, si2, modconfig.forme_onde->infos.k);
     VERBOSE(msg("nb symboles décodés : {}, nb bits : {}", si.size(), bs.lon());)
 
 

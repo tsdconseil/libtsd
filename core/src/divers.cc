@@ -4,7 +4,7 @@
 
 #include "tsd/divers.hpp"
 
-
+using namespace std;
 
 namespace tsd {
 
@@ -12,9 +12,9 @@ namespace tsd {
 float sinc(float T, float f)
 {
   auto a = π_f * T * f;
-  if(std::abs(a) < 1e-7f)
+  if(abs(a) < 1e-7f)
     return T;
-  return std::sin(a) / (π_f * f);
+  return sin(a) / (π_f * f);
 }
 
 float sinc(float t)
@@ -30,10 +30,11 @@ float sinc(float t)
 }*/
 
 
-float Dirichlet(int N, float Ω)
+double Dirichlet(int N, double Ω)
 {
+  auto ε = 1e-5;
   Ω = modulo_2π(Ω);
-  if((Ω < 1e-5) || (2 * π - Ω < 1e-5))
+  if((Ω < ε) || ((2 * π - Ω) < ε))
     return 2 * N  + 1;
 
   if(abs(sin(Ω/2)) < 1e-7)
@@ -43,6 +44,8 @@ float Dirichlet(int N, float Ω)
 
   return sin((N+0.5)*Ω) / sin(Ω/2);
 }
+
+//   return sin((N+0.5)*x)/sin(x/2);
 
 /** @brief polynome simple */
 auto z = Poly<float>::z;

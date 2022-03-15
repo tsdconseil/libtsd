@@ -64,7 +64,7 @@ struct ShapingFilterSpec
   /** @brief SRRC filtering (Square-Root Raised Cosine). */
   static ShapingFilterSpec srrc(float β)
   {
-    return nfr::SpecFiltreMiseEnForme::srrc(β);
+    return nfr::SpecFiltreMiseEnForme::rcs(β);
   }
 
   /** @brief Filter type. */
@@ -140,7 +140,7 @@ struct ShapingFilterSpec
    */
   sptr<FilterGen<cfloat>> matched_filter(int ncoefs, int osf) const
   {
-    return fr().filtre_adapte(ncoefs, osf);
+    return fr().filtre_adapté(ncoefs, osf);
   }
 
   /** @brief Matched filter and downsampling at symbol rate.
@@ -154,7 +154,7 @@ struct ShapingFilterSpec
    */
   sptr<FilterGen<cfloat>> matched_filter_with_decimation(int ncoefs, int osf) const
   {
-    return fr().filtre_adapte_decimation(ncoefs, osf);
+    return fr().filtre_adapté_décimation(ncoefs, osf);
   }
 
   struct Analyse
@@ -682,18 +682,18 @@ inline void decode_hard(BitStream &y, const ArrayXf &llr)
 //  chn_simu
 //  fading_chn_init
 
-/** @brief Ajoute un bruit blanc gaussien complexe.
+/** @brief Add (complex) Gaussian white noise.
  *
- * <h3>Simulation d'un canal complexe AWGN (Additive White Gaussian Noise)</h3>
+ * <h3>Simulation of a complex AWGN channel (Additive White Gaussian Noise)</h3>
  *
  * @f[
  * y_k = x_k + b_k^{(r)} + \mathbf{i}\cdot b_k^{(i)}, \quad b^{(r)}, b^{(i)} : \mathcal{N}\left(0,\sigma^2\right)
  * @f]
  *
- * @param x Signal d'entrée (complexe)
- * @param σ Ecart-type du bruit
+ * @param x Input vector (complex)
+ * @param σ Noise standard deviation (for each I/Q component)
  *
- * @warning Le signal étant complexe, la puissance du bruit ajoutée est de @f$2\sigma^2@f$.
+ * @warning The signal being complex, the power of added noise is @f$2\sigma^2@f$.
  *
  * @sa thermal_noise()
  */
@@ -702,16 +702,16 @@ inline ArrayXcf awgn_noise(IArrayXcf &x, float σ)
   return nfr::bruit_awgn(x, σ);
 }
 
-/** @brief Ajoute un bruit blanc gaussien réel.
+/** @brief Add Gaussian white noise.
  *
- * <h3>Simulation d'un canal réel AWGN (Additive White Gaussian Noise)</h3>
+ * <h3>Simulation of a real AWGN channel (Additive White Gaussian Noise)</h3>
  *
  * @f[
  * y_k = x_k + b_k , \quad b_k : \mathcal{N}\left(0,\sigma^2\right)
  * @f]
  *
- * @param x Signal d'entrée (réel)
- * @param σ Ecart-type du bruit
+ * @param x Input vector (real)
+ * @param σ Noise standard deviation
  * @sa thermal_noise()
  *
  */
@@ -721,44 +721,44 @@ inline ArrayXf bruit_awgn(IArrayXf &x, float σ)
 }
 
 
-/** @brief Type de canal (avec ou sans trajet dominant) */
+/** @brief Dispersive channel type (with or without dominant path) */
 enum ChannelType
 {
-  /** @brief Sans trajet dominant */
+  /** @brief Without dominant path. */
   RAYLEIGH = 0,
-  /** @brief Avec trajet dominant */
+  /** @brief With dominant path. */
   RICE
 };
 
-/** @brief Configuration pour un canal dispersif */
+/** @brief Configuration for a dispersive channel. */
 struct DispersiveChannelConfig : nfr::CanalDispersifConfig
 {
-  /** Type de canal (avec ou sans trajet dominant) */
+  /** @brief Channel type (with or without dominant path) */
   ChannelType &channel_type = *((ChannelType *) &type);
 
-  /** @brief Fréquence Doppler max */
+  /** @brief Maximum Doppler frequency. */
   float &max_Doppler = fd;
 
-  /** @brief Fréquence d'échantillonnage */
+  /** @brief Sampling frequency. */
   float &fs = fe;
 
-  /** @brief Facteur Ricien. */
+  /** @brief Rician factor. */
   float &Rician_factor = K;
 };
 
 
-/** @brief Création d'un simulateur de canal dispersif.
+/** @brief Creation of a (baseband) dispersive channel simulator.
  *
- * <h3>Simulateur de canal dispersif</h3>
+ * <h3>Dispersive channel simulator (baseband)</h3>
  *
- * Cet objet permet de simuler un canal de Rayleigh (sans trajet dominant)
- * ou de Rice (avec trajet dominant), en bande de base.
+ * This function enable to simulate a Rayleigh (without dominant path)
+ * or Rice (with dominant path) channel, in baseband.
  *
- * @param config Configuration (type de canal, Doppler max et facteur Ricien).
- * @return %Filtre signal bande de base (cfloat) @f$\to@f$ Signal bande de base, après atténuation.
+ * @param config Configuration (channel type, maximum Doppler and Rician factor).
+ * @return %Filtre Baseband signal (cfloat) @f$\to@f$ baseband signal, after fading.
  *
  *
- * @par Exemple
+ * @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_canal_dispersif
  *  @image html canal-dispersif.png width=800px
  */
@@ -829,20 +829,20 @@ inline sptr<Filter<cfloat,cfloat,nfr::DSSSConfig>> dsss_modulation(const DSSSCon
 }
 
 
-/** @brief Configuration d'une transposition en bande de base */
+/** @brief Baseband downconversion configuration. */
 struct TranspoBBConfig: nfr::TranspoBBConfig
 {
-  /** @brief Fréquence intermédiaire (normalisée, entre 0 et 0,5). */
+  /** @brief Intermediate frequency (normalized, between 0 and 0.5). */
   float &intermediate_frequency = fi;
 
-  /** @brief Adaptation de rythme demandée (1 = aucune, 0.5 = 1/2, etc) */
+  /** @brief Requested downsampling (1 = nonde, 0.5 = 1/2, etc). */
   float &ra_ratio = ratio_ar;
 };
 
 
-/** @brief Transposition de fréquence à partir d'un signal réel ou complexe.
+/** @brief Baseband downconversion.
  *
- * <h3>Transposition de fréquence à partir d'un signal réel ou complexe</h3>
+ * <h3>Baseband downconversion</h3>
  *
  * Ce bloc permet de convertir un signal radio reçu avec une certaine fréquence intermédiaire, vers un signal
  * bande de base (centré à 0 Hz).
@@ -1089,7 +1089,7 @@ struct ModConfig
   auto fr() const
   {
     nfr::ModConfig res;
-    res.wf = wf->fr;
+    res.forme_onde = wf->fr;
     res.fe = fe;
     res.fi = fi;
     res.fsymb = fsymb;
@@ -2389,16 +2389,17 @@ extern sptr<Filter<cfloat, cfloat, FMDemodConfig>> demodulateurFM();
 
 
 
-/** @brief Génération d'un code à séquence maximale.
+/** @brief Maximal length sequence generation.
  *
- *  <h3>Génération d'un code à séquence maximale</h3>
+ *  <h3>Maximal length sequence generation</h3>
  *
- *  @param n Longueur du registre à décalage (doit être compris entre 1 et 16).
+ *  @param n Generating polynomial degree (must be between 1 and 16).
  *
- *  Cette fonction génère un code binaire de longueur @f$m=2^n-1@f$, grâce à un registre à décalage
- *  et un polynôme primitif.
+ *  This function generate a binary code of length @f$m=2^n-1@f$, using a shift register
+ *  and a primitive polynomial.
  *
- *  @par Exemple
+ *
+ *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_code_mls
  *  @image html ex-code-mls.png width=800px
  *
@@ -2438,6 +2439,9 @@ inline uint32_t primitive_polynom_binary(int reglen)
  *  <h3>Calcul d'un polynôme primitif.</h3>
  *
  *  Cette fonction est utilisée pour la génération de codes à longueur maximale.
+ *  Un polynôme primitif @f$p(x)@f$ de degré @f$n@f$ est :
+ *   - Irréductible,
+ *   - Le plus petit @f$k@f$ tel que @f$p(x)@f$ divise @f$x^k-1@f$ est @f$k=2^n-1@f$.
  *
  *  @param n Degré du polynôme (doit être compris entre 1 et 16).
  *

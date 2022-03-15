@@ -1551,7 +1551,7 @@ ArrayXcf czt(IArrayXcf x, int m, cfloat W, cfloat z0)
 }
 
 template<typename T>
-  Vecteur<T> reechan_freq(const Vecteur<T> &x, float lom)
+  Vecteur<T> rééchan_freq(const Vecteur<T> &x, float lom)
 {
   if(lom == 1)
     return x;
@@ -1588,10 +1588,10 @@ template<typename T>
 
 
 template
-  Vecteur<float> reechan_freq(const Vecteur<float> &x, float lom);
+  Vecteur<float> rééchan_freq(const Vecteur<float> &x, float lom);
 
 template
-  Vecteur<cfloat> reechan_freq(const Vecteur<cfloat> &x, float lom);
+  Vecteur<cfloat> rééchan_freq(const Vecteur<cfloat> &x, float lom);
 
 
 template

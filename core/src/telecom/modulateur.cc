@@ -60,7 +60,7 @@ struct ModGen : Modulateur
     latence = 0;
     this->config = config;
 
-    forme_onde = config.wf;
+    forme_onde = config.forme_onde;
 
     if(!forme_onde)
       echec("Création modulateur : forme d'onde non spécifiée.");
@@ -103,11 +103,11 @@ struct ModGen : Modulateur
 
     int ncoefs = config.ncoefs_filtre_mise_en_forme;
 
-    filtre_mise_en_forme = config.wf->filtre.filtre_mise_en_forme(ncoefs, osf);
+    filtre_mise_en_forme = config.forme_onde->filtre.filtre_mise_en_forme(ncoefs, osf);
     ol = source_ohc(config.fi / config.fe);
 
     {
-      ArrayXf h = config.wf->filtre.get_coefs(ncoefs, osf);
+      ArrayXf h = config.forme_onde->filtre.get_coefs(ncoefs, osf);
 
       //tsd_assert(h.rows() == ncoefs);
 
@@ -120,12 +120,12 @@ struct ModGen : Modulateur
 
     if(config.debug_actif)
     {
-      ArrayXf h = config.wf->filtre.get_coefs(ncoefs, osf);
+      ArrayXf h = config.forme_onde->filtre.get_coefs(ncoefs, osf);
       auto f = analyse_filtre(h, config.fe);
       f.afficher("Filtre de mise en forme");
     }
 
-    this->config.wf->cnt = 0;
+    this->config.forme_onde->cnt = 0;
 
     return 0;
   }
@@ -157,14 +157,14 @@ struct ModGen : Modulateur
 
     ArrayXf vfreqs, vphase;
 
-    if(config.wf->infos.est_fsk)
+    if(config.forme_onde->infos.est_fsk)
     {
       // df = 0.5 * h * fsymb
       // df sur un symbole = 0.5 * h / osf
       // 2 π / osf <=> h = 2
       // => θ = h * 2 * pi / osf / 2 = h * pi / osf
 
-      auto Ω_max = (π * config.wf->infos.index) / osf;
+      auto Ω_max = (π * config.forme_onde->infos.index) / osf;
       // h = 2 -> Omega_max = 2 * pi / osf
 
       //msg("Ω max = {} degrés.", rad2deg(Ω_max));
@@ -228,7 +228,7 @@ struct ModGen : Modulateur
 
         f.subplot().plot_psd(x_filtre, fe1);
 
-        if(config.wf->infos.est_fsk)
+        if(config.forme_onde->infos.est_fsk)
         {
           f.subplot().plot(vfreqs, "", "Vfreqs");
           f.subplot().plot(vphase, "", "Phase (cumsum)");

@@ -484,7 +484,7 @@ using Filter = tsd::Filtre<Te, Ts, Tc>;
 template<typename Derived>
   auto resample(const Eigen::ArrayBase<Derived> &x, float r)
 {
-  return tsd::reechan(x, r);
+  return tsd::rééchan(x, r);
 }
 
 

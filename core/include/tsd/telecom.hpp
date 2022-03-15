@@ -36,7 +36,7 @@ struct SpecFiltreMiseEnForme
   static SpecFiltreMiseEnForme nrz();
 
   /** @brief Filtre RCS (racine de cosinus sur-élevé). */
-  static SpecFiltreMiseEnForme srrc(float β);
+  static SpecFiltreMiseEnForme rcs(float β);
 
   /** @brief Type de filtre. */
   enum Type
@@ -48,11 +48,11 @@ struct SpecFiltreMiseEnForme
     /** @brief Filtrage gaussien + moyenne glissante. */
     GAUSSIEN,
     /** @brief Filtre RCS (racine de cosinus sur-élevé). */
-    SRRC
+    RCS
   };
 
   /** @brief Type de filtre. */
-  Type type = Type::SRRC;
+  Type type = Type::RCS;
 
   /** @brief Produit B * T (filtre Gaussien) */
   float BT            = 0.8;
@@ -104,7 +104,7 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_mise_en_forme()
    */
-  sptr<FiltreGen<cfloat>> filtre_adapte(int ncoefs, int osf) const;
+  sptr<FiltreGen<cfloat>> filtre_adapté(int ncoefs, int osf) const;
 
   /** @brief Filtrage adapté et sous-échantillonnage à la fréquence symbole intégré
    *
@@ -115,7 +115,7 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_mise_en_forme(), filtre_adapte()
    */
-  sptr<FiltreGen<cfloat>> filtre_adapte_decimation(int ncoefs, int osf) const;
+  sptr<FiltreGen<cfloat>> filtre_adapté_décimation(int ncoefs, int osf) const;
 
   struct Analyse
   {
@@ -562,8 +562,8 @@ extern void decode_hard(BitStream &y, const ArrayXf &llr);
  * y_k = x_k + b_k^{(r)} + \mathbf{i}\cdot b_k^{(i)}, \quad b^{(r)}, b^{(i)} : \mathcal{N}\left(0,\sigma^2\right)
  * @f]
  *
- * @param x Signal d'entrée (complexe)
- * @param σ Ecart-type du bruit
+ * @param x Vecteur d'entrée (complexe)
+ * @param σ Ecart-type du bruit (ajouté sur chaque composante I/Q)
  *
  * @warning Le signal étant complexe, la puissance du bruit ajoutée est de @f$2\sigma^2@f$.
  *
@@ -579,7 +579,7 @@ extern ArrayXcf bruit_awgn(IArrayXcf &x, float σ);
  * y_k = x_k + b_k , \quad b_k : \mathcal{N}\left(0,\sigma^2\right)
  * @f]
  *
- * @param x Signal d'entrée (réel)
+ * @param x Vecteur d'entrée (réel)
  * @param σ Ecart-type du bruit
  * @sa bruit_thermique()
  *
@@ -587,7 +587,7 @@ extern ArrayXcf bruit_awgn(IArrayXcf &x, float σ);
 extern ArrayXf bruit_awgn(IArrayXf &x, float σ);
 
 
-/** @brief Type de canal (avec ou sans trajet dominant) */
+/** @brief Type de canal dispersif (avec ou sans trajet dominant) */
 enum TypeCanal
 {
   /** @brief Sans trajet dominant */
@@ -596,16 +596,16 @@ enum TypeCanal
   RICE
 };
 
-/** @brief Configuration pour un canal dispersif */
+/** @brief Configuration pour un canal dispersif. */
 struct CanalDispersifConfig
 {
-  /** Type de canal (avec ou sans trajet dominant) */
+  /** @brief Type de canal (avec ou sans trajet dominant) */
   TypeCanal type;
 
-  /** @brief Fréquence Doppler max */
+  /** @brief Fréquence Doppler maximale. */
   float fd;
 
-  /** @brief Fréquence d'échantillonnage */
+  /** @brief Fréquence d'échantillonnage. */
   float fe;
 
   /** @brief Facteur Ricien. */
@@ -894,7 +894,7 @@ extern sptr<FiltreBoucle> filtre_boucle_ordre_2(float BL, float η);
 struct ModConfig
 {
   /** @brief Spécifications de la forme d'onde */
-  sptr<FormeOnde> wf;
+  sptr<FormeOnde> forme_onde;
 
   /** @brief Fréquence d'échantillonnage (Hz) */
   float fe = 1;
@@ -996,7 +996,7 @@ struct Démodulateur
  *
  * Le bloc modulateur permet de convertir un train binaire en un
  * signal bande de base (ou déjà transposé à une fréquence intermédiaire),
- * mis en forme et sur-échantillonné (de manière à être prêt à être transmis à un ADC).
+ * mis en forme et sur-échantillonné (de manière à être prêt à être transmis à un CAN).
  *
  *
  * La structure de paramètrage (@ref ModConfig) spécifie la forme d'onde
@@ -1087,7 +1087,7 @@ enum class ItrpType
 struct DemodConfig
 {
   /** @brief Choix de l'architecture du démodulateur (basé ou non sur la décision symbole). */
-  enum
+  enum Architecture
   {
     /** @brief Architecture avec détecteurs d'erreurs (horloge et phase) basés sur la décision symbole. */
     ARCHI_AVEC_DECISION = 0,
@@ -1106,6 +1106,9 @@ struct DemodConfig
 
       /** @brief Constante de temps du filtre de boucle, en nombre de symboles */
       float tc = 100;
+
+      ItrpType itrp = ItrpType::CSPLINE;
+      int itrp_lagrange_degré = 3;
     } clock_rec;
 
     /** @brief Paramètrage du recouvrement de porteuse. */
@@ -1132,18 +1135,18 @@ struct DemodConfig
     /** @brief Paramètrage du recouvrement d'horloge */
     struct
     {
-      bool actif = true;
-      bool mode_ml = false;
-      TedType ted = TedType::GARDNER;
-      float tc = 5.0f;
-      ItrpType itrp = ItrpType::CSPLINE;
-      unsigned int itrp_lagrange_degre = 3;
+      bool actif              = true;
+      bool mode_ml            = false;
+      TedType ted             = TedType::GARDNER;
+      float tc                = 5.0f;
+      ItrpType itrp           = ItrpType::CSPLINE;
+      int itrp_lagrange_degre = 3;
     } clock_rec;
 
     /** @brief Paramètrage du recouvrement de porteuse */
     struct
     {
-      bool actif = true;
+      bool actif  = true;
       PedType ped = PedType::AUTO;
       float BL = 0.01, η = 1;
     } carrier_rec;
@@ -1271,11 +1274,6 @@ struct RécepteurConfig
 
   /** @brief Format des trames */
   TrameFormat format;
-
-  // std::vector<TrameFormat> formats;
-
-  // TODO: redondant avec format.modulation
-  //float fe = 0, fsymb = 0, fi = 0;
 
   /** @brief Configuration du démodulateur. */
   DemodConfig config_demod;
@@ -2122,9 +2120,13 @@ extern uint32_t polynome_primitif_binaire(int reglen);
 
 /** @brief Calcul d'un polynôme primitif.
  *
- *  <h3>Calcul d'un polynôme primitif.</h3>
+ *  <h3>Calcul d'un polynôme primitif</h3>
  *
  *  Cette fonction est utilisée pour la génération de codes à longueur maximale.
+ *  Un polynôme primitif @f$p(x)@f$ de degré @f$n@f$ est :
+ *   - Irréductible,
+ *   - Le plus petit @f$k@f$ tel que @f$p(x)@f$ divise @f$x^k-1@f$ est @f$k=2^n-1@f$.
+ *
  *
  *  @param n Degré du polynôme (doit être compris entre 1 et 16).
  *

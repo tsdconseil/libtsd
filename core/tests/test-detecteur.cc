@@ -112,15 +112,15 @@ int test_motifs()
 {
   {
     ModConfig mconfig;
-    mconfig.wf = forme_onde_bpsk();
+    mconfig.forme_onde = forme_onde_bpsk();
     mconfig.fe    = 4;
     mconfig.fsymb = 1;
-    mconfig.wf->filtre = SpecFiltreMiseEnForme::srrc(0.5);
+    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     auto mod = modulateur_création(mconfig);
     auto bs = code_mls(4);//BitStream::rand(15);
 
     //ArrayXcf x = mod->step(pad_bs(bs, mconfig.wf->infos.k));
-    bs.pad_mult(mconfig.wf->infos.k);
+    bs.pad_mult(mconfig.forme_onde->infos.k);
     ArrayXcf x = mod->step(bs);
     test_motif({"bpsk-15bits", x});
 
@@ -129,31 +129,31 @@ int test_motifs()
     for(auto i = 0; i < 15; i += 2)
       bs.set(i, 1);
 
-    bs.pad_mult(mconfig.wf->infos.k);
+    bs.pad_mult(mconfig.forme_onde->infos.k);
     x = mod->step(bs);
     test_motif({"bpsk-15bits-010101", x});
 
 
     bs = BitStream::zéros(7) + BitStream::uns(8);
-    bs.pad_mult(mconfig.wf->infos.k);
+    bs.pad_mult(mconfig.forme_onde->infos.k);
     x = mod->step(bs);
     test_motif({"bpsk-15bits-000000011111111", x});
 
 
-    mconfig.wf = forme_onde_qpsk();
-    mconfig.wf->filtre = SpecFiltreMiseEnForme::srrc(0.5);
+    mconfig.forme_onde = forme_onde_qpsk();
+    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     mod = modulateur_création(mconfig);
     bs = code_mls(5);//BitStream::rand(31);
-    bs.pad_mult(mconfig.wf->infos.k);
+    bs.pad_mult(mconfig.forme_onde->infos.k);
     x = mod->step(bs);
     test_motif({"qpsk-31bits", x});
 
 
-    mconfig.wf = forme_onde_π4_qpsk();
-    mconfig.wf->filtre = SpecFiltreMiseEnForme::srrc(0.5);
+    mconfig.forme_onde = forme_onde_π4_qpsk();
+    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     mod = modulateur_création(mconfig);
     //bs = BitStream::rand(31);
-    bs.pad_mult(mconfig.wf->infos.k);
+    bs.pad_mult(mconfig.forme_onde->infos.k);
     x = mod->step(bs);
     test_motif({"π4qpsk-31bits", x});
   }

@@ -116,7 +116,7 @@ struct ClockRec: FiltreGen<cfloat>
   {
     this->config = config;
     phase = ((float) config.osf) / 2;
-    this->K1   = config.osf;
+    K1   = config.osf;
 
     if(!config.itrp)
       echec("clock rec : intepolateur non spécifié.");

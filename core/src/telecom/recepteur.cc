@@ -113,7 +113,7 @@ struct RécepteurImpl: Récepteur
 
   std::tuple<int,float> calc_retard()
   {
-    ArrayXf cf = config.format.modulation.wf->filtre.get_coefs(
+    ArrayXf cf = config.format.modulation.forme_onde->filtre.get_coefs(
         config.format.modulation.ncoefs_filtre_mise_en_forme, osf);
 
     // osf/2 pour aller au milieu du premier bit
@@ -142,7 +142,7 @@ struct RécepteurImpl: Récepteur
     δ = std::clamp(δ, 0.0f, 1.0f);
 
     ArrayXf h1 = itrp->coefs(δ);
-    ArrayXf h2 = config.format.modulation.wf->filtre.get_coefs(
+    ArrayXf h2 = config.format.modulation.forme_onde->filtre.get_coefs(
         config.format.modulation.ncoefs_filtre_mise_en_forme, osf);
 
     if(config.debug_actif)
@@ -179,11 +179,11 @@ struct RécepteurImpl: Récepteur
 
     const auto &conf_mod = config.format.modulation;
 
-    this->wf    = conf_mod.wf;
+    this->wf    = conf_mod.forme_onde;
     auto fe     = conf_mod.fe;
     auto fsymb  = conf_mod.fsymb;
 
-    auto fo_entete = config.format.modulation.wf;
+    auto fo_entete = config.format.modulation.forme_onde;
 
     if(config.format.fo_entete)
     {
@@ -227,7 +227,7 @@ struct RécepteurImpl: Récepteur
     //  config.config_demod.fe  = config.fe;
 
     ModConfig config_mod_entete = conf_mod;
-    config_mod_entete.wf = fo_entete;
+    config_mod_entete.forme_onde = fo_entete;
     auto mod = modulateur_création(config_mod_entete);
 
 
@@ -468,7 +468,7 @@ struct RécepteurImpl: Récepteur
 
       VERB(msg("Récepteur, après offset cnt (cnt_x={}): {}", cnt_x, trame.det));
 
-      auto fo_entete = config.format.modulation.wf;
+      auto fo_entete = config.format.modulation.forme_onde;
       if(config.format.fo_entete)
         fo_entete = config.format.fo_entete;
 

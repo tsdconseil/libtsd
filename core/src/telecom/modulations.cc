@@ -1084,11 +1084,11 @@ ArrayXf SpecFiltreMiseEnForme::get_coefs(int ncoefs, int osf) const
     // Porte de largeur osf + filtre gaussien
     coefs = tsd::filtrage::design_rif_gaussien_telecom(ncoefs, BT, osf);
   }
-  else if(type == SRRC)
+  else if(type == RCS)
   {
     // Ntaps = 3 * osf = 12
     tsd_assert(ncoefs > 0);
-    //msg("srrc : roff = {}, osf = {}, ncoefs = {}", α, osf, ncoefs);
+    //msg("rcs : roff = {}, osf = {}, ncoefs = {}", α, osf, ncoefs);
     coefs = tsd::filtrage::design_rif_rcs1(ncoefs, β, osf);
   }
   else
@@ -1109,7 +1109,7 @@ ArrayXf SpecFiltreMiseEnForme::get_coefs(int ncoefs, int osf) const
   return coefs;
 }
 
-sptr<FiltreGen<cfloat>> SpecFiltreMiseEnForme::filtre_adapte(int ntaps, int osf) const
+sptr<FiltreGen<cfloat>> SpecFiltreMiseEnForme::filtre_adapté(int ntaps, int osf) const
 {
   if(osf == 1)
     return tsd::filtrage::filtre_id<cfloat>();
@@ -1117,7 +1117,7 @@ sptr<FiltreGen<cfloat>> SpecFiltreMiseEnForme::filtre_adapte(int ntaps, int osf)
   return tsd::filtrage::filtre_rif<float, cfloat>(h);
 }
 
-sptr<FiltreGen<cfloat>> SpecFiltreMiseEnForme::filtre_adapte_decimation(int ntaps, int osf) const
+sptr<FiltreGen<cfloat>> SpecFiltreMiseEnForme::filtre_adapté_décimation(int ntaps, int osf) const
 {
   if(osf == 1)
     return tsd::filtrage::filtre_id<cfloat>();
@@ -1160,8 +1160,8 @@ std::ostream& operator<<(std::ostream &ss, const SpecFiltreMiseEnForme &t)
     ss << "NRZ";
   else if(t.type == SpecFiltreMiseEnForme::AUCUN)
     ss << "AUCUN";
-  else if(t.type == SpecFiltreMiseEnForme::SRRC)
-    ss << fmt::format("SSRC-dep={}", (int) (t.β * 100.0f));
+  else if(t.type == SpecFiltreMiseEnForme::RCS)
+    ss << fmt::format("RCS-dep={}", (int) (t.β * 100.0f));
   else if(t.type == SpecFiltreMiseEnForme::GAUSSIEN)
     ss << fmt::format("Gaussien-BT={}", t.BT);
   else
@@ -1188,9 +1188,9 @@ SpecFiltreMiseEnForme SpecFiltreMiseEnForme::nrz()
 {
   return SpecFiltreMiseEnForme{.type = Type::NRZ};
 }
-SpecFiltreMiseEnForme SpecFiltreMiseEnForme::srrc(float β)
+SpecFiltreMiseEnForme SpecFiltreMiseEnForme::rcs(float β)
 {
-  return SpecFiltreMiseEnForme{.type = Type::SRRC, .β = β};
+  return SpecFiltreMiseEnForme{.type = Type::RCS, .β = β};
 }
 
 // Ajoute si besoin des zéros avant et après

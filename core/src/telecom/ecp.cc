@@ -31,16 +31,17 @@ struct ECP: Filtre<cfloat, cfloat, ECPConfig>
     //auto &config = Configurable<ECPConfig>::config;
 
     msg("ECP ({} échantillons)...", x.rows());
-    // (1) Compute signal level
+
+    // (1) Niveau du signal
     float niveau = std::sqrt(x.abs2().mean());
 
     msg("  Décalage phase & fréquence...");
-    // (2) Phase and frequency offset
+    // (2) Décalage phase & fréquence
     auto n = x.rows();
     y = x * ol->step(n) * std::polar(1.0f, config.décalage_phase);
 
 
-    // (3) Additive White Gaussian Noise
+    // (3) Bruit blanc
 
     // (3a) Compute standard deviation sigma from Eb/N0
     float ebn0_lin = std::pow(10.0f, config.Eb_N0 / 10.0f);
@@ -100,7 +101,7 @@ struct ECP: Filtre<cfloat, cfloat, ECPConfig>
       Figures f;
       f.subplot().plot(x, "", "Entrée");
       f.subplot().plot_psd(x, config.fe);
-      f.subplot().plot(y, "-b",
+      f.subplot().plot(y, "",
           format("Sortie Eb/N0={:.1g} dB, niveau = {:.2g}, σ = {:.3g}", config.Eb_N0, niveau, σ));
       f.subplot().plot_psd(y, config.fe);
       f.afficher("ECP");

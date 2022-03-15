@@ -703,10 +703,10 @@ namespace tsd
    *  @image html resample.png width=800px
    *
    *  @note Du fait des filtres anti-repliement utilisés, le signal d'entrée est retardé.
-   *  Pour ré-échantilloner sans introduire de retard, voir aussi la fonction @ref reechan_freq().
+   *  Pour ré-échantilloner sans introduire de retard, voir aussi la fonction @ref rééchan_freq().
    */
   template<typename Derived>
-    auto reechan(const Eigen::ArrayBase<Derived> &x, float r)
+    auto rééchan(const Eigen::ArrayBase<Derived> &x, float r)
   {
     auto f = tsd::filtrage::filtre_reechan<typename Derived::Scalar>(r);
     return f->step(x);
