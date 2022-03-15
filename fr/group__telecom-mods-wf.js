@@ -1,6 +1,16 @@
 var group__telecom_mods_wf =
 [
     [ "FormeOnde", "structtsd_1_1telecom_1_1_forme_onde.html", [
+      [ "Infos", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html", [
+        [ "est_ask", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#a60554519c4e6e1816686e2a1db0df16c", null ],
+        [ "est_fsk", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#a0533a96a0d44e00d8a97398ffdab0c6e", null ],
+        [ "est_lineaire", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#ab05f556c403f1b11c9f27c1e84d6e064", null ],
+        [ "est_psk", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#aa2abfa3b62ee7e15900e8144b413b830", null ],
+        [ "est_qam", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#ae38fa120c0f2401c91aa3389aa3d66f8", null ],
+        [ "index", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#a40648b9f21f19711ee4dd0bafaf691f3", null ],
+        [ "k", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#ae2106d550148779fcba6e75793a3ec28", null ],
+        [ "M", "structtsd_1_1telecom_1_1_forme_onde_1_1_infos.html#ad9e54fcbe28406a2769ddade3f41a4bc", null ]
+      ] ],
       [ "ber", "structtsd_1_1telecom_1_1_forme_onde.html#ac04ee650fb298bdbb91dcc30d2cb9602", null ],
       [ "ber", "structtsd_1_1telecom_1_1_forme_onde.html#a2cdf626a886cdfa93736515011db9a5c", null ],
       [ "constellation", "structtsd_1_1telecom_1_1_forme_onde.html#aebfe72e133c8db7b1f15290137647c97", null ],

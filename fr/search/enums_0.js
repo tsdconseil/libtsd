@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['freqestimmethode_1332',['FreqEstimMethode',['../group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148',1,'tsd::fourier']]]
+  ['architecture_1352',['Architecture',['../structtsd_1_1telecom_1_1_demod_config_a47bb994983b3637bdf299583c0e72d24.html#a47bb994983b3637bdf299583c0e72d24',1,'tsd::telecom::DemodConfig']]]
 ];

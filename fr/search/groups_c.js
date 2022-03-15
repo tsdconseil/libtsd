@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['visualisations_1405',['Visualisations',['../group__vue.html',1,'']]]
+  ['visualisations_1426',['Visualisations',['../group__vue.html',1,'']]]
 ];

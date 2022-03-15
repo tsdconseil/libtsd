@@ -23,7 +23,7 @@ var group__fourier_freq =
     [ "freqestim", "group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3", null ],
     [ "goertzel", "group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181", null ],
     [ "psd", "group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d", null ],
-    [ "psd_subspace", "group__fourier-freq_gaf091fdd9c000a6a6d341fb8016df373e.html#gaf091fdd9c000a6a6d341fb8016df373e", null ],
+    [ "psd_sousesp", "group__fourier-freq_ga1d13f61d27653f5ea555c3b7d51d2c86.html#ga1d13f61d27653f5ea555c3b7d51d2c86", null ],
     [ "psd_welch", "group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897", null ],
     [ "rt_spectrum", "group__fourier-freq.html#gaeb7a9e682ed2434217a717c2e9ea7404", null ]
 ];

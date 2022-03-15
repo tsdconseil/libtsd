@@ -201,7 +201,7 @@ Démodulation bande de base - architecture basée sur la décision</div></div>
 <dl class="section user"><dt>Exemple : démodulation QPSK</dt><dd><div class="fragment"><div class="line">  <span class="comment">// QPSK demodulator (NRZ matched filter),</span></div>
 <div class="line">  <span class="comment">// sampling frequency = 1 MHz, IF = 200 KHz, FSYMB = 20 KHz</span></div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> wf = forme_onde_qpsk(SpecFiltreMiseEnForme::srrc(0.25));</div>
+<div class="line">  <span class="keyword">auto</span> wf = forme_onde_qpsk(SpecFiltreMiseEnForme::rcs(0.25));</div>
 <div class="line"> </div>
 <div class="line">  ModConfig mconfig{wf, 100e3, 0, 20e3};</div>
 <div class="line"> </div>
@@ -238,7 +238,7 @@ Exemples de démodulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

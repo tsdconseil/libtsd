@@ -143,14 +143,18 @@ $(document).ready(function(){initNavTree('group__telecom-eq_ga50e7ad3b57b33c13ec
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Calcul du filtre inverse par zéro-forçage</h3>
-<p>Etant donné la réponse du canal \(h\), cette fonction calcule les coefficients d'un filtre RIF \(g\), en essayant d'approximer </p><p class="formulaDsp">
-\[ g\star h = \delta_d \]
+<h3>Compute an inverse filter by zero-forcing</h3>
+<p>Given the channel impulse response \(h\), this function computes the coefficients of a FIR filter \(g\), trying to approximate: </p><p class="formulaDsp">
+\[ g\star h \sim \delta_d \]
 </p>
 <p>,</p>
-<p>\(d\) étant un délais global. Autrement dit, \(g\) est un filtre inverse (au délais près) de \(h\).</p>
+<p>where \(d\) is the global delay of the channel plus equalization filter pair. That is, \(g\) is the inverse filter (up to some delay \(d\)) of \(h\).</p>
 <dl class="section note"><dt>Note</dt><dd>Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd><ul>
+<li>The inversion is only approximative, as the exact filter inverse would have an infinite number taps.</li>
+<li>Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).</li>
+</ul>
+</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">h</td><td>Réponse impulsionnelle du canal, </td></tr>
@@ -159,6 +163,34 @@ $(document).ready(function(){initNavTree('group__telecom-eq_ga50e7ad3b57b33c13ec
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Filtre RIF inverse (coefficients).</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  <span class="comment">// h = réponse du canal (supposée connue)</span></div>
+<div class="line">  ArrayXf h(7);</div>
+<div class="line">  h &lt;&lt; 0.02, -0.1, 0.1, 1, -0.05, 0.1, 0.05;</div>
+<div class="line">  <span class="comment">// g = filtre d&#39;égalisation</span></div>
+<div class="line">  ArrayXf g = égaliseur_zfe(h, 15);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Essai sur un signal NRZ</span></div>
+<div class="line">  ArrayXf x0 = <a class="code" href="group__tsd-gen_ga1cf1528f0f4585fa4f94f99657be9343.html#ga1cf1528f0f4585fa4f94f99657be9343">randi</a>(2, 10).cast&lt;<span class="keywordtype">float</span>&gt;() * 2 - 1;</div>
+<div class="line">  x0 = (<a class="code" href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">sah</a>(x0, 3) | ArrayXf::Zero(10)).eval(); <span class="comment">// NRZ + flush</span></div>
+<div class="line">  ArrayXf x1 = convol&lt;float,float&gt;(h, x0);</div>
+<div class="line">  ArrayXf x2 = convol&lt;float,float&gt;(g, x1);</div>
+<div class="ttc" id="agroup__telecom-ps_ga375747854552a3f1725e48372495d8c3_html_ga375747854552a3f1725e48372495d8c3"><div class="ttname"><a href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">dsp::telecom::sah</a></div><div class="ttdeci">Vector&lt; T &gt; sah(const Vector&lt; T &gt; &amp;x, int R)</div><div class="ttdoc">Sample and hold oversampling.</div><div class="ttdef"><b>Definition:</b> telecom.hpp:539</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga1cf1528f0f4585fa4f94f99657be9343_html_ga1cf1528f0f4585fa4f94f99657be9343"><div class="ttname"><a href="group__tsd-gen_ga1cf1528f0f4585fa4f94f99657be9343.html#ga1cf1528f0f4585fa4f94f99657be9343">dsp::randi</a></div><div class="ttdeci">static ArrayXi randi(int M, int n)</div><div class="ttdoc">Categorial random vector.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:837</div></div>
+</div><!-- fragment --> <div class="image">
+<img src="zfe-0.png" alt="" width="800px"/>
+<div class="caption">
+Impulse responses (channel and equalization filter)</div></div>
+ <br  />
+ <div class="image">
+<img src="zfe-1.png" alt="" width="800px"/>
+<div class="caption">
+Frequency responses (channel and equalization filter)</div></div>
+ <br  />
+ <div class="image">
+<img src="zfe-2.png" alt="" width="800px"/>
+<div class="caption">
+Equalization example on a NRZ signal</div></div>
+</dd></dl>
 <dl class="section see"><dt>See also</dt><dd>égaliseur_création() </dd></dl>
 
 </div>
@@ -169,7 +201,7 @@ $(document).ready(function(){initNavTree('group__telecom-eq_ga50e7ad3b57b33c13ec
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

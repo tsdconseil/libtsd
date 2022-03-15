@@ -141,8 +141,16 @@ $(document).ready(function(){initNavTree('group__telecom-eq_gaa9d69db020d9177ed8
 </p>
 <p>,</p>
 <p>\(d\) étant un délais global. Autrement dit, \(g\) est un filtre inverse (au délais près) de \(h\).</p>
+<div class="image">
+<img src="zfe.png" alt="" width="600px"/>
+<div class="caption">
+Egalisation ZFE</div></div>
 <dl class="section note"><dt>Note</dt><dd>Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).</dd></dl>
-<dl class="section warning"><dt>Avertissement</dt><dd>Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).</dd></dl>
+<dl class="section warning"><dt>Avertissement</dt><dd><ul>
+<li>L'inversion n'est qu'approximative, le filtre inverse exact ayant une réponse impulsionnelle de support non borné.</li>
+<li>Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).</li>
+</ul>
+</dd></dl>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
     <tr><td class="paramname">h</td><td>Réponse impulsionnelle du canal, </td></tr>
@@ -151,7 +159,36 @@ $(document).ready(function(){initNavTree('group__telecom-eq_gaa9d69db020d9177ed8
   </dd>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Filtre RIF inverse (coefficients).</dd></dl>
-<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__telecom-eq_ga72931ec3f05e789ba88054cf5851cbdb.html#ga72931ec3f05e789ba88054cf5851cbdb" title="Création d&#39;un égaliseur.">égaliseur_création()</a> </dd></dl>
+<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  <span class="comment">// h = réponse du canal (supposée connue)</span></div>
+<div class="line">  ArrayXf h(7);</div>
+<div class="line">  h &lt;&lt; 0.02, -0.1, 0.1, 1, -0.05, 0.1, 0.05;</div>
+<div class="line">  <span class="comment">// g = filtre d&#39;égalisation</span></div>
+<div class="line">  ArrayXf g = <a class="code" href="group__telecom-eq_gaa9d69db020d9177ed825f2fab5669d07.html#gaa9d69db020d9177ed825f2fab5669d07">égaliseur_zfe</a>(h, 15);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Essai sur un signal NRZ</span></div>
+<div class="line">  ArrayXf x0 = <a class="code" href="group__tsd-gen_ga852b97fd09ef933a2d34e1224e2969df.html#ga852b97fd09ef933a2d34e1224e2969df">randi</a>(2, 10).cast&lt;<span class="keywordtype">float</span>&gt;() * 2 - 1;</div>
+<div class="line">  x0 = (<a class="code" href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">sah</a>(x0, 3) | ArrayXf::Zero(10)).eval(); <span class="comment">// NRZ + flush</span></div>
+<div class="line">  ArrayXf x1 = convol&lt;float,float&gt;(h, x0);</div>
+<div class="line">  ArrayXf x2 = convol&lt;float,float&gt;(g, x1);</div>
+<div class="ttc" id="agroup__telecom-eq_gaa9d69db020d9177ed825f2fab5669d07_html_gaa9d69db020d9177ed825f2fab5669d07"><div class="ttname"><a href="group__telecom-eq_gaa9d69db020d9177ed825f2fab5669d07.html#gaa9d69db020d9177ed825f2fab5669d07">tsd::telecom::égaliseur_zfe</a></div><div class="ttdeci">ArrayXf égaliseur_zfe(IArrayXf h, int n)</div><div class="ttdoc">Calcul du filtre inverse par zéro-forçage.</div></div>
+<div class="ttc" id="agroup__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20_html_gaf076568a76dd391d02f2a75e5b9b2e20"><div class="ttname"><a href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">tsd::telecom::sah</a></div><div class="ttdeci">Vecteur&lt; T &gt; sah(const Vecteur&lt; T &gt; &amp;x, int R)</div><div class="ttdoc">Sur-échantillonnage par répétition (sample and hold).</div><div class="ttdef"><b>Definition:</b> telecom.hpp:423</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga852b97fd09ef933a2d34e1224e2969df_html_ga852b97fd09ef933a2d34e1224e2969df"><div class="ttname"><a href="group__tsd-gen_ga852b97fd09ef933a2d34e1224e2969df.html#ga852b97fd09ef933a2d34e1224e2969df">tsd::randi</a></div><div class="ttdeci">ArrayXi randi(int M, int n)</div><div class="ttdoc">Loi aléatoire catégorielle.</div></div>
+</div><!-- fragment --> <div class="image">
+<img src="zfe-0.png" alt="" width="800px"/>
+<div class="caption">
+Réponses impulsionnelles (canal et du filtre d'égalisation)</div></div>
+ <br  />
+ <div class="image">
+<img src="zfe-1.png" alt="" width="800px"/>
+<div class="caption">
+Réponses fréquentielles (canal et du filtre d'égalisation)</div></div>
+ <br  />
+ <div class="image">
+<img src="zfe-2.png" alt="" width="800px"/>
+<div class="caption">
+Exemple d'égalisation sur une flux NRZ</div></div>
+</dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd>égaliseur_création() </dd></dl>
 
 </div>
 </div>
@@ -161,7 +198,7 @@ $(document).ready(function(){initNavTree('group__telecom-eq_gaa9d69db020d9177ed8
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-eq.html">Egalisation de canal</a></li>
-    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

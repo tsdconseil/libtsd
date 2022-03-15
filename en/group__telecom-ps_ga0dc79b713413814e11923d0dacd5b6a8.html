@@ -143,18 +143,18 @@ $(document).ready(function(){initNavTree('group__telecom-ps_ga0dc79b713413814e11
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Encodeur différentiel</h3>
-<p>Cette fonction génére un train binaire encodé de manière différentielle : </p><p class="formulaDsp">
+<h3>Differential encoder</h3>
+<p>This function build a differentially encoded binary sequence: </p><p class="formulaDsp">
 \[ y_n = x_n \oplus y_{n-1} \]
 </p>
-<p>Soit la fonction de transfert : </p><p class="formulaDsp">
+<p>That is, the transfert function is: </p><p class="formulaDsp">
 \[ P = \frac{1}{1+X} \]
 </p>
-<p>Typiquement utilisé en DBPSK : dans ce cas, la phase est inchangée pour \(x_n=0\), et décalée de 180° pour \(x_n=1\).</p>
+<p>This can be used for instance in DBPSK modulation: in this case, the phase is unchanged for \(x_n=0\), and shifted of 180° for \(x_n=1\).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>Train binaire d'entrée ( \(n\) bits) </td></tr>
-    <tr><td class="paramname">y</td><td>Train binaire de sortie ( \(n\) bits)</td></tr>
+    <tr><td class="paramname">x</td><td>Input binary sequence ( \(n\) bits) </td></tr>
+    <tr><td class="paramname">y</td><td>Output binary sequence ( \(n\) bits)</td></tr>
   </table>
   </dd>
 </dl>
@@ -168,7 +168,7 @@ $(document).ready(function(){initNavTree('group__telecom-ps_ga0dc79b713413814e11
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

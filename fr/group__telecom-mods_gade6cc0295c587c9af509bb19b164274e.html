@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gade6cc0295c587c9a
       </table>
 </div><div class="memdoc">
 <h3>Création d'un modulateur numérique</h3>
-<p>Le bloc modulateur permet de convertir un train binaire en un signal bande de base (ou déjà transposé à une fréquence intermédiaire), mis en forme et sur-échantillonné (de manière à être prêt à être transmis à un ADC).</p>
+<p>Le bloc modulateur permet de convertir un train binaire en un signal bande de base (ou déjà transposé à une fréquence intermédiaire), mis en forme et sur-échantillonné (de manière à être prêt à être transmis à un CAN).</p>
 <p>La structure de paramètrage (<a class="el" href="structtsd_1_1telecom_1_1_mod_config.html">ModConfig</a>) spécifie la forme d'onde (type de modulation, filtre de mise en forme), ainsi que les paramètres de fréquence, notamment :</p><ul>
 <li>La fréquence symbole \(f_{symb}\) (<code>fsymb</code>),</li>
 <li>La fréquence d'échantillonnage souhaitée en sortie \(f_e\) (<code>fe</code>),</li>
@@ -158,7 +158,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gade6cc0295c587c9a
 <dl class="section user"><dt>Schéma-bloc</dt><dd><img src="modulateur.png" alt="" align="left" width="300px" class="inline"/> <div style="clear: both"></div></dd></dl>
 <dl class="section user"><dt>Exemple 1 : modulation BPSK (avec filtre NRZ)</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  ModConfig config;</div>
-<div class="line">  config.wf     = <a class="code" href="group__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5.html#ga1a54a4e979c98d41008a0f598e148cf5">forme_onde_bpsk</a>();</div>
+<div class="line">  config.forme_onde     = <a class="code" href="group__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5.html#ga1a54a4e979c98d41008a0f598e148cf5">forme_onde_bpsk</a>();</div>
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
@@ -181,7 +181,7 @@ Exemples de modulation BPSK</div></div>
 </dd></dl>
 <dl class="section user"><dt>Exemple 2 : modulation QPSK (avec filtre SRRC)</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  ModConfig config;</div>
-<div class="line">  config.wf     = <a class="code" href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">forme_onde_qpsk</a>(<a class="code" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#aca431f80b6dc90b9d6c835c54ec4638c">SpecFiltreMiseEnForme::srrc</a>(0.4));</div>
+<div class="line">  config.forme_onde     = <a class="code" href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">forme_onde_qpsk</a>(<a class="code" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#ade0567b3c8300e63cb0a477dba0a60a1">SpecFiltreMiseEnForme::rcs</a>(0.4));</div>
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
@@ -195,7 +195,7 @@ Exemples de modulation BPSK</div></div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
 <div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Signal modulé QPSK (SRRC)&quot;</span>);</div>
 <div class="ttc" id="agroup__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe_html_ga1f04b6504ee95df5e89426658680eefe"><div class="ttname"><a href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">tsd::telecom::forme_onde_qpsk</a></div><div class="ttdeci">sptr&lt; FormeOnde &gt; forme_onde_qpsk(const SpecFiltreMiseEnForme &amp;filtre=SpecFiltreMiseEnForme::nrz())</div><div class="ttdoc">Création d'une forme d'onde QPSK.</div></div>
-<div class="ttc" id="astructtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_html_aca431f80b6dc90b9d6c835c54ec4638c"><div class="ttname"><a href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#aca431f80b6dc90b9d6c835c54ec4638c">tsd::telecom::SpecFiltreMiseEnForme::srrc</a></div><div class="ttdeci">static SpecFiltreMiseEnForme srrc(float β)</div><div class="ttdoc">Filtre RCS (racine de cosinus sur-élevé).</div></div>
+<div class="ttc" id="astructtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_html_ade0567b3c8300e63cb0a477dba0a60a1"><div class="ttname"><a href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#ade0567b3c8300e63cb0a477dba0a60a1">tsd::telecom::SpecFiltreMiseEnForme::rcs</a></div><div class="ttdeci">static SpecFiltreMiseEnForme rcs(float β)</div><div class="ttdoc">Filtre RCS (racine de cosinus sur-élevé).</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-modulateur2.png" alt="" width="800px"/>
 <div class="caption">
@@ -211,7 +211,7 @@ Exemples de modulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods.html">Modulations numériques</a></li>
-    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

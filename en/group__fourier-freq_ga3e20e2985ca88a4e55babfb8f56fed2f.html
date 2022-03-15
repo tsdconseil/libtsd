@@ -160,14 +160,14 @@ $(document).ready(function(){initNavTree('group__fourier-freq_ga3e20e2985ca88a4e
 <p>La formule utilisée ici est celle de l'algorithme MUSIC (MUltiple SIgnal Classification).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>Signal à analyser </td></tr>
+    <tr><td class="paramname">x</td><td>Signal to be analyzed. </td></tr>
     <tr><td class="paramname">Ns</td><td>Nombre d'exponentielles pures attendues </td></tr>
     <tr><td class="paramname">Nf</td><td>Résolution fréquentielle (en nombre de points) </td></tr>
     <tr><td class="paramname">m</td><td>Dimension de la matrice d'auto-corrélation (si non précisé = dimension du signal) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A tuple with two elements: frequences vectors (normalized, between -0.5 and 0.5), and the spectrum.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Cette fonction est une spécialisation de la méthode des sous-espaces pour la détection d'exponentielles pures. Cependant, la méthode des sous-espaces elle-même est bien plus générale, et peut permettre de détecter d'autres types de signaux (voir la fonction <a class="el" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f">psd_subspace()</a>).</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Cette technique implique la décomposition en valeurs propres d'une matrice \(m\times m\) (la matrice d'auto-corrélation du signal), soit de l'ordre de \(m^3\) opérations. Par conséquent, si la dimension du signal est importante, il est conseillé de choisir un \(m\) plus petit.</dd></dl>
 <dl class="section user"><dt>Exemple : détection de 3 exponentielles pures</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">int</span> nfreqs = 3;</div>
@@ -181,7 +181,7 @@ $(document).ready(function(){initNavTree('group__fourier-freq_ga3e20e2985ca88a4e
 <div class="line">    x += <a class="code" href="group__tsd-gen_ga1d298cc57b240806f0152f50c26c023c.html#ga1d298cc57b240806f0152f50c26c023c">sigexp</a>(f, n);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Algorithme MUSIC : 3 exponentielles, matrice d&#39;auto-corrél 32x32</span></div>
-<div class="line">  <span class="keyword">auto</span> [fr, Smu] = <a class="code" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f">psd_subspace</a>(x, nfreqs, 1024, 32);</div>
+<div class="line">  <span class="keyword">auto</span> [fr, Smu] = psd_sousesp(x, nfreqs, 1024, 32);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
@@ -189,9 +189,8 @@ $(document).ready(function(){initNavTree('group__fourier-freq_ga3e20e2985ca88a4e
 <div class="line">  f.gcf().titres(<span class="stringliteral">&quot;PSD (corrélogramme)&quot;</span>, <span class="stringliteral">&quot;Fréquence&quot;</span>);</div>
 <div class="line">  f.subplot().plot(fr, Smu);</div>
 <div class="line">  f.gcf().titres(<span class="stringliteral">&quot;PSD (MUSIC)&quot;</span>, <span class="stringliteral">&quot;Fréquence&quot;</span>);</div>
-<div class="ttc" id="agroup__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f_html_ga3e20e2985ca88a4e55babfb8f56fed2f"><div class="ttname"><a href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f">dsp::fourier::psd_subspace</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd_subspace(const ArrayXcf &amp;x, int Ns, int Nf=1024, int m=0)</div><div class="ttdoc">Calcul d'un spectre par la méthode des sous-espaces.</div><div class="ttdef"><b>Definition:</b> fourier.hpp:745</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga0900621a525834a05cf888939fd1998d_html_ga0900621a525834a05cf888939fd1998d"><div class="ttname"><a href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">dsp::randn</a></div><div class="ttdeci">static ArrayXf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:767</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga1d298cc57b240806f0152f50c26c023c_html_ga1d298cc57b240806f0152f50c26c023c"><div class="ttname"><a href="group__tsd-gen_ga1d298cc57b240806f0152f50c26c023c.html#ga1d298cc57b240806f0152f50c26c023c">dsp::sigexp</a></div><div class="ttdeci">static ArrayXcf sigexp(float f, int n)</div><div class="ttdoc">Efficient computing of a complex exponential.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:864</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga0900621a525834a05cf888939fd1998d_html_ga0900621a525834a05cf888939fd1998d"><div class="ttname"><a href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">dsp::randn</a></div><div class="ttdeci">static ArrayXf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:768</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga1d298cc57b240806f0152f50c26c023c_html_ga1d298cc57b240806f0152f50c26c023c"><div class="ttname"><a href="group__tsd-gen_ga1d298cc57b240806f0152f50c26c023c.html#ga1d298cc57b240806f0152f50c26c023c">dsp::sigexp</a></div><div class="ttdeci">static ArrayXcf sigexp(float f, int n)</div><div class="ttdoc">Efficient computing of a complex exponential.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:865</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-subspace-freq-spectrum.png" alt="" width="800px"/>
 <div class="caption">
@@ -208,7 +207,7 @@ Spectre PSD vs MUSIC</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

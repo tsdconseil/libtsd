@@ -125,26 +125,30 @@ $(document).ready(function(){initNavTree('group__telecom-codes-synchro_ga8495075
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>Génération d'un code à séquence maximale</h3>
+<h3>Maximal length sequence generation</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>Longueur du registre à décalage (doit être compris entre 1 et 16).</td></tr>
+    <tr><td class="paramname">n</td><td>Generating polynomial degree (must be between 1 and 16).</td></tr>
   </table>
   </dd>
 </dl>
-<p>Cette fonction génère un code binaire de longueur \(m=2^n-1\), grâce à un registre à décalage et un polynôme primitif.</p>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
+<p>This function generate a binary code of length \(m=2^n-1\), using a shift register and a primitive polynomial.</p>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  BitStream bs = <a class="code" href="group__telecom-codes-synchro_ga849507563df01e53a3cbd479e937b7a1.html#ga849507563df01e53a3cbd479e937b7a1">code_mls</a>(4);</div>
 <div class="line"> </div>
 <div class="line">  ArrayXf nrz = (bs.array() - 0.5) * 2;</div>
-<div class="line">  <span class="keyword">auto</span> [lags, rl] = <a class="code" href="group__fourier-corr_ga4af548e49479425d30e464ef319a3a62.html#ga4af548e49479425d30e464ef319a3a62">xcorrb</a>(nrz);</div>
+<div class="line">  <span class="keyword">auto</span> [lags, rl] = <a class="code" href="group__fourier-corr_gabed4fe43106921962ef0df90b57d254c.html#gabed4fe43106921962ef0df90b57d254c">xcorrb</a>(nrz);</div>
+<div class="line">  <span class="keyword">auto</span> [lags2, rc] = <a class="code" href="group__fourier-corr_ga5d6a6a6da4c52d883959ffb038b3e13d.html#ga5d6a6a6da4c52d883959ffb038b3e13d">ccorr</a>(nrz);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
-<div class="line">  f.subplot().plot(nrz, <span class="stringliteral">&quot;|b&quot;</span>, <span class="stringliteral">&quot;Code MLS - 15 bits&quot;</span>);</div>
+<div class="line">  f.subplot().plot(nrz, <span class="stringliteral">&quot;|bo&quot;</span>, <span class="stringliteral">&quot;Code MLS - 15 bits&quot;</span>);</div>
+<div class="line">  f.gcf().axes().supprime_decorations();</div>
+<div class="line">  f.subplot().plot(lags2, rc.abs(), <span class="stringliteral">&quot;r-o&quot;</span>, <span class="stringliteral">&quot;Auto-corrélation circulaire&quot;</span>);</div>
 <div class="line">  f.subplot().plot(lags, rl.abs(), <span class="stringliteral">&quot;r-o&quot;</span>, <span class="stringliteral">&quot;Auto-corrélation linéaire&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__fourier-corr_ga4af548e49479425d30e464ef319a3a62_html_ga4af548e49479425d30e464ef319a3a62"><div class="ttname"><a href="group__fourier-corr_ga4af548e49479425d30e464ef319a3a62.html#ga4af548e49479425d30e464ef319a3a62">dsp::fourier::xcorrb</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorrb(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (biaisée) entre deux signaux complexes.</div><div class="ttdef"><b>Definition:</b> fourier.hpp:479</div></div>
-<div class="ttc" id="agroup__telecom-codes-synchro_ga849507563df01e53a3cbd479e937b7a1_html_ga849507563df01e53a3cbd479e937b7a1"><div class="ttname"><a href="group__telecom-codes-synchro_ga849507563df01e53a3cbd479e937b7a1.html#ga849507563df01e53a3cbd479e937b7a1">dsp::telecom::code_mls</a></div><div class="ttdeci">BitStream code_mls(int n)</div><div class="ttdoc">Génération d'un code à séquence maximale.</div></div>
+<div class="ttc" id="agroup__fourier-corr_ga5d6a6a6da4c52d883959ffb038b3e13d_html_ga5d6a6a6da4c52d883959ffb038b3e13d"><div class="ttname"><a href="group__fourier-corr_ga5d6a6a6da4c52d883959ffb038b3e13d.html#ga5d6a6a6da4c52d883959ffb038b3e13d">dsp::fourier::ccorr</a></div><div class="ttdeci">auto ccorr(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf())</div><div class="ttdoc">Circular correlation (normalized) between two complex vectors.</div><div class="ttdef"><b>Definition:</b> fourier.hpp:416</div></div>
+<div class="ttc" id="agroup__fourier-corr_gabed4fe43106921962ef0df90b57d254c_html_gabed4fe43106921962ef0df90b57d254c"><div class="ttname"><a href="group__fourier-corr_gabed4fe43106921962ef0df90b57d254c.html#gabed4fe43106921962ef0df90b57d254c">dsp::fourier::xcorrb</a></div><div class="ttdeci">auto xcorrb(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Correlation (biased) between two complex vectors.</div><div class="ttdef"><b>Definition:</b> fourier.hpp:477</div></div>
+<div class="ttc" id="agroup__telecom-codes-synchro_ga849507563df01e53a3cbd479e937b7a1_html_ga849507563df01e53a3cbd479e937b7a1"><div class="ttname"><a href="group__telecom-codes-synchro_ga849507563df01e53a3cbd479e937b7a1.html#ga849507563df01e53a3cbd479e937b7a1">dsp::telecom::code_mls</a></div><div class="ttdeci">BitStream code_mls(int n)</div><div class="ttdoc">Maximal length sequence generation.</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-code-mls.png" alt="" width="800px"/>
 </div>
@@ -159,7 +163,7 @@ $(document).ready(function(){initNavTree('group__telecom-codes-synchro_ga8495075
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

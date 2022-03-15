@@ -17,8 +17,8 @@ var group__telecom_mods_analog =
       [ "indice", "structdsp_1_1telecom_1_1_a_m_config.html#a6fb500f6abe21afc137eade4d0006990", null ]
     ] ],
     [ "FMDemodConfig", "structdsp_1_1telecom_1_1_f_m_demod_config.html", null ],
-    [ "demodulateurAM", "group__telecom-mods-analog.html#ga486ca95acf9dba1ee801afb0ca7a5d03", null ],
-    [ "demodulateurFM", "group__telecom-mods-analog.html#ga56a0bc3d1b8c41590301f4a32e01020c", null ],
-    [ "discriminateur_fm", "group__telecom-mods-analog_gae9daf22f16501bc372f390e19e9acce1.html#gae9daf22f16501bc372f390e19e9acce1", null ],
-    [ "modulateurAM", "group__telecom-mods-analog_gabada5d74f525109f09e19a463a864e40.html#gabada5d74f525109f09e19a463a864e40", null ]
+    [ "demodulateurAM", "group__telecom-mods-analog.html#ga9d34621adc7005df92ce3227c9198393", null ],
+    [ "demodulateurFM", "group__telecom-mods-analog.html#ga47f63d869491c9b20fba0bb2e88d5d56", null ],
+    [ "discriminateur_fm", "group__telecom-mods-analog_gab8c442f239aee5a9e11ac248f7869a50.html#gab8c442f239aee5a9e11ac248f7869a50", null ],
+    [ "modulateurAM", "group__telecom-mods-analog_ga2f686e5f35155f4677cabfbdea94cd2c.html#ga2f686e5f35155f4677cabfbdea94cd2c", null ]
 ];

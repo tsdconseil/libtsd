@@ -33,7 +33,5 @@ var group__filtrage_design =
     [ "iir1_fcut", "group__filtrage-design_ga0672331d02358836f993638d33ad3a2e.html#ga0672331d02358836f993638d33ad3a2e", null ],
     [ "iir1_tc2coef", "group__filtrage-design_ga90a2bdcb2664d53fed51d62bc4cf820e.html#ga90a2bdcb2664d53fed51d62bc4cf820e", null ],
     [ "polyphase_form", "group__filtrage-design_gacfee2b80abc003bd2748e72429c58b6a.html#gacfee2b80abc003bd2748e72429c58b6a", null ],
-    [ "polyphase_iforme", "group__filtrage-design_gafa8bce0745c3cb0fcc613ebc37f809d6.html#gafa8bce0745c3cb0fcc613ebc37f809d6", null ],
-    [ "sinc", "group__filtrage-design_ga61894cb8b2348ee66e2ae009d6710605.html#ga61894cb8b2348ee66e2ae009d6710605", null ],
-    [ "sinc2", "group__filtrage-design_ga7555322ebf1cd3d17b86ecbcf002f009.html#ga7555322ebf1cd3d17b86ecbcf002f009", null ]
+    [ "polyphase_iforme", "group__filtrage-design_gafa8bce0745c3cb0fcc613ebc37f809d6.html#gafa8bce0745c3cb0fcc613ebc37f809d6", null ]
 ];

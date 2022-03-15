@@ -34,8 +34,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "group__apps-doa.html",
-"group__tsd.html#ga4dd4b56d5b37cea6492cfef744da67ed",
-"structdsp_1_1time_1_1_date_time.html#a21ec536353ec947216deda29f5530692"
+"group__tsd.html#ga333186de09a44f7aa48674d2c0391428",
+"structdsp_1_1time_1_1_calendar.html#a726aa19929c11261bfa8ceea2ec2f94f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

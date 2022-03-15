@@ -193,7 +193,7 @@ Démodulation bande de base - architecture basée sur la décision</div></div>
 <dl class="section user"><dt>Exemple : démodulation QPSK</dt><dd><div class="fragment"><div class="line">  <span class="comment">// QPSK demodulator (NRZ matched filter),</span></div>
 <div class="line">  <span class="comment">// sampling frequency = 1 MHz, IF = 200 KHz, FSYMB = 20 KHz</span></div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> wf = <a class="code" href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">forme_onde_qpsk</a>(<a class="code" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#aca431f80b6dc90b9d6c835c54ec4638c">SpecFiltreMiseEnForme::srrc</a>(0.25));</div>
+<div class="line">  <span class="keyword">auto</span> wf = <a class="code" href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">forme_onde_qpsk</a>(<a class="code" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#ade0567b3c8300e63cb0a477dba0a60a1">SpecFiltreMiseEnForme::rcs</a>(0.25));</div>
 <div class="line"> </div>
 <div class="line">  ModConfig mconfig{wf, 100e3, 0, 20e3};</div>
 <div class="line"> </div>
@@ -218,7 +218,7 @@ Démodulation bande de base - architecture basée sur la décision</div></div>
 <div class="ttc" id="agroup__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe_html_ga1f04b6504ee95df5e89426658680eefe"><div class="ttname"><a href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">tsd::telecom::forme_onde_qpsk</a></div><div class="ttdeci">sptr&lt; FormeOnde &gt; forme_onde_qpsk(const SpecFiltreMiseEnForme &amp;filtre=SpecFiltreMiseEnForme::nrz())</div><div class="ttdoc">Création d'une forme d'onde QPSK.</div></div>
 <div class="ttc" id="agroup__telecom-mods_ga910b5c9cfb3efdcc2bc9ebec396ae4f5_html_ga910b5c9cfb3efdcc2bc9ebec396ae4f5"><div class="ttname"><a href="group__telecom-mods_ga910b5c9cfb3efdcc2bc9ebec396ae4f5.html#ga910b5c9cfb3efdcc2bc9ebec396ae4f5">tsd::telecom::démodulateur_création</a></div><div class="ttdeci">sptr&lt; Démodulateur &gt; démodulateur_création(const ModConfig &amp;modconfig, const DemodConfig &amp;demodconfig=DemodConfig())</div><div class="ttdoc">Création d'un démodulateur numérique.</div></div>
 <div class="ttc" id="agroup__telecom-mods_gade6cc0295c587c9af509bb19b164274e_html_gade6cc0295c587c9af509bb19b164274e"><div class="ttname"><a href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">tsd::telecom::modulateur_création</a></div><div class="ttdeci">sptr&lt; Modulateur &gt; modulateur_création(const ModConfig &amp;config)</div><div class="ttdoc">Création d'un modulateur numérique.</div></div>
-<div class="ttc" id="astructtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_html_aca431f80b6dc90b9d6c835c54ec4638c"><div class="ttname"><a href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#aca431f80b6dc90b9d6c835c54ec4638c">tsd::telecom::SpecFiltreMiseEnForme::srrc</a></div><div class="ttdeci">static SpecFiltreMiseEnForme srrc(float β)</div><div class="ttdoc">Filtre RCS (racine de cosinus sur-élevé).</div></div>
+<div class="ttc" id="astructtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_html_ade0567b3c8300e63cb0a477dba0a60a1"><div class="ttname"><a href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#ade0567b3c8300e63cb0a477dba0a60a1">tsd::telecom::SpecFiltreMiseEnForme::rcs</a></div><div class="ttdeci">static SpecFiltreMiseEnForme rcs(float β)</div><div class="ttdoc">Filtre RCS (racine de cosinus sur-élevé).</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-demodulateur.png" alt="" width="800px"/>
 <div class="caption">
@@ -234,7 +234,7 @@ Exemples de démodulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods.html">Modulations numériques</a></li>
-    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

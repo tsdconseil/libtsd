@@ -133,31 +133,31 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Détecteur par corrélation</h3>
-<p>Cette fonction calcule, au fil de l'eau, la corrélation normalisée entre un signal \((x_k)\) reçu en continu et un motif fixe \((h_k)\) de dimension \(M\) : </p><p class="formulaDsp">
+<h3>Correlation-based pattern detector</h3>
+<p>This block will compute the normalized correlation between a streaming signal \((x_k)\) and a fixed pattern \((h_k)\) of dimension \(M\) : </p><p class="formulaDsp">
 \[ y_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k-(M-1)} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k-(M-1)}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}} \]
 </p>
-<p>Les \(y_n\) sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle \([n-M+1\dots n]\).</p>
-<p>Le calcul étant fait de manière efficace dans le domaine fréquentiel via la technique Overlap-And-Add (voir <a class="el" href="group__fourier_ga883478d6eb519e2f0ff6823f6823ddcd.html#ga883478d6eb519e2f0ff6823f6823ddcd">filter_fft()</a>), la complexité est de l'ordre de \(\log_2 M\) opérations par échantillon (si \(M\) est une puissance de 2).</p>
-<p>Ce filtre peut-être utilisé de deux manières :</p><ul>
-<li>Tout d'abord, c'est un filtre qui renvoie, au fil de l'eau, les valeurs de corrélation (signal vert dans l'exemple ci-dessous),</li>
-<li>Pour une utilisation plus simple, une callback utilisateur peut être appelée dès lors que la corrélation dépasse un certain seuil paramétrable. En paramètre de cette callback, est indiquée la position du motif détecté, ainsi que diverses informations (voir la structure <a class="el" href="structdsp_1_1fourier_1_1_detection.html">Detection</a>) :<ul>
-<li>Valeur de la corrélation normalisée</li>
-<li>Gain réel du signal (rapport d'amplitude entre le signal reçu et le motif théorique attendu)</li>
-<li>Déphasage du signal reçu</li>
-<li>Ecart-type du bruit</li>
-<li>SNR estimé</li>
+<p>The \(y_n\) are thus between 0 and 1, and will be equal to 1 only if the signal is exactly equal to the pattern (up to some scale factor) on the interval \([n-M+1\dots n]\).</p>
+<p>The computing being done in the frequency domain through the Overlap-And-Add technique (see <a class="el" href="group__fourier_gaa75b0c21f7e35119b923bc861e48c7a6.html#gaa75b0c21f7e35119b923bc861e48c7a6">filter_fft()</a>), the complexity is of order \(\log_2 M\) operations per sample (if \(M\) is a power of 2).</p>
+<p>This block will:</p><ul>
+<li>Return, as output, the correlation signal (green signal in the example below),</li>
+<li>Call a user callback whenever the correlation is above a configurable threshold. As parameters of this callback, the following informations are given (see the structure <a class="el" href="structdsp_1_1fourier_1_1_detection.html">Detection</a>):<ul>
+<li>Peak value of the normalized correlation,</li>
+<li>Real gain of the sinal (amplitude ratio between the received signal and the expected pattern),</li>
+<li>Relative phase of the received signal (compared to the expected pattern),</li>
+<li>Noise standard deviation,</li>
+<li>Estimated SNR.</li>
 </ul>
 </li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Structure de configuration </td></tr>
+    <tr><td class="paramname">config</td><td>Configuration structure </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Filtre cfloat \(\to\) float, qui prend en entrée des échantillons, et sort, au fil de l'eau, la corrélation normalisée avec le motif.</dd></dl>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">int</span> M = 512; <span class="comment">// Dimension du motif</span></div>
+<dl class="section return"><dt>Returns</dt><dd>Filter cfloat \(\to\) float, that take as input samples, and produces as output, the normalized correlation with the pattern.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">int</span> M = 512; <span class="comment">// Dimension du motif</span></div>
 <div class="line">  <span class="keywordtype">int</span> N = 16*M; <span class="comment">// Dimension du signal</span></div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Motif de synchronisation</span></div>
@@ -174,7 +174,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
 <div class="line"> </div>
 <div class="line">  <span class="comment">//float C;</span></div>
 <div class="line">  <span class="comment">//int Nf, Nz, Ne;</span></div>
-<div class="line">  <span class="comment">//ola_complexite_optimise(M, C, Nf, Nz, Ne);</span></div>
+<div class="line">  <span class="comment">//ola_complexité_optimise(M, C, Nf, Nz, Ne);</span></div>
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="line">  DetecteurConfig config;</div>
@@ -198,7 +198,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
 <div class="line">  f.gcf().canva().set_remplissage(<span class="keyword">false</span>);</div>
 <div class="line">  f.gcf().canva().rectangle(pos_detection, 1, pos_detection + M - 1, -1);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_ga0900621a525834a05cf888939fd1998d_html_ga0900621a525834a05cf888939fd1998d"><div class="ttname"><a href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">dsp::randn</a></div><div class="ttdeci">static ArrayXf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:767</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga0900621a525834a05cf888939fd1998d_html_ga0900621a525834a05cf888939fd1998d"><div class="ttname"><a href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">dsp::randn</a></div><div class="ttdeci">static ArrayXf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:768</div></div>
 <div class="ttc" id="agroup__tsd-gen_gaaa4d62d70c30c10e62b91bc7b3751e3a_html_gaaa4d62d70c30c10e62b91bc7b3751e3a"><div class="ttname"><a href="group__tsd-gen_gaaa4d62d70c30c10e62b91bc7b3751e3a.html#gaaa4d62d70c30c10e62b91bc7b3751e3a">dsp::sigchirp2</a></div><div class="ttdeci">ArrayXf sigchirp2(float f0, float f1, int n)</div><div class="ttdoc">Quadratic chirp.</div></div>
 </div><!-- fragment --><div class="image">
 <img src="fft_correlateur.png" alt="" width="800px"/>
@@ -213,7 +213,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:19 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -4,7 +4,7 @@ var group__telecom_simu =
       [ "fd", "structtsd_1_1telecom_1_1_canal_dispersif_config.html#a1acf4321ad17a429122548ed60c6779c", null ],
       [ "fe", "structtsd_1_1telecom_1_1_canal_dispersif_config.html#a77a409c8222cd1771ff1e8a0e603a4c8", null ],
       [ "K", "structtsd_1_1telecom_1_1_canal_dispersif_config.html#a76953731aff2d3d442d4faebdc180055", null ],
-      [ "type", "structtsd_1_1telecom_1_1_canal_dispersif_config_a7013be35f2edc4e115db87e79011cccf.html#a7013be35f2edc4e115db87e79011cccf", null ]
+      [ "type", "structtsd_1_1telecom_1_1_canal_dispersif_config.html#a7013be35f2edc4e115db87e79011cccf", null ]
     ] ],
     [ "ECPConfig", "structtsd_1_1telecom_1_1_e_c_p_config.html", [
       [ "debug_actif", "structtsd_1_1telecom_1_1_e_c_p_config.html#a1b3850f8f21c0ea7787115c21b106228", null ],

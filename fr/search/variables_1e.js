@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['φ_1319',['φ',['../structtsd_1_1geo_1_1_cardan.html#a05d33a72abb017c6c175690ef6650c19',1,'tsd::geo::Cardan']]]
+  ['ψ_1340',['ψ',['../structtsd_1_1geo_1_1_cardan.html#a84917913bb43a672db82a5546268fa17',1,'tsd::geo::Cardan']]]
 ];

@@ -137,27 +137,26 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>Sample and hold oversampling</h3>
-<p>Each sample of the input signal is repeated <code>R</code> times. For instance, if R = 2, and \(x = x_0, x_1, \dots\), then \(y = x_0, x_0, x_1, x_1, \dots\)</p>
-<p>This function can be used to generate NRZ data stream.</p>
+<h3>Sur-échantillonnage par répétition (sample and hold)</h3>
+<p>Chaque échantillon d'entrée est répété en sortie \(R\) fois. Par exemple, si \(R = 2\), et \(x = x_0, x_1, \dots\), alors \(y = x_0, x_0, x_1, x_1, \dots\)</p>
+<p>Cette fonction peut être utilisée par exemple pour généré une séquence NRZ.</p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>input vector </td></tr>
-    <tr><td class="paramname">R</td><td>number of samples to hold. </td></tr>
+    <tr><td class="paramname">x</td><td>Vecteur d'entrée </td></tr>
+    <tr><td class="paramname">R</td><td>Facteur de sur-échantillonnage. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Renvoie</dt><dd>Oversampled signal</dd></dl>
-<dl class="section user"><dt>Example 1: duplicating values</dt><dd><div class="fragment"><div class="line">ArrayXf x(5);</div>
+<dl class="section return"><dt>Renvoie</dt><dd>Signal sur-échantillonné.</dd></dl>
+<dl class="section user"><dt>Exemple 1 : répétition des valeurs</dt><dd><div class="fragment"><div class="line">ArrayXf x(5);</div>
 <div class="line">x &lt;&lt; 0, 1, 2, 3, 4;</div>
 <div class="line">ArrayXf y = <a class="code" href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">sah</a>(x, 2);</div>
 <div class="line"><span class="comment">// y = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]</span></div>
-<div class="ttc" id="agroup__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20_html_gaf076568a76dd391d02f2a75e5b9b2e20"><div class="ttname"><a href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">tsd::telecom::sah</a></div><div class="ttdeci">Vecteur&lt; T &gt; sah(const Vecteur&lt; T &gt; &amp;x, int R)</div><div class="ttdoc">Sample and hold oversampling.</div><div class="ttdef"><b>Definition:</b> telecom.hpp:422</div></div>
+<div class="ttc" id="agroup__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20_html_gaf076568a76dd391d02f2a75e5b9b2e20"><div class="ttname"><a href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">tsd::telecom::sah</a></div><div class="ttdeci">Vecteur&lt; T &gt; sah(const Vecteur&lt; T &gt; &amp;x, int R)</div><div class="ttdoc">Sur-échantillonnage par répétition (sample and hold).</div><div class="ttdef"><b>Definition:</b> telecom.hpp:423</div></div>
 </div><!-- fragment --></dd></dl>
-<dl class="section user"><dt>Example 2: generating a random NRZ data stream</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">int</span> nsymbs = 5;  <span class="comment">// Number of symbol to generate</span></div>
-<div class="line"><span class="keywordtype">int</span> osf    = 10; <span class="comment">// Over-sampling ratio</span></div>
-<div class="line">ArrayXf y = <a class="code" href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">sah</a>(<a class="code" href="group__tsd-gen_ga5359c4cb233e63e2c1ebad32e154b3e2.html#ga5359c4cb233e63e2c1ebad32e154b3e2">randb</a>(nsymbs), osf);</div>
-<div class="line"><span class="comment">// Will generate nsymbs * osf samples (each symbol is repeated osf times)</span></div>
+<dl class="section user"><dt>Exemple 2 : génération d'une séquence NRZ pseudo-aléatoire</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">int</span> nsymbs = 5;</div>
+<div class="line"><span class="keywordtype">int</span> osf    = 10; <span class="comment">// Facteur de sur-échantillonnage</span></div>
+<div class="line">ArrayXf y = <a class="code" href="group__telecom-ps_gaf076568a76dd391d02f2a75e5b9b2e20.html#gaf076568a76dd391d02f2a75e5b9b2e20">sah</a>(<a class="code" href="group__tsd-gen_ga5359c4cb233e63e2c1ebad32e154b3e2.html#ga5359c4cb233e63e2c1ebad32e154b3e2">randb</a>(nsymbs), osf).cast&lt;<span class="keywordtype">float</span>&gt;();</div>
 <div class="ttc" id="agroup__tsd-gen_ga5359c4cb233e63e2c1ebad32e154b3e2_html_ga5359c4cb233e63e2c1ebad32e154b3e2"><div class="ttname"><a href="group__tsd-gen_ga5359c4cb233e63e2c1ebad32e154b3e2.html#ga5359c4cb233e63e2c1ebad32e154b3e2">tsd::randb</a></div><div class="ttdeci">ArrayXb randb(int n)</div><div class="ttdoc">Loi aléatoire binaire.</div></div>
 </div><!-- fragment --> </dd></dl>
 
@@ -169,7 +168,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-ps.html">Mise en forme des symboles</a></li>
-    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

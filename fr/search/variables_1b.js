@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['θ_1315',['θ',['../structtsd_1_1fourier_1_1_detection.html#ad650b355b1f37900144e0b6ff80d94e0',1,'tsd::fourier::Detection::θ()'],['../structtsd_1_1geo_1_1_cardan.html#aa3e8bfe4824b59d4bdda3c812d02df69',1,'tsd::geo::Cardan::θ()']]]
+  ['π_1336',['π',['../group__tsd.html#gad33f675879923d93b4769f0709e96f31',1,'tsd']]],
+  ['π_5ff_1337',['π_f',['../group__tsd.html#gab4e0c4f29e2032b71a9baa185790af56',1,'tsd']]]
 ];

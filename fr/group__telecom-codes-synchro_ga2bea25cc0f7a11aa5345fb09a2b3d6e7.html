@@ -138,12 +138,16 @@ $(document).ready(function(){initNavTree('group__telecom-codes-synchro_ga2bea25c
 <div class="line"> </div>
 <div class="line">  ArrayXf nrz = (bs.array() - 0.5) * 2;</div>
 <div class="line">  <span class="keyword">auto</span> [lags, rl] = <a class="code" href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">xcorrb</a>(nrz);</div>
+<div class="line">  <span class="keyword">auto</span> [lags2, rc] = <a class="code" href="group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a">ccorr</a>(nrz);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
-<div class="line">  f.subplot().plot(nrz, <span class="stringliteral">&quot;|b&quot;</span>, <span class="stringliteral">&quot;Code MLS - 15 bits&quot;</span>);</div>
+<div class="line">  f.subplot().plot(nrz, <span class="stringliteral">&quot;|bo&quot;</span>, <span class="stringliteral">&quot;Code MLS - 15 bits&quot;</span>);</div>
+<div class="line">  f.gcf().axes().supprime_decorations();</div>
+<div class="line">  f.subplot().plot(lags2, rc.abs(), <span class="stringliteral">&quot;r-o&quot;</span>, <span class="stringliteral">&quot;Auto-corrélation circulaire&quot;</span>);</div>
 <div class="line">  f.subplot().plot(lags, rl.abs(), <span class="stringliteral">&quot;r-o&quot;</span>, <span class="stringliteral">&quot;Auto-corrélation linéaire&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9_html_gaa6f678050aa7881601b8bb912649e0d9"><div class="ttname"><a href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">tsd::fourier::xcorrb</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorrb(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (biaisée) entre deux signaux complexes.</div></div>
+<div class="ttc" id="agroup__fourier-corr_ga4383d63ea1831bd1d045f2382011876a_html_ga4383d63ea1831bd1d045f2382011876a"><div class="ttname"><a href="group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a">tsd::fourier::ccorr</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; ccorr(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf())</div><div class="ttdoc">Corrélation circulaire (normalisée) entre deux vecteurs complexes.</div></div>
+<div class="ttc" id="agroup__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9_html_gaa6f678050aa7881601b8bb912649e0d9"><div class="ttname"><a href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">tsd::fourier::xcorrb</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorrb(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (biaisée) entre deux vecteurs complexes.</div></div>
 <div class="ttc" id="agroup__telecom-codes-synchro_ga2bea25cc0f7a11aa5345fb09a2b3d6e7_html_ga2bea25cc0f7a11aa5345fb09a2b3d6e7"><div class="ttname"><a href="group__telecom-codes-synchro_ga2bea25cc0f7a11aa5345fb09a2b3d6e7.html#ga2bea25cc0f7a11aa5345fb09a2b3d6e7">tsd::telecom::code_mls</a></div><div class="ttdeci">BitStream code_mls(int n)</div><div class="ttdoc">Génération d'un code à séquence maximale.</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-code-mls.png" alt="" width="800px"/>
@@ -159,7 +163,7 @@ $(document).ready(function(){initNavTree('group__telecom-codes-synchro_ga2bea25c
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-codes-synchro.html">Codes de synchronisation</a></li>
-    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

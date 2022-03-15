@@ -127,34 +127,34 @@ template&lt;typename derived &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>PSD (corrélogramme)</h3>
-<p>Calcul du corrélogramme avec une fenêtre de Hann :</p>
+<h3>PSD (correlogram)</h3>
+<p>Computes the correlogram using a Hann window:</p>
 <p class="formulaDsp">
 \[ S(k) = \left|TFD(x \cdot w)(k)\right| \]
 </p>
-<p>Le spectre est centré autour de 0 Hz (vecteur de fréquences : linspace(-0.5,0.5-1.0/N,N)).</p>
+<p>The resulting spectrum is 0 Hz centered (frequency vector: linspace(-0.5,0.5-1.0/N,N)).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>Signal à analyser. </td></tr>
+    <tr><td class="paramname">x</td><td>Signal to be analyzed. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.</dd></dl>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  ArrayXcf x = <a class="code" href="group__tsd-gen_ga5ae3685f0514a3bfe8a532dd4e7ea103.html#ga5ae3685f0514a3bfe8a532dd4e7ea103">sigtri</a>(20, 1000);</div>
+<dl class="section return"><dt>Returns</dt><dd>A tuple with two elements: frequences vectors (normalized, between -0.5 and 0.5), and the spectrum.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  ArrayXcf x = <a class="code" href="group__tsd-gen_ga5ae3685f0514a3bfe8a532dd4e7ea103.html#ga5ae3685f0514a3bfe8a532dd4e7ea103">sigtri</a>(20, 1000);</div>
 <div class="line">  <span class="keyword">auto</span> [fr, S] = <a class="code" href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">psd</a>(x);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(x);</div>
 <div class="line">  f.subplot().plot(fr, S);</div>
 <div class="line">  f.gcf().titres(<span class="stringliteral">&quot;Spectre&quot;</span>, <span class="stringliteral">&quot;Frequence (Hz)&quot;</span>, <span class="stringliteral">&quot;Magnitude (dB)&quot;</span>);</div>
-<div class="ttc" id="agroup__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa_html_ga08f018f24a7fbf89ef9ae9d943357bfa"><div class="ttname"><a href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">dsp::fourier::psd</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">PSD (corrélogramme)</div><div class="ttdef"><b>Definition:</b> fourier.hpp:678</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga5ae3685f0514a3bfe8a532dd4e7ea103_html_ga5ae3685f0514a3bfe8a532dd4e7ea103"><div class="ttname"><a href="group__tsd-gen_ga5ae3685f0514a3bfe8a532dd4e7ea103.html#ga5ae3685f0514a3bfe8a532dd4e7ea103">dsp::sigtri</a></div><div class="ttdeci">static ArrayXf sigtri(int p, int n)</div><div class="ttdoc">Generation of a triangular, periodic signal.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:936</div></div>
+<div class="ttc" id="agroup__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa_html_ga08f018f24a7fbf89ef9ae9d943357bfa"><div class="ttname"><a href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">dsp::fourier::psd</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">PSD (correlogram).</div><div class="ttdef"><b>Definition:</b> fourier.hpp:677</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga5ae3685f0514a3bfe8a532dd4e7ea103_html_ga5ae3685f0514a3bfe8a532dd4e7ea103"><div class="ttname"><a href="group__tsd-gen_ga5ae3685f0514a3bfe8a532dd4e7ea103.html#ga5ae3685f0514a3bfe8a532dd4e7ea103">dsp::sigtri</a></div><div class="ttdeci">static ArrayXf sigtri(int p, int n)</div><div class="ttdoc">Generation of a triangular, periodic signal.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:937</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-psd2.png" alt="" width="800px"/>
 <div class="caption">
 PSD signal triangulaire</div></div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__fourier-freq_ga259d17f676f64103058ebfda8fd1f890.html#ga259d17f676f64103058ebfda8fd1f890" title="PSD (méthode de Welch - par moyennage).">psd_welch()</a>, <a class="el" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f" title="Calcul d&#39;un spectre par la méthode des sous-espaces.">psd_subspace()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__fourier-freq_ga259d17f676f64103058ebfda8fd1f890.html#ga259d17f676f64103058ebfda8fd1f890" title="PSD (Welch method - spectrum averaging).">psd_welch()</a>, <a class="el" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f" title="Calcul d&#39;un spectre par la méthode des sous-espaces.">psd_subspace()</a> </dd></dl>
 
 </div>
 </div>
@@ -164,7 +164,7 @@ PSD signal triangulaire</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

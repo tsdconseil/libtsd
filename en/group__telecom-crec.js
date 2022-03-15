@@ -28,11 +28,11 @@ var group__telecom_crec =
     [ "Ped", "group__telecom-crec.html#ga1de5001bcada3f66c39a1c15099e9027", null ],
     [ "PedType", "group__telecom-crec.html#gad674c92c04654ffa9efd62db5d104396", null ],
     [ "TedType", "group__telecom-crec.html#ga8143a70798ec3fbc8ac8ee6998316f9f", null ],
-    [ "clock_rec_new", "group__telecom-crec_gae64b3aff3f96e27c1381d3492de3aaab.html#gae64b3aff3f96e27c1381d3492de3aaab", null ],
-    [ "cpll_new", "group__telecom-crec_gadd39e41afef8b05d44875dac926e92b8.html#gadd39e41afef8b05d44875dac926e92b8", null ],
+    [ "clock_rec_new", "group__telecom-crec_ga0c51f20d00893040a2ff6eb32826e8dd.html#ga0c51f20d00893040a2ff6eb32826e8dd", null ],
+    [ "cpll_new", "group__telecom-crec_ga983e12798d649999b86d1ad2146416d8.html#ga983e12798d649999b86d1ad2146416d8", null ],
     [ "filter_loop_first_order", "group__telecom-crec_gaaaf32ab927106bf6c229ab26927f2d99.html#gaaaf32ab927106bf6c229ab26927f2d99", null ],
     [ "filter_loop_second_order", "group__telecom-crec_gac33ecab308cec14f14d7e7c622dd0c4d.html#gac33ecab308cec14f14d7e7c622dd0c4d", null ],
     [ "ped_new", "group__telecom-crec.html#ga12b48ad851a2c3b0d4774e841641af04", null ],
-    [ "rpll_new", "group__telecom-crec_gab40eb8928a92d201ef777267f9062618.html#gab40eb8928a92d201ef777267f9062618", null ],
+    [ "rpll_new", "group__telecom-crec_gaa80c11aef09e45c5557869576af05e49.html#gaa80c11aef09e45c5557869576af05e49", null ],
     [ "ted_new", "group__telecom-crec.html#gab5732ea960409871ddc8812028277f1d", null ]
 ];

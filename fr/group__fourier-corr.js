@@ -16,9 +16,9 @@ var group__fourier_corr =
     [ "Detecteur", "structtsd_1_1fourier_1_1_detecteur.html", null ],
     [ "aligne_entier", "group__fourier-corr.html#gaee2458dd42bc6964ddf33354478e5bb6", null ],
     [ "ccorr", "group__fourier-corr_ga4383d63ea1831bd1d045f2382011876a.html#ga4383d63ea1831bd1d045f2382011876a", null ],
-    [ "delais", "group__fourier-corr_ga6e91e1da10a83b37ac1443e14108a846.html#ga6e91e1da10a83b37ac1443e14108a846", null ],
+    [ "délais", "group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7", null ],
     [ "détecteur_création", "group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41", null ],
-    [ "estimation_delais_entier", "group__fourier-corr.html#ga9d1ea7f56fbf2c37cbf8b5b30ca3bf23", null ],
+    [ "estimation_délais", "group__fourier-corr.html#gacb3a0fa299f16ca215d757d9b6f37078", null ],
     [ "xcorr", "group__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9.html#ga905acbf2d7cee38e09c735dee74aa8a9", null ],
     [ "xcorrb", "group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9", null ]
 ];

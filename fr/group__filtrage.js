@@ -16,6 +16,7 @@ var group__filtrage =
     [ "FRat", "classtsd_1_1_f_rat.html", [
       [ "FRat", "classtsd_1_1_f_rat.html#a15357e8326f368170c9cdadbebedc3af", null ],
       [ "FRat", "classtsd_1_1_f_rat.html#a4f1824bacc4dcbf512cb9ceb63240204", null ],
+      [ "developpe", "classtsd_1_1_f_rat.html#a28dc1d9767ea35fe2b31b9d7422cf111", null ],
       [ "eval_inv_z", "classtsd_1_1_f_rat_ab2b48c77031ff5fb286f6ffd8af79835.html#ab2b48c77031ff5fb286f6ffd8af79835", null ],
       [ "horner", "classtsd_1_1_f_rat_a551e38604e4ab00ef0fe74afdfd76af3.html#a551e38604e4ab00ef0fe74afdfd76af3", null ],
       [ "inv", "classtsd_1_1_f_rat.html#aeb4b182cd1a258afa6ddb2c7054d84bd", null ],
@@ -24,6 +25,7 @@ var group__filtrage =
       [ "operator-", "classtsd_1_1_f_rat.html#a1c39ad9ef3e2251adc595268054c5bfa", null ],
       [ "operator/", "classtsd_1_1_f_rat.html#a09307009bd555dbb4a7ac44938aea1c0", null ],
       [ "pow", "classtsd_1_1_f_rat.html#a99e8814f46a4729ce7c270e6d558de29", null ],
+      [ "real", "classtsd_1_1_f_rat.html#a10855723a5d4e6f8b0acac6b11243679", null ],
       [ "rif", "classtsd_1_1_f_rat_a211e89ad097b9f34b4fa33fd2238669f.html#a211e89ad097b9f34b4fa33fd2238669f", null ],
       [ "rii", "classtsd_1_1_f_rat_a592540cd223672b0ac4cf801bb47f1a8.html#a592540cd223672b0ac4cf801bb47f1a8", null ],
       [ "z", "classtsd_1_1_f_rat_a6261579d1348aa37cc8b3e7976a598d9.html#a6261579d1348aa37cc8b3e7976a598d9", null ]

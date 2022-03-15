@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['σ_5fnoise_1318',['σ_noise',['../structtsd_1_1fourier_1_1_detection.html#a51527d3f12d1ad861bcb25b158f8a217',1,'tsd::fourier::Detection']]]
+  ['φ_1339',['φ',['../structtsd_1_1geo_1_1_cardan.html#a05d33a72abb017c6c175690ef6650c19',1,'tsd::geo::Cardan']]]
 ];

@@ -161,19 +161,19 @@ $(document).ready(function(){initNavTree('group__fourier_gac3860c9e44768c6b4f413
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Calcul des paramètres optimaux pour un filtre par OLA</h3>
-<p>Cette fonction calcul la taille de bloc optimale pour le calcul d'un filtrage par OLA. L'optimum est trouvé pour \(N_e = 2^k - (M-1)\), \(k\) étant déterminé par recherche exhaustive.</p>
+<h3>Optimal parameters for an OLA filter</h3>
+<p>This function computes the optimal input block length for an OLA process (see <a class="el" href="group__fourier_gaa75b0c21f7e35119b923bc861e48c7a6.html#gaa75b0c21f7e35119b923bc861e48c7a6">filter_fft()</a>). The optimum is found for \(N_e = 2^k - (M-1)\), \(k\) being found by exhaustive search.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">M</td><td>Taille de filtre (ou motif à détecter) </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">C</td><td>Complexité, en FLOPS </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Nf</td><td>Dimension de la FFT </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Nz</td><td>Nombre de zéros insérés pour chaque bloc de FFT (Nf = Ne + Nz) </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Ne</td><td>Taille de bloc d'entrée</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">M</td><td>Time-domain filter length (in samples), </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">C</td><td>Complexity, in FLOPS by input sample, </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">Nf</td><td>FFT dimension, </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">Nz</td><td>Number of zeros inserted for each FFT block ( \(N_f = N_e + N_z\)) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">Ne</td><td>Optimal input block length.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>ola_complexite() </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__fourier_ga3bc88eb0fea93349ca6ea29088dd5b8b.html#ga3bc88eb0fea93349ca6ea29088dd5b8b" title="Compute the complexity of an OLA filter, in FLOPS by input sample.">ola_complexity()</a> </dd></dl>
 
 </div>
 </div>
@@ -183,7 +183,7 @@ $(document).ready(function(){initNavTree('group__fourier_gac3860c9e44768c6b4f413
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

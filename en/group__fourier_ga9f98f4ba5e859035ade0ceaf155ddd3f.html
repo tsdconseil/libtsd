@@ -155,18 +155,18 @@ $(document).ready(function(){initNavTree('group__fourier_ga9f98f4ba5e859035ade0c
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Transformée en z-chirp</h3>
-<p>Calcule la transformée en z sur les points suivants : \(z_0 \cdot W^n\), pour \(n=0,1,...,m-1\)</p>
+<h3>Z-chirp transform</h3>
+<p>Evaluate the z transform on the following points: \(z_0 \cdot W^n\), pour \(n=0,1,...,m-1\)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>Séquence d'entrée </td></tr>
-    <tr><td class="paramname">m</td><td>Nombre de points d'évaluation </td></tr>
-    <tr><td class="paramname">W</td><td>Raison de la série géométrique </td></tr>
-    <tr><td class="paramname">z0</td><td>Terme initial </td></tr>
+    <tr><td class="paramname">x</td><td>Input vector </td></tr>
+    <tr><td class="paramname">m</td><td>Number of evaluation points </td></tr>
+    <tr><td class="paramname">W</td><td>Progression of the geometric serie </td></tr>
+    <tr><td class="paramname">z0</td><td>Initial term </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Les valeurs de la transformée en \(z\) de \(x\) : <p class="formulaDsp">
+<dl class="section return"><dt>Returns</dt><dd>The values of \(H(z)\): <p class="formulaDsp">
 \[ X\left(z_0 * W^n\right) = \sum_{k=0}^{N-1} x_k \cdot z_0^k \cdot W^{nk},\quad \textrm{pour }n=0,1,...,m-1 \]
 </p>
  </dd></dl>
@@ -179,7 +179,7 @@ $(document).ready(function(){initNavTree('group__fourier_ga9f98f4ba5e859035ade0c
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:19 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -13,7 +13,7 @@ var searchData=
   ['bp_35',['bp',['../structtsd_1_1telecom_1_1_p_l_l_config.html#a0aa11ae31213ae9ffc2a7bc77ba57b80',1,'tsd::telecom::PLLConfig::bp()'],['../structtsd_1_1telecom_1_1_r_p_l_l_config.html#a9be4f16dc0481de553f08c4172b8807d',1,'tsd::telecom::RPLLConfig::bp()']]],
   ['bruit_5fawgn_36',['bruit_awgn',['../group__telecom-simu_gab37fb6d2f3c4cdaec8588f0424a7b8dd.html#gab37fb6d2f3c4cdaec8588f0424a7b8dd',1,'tsd::telecom::bruit_awgn(IArrayXcf &amp;x, float σ)'],['../group__telecom-simu_ga2757eaef587ed53ec80c2c0a13d07626.html#ga2757eaef587ed53ec80c2c0a13d07626',1,'tsd::telecom::bruit_awgn(IArrayXf &amp;x, float σ)']]],
   ['bruit_5fthermique_37',['bruit_thermique',['../group__telecom-simu_ga51ced0679a1c096a0b7ba66eb09009f3.html#ga51ced0679a1c096a0b7ba66eb09009f3',1,'tsd::telecom']]],
-  ['bs_38',['BS',['../structtsd_1_1fourier_1_1_spectrum_config.html#a89a9409e1d9c8217ca7881259ff7625c',1,'tsd::fourier::SpectrumConfig::BS()'],['../structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_config.html#ae07d832fff7d2cbc0c05a8b7771083d2',1,'tsd::telecom::RécepteurConfig::BS()']]],
-  ['bs_39',['bs',['../structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a52bf3cb9c17396d05bba0b3b8d00bc1d',1,'tsd::telecom::RécepteurTrame']]],
+  ['bs_38',['bs',['../structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a52bf3cb9c17396d05bba0b3b8d00bc1d',1,'tsd::telecom::RécepteurTrame']]],
+  ['bs_39',['BS',['../structtsd_1_1fourier_1_1_spectrum_config.html#a89a9409e1d9c8217ca7881259ff7625c',1,'tsd::fourier::SpectrumConfig::BS()'],['../structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_config.html#ae07d832fff7d2cbc0c05a8b7771083d2',1,'tsd::telecom::RécepteurConfig::BS()']]],
   ['bt_40',['BT',['../structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#a11a67960199aaddcc3fad823cf925d20',1,'tsd::telecom::SpecFiltreMiseEnForme']]]
 ];

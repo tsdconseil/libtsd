@@ -9,5 +9,6 @@ var searchData=
   ['bruit_5fawgn_26',['bruit_awgn',['../group__telecom-simu_gaac7273e6726afa6955e6f44ee97bb780.html#gaac7273e6726afa6955e6f44ee97bb780',1,'dsp::telecom']]],
   ['bs_27',['bs',['../structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a0aa98b4202d1831e7c6d8ef63418d8e4',1,'dsp::telecom::RécepteurTrame']]],
   ['bs_28',['BS',['../structdsp_1_1telecom_1_1_packet_receiver_config.html#aee85b419d5f6e1176703fffb2d81bedd',1,'dsp::telecom::PacketReceiverConfig']]],
-  ['bt_29',['BT',['../structdsp_1_1telecom_1_1_shaping_filter_spec.html#a3572cbb6d54de0603ac1ffa63a6938c1',1,'dsp::telecom::ShapingFilterSpec']]]
+  ['bt_29',['BT',['../structdsp_1_1telecom_1_1_shaping_filter_spec.html#a3572cbb6d54de0603ac1ffa63a6938c1',1,'dsp::telecom::ShapingFilterSpec']]],
+  ['buffer_5fnew_30',['buffer_new',['../group__tsd_gafddcf80180c426c96ce455032d64d8b2.html#gafddcf80180c426c96ce455032d64d8b2',1,'dsp']]]
 ];

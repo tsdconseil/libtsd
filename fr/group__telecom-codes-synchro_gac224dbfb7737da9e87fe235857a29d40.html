@@ -138,10 +138,10 @@ $(document).ready(function(){initNavTree('group__telecom-codes-synchro_gac224dbf
 <div class="line">  <span class="keyword">auto</span> [lags, rl] = <a class="code" href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">xcorrb</a>(nrz);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
-<div class="line">  f.subplot(211).plot(nrz, <span class="stringliteral">&quot;|b&quot;</span>, <span class="stringliteral">&quot;Code de Barker - 13 bits&quot;</span>);</div>
-<div class="line">  f.subplot(212).plot(lags, rl.abs(), <span class="stringliteral">&quot;r-o&quot;</span>, <span class="stringliteral">&quot;Auto-corrélation linéaire&quot;</span>);</div>
+<div class="line">  f.subplot().plot(nrz, <span class="stringliteral">&quot;|bo&quot;</span>, <span class="stringliteral">&quot;Code de Barker - 13 bits&quot;</span>);</div>
+<div class="line">  f.subplot().plot(lags, rl.abs(), <span class="stringliteral">&quot;r-o&quot;</span>, <span class="stringliteral">&quot;Auto-corrélation linéaire&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9_html_gaa6f678050aa7881601b8bb912649e0d9"><div class="ttname"><a href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">tsd::fourier::xcorrb</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorrb(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (biaisée) entre deux signaux complexes.</div></div>
+<div class="ttc" id="agroup__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9_html_gaa6f678050aa7881601b8bb912649e0d9"><div class="ttname"><a href="group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9">tsd::fourier::xcorrb</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXcf &gt; xcorrb(const ArrayXcf &amp;x, const ArrayXcf &amp;y=ArrayXcf(), int m=-1)</div><div class="ttdoc">Corrélation (biaisée) entre deux vecteurs complexes.</div></div>
 <div class="ttc" id="agroup__telecom-codes-synchro_gac224dbfb7737da9e87fe235857a29d40_html_gac224dbfb7737da9e87fe235857a29d40"><div class="ttname"><a href="group__telecom-codes-synchro_gac224dbfb7737da9e87fe235857a29d40.html#gac224dbfb7737da9e87fe235857a29d40">tsd::telecom::code_Barker</a></div><div class="ttdeci">BitStream code_Barker(int n)</div><div class="ttdoc">Génération d'un code de Barker.</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-code-barker.png" alt="" width="800px"/>
@@ -157,7 +157,7 @@ $(document).ready(function(){initNavTree('group__telecom-codes-synchro_gac224dbf
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-codes-synchro.html">Codes de synchronisation</a></li>
-    <li class="footer">Généré le Mercredi 9 Février 2022 15:18:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

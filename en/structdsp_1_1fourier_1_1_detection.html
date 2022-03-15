@@ -126,31 +126,31 @@ $(document).ready(function(){initNavTree('structdsp_1_1fourier_1_1_detection.htm
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a018c79227bb1b790b2e3f20a469accf8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection_a018c79227bb1b790b2e3f20a469accf8.html#a018c79227bb1b790b2e3f20a469accf8">position</a></td></tr>
-<tr class="memdesc:a018c79227bb1b790b2e3f20a469accf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">en nombre d'échantillons (compris entre 0 et Ne-1), depuis le début du bloc de données en cours. Par exemple :  <a href="structdsp_1_1fourier_1_1_detection_a018c79227bb1b790b2e3f20a469accf8.html#a018c79227bb1b790b2e3f20a469accf8">More...</a><br /></td></tr>
+<tr class="memdesc:a018c79227bb1b790b2e3f20a469accf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position in number of samples (between \(-N_e\) and \(N_e-1\)), since the beginning of current block. For instance:  <a href="structdsp_1_1fourier_1_1_detection_a018c79227bb1b790b2e3f20a469accf8.html#a018c79227bb1b790b2e3f20a469accf8">More...</a><br /></td></tr>
 <tr class="separator:a018c79227bb1b790b2e3f20a469accf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51f412d145dde9a05b0253558268f41a"><td class="memItemLeft" align="right" valign="top"><a id="a51f412d145dde9a05b0253558268f41a"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html#a51f412d145dde9a05b0253558268f41a">position_prec</a></td></tr>
-<tr class="memdesc:a51f412d145dde9a05b0253558268f41a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Idem position, avec interpolation quadratique pour plus de précision. <br /></td></tr>
-<tr class="separator:a51f412d145dde9a05b0253558268f41a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae649e9233a32b6ad71820ffb088edf6"><td class="memItemLeft" align="right" valign="top"><a id="aae649e9233a32b6ad71820ffb088edf6"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html#aae649e9233a32b6ad71820ffb088edf6">position_frac</a></td></tr>
+<tr class="memdesc:aae649e9233a32b6ad71820ffb088edf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same a position field, but using quadratic interpolation for sub-sample accuracy. <br /></td></tr>
+<tr class="separator:aae649e9233a32b6ad71820ffb088edf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3f47b69269e1a5286dbe0f68fd7a51d"><td class="memItemLeft" align="right" valign="top"><a id="aa3f47b69269e1a5286dbe0f68fd7a51d"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html#aa3f47b69269e1a5286dbe0f68fd7a51d">score</a></td></tr>
-<tr class="memdesc:aa3f47b69269e1a5286dbe0f68fd7a51d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valeur absolue de la corrélation normalisée (valeur positive, entre 0 et 1) <br /></td></tr>
+<tr class="memdesc:aa3f47b69269e1a5286dbe0f68fd7a51d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absolute value of the normalized correlation (positive value, between 0 et 1). <br /></td></tr>
 <tr class="separator:aa3f47b69269e1a5286dbe0f68fd7a51d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6bad8a3eb3a8df99e843b4794d3766c"><td class="memItemLeft" align="right" valign="top"><a id="ae6bad8a3eb3a8df99e843b4794d3766c"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html#ae6bad8a3eb3a8df99e843b4794d3766c">gain</a></td></tr>
-<tr class="memdesc:ae6bad8a3eb3a8df99e843b4794d3766c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gain du signal (par rapport au motif passé en paramètre) <br /></td></tr>
+<tr class="memdesc:ae6bad8a3eb3a8df99e843b4794d3766c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal gain (comparing to the expected pattern). <br /></td></tr>
 <tr class="separator:ae6bad8a3eb3a8df99e843b4794d3766c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3afcc62358694d7df4e8ee14a587815e"><td class="memItemLeft" align="right" valign="top"><a id="a3afcc62358694d7df4e8ee14a587815e"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html#a3afcc62358694d7df4e8ee14a587815e">θ</a></td></tr>
-<tr class="memdesc:a3afcc62358694d7df4e8ee14a587815e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déphasage du signal (entre \(-\pi/2\) et \(\pi/2\)) <br /></td></tr>
+<tr class="memdesc:a3afcc62358694d7df4e8ee14a587815e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal phase (between \(-\pi/2\) and \(\pi/2\)) <br /></td></tr>
 <tr class="separator:a3afcc62358694d7df4e8ee14a587815e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b0efeaf69b3babb0465ea6c1761943b"><td class="memItemLeft" align="right" valign="top"><a id="a8b0efeaf69b3babb0465ea6c1761943b"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html#a8b0efeaf69b3babb0465ea6c1761943b">SNR_dB</a></td></tr>
-<tr class="memdesc:a8b0efeaf69b3babb0465ea6c1761943b"><td class="mdescLeft">&#160;</td><td class="mdescRight">SNR estimé <br /></td></tr>
+<tr class="memdesc:a8b0efeaf69b3babb0465ea6c1761943b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimated SNR. <br /></td></tr>
 <tr class="separator:a8b0efeaf69b3babb0465ea6c1761943b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7dd5b94f752cd4ab70e82a9329c14cfb"><td class="memItemLeft" align="right" valign="top"><a id="a7dd5b94f752cd4ab70e82a9329c14cfb"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsp_1_1fourier_1_1_detection.html#a7dd5b94f752cd4ab70e82a9329c14cfb">σ_noise</a></td></tr>
-<tr class="memdesc:a7dd5b94f752cd4ab70e82a9329c14cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecart-type du bruit. <br /></td></tr>
+<tr class="memdesc:a7dd5b94f752cd4ab70e82a9329c14cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimated standard deviation of the noise. <br /></td></tr>
 <tr class="separator:a7dd5b94f752cd4ab70e82a9329c14cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
@@ -162,7 +162,7 @@ float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li><li class="navelem"><a class="el" href="structdsp_1_1fourier_1_1_detection.html">Detection</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

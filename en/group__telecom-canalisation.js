@@ -12,7 +12,7 @@ var group__telecom_canalisation =
       [ "intermediate_frequency", "structdsp_1_1telecom_1_1_transpo_b_b_config.html#a9a49ed7c04d389ddf804dc659a7eceae", null ],
       [ "ra_ratio", "structdsp_1_1telecom_1_1_transpo_b_b_config.html#ab2067c3378bf2f47e32469a5d60ed65c", null ]
     ] ],
-    [ "dsss_modulation", "group__telecom-canalisation_ga974769cc2185707e11465daef670cfc7.html#ga974769cc2185707e11465daef670cfc7", null ],
-    [ "fhss_modulation", "group__telecom-canalisation_gac53981ba0f7c0c35dbb978b2047984e5.html#gac53981ba0f7c0c35dbb978b2047984e5", null ],
-    [ "transpo_bb", "group__telecom-canalisation_gac4b214332c61b9540dc820543644d452.html#gac4b214332c61b9540dc820543644d452", null ]
+    [ "dsss_modulation", "group__telecom-canalisation_ga0066c454b6ca5e3161d478e287567df7.html#ga0066c454b6ca5e3161d478e287567df7", null ],
+    [ "fhss_modulation", "group__telecom-canalisation_ga10d9ba7cbd73f860a918114252e9ae52.html#ga10d9ba7cbd73f860a918114252e9ae52", null ],
+    [ "transpo_bb", "group__telecom-canalisation_ga5ef59bb1077a8d694290c37adeedb21d.html#ga5ef59bb1077a8d694290c37adeedb21d", null ]
 ];

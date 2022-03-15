@@ -47,7 +47,5 @@ var group__filtrage_design =
     [ "rii1_coef", "group__filtrage-design_ga9ec2768a194882530da6810b878f7e0c.html#ga9ec2768a194882530da6810b878f7e0c", null ],
     [ "rii1_fcoupure", "group__filtrage-design_gacd09a396fd0e9f3ab0d84a5ed982260c.html#gacd09a396fd0e9f3ab0d84a5ed982260c", null ],
     [ "rii1_tc_vers_coef", "group__filtrage-design_gade4fccdea0d5495c7d3c7320a9ab63d7.html#gade4fccdea0d5495c7d3c7320a9ab63d7", null ],
-    [ "sinc", "group__filtrage-design_gafa9ef34c0c79ee74163ec971b31c56fe.html#gafa9ef34c0c79ee74163ec971b31c56fe", null ],
-    [ "sinc2", "group__filtrage-design_ga796d7be6672934cba7bebe75744fe09d.html#ga796d7be6672934cba7bebe75744fe09d", null ],
     [ "trf_bilineaire", "group__filtrage-design_ga642dbecb5284a7da052579718d7fcf45.html#ga642dbecb5284a7da052579718d7fcf45", null ]
 ];

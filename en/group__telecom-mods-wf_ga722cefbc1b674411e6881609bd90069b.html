@@ -143,18 +143,18 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga722cefbc1b674
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Modulation de phase</h3>
-<p>Création d'une forme d'onde M-PSK. Le résultat peut être utilisé pour créer un modulateur (modulateur_création()) ou un démodulateur (démodulateur_création()).</p>
+<h3>Phase modulation</h3>
+<p>Creation of M-PSK waveform.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">M</td><td>Nombre de bits / symboles. </td></tr>
-    <tr><td class="paramname">filtre</td><td>Filtre de mise en forme (par défaut : NRZ) </td></tr>
+    <tr><td class="paramname">M</td><td>Number of bits / symbol. </td></tr>
+    <tr><td class="paramname">filtre</td><td>Shaping filter (default: NRZ) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointeur vers une forme d'onde abstraite (FormeOnde).</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>\(M\) doit être une puissance de 2.</dd></dl>
-<dl class="section user"><dt>Exemple 1 : tracé de quelques constellations PSK</dt><dd><div class="fragment"><div class="line"> </div>
+<dl class="section return"><dt>Returns</dt><dd>Abstract waveform pointer (<a class="el" href="structdsp_1_1telecom_1_1_wave_form.html">WaveForm</a>).</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>\(M\) must be a power of 2.</dd></dl>
+<dl class="section user"><dt>Example 1: Some PSK modulations</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  <span class="keywordflow">for</span>(<span class="keyword">auto</span> M: {2, 4, 8, 16})</div>
 <div class="line">  {</div>
@@ -166,9 +166,9 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga722cefbc1b674
 </div><!-- fragment --><div class="image">
 <img src="waveform-psk.png" alt="" width="800px"/>
 <div class="caption">
-Exemples de formes d'ondes PSK : BPSK, QPSK, 8PSK, 16PSK</div></div>
+Waveforms examples: BPSK, QPSK, 8PSK, 16PSK</div></div>
 </dd></dl>
-<dl class="section user"><dt>Exemple 2 : Calcul de taux d'erreur binaires</dt><dd><div class="fragment"><div class="line"> </div>
+<dl class="section user"><dt>Example 2: Theoretical bit error rates</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="keyword">auto</span> w2 = forme_onde_psk(2);</div>
 <div class="line">  <span class="keyword">auto</span> w4 = forme_onde_psk(4);</div>
 <div class="line">  <span class="keyword">auto</span> w8 = forme_onde_psk(8);</div>
@@ -185,13 +185,13 @@ Exemples de formes d'ondes PSK : BPSK, QPSK, 8PSK, 16PSK</div></div>
 <div class="line">  f.titres(<span class="stringliteral">&quot;BER théorique PSK&quot;</span>, <span class="stringliteral">&quot;Eb/N0&quot;</span>, <span class="stringliteral">&quot;Taux d&#39;erreur binaire&quot;</span>);</div>
 <div class="line">  f.axes().def_echelle(<span class="stringliteral">&quot;lin&quot;</span>, <span class="stringliteral">&quot;log&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f_html_gaa70f93ef0e524a151b58de4b4e54a14f"><div class="ttname"><a href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">dsp::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:675</div></div>
+<div class="ttc" id="agroup__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f_html_gaa70f93ef0e524a151b58de4b4e54a14f"><div class="ttname"><a href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">dsp::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:676</div></div>
 </div><!-- fragment --><div class="image">
 <img src="waveform-psk2.png" alt="" width="800px"/>
 <div class="caption">
-Taux d'erreur binaire</div></div>
+BER</div></div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__telecom-mods-wf_gaf4a59b3b88a0825caa274387ebd22866.html#gaf4a59b3b88a0825caa274387ebd22866" title="Creation of a QAM waveform.">waveform_qam()</a>, <a class="el" href="group__telecom-mods-wf_ga6cad8ebac3e41699100970b90302348b.html#ga6cad8ebac3e41699100970b90302348b" title="Creation of a QPSK waveform.">waveform_qpsk()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__telecom-mods-wf_gae16e75789c9d10083432f02d1d73aa73.html#gae16e75789c9d10083432f02d1d73aa73" title="Creation of a QAM waveform.">waveform_qam()</a>, <a class="el" href="group__telecom-mods-wf_gac4f471bb31725de1799eb44f7c79ea8d.html#gac4f471bb31725de1799eb44f7c79ea8d" title="Creation of a QPSK waveform.">waveform_qpsk()</a> </dd></dl>
 
 </div>
 </div>
@@ -201,7 +201,7 @@ Taux d'erreur binaire</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

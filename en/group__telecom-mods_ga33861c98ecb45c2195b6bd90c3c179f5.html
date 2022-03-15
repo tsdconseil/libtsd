@@ -137,7 +137,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_ga33861c98ecb45c21
 <p>Un modulateur consiste ici à convertir un train binaire en un signal bande de base (ou déjà transposé à une fréquence intermédiaire), mis en forme et sur-échantilloné (de manière à être prêt à être transmis à un ADC).</p>
 <dl class="section user"><dt>Exemple 1 : modulation BPSK (avec filtre NRZ)</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  ModConfig config;</div>
-<div class="line">  config.wf     = forme_onde_bpsk();</div>
+<div class="line">  config.forme_onde     = forme_onde_bpsk();</div>
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
@@ -158,7 +158,7 @@ Exemples de modulation BPSK</div></div>
 </dd></dl>
 <dl class="section user"><dt>Exemple 2 : modulation QPSK (avec filtre SRRC)</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  ModConfig config;</div>
-<div class="line">  config.wf     = forme_onde_qpsk(SpecFiltreMiseEnForme::srrc(0.4));</div>
+<div class="line">  config.forme_onde     = forme_onde_qpsk(SpecFiltreMiseEnForme::rcs(0.4));</div>
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
@@ -186,7 +186,7 @@ Exemples de modulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

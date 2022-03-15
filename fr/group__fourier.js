@@ -19,9 +19,10 @@ var group__fourier =
     [ "filtre_fft", "group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b", null ],
     [ "force_csym", "group__fourier_ga78e355deaffb7a866e18548497ec8e16.html#ga78e355deaffb7a866e18548497ec8e16", null ],
     [ "ifft", "group__fourier_ga7e5cbffa8b99510201aea3819fecc6b3.html#ga7e5cbffa8b99510201aea3819fecc6b3", null ],
-    [ "ola_complexite", "group__fourier_ga5e6d7f4a144aa0528c4927576546f8f3.html#ga5e6d7f4a144aa0528c4927576546f8f3", null ],
-    [ "ola_complexite_optimise", "group__fourier_gad0c550d88531644e86ba75858f12605d.html#gad0c550d88531644e86ba75858f12605d", null ],
-    [ "reechan_freq", "group__fourier_gad03258343d19a0333615f67e009faf18.html#gad03258343d19a0333615f67e009faf18", null ],
+    [ "ola_complexité", "group__fourier_ga62b12002cae305b4c02eb00f0332113c.html#ga62b12002cae305b4c02eb00f0332113c", null ],
+    [ "ola_complexité_optimise", "group__fourier_ga14c48e172785603b4212e1ca31c7dbeb.html#ga14c48e172785603b4212e1ca31c7dbeb", null ],
     [ "rfft", "group__fourier_ga12477679c85009ab019ca46622f8b81b.html#ga12477679c85009ab019ca46622f8b81b", null ],
-    [ "rfftplan_création", "group__fourier_ga64726afc2b29864b61dedee6c3180a4f.html#ga64726afc2b29864b61dedee6c3180a4f", null ]
+    [ "rfftplan_création", "group__fourier_ga701894e480e81c6493b27c6419ea5811.html#ga701894e480e81c6493b27c6419ea5811", null ],
+    [ "rééchan_freq", "group__fourier_ga28510f676d3eeec94acb8f75aa66373f.html#ga28510f676d3eeec94acb8f75aa66373f", null ],
+    [ "tfd_freqs", "group__fourier_ga4912eb8d93c463edf6be1fc5908e3334.html#ga4912eb8d93c463edf6be1fc5908e3334", null ]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['γ_1313',['γ',['../structtsd_1_1tf_1_1cqt_1_1_c_q_t_config.html#a7bff81b87ab19921aa6e0e48c9864f9b',1,'tsd::tf::cqt::CQTConfig']]]
+  ['η_1334',['η',['../structtsd_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a28e38f7c3f422d571991ac75e39e55f2',1,'tsd::telecom::DemodConfig::DemodDecConfig']]]
 ];

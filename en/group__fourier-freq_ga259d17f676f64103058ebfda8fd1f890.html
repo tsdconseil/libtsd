@@ -149,17 +149,17 @@ $(document).ready(function(){initNavTree('group__fourier-freq_ga259d17f676f64103
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>PSD par la méthode de Welch</h3>
-<p>Cette fonction est une estimation de la PSD par la technique du moyennage : plusieur PSD sont calculées sur des fenêtres (pondérées et avec du recouvrement), puis moyennées.</p>
+<h3>PSD using Welch method</h3>
+<p>This function estimates the PSD using the spectrum averaging method: several PSD are computed using windowed parts of the signal (optionnaly with some overlap), then averaged.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>Signal à analyser. </td></tr>
-    <tr><td class="paramname">N</td><td>Dimension des sous-fenêtres (autrement dit, la résolution de la PSD résultante). </td></tr>
-    <tr><td class="paramname">fen</td><td>Choix du fenêtrage. </td></tr>
+    <tr><td class="paramname">x</td><td>Signal to be analyzed. </td></tr>
+    <tr><td class="paramname">N</td><td>Dimension of each window (that is, the resulting PSD resolution), in number of samples. </td></tr>
+    <tr><td class="paramname">fen</td><td>Type of windowing ("hn", "hm", "re", ...). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A tuple with two elements: frequences vectors (normalized, between -0.5 and 0.5), and the spectrum.</dd></dl>
 <dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">int</span> n = 8 * 1024;</div>
 <div class="line">  ArrayXcf x = <a class="code" href="group__tsd-gen_ga1d298cc57b240806f0152f50c26c023c.html#ga1d298cc57b240806f0152f50c26c023c">sigexp</a>(0.02, n) + 0.1 * <a class="code" href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">randn</a>(n);</div>
 <div class="line">  <span class="keyword">auto</span> [fr1, S1] = <a class="code" href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">psd</a>(x);</div>
@@ -175,16 +175,16 @@ $(document).ready(function(){initNavTree('group__fourier-freq_ga259d17f676f64103
 <div class="line">  f.gcf().titres(<span class="stringliteral">&quot;PSD - moyennage par blocs de 1024 pts&quot;</span>, <span class="stringliteral">&quot;Frequence (Hz)&quot;</span>, <span class="stringliteral">&quot;Magnitude (dB)&quot;</span>);</div>
 <div class="line">  f.subplot().plot(fr3, S3);</div>
 <div class="line">  f.gcf().titres(<span class="stringliteral">&quot;PSD - moyennage par blocs de 256 pts&quot;</span>, <span class="stringliteral">&quot;Frequence (Hz)&quot;</span>, <span class="stringliteral">&quot;Magnitude (dB)&quot;</span>);</div>
-<div class="ttc" id="agroup__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa_html_ga08f018f24a7fbf89ef9ae9d943357bfa"><div class="ttname"><a href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">dsp::fourier::psd</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">PSD (corrélogramme)</div><div class="ttdef"><b>Definition:</b> fourier.hpp:678</div></div>
-<div class="ttc" id="agroup__fourier-freq_ga259d17f676f64103058ebfda8fd1f890_html_ga259d17f676f64103058ebfda8fd1f890"><div class="ttname"><a href="group__fourier-freq_ga259d17f676f64103058ebfda8fd1f890.html#ga259d17f676f64103058ebfda8fd1f890">dsp::fourier::psd_welch</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd_welch(const ArrayXcf &amp;x, int N, const std::string fen=&quot;hn&quot;)</div><div class="ttdoc">PSD (méthode de Welch - par moyennage).</div><div class="ttdef"><b>Definition:</b> fourier.hpp:702</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga0900621a525834a05cf888939fd1998d_html_ga0900621a525834a05cf888939fd1998d"><div class="ttname"><a href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">dsp::randn</a></div><div class="ttdeci">static ArrayXf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:767</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga1d298cc57b240806f0152f50c26c023c_html_ga1d298cc57b240806f0152f50c26c023c"><div class="ttname"><a href="group__tsd-gen_ga1d298cc57b240806f0152f50c26c023c.html#ga1d298cc57b240806f0152f50c26c023c">dsp::sigexp</a></div><div class="ttdeci">static ArrayXcf sigexp(float f, int n)</div><div class="ttdoc">Efficient computing of a complex exponential.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:864</div></div>
+<div class="ttc" id="agroup__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa_html_ga08f018f24a7fbf89ef9ae9d943357bfa"><div class="ttname"><a href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa">dsp::fourier::psd</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">PSD (correlogram).</div><div class="ttdef"><b>Definition:</b> fourier.hpp:677</div></div>
+<div class="ttc" id="agroup__fourier-freq_ga259d17f676f64103058ebfda8fd1f890_html_ga259d17f676f64103058ebfda8fd1f890"><div class="ttname"><a href="group__fourier-freq_ga259d17f676f64103058ebfda8fd1f890.html#ga259d17f676f64103058ebfda8fd1f890">dsp::fourier::psd_welch</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; psd_welch(const ArrayXcf &amp;x, int N, const std::string fen=&quot;hn&quot;)</div><div class="ttdoc">PSD (Welch method - spectrum averaging).</div><div class="ttdef"><b>Definition:</b> fourier.hpp:701</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga0900621a525834a05cf888939fd1998d_html_ga0900621a525834a05cf888939fd1998d"><div class="ttname"><a href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">dsp::randn</a></div><div class="ttdeci">static ArrayXf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:768</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga1d298cc57b240806f0152f50c26c023c_html_ga1d298cc57b240806f0152f50c26c023c"><div class="ttname"><a href="group__tsd-gen_ga1d298cc57b240806f0152f50c26c023c.html#ga1d298cc57b240806f0152f50c26c023c">dsp::sigexp</a></div><div class="ttdeci">static ArrayXcf sigexp(float f, int n)</div><div class="ttdoc">Efficient computing of a complex exponential.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:865</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-psd3.png" alt="" width="800px"/>
 <div class="caption">
 PSD et moyennage</div></div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa" title="PSD (corrélogramme)">psd()</a>, <a class="el" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f" title="Calcul d&#39;un spectre par la méthode des sous-espaces.">psd_subspace()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__fourier-freq_ga08f018f24a7fbf89ef9ae9d943357bfa.html#ga08f018f24a7fbf89ef9ae9d943357bfa" title="PSD (correlogram).">psd()</a>, <a class="el" href="group__fourier-freq_ga3e20e2985ca88a4e55babfb8f56fed2f.html#ga3e20e2985ca88a4e55babfb8f56fed2f" title="Calcul d&#39;un spectre par la méthode des sous-espaces.">psd_subspace()</a> </dd></dl>
 
 </div>
 </div>
@@ -194,7 +194,7 @@ PSD et moyennage</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Wed Feb 9 2022 15:18:20 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>
