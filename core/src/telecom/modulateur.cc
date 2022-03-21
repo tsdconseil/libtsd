@@ -148,8 +148,6 @@ struct ModGen : Modulateur
     // D'après les symboles
   ArrayXcf step(const ArrayXcf &x_)
   {
-    //auto x_symb = x;
-
     // Filtre de mise en forme, avec sur-échantillonnage intégré
     ArrayXcf x = filtre_mise_en_forme->step(x_);
 

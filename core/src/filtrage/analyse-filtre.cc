@@ -84,7 +84,8 @@ template<typename T>
 
   ArrayXf y = repimp(h);
 
-  f.subplot().plot(y, "|b", "Réponse impulsionnelle");
+  f.subplot().plot(y, "|bo", "Réponse impulsionnelle");
+  f.gcf().axes().supprime_decorations();
 
   ArrayXf lmag = 20*log10(mag);
 
@@ -93,7 +94,8 @@ template<typename T>
     if(abs(lmag(i)) < 1e-5)
       lmag(i) = 0;
 
-  f.subplot().plot(fr, lmag, "", "Réponse fréquentielle (log)");
+  auto c = f.subplot().plot(fr, lmag, "", "Réponse fréquentielle (log)");
+  c.def_remplissage(true, false);
   return f;
 }
 

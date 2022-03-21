@@ -190,7 +190,7 @@ Ped ped_init(PedType type, sptr<FormeOnde> wf)
     return ped_tloop(M);
   else if(type == PedType::DEC_LOOP)
     return ped_decision(wf);
-  msg_erreur("PED : type inconnu ({} - {}).", (int) type, type);
+  msg_erreur("PED : type inconnu ({}).", (int) type);
   return Ped();
 }
 

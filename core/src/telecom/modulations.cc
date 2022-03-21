@@ -1253,8 +1253,8 @@ SpecFiltreMiseEnForme::Analyse SpecFiltreMiseEnForme::analyse(int ncoefs, int os
 
 
   f.subplot();
-  f.gcf().plot(fr, 20 * log10(mag + 1e-20),  "-b", "Réel");
-  f.gcf().plot(fr3, 20 * log10(mag2.head(ns) + 1e-20), "-g", "Théorique");
+  f.gcf().plot(fr, 20 * log10(mag + 1e-10),  "-b", "Réel");
+  f.gcf().plot(fr3, 20 * log10(mag2.head(ns) + 1e-10), "-g", "Théorique");
   f.gcf().titre("Réponse fréquentielle (log)");
 
 

@@ -750,7 +750,8 @@ struct RécepteurImpl: Récepteur
         ArrayXcf y3((int) floor(y2.rows() / osf));
         for(auto i = 0; i < y2.rows(); i += osf)
           if(i / osf < y3.rows())
-            y3(i / osf) = y2(i);
+            //y3(i / osf) = y2(i);
+            y3((int) (i / osf)) = y2(i);
         f.plot_iq(y3, "bo");
         f.afficher("Constellation après timing");
       }
