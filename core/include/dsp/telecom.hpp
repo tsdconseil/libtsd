@@ -2,12 +2,12 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - see LICENSE file. */
 
+#include <dsp/view.hpp>
 #include "dsp/dsp.hpp"
 #include "tsd/telecom/bitstream.hpp"
 #include "dsp/filter.hpp"
 #include "dsp/fourier.hpp"
 #include "tsd/telecom.hpp"
-#include "dsp/figure.hpp"
 #include <vector>
 #include <random>
 
@@ -324,7 +324,7 @@ struct WaveForm
   };
 
   /** @brief Get waveform informations. */
-  Infos infos() const
+  Infos get_infos() const
   {
     Infos res;
     memcpy((void *) &res, &(fr->infos), sizeof(Infos));

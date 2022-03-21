@@ -2,10 +2,10 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
+#include <dsp/view.hpp>
 #include "dsp/dsp.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/filtrage/frat.hpp"
-#include "dsp/figure.hpp"
 
 namespace dsp {
 /*namespace view {

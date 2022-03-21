@@ -11,9 +11,11 @@ namespace dsp {
 
 
 /** @brief @f$\pi@f$ value, with 32 bits floating point accuracy. */
-auto pi = tsd::pi;
+static const auto pi = tsd::pi;
 
-auto π  = tsd::π;
+static const auto π  = tsd::π;
+
+static const auto π_f  = tsd::π_f;
 
 /** @brief Short-cut for the complex 32 bits floating point type. */
 using cfloat = tsd::cfloat;

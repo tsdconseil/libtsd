@@ -22,7 +22,7 @@ namespace dsp::view
 
   /** @brief %Figure with Matlab / Scilab type API.
    */
-  struct Figure
+  struct Figure: tsd::vue::ARendable
   {
     tsd::vue::Figure f;
 
@@ -222,6 +222,17 @@ namespace dsp::view
       f.def_pos_legende(code);
     }
 
+
+    tsd::vue::Canva canva()
+    {
+      return f.canva();
+    }
+
+    tsd::vue::Canva canva_pixel(const Dim &allocation)
+    {
+      return f.canva_pixel(allocation);
+    }
+
     /** @brief  Affichage à l'écran dans une fenêtre à part.
      *
      * <h3>Affichage d'une figure</h3>
@@ -270,10 +281,89 @@ namespace dsp::view
     {
       return f.clone();
     }
+
+    sptr<const tsd::vue::Rendable> rendable() const
+    {
+      return f.rendable();
+    }
   };
 
 
-  using Figures = tsd::vue::Figures;
+  struct Figures
+  {
+    tsd::vue::Figures f;
+
+    Figures(int rows = -1, int cols = -1): f(rows, cols){}
+    Figures(const tsd::vue::Figures &f)
+    {
+      this->f = f;
+    }
+
+    void clear()
+    {
+      f.clear();
+    }
+
+    /** @brief Partitionne la figure en sous-plots.
+      *
+      *  <h3>Partition de la figure en sous-plots</h3>
+      *  @param rows   Nombre de lignes
+      *  @param cols   Nombre de colonnes
+      *  @param sel    Sélection du subplot en cours (numéro entre 1 et rows*cols). Ou -1 pour automatique (nouveau subplot). */
+     Figure subplot(int rows, int cols, int sel = -1)
+     {
+       return f.subplot(rows, cols, sel);
+     }
+
+     /** @brief Partitionne la figure en sous-plots.
+      *
+      *  <h3>Partition de la figure en sous-plots</h3>
+      *
+      *  Cette surcharge est juste une manière plus compacte de spécifier un sous-plot.
+      *
+      *  @param p Entier entre 000 et 999, où les trois chiffres sont, respectivement,
+      *  les nombre de lignes, de colonnes, et le numéro de subplot en cours (index commençant à 1).
+      *  Si une valeur négative est passée en paramètre, un nouveau subplot est créé, et la position
+      *  est déterminée de manière automatique.
+      *  @par Exemple :
+      *  @code
+      *    Figure f;
+      *    // 2 lignes, 1 colonne, première sous-figure
+      *    f.subplot(211); // équivalent à f.subplot(2,1,1);
+      *    f.plot(...);
+      *    // 2 lignes, 1 colonne, deuxième sous-figure
+      *    f.subplot(212); // équivalent à f.subplot(2,1,2);
+      *    f.plot(...);
+      *  @endcode
+      *  @sa subplot() */
+     Figure subplot(int p = -1)
+     {
+       return f.subplot(p);
+     }
+
+     Figure gcf()
+     {
+       return f.gcf();
+     }
+
+     Figure gf(int sel)
+     {
+       return f.gf(sel);
+     }
+
+
+     sptr<const tsd::vue::Rendable> rendable() const
+     {
+       return f.rendable();
+     }
+
+
+     // Sur-charge
+     void show(const std::string &title = "", const Dim &dim = {-1, -1}) const
+     {
+       f.afficher(title, dim);
+     }
+  };
 
 
 

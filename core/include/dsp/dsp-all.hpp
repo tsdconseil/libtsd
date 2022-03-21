@@ -1,8 +1,9 @@
 #pragma once
 
 
+
 #include "dsp/dsp.hpp"
-#include "dsp/figure.hpp"
+#include "dsp/view.hpp"
 #include "dsp/filter.hpp"
 #include "dsp/fourier.hpp"
 #include "dsp/telecom.hpp"

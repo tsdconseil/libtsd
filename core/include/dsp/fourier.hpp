@@ -142,7 +142,7 @@ ArrayXcf rfft(const Eigen::ArrayBase<derived> &x)
 template<typename T>
   Vector<T> resample_freq(const Vector<T> &x, float ratio)
 {
-  return tsdF::reechan_freq(x, ratio);
+  return tsdF::rééchan_freq(x, ratio);
 }
 
 /** @brief Fast discrete Fourier Transform (FFT).
