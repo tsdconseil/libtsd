@@ -55,7 +55,10 @@ struct Canva::Impl
         x = log10(x);
 
       if(rdi.l == 0)
-        echec("ClipGen::v2c_x : rdi.l = 0.");
+      {
+        msg_avert("ClipGen::v2c_x : rdi.l = 0.");
+        return target.x;
+      }
 
       return target.x + target.l * (x - rdi.x) / rdi.l;
     }
@@ -66,7 +69,10 @@ struct Canva::Impl
         y = log10(y);
 
       if(rdi.h == 0)
-        echec("ClipGen::v2c_x : rdi.h = 0.");
+      {
+        msg_avert("ClipGen::v2c_x : rdi.h = 0.");
+        return target.y;
+      }
 
       return target.y + target.h * (y - rdi.y) / rdi.h;
     }
@@ -74,7 +80,10 @@ struct Canva::Impl
     Pointf c2v(const Pointf &p) const
     {
       if((target.l == 0) || (target.h == 0))
-        echec("ClipGen::c2v : target = {}.", target);
+      {
+        msg_avert("ClipGen::c2v : target = {}.", target);
+        return {rdi.x,rdi.y};
+      }
 
 
       return {(p.x - target.x) * rdi.l / target.l + rdi.x,
@@ -90,6 +99,11 @@ struct Canva::Impl
     Dimf v2c_l(const Dimf &d) const
     {
       return {v2c_lx(d.l), v2c_ly(d.h)};
+    }
+
+    Rectf v2c(const Rectf &r) const
+    {
+      return {v2c_x(r.x), v2c_y(r.y), v2c_lx(r.l), v2c_ly(r.h)};
     }
 
     // Attention : n'a pas de sens en échelle logarithmique
@@ -179,7 +193,6 @@ struct Canva::Impl
   };
 
 
-  ///sptr<Impl> parent;
   std::weak_ptr<Impl> parent;
   ClipGen clip;
 
@@ -1048,6 +1061,11 @@ void Canva::cercle(float x0, float y0, float r)
 Pointf Canva::v2c(const Pointf &p) const
 {
   return impl->clip.v2c(p);
+}
+
+Rectf Canva::v2c(const Rectf &r) const
+{
+  return impl->clip.v2c(r);
 }
 
 Canva Canva::clip_alt(const Rectf &rdi, float xmin, float xmax, float ymin, float ymax, bool log_x, bool log_y) const

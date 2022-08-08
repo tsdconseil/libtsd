@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -43,6 +43,7 @@ template<typename ... Ts>
 }
 
 extern void set_logger(logger_t logger);
+extern void reset_logger();
 
 }
 
@@ -1373,6 +1374,36 @@ namespace tsd
 
 }
 
+
+#define ostream_formater(T) \
+template <> struct fmt::formatter<T> { \
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();} \
+  template <typename FormatContext> \
+  auto format(const T& t, FormatContext& ctx) const -> decltype(ctx.out())  \
+  { \
+    std::ostringstream ss; \
+    ss << t; \
+    return fmt::format_to(ctx.out(), "{}", ss.str()); \
+  } \
+};
+
+ostream_formater(Eigen::ArrayXf)
+ostream_formater(Eigen::ArrayXcf)
+ostream_formater(Eigen::VectorXf)
+ostream_formater(Eigen::Vector3f)
+ostream_formater(Eigen::VectorXcf)
+ostream_formater(Eigen::ArrayXXf)
+ostream_formater(Eigen::MatrixXf)
+
+ostream_formater(Eigen::ArrayXd)
+ostream_formater(Eigen::ArrayXcd)
+ostream_formater(Eigen::VectorXd)
+ostream_formater(Eigen::Vector3d)
+ostream_formater(Eigen::VectorXcd)
+ostream_formater(Eigen::ArrayXXd)
+ostream_formater(Eigen::MatrixXd)
+
+ostream_formater(Eigen::Array4f)
 
 
 

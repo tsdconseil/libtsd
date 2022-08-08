@@ -1,4 +1,4 @@
-#include "tsd/tsd.hpp"
+﻿#include "tsd/tsd.hpp"
 #include "tsd/telecom.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/vue.hpp"
@@ -153,7 +153,7 @@ struct RecHorloge
     auto yi  = itrp->step(fenetre_x, 0, phase);
 
     if(std::isnan(yi.real()) || std::isnan(yi.imag()))
-      msg_erreur("Itrp : nan, fen itrp = {}.", fenetre_x);
+      msg_erreur("Itrp : nan");//, fen itrp = {}.", fenetre_x);
 
     // Lecture au rythme de la TED, qui travaille à deux fois la fréquence symbole
     phase += ((float) config.osf) / 2;
@@ -226,8 +226,9 @@ struct DemodGen2: Démodulateur
   /** Oscillateur local pour la correction de phase, basé sur une LUT. */
   OLUT lut;
 
+  float gain_cag = 1;
 
-
+  float alpha_cag = 1;
 
   sptr<FormeOnde::Ctx> ctx_fo;
 
@@ -286,6 +287,7 @@ struct DemodGen2: Démodulateur
       rec_horloge.configure(rhmc);
     }
 
+    alpha_cag = tsd::filtrage::rii1_tc_vers_coef(config.dec.cag.tc);
 
 
     // Initialisation du filtre de boucle pour la correction de phase
@@ -351,7 +353,7 @@ struct DemodGen2: Démodulateur
     // Filtrage adapté
     ArrayXcf xf;
 
-    if((osf > 1) && (config.dec.clock_rec.actif))
+    if((osf > 1) && config.dec.clock_rec.actif && config.dec.fa_actif)
       xf = rec_horloge.step0_filtre_adapte(x_dn);
     else
       xf = x_dn; // Pas de filtrage possible
@@ -362,13 +364,15 @@ struct DemodGen2: Démodulateur
     // Tableaux ci-dessous : utilisés uniquement pour le débug
     vector<int> si, idx;
     ArrayXcf v1, v2, v3, v8;
-    ArrayXf v4, v5, v6, v7, v9, v10;
+    ArrayXf v4, v5, v6, v7, v9, v10, v11, v12, v13;
     if(config.debug_actif)
     {
       v1 = v2 = v3 = v8 = ArrayXcf::Zero(n);
-      v4 = v5 = v6 = v7 = v9 = v10 = ArrayXf::Zero(n);
+      v4 = v5 = v6 = v7 = v9 = v10 = v11 = v12 = v13 = ArrayXf::Zero(n);
     }
     /////////////////////////////////////////////////////////////////
+
+    int ids = 0;
 
     VERBOSE(msg(" demod: boucle principale ({} échans)...", n);)
     for(auto i = 0; i < n; i++)
@@ -380,6 +384,13 @@ struct DemodGen2: Démodulateur
 
       if(config.dec.carrier_rec.actif)
         y *= lut.step(-θ); //* std::polar(1, -θ)
+
+
+      // Eventuellement, un étage de CAG
+      if(config.dec.cag.actif)
+      {
+        y *= gain_cag;
+      }
 
       // yi = valeur interpolée (si le bouléen f vaut vrai, sinon pas de valeur)
       cfloat yi;
@@ -418,6 +429,10 @@ struct DemodGen2: Démodulateur
           continue;
       }
 
+
+
+
+
       //config.wf->cnt = cnt-1;
 
       // Décision :
@@ -437,6 +452,17 @@ struct DemodGen2: Démodulateur
 
       // Calcule le symbole I/Q correspondant
       //cfloat ye = config.wf->lis_symbole(s);
+
+
+      if(config.dec.cag.actif)
+      {
+        float erreur_gain = std::abs(yi) / std::abs(ye);
+        if(config.debug_actif)
+          v12(i) = erreur_gain - 1;
+        gain_cag = (1 - alpha_cag) * gain_cag + alpha_cag * (1/erreur_gain);
+      }
+
+
 
       // Maj niveau de bruit
       float bruit = std::norm(ye - yi); // Carré
@@ -458,13 +484,22 @@ struct DemodGen2: Démodulateur
       if(config.debug_actif)
       {
         idx.push_back(i);
-        v8(i) = ye;
-        v2(i) = yi;
+
+
+        float SNR_lin = std::abs(ye) / sqrt(bruit);
+        float SNR = 20 * log10(SNR_lin);
+
+        v13(ids) = SNR;
+        v11(ids)  = gain_cag;
+        v8(i)   = ye;
+        v2(i)   = yi;
         //v3(i) = dyi;
-        v4(i) = erreur_phase;
-        v5(i) = rec_horloge.erreur;
-        v9(i) = rec_horloge.dec;
-        v10(i) = std::sqrt(bruit);
+        v4(i)   = erreur_phase;
+        v5(i)   = rec_horloge.erreur;
+        v9(i)   = rec_horloge.dec;
+        v10(ids)  = std::sqrt(bruit);
+
+        ids++;
       }
     }
 
@@ -477,16 +512,27 @@ struct DemodGen2: Démodulateur
 
     if(config.debug_actif)
     {
+      v10.conservativeResize(ids);
+      v11.conservativeResize(ids);
+      v13.conservativeResize(ids);
+
       // Plot transposition
       {
         Figures f;
         f.subplot().plot_iq(x_, ".b", "Signal entree (I/Q)");
         f.subplot().plot(x_);
         f.subplot().plot_psd(x_, modconfig.fe);
-        f.subplot().plot_iq(x_dn, ".b", "Transposition");
-        f.subplot().plot(x_dn);
-        f.subplot().plot_psd(x_dn, modconfig.fe);// * ratio_ra);
-        f.afficher("Démodulation / 1 - transposition");
+
+        if(modconfig.fi != 0)
+        {
+          f.subplot().plot_iq(x_dn, ".b", "Transposition");
+          f.subplot().plot(x_dn);
+          f.subplot().plot_psd(x_dn, modconfig.fe);// * ratio_ra);
+          f.afficher("Démodulation / 1 - transposition");
+        }
+        else
+          f.afficher("Démodulation / 1 - entrée");
+
       }
 
       // Plot filtrage adapté
@@ -495,6 +541,17 @@ struct DemodGen2: Démodulateur
         f.subplot().plot_iq(xf, ".b", "Filtre adapté (const)");
         f.subplot().plot(xf, "-", "Filtre adapté");
         f.afficher("Démodulation / 2 - Filtrage adapté");
+      }
+
+      // CAG
+      {
+        Figures f;
+
+        f.subplot().plot(v12, "r-o", "Erreur CAG");
+        f.subplot().plot(v11, "b-o", "Gain CAG");
+        f.subplot().plot(v13, "b-o", "SNR (dB)");
+
+        f.afficher("Démodulation / 3 - CAG", {1500,1500});
       }
 
       // Plot correction de phase

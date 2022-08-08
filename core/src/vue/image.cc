@@ -118,7 +118,15 @@ const Couleur
   Couleur::Jaune  {255,255,0,255},
   Couleur::Cyan   {0,255,255,255},
   Couleur::Marron {139,69,19,255},
-  Couleur::Gris   {128,128,128,255};
+  Couleur::Gris   {128,128,128,255},
+  Couleur::BleuSombre{0,0,180,255},
+  Couleur::VertSombre{0,100,0},
+  Couleur::RougeSombre{210,0,0},
+  Couleur::CyanSombre{0,192,192},
+  Couleur::VioletSombre{192,0,192},
+  Couleur::JauneSombre{192,192,0},
+  Couleur::MarronSombre{128,70,0},
+  Couleur::OrangeSombre{250,140,0};
 
 
   Couleur Couleur::eclaircir(float ratio) const
@@ -289,8 +297,8 @@ void texte_ajoute(Image O, const TexteConfiguration &config, const std::string &
 
 
 Image texte_creation_image(const std::string &s,
-    const TexteConfiguration &config,
-    TexteProps *props)
+                           const TexteConfiguration &config,
+                           TexteProps *props)
 {
 
   //infos("Text creation image[%s] : scale = %f", s.c_str(), config.scale);

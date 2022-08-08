@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -66,7 +66,7 @@ struct Quaternion
 };
 
 
-extern Eigen::Matrix3f rotmat_3d(float α, int axe);
+//extern Eigen::Matrix3f rotmat_3d(float α, int axe);
 
 
 /** @brief Angles de %Cardan pour la  représentation d'une rotation 3d. */
@@ -133,11 +133,23 @@ template<typename T>
   return R;
 }
 
+template<typename T>
+  Eigen::Matrix<T, 3, 3> rotmat_3d(T α, int axe)
+{
+  if(axe == 0)
+    return rotmat_3d_R1<T>(α);
+  else if(axe == 1)
+    return rotmat_3d_R2<T>(α);
+  return rotmat_3d_R3<T>(α);
+}
+
 
 /** @} */
 
 }
 
 
+ostream_formater(tsd::geo::Quaternion)
+ostream_formater(tsd::geo::Cardan)
 
 

@@ -1,11 +1,14 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
+
+#include "tsd/tsd.hpp"
 
 #include <cstdint>
 #include <iosfwd>
 #include <compare>
 #include <tuple>
+#include <fmt/core.h>
 
 namespace tsd::temps {
 
@@ -77,6 +80,9 @@ struct Durée
 
   /** @brief Constructeur statique, d'après un nombre de micro-secondes. */
   static Durée microsecondes(int64_t cnt);
+
+  /** @brief Constructeur statique, d'après un nombre de milli-secondes. */
+  static Durée millisecondes(int64_t cnt);
 
   /** @brief Constructeur statique, d'après un nombre de secondes. */
   static Durée secondes(double cnt);
@@ -326,6 +332,13 @@ extern std::ostream& operator<<(std::ostream& strm, const DateHeure &t);
 /** @brief Affichage d'une date. */
 extern std::ostream& operator<<(std::ostream& strm, const Calendrier &date);
 
+
+
+
+
+
+
+
 /** @brief Différence entre deux points temporels */
 inline Durée operator-(const DateHeure& dt1, const DateHeure& dt2)
 {
@@ -382,5 +395,33 @@ extern bool mode_utc;
 /** @} */
 
 }
+
+
+template <> struct fmt::formatter<tsd::temps::DateHeure> {
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
+  template <typename FormatContext>
+  auto format(const tsd::temps::DateHeure& t, FormatContext& ctx) const -> decltype(ctx.out()) 
+  {
+    tsd::temps::DateComposite dc;
+    if(tsd::temps::mode_utc)
+      dc = t.decomposition();
+    else
+      dc = t.decomposition_locale();
+    return fmt::format_to(ctx.out(), "{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d} {}",
+      dc.jour.année, dc.jour.mois, dc.jour.jour, dc.heure.heure, dc.heure.minutes, dc.heure.secondes, tsd::temps::mode_utc ? "(UTC)" : "(local hour)");
+  }
+};
+
+
+template <> struct fmt::formatter<tsd::temps::Calendrier> {
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
+  template <typename FormatContext>
+  auto format(const tsd::temps::Calendrier& date, FormatContext& ctx) const -> decltype(ctx.out()) 
+  {
+    return fmt::format_to(ctx.out(), "{:0>4d}-{:0>2d}-{:0>2d}", date.année, date.mois, date.jour);
+  }
+};
+
+
 
 

@@ -4,6 +4,7 @@
 
 namespace tsd::filtrage {
 
+
 //  A. Reilly, G. Frazer, and B. Boashash, "Analytic signal generation Tips and traps", IEEE Trans. Signal Processing, vol. 42, pp.3241-3245, Nov. 1994.
 //  h(n)=(2/(n*pi))*(sin(n*pi/2))^2 for n not equal 0 and h(0)=0.
 ArrayXf design_rif_hilbert(int n, const std::string &fen)

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "tsd/tsd.hpp"
 #include <vector>
@@ -21,7 +21,7 @@ template<typename T>
 struct Poly
 {
   Vecteur<T> coefs;
-  std::string vname;
+  std::string vname = "z";
   // Par défaut, définit d'après ses coefficients
   bool mode_racines = false;
   T mlt = 1.0f; // multiplieur si mode racine (= coefficient du monome le plus grand)
@@ -30,7 +30,6 @@ struct Poly
 
   Poly()
   {
-    vname = "z";
   }
 
   /** @brief Retourne les coefficients du polynôme */
@@ -880,6 +879,30 @@ std::ostream& operator<<(std::ostream& os, const Poly<float> &p);
 std::ostream& operator<<(std::ostream& os, const FRat<float> &f);
 
 
+
+
+
 }
 
+template <> struct fmt::formatter<tsd::Poly<float>> {
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
+  template <typename FormatContext>
+  auto format(const tsd::Poly<float>& t, FormatContext& ctx) const -> decltype(ctx.out()) 
+  {
+    std::ostringstream os;
+    t.display_content(os);
+    return fmt::format_to(ctx.out(), "{}", os.str());
+  }
+};
 
+
+template <> struct fmt::formatter<tsd::FRat<float>> {
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
+  template <typename FormatContext>
+  auto format(const tsd::FRat<float>& t, FormatContext& ctx) const -> decltype(ctx.out()) 
+  {
+    std::ostringstream os;
+    t.afficher(os);
+    return fmt::format_to(ctx.out(), "{}", os.str());
+  }
+};

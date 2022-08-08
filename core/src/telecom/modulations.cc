@@ -172,7 +172,7 @@ ArrayXcf FormeOnde::génère_échantillons(const BitStream &bs, int ncoefs,
   ArrayXcf symbs = génère_symboles(bs);
   auto f = filtre.filtre_mise_en_forme(ncoefs, osf);
   ncoefs = filtre.get_coefs(ncoefs, osf).rows();
-  int nsymbs_flush = ncoefs;
+  int nsymbs_flush = (ncoefs + osf - 1) / osf;//ncoefs;
   symbs = vconcat(symbs, ArrayXcf::Zero(nsymbs_flush));
 
   // Temps vers le milieu du premier bit transmis

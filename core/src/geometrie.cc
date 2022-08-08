@@ -211,14 +211,14 @@ static Eigen::Matrix3f rotmat_3d_R2(float α)
   return R;
 }*/
 
-Eigen::Matrix3f rotmat_3d(float α, int axe)
+/*Eigen::Matrix3f rotmat_3d(float α, int axe)
 {
   if(axe == 0)
     return rotmat_3d_R1(α);
   else if(axe == 1)
     return rotmat_3d_R2(α);
   return rotmat_3d_R3(α);
-}
+}*/
 
 
 Eigen::Matrix3f Cardan::mat_rotation() const

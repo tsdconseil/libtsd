@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -588,7 +588,7 @@ extern ArrayXf bruit_awgn(IArrayXf &x, float σ);
 
 
 /** @brief Type de canal dispersif (avec ou sans trajet dominant) */
-enum TypeCanal
+enum TypeCanal: char
 {
   /** @brief Sans trajet dominant */
   RAYLEIGH = 0,
@@ -905,10 +905,13 @@ struct ModConfig
   /** @brief Fréquence symbole (Hz) */
   float fsymb = 1;
 
+  /** @brief Si vrai, un signal réel est généré */
   bool sortie_reelle = true;
+
+  /** @brief Génération de figure pour la mise au point. */
   bool debug_actif   = false;
 
-
+  /** @brief Nombre de coefficients à utiliser pour l'implémentation du filtre de mise en forme. */
   int ncoefs_filtre_mise_en_forme = 0;
 };
 
@@ -1123,6 +1126,15 @@ struct DemodConfig
       /** @brief Facteur d'ammortissement */
       float η = 1;
     } carrier_rec;
+
+    struct
+    {
+      bool actif = true;
+      // En nombre de symboles
+      float tc = 10;
+    } cag;
+
+    bool fa_actif = true;
   } dec;
 
   /** @brief Paramètres utilisés uniquement pour un démodulateur avec architecture <b>sans décision</b>. */
@@ -2180,6 +2192,29 @@ struct Code
 
 }
 
+
+template <> struct fmt::formatter<tsd::telecom::FormeOnde> {
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
+  template <typename FormatContext>
+  auto format(const tsd::telecom::FormeOnde& t, FormatContext& ctx) const -> decltype(ctx.out()) 
+  {
+    std::ostringstream ss;
+    ss << t;
+    return fmt::format_to(ctx.out(), "{}", ss.str());
+  }
+};
+
+
+template <> struct fmt::formatter<tsd::telecom::SpecFiltreMiseEnForme> {
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
+  template <typename FormatContext>
+  auto format(const tsd::telecom::SpecFiltreMiseEnForme& t, FormatContext& ctx) const -> decltype(ctx.out()) 
+  {
+    std::ostringstream ss;
+    ss << t;
+    return fmt::format_to(ctx.out(), "{}", ss.str());
+  }
+};
 
 
 

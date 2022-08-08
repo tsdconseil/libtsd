@@ -208,6 +208,8 @@ Figures analyse_filtre(const FRat<T> &h, float fe)
 
 template Figures analyse_filtre(const FRat<float> &h, float fe);
 template Figures analyse_filtre(const FRat<cfloat> &h, float fe);
+template Figures affiche_filtre(const FRat<float> &h, float fe);
+template Figures affiche_filtre(const FRat<cfloat> &h, float fe);
 template ArrayXf repimp(const Vecteur<float> &h, int npts);
 template ArrayXf repimp(const Vecteur<cfloat> &h, int npts);
 

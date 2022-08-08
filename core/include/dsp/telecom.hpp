@@ -2,7 +2,7 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - see LICENSE file. */
 
-#include <dsp/view.hpp>
+#include "dsp/view.hpp"
 #include "dsp/dsp.hpp"
 #include "tsd/telecom/bitstream.hpp"
 #include "dsp/filter.hpp"
@@ -722,19 +722,21 @@ inline ArrayXf bruit_awgn(IArrayXf &x, float σ)
 
 
 /** @brief Dispersive channel type (with or without dominant path) */
-enum ChannelType
+/*enum ChannelType: char
 {
-  /** @brief Without dominant path. */
+  /// @brief Without dominant path.
   RAYLEIGH = 0,
-  /** @brief With dominant path. */
+  /// @brief With dominant path.
   RICE
-};
+};*/
+
+using ChannelType = nfr::TypeCanal;
 
 /** @brief Configuration for a dispersive channel. */
 struct DispersiveChannelConfig : nfr::CanalDispersifConfig
 {
   /** @brief Channel type (with or without dominant path) */
-  ChannelType &channel_type = *((ChannelType *) &type);
+  ChannelType &channel_type = *(/*(ChannelType *)*/ &type);
 
   /** @brief Maximum Doppler frequency. */
   float &max_Doppler = fd;
@@ -1010,48 +1012,48 @@ struct LoopFilter
   }
 };
 
-/** @brief %Filtre de boucle du premier ordre
+/** @brief First order loop filter
  *
- *  <h3>%Filtre de boucle du premier ordre</h3>
+ *  <h3>First order loop filter</h3>
  *
- *   Ce filtre consiste tout simplement en un filtre RII du premier ordre :
+ *   This filter is simply a first order RII filter (that is, an exponential filter):
  *   @f[
  *     \theta_k = \theta_{k-1} + \alpha \cdot e_k
  *   @f]
  *
- *   Le facteur @f$\alpha@f$ étant calculé d'après la constante de temps spécifiée (voir @ref rii1_tc_vers_coef()).
+ *   The @f$\alpha@f$ factor being computed according to the specified time constant (see @ref iir1_tc2coef()).
  *
- *  @param τ Constante de temps du filtre (en nombre d'échantillons).
+ *  @param τ Filter time constant (in number of samples).
  *
- *  @sa filter_loop_order_2()
+ *  @sa filter_loop_second_order(), iir1_tc2coef()
  */
 inline sptr<LoopFilter> filter_loop_first_order(float τ)
 {
   return std::make_shared<LoopFilter>(nfr::filtre_boucle_ordre_1(τ));
 }
 
-/** @brief %Filtre de boucle du seconde ordre
+/** @brief Second order filter loop
  *
- *  <h3>%Filtre de boucle du second ordre</h3>
+ *  <h3>%Second order filter loop</h3>
  *
  *   @f[
  *     \theta_k = \theta_{k-1} + \mu_{k-1}\\
  *     \mu_k    = \mu_{k-1} + \gamma\cdot\left((1+\rho) e_k - e_{k-1}\right)
  *   @f]
  *
- *  Avec :
+ *  With :
  *  @f[
  *  \gamma = \frac{16 \eta^2 \cdot B}{A \cdot (1 + 4 \eta^2)}\\
     \rho  = \frac{4 B}{1 + 4 \eta^2}
  *  @f]
  *
- *  @param BL  Bande passante (normalisée à la fréquence d'échantillonnage) de la boucle
- *  @param η   Facteur d'amortissement
+ *  @param BL  Loop bandwidth (normalized to the sampling frequency)
+ *  @param η   Damping factor
  *
  *  @par Bibliography
  *  <i>DVBS2 : Carrier phase synchronization techniques for broadband satellite transmissions, ESA, 2003</i>
  *
- *  @sa filter_loop_order_1()
+ *  @sa filter_loop_first_order()
  */
 inline sptr<LoopFilter> filter_loop_second_order(float BL, float η)
 {
@@ -1066,42 +1068,55 @@ inline sptr<LoopFilter> filter_loop_second_order(float BL, float η)
  *  @{
  */
 
-/** @brief Paramétrage d'un modulateur numérique */
+/** @brief Digital modulation configuration structure.
+ *
+ *  <h3>Digital modulation configuration structure</h3>
+ *
+ *  @warning If real_output is true, a non null (and sufficiently high) intermediate frequency should be specified, otherwise aliasing can occur!
+ *
+ *  @warning If debug_active is true, don't use the modulator in real time!
+ *
+ *  @sa modulator_new()
+ */
 struct ModConfig
 {
-  /** @brief Spécifications de la forme d'onde */
+  /** @brief Waveform specifications */
   sptr<WaveForm> wf;
 
-  /** @brief Fréquence d'échantillonnage (Hz) */
-  float fe = 1;
+  /** @brief Sampling frequency (Hz) */
+  float fs = 1;
 
-  /** @brief Fréquence intermédiaire (Hz) */
+  /** @brief Intermediate frequency (Hz) */
   float fi = 0;
 
-  /** @brief Fréquence symbole (Hz) */
+  /** @brief Symbol frequency (Hz) */
   float fsymb = 1;
 
-  bool sortie_reelle = true;
-  bool debug_actif   = false;
+  /** @brief If true, a real signal is produced (so, with a signal image). */
+  bool real_output = true;
 
-  int ncoefs_filtre_mise_en_forme = 0;
+  /** @brief Generate debug figures. */
+  bool debug_active   = false;
+
+  /** @brief Number of taps to be used for the shaping filter implementation. */
+  int shaping_filter_ntaps = 0;
 
   auto fr() const
   {
     nfr::ModConfig res;
-    res.forme_onde = wf->fr;
-    res.fe = fe;
-    res.fi = fi;
-    res.fsymb = fsymb;
-    res.sortie_reelle = sortie_reelle;
-    res.debug_actif = debug_actif;
-    res.ncoefs_filtre_mise_en_forme = ncoefs_filtre_mise_en_forme;
+    res.forme_onde                  = wf->fr;
+    res.fe                          = fs;
+    res.fi                          = fi;
+    res.fsymb                       = fsymb;
+    res.sortie_reelle               = real_output;
+    res.debug_actif                 = debug_active;
+    res.ncoefs_filtre_mise_en_forme = shaping_filter_ntaps;
     return res;
   }
 };
 
 
-/** @brief Interface abstraite vers un modulateur */
+/** @brief Abstract interface for a modulator. */
 struct Modulator
 {
   sptr<nfr::Modulateur> mod;
@@ -1130,11 +1145,12 @@ struct Modulator
     return mod->flush(nech);
   }
 
-  /** @brief Délais, en nombre d'échantillons.
+  /** @brief Delay, in number of samples.
    *
-   * <h3>Délais, en nombre d'échantillons</h3>
+   * <h3>Delay, in number of samples</h3>
    *
-   * Nombre d'échantillons entre le premier sorti et le début du premier symbole transmis.
+   * Number of samples between the first transmitted sample and the beginning of the first transmitted symbol.
+   * The delay is typically due to the shaping filter.
    */
   virtual float delay() const
   {
@@ -1142,16 +1158,19 @@ struct Modulator
   }
 
 
-  // Modifie la forme d'onde
-  // Intérêt : si filtre partagé par 2 modulateurs
-  // (exemple : modulation différente en-tête et données)
+  /** @brief Run-time modification of the waveform.
+   *
+   *  <h3>Run-time modification of the waveform</h3>
+   *
+   *  This can be usefull is the waveform is different in two parts of a frame (for instance header as BPSK and data payload as QPSK).
+   */
   virtual void set_waveform(sptr<WaveForm> wf)
   {
     mod->def_forme_onde(wf->fr);
   }
 };
 
-/** @brief Interface abstraite vers un démodulateur */
+/** @brief Abstract interface for a demodulator engine. */
 struct Demodulator
 {
   sptr<nfr::Démodulateur> fr;
@@ -1740,7 +1759,7 @@ inline sptr<PacketEmitter> packet_emitter_new(const PacketEmitterConfig &ec)
  * De ce fait, il faut absolument représenter ces fréquences
  * en double précision (comme dans l'exemple ci-dessous).
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_doppler_psd
  *  @image html doppler_psd.png width=600px
  *
@@ -1751,29 +1770,27 @@ inline ArrayXf doppler_distri(ArrayXd f, float fd, double fc)
 }
 
 
-// @brief Compute thermal noise power
-// bw: Noise bandwidth, in Hz
-/** @brief Calcul de la puissance du bruit thermique.
+/** @brief Compute thermal noise power.
  *
- * <h3>Puissance du bruit thermique</h3>
+ * <h3>Thermal noise power</h3>
  *
- * D'après https://fr.wikipedia.org/wiki/Bruit_thermique :
+ * According to https://fr.wikipedia.org/wiki/Bruit_thermique :
  * @f[
  * P = k_B \cdot T_k \cdot \Delta_f
  * @f]
  * @f$T_k@f$ étant la température absolue et @f$\Delta_f@f$ la bande passante.
  *
- * @param bp Bande passante, en Hz.
- * @param T  Température ambiante, en dégrés Celsius.
- * @return Puissance du bruit, en Watt
+ * @param bw Noise bandwidth, in Hz,
+ * @param T  Ambiant temperature (°C).
+ * @return Noise power (Watt).
  *
- * @note Pour avoir la puissance du bruit en dBm (1 dBm = 1mW) : @f$P_{dB} = 10 \log_{10}(P \cdot 1000)@f$.
+ * @note To have noise power in dBm (1 dBm = 1mW): @f$P_{dB} = 10 \log_{10}(P \cdot 1000)@f$.
  *
- * @sa bruit_awgn()
+ * @sa awgn_noise()
  */
-inline float thermal_noise(float bp, float T = 25)
+inline float thermal_noise(float bw, float T = 25)
 {
-  return nfr::bruit_thermique(bp, T);
+  return nfr::bruit_thermique(bw, T);
 }
 
 /** @brief Paramétrage d'un émulateur de canal de propagation */
@@ -1791,19 +1808,19 @@ struct CPEConfig
   float Eb_N0 = 0;
 
   /** @brief Constant phase offset of the carrier (Hz) */
-  float décalage_phase = 0;
+  float phase_offset = 0;
 
   /** @brief Constant frequency offset of the carrier (Hz)  */
-  float décalage_fréquence = 0;
+  float frequnecy_offset = 0;
 
   /** @brief Level of phase noise on the carrier (dB/Hz) */
   float phase_noise = 0;
 
   /** @brief Clock delay, in samples */
-  float délais_horloge = 0;
+  float clock_delay = 0;
 
   /** @brief Sampling frequency, Hz */
-  float fe = 1;
+  float fs = 1;
 
   /** @brief Symbol frequency, Hz (used to compute SNR) */
   float fsymb = 1;
@@ -1811,8 +1828,8 @@ struct CPEConfig
   /** @brief Data rate, bit/s (used to compute SNR from Eb/N0) */
   float fbit  = 1;
 
-  /** @brief Affichage de courbes intermédiaires */
-  bool debug_actif = false;
+  /** @brief Display intermediate signals. */
+  bool debug_active = false;
 };
 
 /** @brief Création d'un émulateur de canal de propagation
@@ -1837,14 +1854,14 @@ inline sptr<Filter<cfloat, cfloat, nfr::ECPConfig>> ecp_new(const CPEConfig &con
  *  @{
  */
 
-/** @brief Création d'un égaliseur
+/** @brief Creation of a FIR equalizer
  *
- * <h3>Création d'un égaliseur</h3>
- *
- *
+ * <h3>Creation of a FIR equalizer</h3>
  *
  *
- * @sa égaliseur_zfe()
+ *
+ *
+ * @sa equalizer_zfe()
  */
 inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::string &structure, const std::string &errf,
     float osf, float gain, int N1, int N2)
@@ -1865,15 +1882,15 @@ inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::s
  * where @f$d@f$ is the global delay of the channel plus equalization filter pair.
  * That is, @f$g@f$ is the inverse filter (up to some delay @f$d@f$) of @f$h@f$.
  *
- * @note Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).
+ * @note This function assumes the channel response is known.
  *
  * @warning
  *  - The inversion is only approximative, as the exact filter inverse would have an infinite number taps.
- *  - Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).
+ *  - If the channel response has zeros (or low magnitude) in the frequency domaine, this kind of equalization is not recommanded (noise amplification).
  *
- * @param h Réponse impulsionnelle du canal,
- * @param n Nombre de coefficients souhaités pour le filtre inverse.
- * @returns %Filtre RIF inverse (coefficients).
+ * @param h Channel impulse response,
+ * @param n Number of taps for the FIR inverse filter.
+ * @returns FIR  inverse filter (taps).
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_eg_zfe
@@ -1902,9 +1919,9 @@ inline ArrayXf equalizer_zfe(IArrayXf h, int n)
 // ~english @brief Channel capacity.
 
 /**
- *  @brief Capacité d'un canal AWGN.
+ *  @brief AWGN channel capacity.
  *
- * <h3>Capacité d'un canal</h3>
+ * <h3>AWGN channel capacity</h3>
  *
  * Computes the ideal AWGN channel capacity, in bits/s:
  * @f[
@@ -1915,7 +1932,7 @@ inline ArrayXf equalizer_zfe(IArrayXf h, int n)
  * @param B       Channel bandwidth, in Hz (default is 1 Hz)
  * @return        Channel capacity, in bits/s
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_capa
  *  @image html capa.png width=800px
  *
@@ -2041,25 +2058,18 @@ struct RPLLConfig
   bool debug = false;
 };
 
-/** @brief Création d'une PLL (boucle à vérouillage de phase) à sortie réelle
+/** @brief Creation of a PLL (Phase Locked Loop) with real output
  *
- *  <h3>PLL (réelle)</h3>
+ *  <h3>PLL (real output)</h3>
  *
- *  @param config Structure de configuration
- *  @returns Filtre générique à entrées / sorties réelles
- *
- *  Cette PLL est capable de se vérouiller sur une sinusoide réelle (ou un signal modulé si
- *  un détecteur d'erreur de phase adéquat est fournit).
- *  Pour un signal complexe (exponentielle complexe), voir la fonction @ref cpll_création().
- *
- *  @~english
- *  @brief Creation of a real-output PLL (phase-locked loop)
  *  @param config Configuration structure
- *  @returns Generic filter with real input / output
+ *  @returns Generic filter with real (float) input / output
  *
- *  This PLL is able to lock on a sinusoidal signal
- *  (or a modulated signal provided an adequat phase error detector is provided).
- *  For a complex carrier (complex exponential), see the function @ref cpll_création().
+ *  This PLL will lock on a real sinusoid (or on a modulated signal
+ *  if a suitable phase error detector is provided).
+ *  For a complex exponential, see the function @ref cpll_new().
+ *
+ *  @sa cpll_new()
  */
 inline sptr<Filter<float, float, nfr::RPLLConfig>> rpll_new(const RPLLConfig &config)
 {
@@ -2270,27 +2280,27 @@ inline sptr<SNREstimator> snr_Matzner(float γ = 0.1)
  *  @{
  */
 
-/** @brief Congiguration modulateur / démodulateur AM */
+/** @brief Configuration structure for AM modulator or demodulator. */
 struct AMConfig
 {
-  /** @brief Type de modulation AM */
+  /** @brief AM modulaiton type */
   enum Mode
   {
     /** @brief Double-side band, with carrier */
     DSB = 0,
     /** @brief Double-side band, no carrier */
     DSB_SUPPRESSED_CARRIER,
-    /** @brief Single-side band (bande latérale unique), lower side band */
+    /** @brief Single-side band, lower side band */
     LSB,
-    /** @brief Single-side band (bande latérale unique), upper side band */
+    /** @brief Single-side band, upper side band */
     USB
   } mode;
 
-  /** @brief Est-ce une modulation à bande latérale unique ? */
+  /** @brief Is it a single-side band modulation? */
   bool est_BLU() const {return (mode == Mode::LSB) || (mode == Mode::USB);}
 
 
-  /** @brief Indice de modulation (utilisé seulement en mode DSB) */
+  /** @brief Modulation index (used only in case of DSB) */
   float indice = 1.0;
 
   /** @brief ? */
@@ -2302,13 +2312,13 @@ struct AMConfig
   /** @brief Fréquence IF ou RF, Hz */
   float f_rf = 1;
 
-  /** @brief Fréquence de coupure du filtre audio passe-bas */
+  /** @brief Audio filter lowpass filter cutt-off frequency. */
   float fcut_audio_low  = 200;
 
-  /** @brief Fréquence de coupure du filtre audio passe-haut */
+  /** @brief Audio filter highpass filter cutt-off frequency. */
   float fcut_audio_high = 8000;
 
-  /** @brief Tracé des signaux intermédiaires */
+  /** @brief Enable intermediate plots */
   bool debug_actif = false;
 };
 
@@ -2329,13 +2339,13 @@ struct FMDemodConfig
   bool genere_img_debug = false;
 };
 
-/** @brief Modulation d'amplitude (analogique).
+/** @brief Amplitude modulation (analogic).
  *
- * <h3>Modulation d'amplitude (analogique)</h3>
+ * <h3>Amplitude modulation (analogic)</h3>
  *
  *
  *
- * @par Exemple
+ * @par Example
  * @snippet exemples/src/sdr/ex-sdr.cc ex_modulateur_AM
  * @image html ex-modulateur-am.png width=800px
  *
@@ -2347,32 +2357,33 @@ extern sptr<Filter<float, float, AMConfig>> modulateurAM();
 /** @brief TODO */
 extern sptr<Filter<cfloat, float, AMConfig>> demodulateurAM();
 
-/** @brief Discrimination polaire pour la démodulation FM.
+/** @brief Polar discrimination for FM demodulation.
  *
- * <h3>Discrimination FM</h3>
+ * <h3>Polar discrimination for FM demodulation</h3>
  *
- * Implémente un discriminateur polaire (calcul de la fréquence instantanée pour un signal en bande de base),
- * qui peut servir de brique pour la démodulation FM :
+ * Implement a polar discriminator (computes the instantaneous frequency for a baseband signal),
+ * which can serve as a building block for a FM demodulator:
  * @f[
  * y(t) = \frac{d\arg x}{dt}(t)
  * @f]
  *
- * L'implémentation est basée sur https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/,
- * qui permet un calcul efficace, sans arctangente :
+ * The implementation si based on https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/,
+ * which enable an efficient, arc-tangent free, computing:
  * @f[
  * y(t)  = \frac{\mathcal{Re}(x(t)) \frac{d\mathcal{Im}(x(t))}{dt} - \mathcal{Im}(x(t)) \frac{d\mathcal{Re}(x(t))}{dt}}{\left|x(t)\right|^2}
  * @f]
  *
- * Les dérivées étant approximées à l'ordre 1 :
+ * The derivative is approximated at the first order:
  * @f[
  * \frac{dx}{dt}(k) \sim \frac{x_{k+1}-x_{k-1}}{2}
  * @f]
  *
  *
- * @returns   Filtre cfloat (signal bande de base, complexe) vers float (fréquence instantanée, sous forme de pulsation normalisée (entre @f$-\pi@f$ et @f$\pi@f$)).
- * @warning Du fait de l'aproximation utilisée pour le calcul de la dérivée, ce bloc génére un retard de 1 échantillon.
+ * @returns %Filter cfloat (baseband signal, complex) to float (instantaneous frequnency, as a normalized pulsation (between @f$-\pi@f$ and @f$\pi@f$)).
+ * @warning Because of the aproximation done for derivative computation,
+ * this block insert a delay of 1 sample.
  *
- * @par Exemple
+ * @par Example
  * @snippet exemples/src/sdr/ex-sdr.cc ex_discriminateur_fm
  * @image html ex-discriminateur-fm.png width=800px
  */
@@ -2407,13 +2418,13 @@ extern sptr<Filter<cfloat, cfloat, FMDemodConfig>> demodulateurFM();
  */
 extern BitStream code_mls(int n);
 
-/** @brief Génération d'un code de Barker.
+/** @brief Barker code generation.
  *
- *  <h3>Génération d'un code de Barker</h3>
+ *  <h3>Barker code</h3>
  *
- *  @param n Longueur du code (2, 3, 4, 5, 7, 11 ou 13)
+ *  @param n Code length (2, 3, 4, 5, 7, 11 ou r3)
  *
- *  @par Exemple
+ *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_code_Barker
  *  @image html ex-code-barker.png width=800px
  *
@@ -2424,7 +2435,7 @@ inline BitStream code_Barker(int n)
   return nfr::code_Barker(n);
 }
 
-/** @cond
+/** @cond undoc
  *  Renvoie un polynôme primitif de degré reglen.
  *  Le polynôme renvoyé est stocké "à l'envers", le LSB étant le coefficient
  *  de X^{n-1}, et le MSB celui de X^0. */
@@ -2434,16 +2445,16 @@ inline uint32_t primitive_polynom_binary(int reglen)
 }
 /** @endcond */
 
-/** @brief Calcul d'un polynôme primitif.
+/** @brief Computes a primitive polynomial.
  *
- *  <h3>Calcul d'un polynôme primitif.</h3>
+ *  <h3>Primitive polynomial</h3>
  *
- *  Cette fonction est utilisée pour la génération de codes à longueur maximale.
- *  Un polynôme primitif @f$p(x)@f$ de degré @f$n@f$ est :
- *   - Irréductible,
- *   - Le plus petit @f$k@f$ tel que @f$p(x)@f$ divise @f$x^k-1@f$ est @f$k=2^n-1@f$.
+ *  This function can be used for the generation of maximal length sequence.
+ *  A primitive polynomial @f$p(x)@f$ of degree @f$n@f$ is:
+ *   - Irreductible,
+ *   - The smallest @f$k@f$ such as @f$p(x)@f$ divide @f$x^k-1@f$ is @f$k=2^n-1@f$.
  *
- *  @param n Degré du polynôme (doit être compris entre 1 et 16).
+ *  @param n Polynomial degree (must be between 1 and 16).
  *
  *  @sa code_mls()
  */
@@ -2456,13 +2467,13 @@ inline tsd::Poly<int> primitive_polynomial(int n)
 /** @} */
 
 
-/** @brief Vecteur binaire (alternative à la classe BitStream). */
+/** @brief Binary vector (alternative to the BitStream class). */
 using ArrayHd = ArrayXb;
 
-/** @brief Vecteur de LLR (flottantes) */
+/** @brief LLR vector (floating point) */
 using ArrayLLR = ArrayXf;
 
-/** @brief Vecteur de LLR (codées sur 8 bits) */
+/** @brief LLR vector (8 bits encoded) */
 using ArrayLLRi = Eigen::Array<char, Eigen::Dynamic, 1>;
 
 
@@ -2471,23 +2482,23 @@ using ArrayLLRi = Eigen::Array<char, Eigen::Dynamic, 1>;
  */
 
 
-/** @brief Interface abstraite vers un code correcteur d'erreur. */
+/** @brief Abstract interface for an error correction code. */
 struct Code
 {
-  /** @brief Taille de bloc */
+  /** @brief Bloc dimension (in bits) */
   int n;
-  /** @brief Nb bits utiles */
+  /** @brief Usefull data dimension (in bits) */
   int k;
-  /** @brief Nom du code */
+  /** @brief Name of the code */
   std::string nom;
 
-  /** @brief Taux de transmission (nb bits utiles / nb bits transmis) */
+  /** @brief Transmission rate (ratio of number of usefull bits on total transmitted bits) */
   float taux() const{return (1.0f * k) / n;}
 
-  /** @brief Fonction d'encodage */
+  /** @brief Encoding function */
   virtual BitStream encode(const BitStream &u) = 0;
 
-  /** @brief Fonction de décodage */
+  /** @brief Decoding function */
   virtual BitStream decode(const ArrayLLRi &llri) = 0;
 };
 

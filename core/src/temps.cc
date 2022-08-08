@@ -100,6 +100,11 @@ Durée Durée::microsecondes(int64_t cnt)
   return Durée(cnt);
 }
 
+Durée Durée::millisecondes(int64_t cnt)
+{
+  return Durée(cnt * TICS_MS);
+}
+
 Durée Durée::secondes(double cnt)
 {
   return Durée(cnt * TICS_SECONDE);

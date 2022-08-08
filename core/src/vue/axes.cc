@@ -3,7 +3,6 @@
 
 #define DBG(AA)
 
-
 #include <deque>
 
 using namespace std;
@@ -451,10 +450,31 @@ struct Axes::Impl
       }
 
 
+
+
+
+      // TODO: la même chose pour l'axe horizontal
+      if(cav.echelle_logarithmique)
+      {
+        //DBG(msg("mode log: vmin {} -> {}, vmax {} -> {}", vmin, log10(vmin), vmax, log10(vmax)));
+        auto vmin = log10(cav.vmin);
+        auto vmax = log10(cav.vmax);
+
+        if(floor(vmin) == floor(vmax))
+        {
+          // Augmente un peu l'intervalle,
+          // car les tics majeurs sont au minimum par puissances entières de 10
+          vmin = floor(vmin) - 0.1f;
+          vmax = vmin + 1.2f;
+          cav.vmin = pow(10.0f, vmin);
+          cav.vmax = pow(10.0f, vmax);
+        }
+      }
+
       xmin = cah.vmin;
       xmax = cah.vmax;
-      ymax = cav.vmax;
       ymin = cav.vmin;
+      ymax = cav.vmax;
 
       Rectf rdi{xmin,ymax, xmax - xmin, ymin - ymax};
       canva_res = canva_pixels.clip_alt(
@@ -465,6 +485,8 @@ struct Axes::Impl
       DBG(msg("raxes: cfg axes..."));
       axe_horizontal.configure(cah, sx_graphique);
       axe_vertical.configure(cav, sy_graphique);
+
+
 
       DBG(msg("raxes: cpt tics..."));
       calcule_tics(axe_vertical);
@@ -531,154 +553,6 @@ struct Axes::Impl
       return canva_res;
     }
 
-# if 0
-  // Attention, dans quelle échelle il doit rendre ?
-  Canva rendre(Canva canva_, const Rectf &rdi) const
-  {
-    // Ou alors, tricher dans le canva :
-    // get_allocation renvoie la dim du sous-espace
-    auto dim = canva_.get_allocation(); // Allocation en pixels
-
-
-    maj_dimensions(dim);
-
-    DBG(msg("  rendu axes : allocation = {}x{}, rdi = {}", sx, sy, rdi));
-
-    // Vue en pixels
-    canva_pixels = canva_.vue(Rect{0, 0, sx, sy});
-
-    // Est-ce qu'on a besoin de ça sachant que maintenant ces infos sont dans le canva ?
-
-    auto &cah = config.axe_horizontal, &cav = config.axe_vertical;
-
-    cah.vmin = rdi.x;
-    cah.vmax = rdi.x + rdi.l;
-    // Inversion
-    cav.vmax = rdi.y;
-    cav.vmin = rdi.y + rdi.h;
-
-    DBG(msg("rendu axes : hmin={}, hmax={}, vmin={}, vmax={}, ecart pix={}, sx={}, sy={}",
-        cah.vmin, cah.vmax,
-        cav.vmin, cav.vmax,
-        config.axe_horizontal.ecart_pixel,
-        sx, sy);)
-
-
-    canva_res = canva_pixels.clip(Rect{0, marge_haute, sx_graphique, sy_graphique}, rdi,
-        config.axe_horizontal.echelle_logarithmique, config.axe_vertical.echelle_logarithmique);
-
-    if(config.mode_isoview)
-    {
-      // Il faut se débrouiller pour que la résolution soit identique
-      // en x et en y. Soit LSB / pixel identique.
-      float dh = cah.vmax - cah.vmin, dv = cav.vmax - cav.vmin;
-      float cth = (cah.vmax + cah.vmin) / 2, ctv = (cav.vmax + cav.vmin) / 2;
-      float reso_x = dh / sx_graphique, reso_y = dv / sy_graphique;
-      float ratio = (reso_x + 1e-200) / (reso_y + 1e-200);
-
-      // Comment forcer les résolutions à être identique ?
-      // On augmente l'intervalle pour la résolution la plus haute
-      auto ar = config.aspect_ratio;
-
-      // ar = ratio résolution y / x
-
-      DBG(msg("Ratio res = {}, ar = {}", ratio, ar);)
-      if(ratio <  1.0 / ar)
-      {
-        //auto delta = (dh/2) *  ratio * ar;
-        auto δ = sx_graphique * reso_y / (2 * ar);
-        cah.vmin = cth - δ;
-        cah.vmax = cth + δ;
-        DBG(float nv_reso_x = 2 * δ / sx_graphique;)
-        DBG(msg("cah : δ=+/- {}, nv ratio = {}", δ, nv_reso_x / reso_y);)
-        // 2 (delta / sxg) / reso_y = 1/ar
-        // delta = sxg * resoy / (2 * ar)
-      }
-      else
-      {
-        //auto delta = (dv/2) * ratio / ar;
-        // nv_reso_y = 2 * delta / syg
-        // resox / nv_reso_y  = 1/ar
-        // nv_reso_y = ar/reso_x
-        // delta = syg * ar / (2 * reso_x)
-        auto δ = sy_graphique * ar / (2 * reso_x);
-        cav.vmin = ctv - δ;
-        cav.vmax = ctv + δ;
-        DBG(auto nv_reso_y = 2 * δ / sy_graphique;)
-        DBG(msg("cav : δ=+/- {}, nv ratio = {}", δ, reso_x / nv_reso_y);)
-      }
-    }
-
-
-    DBG(msg("raxes: cfg axes..."));
-    axe_horizontal.configure(cah, sx_graphique);
-    axe_vertical.configure(cav, sy_graphique);
-
-    DBG(msg("raxes: cpt tics..."));
-    calcule_tics(axe_vertical);
-    DBG(msg("Calcul tics horizontaux...");)
-    calcule_tics(axe_horizontal);
-    DBG(msg("ok.");)
-
-    DBG(msg("Axes / couleurs :"));
-    DBG(msg(" - ARP    = {}", config.couleur_arriere_plan));
-    DBG(msg(" - grille (majeure) = {}", config.grille_majeure.couleur));
-
-    mat_sur_clair = config.est_mat_sur_clair();
-    couleur_avant_plan = mat_sur_clair ? Couleur::Noir : Couleur::Blanc;
-
-    DBG(msg(" - mat sur clair = {}", mat_sur_clair));
-    DBG(msg(" - => avant plan = {}", couleur_avant_plan));
-
-    if(config.grille_majeure.afficher == -1)
-      config.grille_majeure.afficher = 1;
-
-    if(config.grille_mineure.afficher == -1)
-      config.grille_mineure.afficher = 1;//0;
-
-    if(config.grille_majeure.lg_tiret == -1)
-    {
-      config.grille_majeure.lg_tiret = 10;
-      config.grille_majeure.lg_trou  = 0;
-    }
-    if(config.grille_mineure.lg_tiret == -1)
-    {
-      config.grille_mineure.lg_tiret = 1;
-      config.grille_mineure.lg_trou  = 3;
-    }
-
-    if(config.grille_majeure.couleur.vers_rgba() == 0)
-      config.grille_majeure.couleur = affaiblir_couleur(couleur_avant_plan, 0.3);
-
-    if(config.grille_mineure.couleur.vers_rgba() == 0)
-     config.grille_mineure.couleur = affaiblir_couleur(config.grille_majeure.couleur, 0.3);
-
-
-    DBG(msg(" - grille majeure = {}", config.grille_majeure.couleur));
-    DBG(msg(" - grille mineure = {}", config.grille_mineure.couleur));
-
-    DBG(msg("raxes: ok, grille..."));
-
-    //canva.set_coord_mode_pixels(true);
-
-    affiche_grille(canva_pixels);
-
-    DBG(msg("raxes: ok, titre..."));
-
-    //float hauteur_max = 20;//sy_graphique * (0.25 / (1 + 0.25 + 0.1));
-
-
-    canva_pixels.set_align(Align::CENTRE, Align::DEBUT);
-    //canva.set_dim_fonte(config.titre_dim/10);
-    canva_pixels.set_dim_fonte(FONTE_TITRE);
-    canva_pixels.set_epaisseur(1);
-    canva_pixels.set_couleur(couleur_avant_plan);
-    canva_pixels.texte(0.5*sx_graphique, 0, config.titre, sx_graphique, HAUTEUR_TITRE);
-
-    DBG(msg(" raxes: fin."));
-    return canva_res;
-  }
-# endif
 
   // Quel est le principe :
   //  - on connait vmax, vmin
@@ -715,6 +589,17 @@ struct Axes::Impl
       DBG(msg("mode log: vmin {} -> {}, vmax {} -> {}", vmin, log10(vmin), vmax, log10(vmax)));
       vmin = log10(vmin);
       vmax = log10(vmax);
+
+      /*if(floor(vmin) == floor(vmax))
+      {
+        // Augmente un peu l'intervalle,
+        // car les tics majeurs sont au minimum par puissances entières de 10
+        vmin = floor(vmin) - 1.1f;
+        vmax = vmin + 2.2f;
+        axe.config.vmin = pow(10.0f, vmin);
+        axe.config.vmax = pow(10.0f, vmax);
+        axe.configure(axe.config, axe.dim);
+      }*/
     }
 
     DBG(msg("Axe [{}]: dim={}, cfg.min={}, cfg.max={}, pixels_min={}, ecart-pixel={}, mode={}",
@@ -763,7 +648,9 @@ struct Axes::Impl
 
     // En mode logarithmique, travaille au mimimun par puissance entière de 10
     if(mode_log)
+    {
       tic_majeur = ceil(tic_majeur);
+    }
 
     if(axe.config.ecart_pixel != -1)
       tic_majeur = axe.config.ecart_pixel * (δ / axe.dim);

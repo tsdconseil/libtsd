@@ -119,12 +119,12 @@ static void test_reechan()
   msg_majeur("Test resample...");
   ArrayXf x = linspace(0, 1 - 1.0f/n, n);
   msg("  fourier...");
-  ArrayXf x1 = tsd::fourier::reechan_freq(x, 2);
+  ArrayXf x1 = tsd::fourier::rééchan_freq(x, 2);
 
   tsd_assert(x1.rows() == 2 * n);
 
   msg("  rif...");
-  ArrayXf x2 = tsd::reechan(x, 2);
+  ArrayXf x2 = tsd::rééchan(x, 2);
 
 
   //msg("x  : [{} - {}]", x.minCoeff(), x.maxCoeff());

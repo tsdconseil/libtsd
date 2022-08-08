@@ -658,7 +658,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 int bench_recepteur_a()
 {
   auto wf = forme_onde_qpsk();
-  wf->filtre = SpecFiltreMiseEnForme::srrc(0.25);
+  wf->filtre = SpecFiltreMiseEnForme::rcs(0.25);
 
 
   /*{
@@ -758,7 +758,7 @@ int bench_recepteur()
 
   for(auto m: lst_m)
   {
-    m->filtre = m->infos.est_fsk ? SpecFiltreMiseEnForme::gaussien(2.0) : SpecFiltreMiseEnForme::srrc(0.25);
+    m->filtre = m->infos.est_fsk ? SpecFiltreMiseEnForme::gaussien(2.0) : SpecFiltreMiseEnForme::rcs(0.25);
     auto res = test_recepteur_unit(
     {
       .osf                    = osf,
@@ -907,8 +907,8 @@ int test_recepteur()
   test_recepteur_unit({.osf = 4, .fo =fo,  .SNR_min = 10, .avec_delais = false, .avec_plot = true, .nb_rep = 1});*/
   //test_recepteur_unit({.osf = 2, .fo = waveform_psk(8), .SNR_min = 4, .avec_delais = false, .avec_plot = true});
 
-  //auto lst_f = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::srrc(0.5)};
-  auto lst_f = {SpecFiltreMiseEnForme::srrc(0.5), SpecFiltreMiseEnForme::nrz()};
+  //auto lst_f = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::rcs(0.5)};
+  auto lst_f = {SpecFiltreMiseEnForme::rcs(0.5), SpecFiltreMiseEnForme::nrz()};
 
   for(auto m: lst_m)
   {
@@ -943,7 +943,7 @@ int test_filtre_adapte()
 
   for(auto i = 0; i < 2; i++)
   {
-    auto sf = SpecFiltreMiseEnForme::srrc(0.5);
+    auto sf = SpecFiltreMiseEnForme::rcs(0.5);
     int osf = 2;
 
     auto fmef = sf.filtre_mise_en_forme(15, osf);
@@ -1048,7 +1048,7 @@ int test_demod()
 {
   msg_majeur("Tests démodulation...");
 
-  auto filtres = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::srrc(0.4)};
+  auto filtres = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::rcs(0.4)};
   auto Ms      = {2, 4, 8};
 
   std::vector<sptr<FormeOnde>> wfs;

@@ -863,7 +863,7 @@ inline sptr<Filter<cfloat,float,SpectrumConfig>> rt_spectrum(const SpectrumConfi
 
 /** @} */
 
-} // namespace tsd::fourier
+} // namespace dsp::fourier
 
 namespace tsd::tf {
 

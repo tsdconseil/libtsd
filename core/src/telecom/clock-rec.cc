@@ -1,4 +1,4 @@
-#include "tsd/telecom.hpp"
+﻿#include "tsd/telecom.hpp"
 #include "tsd/filtrage/spline.hpp"
 #include "tsd/vue.hpp"
 
@@ -513,7 +513,8 @@ struct ClockRec2: FiltreGen<cfloat>
 
       if(std::isnan(interpol.real()) || std::isnan(interpol.imag()))
       {
-        msg_erreur("Itrp : nan, fen itrp = {}.", fenetre_x);
+        //msg_erreur("Itrp : nan, fen itrp = {}.", fenetre_x);
+        msg_erreur("Itrp : nan");
       }
 
       phase += K1; // Lecture au rythme symbole
@@ -543,7 +544,7 @@ struct ClockRec2: FiltreGen<cfloat>
 
       if(std::isnan(e))
       {
-        msg_erreur("Ted : nan, x = {}, dx = {}", interpol, interpol_dx);
+        msg_erreur("Ted : nan");//, x = {}, dx = {}", interpol, interpol_dx);
         e = 0;
       }
 

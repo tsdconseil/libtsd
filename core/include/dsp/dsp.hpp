@@ -10,6 +10,9 @@ namespace dsp {
  *  @{ */
 
 
+#define dsp_assert      tsd_assert
+#define dsp_assert_msg  tsd_assert_msg
+
 /** @brief @f$\pi@f$ value, with 32 bits floating point accuracy. */
 static const auto pi = tsd::pi;
 

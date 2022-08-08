@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -1913,7 +1913,16 @@ Vecteur<T> interp(const ArrayXf &x, const Vecteur<T> &y, const ArrayXf &x2, Inte
 }
 
 
-
+template <> struct fmt::formatter<tsd::filtrage::BiquadSpec> {
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
+  template <typename FormatContext>
+  auto format(const tsd::filtrage::BiquadSpec& t, FormatContext& ctx) const -> decltype(ctx.out()) 
+  {
+    std::ostringstream ss;
+    ss << t;
+    return fmt::format_to(ctx.out(), "{}", ss.str());
+  }
+};
 
 
 

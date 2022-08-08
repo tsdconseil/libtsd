@@ -1,8 +1,9 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
 #include "tsd/temps.hpp"
+#include <cstring>
 
 namespace dsp::time {
 
@@ -117,6 +118,13 @@ struct Duration
   {
     return tsdt::Durée::microsecondes(cnt);
   }
+
+  /** @brief Constructeur statique, d'après un nombre de milli-secondes. */
+  static Duration milliseconds(int64_t cnt)
+  {
+    return tsdt::Durée::millisecondes(cnt);
+  }
+
 
   /** @brief Constructeur statique, d'après un nombre de secondes. */
   static Duration seconds(double cnt)
@@ -587,4 +595,8 @@ inline bool &mode_utc = tsdt::mode_utc;
 
 }
 
+
+
+ostream_formater(dsp::time::Calendar)
+ostream_formater(dsp::time::DateTime)
 

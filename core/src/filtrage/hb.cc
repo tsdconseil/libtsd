@@ -1,4 +1,4 @@
-///////////////////////////////////////
+﻿///////////////////////////////////////
 // Conception de filtres demi-bande
 ///////////////////////////////////////
 
@@ -369,7 +369,7 @@ struct FiltreRIFUps: FiltreGen<T>
 };
 
 
-template<typename Tc, typename T = Tc>
+template<typename Tc, typename T>
 sptr<FiltreGen<T>> filtre_rif_decim(const Eigen::Ref<const Vecteur<Tc>> c, int R)
 {
   return make_shared<FiltreRIFDecim<T,Tc>>(c, R);
@@ -377,13 +377,13 @@ sptr<FiltreGen<T>> filtre_rif_decim(const Eigen::Ref<const Vecteur<Tc>> c, int R
 
 
 
-template<typename Tc, typename T = Tc>
+template<typename Tc, typename T>
 sptr<FiltreGen<T>> filtre_rif_demi_bande(const Eigen::Ref<const Vecteur<Tc>> c)
 {
   return make_shared<FiltreRIFDemiBande<T,Tc>>(c);
 }
 
-template<typename Tc, typename T = Tc>
+template<typename Tc, typename T>
 sptr<FiltreGen<T>> filtre_rif_ups(const Eigen::Ref<const Vecteur<Tc>> c, int R)
 {
   return make_shared<FiltreRIFUps<T,Tc>>(c, R);

@@ -3,11 +3,44 @@
 #include "tsd/fourier.hpp"
 #include <cstdarg>
 #include <deque>
+#include <iomanip>
+#include <ranges>
+#include <string_view>
+#include <iostream>
 
+
+using namespace std;
 
 #define DBG(AA)
 
 namespace tsd::vue {
+
+static vector<string> parse_liste_chaines(const string &str, char separateur)
+{
+  vector<string> res;
+  const char *s = str.c_str();
+  string current;
+  auto n = str.size();
+
+  for(auto i = 0u; i < n; i++)
+  {
+    if(s[i] != separateur)
+    {
+      char tmp[2];
+      tmp[0] = s[i];
+      tmp[1] = 0;
+      current += string(tmp);
+    }
+    else
+    {
+      res.push_back(current);
+      current = "";
+    }
+  }
+  res.push_back(current);
+  return res;
+}
+
 
 extern void stdo_attente_affichage_fait();
 
@@ -18,7 +51,7 @@ void set_mode_impression()
   mode_impression = true;
 }
 
-void Rendable::afficher(const std::string &titre, const Dim &dim) const
+void Rendable::afficher(const string &titre, const Dim &dim) const
 {
   stdo.affiche(shared_from_this(), titre, dim);
 }
@@ -51,9 +84,209 @@ Image Rendable::genere_image(const Dim &dim_, const Couleur &arp) const
 }
 
 /** @brief Enregistrement sous la forme d'un fichier image */
-void Rendable::enregistrer(const std::string &chemin_fichier, const Dim &dim) const
+void Rendable::enregistrer(const string &chemin_fichier, const Dim &dim) const
 {
   genere_image(dim).enregister(chemin_fichier);
+}
+
+void PlotEvt2::maj(const PlotEvt2Content &content)
+{
+  this->content = content;
+}
+
+
+
+void PlotEvt2Content::Ligne::concaténation()
+{
+  vector<PlotEvt2Content::Evt> evts2;
+  int state = 0;
+  PlotEvt2Content::Evt current_event;
+
+  for(auto i = 0; i < (int) evts.size(); i++)
+  {
+    if(state == 0)
+    {
+      current_event = evts[i];
+      state = 1;
+    }
+    else
+    {
+
+      // Evénements contigus
+      if((abs(evts[i].t0 - evts[i-1].t1) < 1e-3)
+         && (evts[i].label == evts[i-1].label)
+         && (evts[i].couleur == evts[i-1].couleur))
+      {
+        current_event.t1 = evts[i].t1;
+      }
+      else
+      {
+        // Nouvel événement
+        evts2.push_back(current_event);
+        current_event = evts[i];
+      }
+    }
+  }
+  if(state == 1)
+    evts2.push_back(current_event);
+  evts = evts2;
+}
+
+void PlotEvt2::rendre(Canva canva) const
+{
+  int nlignes = content.lignes.size();
+  bool vertical = content.orientation_verticale;
+
+  infos.lignes.resize(nlignes);
+  for(auto idl = 0; idl < nlignes; idl++)
+  {
+    infos.lignes[idl].evts.resize(content.lignes[idl].evts.size());
+  }
+
+  Axes axes;
+
+  auto cfa = axes.get_config();
+  cfa.axe_horizontal.afficher   = !vertical;
+  cfa.axe_vertical.afficher     = vertical;
+  cfa.grille_majeure.afficher   = false;
+  cfa.grille_mineure.afficher   = false;
+  axes.configure(cfa);
+
+  auto dim = canva.get_allocation();
+
+  // Canva en pixels
+  Canva cp = canva.vue(Rect{0, 0, dim.l, dim.h});
+
+  int marge;// Marge pour les titres
+  float dt = content.t1 - content.t0;
+
+  Canva c2, c3;
+
+  Canva cp2;
+
+  if(vertical)
+  {
+    marge = 40;
+    c2 = cp.clip(
+        Rect{0, marge, dim.l, dim.h - marge},
+        Rectf{0.0f, content.t0, 1.0f*nlignes, dt});
+    c3 = axes.rendre(c2,
+        Rectf{0, content.t0 + dt, 1.0f*nlignes, -dt});
+    cp.set_align(Align::CENTRE, Align::DEBUT);
+    for(auto i = 0; i < nlignes; i++)
+    {
+      Pointf p = c3.v2c({i+0.5f, 0.0f});
+      cp.texte(p.x, 0, content.lignes[i].nom, (dim.l / nlignes) - 2, marge);
+      p = c3.v2c(Point{nlignes-i-1, 0});
+      cp.ligne(p.x, 0, p.x, dim.h);
+    }
+  }
+  else
+  {
+    marge = 200;
+
+
+
+    Rect  zone_plot{marge, 0, dim.l - marge, dim.h};
+    Rectf rdi_plot{content.t0, 0.0f, dt, 1.0f*nlignes};
+
+
+    // Canva pixel intérieur
+    cp2 = cp.clip(zone_plot, Rect{0, 0, dim.l - marge, dim.h});
+
+    // Canva en unité utilisateur
+    c2 = cp.clip(zone_plot, rdi_plot);
+
+    //c3 = c2.clip()
+
+    //c3 = axes.rendre(c2,
+    //     Rectf{content.t0, nlignes-1.0f, dt, -1.0f*nlignes});
+
+    c3 = axes.rendre(c2, //rdi_plot
+         Rectf{content.t0, nlignes-1.0f, dt, -1.0f*nlignes});
+
+    cp.set_align(Align::DEBUT, Align::CENTRE);
+    for(auto i = 0; i < nlignes; i++)
+    {
+      Pointf p = c3.v2c({0.0f, i-0.5f});
+      cp.texte(0, p.y, content.lignes[i].nom, marge, (dim.h / nlignes) - 2);
+      p = c3.v2c(Point{0, nlignes-i-1});
+      cp.ligne(0, p.y, dim.l, p.y);
+    }
+  }
+
+
+  for(auto idl = 0; idl < nlignes; idl++)
+  {
+    auto &evts = content.lignes[idl].evts;
+
+    c3.set_dim_fonte(0.5);
+    c3.set_align(Align::CENTRE, Align::CENTRE);
+    if(vertical)
+    {
+      int ide = 0;
+      for(auto &e: evts)
+      {
+        c3.set_remplissage(true, e.couleur);
+
+        Rectf r{(float)idl, e.t0, 1, e.t1 - e.t0};
+
+        c3.rectangle(r);
+        c3.set_remplissage(false);
+        float ddt = e.t1 - e.t0;
+
+
+        if(!e.hide_label)
+          c3.texte({idl+0.5f, (e.t0 + e.t1) / 2.0f}, e.label, {1.0f, ddt});
+
+
+
+
+        infos.lignes[idl].evts[ide].rdi = c2.v2c(c3.v2c(r));
+
+        ide++;
+      }
+    }
+    else
+    {
+      int ide = 0;
+      for(auto &e: evts)
+      {
+        Rectf r{e.t0, idl-1.0f, e.t1 - e.t0, 1.0f};
+
+        infos.lignes[idl].evts[ide].rdi = c3.v2c(r);
+        infos.lignes[idl].evts[ide].rdi.x += marge;
+
+
+        //msg("   CALC RDI: r={}, r2={}, r3={}", r, c3.v2c(r), c2.v2c(c3.v2c(r)));
+
+        c3.set_remplissage(true, e.sélectionné ? e.couleur.assombrir(0.7) : e.couleur);
+
+        /*if(e.sélectionné)
+        {
+          msg("      --> En gras (sélectionné)");
+        }*/
+
+        canva.set_epaisseur(e.sélectionné ? 3 : 1);
+
+        c3.rectangle(r);
+
+        canva.set_epaisseur(1);
+
+        c3.set_remplissage(false);
+        if(!e.hide_label)
+        {
+          c3.set_orientation(Orientation::VERTICALE);
+          float ddt = e.t1 - e.t0;
+          c3.texte({(e.t0 + e.t1) / 2.0f, idl-0.5f}, e.label, {ddt, 1.0f});
+          c3.set_orientation(Orientation::HORIZONTALE);
+        }
+        ide++;
+      }
+
+
+    }
+  }
 }
 
 
@@ -130,7 +363,7 @@ struct Figure::Courbe::Impl
   ArrayXXf Z; // pour dessin surface
   Rectf rdi_z;
 
-  std::string nom, format;
+  string nom, format;
   Couleur couleur = {0,0,0,180};
   int epaisseur = 1;
   bool remplissage = false;
@@ -151,20 +384,20 @@ struct Figure::Courbe::Impl
 struct Figure::Impl: Rendable
 {
   bool log_x = false, log_y = false;
-  std::string nom;
+  string nom;
 
-  std::string titre;
+  string titre;
 
   // TODO : enlever ce mutable
   mutable Axes axes;
   bool a_rdi_min = false, a_rdi = false;
   Rectf rm_rdi;
-  std::vector<Figure::Courbe> courbes;
+  vector<Figure::Courbe> courbes;
 
   // Canva utilisateur
   Canva canva_utilisateur;
 
-  std::string pos_cartouche = "ne";
+  string pos_cartouche = "ne";
 
   Impl()
   {
@@ -197,17 +430,17 @@ struct Figure::Impl: Rendable
         //for(auto)
         float ci_ymin = ci.y(0), ci_ymax = ci.y(0);
 
-        if(std::isinf(ci_ymin))
+        if(isinf(ci_ymin))
           ci_ymin = 0;
 
-        if(std::isinf(ci_ymax))
+        if(isinf(ci_ymax))
           ci_ymax = 0;
 
         bool first = true;
 
         for(auto i = 0; i < ci.y.rows(); i++)
         {
-          if(!std::isnan(ci.y(i)) && !(std::isinf(ci.y(i))))
+          if(!isnan(ci.y(i)) && !(isinf(ci.y(i))))
           {
             if(!config.axe_vertical.echelle_logarithmique || (ci.y(i) > 0))
             {
@@ -218,8 +451,8 @@ struct Figure::Impl: Rendable
               if(config.axe_vertical.echelle_logarithmique)
               {
                 // attention, y2 peut être négatif !!!
-                y2 = std::pow(10.0f, 2 * log10(ci.y(i)) - log10(y1));
-                if(std::isnan(y2) || std::isinf(y2))
+                y2 = pow(10.0f, 2 * log10(ci.y(i)) - log10(y1));
+                if(isnan(y2) || isinf(y2))
                   y2 = 0;
               }
 
@@ -236,7 +469,7 @@ struct Figure::Impl: Rendable
 
         if((ci.trait == Trait::HISTO) || (ci.trait == Trait::BATON))
         {
-          ci_ymin = std::min(ci_ymin, 0.0f);
+          ci_ymin = min(ci_ymin, 0.0f);
         }
 
         //auto ci_ymin = yn2.minCoeff();
@@ -255,10 +488,10 @@ struct Figure::Impl: Rendable
         }
         else
         {
-          xmin = std::min(xmin, ci.x.minCoeff());
-          xmax = std::max(xmax, ci.x.maxCoeff());
-          ymin = std::min(ymin, ci_ymin);
-          ymax = std::max(ymax, ci_ymax);
+          xmin = min(xmin, ci.x.minCoeff());
+          xmax = max(xmax, ci.x.maxCoeff());
+          ymin = min(ymin, ci_ymin);
+          ymax = max(ymax, ci_ymax);
         }
 
 
@@ -266,15 +499,15 @@ struct Figure::Impl: Rendable
 
         /*if(ci.sigma.rows() > 0)
         {
-          ymin = std::min(ymin, (yn2 - ci.sigma).minCoeff());
-          ymax = std::max(ymax, (yn2 + ci.sigma).maxCoeff());
+          ymin = min(ymin, (yn2 - ci.sigma).minCoeff());
+          ymax = max(ymax, (yn2 + ci.sigma).maxCoeff());
         }*/
         DBG(msg("ci ymin = {}, ci ymax = {}, ymin = {}, ymax = {}", ci_ymin, ci_ymax, ymin, ymax);)
       }
       if(ci.trait == Trait::BATON)
       {
-        ymin = std::min(ymin, ymax / 10.0f);
-        ymax = std::max(ymax, ymin / 10.0f);
+        ymin = min(ymin, ymax / 10.0f);
+        ymax = max(ymax, ymin / 10.0f);
       }
 
     }
@@ -290,10 +523,10 @@ struct Figure::Impl: Rendable
     if(a_rdi_min)
     {
       //infos("a rdi min : xmin = %f", s.rm_xmin);
-      xmin = std::min(xmin, rm_rdi.x);
-      xmax = std::max(xmax, rm_rdi.x + rm_rdi.l);
-      ymin = std::min(ymin, rm_rdi.y);
-      ymax = std::max(ymax, rm_rdi.y + rm_rdi.h);
+      xmin = min(xmin, rm_rdi.x);
+      xmax = max(xmax, rm_rdi.x + rm_rdi.l);
+      ymin = min(ymin, rm_rdi.y);
+      ymax = max(ymax, rm_rdi.y + rm_rdi.h);
     }
     else if(a_rdi)
     {
@@ -303,8 +536,8 @@ struct Figure::Impl: Rendable
       ymax = rm_rdi.y + rm_rdi.h;
     }
 
-    if(   std::isnan(xmin) || std::isnan(xmax) || std::isnan(ymin) || std::isnan(ymax)
-       || std::isinf(xmin) || std::isinf(xmax) || std::isinf(ymin) || std::isinf(ymax))
+    if(   isnan(xmin) || isnan(xmax) || isnan(ymin) || isnan(ymax)
+       || isinf(xmin) || isinf(xmax) || isinf(ymin) || isinf(ymax))
     {
       msg_avert("xmin={},xmax={},ymin={},ymax={}",xmin,xmax,ymin,ymax);
       return -1;
@@ -332,8 +565,8 @@ struct Figure::Impl: Rendable
       }
       else
       {
-        ymin = ymin - 0.1 * std::abs(ymin);
-        ymax = ymax + 0.1 * std::abs(ymax);
+        ymin = ymin - 0.1 * abs(ymin);
+        ymax = ymax + 0.1 * abs(ymax);
       }
     }
     //infos("xmin=%f,xmax=%f,ymin=%f,ymax=%f",xmin,xmax,ymin,ymax);
@@ -355,8 +588,8 @@ struct Figure::Impl: Rendable
     if(config.axe_horizontal.echelle_logarithmique)
     {
       float r = xmax / xmin;
-      xmin = xmin / std::pow(r, 0.1);
-      xmax = xmax * std::pow(r, 0.1);
+      xmin = xmin / pow(r, 0.1);
+      xmax = xmax * pow(r, 0.1);
     }
     else
     {
@@ -369,9 +602,9 @@ struct Figure::Impl: Rendable
     {
       // PB ICI !!!
       double r = ymax / ymin;
-      double r2 = std::pow(r, 0.1);
+      double r2 = pow(r, 0.1);
 
-      if(!std::isinf(r2))
+      if(!isinf(r2))
       {
         DBG(msg("Extension RDI log (1) : ymin={},ymax={},r2={}", ymin, ymax, r2));
 
@@ -408,11 +641,11 @@ struct Figure::Impl: Rendable
     return 0;
   }
 
-  std::string calc_titre() const
+  string calc_titre() const
   {
     auto config = axes.get_config();
 
-    std::string res = /*config.*/titre;
+    string res = /*config.*/titre;
     if((courbes.size() == 1) && (res.empty()))
       res = courbes[0].impl->nom;
 
@@ -500,15 +733,39 @@ struct Figure::Impl: Rendable
         float xpas = ci.rdi_z.l  * 1.0f / nr;
         float ypas = ci.rdi_z.h * 1.0f / nc;
 
-        //infos("xpas = %f, width = %d", xpas, ci.rdi_z.l);
+        auto lst_opt = parse_liste_chaines(ci.format, ',');
 
-        ArrayXXf Zn = ci.Z - ci.Z.minCoeff();
-        Zn /= Zn.maxCoeff();
+        ArrayXXf Zn;
+
+        string str_cmap = "jet";
+
+        if(lst_opt.size() >= 1)
+          str_cmap = lst_opt[0];
+
+        bool normaliser = true;
+
+        if(lst_opt.size() >= 2)
+        {
+          if(lst_opt[1] == "o")
+            normaliser = false;
+        }
+
+        if(normaliser)
+        {
+          Zn = ci.Z - ci.Z.minCoeff();
+          Zn /= Zn.maxCoeff();
+        }
+        else
+        {
+          Zn = ci.Z;
+        }
 
         auto x0 = ci.rdi_z.x, y0 = ci.rdi_z.y;
 
 
-        auto cmap = tsd::vue::cmap_parse(ci.format);//"jet");
+
+
+        auto cmap = tsd::vue::cmap_parse(str_cmap);
 
         for(auto i = 0u; i < nr; i++)
         {
@@ -543,12 +800,12 @@ struct Figure::Impl: Rendable
         {
           // A clarifier
 
-          auto cvt = [&](float y, float s) -> std::tuple<float,float>
+          auto cvt = [&](float y, float s) -> tuple<float,float>
           {
             float y1 = y + s;
             // y2 = y^2 / (y + s)
-            float y2 = std::pow(10.0f, 2 * log10(y) - log10(y1));
-            if(std::isnan(y2) || std::isinf(y2))
+            float y2 = pow(10.0f, 2 * log10(y) - log10(y1));
+            if(isnan(y2) || isinf(y2))
               y2 = 0;
             return {y2, y1};
           };
@@ -646,8 +903,8 @@ struct Figure::Impl: Rendable
             yrmoy(i) = y.segment(i * R, R).mean();
             for(auto j = 1; j < R; j++)
             {
-              yrmax(i) = std::max(yrmax(i), y(i*R+j));
-              yrmin(i) = std::min(yrmin(i), y(i*R+j));
+              yrmax(i) = max(yrmax(i), y(i*R+j));
+              yrmin(i) = min(yrmin(i), y(i*R+j));
             }
           }
           npts = npts2;
@@ -713,7 +970,7 @@ struct Figure::Impl: Rendable
       {
         for(auto i = 0; i < npts; i++)
         {
-          if(!std::isinf(y(i)))
+          if(!isinf(y(i)))
           {
             canva.ligne(x(i), y(i), x(i), 0.0f);
             //canva.marqueur({x(i), y(i)}, Marqueur::CERCLE, 5);
@@ -728,7 +985,7 @@ struct Figure::Impl: Rendable
           auto dx = x(1) - ci.x(0);
           for(auto i = 0; i < npts; i++)
           {
-            if(!std::isinf(y(i)))
+            if(!isinf(y(i)))
               canva.rectangle(x(i), y(i), x(i) + dx, 0);
           }
           canva.set_remplissage(false, ci.couleur);
@@ -795,8 +1052,8 @@ struct Figure::Impl: Rendable
     rendre1(canva_, canva);
   }
 
-  Figure::Courbe plot(const ArrayXf &x, const ArrayXf &y, const std::string &format,
-      const std::string &titre);
+  Figure::Courbe plot(const ArrayXf &x, const ArrayXf &y, const string &format,
+      const string &titre);
 };
 
 
@@ -824,7 +1081,7 @@ void Figure::Courbe::def_σ(IArrayXf σ)
   impl->σ = σ;
 }
 
-void Figure::Courbe::def_légende(const std::string &titre)
+void Figure::Courbe::def_légende(const string &titre)
 {
   impl->nom = titre;
 }
@@ -835,7 +1092,7 @@ void Figure::Courbe::def_dim_marqueur(int dim)
 }
 
 // Définit la couleur de chacun des points de la courbe
-void Figure::Courbe::def_couleurs(IArrayXf c, const std::string cmap_nom)
+void Figure::Courbe::def_couleurs(IArrayXf c, const string cmap_nom)
 {
   ArrayXXf rvb(3, c.rows());
 
@@ -852,9 +1109,9 @@ void Figure::Courbe::def_couleurs(IArrayXf c, const std::string cmap_nom)
   impl->couleurs_points_rvb = 255 * rvb;
 }
 
-Figure::Figure(const std::string &nom)
+Figure::Figure(const string &nom)
 {
-  impl = std::make_shared<Impl>();
+  impl = make_shared<Impl>();
   impl->nom = nom;
 }
 
@@ -872,9 +1129,9 @@ void Figure::clear()
 struct Figures::Impl: Rendable
 {
   int n = -1, m = -1, pos = 1;
-  std::deque<Figure> subplots;
+  deque<Figure> subplots;
 
-  std::tuple<int, int> get_nm() const;
+  tuple<int, int> get_nm() const;
 
 
   Impl(int n = 1, int m = 1)
@@ -940,7 +1197,7 @@ sptr<const Rendable> Figures::rendable() const
 }
 
 
-void Figures::afficher(const std::string &titre, const Dim &dim) const
+void Figures::afficher(const string &titre, const Dim &dim) const
 {
   Dim dim2 = dim;
   if(dim.l < 0)
@@ -953,7 +1210,7 @@ void Figures::afficher(const std::string &titre, const Dim &dim) const
 
 Figures::Figures(int n, int m)
 {
-  impl = std::make_shared<Impl>(n, m);
+  impl = make_shared<Impl>(n, m);
 }
 
 void Figures::clear()
@@ -1026,7 +1283,7 @@ Figure Figures::subplot(int i)
 }
 
 
-std::vector<Figure::Courbe> &Figure::courbes()
+vector<Figure::Courbe> &Figure::courbes()
 {
   return impl->courbes;
 }
@@ -1054,7 +1311,7 @@ Rectf Figure::get_rdi() const
 Figure::Courbe Figure::plot_minmax(const ArrayXf &x, const ArrayXf &y1, const ArrayXf &y2)
 {
   Figure::Courbe res;
-  res.impl = std::make_shared<Figure::Courbe::Impl>();
+  res.impl = make_shared<Figure::Courbe::Impl>();
   res.impl->x    = x;
   res.impl->ymin = y1;
   res.impl->ymax = y2;
@@ -1065,7 +1322,7 @@ Figure::Courbe Figure::plot_minmax(const ArrayXf &x, const ArrayXf &y1, const Ar
   return res;
 }
 
-Figure::Courbe Figure::plot_iq_int(const ArrayXcf &z, const std::string &format, const std::string &titre)
+Figure::Courbe Figure::plot_iq_int(const ArrayXcf &z, const string &format, const string &titre)
 {
   axes().set_isoview(true);
   auto x = z.real();
@@ -1075,13 +1332,13 @@ Figure::Courbe Figure::plot_iq_int(const ArrayXcf &z, const std::string &format,
 }
 
 
-Figure::Courbe Figure::plot_img(float xmin, float xmax, float ymin, float ymax, IArrayXXf &Z, const std::string &format)
+Figure::Courbe Figure::plot_img(float xmin, float xmax, float ymin, float ymax, IArrayXXf &Z, const string &format)
 {
   Figure::Courbe res;
-  res.impl = std::make_shared<Figure::Courbe::Impl>();
+  res.impl = make_shared<Figure::Courbe::Impl>();
 
-  res.impl->Z = Z;
-  res.impl->format = format;
+  res.impl->Z       = Z;
+  res.impl->format  = format;
   res.impl->rdi_z.x = xmin;
   res.impl->rdi_z.y = ymin;
   res.impl->rdi_z.l = xmax - xmin;// + 1;
@@ -1092,22 +1349,22 @@ Figure::Courbe Figure::plot_img(float xmin, float xmax, float ymin, float ymax, 
   return res;
 }
 
-Figure::Courbe Figure::plot_img(IArrayXXf &Z, const std::string &format)
+Figure::Courbe Figure::plot_img(IArrayXXf &Z, const string &format)
 {
   return plot_img(0, Z.rows() - 1, 0, Z.cols() - 1, Z, format);
 }
 
 
 
-void Figure::plot(const float &x, const float &y, const std::string &format)
+Figure::Courbe Figure::plot(const float &x, const float &y, const string &format)
 {
   ArrayXf vx(1), vy(1);
   vx(0) = x;
   vy(0) = y;
-  plot(vx, vy, format);
+  return plot(vx, vy, format);
 }
 
-Figure::Courbe Figure::plot_int(const ArrayXf &y, const std::string &format, const std::string &titre)
+Figure::Courbe Figure::plot_int(const ArrayXf &y, const string &format, const string &titre)
 {
   return impl->plot(ArrayXf(), y, format, titre);
 }
@@ -1115,7 +1372,7 @@ Figure::Courbe Figure::plot_int(const ArrayXf &y, const std::string &format, con
 
 
 
-Figure::Courbe Figure::plot_psd_int(IArrayXcf y, float fe, const std::string &format, const std::string &titre)
+Figure::Courbe Figure::plot_psd_int(IArrayXcf y, float fe, const string &format, const string &titre)
 {
   if(y.rows() == 0)
     return Courbe();
@@ -1151,24 +1408,24 @@ Figure::Courbe Figure::plot_psd_int(IArrayXcf y, float fe, const std::string &fo
   return plot(freq, Y, format, titre);
 }
 
-Figure::Courbe Figure::plot_int(const ArrayXf &x, const ArrayXf &y, const std::string &format, const std::string &titre)
+Figure::Courbe Figure::plot_int(const ArrayXf &x, const ArrayXf &y, const string &format, const string &titre)
 {
   auto res = impl->plot(x, y, format, titre);
   return res;
 }
 
-Figure::Courbe Figure::Impl::plot(const ArrayXf &x, const ArrayXf &y_, const std::string &format_, const std::string &titre)
+Figure::Courbe Figure::Impl::plot(const ArrayXf &x, const ArrayXf &y_, const string &format_, const string &titre)
 {
   Figure::Courbe res;
-  res.impl = std::make_shared<Figure::Courbe::Impl>();
+  res.impl = make_shared<Figure::Courbe::Impl>();
   res.impl->nom = titre;
 
-  std::string format = format_;
+  string format = format_;
 
   if(format.empty())
   {
     int nc = courbes.size();
-    std::vector<std::string> fdef = {"b-", "g-", "r-", "y-", "c-", "m-", "k-"};
+    vector<string> fdef = {"b-", "g-", "r-", "y-", "c-", "m-", "k-"};
     format = fdef[nc % 7];
   }
 
@@ -1206,12 +1463,12 @@ Figure::Courbe Figure::Impl::plot(const ArrayXf &x, const ArrayXf &y_, const std
   res.impl->y       = y;
   res.impl->format  = format;
 
-  auto present = [](const std::string &s, char c)
+  auto present = [](const string &s, char c)
   {
-    return s.find(c) != std::string::npos;
+    return s.find(c) != string::npos;
   };
 
-  static const Couleur
+  /*static const Couleur
     BleuSombre{0,0,180},
     VertSombre{0,100,0},
     RougeSombre{210,0,0},
@@ -1219,27 +1476,27 @@ Figure::Courbe Figure::Impl::plot(const ArrayXf &x, const ArrayXf &y_, const std
     VioletSombre{192,0,192},
     JauneSombre{192,192,0},
     MarronSombre{128,70,0},
-    OrangeSombre{250,140,0};
+    OrangeSombre{250,140,0};*/
 
 
   struct CodeCouleur {char code; Couleur couleur;};
   CodeCouleur codes[] =
   {
-      {'b', BleuSombre},
-      {'g', VertSombre},
-      {'r', RougeSombre},
+      {'b', Couleur::BleuSombre},
+      {'g', Couleur::VertSombre},
+      {'r', Couleur::RougeSombre},
 
-      {'y', JauneSombre},
-      {'c', CyanSombre},
-      {'m', VioletSombre},
-      {'a', OrangeSombre},
+      {'y', Couleur::JauneSombre},
+      {'c', Couleur::CyanSombre},
+      {'m', Couleur::VioletSombre},
+      {'a', Couleur::OrangeSombre},
       {'k', Couleur::Noir},
       {'w', Couleur::Blanc}
 
   };
 
   int nc = courbes.size();
-  res.impl->couleur = codes[nc % 7].couleur;//fdef[nc % 6];
+  res.impl->couleur = codes[nc % 7].couleur;
 
   for(auto c: codes)
     if(present(format, c.code))
@@ -1284,19 +1541,19 @@ Figure::Courbe Figure::Impl::plot(const ArrayXf &x, const ArrayXf &y_, const std
   return res;
 }
 
-void Figure::def_pos_legende(const std::string &code)
+void Figure::def_pos_legende(const string &code)
 {
   impl->pos_cartouche = code;
 }
 
-void Figure::titre(const std::string &titre_global)
+void Figure::titre(const string &titre_global)
 {
   impl->/*axes.get_config().*/titre = titre_global;
 }
 
-void Figure::titres(const std::string &titre_global,
-                    const std::string &axe_x,
-                    const std::string &axe_y)
+void Figure::titres(const string &titre_global,
+                    const string &axe_x,
+                    const string &axe_y)
 {
   auto &c = impl->axes.get_config();
   c.axe_horizontal.label  = axe_x;
@@ -1311,7 +1568,7 @@ void Figure::attente_ihm()
   stdo.fin();
 }
 
-std::tuple<int, int> Figures::Impl::get_nm() const
+tuple<int, int> Figures::Impl::get_nm() const
 {
   int nsubs = subplots.size();
   if(m == -1)
@@ -1324,7 +1581,7 @@ std::tuple<int, int> Figures::Impl::get_nm() const
       return {3, 1};
     else
     {
-      int m = (int) floor(std::sqrt(nsubs));
+      int m = (int) floor(sqrt(nsubs));
       int n = (nsubs + m - 1) / m;
       return {n, m};
     }
@@ -1334,12 +1591,12 @@ std::tuple<int, int> Figures::Impl::get_nm() const
 
 
 
-void Figure::def_nom(const std::string &s)
+void Figure::def_nom(const string &s)
 {
   impl->nom = s;
 }
 
-std::string Figure::lis_nom() const
+string Figure::lis_nom() const
 {
   return impl->nom;
 }
@@ -1347,7 +1604,7 @@ std::string Figure::lis_nom() const
 Figure Figure::clone() const
 {
   Figure res;
-  res.impl = std::shared_ptr<Impl>(new Figure::Impl(*impl));
+  res.impl = shared_ptr<Impl>(new Figure::Impl(*impl));
   res.impl->axes = impl->axes.clone();
   return res;
 }

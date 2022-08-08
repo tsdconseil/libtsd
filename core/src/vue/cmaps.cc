@@ -92,6 +92,19 @@ namespace tsd::vue
     }
   };
 
+  struct CMapMonoInv: CMap
+  {
+    void calc(float t, float &r, float &v, float &b)
+    {
+      if(t < 0)
+        b = r = v = 0;
+      else if (t < 1)
+        b = r = v = t;
+      else
+        b = r = v = 1;
+    }
+  };
+
   struct CMapMonoPer: CMap
   {
     void calc(float t, float &r, float &v, float &b)
@@ -160,7 +173,9 @@ namespace tsd::vue
   {
     if(nom == "mono")
       return std::make_shared<CMapMono>();
-    if(nom == "mono-per")
+    else if(nom == "mono-inv")
+      return std::make_shared<CMapMonoInv>();
+    else if(nom == "mono-per")
       return std::make_shared<CMapMonoPer>();
     else if(nom == "hsv")
       return std::make_shared<CMapHSV>();

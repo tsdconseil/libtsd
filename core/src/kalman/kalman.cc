@@ -1,4 +1,4 @@
-#include "tsd/tsd.hpp"
+﻿#include "tsd/tsd.hpp"
 #include "tsd/apps/kalman.hpp"
 #include "tsd/vue.hpp"
 #include <Eigen/Dense>
@@ -130,8 +130,8 @@ std::tuple<ArrayXXf, ArrayXXf> SSM::steps(int n, const VectorXf &x0, const Array
     if(!R.isZero())
       LR = R.llt().matrixL();
 
-    msg("R = {}", R);
-    msg("LR = {}", LR);
+    //msg("R = {}", R);
+    //msg("LR = {}", LR);
   }
 
 
@@ -437,9 +437,9 @@ struct FiltreEKF : FiltreSSM
 
       if(mode_debug)
       {
-        msg("K*Ck :   {}", K*Ck);
-        msg("Gauche : {}", MatrixXf::Identity(ssm->ns,ssm->ns)-K*Ck);
-        msg("P post : {}", P);
+        //msg("K*Ck :   {}", K*Ck);
+        //msg("Gauche : {}", MatrixXf::Identity(ssm->ns,ssm->ns)-K*Ck);
+        //msg("P post : {}", P);
       }
       k++;
 

@@ -1,4 +1,4 @@
-#include "tsd/filtrage.hpp"
+﻿#include "tsd/filtrage.hpp"
 #include "tsd/vue.hpp"
 
 using namespace tsd::vue;
@@ -288,7 +288,7 @@ FRat<cfloat> elliptique_analogique(int n, float rp, float rs)
     // m2 = dim de g et de e
     int m2 = g.size();
 
-    msg("m2 = {}, g = {}", m2, eg);
+    //msg("m2 = {}, g = {}", m2, eg);
 
     Eigen::ArrayXd ek = Eigen::ArrayXd::Zero(m2 + 11);
     int m1 = m2;
@@ -302,7 +302,7 @@ FRat<cfloat> elliptique_analogique(int n, float rp, float rs)
     for(auto i = m1 - 1; i >= 1; i--)
       ek(i-1) = 2 * sqrt(ek(i)) / (1 + ek(i));
 
-    msg("ek = {}", ek);
+    //msg("ek = {}", ek);
 
     Eigen::ArrayXd e(m2);
     e(0) = e0;

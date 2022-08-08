@@ -1,4 +1,4 @@
-#include "tsd/tsd.hpp"
+﻿#include "tsd/tsd.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/vue.hpp"
 #include "tsd/telecom.hpp"
@@ -180,7 +180,7 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
 
     msg("FC low = {}, FC high = {}", fc_low, fc_high);
 
-    msg("Coefs LP :\n {}\n {}", hlp.numer, hlp.denom);
+    //msg("Coefs LP :\n {}\n {}", hlp.numer, hlp.denom);
 
     //analyse_filtre(hlp, config.fe_rf);
     //analyse_filtre(hhp, config.fe_rf);

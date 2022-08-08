@@ -891,8 +891,8 @@ struct Image::Impl
 
   inline bgra pixel_e(int x, int y) const
   {
-    x = min(x, sx-1);
-    y = min(y, sy-1);
+    x = max(0,min(x, sx-1));
+    y = max(0,min(y, sy-1));
     return *(bitmap + y * sx + x);
   }
 

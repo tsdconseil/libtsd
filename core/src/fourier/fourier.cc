@@ -327,8 +327,8 @@ namespace tsd::fourier
 
     //y = ifft(fft(xp) * fft(icp))
     ArrayXcf Xp, Xc;
-    fft_radix2<float, float, true>(Xp, xp,      scratch, twiddles);
-    fft_radix2<float, float, true>(Xc, icp,     scratch, twiddles);
+    fft_radix2<float, float, true>(Xp, xp,       scratch, twiddles);
+    fft_radix2<float, float, true>(Xc, icp,      scratch, twiddles);
     fft_radix2<float, float, false>(y2, Xp * Xc, scratch, twiddles);
     return y2.segment(n-1, n) * chirp.tail(n) * (sqrt(n2) / sqrt(n));
   }
@@ -466,19 +466,20 @@ namespace tsd::fourier
 
       n2 = n;
 
-
+      // Pas une puissance de 2 ?
       if((n & (n - 1)) != 0)
       {
         // n est pair
         if((n & 1) == 0)
         {
+          // Décompose tant que pair
           sousplan = std::make_shared<FFTPlanDefaut>(n / 2, avant, normalize);
         }
         else
         {
           //infos("Avertissement : FFT sur n != 2^k (n = %d)", n);
           n2 = prochaine_puissance_de_2(2*n-1);
-
+          // CZT
           ArrayXf t = linspace(-(n-1), n-1, 2*n-1).square() / 2;
           t *= -2*π/n;
           // t = -2pi * [-(n-1)/n, -(n-2)/n, ... 0, ..., (n-1)/n]
@@ -486,10 +487,9 @@ namespace tsd::fourier
         }
       }
       //msg("plan fft : n = {}, n2 = {}", n, n2);
-
       scratch.resize(n2);
       //if(avant || (n2 != n))
-        twiddles = fft_twiddles<float>(n2);
+      twiddles = fft_twiddles<float>(n2);
       //else
         //twiddles = ifft_twiddles<float>(n2);
       return 0;

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -1021,6 +1021,10 @@ extern ArrayXXf periodogramme_cqt(const ArrayXf &x, float fe, float fmin, float 
 /* @} */
 
 }
+
+
+ostream_formater(tsd::fourier::Detection)
+
 
 
 

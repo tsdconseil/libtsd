@@ -115,7 +115,7 @@ int test_motifs()
     mconfig.forme_onde = forme_onde_bpsk();
     mconfig.fe    = 4;
     mconfig.fsymb = 1;
-    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::srrc(0.5);
+    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::rcs(0.5);
     auto mod = modulateur_création(mconfig);
     auto bs = code_mls(4);//BitStream::rand(15);
 
@@ -141,7 +141,7 @@ int test_motifs()
 
 
     mconfig.forme_onde = forme_onde_qpsk();
-    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::srrc(0.5);
+    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::rcs(0.5);
     mod = modulateur_création(mconfig);
     bs = code_mls(5);//BitStream::rand(31);
     bs.pad_mult(mconfig.forme_onde->infos.k);
@@ -150,7 +150,7 @@ int test_motifs()
 
 
     mconfig.forme_onde = forme_onde_π4_qpsk();
-    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::srrc(0.5);
+    mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::rcs(0.5);
     mod = modulateur_création(mconfig);
     //bs = BitStream::rand(31);
     bs.pad_mult(mconfig.forme_onde->infos.k);

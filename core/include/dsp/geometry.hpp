@@ -100,10 +100,6 @@ struct Quaternion
 };
 
 
-inline Eigen::Matrix3f rotmat_3d(float α, int axe)
-{
-  return nfr::rotmat_3d(α, axe);
-}
 
 
 /** @brief Angles de %Cardan pour la  représentation d'une rotation 3d. */
@@ -187,6 +183,13 @@ template<typename T>
 {
   return nfr::rotmat_3d_R3(α);
 }
+
+template<typename T>
+  Eigen::Matrix<T, 3, 3> rotmat_3d(T α, int axe)
+{
+  return nfr::rotmat_3d<T>(α, axe);
+}
+
 
 
 /** @} */

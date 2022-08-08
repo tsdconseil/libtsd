@@ -247,6 +247,7 @@ struct Canva
   Canva vue(const Rectf &vue) const;
 
   Pointf v2c(const Pointf &p) const;
+  Rectf v2c(const Rectf &r) const;
 
   void forward(Canva dest) const;
 
@@ -445,7 +446,7 @@ struct Figure: ARendable
 
 
 
-  void plot(const float &x, const float &y, const std::string &format = "");
+  Courbe plot(const float &x, const float &y, const std::string &format = "");
   Courbe plot_int(const ArrayXf &x, const ArrayXf &y, const std::string &format = "", const std::string &titre = "");
   Courbe plot_int(const ArrayXf &y, const std::string &format = "", const std::string &titre = "");
 
@@ -749,6 +750,59 @@ private:
     EvtPlotConfig cfg;
 
     void maj(ArrayXi &evt, const EvtPlotConfig &cfg);
+    void rendre(Canva canva) const;
+  };
+
+  struct PlotEvt2Content
+  {
+    struct Evt
+    {
+      float t0, t1;
+      std::string label;
+      std::string titre;
+      std::string description;
+      Couleur couleur = Couleur::Vert;
+      bool sélectionné = false;
+      bool hide_label = false;
+    };
+
+    struct Ligne
+    {
+      std::string nom;
+      Couleur couleur_fond = Couleur::Blanc;
+
+      std::vector<Evt> evts;
+
+      void concaténation();
+    };
+    std::vector<Ligne> lignes;
+    float t0, t1;
+
+    bool orientation_verticale = false;
+  };
+
+
+
+  struct PlotEvt2: Rendable
+  {
+    PlotEvt2Content content;
+
+    mutable struct PlotInfos
+    {
+      struct Evt
+      {
+        Rectf rdi;
+      };
+      struct Ligne
+      {
+        Rectf rdi;
+        std::vector<Evt> evts;
+      };
+      std::vector<Ligne> lignes;
+
+    } infos;
+
+    void maj(const PlotEvt2Content &content);
     void rendre(Canva canva) const;
   };
 

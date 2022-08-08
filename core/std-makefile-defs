@@ -148,7 +148,9 @@ ifeq ($(RMODE),debug)
 LOPT = $(OPTIONS_LINK_DEBUG)
 #  -fstack-protector-all
 COPT += $(OPTIONS_COMPIL_DEBUG)
-COPT += -g -DDEBUG_MODE -DMODE_DEBUG=1 -DMODE_RELEASE=0 -Og
+COPT += -g -DDEBUG_MODE -DMODE_DEBUG=1 -DMODE_RELEASE=0 -Ofast
+# -O1
+# -Og
 #-O1
 #-Og
 # -fstack-protector-all

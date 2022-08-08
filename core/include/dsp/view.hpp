@@ -82,7 +82,7 @@ namespace dsp::view
     void clear(){f.clear();}
 
 
-    void plot(const float &x, const float &y, const std::string &format = ""){return f.plot(x,y,format);}
+    Curve plot(const float &x, const float &y, const std::string &format = ""){return f.plot(x,y,format);}
 
     template<typename derived, typename ... Ts>
     Curve plot(const Eigen::ArrayBase<derived> &y, const std::string &format = "", const std::string &titre = "", Ts &&... args)
@@ -150,12 +150,12 @@ namespace dsp::view
      *
      *  @sa Figure::plot(), Figure::plot_psd()
      */
-    Curve plot_img(IArrayXXf &Z, const std::string &format = "c[jet]")
+    Curve plot_img(IArrayXXf &Z, const std::string &format = "jet")
     {
       return f.plot_img(Z, format);
     }
 
-    Curve plot_img(float xmin, float xmax, float ymin, float ymax, IArrayXXf &Z, const std::string &format = "c[jet]")
+    Curve plot_img(float xmin, float xmax, float ymin, float ymax, IArrayXXf &Z, const std::string &format = "jet")
     {
       return f.plot_img(xmin, xmax, ymin, ymax, Z, format);
     }
@@ -362,6 +362,11 @@ namespace dsp::view
      void show(const std::string &title = "", const Dim &dim = {-1, -1}) const
      {
        f.afficher(title, dim);
+     }
+
+     void save(const std::string &chemin_fichier, const Dim &dim = {-1, -1}) const
+     {
+       f.enregistrer(chemin_fichier, dim);
      }
   };
 

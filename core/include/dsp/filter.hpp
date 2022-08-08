@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -1331,7 +1331,7 @@ inline sptr<Filter<float, cfloat, HilbertTransformeurConfig>>
 template<typename Tc, typename T = Tc>
   sptr<FilterGen<T>> filter_fir(const Eigen::Ref<const Vector<Tc>> h)
 {
-  return tsdf::filtre_rif(h);
+  return tsdf::filtre_rif<Tc,T>(h);
 }
 
 
