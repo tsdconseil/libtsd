@@ -1154,7 +1154,7 @@ namespace tsd
    *
    *  <h3>Signal triangulaire (périodique)</h3>
    *
-   *  @param p Demi-période, en nombre d'échantillons.
+   *  @param p Période, en nombre d'échantillons.
    *  @param n Nombre d'échantillons à générer.
    *
    *  @par Exemple
@@ -1169,7 +1169,7 @@ namespace tsd
    *
    *  <h3>Signal carré (périodique)</h3>
    *
-   *  @param p Demi-période, en nombre d'échantillons.
+   *  @param p Période, en nombre d'échantillons.
    *  @param n Nombre d'échantillons à générer.
    *
    *  @par Exemple

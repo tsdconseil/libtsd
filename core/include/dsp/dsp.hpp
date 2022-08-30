@@ -930,7 +930,7 @@ static inline ArrayXf sigcos(float f, int n)
  *
  *  <h3>Triangular, periodic signal</h3>
  *
- *  @param p Half-period, in number of samples.
+ *  @param p Period, in number of samples.
  *  @param n Number of points to generate.
  *
  *  @par Example
@@ -949,7 +949,7 @@ static inline ArrayXf sigtri(int p, int n)
  *
  *  <h3>Square, periodic signal</h3>
  *
- *  @param p Half-period, in number of samples.
+ *  @param p Period, in number of samples.
  *  @param n Number of points to generate.
  *
  *  @par Example

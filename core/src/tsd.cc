@@ -60,15 +60,23 @@ ArrayXf sigtri(int p, int n)
   ArrayXf x(n);
   for(auto i = 0; i < n; i++)
   {
-    int j = i % (2*p);
-    if(j < p)
+    int j = i % p;
+    if(j < p/2)
       x(i) = j;
     else
-      x(i) = 2 * p - j;
-    x(i) -= p/2;
+      x(i) = p - j;
+    x(i) -= 0.5 * (p/2);
     x(i) /= p;
   }
- return 2*x; // entre -1 et 1
+  return 4*x; // entre -1 et 1
+}
+
+ArrayXf sigcar(int p, int n)
+{
+  ArrayXf x(n);
+  for(auto i = 0; i < n; i++)
+    x(i) = 2 * (((i / (p/2)) % 2) - 0.5);
+  return x;
 }
 
 ArrayXf sigimp(int n, int p)
@@ -76,14 +84,6 @@ ArrayXf sigimp(int n, int p)
   ArrayXf x = ArrayXf::Zero(n);
   tsd_assert_msg((p >= 0) && (p < n), "sigimp(n={},p={}) : p devrait être compris entre 0 et n-1.", n, p);
   x(p) = 1;
-  return x;
-}
-
-ArrayXf sigcar(int p, int n)
-{
-  ArrayXf x(n);
-  for(auto i = 0; i < n; i++)
-    x(i) = 2 * (((i / p) % 2) - 0.5);
   return x;
 }
 

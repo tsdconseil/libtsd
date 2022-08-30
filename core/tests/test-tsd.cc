@@ -100,7 +100,7 @@ int test_tsd()
     check_wrap(-π, π);
     check_wrap(-2*π+ε, ε);
     check_wrap(-2*π-ε, 2*π-ε);
-    check_wrap(1000*π+ε, ε, 1e-13);
+    check_wrap(1000*π+ε, ε, 1e-12);
   }
 
   {
@@ -368,6 +368,27 @@ int test_tsd()
     ArrayXf x    = sigcos(0.1, n);
     ArrayXf xref = (2 * π_f * 0.1 * linspace(0, n-1, n)).cos();
     tsd_assert(x.isApprox(xref, 0.5e-4));
+  }
+
+  {
+    msg("Test sigtri...");
+    ArrayXf x = sigtri(10, 20);
+    tsd_assert(x.maxCoeff() == 1);
+    tsd_assert(x.minCoeff() == -1);
+    tsd_assert(abs(x.mean()) < 1e-7);
+    tsd_assert(x.head(6).isApprox(linspace(-1,1,6)));
+    tsd_assert(x.segment(5,6).isApprox(linspace(1,-1,6)));
+    tsd_assert(x.segment(10,6).isApprox(linspace(-1,1,6)));
+    tsd_assert(x.tail(5).isApprox(linspace(1,-1+2.0f/5,5)));
+  }
+
+  {
+    msg("Test sigcar...");
+    ArrayXf x = sigcar(10, 20);
+    tsd_assert(x.head(5).isApprox(-ArrayXf::Ones(5)));
+    tsd_assert(x.segment(5,5).isApprox(ArrayXf::Ones(5)));
+    tsd_assert(x.segment(10,5).isApprox(-ArrayXf::Ones(5)));
+    tsd_assert(x.tail(5).isApprox(ArrayXf::Ones(5)));
   }
 
   {
