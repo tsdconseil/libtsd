@@ -371,7 +371,7 @@ extern tsd::vue::Figures affiche_filtre(const ArrayXf &h, float fe = 1.0f);
  *  où les @f$z_i@f$ et les @f$p_i@f$ sont ce que l'on appelle respectivement
  *  les zéros et les pôles de la fonctions de transfert.
  *
- *  @param h Fonction de transfert
+ *  @param h Fonction de transfert ou vecteur des coefficients
  *  @param fig Figure sur laquelle sera tracé le diagramme des pôles et zéros.
  *
  *
@@ -382,6 +382,9 @@ extern tsd::vue::Figures affiche_filtre(const ArrayXf &h, float fe = 1.0f);
 template<typename T>
   void plot_plz(tsd::vue::Figure &fig, const FRat<T> &h);
 
+
+template<typename T>
+  void plot_plz(tsd::vue::Figure &fig, const Vecteur<T> &h);
 
 
 /** @brief Réponse en amplitude d'un filtre RIF symétrique ou anti-symétrique (phase linéaire).
@@ -955,7 +958,7 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float
  */
 extern FRat<float> design_bloqueur_dc(float fc);
 
-/** @brief Fonction de transfert d'un filtre exponentiel
+/** @brief Fonction de transfert d'un filtre exponentiel (d'après la fréquence de coupure)
  *
  *  <h3>Fonction de transfert d'un filtre exponentiel</h3>
  *  Cette fonction renvoie la fonction de transfert d'un filtre exponentiel de fréquence de coupure
@@ -980,6 +983,9 @@ extern FRat<float> design_bloqueur_dc(float fc);
  *  @sa rii1_coef()
  */
 extern FRat<float> design_rii1(float fc);
+
+/** @brief Fonction de transfert d'un filtre exponentiel (d'après le coefficient d'oubli) */
+extern FRat<float> design_rii1_aux(float γ);
 
 /** @brief Design filtre RII d'ordre 1 (d'après la fréquence de coupure).
  *

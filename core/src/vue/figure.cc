@@ -1571,6 +1571,10 @@ void Figure::attente_ihm()
 tuple<int, int> Figures::Impl::get_nm() const
 {
   int nsubs = subplots.size();
+
+  if(nsubs == 0)
+    return {0, 0};
+
   if(m == -1)
   {
     if(nsubs == 1)

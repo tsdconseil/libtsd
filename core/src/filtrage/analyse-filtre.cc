@@ -9,6 +9,11 @@ using namespace tsd::vue;
 namespace tsd::filtrage {
 
 
+template<typename T>
+  void plot_plz(tsd::vue::Figure &fig, const Vecteur<T> &h)
+{
+  plot_plz(fig, FRat<T>::rif(h));
+}
 
 
 template<typename T>
@@ -87,15 +92,18 @@ template<typename T>
   f.subplot().plot(y, "|bo", "Réponse impulsionnelle");
   f.gcf().axes().supprime_decorations();
 
-  ArrayXf lmag = 20*log10(mag);
+  ArrayXf lmag = 20*log10(mag + std::numeric_limits<float>::epsilon());
 
   // Nettoyage des valeurs négligeables
   for(auto i = 0; i < lmag.rows(); i++)
+  {
     if(abs(lmag(i)) < 1e-5)
       lmag(i) = 0;
+  }
 
   auto c = f.subplot().plot(fr, lmag, "", "Réponse fréquentielle (log)");
   c.def_remplissage(true, false);
+
   return f;
 }
 
@@ -212,5 +220,6 @@ template Figures affiche_filtre(const FRat<float> &h, float fe);
 template Figures affiche_filtre(const FRat<cfloat> &h, float fe);
 template ArrayXf repimp(const Vecteur<float> &h, int npts);
 template ArrayXf repimp(const Vecteur<cfloat> &h, int npts);
+template void plot_plz(tsd::vue::Figure &fig, const Vecteur<float> &h);
 
 }

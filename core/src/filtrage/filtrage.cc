@@ -1008,6 +1008,11 @@ FRat<float> design_rii1(float fc)
   return (z * a) / (z  - (1-a));
 }
 
+FRat<float> design_rii1_aux(float γ)
+{
+  return design_rii1(rii1_fcoupure(γ));
+}
+
 template<typename T = float>
 struct FiltreDC: FiltreGen<T>
 {

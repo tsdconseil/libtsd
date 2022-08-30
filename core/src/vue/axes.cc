@@ -362,8 +362,6 @@ struct Axes::Impl
 
   Canva rendre(Canva canva_, float xmin, float xmax, float ymin, float ymax) const
   {
-      // Ou alors, tricher dans le canva :
-      // get_allocation renvoie la dim du sous-espace
       auto dim = canva_.get_allocation(); // Allocation en pixels
 
       //canva_.set_rdi({0, 0, (float) dim.l, (float) dim.h});
@@ -375,15 +373,15 @@ struct Axes::Impl
       // Vue en pixels
       canva_pixels = canva_.vue(Rect{0, 0, sx, sy});
 
-      // Est-ce qu'on a besoin de ça sachant que maintenant ces infos sont dans le canva ?
+
+      if(isinf(xmin) || isinf(xmax) || isinf(ymin) || isinf(ymax))
+      {
+        msg_erreur("Canva::rendre({},{},{},{}) : borne infinie.", xmin, xmax, ymin, ymax);
+        return canva_res;
+      }
+
 
       auto &cah = config.axe_horizontal, &cav = config.axe_vertical;
-
-      /*cah.vmin = rdi.x;
-      cah.vmax = rdi.x + rdi.l;
-      // Inversion
-      cav.vmax = rdi.y;
-      cav.vmin = rdi.y + rdi.h;*/
 
       cah.vmin = xmin;
       cah.vmax = xmax;
@@ -391,13 +389,13 @@ struct Axes::Impl
       cav.vmin = ymin;
 
 
-
-
       DBG(msg("rendu axes : hmin={}, hmax={}, vmin={}, vmax={}, ecart pix={}, sx={}, sy={}",
           cah.vmin, cah.vmax,
           cav.vmin, cav.vmax,
           config.axe_horizontal.ecart_pixel,
           sx, sy);)
+
+
 
       // PB ICI SI ECHELLE LOG
       //canva_res = canva_pixels.clip(Rect{0, marge_haute, sx_graphique, sy_graphique}, rdi,
