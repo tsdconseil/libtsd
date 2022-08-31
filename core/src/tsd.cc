@@ -34,18 +34,7 @@ Eigen::MatrixXf cov(const Vecteur<T> &x, int m)
   return R / n;
 }*/
 
-ArrayXcf sigexp(float f, int n)
-{
-  ArrayXcf x(n);
-  cdouble r = 1, w0 = std::polar<double>(1.0, f*2*π);
 
-  for(auto i = 0; i < n; i++)
-  {
-    x(i) = r;
-    r *= w0;
-  }
-  return x;
-}
 
 ArrayXf sigscie(int p, int n)
 {
@@ -87,30 +76,37 @@ ArrayXf sigimp(int n, int p)
   return x;
 }
 
+
+
+ArrayXcf sigexp(float f, int n)
+{
+  ArrayXcf x(n);
+  cdouble r = 1,
+          w0 = std::polar<double>(1.0, f*2*π);
+
+  int i = 0;
+  while(i < n)
+  {
+    for(auto j = 0; (j < 1000) && (i < n); j++)
+    {
+      x(i++) = r;
+      r *= w0;
+    }
+    // Tout les 1000 échantillons, corrige la phase
+    r /= abs(r);
+  }
+
+  return x;
+}
+
 ArrayXf sigsin(float f, int n)
 {
-  ArrayXf x(n);
-  cdouble r = 1, w0 = std::polar<double>(1.0, f*2*π);
-
-  for(auto i = 0; i < n; i++)
-  {
-    x(i) = r.imag();
-    r *= w0;
-  }
-  return x;
+  return sigexp(f, n).imag();
 }
 
 ArrayXf sigcos(float f, int n)
 {
-  ArrayXf x(n);
-  cdouble r = 1, w0 = std::polar<double>(1.0, f*2*π);
-
-  for(auto i = 0; i < n; i++)
-  {
-    x(i) = r.real();
-    r *= w0;
-  }
-  return x;
+  return sigexp(f, n).real();
 }
 
 ArrayXf sigchirp(float f0, float f1, int n)
@@ -578,7 +574,8 @@ cfloat OLUT::step(float θ)
 struct OHC: Source<cfloat, OHConfig>
 {
   float freq = 1;
-  cfloat phaseur = 1, rotation = 1;
+  cdouble acc = 1,
+          rotation = 1;
 
   OHC(){}
 
@@ -591,25 +588,22 @@ struct OHC: Source<cfloat, OHConfig>
   {
     freq      = cfg.freq;
 
-    if(cfg.shift)
-    {
-      rotation *= cfloat(1.0f, 2 * π_f * cfg.df);
-    }
-    else
-      rotation  = std::polar(1.0f, 2.0f * π_f * freq);
+    rotation  = std::polar(1.0, 2.0 * π * freq);
     return 0;
   }
 
   ArrayXcf step(int n)
   {
-    ArrayXcf out(n);
-    phaseur = phaseur / abs(phaseur); // Periodic update
+    ArrayXcf y(n);
+    // A chaque première itération,
+    // corrige le module
+    acc /= abs(acc);
     for(auto i = 0; i < n; i++)
     {
-      out(i) = phaseur;
-      phaseur *= rotation;
+      y(i) = acc;
+      acc *= rotation;
     }
-    return out;
+    return y;
   }
 
 };
@@ -623,15 +617,9 @@ struct OHR: Source<float, OHConfig>
     configure({nu});
   }
 
-  int configure(const float &nu)
-  {
-    ohc.configure({nu});
-    return 0;
-  }
-
   int configure_impl(const OHConfig &config)
   {
-    return configure(config.df);
+    return ohc.configure(config);
   }
 
   ArrayXf step(int n)

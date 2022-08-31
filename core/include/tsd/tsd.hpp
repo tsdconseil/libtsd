@@ -1300,13 +1300,15 @@ namespace tsd
   extern ArrayXf sigchirp2(float f0, float f1, int n);
 
 
+  /** @brief Configuration oscillateur harmonique */
   struct OHConfig
   {
+    /** @brief Fréquence normalisée */
     float freq = 0;
 
     // Si vrai, applique un shift de la fréquence indiquée
-    bool shift = false;
-    float df = 0;
+    //bool shift = false;
+    //float df = 0;
   };
 
   /** @brief Génération d'un signal exponentiel via un oscillateur harmonique
