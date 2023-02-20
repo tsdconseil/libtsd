@@ -1,28 +1,23 @@
-#include "tsd/fourier.hpp"
-#include "tsd/vue.hpp"
-#include "tsd/filtrage.hpp"
-
-using namespace std;
-using namespace tsd::vue;
+#include "tsd/tsd-all.hpp"
 
 #define VERB(AA)
 
 namespace tsd::fourier {
 
-
+using namespace std;
 
 // Interpolation quadratique,
 // d'après https://ccrma.stanford.edu/~jos/sasp/Quadratic_Interpolation_Spectral_Peaks.html
 static float qint_loc(float ym1, float y0, float yp1)
 {
-  return (yp1 - ym1) / (2 * (2*y0 - yp1 - ym1));
+  retourne (yp1 - ym1) / (2 * (2*y0 - yp1 - ym1));
 }
 
 // δ = position fractionnaire du max.
 template<typename T>
 static T qint_val(T ym1, T y0, T yp1, float δ)
 {
-  return y0 - (ym1 - yp1) * δ * ((T) 0.25);
+  retourne y0 - (ym1 - yp1) * δ * ((T) 0.25);
 }
 
 
@@ -30,10 +25,10 @@ static T qint_val(T ym1, T y0, T yp1, float δ)
 template<typename T>
 struct LigneARetardExt
 {
-  int K = 0;
+  entier K = 0;
   Vecteur<T> mem;
 
-  void configure(int K)
+  void configure(entier K)
   {
     this->K = K;
     mem.setZero(K);
@@ -41,12 +36,12 @@ struct LigneARetardExt
 
   void step(const Vecteur<T> &x)
   {
-    int n = x.rows();
-    if(n == K)
+    entier n = x.rows();
+    si(n == K)
       mem = x;
-    else if(n > K)
+    sinon si(n > K)
       mem = x.tail(K);
-    else
+    sinon
     {
       mem.head(K-n) = mem.tail(K-n);
       mem.tail(n) = x;
@@ -54,19 +49,17 @@ struct LigneARetardExt
   }
   const Vecteur<T> &get_last_K() const
   {
-    return mem;
+    retourne mem;
   }
-  Vecteur<T> derniers(int n) const
+  Vecteur<T> derniers(entier n) const
   {
-    return mem.tail(n);
+    retourne mem.tail(n);
   }
-  Vecteur<T> get(int delais, int n) const
+  Vecteur<T> get(entier delais, entier n) const
   {
-    if((delais >= K) || (n >= delais))
-    {
+    si((delais >= K) || (n >= delais))
       echec("Ligne à retard ext : dépassement, K={}, delais={}, n={}", K, delais, n);
-    }
-    return mem.segment(K - delais - 1, n);
+    retourne mem.segment(K - delais - 1, n);
   }
 };
 
@@ -89,73 +82,74 @@ struct DetecteurImpl: Detecteur
   /** Filtre à moyenne glissante pour l'énergie du signal sur les M derniers échantillons */
   sptr<FiltreGen<float>> filtre_energie;
 
-  int itr = 0;
+  entier itr = 0;
 
   /** Ne = paquets d'entrée
    *  N  = dimension FFT (Ne + Nz), valable seulement en mode OLA
    *  M  = dimension motif
    */
-  int Ne = 0, N = 1, M = 0;
+  entier Ne = 0, N = 1, M = 0;
 
   /** TFD du motif, pré-calculée (seulement en mode OLA). */
-  ArrayXcf T_motif;
+  Veccf T_motif;
 
   /** Norme 2 du motif */
   float norme_motif;
 
   /** Motif, normalisé */
-  ArrayXcf motif;
+  Veccf motif;
 
-  bool pic_final_a_traiter = false;
+  bouléen pic_final_a_traiter = non;
   Detection pic_final;
-  int dernier_n;
+  entier dernier_n;
 
   MoniteursStats moniteurs()
   {
-    return {{mon[0].stats(), mon[1].stats(), mon[2].stats()}};
+    retourne {{mon[0].stats(), mon[1].stats(), mon[2].stats()}};
   }
 
   DetecteurImpl(const DetecteurConfig &config): mon(3)
   {
+    this->config = config;
     mon[0].nom() = "fft-corr/energie";
     mon[1].nom() = "fft-corr/ola";
     mon[2].nom() = "fft-corr/norm";
-    this->config = config;
     configure_impl(config);
   }
 
-  int configure_impl(const DetecteurConfig &config)
+  entier configure_impl(const DetecteurConfig &config)
   {
-    pic_final_a_traiter = false;
-    itr = 0;
+    pic_final_a_traiter = non;
+    itr                 = 0;
 
-    M = config.motif.rows();
-
-    filtre_energie = tsd::filtrage::filtre_mg<float,double>(M);
-
-    Ne = config.Ne;
-
-    if(config.Ne == 0)
-    {
-      float C;
-      int Nf, Nz;
-      tsd::fourier::ola_complexité_optimise(M, C, Nf, Nz, Ne);
-      msg("FFT corrélateur : calcul auto Ne optimal : M={} --> Ne={},Nz={},Nf=Ne+Nz={},C={} FLOPS/ech", M, Ne, Nz, Nf, C);
-    }
-
-    norme_motif = sqrt(config.motif.abs2().sum());
+    norme_motif = config.motif.norme(); // sqrt(abs2(config.motif).somme());
 
     // Normalisation énergie du motif
     motif = config.motif / norme_motif;
 
+    M = motif.rows();
 
-    if(config.mode == DetecteurConfig::MODE_OLA)
+    filtre_energie = filtre_mg<float,double>(M);
+
+    Ne = config.Ne;
+
+    si(config.Ne == 0)
+    {
+      float C;
+      entier Nf, Nz;
+      // TODO: retour multiples
+      tsd::fourier::ola_complexité_optimise(M, C, Nf, Nz, Ne);
+      msg("FFT corrélateur : calcul auto Ne optimal : M={} --> Ne={},Nz={},Nf=Ne+Nz={},C={} FLOPS/ech",
+          M, Ne, Nz, Nf, C);
+    }
+
+    si(config.mode == DetecteurConfig::MODE_OLA)
     {
       FiltreFFTConfig ola_config;
       ola_config.nb_zeros_min             = M - 1;
       ola_config.dim_blocs_temporel       = Ne;
       ola_config.traitement_freq =
-          [&](ArrayXcf &X)
+          [&](Veccf &X)
           {
             tsd_assert(X.rows() == T_motif.rows());
             tsd_assert(X.rows() == N);
@@ -164,7 +158,7 @@ struct DetecteurImpl: Detecteur
 
       tie(ola, N) = filtre_fft(ola_config);
 
-      ArrayXcf tmp;
+      Veccf tmp;
       tmp.setZero(N);
       tsd_assert(M * 2 <= N);
 
@@ -173,23 +167,24 @@ struct DetecteurImpl: Detecteur
       delais_corr = Ne;
 
       T_motif = fft(tmp);
-      //lar1 = tsd::filtrage::ligne_a_retard<float>(delais_corr - M - 1);
-      lar1 = tsd::filtrage::ligne_a_retard<float>(delais_corr - M + 1);
+      lar1 = ligne_a_retard<float>(delais_corr - M + 1);
     }
-    else
+    sinon
     {
       msg("Détecteur : mode filtre RIF.");
-      // TODO: détecter si le motif est réel -> filtre réel
+      // Détection si le motif est réel -> filtre réel
+      // (pour plus d'efficacité)
 
-      if(config.motif.imag().abs().sum() / config.motif.abs().sum() < 1e-7)
+      // TODO: définir et utiliser une méthode .est_réel()
+      si(abs(imag(motif)).somme() / abs(motif).somme() < 1e-7)
       {
         msg("  Motif réel détecté.");
-        ola = tsd::filtrage::filtre_rif<float, cfloat>(config.motif.reverse().real());
+        ola = filtre_rif<float, cfloat>(real(motif.reverse()));
       }
-      else
+      sinon
       {
         msg("  Motif complexe détecté.");
-        ola = tsd::filtrage::filtre_rif<cfloat, cfloat>(config.motif.reverse().conjugate());
+        ola = filtre_rif<cfloat, cfloat>(motif.reverse().conjugate());
       }
 
       delais_corr = M - 1;
@@ -199,38 +194,37 @@ struct DetecteurImpl: Detecteur
 
     msg("Corrélateur FFT: Ne (dim blocs) = {}, M (dim motif) = {}, N (dim fft) = {}.", Ne, M, N);
     msg("  norme motif = {}", norme_motif);
-    return 0;
+    retourne 0;
   }
 
 
   cfloat lc = 0.0f, lc0 = 0.0f;
   float alc = 0, alc0 = 0;
+  entier delais_corr = 0;
 
-  int delais_corr = 0;
-
-  void step(IArrayXcf x, ArrayXf &y)
+  void step(const Veccf &x, Vecf &y)
   {
-    auto &config = Configurable<DetecteurConfig>::lis_config();
+    soit &config = Configurable<DetecteurConfig>::lis_config();
 
-    int n = x.rows();
+    soit n = x.rows();
 
     mon[0].commence_op();
-    ArrayXf en = filtre_energie->step(x.abs2());
-    // TODO : ligne à retard sur le signal d'énergie, pour synchroniser avec corr
+    soit en = filtre_energie->step(abs2(x));
     mon[0].fin_op();
 
-    if(config.mode == DetecteurConfig::MODE_OLA)
+    // Ligne à retard sur le signal d'énergie, pour synchroniser avec corr
+    si(config.mode == DetecteurConfig::MODE_OLA)
       en = lar1->step(en);
 
     // corr = résultat du produit de corrélation entre le motif et le signal d'entrée
     mon[1].commence_op();
-    ArrayXcf corr;
-    ola->step(x, corr); // Retard = Ne échantillon avec un OLA, M échantillons avec un filtre
+    Veccf corr;
+    // Retard = Ne échantillon avec un OLA, M échantillons avec un filtre
+    ola->step(x, corr);
     mon[1].fin_op();
 
 
     // Pb : rien ne garantit que corr.rows() == n.
-
     tsd_assert_msg(corr.rows() == n, "Sortie OLA (corr) devrait faire {} échantillons, mais {}.", n, corr.rows());
     tsd_assert(en.rows() == n);
 
@@ -238,86 +232,89 @@ struct DetecteurImpl: Detecteur
 
     float ratio = sqrt(1.0f * N) / sqrt(1.0f * M);
 
-    if(config.mode == DetecteurConfig::MODE_RIF)
-      ratio /= sqrt(1.0f * M);
+    //si(config.mode == DetecteurConfig::MODE_RIF)
+      //ratio /= sqrt(1.0f * M);
 
 
     // Supprime les valeurs trop faibles
     float seuil = 1e-12f;
 
-    corr = (seuil < corr.abs2()).select(corr, 0.0f).eval();
+    //corr = (seuil < abs2(corr)).select(corr, 0.0f).eval();
+    entier n2 = corr.dim();
+    pour(auto i = 0; i < n2; i++)
+      si(abs(corr(i)) <= sqrt(seuil))
+        corr(i) = 0;
 
-    y = ratio * (corr.abs2() / (en + 1e-20f)).sqrt();
+    y = ratio * sqrt(abs2(corr) / (en + 1e-20f));
 
 
     // TODO: Pb à régler plus proprement (premier buffer nul)
-    //if((itr == 0) && (config.mode == DetecteurConfig::MODE_OLA))
+    //si((itr == 0) && (config.mode == DetecteurConfig::MODE_OLA))
       //y.head(Ne).setZero();
 
     /*ArrayXf y1(n);
     y1(0) = y(0);     // TODO
     y1(n-1) = y(n-1); // TODO
-    for(auto i = 1; i + 1 < n; i++)
+    pour(auto i = 1; i + 1 < n; i++)
     {
       y1(i) = y(i-1) + y(i) + y(i+1);
     }*/
 
     // Pré-calcul pour l'érosion : sur chaque segment de largeur M, on
     // ne considère que le plus grand
-    ArrayXf y2 = ArrayXf::Zero(n);
-    for(auto i = 0; i < n; i += M)
+    soit y2 = Vecf::zeros(n);
+    pour(auto i = 0; i < n; i += M)
     {
-      int idx;
-      auto mx = y.segment(i, min(M, n - i)).maxCoeff(&idx);
+      soit [mx, idx] = y.segment(i, min(M, n - i)).max();
       y2(idx+i) = mx;
     }
 
-    vector<int> lst = trouve(y2 > config.seuil), lst2;
+    vector<entier> lst = trouve(y2 > config.seuil), lst2;
 
-    if(pic_final_a_traiter)
+    si(pic_final_a_traiter)
     {
-      pic_final_a_traiter = false;
+      pic_final_a_traiter = non;
       lst2.push_back(-1);
     }
 
     // Attention : ci-dessous, coût quadratique en fonction du nombre de détections
     // (pb si seuil faible)
     // Il faut faire une sorte d'érosion
-    for(auto idx: lst)
+    pour(auto idx: lst)
     {
       //msg("Cand : {} ({})", idx, y(idx));
-      bool ok = true;
-      for(auto idx2: lst)
+      bouléen ok = oui;
+      pour(auto idx2: lst)
       {
-        if((y(idx2) > y(idx)) && (abs(idx - idx2) < M))
+        si((y(idx2) > y(idx)) && (abs(idx - idx2) < M))
         {
-          ok = false;
+          ok = non;
           break;
         }
       }
-      if(ok)
+      si(ok)
         lst2.push_back(idx);
     }
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
       Figures f;
       //f.subplot().plot(x1, "", "Buffer d'avant");
       f.subplot().plot(x, "", "x");
-      f.subplot().plot(en.sqrt(), "", "Energie (sqrt)");
-      f.subplot().plot(corr.abs(), "", "Corrélation");
+      f.subplot().plot(sqrt(en), "", "Energie (sqrt)");
+      f.subplot().plot(abs(corr), "", "Corrélation");
 
-      if((lst2.size() > 0) && (lst2[0] > 10) && (lst2[0] + 10 < n))
+      si((lst2.size() > 0) && (lst2[0] > 10) && (lst2[0] + 10 < n))
       {
         f.subplot().plot(y.segment(lst2[0]-10, 20), "", "Corrélation (zoom)");
       }
 
 
-      auto s = f.subplot();
+      soit s = f.subplot();
       s.plot(y, "", "Corrélation norm.");
-      for(auto idx: lst2)
+      pour(auto idx: lst2)
       {
-        if(idx != -1)
+        si(idx != -1)
           s.plot(idx, y(idx), "ro");
       }
       f.subplot().plot(y2, "", "Corrélation norm (érosion).");
@@ -326,10 +323,10 @@ struct DetecteurImpl: Detecteur
 
 
 
-    for(auto idx: lst2)
+    pour(auto idx: lst2)
     {
 
-      tsd_assert(idx <= (int) (n-1));
+      tsd_assert(idx <= (entier) (n-1));
       tsd_assert(idx >= -1);
 
       //infos("Detection motif ok, score = %.2f, seuil = %.2f (energie = %f, row = %d).", score_max, config.seuil, en(maxRow), maxRow);
@@ -340,13 +337,13 @@ struct DetecteurImpl: Detecteur
       cfloat c0, c1, c2;
       float ac0, ac1, ac2;
 
-      if(idx == -1)
+      si(idx == -1)
       {
         det                = pic_final;
         det.position      -= dernier_n;
         det.position_prec -= dernier_n;
       }
-      else
+      sinon
       {
         det.score     = y(idx);
         det.position  = idx - delais_corr;
@@ -366,7 +363,7 @@ struct DetecteurImpl: Detecteur
         ac1 = y(idx);
       }
 
-      if(idx == -1)
+      si(idx == -1)
       {
         ac0 = alc0;
         c0  = lc0;
@@ -374,13 +371,13 @@ struct DetecteurImpl: Detecteur
         c1  = lc;
         ac2 = y(0);
         c2  = corr(0);
-        if(ac1 < ac2)
+        si(ac1 < ac2)
         {
           VERB(msg("Dernier échan : pas le pic.");)
           goto suite;
         }
       }
-      else if(idx == 0)
+      sinon si(idx == 0)
       {
         ac0 = alc;
         c0  = lc;
@@ -388,23 +385,23 @@ struct DetecteurImpl: Detecteur
         c1 = corr(idx);
         ac2 = y(1);
         c2  = corr(1);
-        // Si le dernier échantillons du buffer précédant était le pic.
-        if(ac1 < ac0)
+        // si le dernier échantillons du buffer précédant était le pic.
+        si(ac1 < ac0)
         {
           VERB(msg("Premier échan : pas le pic.");)
           goto suite;
         }
       }
-      else if(idx == n-1)
+      sinon si(idx == n-1)
       {
         // Ceci sera traité au début de l'itération suivante,
         // car on a besoin d'un échantillon de plus pour faire l'interpolation quadratique
         VERB(msg("idx = n-1 -> pic final");)
-        pic_final_a_traiter = true;
+        pic_final_a_traiter = oui;
         pic_final = det;
         goto suite;
       }
-      else
+      sinon
       {
         ac0 = y(idx-1);
         c0  = corr(idx-1);
@@ -414,16 +411,16 @@ struct DetecteurImpl: Detecteur
         c2  = corr(idx+1);
       }
 
-      if(config.mode == DetecteurConfig::MODE_RIF)
+      /*si(config.mode == DetecteurConfig::MODE_RIF)
       {
         c0 /= sqrt(1.0f * M);
         c1 /= sqrt(1.0f * M);
         c2 /= sqrt(1.0f * M);
-      }
+      }*/
 
       // Interpolation quadratique pour améliorer la précision
       δ = qint_loc(ac0, ac1, ac2);
-      if((δ < -0.5) || (δ > 0.5))
+      si((δ < -0.5) || (δ > 0.5))
       {
         msg_avert("Echec interpolation quadratique: pics = {} {} {}, δ={}, idx={}, Ne={}",
             ac0, ac1, ac2, δ, idx, Ne);
@@ -438,10 +435,10 @@ struct DetecteurImpl: Detecteur
         det.θ     = arg(g2);
       }
 
-      ArrayXcf recu_theo = std::polar(det.gain, det.θ) * config.motif;
+      soit recu_theo = config.motif * std::polar(det.gain, det.θ);
 
       // TODO: un peu arbitraire
-      //if(abs(δ) > 0.01)
+      //si(abs(δ) > 0.01)
       //{
       recu_theo = délais(recu_theo, δ);
       //}
@@ -453,51 +450,51 @@ struct DetecteurImpl: Detecteur
 
       // Délais maximum de la ligne à retard : dépends de n !
 
-      ArrayXcf recu_vraiment(M);
+      Veccf recu_vraiment(M);
 
-      int id = idx - delais_corr;
+      entier id = idx - delais_corr;
 
       // Note : on suppose delais_corr >= M (pas besoin d'échantillon dans le futur)
 
       // Nb échantillons dispo dans le x en cours
-      int nspl_in_current = M;
-      if(id >= 0)
+      entier nspl_in_current = M;
+      si(id >= 0)
         nspl_in_current = M;
-      else if((id < 0) && (id > -M))
+      sinon si((id < 0) && (id > -M))
         nspl_in_current = M + id;
-      else
+      sinon
         nspl_in_current = 0;
       // Nb échantillons à prendre dans la ligne à retard
-      int nspl_avant = M - nspl_in_current;
+      entier nspl_avant = M - nspl_in_current;
 
       //msg("nspl_in_curr={}, nspl_avant={}, M={}, lar.K={}, id={}", nspl_in_current, nspl_avant, M, lar.K, id);
 
       recu_vraiment.tail(nspl_in_current) = x.segment(max(id,0), nspl_in_current);
-      if(nspl_avant < M)
+      si(nspl_avant < M)
         recu_vraiment.head(nspl_avant)      = lar.derniers(nspl_avant);
-      else
+      sinon
         recu_vraiment.head(nspl_avant)      = lar.mem.segment(id + lar.K, nspl_avant); // Erreur ici
-      ArrayXcf bruit     = recu_vraiment - recu_theo;
 
-      auto var_bruit  = bruit.segment(1, M-2).abs2().mean();
-      auto var_signal = pow(det.gain * norme_motif, 2.0f) / M;
+      soit bruit     = recu_vraiment - recu_theo;
+      soit var_bruit  = abs2(bruit.segment(1, M-2)).moyenne();
+      soit var_signal = pow(det.gain * norme_motif, 2.0f) / M;
       det.σ_noise = sqrt(var_bruit);
       det.SNR_dB  = pow2db(var_signal / var_bruit);
 
 
-      if(config.debug_actif)
+      si(config.debug_actif)
       {
         Figures f;
-        f.subplot().plot(config.motif, "", "motif");
-        f.subplot().plot(recu_theo, "", "recu_theo");
-        f.subplot().plot(recu_vraiment, "", "recu_vraiment");
-        f.subplot().plot(bruit, "r-", "bruit");
+        f.subplot().plot(config.motif,  "",   "motif");
+        f.subplot().plot(recu_theo,     "",   "recu_theo");
+        f.subplot().plot(recu_vraiment, "",   "recu_vraiment");
+        f.subplot().plot(bruit,         "r-", "bruit");
         f.afficher(fmt::format("DBG Det, itr {}", itr));
         msg("Détection : {}", det);
       }
 
 
-      if(config.gere_detection)
+      si(config.gere_detection)
         config.gere_detection(det);
     }
 
@@ -525,12 +522,12 @@ ostream &operator <<(ostream &os, const Detection &det)
 {
   os << fmt::format("Détection : score={:.3f}, pos={} ({:.3f}), gain={:.5e}, θ={:.1f}°, σ={:.2e}, SNR={:.1f} dB.",
       det.score, det.position, det.position_prec, det.gain, rad2deg(det.θ), det.σ_noise, det.SNR_dB);
-  return os;
+  retourne os;
 }
 
 sptr<Detecteur> détecteur_création(const DetecteurConfig &config)
 {
-  return make_shared<DetecteurImpl>(config);
+  retourne make_shared<DetecteurImpl>(config);
 }
 
 

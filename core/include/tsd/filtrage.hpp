@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef TSD_FILTRAGE_H
+#define TSD_FILTRAGE_H
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -56,7 +57,7 @@ namespace tsd::filtrage {
 
   extern std::string Fenetre2string(Fenetre f);
 
-  extern ArrayXf fenetre(Fenetre type, int n, bool symetrique = true);
+  extern Vecf fenetre(Fenetre type, entier n, bouléen symetrique = oui);
   /** @endcond */
 
   /** @brief Création d'une fenêtre sans paramètre (rectangulaire, Hann, Hamming, triangulaire ou Blackman)
@@ -76,7 +77,7 @@ namespace tsd::filtrage {
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
    *  @image html filtrage-fenetre.png width=600px
    */
-  extern ArrayXf fenetre(const std::string &type, int n, bool symetrique = true);
+  extern Vecf fenetre(const std::string &type, entier n, bouléen symetrique = oui);
 
   /** @brief Création d'une fenêtre de Chebychev.
    *
@@ -98,43 +99,45 @@ namespace tsd::filtrage {
    *
    *  @sa design_rir_fen()
    */
-  extern ArrayXf fenêtre_chebychev(int n, float atten_db, bool symetrique = true);
+  extern Vecf fenêtre_chebychev(entier n, float atten_db, bouléen symetrique = oui);
 
 
   /** @cond undoc */
-  extern MatrixXf slepian_evec(int N, float B);
+  extern Tabf slepian_evec(entier N, float B);
   /** @endcond */
 
   /** @brief Création d'une fenêtre de Slepian
    *
    *
    */
-  extern ArrayXf fenêtre_slepian(int N, float B);
+  extern Vecf fenêtre_slepian(entier N, float B);
 
 
   // TODO : DOC
   struct FenInfos
   {
-    /** @brief Atténuation pire lobe secondaire */
+    /** @brief Atténuation pire lobe secondaire (dB) */
     float atten_ls;
 
     /** @brief Largeur lobe principal */
     float largeur_lp;
 
     /** @brief Vrai si la fenêtre est symétrique */
-    bool symetrique;
+    bouléen symetrique;
 
     /** @brief Vrai si non symétrique */
-    bool periodique;
+    bouléen periodique;
 
-    /** @brief Atténuation premier lobe secondaire */
+    /** @brief Atténuation premier lobe secondaire (dB) */
     float atten_pls;
 
     tsd::vue::Figures fig;
   };
 
   // TODO : DOC
-  extern FenInfos fenetre_analyse(const std::string &nom, const ArrayXf &x, bool do_plot = true);
+  extern FenInfos fenetre_analyse(const std::string &nom,
+                                  const Vecf &x,
+                                  bouléen do_plot = oui);
 
 
   /** @brief Calcul du paramètre @f$\beta@f$ et de l'ordre d'un filtre de Kaiser.
@@ -162,10 +165,10 @@ namespace tsd::filtrage {
    *  @code
    *  // Paramètres pour une atténuation de 60 dB,
    *  // et une bande de transition de 1 dixième de la fréquence d'échantillonnage.
-   *  auto [β, n] = kaiser_param(60, 0.1);
+   *  soit [β, n] = kaiser_param(60, 0.1);
    *  @endcode
    */
-  extern std::tuple<float, int> kaiser_param(float atten_db, float δf);
+  extern std::tuple<float, entier> kaiser_param(float atten_db, float δf);
 
   /** @brief Création d'une fenêtre de Kaiser.
    *
@@ -182,7 +185,7 @@ namespace tsd::filtrage {
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre_kaiser
    *  @image html filtrage-fenetre-kaiser.png width=600px
    */
-  extern ArrayXf fenêtre_kaiser(float atten_db, float δf, bool symetrique = true);
+  extern Vecf fenêtre_kaiser(float atten_db, float δf, bouléen symetrique = oui);
 
   /** @brief Création d'une fenêtre de Kaiser (d'après paramètre de forme @f$\beta@f$).
    *
@@ -197,7 +200,7 @@ namespace tsd::filtrage {
    * @return Vecteurs des coefficients de la fenêtre
    *
    *  @sa fenetre_kaiser(), kaiser_param() */
-  extern ArrayXf fenêtre_kaiser1(int n, float β, bool symetrique = true);
+  extern Vecf fenêtre_kaiser1(entier n, float β, bouléen symetrique = oui);
 
 
 
@@ -229,7 +232,7 @@ namespace tsd::filtrage {
  *
  *  @sa frgroup(), repfreq(), frphase()
  */
-template<typename T> std::tuple<ArrayXf, ArrayXf> frmag(const FRat<T> &h, int npts = 1024);
+template<typename T> std::tuple<Vecf, Vecf> frmag(const FRat<T> &h, entier npts = 1024);
 
 
 
@@ -249,13 +252,21 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frmag(const FRat<T> &h, int np
  *  @sa frmag(), frphase(), frgroup()
  */
 template<typename T>
-  ArrayXcf repfreq(const FRat<T> &h, const ArrayXf &fr);
+Veccf repfreq(const FRat<T> &h, const Vecf &fr);
 
+
+// TODO: documentation
+// repfreq en un point
+template<typename T>
+cfloat repfreq(const FRat<T> &h, float fr)
+{
+  retourne h.horner(std::polar(1.0f, 2 * π_f * fr));
+}
 
 
 /** @brief Réponse impulsionnelle. */
 template<typename T>
-  ArrayXf repimp(const FRat<T> &h, int npts = -1);
+  Vecf repimp(const FRat<T> &h, entier npts = -1);
 
 
 /** @brief Phase d'un filtre RIF ou RII.
@@ -271,7 +282,7 @@ template<typename T>
  *  @param npts Résolution fréquentielle
  *  @return Un tuple de deux vecteurs : le vecteur de fréquences (normalisées, entre 0 et 0,5), et la phase de la réponse (en radians).
  */
-template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const FRat<T> &h, int npts = 1024);
+template<typename T> std::tuple<Vecf, Vecf> frphase(const FRat<T> &h, entier npts = 1024);
 
 /** @brief Calcul du temps de groupe (délais en fonction de la fréquence).
  *
@@ -292,7 +303,7 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const FRat<T> &h, int 
  *  @image html frgroup.png width=600px
  *
  */
-template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, int npts = 1024);
+template<typename T> std::tuple<Vecf, Vecf> frgroup(const FRat<T> &h, entier npts = 1024);
 
 
 
@@ -307,6 +318,7 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, int 
  *
  *  @param h      Fonction de transfert à analyser (ou vecteur de coefficients).
  *  @param fe     Fréquence d'échantillonnage (optionnel).
+ *  @param complet Si vrai, affiche l'ensemble des réponses (impulsionnelle, zéros et pôles, etc.). Dans le cas contraire, affiche seulement la réponse fréquentielle (en magnitude).
  *  @return       La figure créée.
  *
  * @par Exemple
@@ -317,42 +329,27 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, int 
  *
  */
 template<typename T>
-  tsd::vue::Figures analyse_filtre(const FRat<T> &h, float fe = 1.0f);
+  tsd::vue::Figures plot_filtre(const FRat<T> &h, bouléen complet = non, float fe = 1.0f);
 
 
-/** @brief Affichage des réponses impulsionnelles et fréquentielles d'un filtre.
- *
- *  <h3>Affichage des réponses impulsionnelles et fréquentielles d'un filtre</h3>
- *
- * Cette fonction créée une nouvelle figure, et trace les réponses fréquentielles
- * et temporelles du filtre.
- *
- *  @param h      Fonction de transfert à analyser (ou vecteur de coefficients).
- *  @param fe     Fréquence d'échantillonnage (optionnel).
- *  @return       La figure créée.
- *
- * @par Exemple
- * @snippet exemples/src/filtrage/ex-filtrage.cc exemple_affiche
- * @image html filtrage-affiche.png width=1000px
- *
- * @sa analyse_filtre() (pour un affichage plus complet)
- */
-template<typename T>
-  tsd::vue::Figures affiche_filtre(const FRat<T> &h, float fe = 1.0f);
-
-
-extern FenInfos filtre_pb_analyse(const ArrayXf &h);
-extern FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bool do_plot = true);
+extern FenInfos filtre_pb_analyse(const Vecf &h);
+extern FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, bouléen do_plot = oui);
 
 /** @cond undoc */
-template<typename T> ArrayXf repimp(const Vecteur<T> &h, int npts = -1);
-extern ArrayXcf repfreq(const ArrayXf &h, const ArrayXf &fr);
-template<typename T> ArrayXf repfreq(const Vecteur<T> &h, int npts = 1024);
-template<typename T> std::tuple<ArrayXf, ArrayXf> frmag(const Vecteur<T> &h, int npts = 1024);
-template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const Vecteur<T> &h, int npts = 1024);
-template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const Vecteur<T> &h, int npts = 1024);
-extern tsd::vue::Figures analyse_filtre(const ArrayXf &h, float fe = 1.0f);
-extern tsd::vue::Figures affiche_filtre(const ArrayXf &h, float fe = 1.0f);
+template<typename T> Vecf repimp(const Vecteur<T> &h, entier npts = -1);
+extern Veccf repfreq(const Vecf &h, const Vecf &fr);
+template<typename T> std::tuple<Vecf, Vecf> frmag(const Vecteur<T> &h, entier npts = 1024);
+template<typename T> std::tuple<Vecf, Vecf> frphase(const Vecteur<T> &h, entier npts = 1024);
+template<typename T> std::tuple<Vecf, Vecf> frgroup(const Vecteur<T> &h, entier npts = 1024);
+extern tsd::vue::Figures plot_filtre(const Vecf &h, bouléen complet = non, float fe = 1.0f);
+
+
+template<typename T>
+cfloat repfreq(const Vecteur<T> &h, float fr)
+{
+  retourne repfreq(FRat<T>::rif(h), fr);
+}
+
 /** @endcond */
 
 
@@ -409,7 +406,7 @@ template<typename T>
  *
  *  @sa frmag(), frphase()
  */
-extern std::tuple<ArrayXf, ArrayXf> rifamp(const Eigen::ArrayXf &h, int L = 1024, bool symetrique = true);
+extern std::tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L = 1024, bouléen symetrique = oui);
 
 
 /** @brief Calcul du retard d'une filtre RIF à phase linéaire.
@@ -427,7 +424,83 @@ extern std::tuple<ArrayXf, ArrayXf> rifamp(const Eigen::ArrayXf &h, int L = 1024
  *  @returns Délais @f$\tau@f$ du filtre.
  *
  */
-extern float rif_delais(int N);
+extern float rif_delais(entier N);
+
+
+enum class TypeFiltre
+{
+  PASSE_BAS = 0,
+  PASSE_HAUT,
+  PASSE_BANDE,
+  COUPE_BANDE,
+  AUTRE
+};
+
+
+extern std::ostream& operator<<(std::ostream &ss, const TypeFiltre &t);
+
+struct AnalyseLIT
+{
+  /** @brief Passe-bas, passe-haut, etc. */
+  TypeFiltre type = TypeFiltre::AUTRE;
+
+  bouléen est_rif = non;
+
+  /** @brief Type I, II, III ou IV (seulement pour les filtres RIF) */
+  entier type_rif = -1;
+
+  /** @brief Gains en fréquence 0 et Nyquist (linéaires) */
+  float gain_dc = 0;
+  float gain_Nyquist = 0;
+
+  /** @brief Largeur lobe principal à -3 dB */
+  float largeur_lp = 0;
+
+  /** @brief Largeur lobe principal à -6 dB */
+  float largeur_lp_6dB = 0;
+
+  /** @brief Vrai si la fenêtre est symétrique */
+  bouléen symetrique = non;
+
+  /** @brief Vrai si non symétrique */
+  bouléen periodique = non;
+
+
+  struct LobeSecondaire
+  {
+    /** @brief Atténuation (dB) */
+    float atten = 0;
+
+    /** @brief Fréquence normalisée */
+    float freq  = 0;
+  };
+
+  /** @brief Atténuations premier et pire lobe secondaire (dB). */
+  LobeSecondaire premier_ls, pire_ls;
+
+  /** @brief Fréquence de "début" des lobes secondaires (e.g. pour f>debut, atten > pire_ls.atten) */
+  float freq_debut_ls = 0;
+
+  tsd::vue::Figures fig;
+};
+
+
+/** TODO: doc */
+template<typename T>
+  AnalyseLIT analyse_LIT(const FRat<T> &h, bool avec_plots);
+
+
+/** @brief Calcule le type (I, II, III ou IV) d'un filtre RIF à phase linéaire.
+ *  Si les coefficients ne sont pas symétriques ni anti-symétriques, retourne -1.
+ */
+extern int type_rif(const Vecf &h);
+
+template<typename T>
+  AnalyseLIT analyse_LIT(const Vecteur<T> &h, bool avec_plots)
+{
+  retourne analyse_LIT(FRat<T>::rif(h), avec_plots);
+}
+
 
 /**  @}
   *  @addtogroup filtrage-design
@@ -456,12 +529,12 @@ struct SpecFreqIntervalle
  *  @returns Tableau des coefficients
  *
  *  @par Exemple
- *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_hilbert
+ *  @snippet exemples/src/fourier/ex-hilbert.cc ex_design_rif_hilbert
  *  @image html design-rif-hilbert.png width=600px
  *
  *  @sa hilbert(), hilbert_transformeur()
  */
-extern ArrayXf design_rif_hilbert(int n, const std::string &fenetre = "hn");
+extern Vecf design_rif_hilbert(entier n, const std::string &fenetre = "hn");
 
 
 
@@ -544,7 +617,7 @@ extern FRat<float> design_biquad(const BiquadSpec &spec);
  * @param gain_dB Gain, en dB, pour les filtres de type résonnance ou plateau.
  *
  * @par Exemple : filtres passe-bas, avec différentes valeurs pour le facteur de qualité
- * @snippet exemples/src/filtrage/ex-filtrage.cc ex_biquad_lp
+ * @snippet exemples/src/filtrage/ex-rii.cc ex_biquad_lp
  * @image html ex-biquad-pb.png width=800px
  *
  * @par Bibliographie
@@ -564,18 +637,12 @@ enum class PrototypeAnalogique
   ELLIPTIQUE
 };
 
-enum class TypeFiltre
-{
-  PASSE_BAS = 0,
-  PASSE_HAUT,
-  PASSE_BANDE,
-  COUPE_BANDE
-};
 
-extern FRat<cfloat> design_riia(int n, TypeFiltre type,
+
+extern FRat<cfloat> design_riia(entier n, TypeFiltre type,
     PrototypeAnalogique prototype, float fcut, float δ_bp, float δ_bc);
 
-extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogique prototype, float fcut, float δ_bp, float δ_bc);
+extern FRat<cfloat> design_riia_laplace(entier n, TypeFiltre type, PrototypeAnalogique prototype, float fcut, float δ_bp, float δ_bc);
 
 /** @endcond */
 
@@ -603,12 +670,12 @@ extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogi
  * @return h          Fonction de transfert (digitale)
  *
  * @par Exemple
- * @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_riia
+ * @snippet exemples/src/filtrage/ex-rii.cc ex_design_riia
  * @image html design-riia.png width=800px
  *
  * @sa trf_bilineaire(), @ref filtre_sois(), filtre_rii()
  */
-extern FRat<cfloat> design_riia(int n, const std::string &type,
+extern FRat<cfloat> design_riia(entier n, const std::string &type,
     const std::string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60);
 
 
@@ -646,7 +713,7 @@ extern FRat<cfloat> design_riia(int n, const std::string &type,
  *
  * @sa design_rif_freq_freqs()
  */
-extern ArrayXf design_rif_freq(int n, const ArrayXf &d);
+extern Vecf design_rif_freq(entier n, const Vecf &d);
 
 /** @brief Calcul des @f$m@f$ valeurs de fréquences utilisée pour le design par échantillonnage fréquentiel.
  *
@@ -662,10 +729,10 @@ extern ArrayXf design_rif_freq(int n, const ArrayXf &d);
  *
  * @sa design_rif_freq()
  */
-extern ArrayXf design_rif_freq_freqs(int n);
+extern Vecf design_rif_freq_freqs(entier n);
 
 /** @cond private */
-extern tsd::vue::Figures design_rif_freq_analyse(int n, const ArrayXf &d);
+extern tsd::vue::Figures design_rif_freq_analyse(entier n, const Vecf &d);
 /** @endcond */
 
 /** @brief Design équiripple / Remez.
@@ -675,15 +742,42 @@ extern tsd::vue::Figures design_rif_freq_analyse(int n, const ArrayXf &d);
  *  @param n      Ordre du filtre
  *  @param d      Réponse souhaitée
  *  @param w      Poids de pondération (doit être de même longueur que d)
- *  @param debug  Si vrai, affiche des plots des calculs intermédiaires.
  *  @returns      Vecteur des coefficients du filtre (vecteur de dimension n)
  */
-extern ArrayXf design_rif_eq(int n, IArrayXf d, IArrayXf w, bool debug = false);
+extern Vecf design_rif_eq(entier n, const Vecf &D, const Vecf &W);
 
-extern ArrayXf design_rif_eq2(int n, IArrayXf D, IArrayXf W, bool debug = false);
+extern Vecf design_rif_eq(entier n, const std::vector<SpecFreqIntervalle> &spec);
 
-extern ArrayXf design_rif_eq(int n, const std::vector<SpecFreqIntervalle> &spec, bool debug = false, bool cheby_mode = true);
 
+
+/** @brief Design RIF demi-bande.
+ *
+ *  <h3>Design RIF demi-bande</h3>
+ *
+ *  Le design est basé sur la technique décrite dans:
+ *  A “TRICK” for the Design of FIR Half-Band Filters,
+ *  P. P. VAIDYANATHAN AND TRUONG Q. NGUYEN, 1987.
+ *
+ *  @param n      Nombre de coefficients souhaités (doit être impair)
+ *  @param fc     %Fréquence de coupure à -3 dB (amplitude = @f$1 / sqrt(2)@f$)
+ *  @returns      Vecteur des coefficients du filtre (vecteur de dimension n)
+ *
+ *  Notez que dans tous les cas, la fréquence à laquelle l'amplitude est divisée par 2
+ *  sera toujours 0.25 (symétrie en fréquence autour de @f$f_e/4@f$).
+ *
+ *  L'ordre du filtre @f$n@f$ doit être impair. Par ailleurs,
+ *  hormis le coefficient central, un coefficient sur deux est nul.
+ *  C'est pourquoi, si @f$m=(n-1)/2@f$ est pair, alors le premier et le dernier coefficient seront forcément nuls (deux coefficients inutiles).
+ *
+ *  @par Exemple
+ *  @snippet exemples/src/filtrage/ex-hb.cc ex_hb
+ *  @image html design-hb.png width=800px
+ *
+ *
+ *  @sa design_rif_eq, filtre_rif_demi_bande
+ *
+ */
+extern Vecf design_rif_demi_bande(int n, float fc);
 
 
 
@@ -693,14 +787,21 @@ extern ArrayXf design_rif_eq(int n, const std::vector<SpecFreqIntervalle> &spec,
  *
  * @param n       Ordre du filtre,
  * @param type    Type de filtre ("lp" pour passe-bas, "hp" pour passe-haut, ...),
- * @param fc      Fréquence de coupure normalisée,
+ * @param fc      Fréquence de coupure normalisée (à -6 dB),
  * @param fen     Type de fenêtre ("hn", "hm", "tr" ou "re"), voir fonction @ref fenetre(),
  * @param fc2     Deuxième fréquence de coupure (uniquement pour les filtres passe-bande ou stoppe-bande),
  * @returns       Vecteur des coefficients du filtre
- * @sa design_rif_eq(), design_rif_freq()
  *
- *  \~english @brief Windowed sinc filter */
-extern ArrayXf design_rif_fen(unsigned int n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0);
+ * @warning La fréquence de coupure est spécifiée à -6 dB (facteur d'atténuation @f$1/2@f$ en amplitude, @f$1/4@f$ en puissance).
+ * En effet, une des propriétés de filtre est une symétrie de la réponse fréquentielle autour de la fréquence de coupure (quelle que soit la fenêtre choisie).
+ *
+ *  @par Exemple
+ *  @snippet exemples/src/filtrage/ex-rif.cc ex_rif_fen
+ *  @image html ex-rif-fen.png width=800px
+ *
+ * @sa design_rif_eq(), design_rif_freq()
+ */
+extern Vecf design_rif_fen(entier n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0);
 
 /** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Kaiser).
  *
@@ -717,7 +818,7 @@ extern ArrayXf design_rif_fen(unsigned int n, const std::string &type, float fc,
  *
  * @sa design_rif_fen(), design_rif_fen_chebychev()
  */
-extern ArrayXf design_rif_fen_kaiser(const std::string &type, float fc, float atten_db,
+extern Vecf design_rif_fen_kaiser(const std::string &type, float fc, float atten_db,
     float df, float fc2 = 0);
 
 /** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Chebychev).
@@ -735,7 +836,7 @@ extern ArrayXf design_rif_fen_kaiser(const std::string &type, float fc, float at
  *
  * @sa design_rif_fen(), design_rif_fen_kaiser()
  */
-extern ArrayXf design_rif_fen_chebychev(int n, const std::string &type,
+extern Vecf design_rif_fen_chebychev(entier n, const std::string &type,
     float fc, float atten_db, float fc2 = 0);
 
 /** @brief Design d'un filtre en cosinus sur-élevé.
@@ -754,7 +855,7 @@ extern ArrayXf design_rif_fen_chebychev(int n, const std::string &type,
  *  @image html design-rif-cs.png width=800px
  *
  *  @sa design_rif_rcs() */
-extern ArrayXf design_rif_cs(int n, float β, float fc);
+extern Vecf design_rif_cs(entier n, float β, float fc);
 
 /** @brief Design d'un filtre en racine de cosinus sur-élevé.
  *
@@ -770,7 +871,7 @@ extern ArrayXf design_rif_cs(int n, float β, float fc);
  *
  *  @sa design_rif_cs(), design_rif_rcs1()
  */
-extern ArrayXf design_rif_rcs(int n, float β, float fc);
+extern Vecf design_rif_rcs(entier n, float β, float fc);
 
 /** @brief Design d'un filtre en racine de cosinus sur-élevé (1)
  *
@@ -787,7 +888,7 @@ extern ArrayXf design_rif_rcs(int n, float β, float fc);
  *
  *  @sa design_rif_rcs()
  */
-extern ArrayXf design_rif_rcs1(int n, float β, float osf, char nrm = 's');
+extern Vecf design_rif_rcs1(entier n, float β, float osf, char nrm = 's');
 
 /** @brief Coefficients d'une approximation RIF d'un filtre gaussien (non fenêtré).
  *
@@ -802,7 +903,7 @@ extern ArrayXf design_rif_rcs1(int n, float β, float osf, char nrm = 's');
  *
  *  @sa design_rif_gaussien_telecom()
  */
-extern ArrayXf design_rif_gaussien(int n, float σ);
+extern Vecf design_rif_gaussien(entier n, float σ);
 
 
 /** @brief Coefficients d'une approximation RIF d'un filtre gaussien, pour une modulation GFSK.
@@ -827,7 +928,7 @@ extern ArrayXf design_rif_gaussien(int n, float σ);
  *
  *  @sa design_rif_gaussien()
  */
-extern ArrayXf design_rif_gaussien_telecom(int n, float BT, int osf);
+extern Vecf design_rif_gaussien_telecom(entier n, float BT, entier osf);
 
 
 /** @brief Calcul l'écart-type (relatif à la période symbole) en fonction du BT */
@@ -855,17 +956,30 @@ extern float design_rif_gaussien_telecom_BT_vers_sigma(float BT);
  * @return   Coefficients du filtre concaténé  (@f$n_1+n_2-1@f$ coefficients)
  *
  */
-extern ArrayXf design_rif_prod(const ArrayXf &h1, const ArrayXf &h2);
+extern Vecf design_rif_prod(const Vecf &h1, const Vecf &h2);
+
+
+
+/** @brief Inversion spectrale */
+extern Vecf design_rif_pb2ph_is(const Vecf &h);
+
+/** @brief Réflexion spectrale */
+extern Vecf design_rif_pb2ph_rs(const Vecf &h);
+
+extern Vecf design_rif_pb2pb(const Vecf &h);
+extern Vecf design_rif_pb2pm(const Vecf &h);
 
 /** @brief Paramètres principaux d'un filtre CIC */
 struct CICConfig
 {
   /** @brief Decimation ratio */
-  int R = 1;
+  entier R = 1;
+
   /** @brief Number of integrators / differentiators */
-  int N = 1;
+  entier N = 1;
+
   /** @brief Design parameter (typically M=1) */
-  int M = 1;
+  entier M = 1;
 };
 
 /** @brief Fonction de transfert théorique d'un filtre CIC
@@ -883,12 +997,12 @@ extern FRat<float> design_cic(const CICConfig &config);
 
 struct CICComp
 {
-  ArrayXf h;
+  Vecf h;
   tsd::vue::Figure
     fig_reponse_ideale,
-    fig_comp_rimp,
     fig_spectre_global,
     fig_spectre_bf;
+  tsd::vue::Figures fig_comp_rimp;//, fig_rif_freq;
 };
 
 /** @brief Design of a compensation FIR filter for a CIC filter.
@@ -919,9 +1033,9 @@ struct CICComp
     // Compensation FIR decimation factor: R2 = 1/2
     // Output signal frequency: 6400/(R*R2) = 200 Hz
     // Cut-off frequency for FIR filter: 80 Hz
-    int R = 16, N = 4, M = 1;
+    entier R = 16, N = 4, M = 1;
     float fin = 6400, fcut=80;
-    int ntaps = 61, R2 = 2;
+    entier ntaps = 61, R2 = 2;
     ArrayXf h = design_cic_comp(R,N,M,fin,R2,fcut,ntaps);
     // h is the array of coefficents of the FIR compensation filter.
  * @endcode
@@ -929,7 +1043,7 @@ struct CICComp
  *    Impulse response of the FIR compensation filter
  * @todo ex_cic_comp_glob.png
  *     Global response of CIC + compensation filters (spectrum) */
-extern CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float fc, int ncoefs);
+extern CICComp design_cic_comp(const CICConfig &config, float Fin, entier R2, float fc, entier ncoefs);
 
 
 /** @brief Fonction de transfert pour un bloqueur DC.
@@ -958,6 +1072,19 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float
  */
 extern FRat<float> design_bloqueur_dc(float fc);
 
+
+extern float bloqueur_dc_alpha(float fc);
+
+/** @brief Fréquence normalisée (rapport entre une fréquence et la fréquence d'échantillonnage). */
+struct Fréquence
+{
+  /** @brief Valeur de la fréquence normalisée. */
+  float value;
+
+  Fréquence(float v):value(v){}
+  operator float() const {return value;}
+};
+
 /** @brief Fonction de transfert d'un filtre exponentiel (d'après la fréquence de coupure)
  *
  *  <h3>Fonction de transfert d'un filtre exponentiel</h3>
@@ -966,7 +1093,7 @@ extern FRat<float> design_bloqueur_dc(float fc);
  *  @f[
  *  y_n = \gamma x_n + (1-\gamma) y_{n-1}
  *  @f]
- *  Soit :
+ *  soit :
  *  @f[
  *  H(z) = \frac{\gamma z}{z-(1-\gamma)}
  *  @f]
@@ -977,15 +1104,15 @@ extern FRat<float> design_bloqueur_dc(float fc);
  *  @return Fonction de transfert digitale
  *
  *  @par Exemple
- *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rii1
+ *  @snippet exemples/src/filtrage/ex-rii1.cc ex_design_rii1
  *  @image html design-rii1.png width=1000px
  *
  *  @sa rii1_coef()
  */
-extern FRat<float> design_rii1(float fc);
+extern FRat<float> design_lexp(Fréquence fc);
 
 /** @brief Fonction de transfert d'un filtre exponentiel (d'après le coefficient d'oubli) */
-extern FRat<float> design_rii1_aux(float γ);
+extern FRat<float> design_lexp(float γ);
 
 /** @brief Design filtre RII d'ordre 1 (d'après la fréquence de coupure).
  *
@@ -1006,10 +1133,10 @@ extern FRat<float> design_rii1_aux(float γ);
  *  @param fc Normalized cut-off frequency, in [0, 0.5]
  *  @returns Coeficient @f$\gamma@f$ for the IIR filter
  *
- *  @sa design_rii1(), rii1_tc_vers_coef()
+ *  @sa design_lexp(), lexp_tc_vers_coef()
  *
  */
-extern float rii1_coef(float fc);
+extern float lexp_coef(Fréquence fc);
 
 /** @brief Design filtre RII d'ordre 1 (d'après la constante de temps souhaitée).
  *
@@ -1031,9 +1158,9 @@ extern float rii1_coef(float fc);
  *  @returns Coefficient d'oubli @f$\gamma@f$ du filtre RII
  *
  */
-extern float rii1_tc_vers_coef(float τ);
+extern float lexp_tc_vers_coef(float τ);
 
-extern float rii1_coef_vers_tc(float γ);
+extern float lexp_coef_vers_tc(float γ);
 
 /** @brief Compute cut-off frequency, from forget factor of first order IIR filter.
  *
@@ -1041,7 +1168,7 @@ extern float rii1_coef_vers_tc(float γ);
  *  @returns Fréquence de coupure
  *
  *  @sa rii1_coef() */
-extern float rii1_fcoupure(float γ);
+extern Fréquence lexp_fcoupure(float γ);
 
 
 /** @brief Creation of the polyphase representation of a signal
@@ -1065,7 +1192,7 @@ extern float rii1_fcoupure(float γ);
  *  @sa iforme_polyphase()
  */
 template<typename T>
-  Tableau<T> forme_polyphase(const Eigen::Ref<const Vecteur<T>> x, unsigned int M);
+  TabT<T,2> forme_polyphase(const Vecteur<T> &x, unsigned int M);
 
 /** @brief Compute the standard form from the polyphase representation
  *
@@ -1077,7 +1204,7 @@ template<typename T>
  *  @sa forme_polyphase()
  */
 template<typename T>
-  Vecteur<T> iforme_polyphase(const Eigen::Ref<const Tableau<T>> X);
+  Vecteur<T> iforme_polyphase(const TabT<T,2> &X);
 
 /** @brief Transformée bilinéaire : conversion transformée de Laplace vers transformée en z.
  *
@@ -1154,11 +1281,11 @@ extern float fa_vers_fd(float fa);
  *  @image html filtrage-ligne-a-retard.png width=800px
  *  */
 template<typename T>
-  sptr<FiltreGen<T>> ligne_a_retard(int n);
+  sptr<FiltreGen<T>> ligne_a_retard(entier n);
 
 struct HilbertTransformeurConfig
 {
-  int ntaps = 63;
+  entier ntaps = 63;
   std::string fenetre = "hn";
 };
 
@@ -1178,7 +1305,7 @@ struct HilbertTransformeurConfig
  * @sa design_rif_hilbert(), hilbert(), hilbert_tfd()
  */
 extern sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
-  hilbert_transformeur(int n = 31, const std::string &fenetre = "hn");
+  hilbert_transformeur(entier n = 31, const std::string &fenetre = "hn");
 
 
 
@@ -1202,7 +1329,7 @@ extern sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
  *  @sa filtre_rif_fft()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filtre_rif(const Eigen::Ref<const Vecteur<Tc>> h);
+  sptr<FiltreGen<T>> filtre_rif(const Vecteur<Tc> &h);
 
 
 
@@ -1223,7 +1350,7 @@ template<typename T>
  *  Ce "filtre" supprime @f$R-1@f$ échantillons tous les @f$R@f$.
  */
 template<typename T>
-  sptr<FiltreGen<T>> decimateur(int R);
+  sptr<FiltreGen<T>> decimateur(entier R);
 
 
 /** @brief Implémentation efficace d'un filtre RIF par FFT
@@ -1243,7 +1370,7 @@ template<typename T>
  *  @sa filtre_rif()
  */
 template<typename T>
-  sptr<FiltreGen<T>> filtre_rif_fft(const ArrayXf &h);
+  sptr<FiltreGen<T>> filtre_rif_fft(const Vecf &h);
 
 
 
@@ -1284,19 +1411,19 @@ template<typename Tc, typename T = Tc>
     @param config Paramètres principaux (voir @ref CICConfig)
  *  @param mode 'd' for decimation or 'u' for upsampling.
  *  @tparam T Type d'entrée / sortie
- *  @tparam Ti Type pour les calculs interne (int, int64_t, ...)
+ *  @tparam Ti Type pour les calculs interne (entier, int64_t, ...)
  *
  *  @note Pour le type interne, il faut absolument choisir un type entier, car la façon dont le filtre est
  *  implémenté fait que les calculs ne fonctionneront pas avec un type flottant.
  *
  *
  *  @par Exemple pour l'interpolation
- *  @snippet exemples/src/filtrage/ex-cic.cc exemple_cic_upsampling
+ *  @snippet exemples/src/reechan/ex-cic.cc exemple_cic_upsampling
  *  @image html filtrage-cic-interpolation.png width=800px
  *  Notez les repliements du signal utile sur le spectre.
  *  <br>
  *  @par Exemple pour la décimation
- *  @snippet exemples/src/filtrage/ex-cic.cc exemple_cic_decimation
+ *  @snippet exemples/src/reechan/ex-cic.cc exemple_cic_decimation
  *  @image html filtrage-cic-decimation.png width=800px
  */
 template<typename T, typename Ti>
@@ -1312,8 +1439,8 @@ struct CICAnalyse
   /** Fréquence où mesurer l'atténuation */
   float Fint;
   FRat<float> h;
-  int nbits;
-  ArrayXf fr, mag;
+  entier nbits;
+  Vecf fr, mag;
   tsd::vue::Figure fig_repliement, fig_spectre_global, fig_spectre_bf;
 };
 
@@ -1321,8 +1448,8 @@ struct CICAnalyse
  *  then analyse the aliasing that occurs after decimation.
  *
  * @param config Paramètres principaux (voir @ref CICConfig)
- * @param Fin Input sample frequency
- * @param Fint Fréquence où mesurer l'atténuation
+ * @param Fe     Fréquence d'échantillonnage d'entrée
+ * @param Fint   Fréquence où mesurer l'atténuation
  * @return A tuple with :
  *  - Theorical transfert function (not taking into account the decimation),
  *  - Number of additionnal bits needed to implement the CIC filter
@@ -1335,14 +1462,14 @@ struct CICAnalyse
  * fixed point / integer arithmetic. This is computed as
  * (see http://www.tsdconseil.fr/log/scriptscilab/cic/cic-en.pdf):
  * @f[n_{bits} = N\cdot\log_2(R) - 1@f]
- * @par Example
+ * @par Exemple
  * @code
  *   // 10 MHz input sample frequency
- *   Fin = 10e6;
+ *   fe = 10e6;
  *   // Decimation ratio = 16, 5 CIC stages
  *   // (sample rate at output of CIC is 10 MHz / 16 = 625 KHz)
  *   R = 16, N = 5, M = 1;
- *   cic_analysis(R, N, M, Fin);
+ *   cic_analyse({R, N, M}, fe);
  * @endcode
  * @todo ex_cic_analysis1.png
  * Frequency response of a CIC filter, before decimation
@@ -1351,7 +1478,7 @@ struct CICAnalyse
  * Frequency response of a CIC filter, and aliasing, after decimation
  * @sa design_cic()
  **/
-extern CICAnalyse cic_analyse(const CICConfig &config, float Fin, float Fint = 0);
+extern CICAnalyse cic_analyse(const CICConfig &config, float Fe, float Fint = 0);
 
 
 
@@ -1370,17 +1497,18 @@ extern CICAnalyse cic_analyse(const CICConfig &config, float Fin, float Fint = 0
  *
  * @par Example
  * @code
- *  R = 4, N = 8, M = 1;
- *  f = linspace(0,0.5,512);
- *  mag = cic_freq(R,N,M,f);
- *  clf(); plot(f,20*log10(mag+1e-10));
+ *  soit R = 4, N = 8, M = 1;
+ *  soit f = linspace(0,0.5,512);
+ *  soit mag = cic_freq({R,N,M},f);
+ *  Figure f;
+ *  f.plot(f,mag2db(mag));
  * @endcode
  * @todo ex_cic_freq.png
  * CIC filter frequency response (SINC^N)
  *
  *  @sa cic_transfert
  */
-extern ArrayXf cic_freq(const CICConfig &config, const ArrayXf &f);
+extern Vecf cic_freq(const CICConfig &config, const Vecf &f);
 
 
 
@@ -1447,12 +1575,12 @@ template<typename T>
  *  @f]
  *
  *  Le paramètre @f$\gamma@f$ peut être réglé facilement en fonction du temps de réponse ou de la
- *  fréquence de coupure souhaitée (voir @ref rii1_coef()).
+ *  fréquence de coupure souhaitée (voir @ref lexp_coef()).
  *
- *  @sa rii1_fcoupure(), rii1_coef()
+ *  @sa lexp_fcoupure(), lexp_coef()
  */
 template<typename T>
-  sptr<FiltreGen<T>> filtre_rii1(float γ);
+  sptr<FiltreGen<T>> filtre_lexp(float γ);
 
 
 /** @brief %Filtre pour la suppression du DC (basses fréquences).
@@ -1499,7 +1627,7 @@ template<typename T>
  *
  */
 template<typename T, typename Tacc>
-  sptr<FiltreGen<T>> filtre_mg(int K);
+  sptr<FiltreGen<T>> filtre_mg(entier K);
 
 
 
@@ -1536,20 +1664,24 @@ template<typename T, typename Tacc>
 template<typename T, typename Tc>
 Vecteur<T> filtrer(const FRat<Tc> &h, const Vecteur<T> &x)
 {
-  if(h.est_fir())
+  si constexpr(!est_complexe<Tc>() || est_complexe<T>())
   {
-    auto f = filtre_rif<Tc, T>(h.numer.coefs.reverse());
-    return f->step(x);
+    si(h.est_rif())
+    {
+      soit f = filtre_rif<Tc, T>(h.numer.coefs.reverse());
+      retourne f->step(x);
+    }
   }
-  auto f = filtre_sois<T>(h);
-  return f->step(x);
+  tsd_assert_msg(!h.est_rif(), "Fonction 'filtrer()': filtre RIF à coefficients complexes, et vecteur d'entrée réel!.");
+  soit f = filtre_sois<T>(h);
+  retourne f->step(x);
 }
 
 template<typename T, typename Tc>
-Vecteur<typename T::Scalar> filtrer(const Vecteur<Tc> &h, const Eigen::ArrayBase<T> &x)
+Vecteur<T> filtrer(const Vecteur<Tc> &h, const Vecteur<T> &x)
 {
-  auto f = filtre_rif<Tc, typename T::Scalar>(h);
-  return f->step(x);
+  soit f = filtre_rif<Tc, T>(h);
+  retourne f->step(x);
 }
 
 /** @brief Filtrage zéro-phase (bi-directionnel)
@@ -1570,17 +1702,17 @@ Vecteur<typename T::Scalar> filtrer(const Vecteur<Tc> &h, const Eigen::ArrayBase
  *  @sa filtrer()
  */
 template<typename T, typename Tc>
-  Vecteur<typename T::Scalar> filtfilt(const Vecteur<Tc> &h, const Eigen::ArrayBase<T> &x)
+  Vecteur<T> filtfilt(const Vecteur<Tc> &h, const Vecteur<T> &x)
 {
   return filtrer(h, filtrer<T,Tc>(h,x).reverse()).reverse();
 }
 
 
 template<typename T, typename Tc>
-  Vecteur<T> convol(const Eigen::Ref<const Vecteur<Tc>> h, const Eigen::Ref<const Vecteur<T>> x)
+  Vecteur<T> convol(const Vecteur<Tc> &h, const Vecteur<T> &x)
 {
   // TODO : via FFT si la dimension de h en vaut la peine
-  auto f = filtre_rif<Tc, T>(h);
+  soit f = filtre_rif<Tc, T>(h);
   return f->step(x);
 }
 
@@ -1593,7 +1725,7 @@ template<typename T, typename Tc>
  *  @return Signal analytique (complexe)
  *
  *  @sa design_rif_hilbert(), hilbert_tfd(), hilbert_transformeur() */
-extern ArrayXcf hilbert(IArrayXf x, int ncoefs = 127);
+extern Veccf hilbert(const Vecf &x, entier ncoefs = 127);
 
 /** @brief Calcul du signal analytique (via la TFD)
  *
@@ -1610,7 +1742,7 @@ extern ArrayXcf hilbert(IArrayXf x, int ncoefs = 127);
  *  @param x Signal d'entrée
  *  @return Signal analytique (complexe)
  *  @sa design_rif_hilbert(), hilbert(), hilbert_transformeur() */
-extern ArrayXcf hilbert_tfd(IArrayXf x);
+extern Veccf hilbert_tfd(const Vecf &x);
 
 /** @} */
 
@@ -1623,7 +1755,7 @@ template<typename T>
 struct Interpolateur
 {
   /** @brief Longueur de la fenêtre (ligne à retard). */
-  int K = 0;
+  entier K = 0;
 
   /** @brief */
   float delais = 0;
@@ -1649,7 +1781,7 @@ struct Interpolateur
    *  @returns        Valeur interpoléee (@f$y@f$).
    *
    */
-  virtual T step(const Vecteur<T> &x, int k, float τ) = 0;
+  virtual T step(const Vecteur<T> &x, entier k, float τ) = 0;
 };
 
 /** @brief %Interpolateur générique à base filtre RIF.
@@ -1681,17 +1813,17 @@ struct InterpolateurRIF: Interpolateur<T>
    *
    *  @sa Interpolateur, itrp_sinc()
    */
-  virtual ArrayXf coefs(float τ) = 0;
+  virtual Vecf coefs(float τ) = 0;
 
   // k : index de l'échantillon le plus ancien
-  T step(const Vecteur<T> &x, int k, float τ)
+  T step(const Vecteur<T> &x, entier k, float τ)
   {
-    ArrayXf h = coefs(τ);
+    soit h = coefs(τ);
     tsd_assert(h.rows() == this->K);
     T res = 0;
-    for(auto i = 0; i < this->K; i++)
+    Pour(auto i = 0; i < this->K; i++)
       res += h(i) * x((i + k) % this->K);
-    return res;
+    retourne res;
   }
 };
 
@@ -1743,10 +1875,10 @@ template<typename T>
 struct InterpolateurSincConfig
 {
   /** @brief Nombre de coefficients (dimension de la ligne à retard). */
-  int ncoefs = 31;
+  entier ncoefs = 31;
 
   /** @brief Nombre de pas pour la LUT. */
-  int nphases = 256;
+  entier nphases = 256;
 
   /** @brief Fréquence de coupure normalisée. */
   float fcut = 0.5;
@@ -1799,12 +1931,17 @@ template<typename T>
  * @sa filtre_rif_ups()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filtre_rif_decim(const Eigen::Ref<const Vecteur<Tc>> h, int R);
+  sptr<FiltreGen<T>> filtre_rif_decim(const Vecteur<Tc> &h, entier R);
 
 
-/** @brief A documenter : filtre RIF optimisé pour filtrage demi-bande */
+/** @brief A documenter : filtre RIF optimisé pour filtrage demi-bande
+ *
+ *
+ *
+ *
+ *  @sa design_rif_demi_bande */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filtre_rif_demi_bande(const Eigen::Ref<const Vecteur<Tc>> c);
+  sptr<FiltreGen<T>> filtre_rif_demi_bande(const Vecteur<Tc> &c);
 
 /** @brief Filtrage RIF avec pré-insertion de zéro (implémentation polyphase)
  *
@@ -1825,7 +1962,7 @@ template<typename Tc, typename T = Tc>
  *  @sa filtre_rif_ups_délais(), filtre_rif_decim(), filtre_rif()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FiltreGen<T>> filtre_rif_ups(const Eigen::Ref<const Vecteur<Tc>> h, int R);
+  sptr<FiltreGen<T>> filtre_rif_ups(const Vecteur<Tc> &h, entier R);
 
 
 /** @brief Calcul du retard d'une filtre RIF avec upsampling.
@@ -1845,7 +1982,7 @@ template<typename Tc, typename T = Tc>
  *
  * @sa filtre_rif_ups()
  */
-extern float filtre_rif_ups_délais(int nc, int R);
+extern float filtre_rif_ups_délais(entier nc, entier R);
 
 
 
@@ -1906,7 +2043,7 @@ enum class InterpOption
  *
  */
 template<typename T>
-Vecteur<T> interp(const ArrayXf &x, const Vecteur<T> &y, const ArrayXf &x2, InterpOption mode = InterpOption::LINEAIRE);
+Vecteur<T> interp(const Vecf &x, const Vecteur<T> &y, const Vecf &x2, InterpOption mode = InterpOption::LINEAIRE);
 
 
 
@@ -1915,11 +2052,14 @@ Vecteur<T> interp(const ArrayXf &x, const Vecteur<T> &y, const ArrayXf &x2, Inte
 
 
 
+extern bool debug_design;
+
+
 
 }
 
 
-template <> struct fmt::formatter<tsd::filtrage::BiquadSpec> {
+/*template <> struct fmt::formatter<tsd::filtrage::BiquadSpec> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::filtrage::BiquadSpec& t, FormatContext& ctx) const -> decltype(ctx.out()) 
@@ -1928,7 +2068,12 @@ template <> struct fmt::formatter<tsd::filtrage::BiquadSpec> {
     ss << t;
     return fmt::format_to(ctx.out(), "{}", ss.str());
   }
-};
+};*/
 
 
+ostream_formater(tsd::filtrage::BiquadSpec)
+ostream_formater(tsd::filtrage::Fenetre)
+ostream_formater(tsd::filtrage::TypeFiltre)
 
+
+#endif

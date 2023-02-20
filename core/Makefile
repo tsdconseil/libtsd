@@ -6,25 +6,30 @@ NOM_PROJET = libtsd
 
 # Fichiers sources
 
-SOURCES := tests-gen moniteur-cpu kalman modele-imu doa stats tod cqt limits clock-rec modulateur demod-dec demod-ndec carrier-rec itrp wav 
+
+ 
+SOURCES := hadamard ct hb frat tableau tests-gen moniteur-cpu  doa stats tod cqt limits 
+SOURCES += clock-rec modulateur demod-dec demod-ndec carrier-rec itrp wav 
 SOURCES += fourier  prbs telecom ecp bitstream 
 SOURCES += estimation-delais detection emetteur
-SOURCES += analyse-filtre ra fenetres divers
-SOURCES += figure tsd axes filtrage stdo image freetype
+SOURCES += filtre-plot filtre-analyse ra fenetres divers
+SOURCES += figure tsd axes filtrage filtre-rt stdo image freetype
 SOURCES += axes  canva test-figure
-SOURCES += goertzel hb hilbert egalisation freqestim
+SOURCES += goertzel polyphase hilbert egalisation freqestim
 SOURCES += rif-eq rif-cs rif-freq rif-fen cic rii analogique  
 SOURCES += modulations
 SOURCES += etalement-spectre canalisation transpo-bb simulation
 SOURCES += image-bmp cmaps unites recepteur temps geometrie
+SOURCES += kalman modele-imu  ssm-plot 
 
-SOURCES_TEST += test-dsp test-geometrie test-temps test-kalman test-telecom test-stats test-poly test-image 
+# test-kalman 
+SOURCES_TEST += test-tab test-dsp test-geometrie test-temps test-telecom test-stats test-poly test-image 
 SOURCES_TEST += test-cqt test-tod test-ra test-fenetres test-fourier test-filtres test-crec test-tsd 
 SOURCES_TEST += test-filtre-fft test-detecteur test-wav test-itrp test-filtrage-analyse
 
 
 # Dossiers où trouver les fichiers sources (autres que ./src and ./include)
-AUTRES_DOSSIERS_SOURCES += src/apps src/vue src/misc src/fourier src/filtrage tests
+AUTRES_DOSSIERS_SOURCES += src/apps src/vue src/misc src/fourier src/filtrage tests src/reechan
 AUTRES_DOSSIERS_SOURCES += src/telecom src/telecom/codes
 AUTRES_DOSSIERS_SOURCES += src/telecom/canalisation src/kalman
 

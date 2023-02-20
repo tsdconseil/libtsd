@@ -1,35 +1,32 @@
-#include "tsd/tsd.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/vue.hpp"
-#include "tsd/filtrage.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 #include "tsd/divers.hpp"
 
+#include "tsd/eig-util.hpp"
+
 #include <Eigen/Eigenvalues>
 
-
-using namespace tsd::vue;
 
 namespace tsd::filtrage
 {
 
 // Renvoie un intervalle entre -1/2 et 1/2 de n points
 // avec symétrie ou périodicité
-// Si intervalle périodique, va entre
+// si intervalle périodique, va entre
 // -1/2 et 1/2 - (n-1)/n² ???
-ArrayXf fen_inter(int n, bool sym)
+Vecf fen_inter(entier n, bouléen sym)
 {
   float tmin, tmax;
 
-  if((n & 1) == 0)
+  si((n & 1) == 0)
   {
-    if(sym)
+    si(sym)
     {
       // -2, . , ., 2
       tmin = -n/2;
       tmax = n/2;
     }
-    else
+    sinon
     {
       // Périodique :
       // [-2, -1, 0, 1] 2
@@ -38,15 +35,15 @@ ArrayXf fen_inter(int n, bool sym)
     }
   }
   // IMPAIR
-  else
+  sinon
   {
-    if(sym)
+    si(sym)
     {
       // -1, 0, 1
       tmin = -n/2;
       tmax = n/2;
     }
-    else
+    sinon
     {
       // Ex : n = 3, n/2 = 1
       // Périodique :
@@ -58,69 +55,58 @@ ArrayXf fen_inter(int n, bool sym)
     }
   }
 
-  tmin *= 1.0f / n;
-  tmax *= 1.0f / n;
-
-  return linspace(tmin, tmax, n);
+  retourne linspace(tmin / n, tmax / n, n);
 }
 
-ArrayXf fenêtre_kaiser1(int n, float β, bool symetrique)
+Vecf fenêtre_kaiser1(entier n, float β, bouléen symetrique)
 {
   β *= π;
 
-  auto d = 1.0 / std::cyl_bessel_i(0, β);
-  ArrayXf x(n);
+  soit d = 1.0 / std::cyl_bessel_i(0, β);
+  Vecf x(n);
+  soit t = fen_inter(n, symetrique);
 
-  ArrayXf t = fen_inter(n, symetrique);
-
-  for(auto i = 0; i < n; i++)
+  pour(auto i = 0; i < n; i++)
   {
     // -1 ... 1
-    //auto K = (2.0 * i / (n-1)) - 1.0;
+    //soit K = (2.0 * i / (n-1)) - 1.0;
 
-    auto K = 2 * t(i);
+    soit K = 2 * t(i);
 
     // -1  : bessel(0, 0)
     // 1   : idem
     // 1-ε : sqrt(2ε)
 
     x(i) = std::cyl_bessel_i(0, β * sqrt(1.0 - (K * K))) * d;
-
-    // auto k = (2 * beta / (n-1)) * std::sqrt(i * (n-1-i));
-    //x(i) = std::cyl_bessel_i(0, k) * d;
-
   }
-
-  //msg("kaiser : {}", x);
-
-  return x;
+  retourne x;
 }
 
-std::tuple<float, int> kaiser_param(float atten_db, float df)
+std::tuple<float, entier> kaiser_param(float atten_db, float df)
 {
-  float domega = 2*π*df;
-  int n = (int) ceil((atten_db - 7.95) / (2.285 * domega));
-  if(n <= 0)
+  soit dω = 2*π_f*df;
+  soit n = (entier) ceil((atten_db - 7.95) / (2.285 * dω));
+  si(n <= 0)
     n = 1;
-  if((n & 1) == 0)
+  si((n & 1) == 0)
     n++;
-  float β = 0;
-  if(atten_db > 50)
+  soit β = 0.0f;
+  si(atten_db > 50)
     β = 0.1102 * (atten_db - 8.7);
-  else if(atten_db >= 21)
-    β = 0.5842 * std::pow(atten_db - 21, 0.4) + 0.07886 * (atten_db - 21);
+  sinon si(atten_db >= 21)
+    β = 0.5842 * pow(atten_db - 21, 0.4) + 0.07886 * (atten_db - 21);
   msg("Fen kaiser spec : atten={:.1f} dB, df={} => n={}, β={}", atten_db, df, n, β);
-  return {β / π, n};
+  retourne {β / π, n};
 }
 
-ArrayXf fenêtre_kaiser(float atten_db, float δf, bool symetrique)
+Vecf fenêtre_kaiser(float atten_db, float δf, bouléen symetrique)
 {
-  auto [β, n] = kaiser_param(atten_db, δf);
-  return fenêtre_kaiser1(n, β, symetrique);
+  soit [β, n] = kaiser_param(atten_db, δf);
+  retourne fenêtre_kaiser1(n, β, symetrique);
 }
 
 // https://ccrma.stanford.edu/%7Ejos/sasp/Hann_Hanning_Raised_Cosine.html
-// - Si n est pair :
+// - si n est pair :
 //  - Fenêtre périodique :
 //     -n/2 -> (n-1)/2
 //  - Fenêtre symétrique :
@@ -128,7 +114,7 @@ ArrayXf fenêtre_kaiser(float atten_db, float δf, bool symetrique)
 // (plus facile de faire une fenêtre périodique dans ce cas là !!!)
 
 
-// Si n est impair :
+// si n est impair :
 // -n/2 -> n/2 = (n-1)/2
 // -pi -> pi
 //  - Symétrie ? oui
@@ -136,32 +122,29 @@ ArrayXf fenêtre_kaiser(float atten_db, float δf, bool symetrique)
 
 
 
-static ArrayXf Hamming_generalise(float a, int n, bool sym)
+static Vecf Hamming_generalise(float a, entier n, bouléen sym)
 {
-  //ArrayXf t = 2 * π * fen_inter(n, sym);
-  //ArrayXf r2 = a + (1-a) * t.cos();
-  //return r2;
-  return a + (1-a) * (2 * π * fen_inter(n, sym)).cos();
+  retourne a + (1-a) * cos(2 * π * fen_inter(n, sym));
 }
 
 std::string Fenetre2string(Fenetre f)
 {
   switch(f)
   {
-  case Fenetre::AUCUNE:
-    return "re";
-  case Fenetre::HANN:
-    return "hn";
-  case Fenetre::TRIANGLE:
-    return "tr";
-  case Fenetre::HAMMING:
-    return "hm";
-  case Fenetre::BLACKMAN:
-    return "bm";
-  case Fenetre::CHEBYCHEV:
-    return "ch";
+    case Fenetre::AUCUNE:
+      retourne "re";
+    case Fenetre::HANN:
+      retourne "hn";
+    case Fenetre::TRIANGLE:
+      retourne "tr";
+    case Fenetre::HAMMING:
+      retourne "hm";
+    case Fenetre::BLACKMAN:
+      retourne "bm";
+    case Fenetre::CHEBYCHEV:
+      retourne "ch";
   }
-  return "?";
+  retourne "?";
 }
 
 std::ostream& operator<<(std::ostream& ss, const Fenetre &t)
@@ -189,7 +172,7 @@ std::ostream& operator<<(std::ostream& ss, const Fenetre &t)
   default:
     ss << "?";
   }
-  return ss;
+  retourne ss;
 }
 
 static Fenetre parse_fenêtre(const std::string &nom)
@@ -214,240 +197,199 @@ static Fenetre parse_fenêtre(const std::string &nom)
     {"ch",      Fenetre::CHEBYCHEV},
     {"bm",      Fenetre::BLACKMAN}
   };
-  for(auto &fi: lst)
-    if(fi.nom == nom)
-      return fi.type;
+  pour(auto &fi: lst)
+    si(fi.nom == nom)
+      retourne fi.type;
   msg_erreur("Type de fenêtre non reconnu : {}", nom);
-  return Fenetre::AUCUNE;
+  retourne Fenetre::AUCUNE;
 }
 
-ArrayXf fenetre(const std::string &type, int n, bool symetrique)
+Vecf fenetre(const std::string &type, entier n, bouléen symetrique)
 {
-  return fenetre(parse_fenêtre(type), n, symetrique);
+  retourne fenetre(parse_fenêtre(type), n, symetrique);
 }
 
-ArrayXf fenetre(Fenetre type, int n, bool symétrique)
+Vecf fenetre(Fenetre type, entier n, bouléen symétrique)
 {
-  ArrayXf x = ArrayXf::Zero(n);
+  Vecf x = Vecf::zeros(n);
 
-  //if(((n & 1) == 0) && symétrique)
+  //si(((n & 1) == 0) && symétrique)
     //msg_avert("Demande de création d'une fenêtre symétrique avec un nombre pair de coefficients (n = {})", n);
 
-  if(type == Fenetre::AUCUNE)
-    x.setOnes();
-  else if(type == Fenetre::HANN)
-  {
+  si(type == Fenetre::AUCUNE)
+    x.setConstant(1);
+  sinon si(type == Fenetre::HANN)
     x = Hamming_generalise(0.5, n, symétrique);
-  }
-  else if(type == Fenetre::HAMMING)
+  sinon si(type == Fenetre::HAMMING)
   {
-    float a = 0.54;
-    //auto a = 0.53836f; // TO CHECK
+    soit a = 0.54f;
+    //soit a = 0.53836f; // TO CHECK
     x = Hamming_generalise(a, n, symétrique);
   }
-  else if(type == Fenetre::TRIANGLE)
+  sinon si(type == Fenetre::TRIANGLE)
   {
-    ArrayXf t = fen_inter(n, symétrique);
+    soit t = fen_inter(n, symétrique);
 
     // -0.5 -> 0
     // 0    -> 1
     // 0.5  -> 0
 
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
-      if(t(i) < 0)
+      si(t(i) < 0)
         x(i) = 2 * (0.5 + t(i));
-      else
+      sinon
         x(i) = 2 * (0.5 - t(i));
     }
-
-    // Laisse un zéro à la fin
-    /*if((n & 1) == 0)
-    {
-      x.head(n/2) = linspace(0, 1, n/2);
-      x.segment(n/2-1,n/2) = linspace(1, 0, n/2);
-    }
-    else
-    {
-      x.head((n+1)/2) = linspace(0, 1, (n+1)/2);
-      x.segment((n+1)/2 - 1,(n+1)/2) = linspace(1, 0, (n+1)/2);
-    }*/
   }
-  else if(type == Fenetre::BLACKMAN)
+  sinon si(type == Fenetre::BLACKMAN)
   {
     // https://en.wikipedia.org/wiki/Window_function#Blackman_window
-    ArrayXf t = 2 * π * fen_inter(n, symétrique) + π;
-    auto α = 0.16f;
-    auto a0 = (1 - α)/2;
-    auto a1 = 0.5f;
-    auto a2 = α/2;
-    x = a0 - a1 * t.cos() + a2 * (2 * t).cos();
+    soit t  = 2 * π * fen_inter(n, symétrique) + π;
+    soit α  = 0.16f;
+    soit a0 = (1 - α)/2;
+    soit a1 = 0.5f;
+    soit a2 = α/2;
+    x = - a1 * cos(t) + a2 * cos(2 * t) + a0;
   }
-  else if(type == Fenetre::CHEBYCHEV)
+  sinon si(type == Fenetre::CHEBYCHEV)
   {
     // TODO: remplacer l'énum fenêtre par une vrai classe
     x = fenêtre_chebychev(n, 80);
   }
-  else
+  sinon
   {
-    echec("fenêtre non gérée ({}).", (int) type);
+    echec("fenêtre non gérée ({}).", (entier) type);
   }
 
-  return x;
+  retourne x;
 }
 
-auto cheb_eval(auto x, int n)
+auto cheb_eval(auto x, entier n)
 {
-  if((x >= -1) && (x <= 1))
-    return std::cos(n * std::acos(x));
-  else if(x >= 1)
-    return std::cosh(n * std::acosh(x));
+  si((x >= -1) && (x <= 1))
+    retourne cos(n * std::acos(x));
+  sinon si(x >= 1)
+    retourne std::cosh(n * std::acosh(x));
 
-  return /*std::pow(-1.0, n)*/ ((n & 1) ? -1 : 1) * std::cosh(n * std::acosh(-x));
+  retourne /*pow(-1.0, n)*/ ((n & 1) ? -1 : 1) * std::cosh(n * std::acosh(-x));
 }
 
 
 // D'après https://www.dsprelated.com/showarticle/42.php
 // TODO : gestion symétrie, parité
-ArrayXf fenêtre_chebychev(int n, float atten_db, bool symetrique)
+Vecf fenêtre_chebychev(entier n, float atten_db, bouléen symetrique)
 {
-  auto Alin  = std::pow(10.0, atten_db/20.0);
-  auto β = real(std::cosh(std::acosh((cdouble) Alin) * (1.0/(n-1))));
+  soit Alin = pow(10.0, atten_db/20.0);
+  soit β = real(std::cosh(std::acosh((cdouble) Alin) * (1.0/(n-1))));
 
-  //msg("atten_db={}, beta={}", atten_db, beta);
-
-  // Commençons par faire une fenêtre symétrique
-  // Avec 9 points
-
-  ArrayXf A(n-1);
-  ArrayXf X(n-1);
+  Vecf A(n-1), X(n-1);
 
   // TODO : remplacer -1^n par un simple fftshift
 
-  for(auto i = 0; i < n - 1; i++)
+  pour(auto i = 0; i < n - 1; i++)
   {
     double x = β * std::cos((π * i)/(n-1));
     A(i) = x;
-    X(i) = /*std::pow(-1, i) **/ ((i & 1) ? -1 : 1) * cheb_eval(x, n-1);
+    X(i) = ((i & 1) ? -1 : 1) * cheb_eval(x, n-1);
   }
 
 
-  ArrayXf w(n);
-  w.head(n-1) = real(tsd::fourier::ifft(X));
+  Vecf w(n);
+  w.head(n-1) = real(ifft(X));
 
   w(0) /= 2;
   w(n-1) = w(0);
+  w /= w.valeur_max();
 
-  w /= w.maxCoeff();
+  //msg("Fen cheby({}): w(0) = {}, w(n-1) = {}", n, w(0), w(n-1));
 
-  msg("Fen cheby({}): w(0) = {}, w(n-1) = {}", n, w(0), w(n-1));
-
-  return w;
+  retourne w;
 }
 
 
-MatrixXf slepian_matrice(int N, float B)
+Eigen::MatrixXf slepian_matrice(entier N, float B)
 {
-  MatrixXf X(N, N);
+  Eigen::MatrixXf X(N, N);
 
   // TODO : la moitié des coefs pourrait être implicites (symétrie)
-  for(auto i = 0; i < N; i++)
+  pour(auto i = 0; i < N; i++)
   {
-    for(auto j = 0; j < N; j++)
+    pour(auto j = 0; j < N; j++)
     {
       // sin (π * B * (i-j)) / (π * B * (i-j)
       X(i,j) = π * B * sinc((i-j) * B);
     }
   }
-  return X;
+  retourne X;
 }
 
-MatrixXf slepian_evec(int N, float B)
+Tabf slepian_evec(entier N, float B)
 {
-  MatrixXf X = slepian_matrice(N, B);
-  Eigen::SelfAdjointEigenSolver<MatrixXf> eig;//(X);
+  Eigen::MatrixXf X = slepian_matrice(N, B);
+  Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> eig;//(X);
   eig.compute(X);
-  return eig.eigenvectors();
+  retourne etab2tab(eig.eigenvectors());
 }
 
-ArrayXf fenêtre_slepian(int N, float B)
+Vecf fenêtre_slepian(entier N, float B)
 {
-  return slepian_evec(N,B).col(N-1).array();
+  retourne slepian_evec(N,B).col(N-1);
 }
 
 
-static int premier_max_local(const ArrayXf &x)
+FenInfos filtre_pb_analyse(const Vecf &h)
 {
-  for(auto i = 1; i + 1 < x.rows(); i++)
-  {
-    if((x(i) > x(i-1)) && (x(i) > x(i+1)))
-      return i;
-  }
-  return -1;
+  soit [fr, mag] = frmag(h);
+  retourne filtre_pb_analyse(h.rows(), fr, mag);
 }
 
-/*
-static int premier_min_local(const ArrayXf &x)
-{
-  return premier_max_local(-x);
-}*/
-
-
-FenInfos filtre_pb_analyse(const ArrayXf &h)
-{
-  auto [fr, mag] = frmag(h);
-  return filtre_pb_analyse(h.rows(), fr, mag);
-}
-
-FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bool do_plot)
+FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, bouléen do_plot)
 {
   std::string nom = "";
   FenInfos res;
 
-  res.symetrique = res.periodique = false;
+  res.symetrique = res.periodique = non;
 
   {
-    ArrayXf Hl = 20*log10(mag);
+    soit Hl = mag2db(mag);
     // Recherche deuxième lobe
-    int i = premier_max_local(Hl);
+    soit i = trouve_premier_max_local(Hl);
+    soit lst = trouve(Hl < -3);
+    soit j = -1;//mag.rows();
 
-    auto lst = trouve(Hl < -3);
-
-    int j = -1;//mag.rows();
-
-    if(!lst.empty())
+    si(!lst.empty())
       j = lst[0];
 
 
     Figure f;
 
-    if(do_plot)
+    si(do_plot)
     {
       f = res.fig.subplot(211);
       f.plot(fr, mag, "b-");
-      if(i >= 0)
+      si(i >= 0)
         f.plot(fr(i), mag(i), "rs");
       f.titre("Vue linéaire");
     }
 
     res.largeur_lp = j / (1.0f * fr.rows());
 
-    int i2 = i;
+    soit i2 = i;
 
-    if(i >= 0)
+    si(i >= 0)
     {
       res.atten_ls  = -Hl.tail(Hl.rows() - i - 1).maxCoeff(&i2);
-      //res.atten_ls  = -Hl.segment(i, Hl.rows() - i - 1).maxCoeff(&i2);
       i2 += i;
       res.atten_pls = -Hl(i);
     }
 
-    if(do_plot)
+    si(do_plot)
     {
-      if(j >= 0)
+      si(j >= 0)
         f.plot(fr(j), mag(j), "gs");
 
-      f.canva().set_couleur(tsd::vue::Couleur::Bleu);
+      f.canva().set_couleur(Couleur::Bleu);
       f.canva().set_dim_fonte(0.6);
       f.canva().texte({0.1f, 0.9f},
               fmt::format("Largeur lobe principal : {:.5f} (={:.2f}/N)\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
@@ -458,9 +400,9 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bo
 
       f.plot(fr, Hl, "b-");
       f.titre("Vue logarithmique");
-      if(i >= 0)
+      si(i >= 0)
         f.plot(fr(i), Hl(i), "rs");
-      if(i2 >= 0)
+      si(i2 >= 0)
         f.plot(fr(i2), Hl(i2), "ms");
     }
 
@@ -469,38 +411,34 @@ FenInfos filtre_pb_analyse(int ncoefs, const ArrayXf &fr, const ArrayXf &mag, bo
     msg("  Atténuation premier lobe secondaire : {:.1f} dB.", res.atten_pls);
     msg("  Atténuation pire lobe secondaire :    {:.1f} dB.", res.atten_ls);
   }
-  return res;
+  retourne res;
 }
 
 
 
-FenInfos fenetre_analyse(const std::string &nom, const ArrayXf &x, bool do_plot)
+FenInfos fenetre_analyse(const std::string &nom, const Vecf &x, bouléen do_plot)
 {
-  int n = x.rows();
-  FRat<float> frat(x / x.sum());
-  auto [fr,xm] = frmag(frat, 4096);
-
-
-  auto res = filtre_pb_analyse(x.rows(), fr, xm, do_plot);
+  soit n = x.rows();
+  FRat<float> frat(x / x.somme());
+  soit [fr,xm] = frmag(frat, 4096);
+  soit res = filtre_pb_analyse(n, fr, xm, do_plot);
 
   {
-    res.symetrique = true;
-
-    int imax = (n-1)/2;
-
-    float emax = 0, etot = 0;
-    for(auto i = 0; i <= imax; i++)
+    res.symetrique = oui;
+    soit imax = (n-1)/2;
+    soit emax = 0.0f, etot = 0.0f;
+    pour(auto i = 0; i <= imax; i++)
     {
-      auto err = std::abs(x(i)-x(n-i-1));
-      if(err > 1e-6)
-        res.symetrique = false;
-      emax = std::max(err, emax);
+      soit err = abs(x(i)-x(n-i-1));
+      si(err > 1e-6)
+        res.symetrique = non;
+      emax = max(err, emax);
       etot += err;
     }
     msg("  Delta fenêtre symétrique : {} (max {})", etot, emax);
   }
 
-  return res;
+  retourne res;
 }
 
 

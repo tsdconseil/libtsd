@@ -7,14 +7,13 @@ static void test_filtre_boucle_ordre_1()
   msg_majeur("Test filtre de boucle d'ordre 1...");
 
   // Constante de temps
-  auto τ = 5;
-  auto flt = filtre_boucle_ordre_1(τ);
+  soit τ = 5;
+  soit flt = filtre_boucle_ordre_1(τ);
 
   // Vérifie la constante de temps
-  int n = 100;
-  ArrayXf y(n);
-  y(0) = 0;
-  for(auto i = 1; i < n; i++)
+  soit n = 100;
+  soit y = Vecf::zeros(n);
+  pour(auto i = 1; i < n; i++)
     y(i) = flt->step(1 - y(i-1));
 
   Figure f;
@@ -30,49 +29,47 @@ static void test_filtre_boucle_ordre_1()
 }
 
 
-static void verifie_delais(const ArrayXf &x, int pos_attendue, const std::string &desc)
+static void verifie_delais(const Vecf &x, entier pos_attendue, const std::string &desc)
 {
-  //tsd_assert_msg((x.minCoeff() == 0) && (x.maxCoeff() == 1) && (x.sum() == 1), "vérification délais : valeur invalide (v = {})", x.transpose());
-  int pos;
-  x.maxCoeff(&pos);
+  soit pos = x.index_max();
   msg("Vérification délais {} : pos attendue = {}, pos = {}", desc, pos_attendue, pos);
   tsd_assert_msg(pos == pos_attendue, "vérification délais {} : erreur (pos attendue = {}, pos = {})", desc, pos_attendue, pos);
 }
 
 
-int test_bitstream()
+entier test_bitstream()
 {
   BitStream bs = BitStream::zéros(5);
   tsd_assert(bs.lon() == 5);
-  for(auto i = 0; i < 5; i++)
+  pour(auto i = 0; i < 5; i++)
   {
     tsd_assert(!bs[i]);
   }
 
   bs = BitStream::uns(13);
   tsd_assert(bs.lon() == 13);
-  for(auto i = 0; i < 13; i++)
+  pour(auto i = 0; i < 13; i++)
   {
     tsd_assert(bs[i]);
   }
 
-  bs.set(4, false);
+  bs.set(4, non);
   tsd_assert(!bs[4]);
 
-  bs.set(4, true);
+  bs.set(4, oui);
   BitStream bs2 = bs + BitStream::zéros(7);
   tsd_assert(bs2.lon() == 20);
-  for(auto i = 0; i < 13; i++)
+  pour(auto i = 0; i < 13; i++)
   {
     tsd_assert(bs2[i]);
   }
-  for(auto i = 14; i < 20; i++)
+  pour(auto i = 14; i < 20; i++)
   {
     tsd_assert(!bs2[i]);
   }
 
 
-  return 0;
+  retourne 0;
 }
 
 
@@ -84,18 +81,18 @@ void test_forme_onde(sptr<FormeOnde> fo)
 
   BitStream bs("0000111101010101"), bs2;
 
-  while((bs.lon() % fo->infos.k) != 0)
+  tantque((bs.lon() % fo->infos.k) != 0)
     bs.push(0);
 
-  ArrayXcf x = fo->génère_symboles(bs);
+  soit x = fo->génère_symboles(bs);
   fo->decode_symboles(bs2, x);
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figures f;
     f.subplot().plot(bs.array(), "|b", "Bitstream");
-    f.subplot().plot(x.real(), "ob", "Symboles (re)");
-    f.gcf().plot(x.imag(), "og", "Symboles (im)");
+    f.subplot().plot(real(x), "ob", "Symboles (re)");
+    f.gcf().plot(imag(x), "og", "Symboles (im)");
     f.subplot().plot(bs2.array(), "|b", "Bitstream décodé");
     f.afficher();
   }
@@ -104,34 +101,33 @@ void test_forme_onde(sptr<FormeOnde> fo)
 }
 
 
-int test_formes_ondes()
+entier test_formes_ondes()
 {
   msg_majeur("Test des formes d'ondes");
-  auto lst = {forme_onde_bpsk(), forme_onde_qpsk(), forme_onde_π4_qpsk(), forme_onde_psk(8), forme_onde_qam(16)};
+  soit lst = {forme_onde_bpsk(), forme_onde_qpsk(), forme_onde_π4_qpsk(), forme_onde_psk(8), forme_onde_qam(16)};
 
-  for(auto fo: lst)
+  pour(auto fo: lst)
     test_forme_onde(fo);
 
-  return 0;
+  retourne 0;
 }
 
 
 
 
 
-int test_delais_filtres()
+entier test_delais_filtres()
 {
   msg_majeur("Test délais des filtres.");
 
-
-  int nc = 7;
-  ArrayXf h = design_rif_fen(7, "lp", 0.3, "hn");
-  ArrayXf x = ArrayXf::Zero(15);
+  entier nc = 7;
+  soit h = design_rif_fen(7, "lp", 0.3, "hn");
+  soit x = Vecf::zeros(15);
   x(0) = 1;
-  auto f11 = tsd::filtrage::filtre_rif<float,float>(h);
-  ArrayXf y = f11->step(x);
+  soit f11 = tsd::filtrage::filtre_rif<float,float>(h);
+  soit y = f11->step(x);
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figures f;
     f.subplot().plot(h, "|bo", "h");
@@ -143,11 +139,11 @@ int test_delais_filtres()
   verifie_delais(x,  0, "x");
   verifie_delais(y, rif_delais(nc),   "filtrage simple");
 
-  for(auto R: {1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 31, 32})
+  pour(auto R: {1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 31, 32})
   {
-    auto filtre = tsd::filtrage::filtre_rif_ups<float,float>(h, R);
-    ArrayXf y = filtre->step(x);
-    if(tests_debug_actif)
+    soit filtre = tsd::filtrage::filtre_rif_ups<float,float>(h, R);
+    soit y = filtre->step(x);
+    si(tests_debug_actif)
     {
       Figure f;
       f.plot(y, "|mo", "upsampling R = {}", R);
@@ -156,33 +152,33 @@ int test_delais_filtres()
     verifie_delais(y,  filtre_rif_ups_délais(nc, R), fmt::format("upsampling R = {}", R));
   }
 
-  return 0;
+  retourne 0;
 }
 
 
 void test_discri_fm()
 {
   // Signal test
-  ArrayXf x = siggauss(1000) / 10;
+  soit x = siggauss(1000) / 10;
 
   // Modulation FM
-  ArrayXcf y = polar(cumsum(x));
+  soit y = polar(cumsum(x));
 
   // Démod
-  auto discri = discriminateur_fm();
-  ArrayXf z = discri->step(y);
+  soit discri = discriminateur_fm();
+  soit z = discri->step(y);
 
 
-  ArrayXcf x2 = x;
-  ArrayXcf z2 = z;
-  auto [d, score] = tsd::fourier::estimation_délais(x2, z2);
+  soit x2 = x.clone();
+  soit z2 = z.clone();
+  soit [d, score] = tsd::fourier::estimation_délais(x2, z2);
 
   msg("Délais détecté : {} (corr = {})", d, score);
 
-  //int n = z.rows();
+  //entier n = z.rows();
   //z.head(n-2) = z.tail(n-2).eval();
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figures f;
     f.subplot().plot(x, "", "Signal test");
@@ -192,65 +188,65 @@ void test_discri_fm()
     f.afficher();
   }
 
-  ArrayXf err = z - x;
+  soit err = z - x;
 
-  float emax = err.abs().maxCoeff();
+  soit emax = abs(err).valeur_max();
   msg("Erreur discri = {}", emax);
-  if(emax > 1e-3)
+  si(emax > 1e-3)
     echec("Disci fm : trop d'erreur.");
 
 }
 
 
 // Attention, ne marque qu'en NRZ pour l'instant !!!!
-//ArrayXcf tr_module(const BitStream &bs, sptr<FormeOnde> fo, int osf)
+//ArrayXcf tr_module(const BitStream &bs, sptr<FormeOnde> fo, entier osf)
 //{
   //ArrayXcf x = 2 * (bs.vers_array() - 0.5);
   //ArrayXcf x = fo->gene_symboles(bs);
   //assert(x.rows() == bs.lon());
   //msg("tr module : ")
-  //if(fo->filtre.)
-  //return sah(x, osf);
+  //si(fo->filtre.)
+  //retourne sah(x, osf);
 //}
 
 
 struct TestRecepteurConfig
 {
-  int osf = 1;
+  entier osf = 1;
   sptr<FormeOnde> fo = forme_onde_bpsk();
   float SNR_min = 0;
   float SNR_max = 10;
-  bool  avec_delais = false;
-  bool  avec_plot = false;
-  int   nb_rep = 9;
-  int   ncoefs      = 63;//15;
-  bool  check_errs  = true;
-  bool  check_trames = true;
-  bool  premiere_trame_SNR_inf = true;
-  int   nbits = -1;
+  bouléen  avec_delais = non;
+  bouléen  avec_plot = non;
+  entier   nb_rep = 9;
+  entier   ncoefs      = 63;//15;
+  bouléen  check_errs  = oui;
+  bouléen  check_trames = oui;
+  bouléen  premiere_trame_SNR_inf = oui;
+  entier   nbits = -1;
   float carrier_rec_bl = 0.001;
   float seuil = 0.6;
-  int   ncoefs_filtre_mise_en_forme = 63;
+  entier   ncoefs_filtre_mise_en_forme = 63;
 
   struct
   {
-    bool actif = false;
+    bouléen actif = non;
   } cocanal;
 
 
-  int nreg_mls = -1;
+  entier nreg_mls = -1;
 };
 
 
 struct TestRecepteurRes
 {
-  ArrayXf SNR;
-  ArrayXf ber; // NaN si trame non reçue
-  ArrayXf ber_theo;
-  ArrayXf EbN0;
-  ArrayXf err_phase, err_pos;
+  Vecf SNR;
+  Vecf ber; // NaN si trame non reçue
+  Vecf ber_theo;
+  Vecf EbN0;
+  Vecf err_phase, err_pos;
 
-  bool succès = true;
+  bouléen succès = oui;
 };
 
 TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
@@ -259,39 +255,48 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   srand(0x124DF531);
   generateur_aleatoire.seed(0x124DF531);
 
-  if(config.avec_plot)
+  si(config.avec_plot)
   {
     stdo.flush();
     stdo.def_dossier_sortie(fmt::format("./build/test-log/recepteur-osf-{}-{}-{}", config.osf, *(config.fo), config.avec_delais ? "delais-frac" : "delais-entier"));
   }
 
+
   msg_majeur("\n\n\n\n\nTest récepteur, OSF = {}, {}, filtre = {}, {}...\n\n\n\n\n", config.osf, *(config.fo), config.fo->filtre, config.avec_delais ? "delais-frac" : "delais-entier");
   RécepteurConfig rc;
 
-  int nreg_mls = 7 + config.fo->infos.k;
+  si(config.avec_plot)
+  {
+    soit x = config.fo->constellation();
+    Figure f;
+    f.plot_iq(x, "oa");
+    f.afficher(fmt::format("Constellation {}", config.fo->desc_courte()));
+  }
 
-  if(config.nreg_mls >= 0)
+  entier nreg_mls = 7 + config.fo->infos.k;
+
+  si(config.nreg_mls >= 0)
     nreg_mls = config.nreg_mls;
   rc.format.entete  = code_mls(nreg_mls); // 127 bits
 
   // Note : le padding de l'en-tête (multiple de k)
   // est fait automatiquement dans l'émetteur et dans le récepteur
 
-  ArrayXf full_corr;
+  Vecf full_corr;
 
-  int nbits = config.nbits == -1 ? 64 : config.nbits;
+  entier nbits = config.nbits == -1 ? 64 : config.nbits;
 
   msg("Dimension de l'en-tête : {} bits, data : {} bits.", rc.format.entete.lon(), nbits);
 
-  auto fo = config.fo;
+  soit fo = config.fo;
 
   rc.BS                                             = 512;
   rc.format.nbits                                   = nbits;
   //rc.format.fo_entete                               = fo;
   rc.seuil                                          = config.seuil;
   rc.debug_actif                                    = config.avec_plot;
-  rc.config_demod.dec.carrier_rec.actif             = false;
-  rc.config_demod.dec.clock_rec.actif               = false;
+  rc.config_demod.dec.carrier_rec.actif             = non;
+  rc.config_demod.dec.clock_rec.actif               = non;
   rc.format.modulation.fsymb                        = 1e3;
   rc.format.modulation.fe                           = rc.format.modulation.fsymb * config.osf;
   rc.format.modulation.fi                           = 0;
@@ -300,31 +305,31 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   rc.config_demod.dec.carrier_rec.BL                = config.carrier_rec_bl;
   rc.SNR_mini                                       = -10;
   rc.format.modulation.ncoefs_filtre_mise_en_forme  = config.ncoefs_filtre_mise_en_forme;
-  if(fo->filtre.type == SpecFiltreMiseEnForme::NRZ)
+  si(fo->filtre.type == SpecFiltreMiseEnForme::NRZ)
     rc.format.modulation.ncoefs_filtre_mise_en_forme = config.osf;
   //rc.ncoefs_interpolateur                           = 63;
-  rc.callback_corr = [&](const ArrayXf &corr)
+  rc.callback_corr = [&](const Vecf &corr)
   {
     full_corr = vconcat(full_corr, corr);
   };
-  auto rec = récepteur_création(rc);
+  soit rec = récepteur_création(rc);
 
   ÉmetteurConfig ec;
   ec.format       = rc.format;
   ec.debug_actif  = config.avec_plot;
 
-  auto émet = émetteur_création(ec);
+  soit émet = émetteur_création(ec);
 
   BitStream data;
 
-  if(config.nbits == -1)
+  si(config.nbits == -1)
   {
     BitStream data1 = BitStream("1010101011110000");
     data = data1;
-    for(auto i = 0; i < 3; i++)
+    pour(auto i = 0; i < 3; i++)
       data += data1;
   }
-  else
+  sinon
   {
     data = BitStream::rand(config.nbits);
   }
@@ -337,56 +342,56 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
   float retard = émet->retard();
 
-  ArrayXcf xd = émet->step(data);
+  soit xd = émet->step(data);
 
-  int nd = xd.rows();
+  entier nd = xd.rows();
 
   retard -= config.osf / 2.0f; // Début du symbole
 
   msg(" *** retard modulation = {}", retard);
 
-  int Nt = 24 * 1024;
+  entier Nt = 24 * 1024;
 
-  /*if(Nt < ((nd + 1024) * config.nb_rep + 1024))
+  /*si(Nt < ((nd + 1024) * config.nb_rep + 1024))
   {
     Nt = (nd + 1024) * config.nb_rep + 1024;
   }*/
 
   // 1023 * 4 / 3 = 1300
-  auto re = rec->get_etat();
-  int nb_echans_padding = re.Ne;//(nbits_entete * config.osf) / config.fo->k;
+  soit re = rec->get_etat();
+  entier nb_echans_padding = re.Ne;//(nbits_entete * config.osf) / config.fo->k;
 
   msg(" Nb échan padding = {}", nb_echans_padding);
 
 
-  int dim_ideale = (nd + 1024) * config.nb_rep + 2 * nb_echans_padding;
+  entier dim_ideale = (nd + 1024) * config.nb_rep + 2 * nb_echans_padding;
 
   // Ajout de zéros de manière à flusher le détecteur
-  Nt = std::max(Nt, dim_ideale);
+  Nt = max(Nt, dim_ideale);
 
 
   // (8192 est la dimension des blocs d'entrée)
-  //if(Nt < ((nd + 1024) * config.nb_rep + 8192 + 2048))
+  //si(Nt < ((nd + 1024) * config.nb_rep + 8192 + 2048))
   //{
     //Nt = (nd + 1024) * config.nb_rep + 8192 + 2048;
   //}
 
-  ArrayXcf x = 0.0001 * randn(Nt);
+  Veccf x = 0.0001 * randn(Nt);
 
-  int nb_rep = config.nb_rep;//9;
+  entier nb_rep = config.nb_rep;//9;
 
-  ArrayXf SNR = linspace(config.SNR_min, std::max(config.SNR_max, config.SNR_min), nb_rep).reverse();
+  soit SNR = linspace(config.SNR_min, max(config.SNR_max, config.SNR_min), nb_rep).reverse();
 
-  if(config.premiere_trame_SNR_inf)
+  si(config.premiere_trame_SNR_inf)
     SNR(0) = 200; // Test de référence, (presque) pas de bruit sur la première trame
   std::vector<float> pos(nb_rep);
 
   res.SNR = SNR;
-  res.ber = res.ber_theo = res.EbN0 = ArrayXf::Constant(nb_rep, 1);//;//-1);
-  res.err_phase = res.err_pos = ArrayXf::Constant(nb_rep, std::nan(""));
+  res.ber = res.ber_theo = res.EbN0 = Vecf::constant(nb_rep, 1);//;//-1);
+  res.err_phase = res.err_pos = Vecf::constant(nb_rep, std::nan(""));
 
-  int offset = 100;
-  for(auto i = 0; i < nb_rep; i++)
+  entier offset = 100;
+  pour(auto i = 0; i < nb_rep; i++)
   {
 
 
@@ -399,7 +404,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
 
     float τ = 0;
-    if(config.avec_delais)
+    si(config.avec_delais)
       τ = 0.5;//randu(1)(0);
 
     pos[i] = offset + retard + τ;
@@ -407,15 +412,15 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
     msg("Placement trame[{}] @ offset {}, SNR={:.1f} dB, σ={}.", i, pos[i], SNR(i), σ);
 
-    ArrayXcf xde;
+    Veccf xde;
 
-    if(config.avec_delais)
+    si(config.avec_delais)
     {
       xde = tsd::fourier::délais(xd, τ);
 
-      if(config.avec_plot)
+      si(config.avec_plot)
       {
-        if(tests_debug_actif)
+        si(tests_debug_actif)
         {
           Figures f;
           f.subplot().plot(xd, "", "Avant retard");
@@ -424,31 +429,30 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
         }
       }
     }
-    else
+    sinon
       xde = xd;
 
-    float puissance_trame = xde.abs2().mean();
 
+    float puissance_trame = abs2(xde).moyenne();
     σ *= sqrt(puissance_trame);
+    float SNR_emp = 10 * log10(puissance_trame / (2*σ*σ));
+    msg("Energie trame : {}, σ² : {}, SNR empirique = {:.1f} dB.", puissance_trame, 2*σ*σ, SNR_emp);
 
-    float SNR_emp = 10 * log10(xde.abs2().mean() / (2*σ*σ));
-    msg("Energie trame : {}, σ² : {}, SNR empirique = {:.1f} dB.", xde.abs2().mean(), 2*σ*σ, SNR_emp);
 
+    Veccf xr(nd);
+    xr.set_real(randn(nd) * σ);
+    xr.set_imag(randn(nd) * σ);
 
-    ArrayXcf xr(nd);
-    xr.real() = σ * randn(nd);
-    xr.imag() = σ * randn(nd);
-
-    float σ_emp     = sqrt(xr.abs2().mean());
-    float σ_emp_re  = sqrt(xr.real().abs2().mean());
-    float σ_emp_im  = sqrt(xr.imag().abs2().mean());
+    float σ_emp     = sqrt(abs2(xr).moyenne());
+    float σ_emp_re  = sqrt(abs2(real(xr)).moyenne());
+    float σ_emp_im  = sqrt(abs2(imag(xr)).moyenne());
 
     msg("σ cible = {} (/sqrt(2)={}), σ emp = {}, σ emp re = {}, σ emp im = {}",
         σ * sqrt(2.0f), σ, σ_emp, σ_emp_re, σ_emp_im);
 
-    ArrayXcf co = ArrayXcf::Zero(nd);
+    soit co = Veccf::zeros(nd);
 
-    if(config.cocanal.actif)
+    si(config.cocanal.actif)
     {
       // Tests Pascal :
       //  - QPSK ou pi/4 QPSK : 156.25 ks/s (312 kbit/s)
@@ -457,23 +461,23 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
       //  - Décalage ~ 8 kHz
       //     -> soit 8/156.25 de fsymb
 
-      auto fo = forme_onde_ask(2);
+      soit fo = forme_onde_ask(2);
 
       ModConfig cfg_ask = rc.format.modulation;
       cfg_ask.fi    = rc.format.modulation.fsymb * 8.0f / 156.25f;
       cfg_ask.fsymb = rc.format.modulation.fsymb * 40.0f / 156.25f;
-      cfg_ask.sortie_reelle = false;
+      cfg_ask.sortie_reelle = non;
 
-      auto mod = modulateur_création(cfg_ask);
+      soit mod = modulateur_création(cfg_ask);
 
-      int nbits = nd * rc.format.modulation.fe / (rc.format.modulation.fsymb / 10) + 128;
+      entier nbits = nd * rc.format.modulation.fe / (rc.format.modulation.fsymb / 10) + 128;
       BitStream bs = BitStream::rand(nbits);
-      ArrayXcf y = mod->step(bs);
+      soit y = mod->step(bs);
       tsd_assert(y.rows() >= nd);
 
       co = y.head(nd) / 2;
 
-      if(config.avec_plot)
+      si(config.avec_plot)
       {
         {
           Figure f;
@@ -494,9 +498,9 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     x.segment(offset, nd) = xde + xr + co;
 
 
-    if(config.avec_plot)
+    si(config.avec_plot)
     {
-      ArrayXcf xe = x.segment(offset, nd);
+      soit xe = x.segment(offset, nd);
       Figures f;
       f.subplot().plot(xde, "", "Avant bruit");
       f.subplot().plot(xe, "", "Après bruit σ={:.3f}, SNR={:.1f} dB", σ, SNR(i));
@@ -514,20 +518,20 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
       }
     }
 
-    if(std::abs(SNR_emp - SNR(i)) >= 0.5)
+    si(abs(SNR_emp - SNR(i)) >= 0.5)
     {
       echec("SNR empirique hors borne.");
     }
 
     offset += nd;
-    int ecart = (rand() & 511) + 128 * 4;
-    x.segment(offset, ecart) = bruit_awgn(ArrayXcf::Zero(ecart), σ);
+    entier ecart = (rand() & 511) + 128 * 4;
+    x.segment(offset, ecart) = bruit_awgn(Veccf::zeros(ecart), σ);
     offset += ecart;
   }
 
   //x = x.head(offset + 8 * 1024).eval(); // laisse quelques échantillons à la fin pour flusher
 
-  if(config.avec_plot)
+  si(config.avec_plot)
   {
     Figures f;
     f.subplot().plot(rc.format.entete.array(), "", "en-tête");
@@ -536,20 +540,20 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     f.afficher(fmt::format("Test récepteur, osf={}, mod={}", config.osf, *(config.fo)));
   }
 
-  auto trames = rec->step(x);
+  soit trames = rec->step(x);
 
   msg("Nb trames décodées : {}", trames.size());
   //tsd_assert(!trames.empty());
 
 
-  if(config.avec_plot)
+  si(config.avec_plot)
   {
     Figures fg;
     fg.subplot().plot(x, "", "Vue globale");
 
-    for(auto j = 0; ((j < (int) trames.size()) && (j < nb_rep)); j++)
+    pour(auto j = 0; ((j < (entier) trames.size()) && (j < nb_rep)); j++)
     {
-      auto &t = trames[j];
+      soit &t = trames[j];
       fg.gcf().plot((float) t.det.position, 1, "sr");
     }
 
@@ -557,7 +561,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     fg.afficher();
   }
 
-  for(auto j = 0; j < nb_rep; j++)
+  pour(auto j = 0; j < nb_rep; j++)
   {
     float EsN0 = pow2db(config.osf * db2pow(SNR(j)));
     float EbN0 = EsN0 - 10 * log10(fo->infos.k);
@@ -566,15 +570,15 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     res.EbN0(j)     = EbN0;
   }
 
-  for(auto j = 0; ((j < (int) trames.size()) && (j < nb_rep)); j++)
+  pour(auto j = 0; ((j < (entier) trames.size()) && (j < nb_rep)); j++)
   {
     msg("Vérification trames #{}...", j);
-    auto &t = trames[j];
+    soit &t = trames[j];
     msg("  détection : {}", t.det);
     //msg("  données décodées : {}", t.bs);
 
 
-    if(config.avec_plot)
+    si(config.avec_plot)
     {
       Figures f;
       f.subplot().plot(t.bs.array(), "o|b", "Données reçues");
@@ -582,13 +586,13 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
       f.subplot().plot(data.array() - t.bs.array(), "o|r", "Erreurs");
       f.afficher(fmt::format("Trame décodée vs envoyée (#{})", j));
     }
-    if(data.lon() != t.bs.lon())
+    si(data.lon() != t.bs.lon())
     {
       msg_avert("Nombre de bits reçu invalide ({} vs {} attendus)", t.bs.lon(), data.lon());
-      res.succès = false;
-      return res;
+      res.succès = non;
+      retourne res;
     }
-    auto dst = data.dst_Hamming(t.bs);
+    soit dst = data.dst_Hamming(t.bs);
 
     float ber = ((float) dst) / t.bs.lon();
 
@@ -598,7 +602,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     float EbN0 = EsN0 - 10 * log10(fo->infos.k);
     float ber_theo = fo->ber(EbN0);
     msg("  SNR = {:.1f} dB, EsN0 = {:.1f} dB, EbN0 = {:.1f} dB, err=\033[32m{}\033[0m, ber=\033[32m{:.2e}\033[0m, ber theo={:.2e}", SNR(j), EsN0, EbN0, dst, ber, ber_theo);
-    auto ep = t.det.position_prec - pos[j];
+    soit ep = t.det.position_prec - pos[j];
     msg("  Erreur position = {}.", ep);
 
 
@@ -607,13 +611,13 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
     res.EbN0(j)     = EbN0;
 
-    if(config.check_trames)
+    si(config.check_trames)
     {
-      if(std::abs(ep) >= 0.2)
+      si(abs(ep) >= 0.2)
       {
         msg_avert("Position invalide (attendue : {}, détectée : {}).", pos[j], t.det.position_prec);
-        res.succès = false;
-        return res;
+        res.succès = non;
+        retourne res;
       }
     }
 
@@ -623,25 +627,25 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
     // Tolérance car le BER théorique ne prends pas en compte
     // l'erreur de phase et de gain
-    if(config.check_errs && (dst > 5 + nb_err_attendues * 3.0))
+    si(config.check_errs && (dst > 5 + nb_err_attendues * 3.0))
     {
       msg_avert(" BER trop élevé (nb err attendues = {:.2f}, nb err détectées = {}).", nb_err_attendues, dst);
-      res.succès = false;
-      return res;
+      res.succès = non;
+      retourne res;
     }
   }
 
-  if(config.check_trames)
+  si(config.check_trames)
   {
-    if((int) trames.size() != nb_rep)
+    si((entier) trames.size() != nb_rep)
     {
       msg_avert("nombre de trames reçues invalide ({} attendues, {} reçues).", nb_rep, trames.size());
-      res.succès = false;
-      return res;
+      res.succès = non;
+      retourne res;
     }
   }
 
-  //if(config.avec_plot)
+  //si(config.avec_plot)
   //  stdo.flush();
 
   res.EbN0 = res.EbN0.reverse().eval();
@@ -651,13 +655,13 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   res.err_phase = res.err_phase.reverse().eval();
   res.err_pos = res.err_pos.reverse().eval();
 
-  return res;
+  retourne res;
 }
 
 
-int bench_recepteur_a()
+entier bench_recepteur_a()
 {
-  auto wf = forme_onde_qpsk();
+  soit wf = forme_onde_qpsk();
   wf->filtre = SpecFiltreMiseEnForme::rcs(0.25);
 
 
@@ -668,40 +672,40 @@ int bench_recepteur_a()
       .fo                     = wf,
       .SNR_min                = -4,
       .SNR_max                = 8,
-      .avec_delais            = false,
-      .avec_plot              = true,
+      .avec_delais            = non,
+      .avec_plot              = oui,
       .nb_rep                 = 13,
-      .check_errs             = false,
-      .check_trames           = false,
-      .premiere_trame_SNR_inf = false,
+      .check_errs             = non,
+      .check_trames           = non,
+      .premiere_trame_SNR_inf = non,
       .nbits                  = 32,
       .carrier_rec_bl         = 0,
       .seuil                  = 0.4,
     });
   }
-  return 0;*/
+  retourne 0;*/
 
 
 
-  auto res = test_recepteur_unit(
+  soit res = test_recepteur_unit(
   {
     .osf                    = 4,
     .fo                     = wf,
     .SNR_min                = -4,
     .SNR_max                = 8,
-    .avec_delais            = false,
-    .avec_plot              = false,
+    .avec_delais            = non,
+    .avec_plot              = non,
     .nb_rep                 = 13,
-    .check_errs             = false,
-    .check_trames           = false,
-    .premiere_trame_SNR_inf = false,
+    .check_errs             = non,
+    .check_trames           = non,
+    .premiere_trame_SNR_inf = non,
     .nbits                  = 16 * 1024,
     .carrier_rec_bl         = 0,
     .seuil                  = 0.4,
     .ncoefs_filtre_mise_en_forme  = 63
   });
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     {
       Figure f;
@@ -715,7 +719,7 @@ int bench_recepteur_a()
       f.plot(res.EbN0, res.ber_theo, "g-o", "Ber théorique");
       f.plot(res.EbN0, res.ber, "b-o", "Ber simulé");
       f.titres("BPSK - BER = f(Eb/N0)", "Eb/N0", "ber");
-      f.def_rdi({res.EbN0.minCoeff() - 1, 1e-6, res.EbN0.maxCoeff() + 1, 1.0});
+      f.def_rdi({res.EbN0.minCoeff() - 1, 1e-6, res.EbN0.valeur_max() + 1, 1.0});
       f.afficher("BPSK - BER");
     }
     {
@@ -731,16 +735,16 @@ int bench_recepteur_a()
 
 
 
-  return 0;
+  retourne 0;
 }
 
 
 
-int bench_recepteur()
+entier bench_recepteur()
 {
   bench_recepteur_a();
-  //return 0;
-  auto lst_m =
+  //retourne 0;
+  soit lst_m =
   {
       forme_onde_bpsk(),
       forme_onde_qpsk(),
@@ -749,60 +753,60 @@ int bench_recepteur()
       forme_onde_qam(16),
       forme_onde_fsk(4, 1.0f), // Index de 1.0f en 4FSK, pour meilleure discrimination
   };
-  //auto lst_f  = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::srrc(0.5), SpecFiltreMiseEnForme::srrc(0.2), SpecFiltreMiseEnForme::gaussien(0.8)};
-  int osf     = 4;
+  //soit lst_f  = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::srrc(0.5), SpecFiltreMiseEnForme::srrc(0.2), SpecFiltreMiseEnForme::gaussien(0.8)};
+  entier osf     = 4;
 
   FILE *fo = fopen("./build/test-log/bench-recepteur.txt", "wt");
 
-  bool first = true;
+  bouléen first = oui;
 
-  for(auto m: lst_m)
+  pour(auto m: lst_m)
   {
     m->filtre = m->infos.est_fsk ? SpecFiltreMiseEnForme::gaussien(2.0) : SpecFiltreMiseEnForme::rcs(0.25);
-    auto res = test_recepteur_unit(
+    soit res = test_recepteur_unit(
     {
       .osf                    = osf,
       .fo                     = m,
       .SNR_min                = -4,
       .SNR_max                = 16,
-      .avec_delais            = false,
-      .avec_plot              = false,
+      .avec_delais            = non,
+      .avec_plot              = non,
       .nb_rep                 = 11,
-      .check_errs             = false,
-      .check_trames           = false,
-      .premiere_trame_SNR_inf = false,
+      .check_errs             = non,
+      .check_trames           = non,
+      .premiere_trame_SNR_inf = non,
       .nbits                  = 16 * 1024,
       .carrier_rec_bl         = 0,
       .ncoefs_filtre_mise_en_forme  = 63
     });
 
-    if(first)
+    si(first)
     {
       std::string s = "Modulation ; SNR";
-      for(auto i = 0; i < res.SNR.rows(); i++)
+      pour(auto i = 0; i < res.SNR.rows(); i++)
         s += fmt::format(" ; {:.1f} dB", res.SNR(i));
       fprintf(fo, "%s\n", s.c_str());
-      first = false;
+      first = non;
     }
 
     std::string s = fmt::format("{}", *m);
 
     s += " ; Eb/N0";
-    for(auto i = 0; i < res.ber.rows(); i++)
+    pour(auto i = 0; i < res.ber.rows(); i++)
       s += fmt::format(" ; {:.1f} dB", res.EbN0(i));
     s += "\n";
 
     s += " ; Ber théo";
-    for(auto i = 0; i < res.ber.rows(); i++)
+    pour(auto i = 0; i < res.ber.rows(); i++)
       s += fmt::format(" ; {:.4f} %", 100 * res.ber_theo(i));
     s += "\n";
 
     s += " ; Ber simulé";
-    for(auto i = 0; i < res.ber.rows(); i++)
+    pour(auto i = 0; i < res.ber.rows(); i++)
     {
-      if(res.ber(i) >= 0)
+      si(res.ber(i) >= 0)
         s += fmt::format(" ; {:.4f} %", 100 * res.ber(i));
-      else
+      sinon
         s += " ; n/d";
     }
     fprintf(fo, "%s\n", s.c_str());
@@ -810,16 +814,16 @@ int bench_recepteur()
 
   fclose(fo);
 
-  return 0;
+  retourne 0;
 }
 
 // Code = MLS 31 bits
 // BPSK
 // Signal 1.25 MHz
 // sous-échantilloné à 250 kHz après filtre adapté NRZ
-int test_recepteur()
+entier test_recepteur()
 {
-  auto lst_m =
+  soit lst_m =
   {
       forme_onde_bpsk(),
       forme_onde_qpsk(),
@@ -842,7 +846,7 @@ int test_recepteur()
     //cfg.fo->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     cfg.SNR_min = 4;
     cfg.nb_rep = 2;
-    cfg.avec_plot = true;
+    cfg.avec_plot = oui;
     test_recepteur_unit(cfg);
   }
 
@@ -854,7 +858,7 @@ int test_recepteur()
     //cfg.fo->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     cfg.SNR_min = 4;
     cfg.nb_rep = 2;
-    cfg.avec_plot = true;
+    cfg.avec_plot = oui;
     test_recepteur_unit(cfg);
   }
 # endif
@@ -868,11 +872,11 @@ int test_recepteur()
     cfg.fo->filtre = SpecFiltreMiseEnForme::srrc(0.5);
     cfg.SNR_min = 12;
     cfg.nb_rep = 2;
-    cfg.avec_plot = true;
-    cfg.cocanal.actif = true;
+    cfg.avec_plot = oui;
+    cfg.cocanal.actif = oui;
     cfg.nreg_mls = 5;
     cfg.nbits     = 512;
-    cfg.check_trames = false;
+    cfg.check_trames = non;
     //cfg.
     test_recepteur_unit(cfg);
 
@@ -885,93 +889,96 @@ int test_recepteur()
 # endif
 
   // Ceci fonctionnne !!!!
-  //tsd_assert(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = false, .avec_plot = true, .nb_rep = 1}).succès);
-  //tsd_assert(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = true, .avec_plot = true, .nb_rep = 1}).succès);
+  //tsd_assert(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = non, .avec_plot = oui, .nb_rep = 1}).succès);
+  //tsd_assert(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = oui, .avec_plot = oui, .nb_rep = 1}).succès);
 
   /*{
-    auto m = waveform_bpsk();
+    soit m = waveform_bpsk();
     m->filtre = SpecFiltreMiseEnForme::srrc(0.5);
-    tsd_assert(test_recepteur_unit({.osf = 3, .fo = m, .SNR_min = 4, .avec_delais = false, .avec_plot = true, .nb_rep = 1}).succès);
+    tsd_assert(test_recepteur_unit({.osf = 3, .fo = m, .SNR_min = 4, .avec_delais = non, .avec_plot = oui, .nb_rep = 1}).succès);
   }*/
   /*{
-    auto fo = waveform_fsk(4);
+    soit fo = waveform_fsk(4);
     fo->filtre = SpecFiltreMiseEnForme::srrc(0.5);
-    test_recepteur_unit({.osf = 4, .fo = fo, .SNR_min = 15, .avec_delais = false, .avec_plot = true});
+    test_recepteur_unit({.osf = 4, .fo = fo, .SNR_min = 15, .avec_delais = non, .avec_plot = oui});
   }*/
 
   /*
-  test_recepteur_unit({.osf = 4, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = false, .avec_plot = true, .nb_rep = 1});
-  test_recepteur_unit({.osf = 4, .fo = waveform_fsk(),  .SNR_min = 10, .avec_delais = false, .avec_plot = true, .nb_rep = 1});
-  auto fo = waveform_fsk();
+  test_recepteur_unit({.osf = 4, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = non, .avec_plot = oui, .nb_rep = 1});
+  test_recepteur_unit({.osf = 4, .fo = waveform_fsk(),  .SNR_min = 10, .avec_delais = non, .avec_plot = oui, .nb_rep = 1});
+  soit fo = waveform_fsk();
   fo->filtre = SpecFiltreMiseEnForme::gaussien(0.8);
-  test_recepteur_unit({.osf = 4, .fo =fo,  .SNR_min = 10, .avec_delais = false, .avec_plot = true, .nb_rep = 1});*/
-  //test_recepteur_unit({.osf = 2, .fo = waveform_psk(8), .SNR_min = 4, .avec_delais = false, .avec_plot = true});
+  test_recepteur_unit({.osf = 4, .fo =fo,  .SNR_min = 10, .avec_delais = non, .avec_plot = oui, .nb_rep = 1});*/
+  //test_recepteur_unit({.osf = 2, .fo = waveform_psk(8), .SNR_min = 4, .avec_delais = non, .avec_plot = oui});
 
-  //auto lst_f = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::rcs(0.5)};
-  auto lst_f = {SpecFiltreMiseEnForme::rcs(0.5), SpecFiltreMiseEnForme::nrz()};
+  //soit lst_f = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::rcs(0.5)};
+  soit lst_f = {SpecFiltreMiseEnForme::rcs(0.5), SpecFiltreMiseEnForme::nrz()};
 
-  for(auto m: lst_m)
+  pour(auto m: lst_m)
   {
-    for(auto f: lst_f)
+
+
+
+    pour(auto f: lst_f)
     {
       m->filtre = f;
-      for(auto osf: {4, 2, 3, 4, 5, 6})
-        for(auto avec_delais: {false, true})
+      pour(auto osf: {4, 2, 3, 4, 5, 6})
+        pour(auto avec_delais: {non, oui})
         {
           float SNR_min = 4;
-          if(m->infos.est_fsk)
+          si(m->infos.est_fsk)
             SNR_min = 15;
-          auto res = test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = false});
+          soit res = test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = non});
           stdo.def_dossier_sortie("./build/test-log/recepteur");
-          if(!res.succès)
+          si(!res.succès)
           {
-            test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = true});
+            test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = oui});
             echec("Le test unitaire du récepteur a échoué : osf={}, fo={}", osf, *m);
-            return -1;
+            retourne -1;
           }
         }
     }
   }
 
 
-  return 0;
+  retourne 0;
 }
 
 
-int test_filtre_adapte()
+entier test_filtre_adapte()
 {
 
-  for(auto i = 0; i < 2; i++)
+  pour(auto i = 0; i < 2; i++)
   {
-    auto sf = SpecFiltreMiseEnForme::rcs(0.5);
-    int osf = 2;
+    soit sf = SpecFiltreMiseEnForme::rcs(0.5);
+    entier osf = 2;
 
-    auto fmef = sf.filtre_mise_en_forme(15, osf);
-    auto fa   = sf.filtre_adapté(15, osf);
+    soit fmef = sf.filtre_mise_en_forme(15, osf);
+    soit fa   = sf.filtre_adapté(15, osf);
 
-    int n = 30;
-    ArrayXcf x = ArrayXcf::Zero(n);
-    if(i == 0)
+    entier n = 30;
+    soit x = Veccf::zeros(n);
+    si(i == 0)
     {
-      for(auto i = 0; i + 1 < n; i += 2)
+      pour(auto i = 0; i + 1 < n; i += 2)
       {
         x(i)   = -1;
         x(i+1) = 1;
       }
     }
-    else
+    sinon
       x(n/2) = 1;
 
-    ArrayXcf y = fmef->step(x);
-    ArrayXcf z = fa->step(y);
+    soit y = fmef->step(x);
+    soit z = fa->step(y);
 
 
-    auto itrp = tsd::filtrage::itrp_sinc<cfloat>({15, 1024, 0.45, "hn"});
+    soit itrp = tsd::filtrage::itrp_sinc<cfloat>({15, 1024, 0.45, "hn"});
 
-    ArrayXf c0 = itrp->coefs(0);
-    ArrayXf c1 = itrp->coefs(0.5);
+    soit c0 = itrp->coefs(0);
+    soit c1 = itrp->coefs(0.5);
 
-    if(tests_debug_actif)
+    si(tests_debug_actif)
     {
       {
         Figure f;
@@ -986,13 +993,12 @@ int test_filtre_adapte()
       }
     }
 
-    auto fc0 = filtre_rif<float, cfloat>(c0);
-    auto fc1 = filtre_rif<float, cfloat>(c1);
+    soit fc0 = filtre_rif<float, cfloat>(c0),
+         fc1 = filtre_rif<float, cfloat>(c1);
 
-    ArrayXcf z0 = fc0->step(z);
-    ArrayXcf z1 = fc1->step(z);
+    soit z0 = fc0->step(z), z1 = fc1->step(z);
 
-    if(tests_debug_actif)
+    si(tests_debug_actif)
     {
       Figures f;
       f.subplot().plot(x, "ob-", "x : bitstream");
@@ -1003,7 +1009,7 @@ int test_filtre_adapte()
       f.afficher();
     }
   }
-  return 0;
+  retourne 0;
 }
 
 
@@ -1013,28 +1019,28 @@ int test_filtre_adapte()
 void test_fsk()
 {
   // 16 bits aléatoires
-  auto bs = randstream(16);
+  soit bs = randstream(16);
 
   ModConfig cfg;
   cfg.forme_onde            = forme_onde_fsk(2, 4);//2, index, filt, BT);
-  cfg.debug_actif   = true;
+  cfg.debug_actif   = oui;
   cfg.fe            = 10e3;
   cfg.fi            = 500;
   cfg.fsymb         = 0.1e3;
-  cfg.sortie_reelle = false;
+  cfg.sortie_reelle = non;
 
   // Fréquence d'échantillonnage  = 10 kHz
   // Fréquence intermédiaire      = 500 Hz
   // Fréquence symbole            = 0.1 kHz
   // -> Déviation = fsymb * h / 2 = 200 Hz
-  auto mod = modulateur_création(cfg);
+  soit mod = modulateur_création(cfg);
 
-  ArrayXcf x = mod->step(bs);
+  soit x = mod->step(bs);
 
-  auto discri = discriminateur_fm();
-  ArrayXf y = discri->step(x);
+  soit discri = discriminateur_fm();
+  soit y = discri->step(x);
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figures f;
     f.subplot().plot(bs.array(), "hb", "Train binaire");
@@ -1044,12 +1050,12 @@ void test_fsk()
   }
 }
 
-int test_demod()
+entier test_demod()
 {
   msg_majeur("Tests démodulation...");
 
-  auto filtres = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::rcs(0.4)};
-  auto Ms      = {2, 4, 8};
+  soit filtres = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::rcs(0.4)};
+  soit Ms      = {2, 4, 8};
 
   std::vector<sptr<FormeOnde>> wfs;
 
@@ -1061,39 +1067,45 @@ int test_demod()
   wfs.push_back(waveform_fsk(2, 0.7,  SpecFiltreMiseEnForme::nrz()));
   wfs.push_back(waveform_fsk(2, 2,    SpecFiltreMiseEnForme::nrz()));*/
 
-  for(auto filtre: filtres)
+  pour(auto filtre: filtres)
   {
-    wfs.push_back(forme_onde_qam(16, filtre));
-    for(auto M: Ms)
+    pour(auto M: Ms)
       wfs.push_back(forme_onde_psk(M, filtre));
+    wfs.push_back(forme_onde_qam(16, filtre));
   }
 
-  for(auto wf: wfs)
+  pour(auto wf: wfs)
   {
     msg_majeur("Test démodulation {}", *wf);
     stdo.printf(fmt::format("<h2>Test démodulation {}</h2>", *wf));
 
     ModConfig modcfg;
     DemodConfig cfg;
-    modcfg.forme_onde          = wf;//waveform_psk(M, filtre);
+    modcfg.forme_onde  = wf;
     modcfg.fe          = 100e3;
     modcfg.fi          = 0;
     modcfg.fsymb       = 20e3;
-    modcfg.debug_actif = false;
-    cfg.debug_actif    = false;
-    auto demod         = démodulateur_création(modcfg, cfg);
+    modcfg.debug_actif = tests_debug_actif;
+    cfg.debug_actif    = tests_debug_actif;
+
+    cfg.dec.clock_rec.tc = 10;
+    cfg.dec.cag.actif = non;
+
+    soit demod         = démodulateur_création(modcfg, cfg);
 
     // Create a modulator to simulate RF signal
-    auto mod = modulateur_création(modcfg);
+    soit mod = modulateur_création(modcfg);
 
-    auto bs = randstream(1000);
-    ArrayXcf x = mod->step(bs);
+    entier nbits = 200;//1000
 
-    x = bruit_awgn(x, 0.01);
+    soit bs = randstream(nbits);
+    soit x = mod->step(bs);
+
+    x = bruit_awgn(x, 0.001);
 
     // Proceed to demodulation
     BitStream bs2;
-    ArrayXXf llr;
+    Tabf llr;
     demod->step(x, bs2, llr);
 
     // Comment assurer la synchro d'horloge ?
@@ -1107,15 +1119,14 @@ int test_demod()
     f.plot(bs2.vers_array(), "hb", "Train binaire décodé");
     f.afficher("bits entrées / sorties");*/
 
-    // Ignore les 300 premiers bits (convergence des boucles)
-    bs = BitStream(bs.array().tail(700));
-    bs2 = BitStream(bs2.array().tail(700));
+    // Ignore les premiers bits (convergence des boucles)
+    bs  = BitStream(bs.array().tail((nbits*7)/10));
+    bs2 = BitStream(bs2.array().tail((nbits*7)/10));
 
     // Alignment of the two bit vectors (and phase ambiguity resolution)
-    auto res = cmp_bits_psk(bs, bs2, wf->infos.k);
-    //auto res = cmp_bits(bs, bs2);
+    soit res = cmp_bits_psk(bs, bs2, wf->infos.k);
 
-    if(tests_debug_actif)
+    si(tests_debug_actif)
     {
       Figures f;
       f.subplot().plot(res.b0, "hb", "Train binaire émis");
@@ -1127,22 +1138,20 @@ int test_demod()
 
 
     // Verification
-    if(res.nerr != 0)
+    si(res.nerr != 0)
       echec("Bits erronés non attendus !");
   }
-  return 0;
+  retourne 0;
 }
 
 
 
 void test_sah()
 {
-  ArrayXf x(3);
-  x << 0, 1, 2;
-  ArrayXf y = sah(x, 3);
-  ArrayXf yref(9);
-  yref << 0, 0, 0, 1, 1, 1, 2, 2, 2;
-  auto err = (y - yref).abs().maxCoeff();
+  soit x = Vecf::valeurs({0, 1, 2});
+  soit y = sah(x, 3);
+  soit yref = Vecf::valeurs({0, 0, 0, 1, 1, 1, 2, 2, 2});
+  soit err = abs(y - yref).valeur_max();
   tsd_assert_msg(err == 0, "Erreur SAH");
   msg("sah ok.");
 }
@@ -1157,27 +1166,27 @@ static void test_émetteur()
   rc.format.modulation.fe     = 1e6;
   rc.format.modulation.fsymb  = 1e5;
   rc.format.nbits             = 256;
-  rc.debug_actif              = true;
+  rc.debug_actif              = oui;
 
   ÉmetteurConfig ec;
-  ec.debug_actif = true;
+  ec.debug_actif = oui;
   ec.format = rc.format;
 
   msg("Création émetteur...");
-  auto eme = émetteur_création(ec);
+  soit eme = émetteur_création(ec);
   msg("Création récepteur...");
-  auto rec = récepteur_création(rc);
+  soit rec = récepteur_création(rc);
 
-  auto bs = BitStream::rand(256);
+  soit bs = BitStream::rand(256);
 
   msg("Emission...");
-  ArrayXcf x = eme->step(bs);
+  soit x = eme->step(bs);
 
-  x = vconcat(ArrayXcf::Zero(1000), x);
-  x = vconcat(x, ArrayXcf::Zero(40e3));
+  x = vconcat(Veccf::zeros(1000), x);
+  x = vconcat(x, Veccf::zeros(40e3));
 
   msg("Réception...");
-  auto tr = rec->step(x);
+  soit tr = rec->step(x);
 
   msg("Reçu : {} trames.", tr.size());
 
@@ -1187,7 +1196,7 @@ static void test_émetteur()
   msg("ok.");
 }
 
-int test_telecom()
+entier test_telecom()
 {
   test_filtre_boucle_ordre_1();
   test_émetteur();
@@ -1196,5 +1205,5 @@ int test_telecom()
   test_fsk();
   test_demod();
   test_sah();
-  return 0;
+  retourne 0;
 }

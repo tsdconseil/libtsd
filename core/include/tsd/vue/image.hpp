@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿//#pragma once
+#ifndef IMAGE_HPP
+#define IMAGE_HPP
 
 /** @cond undoc */
 
@@ -24,6 +26,9 @@ struct Couleur
   //Couleur(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha = 255);
   Couleur(float r, float g, float b, float alpha = 255);
 
+  static Couleur mélange(const Couleur &a, const Couleur &b, float alpha);
+  static Couleur rand();
+
   std::string vers_chaine() const;
 
   static const Couleur Blanc, Noir, Rouge, Vert, Bleu, Violet, Jaune, Orange, Cyan, Marron, Gris;
@@ -42,7 +47,8 @@ struct Point_
 
   Point_(){}
 
-  Point_(T x, T y){this->x = x; this->y = y;}
+  template<typename T2, typename T3>
+  Point_(T2 x, T3 y){this->x = (T) x; this->y = (T) y;}
 
   template<typename T2>
     Point_(const Point_<T2> &r)
@@ -66,17 +72,27 @@ template<typename T>
   return Point_<T>{p0.x-p1.x, p0.y-p1.y};
 }
 
-using Point = Point_<int>;
+using Point = Point_<entier>;
 using Pointf = Point_<float>;
 
 template<typename T>
 struct Dim_
 {
   T l = 0, h = 0;
+
+  Dim_(){}
+
+  template<typename T1, typename T2>
+  Dim_(T1 l, T2 h)
+  {
+    this->l = (T) l;
+    this->h = (T) h;
+  }
+
   std::partial_ordering operator<=>(const Dim_<T>&) const = default;
 };
 
-using Dim = Dim_<int>;
+using Dim = Dim_<entier>;
 using Dimf = Dim_<float>;
 
 
@@ -87,12 +103,13 @@ struct Rect_
   T x = 0, y = 0, l = 0, h = 0;
 
   Rect_(){}
-  Rect_(T x, T y, T l, T h)
+  template<typename T1, typename T2, typename T3, typename T4>
+  Rect_(T1 x, T2 y, T3 l, T4 h)
   {
-    this->x = x;
-    this->y = y;
-    this->l = l;
-    this->h = h;
+    this->x = (T) x;
+    this->y = (T) y;
+    this->l = (T) l;
+    this->h = (T) h;
   }
   Rect_(const Point_<T> &p0, const Point_<T> &p1)
   {
@@ -136,9 +153,9 @@ struct Rect_
   static Rect_<T> englobant(const Point_<T> &p0, const Point_<T> &p1)
   {
     if constexpr (std::is_integral<T>::value)
-      return Rect_<T>{std::min(p0.x,p1.x), std::min(p0.y,p1.y), std::abs(p1.x-p0.x)+1, std::abs(p1.y-p0.y)+1};
+      return Rect_<T>{min(p0.x,p1.x), min(p0.y,p1.y), abs(p1.x-p0.x)+1, abs(p1.y-p0.y)+1};
     else
-      return Rect_<T>{std::min(p0.x,p1.x), std::min(p0.y,p1.y), std::abs(p1.x-p0.x), std::abs(p1.y-p0.y)};
+      return Rect_<T>{min(p0.x,p1.x), min(p0.y,p1.y), abs(p1.x-p0.x), abs(p1.y-p0.y)};
   }
 
   Dim_<T> dim() const
@@ -146,16 +163,16 @@ struct Rect_
     return {l, h};
   }
 
-  bool contient(const Point_<T> &p) const
+  bouléen contient(const Point_<T> &p) const
   {
-    return (p.x >= std::min(x, x + l)) && (p.y >= std::min(y, y + h)) && (p.x <= std::max(x, x + l)) && (p.y <= std::max(y, y + h));
+    return (p.x >= min(x, x + l)) && (p.y >= min(y, y + h)) && (p.x <= max(x, x + l)) && (p.y <= max(y, y + h));
   }
 
   std::strong_ordering operator<=>(const Rect_<T>&) const = default;
 };
 
 
-using Rect = Rect_<int>;
+using Rect = Rect_<entier>;
 using Rectf = Rect_<float>;
 
 
@@ -199,7 +216,7 @@ extern sptr<CMap> cmap_parse(const std::string &nom);
 // Classe générique pour le dessin
 struct Image
 {
-  Image(int sx = 0, int sy = 0, void *data = nullptr);
+  Image(entier sx = 0, entier sy = 0, void *data = nullptr);
   Image(const Dim &dim, void *data = nullptr) : Image(dim.l, dim.h, data){}
 
   const void *data() const;
@@ -210,14 +227,14 @@ struct Image
   void remplir(const Couleur &c);
 
   void resize(const Dim &d);
-  void resize(int sx, int sy);
+  void resize(entier sx, entier sy);
 
-  Image redim(int l, int h) const;
+  Image redim(entier l, entier h) const;
   Image redim(const Dim &dim) const {return redim(dim.l, dim.h);}
 
   void def_couleur_dessin(const Couleur &c);
   void def_couleur_remplissage(const Couleur &c);
-  void def_epaisseur(int ep);
+  void def_epaisseur(entier ep);
 
   enum StyleLigne
   {
@@ -236,11 +253,11 @@ struct Image
   void rectangle(const Point &p0, const Point &p1);
   void rectangle(const Rect &r);
   void ellipse(const Point &p0, const Point &p1);
-  void cercle(const Point &p0, int r);
+  void cercle(const Point &p0, entier r);
 
   void rectangle_plein(const Point &p0, const Point &p1);
   void ellipse_pleine(const Point &p0, const Point &p1);
-  void cercle_plein(const Point &p0, int r);
+  void cercle_plein(const Point &p0, entier r);
 
   Dim texte_dim(const std::string &s, float dim);
 
@@ -266,15 +283,15 @@ struct Image
   void blend(Image src);
   Image blend_nv(Image src);
 
-  void enregister(const std::string &chemin);
+  void enregister(const std::string &chemin) const;
   void charger(const std::string &chemin);
-  Image sous_image(int x0, int y0, int l, int h);
+  Image sous_image(entier x0, entier y0, entier l, entier h);
 
   Dim get_dim() const;
-  inline int sx() const{return get_dim().l;}
-  inline int sy() const{return get_dim().h;}
+  inline entier sx() const{return get_dim().l;}
+  inline entier sy() const{return get_dim().h;}
 
-  inline bool empty() const{return sx() * sy() == 0;}
+  inline bouléen empty() const{return sx() * sy() == 0;}
 
 private:
   struct Impl;
@@ -300,8 +317,8 @@ struct TexteConfiguration
   Couleur couleur      = Couleur{0,0,0};
   Couleur couleur_fond = Couleur{255,255,255,0};
   float scale             = 0.5;
-  int thickness           = 1;
-  int fontface            = 1;
+  entier thickness           = 1;
+  entier fontface            = 1;
   Dim dim_max             = {-1,-1};
   Point org               = {0,0};
   float transparence      = 0.3;
@@ -316,7 +333,7 @@ struct TexteConfiguration
 struct TexteProps
 {
   float scale_out;
-  std::vector<int> xdim, ypos, ydim;
+  std::vector<entier> xdim, ypos, ydim;
 };
 
 // Affiche du texte, éventuellement sur plusieurs lignes
@@ -334,7 +351,15 @@ extern void texte_ajoute(Image O, const TexteConfiguration &config,
 }
 
 
+ostream_formater(tsd::vue::Point)
+ostream_formater(tsd::vue::Pointf)
+ostream_formater(tsd::vue::Rect)
+ostream_formater(tsd::vue::Rectf)
+ostream_formater(tsd::vue::Dim)
+ostream_formater(tsd::vue::Dimf)
+ostream_formater(tsd::vue::Couleur)
 
+#if 0
 template <> struct fmt::formatter<tsd::vue::Point> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
@@ -399,5 +424,7 @@ template <> struct fmt::formatter<tsd::vue::Couleur> {
     return fmt::format_to(ctx.out(), "(r={},v={},b={},a={})", t.r, t.g, t.b, t.alpha);
   }
 };
+#endif
 
 /** @endcond */
+#endif

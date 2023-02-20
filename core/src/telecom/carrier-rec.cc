@@ -6,39 +6,9 @@
 
 using namespace tsd::vue;
 
-const auto CREC_MODE_SAFE = false;
+const auto CREC_MODE_SAFE = non;
 
 namespace tsd::telecom {
-
-template <typename T> int sign(T val) {
-    return (T(0) < val) - (val < T(0));
-}
-
-
-#if 0
-/** Calcul d'exponentielle à partir d'une LUT */
-struct LUTOsc
-{
-  int n;
-  ArrayXcf table;
-
-  LUTOsc(int n)
-  {
-    this->n = n;
-    table.resize(n);
-    for(auto i = 0; i < n; i++)
-      table(i) = std::polar(1.0, i * 2 * π / n);
-  }
-  cfloat step(float θ)
-  {
-    θ = modulo_2π(θ);
-    int x0 = floor((n * θ) / (2 * π));
-    return table(x0);
-  }
-};
-#endif
-
-
 
 
 
@@ -65,7 +35,7 @@ struct LF2: FiltreBoucle
     θ += μ;
     μ += γ * ((1 + ρ) * x - last_ped);
     last_ped = x;
-    return θ;
+    retourne θ;
   }
 };
 
@@ -75,13 +45,13 @@ struct LF1: FiltreBoucle
 
   LF1(float τ)
   {
-    α = tsd::filtrage::rii1_tc_vers_coef(τ);
+    α = tsd::filtrage::lexp_tc_vers_coef(τ);
     reset();
   }
   float step(float x)
   {
     θ += α * x;
-    return θ;
+    retourne θ;
   }
   void reset()
   {
@@ -93,388 +63,139 @@ struct LF1: FiltreBoucle
 
 sptr<FiltreBoucle> filtre_boucle_ordre_1(float τ)
 {
-  return std::make_shared<LF1>(τ);
+  retourne std::make_shared<LF1>(τ);
 }
 
 sptr<FiltreBoucle> filtre_boucle_ordre_2(float BL, float η)
 {
-  return std::make_shared<LF2>(BL, η);
+  retourne std::make_shared<LF2>(BL, η);
 }
 
-Ped ped_costa(int M)
+Ped ped_costa(entier M)
 {
-  if((M != 2) && (M != 4))
+  si((M != 2) && (M != 4))
   {
     msg_erreur("ped_costa: fonctionne seulement en BPSK (M=2) ou QPSK (M=4), ici M = {}.", M);
-    return Ped();
+    retourne {};
   }
   // QPSK : m^4 = 1
-  if(M == 2)
+  si(M == 2)
     // BPSK : m² = 1
     // sin(phi) * cos(phi) = 0.5 sin(2phi) ~ phi
     // Note: c'est la même chose qu'une squaring loop
     // en prenant slmt la partie imaginaire.
-    return [](cfloat x) {return x.real() * x.imag();};
-  else if(M == 4)
-  {
-    // QPSK costa loop locks to square constellation
-    // And we expect a "losange" constellation.
-    return [](cfloat x){
-    cfloat z = x * std::polar(1.0f, π_f/4);
-    return z.imag() * sign(z.real()) - z.real() * sign(z.imag());
+    retourne [](cfloat x)
+    {
+      retourne x.real() * x.imag();
     };
-  }
-  return Ped();
+
+  tsd_assert(M == 4);
+
+  // QPSK costa loop locks to square constellation
+  // And we expect a "losange" constellation.
+  retourne [](cfloat x){
+    soit z = x * std::polar(1.0f, π_f/4);
+    retourne z.imag() * signe(z.real()) - z.real() * signe(z.imag());
+  };
 }
-Ped ped_ploop(int M)
+Ped ped_ploop(entier M)
 {
-  return [M](cfloat x)
+  retourne [M](cfloat x)
   {
     // Attention, nécessite une CAG en amont
-    return (std::pow(x, M)).imag() / M;
+    retourne (pow(x, M)).imag() / M;
   };
-  //return (std::arg(std::pow(x, M))) / M;
 }
-Ped ped_tloop(int M)
+Ped ped_tloop(entier M)
 {
-  return [M](cfloat x) -> float {
-    if(x == 0.0f)
-      return 0;
-    return std::arg(std::pow(x, M)) / M;
+  retourne [M](cfloat x) -> float
+  {
+    si(x == 0.0f)
+      retourne 0;
+    retourne std::arg(pow(x, M)) / M;
   };
 }
 Ped ped_decision(sptr<FormeOnde> wf)
 {
-  return [wf](cfloat x){
-    auto c = x * conj(wf->lis_symbole(wf->symbole_plus_proche(x)));
-    if(c == 0.0f)
-      return 0.0f;
-    return std::arg(c);
+  retourne [wf](cfloat x)
+  {
+    soit c = x * conj(wf->lis_symbole(wf->symbole_plus_proche(x)));
+    si(c == 0.0f)
+      retourne 0.0f;
+    retourne std::arg(c);
   };
 }
 
 Ped ped_init(PedType type, sptr<FormeOnde> wf)
 {
-  if(type == PedType::AUTO)
+  si(type == PedType::AUTO)
   {
-    if(wf->infos.est_psk)
-    {
-      //if(wf.M >= 4) // QPSK, 8PSK, ...
-        //scr.ted = ted_qpsk();
+    si(wf->infos.est_psk)
       type = PedType::POWER_LOOP;
-    }
-    else if(wf->infos.est_ask)
-    {
+    sinon si(wf->infos.est_ask)
       type = PedType::TAN_LOOP;
-    }
-    else
-    {
+    sinon
       type = PedType::DEC_LOOP;
-    }
-    /*else
-    {
-      msg_erreur("ped_init() : ne sait pas quel PED créer pour cette modulation.");
-      return Ped();
-    }*/
   }
 
-  int M = wf->infos.M;
-  if(wf->infos.est_ask)
+  soit M = wf->infos.M;
+  si(wf->infos.est_ask)
     M = 2;
 
-  if(type == PedType::COSTA)
-    return ped_costa(M);
-  else if(type == PedType::POWER_LOOP)
-    return ped_ploop(M);
-  else if(type == PedType::TAN_LOOP)
-    return ped_tloop(M);
-  else if(type == PedType::DEC_LOOP)
-    return ped_decision(wf);
-  msg_erreur("PED : type inconnu ({}).", (int) type);
-  return Ped();
+  si(type == PedType::COSTA)
+    retourne ped_costa(M);
+  sinon si(type == PedType::POWER_LOOP)
+    retourne ped_ploop(M);
+  sinon si(type == PedType::TAN_LOOP)
+    retourne ped_tloop(M);
+  sinon si(type == PedType::DEC_LOOP)
+    retourne ped_decision(wf);
+  echec("PED : type inconnu ({}).", (entier) type);
+  retourne {};
 }
 
-#if 0
-struct PedCosta: Ped
-{
-  PedCosta(unsigned int M)
-  {
-    nom = "costa";
-    this->M = M;
-    require_agc = true;
-    if((M != 2) && (M != 4))
-      erreur("psk_costa: expect BPSK or QPSK.");
-  }
-  float calcule(const std::complex<float> &x)
-  {
-    // QPSK : m^4 = 1
-    if(M == 2)
-      // BPSK : m² = 1
-      // sin(phi) * cos(phi) = 0.5 sin(2phi) ~ phi
-      // Note: c'est la même chose qu'une squaring loop
-      // en prenant slmt la partie imaginaire.
-      return x.real() * x.imag();
-    else if(M == 4)
-    {
-      // QPSK costa loop locks to square constellation
-      // And we expect a "losange" constellation.
-      cfloat z = x * std::polar(1.0f, pi/4);
-      return z.imag() * sign(z.real()) - z.real() * sign(z.imag());
-    }
-    return 0;
-  }
-};
 
-struct PedPLoop: Ped
-{
-  PedPLoop(unsigned int M)
-  {
-    nom = "power loop";
-    this->M = M;
-    require_agc = true;
-  }
-  float calcule(const std::complex<float> &x)
-  {
-    // Apparement, qd l'amplitude est légérement supérieure à 1, il y amplification exponentielle du gain ?
-    //
-    return (std::pow(x, M)).imag() / M;
-    //return (std::arg(std::pow(x, M))) / M;
-  }
-};
-
-struct PedDec: Ped
-{
-  sptr<FormeOnde> wf;
-  PedDec(sptr<FormeOnde> wf)
-  {
-    nom = "decision based loop";
-    this->wf = wf;
-    require_agc = true;
-  }
-
-  float calcule(const std::complex<float> &x)
-  {
-    auto c = x * conj(wf->lis_symbole(wf->symbole_plus_proche(x)));
-    if(c == 0.0f)
-      return 0.0f;
-    return std::arg(c);
-  }
-};
-
-
-struct PedTLoop: Ped
-{
-  PedTLoop(unsigned int M)
-  {
-    nom = "tan loop";
-    this->M = M;
-    require_agc = false;
-  }
-  float calcule(const std::complex<float> &x)
-  {
-    //atan(imag(z .^ ped.M),real(z .^ ped.M)) / ped.M;
-    if(x == 0.0f)
-      return 0;
-    return std::arg(std::pow(x, M)) / M;
-  }
-};
-
-
-sptr<Ped> ped_basee_decision(sptr<FormeOnde> wf)
-{
-  return std::make_shared<PedDec>(wf);
-}
-
-sptr<Ped> ped_init(PedType type, unsigned int M)
-{
-  if(type == PedType::COSTA)
-    return std::make_shared<PedCosta>(M);
-  else if(type == PedType::POWER_LOOP)
-    return std::make_shared<PedPLoop>(M);
-  else if(type == PedType::TAN_LOOP)
-    return std::make_shared<PedTLoop>(M);
-  msg_erreur("PED : type inconnu ({} - {}).", (int) type, type);
-  return sptr<Ped>();
-}
-#endif
-
-
-#if 0
-// A SUPPRIMER
-struct CarrierRec: Filtre<cfloat, cfloat, CarrierRecConfig>
-{
-  float θ = 0;
-  float rssi = 1.0f, g = 1.0f;
-
-
-  CarrierRec(const CarrierRecConfig &config)
-  {
-    configure(config);
-  }
-
-  int configure(const CarrierRecConfig &config)
-  {
-    this->config = config;
-    tsd_assert(config.ped);
-    tsd_assert(config.lf);
-    if(config.ped->require_agc)
-    {
-      g     = tsd::filtrage::iir1_tc_vers_coef(config.ped->agc_tc);
-      rssi  = 1;
-    }
-    return 0;
-  }
-
-  void step(const Eigen::Ref<const ArrayXcf> x, ArrayXcf &y)
-  {
-    auto n = x.rows();
-    y.resize(n);
-
-    ArrayXf pe(n);
-    ArrayXf vtheta(n);
-    ArrayXcf ploop(n);
-    ArrayXcf vagc(n);
-    ArrayXf vrssi = ArrayXf::Ones(n);
-
-    for(auto i = 0; i < n; i++)
-    {
-      vtheta(i) = θ;
-      y(i) = x(i) * std::polar(1.0f, -θ);
-      auto zagc = y(i);
-      if(config.ped->require_agc)
-      {
-          rssi = (1-g) * rssi + g * std::abs(zagc);
-          vrssi(i) = rssi;
-          zagc = zagc / (rssi + 1e-10f);
-      }
-      vagc(i) = zagc;
-
-
-      ArrayXf dphi(1);
-      dphi(0) = config.ped->calcule(zagc);
-      pe(i) = dphi(0);
-      ploop(i) = config.ped->calcule(x(i));
-
-      θ = config.lf->step(dphi)(0);
-    }
-
-    if(config.debug_actif)
-    {
-      Figure f("Recouvrement de porteuse");
-      auto nl = 5, nc = 1, ids = 1;
-      f.subplot(nl,nc,ids++);
-      f.plot(vrssi, "-b", "RSSI");
-      f.subplot(nl,nc,ids++);
-      f.plot(pe * 180 / pi, "-b", "Erreur de phase (deg.)");
-      f.subplot(nl,nc,ids++);
-      f.plot(vtheta * 180 / pi, "-b", "Phase (deg.)");
-      f.subplot(nl,nc,ids++);
-      f.plot_iq(vagc, ".b", "AGC");
-      f.subplot(nl,nc,ids++);
-      f.plot_iq(ploop, ".b", "PLOOP");
-      f.afficher();
-    }
-
-    if(y.hasNaN())
-    {
-      erreur("Carrier rec : NaN.");
-    }
-
-  }
-
-};
-
-
-sptr<Filtre<cfloat, cfloat, CarrierRecConfig>> carrier_rec_init(const CarrierRecConfig &config)
-{
-  return std::make_shared<CarrierRec>(config);
-}
-#endif
-
-/*int DEPQuadratique::configure(float power)
-{
-  this->power = power;
-  return 0;
-}
-
-void DEPQuadratique::step(cfloat x, float &dep)
-{
-  //dep = std::arg(x);
-  dep = std::arg(std::pow(x, power)) / power;
-  //dep = std::arg(x) * power;
-}
-
-void DEPQuadratique::step(ArrayXcf &x, float &df)
-{
-  auto n = x.rows();
-
-  float alpha = 0.95;
-
-  for(auto i = 0; i < n; i++)
-  {
-    float dep;
-    step(x(i), dep);
-
-    float d = dep - dernier_dep;
-
-    if(d > pi)
-      d = 2 * pi - d;
-    if(d < -pi)
-      d = d + 2 * pi;
-
-    omega = alpha * omega + (1.0 - alpha) * d;
-
-    dernier_dep = dep;
-  }
-
-  df = omega / (2 * pi);
-}*/
-
-std::tuple<float,float> localise_pic_frequence(const ArrayXcf &x)
+std::tuple<float,float> localise_pic_frequence(const Veccf &x)
 {
   SuiviPicFrequence suivi;
   suivi.configure(x.rows());
   float f, snr;
   suivi.step(x, f, snr);
-  return std::make_tuple(f, snr);
+  retourne {f, snr};
 }
 
-int SuiviPicFrequence::configure(unsigned int N)
+void SuiviPicFrequence::configure(entier N)
 {
   this->N = N;
-  fft_plan = tsd::fourier::fftplan_création(N);
-  return 0;
+  fft_plan = tsd::fourier::tfrplan_création(N);
 }
 
-void SuiviPicFrequence::step(const ArrayXcf &x, float &freq_detectee, float &snr)
+void SuiviPicFrequence::step(const Veccf &x, float &freq_detectee, float &snr)
 {
-  ArrayXcf X;
-  fft_plan->step(x, X, true);
+  soit X = fft_plan->step(x);
+  soit a2 = abs2(X);
+  soit [y2, i2] = a2.max();
 
-  int i2 = 0;
-  auto a2 = X.abs2();
-  float y2 = a2.maxCoeff(&i2);
-
-  snr = y2 / a2.mean();
+  snr = y2 / a2.moyenne();
 
   // Interpolation barycentrique (https://dspguru.com/dsp/howtos/how-to-interpolate-fft-peak/)
-  int i1 = (i2 - 1 + N) % N;
-  int i3 = (i2 + 1) % N;
+  soit i1 = (i2 - 1 + N) % N;
+  soit i3 = (i2 + 1) % N;
 
-  auto y1 = a2(i1);
-  auto y3 = a2(i3);
+  soit y1 = a2(i1);
+  soit y3 = a2(i3);
 
   //    i = N/2 <=> f = fs/2
   // => i       <=> i * fs / N
-  if(i2 >= (int) N/2)
+  si(i2 >= (entier) N/2)
     i2 = i2 - N; // 0.6 => -0.4
 
   freq_detectee = ((float) i2) / N;
-  tsd_assert(std::abs(freq_detectee) <= 0.5);
+  tsd_assert(abs(freq_detectee) <= 0.5);
 
-  auto d = (y3 - y1) / (y1 + y2 + y3 + 1e-30f);
+  soit d = (y3 - y1) / (y1 + y2 + y3 + 1e-30f);
 
-  tsd_assert(std::abs(d) <= 1);
+  tsd_assert(abs(d) <= 1);
 
   freq_detectee += d / N;
 }
@@ -498,7 +219,7 @@ struct RPLL: Filtre<T, T, RPLLConfig>
   // On peut faire un suivi à l'ordre :
   // - Ordre 1 : erreur de phase uniquement
   // - Ordre 2 : erreur de fréquence
-  int configure_impl(const RPLLConfig &c)
+  entier configure_impl(const RPLLConfig &c)
   {
     cpll = cpll_création(c.pll_interne);
 
@@ -508,51 +229,51 @@ struct RPLL: Filtre<T, T, RPLLConfig>
 
     osc = source_ohc(-c.freq);
     //ol  = source_ohc(0);
-    //else
+    //sinon
     //ol = source_ohc(c.freq);
 
 
-    ArrayXf coefs = tsd::filtrage::design_rif_cs(c.ncoefs_bb, 0.1, c.bp / 2);
+    soit coefs = tsd::filtrage::design_rif_cs(c.ncoefs_bb, 0.1, c.bp / 2);
     rif = tsd::filtrage::filtre_rif<float, cfloat>(coefs);
 
-    return 0;
+    retourne 0;
   }
-  void step(const Eigen::Ref<const Vecteur<T>> x, Vecteur<T> &y)
+  void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    auto &config = Configurable<RPLLConfig>::config;
-    auto n = x.rows();
+    soit &config = Configurable<RPLLConfig>::config;
+    soit n = x.rows();
 
-    ArrayXcf sosc, x1, x2;
+    Veccf sosc, x1, x2;
 
     // Transposition bande de base
     sosc = osc->step(n);
     x1 = sosc * x;
 
     // Filtrage passe-bas
-    if(config.filtre_bb_actif)
+    si(config.filtre_bb_actif)
       x2 = rif->step(x1);
-    else
+    sinon
       x2 = x1;
 
-    ArrayXcf x3 = cpll->step(x2);
+    soit x3 = cpll->step(x2);
 
     // Regénération de la porteuse
-    //if(config.sortie_porteuse)
+    //si(config.sortie_porteuse)
     {
       // Regénére le signal à la fréquence porteuse
-      ArrayXcf y1 = sosc.conjugate().head(n) * x3;
-      // Si signal complexe attendu en sortie
-      //if constexpr (std::is_same<T, cfloat>::value)
+      soit y1 = sosc.conjugate().head(n) * x3;
+      // si signal complexe attendu en sortie
+      //si constexpr (std::is_same<T, cfloat>::value)
         //y = y1;
-      // Si signal réel attendu en sortie
-      //else
-        y = y1.real();
+      // si signal réel attendu en sortie
+      //sinon
+        y = real(y1);
     }
-    /*else
+    /*sinon
     {
-      if constexpr (std::is_same<T, cfloat>::value)
+      si constexpr (std::is_same<T, cfloat>::value)
         y = mem_cor;
-      else
+      sinon
       {
         y = mem_cor.real();
         //erreur("PLL : freq attendue nulle : le signal résultant est forcément complexe.");
@@ -562,7 +283,7 @@ struct RPLL: Filtre<T, T, RPLLConfig>
 
 
 
-    if(config.debug)
+    si(config.debug)
     {
 #     if 0
       Figure f("PLL (1)");
@@ -596,7 +317,7 @@ struct RPLL: Filtre<T, T, RPLLConfig>
 
       f2.subplot(313);
       f2.plot(real(x), "b-", "Signal a suivre");
-      auto c = f2.plot(real(y), "g-", "PLL");
+      soit c = f2.plot(real(y), "g-", "PLL");
       c.def_epaisseur(2);
       f2.afficher();
 #     endif
@@ -626,37 +347,37 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
   // Suivi à l'ordre :
   // - 1 : erreur de phase uniquement
   // - 2 : erreur de fréquence
-  int configure_impl(const PLLConfig &c)
+  entier configure_impl(const PLLConfig &c)
   {
-    auto &config = Configurable<PLLConfig>::config;
+    soit &config = Configurable<PLLConfig>::config;
     config = c;
 
     msg("Configuration cpll : fréq oscillateur = {}.", -c.freq);
 
-    if(!config.ped)
+    si(!config.ped)
     {
       msg("cpll : ped par défaut.");
-      ped = [](cfloat x){return std::arg(x);};
+      ped = [](cfloat x){retourne std::arg(x);};
     }
-    else
+    sinon
       ped = config.ped;
 
-    if(config.loop_filter_order == 1)
+    si(config.loop_filter_order == 1)
       lf = filtre_boucle_ordre_1(config.tc);
-    else
+    sinon
       lf = filtre_boucle_ordre_2(c.bp/* BL */, 1.0f/* η */);
 
-    return 0;
+    retourne 0;
   }
 
-  void step(const Eigen::Ref<const Vecteur<T>> x, Vecteur<T> &y)
+  void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    auto &config = Configurable<PLLConfig>::config;
-    auto n = x.rows();
+    soit &config = Configurable<PLLConfig>::config;
+    soit n = x.rows();
     y.resize(n);
 
-    ArrayXf pe, vθ;
-    if(config.debug)
+    Vecf pe, vθ;
+    si(config.debug)
     {
       pe.resize(n);
       vθ.resize(n);
@@ -664,13 +385,13 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
 
     tsd_assert(ped);
 
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
       y(i) = x(i) * lut.step(-θ);
 
-      auto err = ped(y(i));
+      soit err = ped(y(i));
 
-      if(config.debug)
+      si(config.debug)
       {
         vθ(i) = θ;
         pe(i) = err;
@@ -678,9 +399,9 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
       θ = lf->step(err);
     }
 
-    if(config.debug)
+    si(config.debug)
     {
-      auto &figs = AFigures::figures;
+      soit &figs = AFigures::figures;
       figs.clear();
       figs.subplot().plot_iq(x, "Ab", "Entrée");
       figs.gcf().def_rdi({-1.1f,-1.1f,2.2f,2.2f});
@@ -691,9 +412,9 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
       figs.afficher("Recouvrement de porteuse");
     }
 
-    if constexpr(CREC_MODE_SAFE)
+    si constexpr(CREC_MODE_SAFE)
     {
-      if(y.hasNaN())
+      si(y.hasNaN())
         msg_erreur("Carrier rec : NaN.");
     }
   }
@@ -703,12 +424,12 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
 
 sptr<Filtre<float, float, RPLLConfig>> rpll_création(const RPLLConfig &cfg)
 {
-  return std::make_shared<RPLL<float>>(cfg);
+  retourne std::make_shared<RPLL<float>>(cfg);
 }
 
 sptr<Filtre<cfloat, cfloat, PLLConfig>> cpll_création(const PLLConfig &cfg)
 {
-  return std::make_shared<CPLL<cfloat>>(cfg);
+  retourne std::make_shared<CPLL<cfloat>>(cfg);
 }
 
 

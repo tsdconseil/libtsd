@@ -5,160 +5,153 @@ namespace tsd::vue::unites {
 
 
 
-std::string valeur_vers_chaine(double t, const std::string &unite, int nb_chiffres)
+std::string valeur_vers_chaine(double t, const std::string &unite, entier nb_chiffres)
 {
-  auto [expo, nc] = calc_expo_nb_chiffres(t, unite);
-    return valeur_vers_chaine(t, unite, expo, nb_chiffres);
+  soit [expo, nc] = calc_expo_nb_chiffres(t, unite);
+  retourne valeur_vers_chaine(t, unite, expo, nb_chiffres);
 }
 
 std::string valeur_vers_chaine(double t, const std::string &unite)
 {
-  auto [expo, nc] = calc_expo_nb_chiffres(t, unite);
-  return valeur_vers_chaine(t, unite, expo, nc);
+  soit [expo, nc] = calc_expo_nb_chiffres(t, unite);
+  retourne valeur_vers_chaine(t, unite, expo, nc);
 }
 
-std::string valeur_vers_chaine(double t, const std::string &unite, int expo, int nb_chiffres)
+std::string valeur_vers_chaine(double t, const std::string &unite, entier expo, entier nb_chiffres)
 {
   std::string un = unite;
 
-  if(!unite.empty())
+  si(!unite.empty())
   {
-    if(expo == 3)
+    si(expo == 3)
       un = "K" + un;
-    else if(expo == 6)
+    sinon si(expo == 6)
       un = "M" + un;
-    else if(expo == 9)
+    sinon si(expo == 9)
       un = "G" + un;
-    else if(expo == -3)
+    sinon si(expo == -3)
       un = "m" + un;
-    else if(expo == -6)
+    sinon si(expo == -6)
       un = "u" + un;
-    else if(expo == 0)
+    sinon si(expo == 0)
       ;
-    else
+    sinon
       un = "?" + un;
   }
-  else
+  sinon
   {
-    if(expo != 0)
+    si(expo != 0)
       un = fmt::format("e{}", expo);
   }
 
-  t *= std::pow(10, -expo);
+  t *= pow(10, -expo);
 
-  if(!un.empty())
+  si(!un.empty())
     un = " " + un;
 
-  if(nb_chiffres == 0)
-    return fmt::format("{}{}", (int) t, un);
-  else
+  si(nb_chiffres == 0)
+    retourne fmt::format("{}{}", (entier) round(t), un);
+  sinon
   {
     char buf[50];
     sprintf(buf, "{:.%df}{}", nb_chiffres);
-    return fmt::format(FMT_RUNTIME(std::string(buf)), t, un);
+    retourne fmt::format(FMT_RUNTIME(std::string(buf)), t, un);
   }
 }
 
 
-static int ndigits(double a)
+static entier ndigits(double a)
 {
-  for(auto i = 0; i < 8; i++)
+  pour(auto i = 0; i < 8; i++)
   {
-    float at = a * std::pow(10, i);
-    //if(at == std::floor(at))
-    if(std::abs(at - std::round(at)) < 2 * std::pow(10, i) * std::numeric_limits<float>::epsilon())
+    float at = a * pow(10, i);
+    si(abs(at - round(at)) < 2 * pow(10, i) * std::numeric_limits<float>::epsilon())
     {
-      //msg("ndigits({}) = {} (at = {}, at-round(at) = {})", a, i, at, std::abs(at - std::round(at)));
-      return i;
+      retourne i;
     }
   }
-  //msg("ndigits({}) = 8 !", a);
-  return 8;
+  retourne 8;
 }
 
 
-int ndigits(double t, int expo, const std::string &unite)
+entier ndigits(double t, entier expo, const std::string &unite)
 {
-  float at = std::abs(t);
-  return ndigits(at * std::pow((double) 10, (double) -expo));
+  soit at = abs(t);
+  retourne ndigits(at * pow(10.0, (double) -expo));
 }
 
 // unité : unité de base,
 // t : valeur
 // retourne : {exposant, nb chiffres significatifs}
-std::tuple<int,int> calc_expo_nb_chiffres(double t, const std::string &unite)
+std::tuple<entier,entier> calc_expo_nb_chiffres(double t, const std::string &unite)
 {
   // TODO : ici ndigits calculé en doublon
+  float at = abs(t);
 
-
-  float at = std::abs(t);
-
-  if(unite.empty())
+  si(unite.empty())
   {
-    if((std::abs(t) < 70000) && (std::abs(t) >= 1))
-      return {0, ndigits(at)};
-    else if(t == 0)
-      return {0, 0};
-    else if(std::abs(t) >= 0.1)
-      return {0, ndigits(at)};
-    else
+    si((abs(t) < 70000) && (abs(t) >= 1))
+      retourne {0, ndigits(at)};
+    sinon si(t == 0)
+      retourne {0, 0};
+    sinon si(abs(t) >= 0.1)
+      retourne {0, ndigits(at)};
+    sinon
     {
-      int pow = floor(std::log10(at));
-      return {pow, ndigits(at * std::pow((double) 10, (double) -pow))}; // A VERIFIER
+      entier p = floor(log10(at));
+      retourne {p, ndigits(at * pow(10.0, (double) -p))}; // A VERIFIER
     }
   }
 
-  if((at < 1000) && (at >= 1))
-    return {0, ndigits(at)};
-  else if((at >= 1000) && (at < 1e6))
-    return {3, ndigits(at * 1e-3)};
-  else if((at >= 1e6) && (at < 1e9))
-    return {6, ndigits(at * 1e-6)};
-  else if(at >= 1e9)
-    return {9, ndigits(at * 1e-9)};
-  else if(t == 0)
-    return {0, 0};
-  else if(at < 1e-3)
-    return {-6, ndigits(at * 1e6)};
-  else if(at < 1)
-    return {-3, ndigits(at * 1e3)};
-  else
-    return {0, ndigits(at)};
+  si((at < 1000) && (at >= 1))
+    retourne {0, ndigits(at)};
+  sinon si((at >= 1000) && (at < 1e6))
+    retourne {3, ndigits(at * 1e-3)};
+  sinon si((at >= 1e6) && (at < 1e9))
+    retourne {6, ndigits(at * 1e-6)};
+  sinon si(at >= 1e9)
+    retourne {9, ndigits(at * 1e-9)};
+  sinon si(t == 0)
+    retourne {0, 0};
+  sinon si(at < 1e-3)
+    retourne {-6, ndigits(at * 1e6)};
+  sinon si(at < 1)
+    retourne {-3, ndigits(at * 1e3)};
+  sinon
+    retourne {0, ndigits(at)};
 }
 
 
-std::tuple<int, int> calc_expo_nb_chiffres_commun(const std::vector<double> &tics, const std::string &unite)
+std::tuple<entier, entier> calc_expo_nb_chiffres_commun(const std::vector<double> &tics, const std::string &unite)
 {
-  if(tics.empty())
-    return {0, 0};
+  si(tics.empty())
+    retourne {0, 0};
 
-  bool has_max = false;
+  bouléen has_max = non;
 
-  int expo_max = 0;
-  //auto [expo_max, nbchiffres_max] = calc_expo_nb_chiffres(tics[0], unite);
-  for(auto i = 0u; i < tics.size(); i++)
+  entier expo_max = 0;
+  //soit [expo_max, nbchiffres_max] = calc_expo_nb_chiffres(tics[0], unite);
+  pour(auto i = 0u; i < tics.size(); i++)
   {
     // TODO : ici nbchiffres inutiles
-    auto [expo, nbchiffres] = calc_expo_nb_chiffres(tics[i], unite);
-    if(tics[i] != 0)
+    soit [expo, nbchiffres] = calc_expo_nb_chiffres(tics[i], unite);
+    si(tics[i] != 0)
     {
-      if(has_max)
-        expo_max        = std::min(expo_max, expo);
-      else
+      si(has_max)
+        expo_max  = min(expo_max, expo);
+      sinon
         expo_max = expo;
     }
   }
 
-  int nbchiffres_max = ndigits(tics[0], expo_max, unite);
-  //msg("ndigits({}, {}) = {}", tics[0], expo_max, nbchiffres_max);
-  for(auto i = 1u; i < tics.size(); i++)
+  soit nbchiffres_max = ndigits(tics[0], expo_max, unite);
+  pour(auto i = 1u; i < tics.size(); i++)
   {
-    auto nbchiffres = ndigits(tics[i], expo_max, unite);
-    //msg("ndigits({}, {}) = {}", tics[i], expo_max, nbchiffres);
-    nbchiffres_max  = std::max(nbchiffres_max, nbchiffres);
+    soit nbchiffres = ndigits(tics[i], expo_max, unite);
+    nbchiffres_max  = max(nbchiffres_max, nbchiffres);
   }
 
-  return {expo_max, nbchiffres_max};
+  retourne {expo_max, nbchiffres_max};
 }
 
 

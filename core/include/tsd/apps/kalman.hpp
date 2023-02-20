@@ -4,7 +4,6 @@
 #include "tsd/vue.hpp"
 #include "tsd/geometrie.hpp"
 
-
 namespace tsd::kalman {
 
   /** @addtogroup kalman
@@ -27,41 +26,41 @@ namespace tsd::kalman {
 struct SSM
 {
   /** @brief Nombre d'états */
-  int ns = 1;
+  entier ns = 1;
 
   /** @brief Nombre d'observations */
-  int no = 1;
+  entier no = 1;
 
   /** @brief Nombre d'entrées */
-  int ni = 0;
+  entier ni = 0;
 
   /** @brief State evolution covariance matrix (default is 0) */
-  MatrixXf Q;
+  Tabf Q;
 
   /** @brief Observation covariance matrix (default is 0) */
-  MatrixXf R;
+  Tabf R;
 
   /** @brief Square roots of R & Q */
-  MatrixXf LR, LQ;
+  Tabf LR, LQ;
 
   std::string nom;
 
   std::vector<std::string> noms_etats, noms_obs;
 
-  std::string lis_nom_etat(int i) const;
-  std::string lis_nom_obs(int i) const;
+  std::string lis_nom_etat(entier i) const;
+  std::string lis_nom_obs(entier i) const;
 
   /** @brief transition function (ns x 1 vector to ns x 1 vector) */
-  virtual VectorXf f(const VectorXf &x) const = 0;
+  virtual Vecf f(const Vecf &x) const = 0;
 
   /** @brief observation function (ns x 1 vector to no x 1 vector) */
-  virtual VectorXf g(const VectorXf &x) const = 0;
+  virtual Vecf g(const Vecf &x) const = 0;
 
   /** @brief Function to compute the jacobian matrix of the transition function f (ns x 1 vector to ns x ns matrix) */
-  virtual MatrixXf Jf(const VectorXf &x) const;
+  virtual Tabf Jf(const Vecf &x) const;
 
   /** @brief Function to compute the jacobian matric of the observation function g (ns x 1 vector to ns x no matrix) */
-  virtual MatrixXf Jg(const VectorXf &x) const;
+  virtual Tabf Jg(const Vecf &x) const;
 
 
   /** @brief  Simulation of a state / space model
@@ -78,7 +77,7 @@ struct SSM
    * @param vin Vecteur d'entrée (contrôle) optionnel
    * @return {x,y} : state & observation vectors
    */
-  std::tuple<ArrayXXf, ArrayXXf> steps(int n, const VectorXf &x0 = VectorXf(), const ArrayXXf &vin = ArrayXXf());
+  std::tuple<Tabf, Tabf> steps(entier n, const Vecf &x0 = Vecf(), const Tabf &vin = Tabf());
 
   // Checks the validity of the user supplied Jacobians for a EKF model
   //
@@ -99,10 +98,10 @@ struct SSM
    */
   void verifications() const;
 
-  int k = 0;
+  entier k = 0;
 
   /** @brief Etat en cours */
-  VectorXf etat;
+  Vecf etat;
 };
 
 
@@ -118,36 +117,36 @@ struct SSMLineaire: SSM
 {
   // A,B,C,D: System matrix for a linear system definition
   /** @brief Matrice de process (dépendance en fonction de l'état précédent). */
-  Eigen::MatrixXf A;
+  Tabf A;
 
   /** @brief Matrice de process (dépendance en fonction du vecteur d'entrée). */
-  Eigen::MatrixXf B;
+  Tabf B;
 
   /** @brief Matrice d'observation (dépendance en fonction de l'état) */
-  Eigen::MatrixXf C;
+  Tabf C;
 
   /** @brief Matrice d'observation (dépendance en fonction de l'entrée) */
-  Eigen::MatrixXf D;
+  Tabf D;
 
   /** @brief transition function (ns x 1 vector to ns x 1 vector) */
-  VectorXf f(const VectorXf &x) const;
+  Vecf f(const Vecf &x) const;
 
   /** @brief observation function (ns x 1 vector to no x 1 vector) */
-  VectorXf g(const VectorXf &x) const;
+  Vecf g(const Vecf &x) const;
 
   /** @brief Function to compute the jacobian matrix of the transition function f (ns x 1 vector to ns x ns matrix) */
-  MatrixXf Jf(const VectorXf &x) const;
+  Tabf Jf(const Vecf &x) const;
 
   /** @brief Function to compute the jacobian matric of the observation function g (ns x 1 vector to ns x no matrix) */
-  MatrixXf Jg(const VectorXf &x) const;
+  Tabf Jg(const Vecf &x) const;
 };
 
 
 extern sptr<SSMLineaire> ssm_lineaire(
-    const Eigen::MatrixXf &A,
-    const Eigen::MatrixXf &C,
-    const Eigen::MatrixXf &B = Eigen::MatrixXf(),
-    const Eigen::MatrixXf &D = Eigen::MatrixXf());
+    const Tabf &A,
+    const Tabf &C,
+    const Tabf &B = Tabf(),
+    const Tabf &D = Tabf());
 
 
 
@@ -164,7 +163,7 @@ extern sptr<SSMLineaire> ssm_lineaire(
  * plus précise.
  *
  */
-extern MatrixXf jacobienne_num(std::function<VectorXf(const VectorXf &)> f, const VectorXf &x);
+extern Tabf jacobienne_num(std::function<Vecf(const Vecf &)> f, const Vecf &x);
 
 
 
@@ -179,14 +178,14 @@ struct FiltreSSM
   virtual ~FiltreSSM(){}
 
   /** @brief Prédiction de l'état caché à partir des vecteurs d'obvervation et d'entrée */
-  virtual VectorXf step(const VectorXf &y, const VectorXf &u = VectorXf()) = 0;
+  virtual Vecf step(const Vecf &y, const Vecf &u = Vecf()) = 0;
 
   // Proceed to one or more steps of the standard Kalman filter
   /** @brief Appel direct sur une matrice d'observations */
-  ArrayXXf steps(const ArrayXXf &y, const ArrayXXf &u = ArrayXXf());
+  Tabf steps(const Tabf &y, const Tabf &u = Tabf());
 
   sptr<SSM> ssm;
-  VectorXf etat;
+  Vecf etat;
 };
 
 
@@ -203,8 +202,8 @@ struct FiltreSSM
  * @sa filtre_ekf()
  */
 extern sptr<FiltreSSM> filtre_kalman(sptr<SSMLineaire> ssm,
-                                     const Eigen::VectorXf &x0 = Eigen::VectorXf(),
-                                     const Eigen::MatrixXf &p0 = Eigen::MatrixXf());
+                                     const Vecf &x0 = Vecf(),
+                                     const Tabf &p0 = Tabf());
 
 /** @brief Construction d'un filtre de Kalman étendu (EKF).
  *
@@ -259,7 +258,7 @@ extern sptr<FiltreSSM> filtre_ekf(sptr<SSM> ssm);
  *  @sa ssm_simu(), model_kitagawa(), model_imu(), model_constant()
  *
  */
-extern sptr<SSMLineaire> modele_marche_aleatoire(int ndim = 1, const MatrixXf &Q = MatrixXf(), const MatrixXf &R = MatrixXf());
+extern sptr<SSMLineaire> modele_marche_aleatoire(entier ndim = 1, const Tabf &Q = Tabf(), const Tabf &R = Tabf());
 
 
 // Most simple state / space system: constant scalar value
@@ -379,11 +378,11 @@ extern sptr<SSM> modele_kitagawa();
  *
  * @sa kalman_ssg()
  */
-std::tuple<MatrixXf, float> dare(const MatrixXf &A,
-          const MatrixXf &C, const MatrixXf &Q,
-          const MatrixXf &R,
+std::tuple<Tabf, float> dare(const Tabf &A,
+          const Tabf &C, const Tabf &Q,
+          const Tabf &R,
           float tolerance = 1e-7,
-          int iter_max = 1000);
+          entier iter_max = 1000);
 
 // Compute the Kalman steady-state gain
 //
@@ -424,7 +423,7 @@ std::tuple<MatrixXf, float> dare(const MatrixXf &A,
  *
  * @sa dare()
  */
-extern MatrixXf kalman_ssg(sptr<const SSMLineaire> modele);
+extern Tabf kalman_ssg(sptr<const SSMLineaire> modele);
 
 // Plot a state sequence
 //  ssm: State / space model
@@ -445,7 +444,7 @@ extern MatrixXf kalman_ssg(sptr<const SSMLineaire> modele);
  *
  * @sa plot_obs()
  */
-extern tsd::vue::Figures  plot_etats(sptr<const SSM> ssm, const ArrayXXf &x, const ArrayXXf &xe = ArrayXXf());
+extern tsd::vue::Figures  plot_etats(sptr<const SSM> ssm, const Tabf &x, const Tabf &xe = Tabf());
 
 // Plots an observations sequence
 //  ssm: State / space model
@@ -461,7 +460,7 @@ extern tsd::vue::Figures  plot_etats(sptr<const SSM> ssm, const ArrayXXf &x, con
  *
  * @sa plot_etats()
  */
-tsd::vue::Figures  plot_obs(sptr<const SSM> sys, const ArrayXXf &y);
+tsd::vue::Figures  plot_obs(sptr<const SSM> sys, const Tabf &y);
 
 
 //   <listitem><para><emphasis role="bold">Specification of states to compute:</emphasis></para></listitem>
@@ -490,25 +489,25 @@ tsd::vue::Figures  plot_obs(sptr<const SSM> sys, const ArrayXXf &y);
 struct IMUConfig
 {
   /** @brief Accelerometer measurements are available or not. */
-  bool acc_available;
+  bouléen acc_available;
 
   /** @brief Gyroscope measurements are available or not? */
-  bool gyro_available;
+  bouléen gyro_available;
 
   /** @brief Magnetometer (compas) measurements are available or not? */
-  bool mag_available;
+  bouléen mag_available;
 
   /** @brief Barometer measurements are available or not? */
-  bool baro_available;
+  bouléen baro_available;
 
   /** @brief GPS measurements are available or not? */
-  bool gps_available;
+  bouléen gps_available;
 
   /** @brief If true, the model includes position estimation. */
-  bool estim_pos;
+  bouléen estim_pos;
 
   /** @brief If true, the model includes orientation (Euler angles) estimation. */
-  bool estim_orient;
+  bouléen estim_orient;
 
   /** @brief Sampling frequency (Hz) */
   float fs = 100;

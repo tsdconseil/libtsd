@@ -97,7 +97,7 @@ struct ShapingFilterSpec
    *  @param osf    Oversampling factor (e.g. numbers of samples per symbol).
    *  @returns      Coefficient vector.
    */
-  ArrayXf get_coefs(int ncoefs, int osf) const
+  Vecf get_coefs(int ncoefs, int osf) const
   {
     return fr().get_coefs(ncoefs, osf);
   }
@@ -193,7 +193,7 @@ struct WaveForm
   }
 
   /** @brief Generation of I/Q symbols from a binary stream. */
-  ArrayXcf make_symbols(const BitStream &bs)
+  Veccf make_symbols(const BitStream &bs)
   {
     return fr->génère_symboles(bs);
   }
@@ -215,7 +215,7 @@ struct WaveForm
    *
    *
    */
-  ArrayXcf make_samples(const BitStream &bs, int ntaps, int osf, float &delay)
+  Veccf make_samples(const BitStream &bs, int ntaps, int osf, float &delay)
   {
     return fr->génère_échantillons(bs, ntaps, osf, delay);
   }
@@ -238,7 +238,7 @@ struct WaveForm
   struct CtxGen
   {
     virtual void reset() = 0;
-    virtual ArrayXcf step(const BitStream &bs) = 0;
+    virtual Veccf step(const BitStream &bs) = 0;
   };
 # endif
 
@@ -248,7 +248,7 @@ struct WaveForm
   }
 
   /** @brief Decoding of I/Q symbols to binary sequence. */
-  void decode_symbols(BitStream &bs, const ArrayXcf &x)
+  void decode_symbols(BitStream &bs, const Veccf &x)
   {
     fr->decode_symboles(bs, x);
   }
@@ -272,13 +272,13 @@ struct WaveForm
   }
 
   /** @brief Theoretical binary error rate (ber), for this waveform, as a function of the normalized SNR. */
-  ArrayXf ber(const ArrayXf &EbN0_dB)
+  Vecf ber(const Vecf &EbN0_dB)
   {
     return fr->ber(EbN0_dB);
   }
 
   /** @brief Returns all the points of the constellation. */
-  ArrayXcf constellation() const
+  Veccf constellation() const
   {
     return fr->constellation();
   }
@@ -521,9 +521,9 @@ template<typename TC, typename TR>
  *
  *  @par Example 1: duplicating values
  *  @code
- *    ArrayXf x(5);
+ *    Vecf x(5);
  *    x << 0, 1, 2, 3, 4;
- *    ArrayXf y = sah(x, 2);
+ *    Vecf y = sah(x, 2);
  *    // y = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]
  *  @endcode
  *
@@ -531,7 +531,7 @@ template<typename TC, typename TR>
  *  @code
  *    int nsymbs = 5;  // Number of symbol to generate
  *    int osf    = 10; // Over-sampling ratio
- *    ArrayXf y = sah(randb(nsymbs), osf);
+ *    Vecf y = sah(randb(nsymbs), osf);
  *    // Will generate nsymbs * osf samples (each symbol is repeated osf times)
  *  @endcode
  */
@@ -561,7 +561,7 @@ Vector<T> sah(const Vector<T> &x, int R)
  * @sa symunmap_binary()
  *
  */
-inline ArrayXi symmap_binary(const BitStream &x, int k)
+inline Veci symmap_binary(const BitStream &x, int k)
 {
   return nfr::symmap_binaire(x, k);
 }
@@ -580,7 +580,7 @@ inline ArrayXi symmap_binary(const BitStream &x, int k)
  *
  * @sa summap_binary()
  */
-inline void symunmap_binary(BitStream &bs, const ArrayXi &x, int k)
+inline void symunmap_binary(BitStream &bs, const Veci &x, int k)
 {
   return nfr::symdemap_binaire(bs, x, k);
 }
@@ -649,7 +649,7 @@ inline void diff_decode(BitStream &y, const BitStream &x)
  *  @param[out] y Train binaire de sortie
  *
  */
-inline void decode_hard(BitStream &y, const ArrayXf &llr)
+inline void decode_hard(BitStream &y, const Vecf &llr)
 {
   return nfr::decode_hard(y, llr);
 }
@@ -697,7 +697,7 @@ inline void decode_hard(BitStream &y, const ArrayXf &llr)
  *
  * @sa thermal_noise()
  */
-inline ArrayXcf awgn_noise(IArrayXcf &x, float σ)
+inline Veccf awgn_noise(const Veccf &x, float σ)
 {
   return nfr::bruit_awgn(x, σ);
 }
@@ -715,7 +715,7 @@ inline ArrayXcf awgn_noise(IArrayXcf &x, float σ)
  * @sa thermal_noise()
  *
  */
-inline ArrayXf bruit_awgn(IArrayXf &x, float σ)
+inline Vecf bruit_awgn(const Vecf &x, float σ)
 {
   return nfr::bruit_awgn(x, σ);
 }
@@ -781,7 +781,7 @@ inline sptr<Filter<cfloat, cfloat, nfr::CanalDispersifConfig>> dispersive_channe
 struct FHSSConfig: nfr::FHSSConfig
 {
   /** @brief Séquence de sauts de fréquence */
-  Eigen::ArrayXi &hop_sequence = seq;
+  tsd::Veci &hop_sequence = seq;
 
   /** Facteur de sur-échantillonnage en entrée */
   int &osf_in2 = osf_in;
@@ -812,7 +812,7 @@ inline sptr<Filter<cfloat,cfloat,nfr::FHSSConfig>> fhss_modulation(const FHSSCon
 /** @brief DSSS configuration */
 struct DSSSConfig: nfr::DSSSConfig
 {
-  ArrayXf &chips_en = chips;
+  tsd::Vecf &chips_en = chips;
   // Facteur de sur-échantillonnage en entrée
   int &osf_in_en = osf_in;
 };
@@ -911,7 +911,7 @@ struct ClockRecConfig: nfr::ClockRecConfig
   bool &debug_active = debug_actif;
 
   // Coefficients du filtre adapté
-  ArrayXf &matched_filter_coefs = h_fa;
+  tsd::Vecf &matched_filter_coefs = h_fa;
 };
 
 
@@ -1133,14 +1133,14 @@ struct Modulator
    *  @param       bs  Train binaire
    *  @return      x   Flot d'échantillons I/Q
    */
-  virtual ArrayXcf step(const BitStream &bs)
+  virtual Veccf step(const BitStream &bs)
   {
     return mod->step(bs);
   }
 
 
   /** Compléte l'émission avec des échantillons à zéros, filtrés proprement */
-  virtual ArrayXcf flush(int nech)
+  virtual Veccf flush(int nech)
   {
     return mod->flush(nech);
   }
@@ -1186,7 +1186,7 @@ struct Demodulator
    *  @param      x   Flot I/Q à démoduler
    *  @param[out] bs  Train binaire (hard decision)
    */
-  virtual void step(const ArrayXcf &x, BitStream &bs)
+  virtual void step(const Veccf &x, BitStream &bs)
   {
     fr->step(x, bs);
   }
@@ -1199,9 +1199,9 @@ struct Demodulator
    *  @param[out] bs  Train binaire (hard decision)
    *  @param[out] llr Log-vraisemblances de chaque symbole (une ligne par symbole possible, une colonne par échantillon)
    */
-  virtual void step(const ArrayXcf &x, BitStream &bs, ArrayXXf &llr)
+  virtual void step(const Veccf &x, BitStream &bs, Tabf &llr)
   {
-    fr->step(x, bs, llr);
+    fr->step(x, bs, llr.fr);
   }
 
 
@@ -1491,7 +1491,7 @@ struct PacketReceiverConfig
   bool correl_fft = false;
 
   /** @brief Callback optionnelle appelée avec le signal de corrélation normalisée (peut servir pour de la mise au point). */
-  std::function<void (const ArrayXf &c)> callback_corr;
+  std::function<void (const Vecf &c)> callback_corr;
 
   /** @brief Activation ou non des plots de mise au point */
   bool debug_actif = false;
@@ -1522,11 +1522,11 @@ struct RécepteurTrame
 {
   RécepteurTrame(const nfr::RécepteurTrame &fr)
   {
-    det = fr.det;
-    bs  = fr.bs;
+    det  = fr.det;
+    bs   = fr.bs;
     EbN0 = fr.EbN0;
-    x = fr.x;
-    x1 = fr.x1;
+    x    = fr.x;
+    x1   = fr.x1;
   }
 
   /** @brief Paramètres RF calculés à partir du motif de synchronisation */
@@ -1539,10 +1539,10 @@ struct RécepteurTrame
   float EbN0;
 
   /** @brief Raw data, before demodulation */
-  ArrayXcf x;
+  Veccf x;
 
   /** @brief Raw data, with clock & phase corrected, before demodulation */
-  ArrayXcf x1;
+  Veccf x1;
 };
 
 struct RécepteurEtat
@@ -1576,7 +1576,7 @@ struct PacketReceiver
   }
 
   /** @brief Traitement d'un buffer de données. */
-  virtual std::vector<RécepteurTrame> step(const ArrayXcf &x)
+  virtual std::vector<RécepteurTrame> step(const Veccf &x)
   {
     std::vector<RécepteurTrame> res;
     auto r = fr->step(x);
@@ -1673,7 +1673,7 @@ struct PacketEmitter
   }
 
   /** @brief Traitement d'un buffer de données. */
-  virtual ArrayXcf step(const BitStream &x)
+  virtual Veccf step(const BitStream &x)
   {
     return fr->step(x);
   }
@@ -1764,7 +1764,7 @@ inline sptr<PacketEmitter> packet_emitter_new(const PacketEmitterConfig &ec)
  *  @image html doppler_psd.png width=600px
  *
  */
-inline ArrayXf doppler_distri(ArrayXd f, float fd, double fc)
+inline Vecf doppler_distri(const Vecd &f, float fd, double fc)
 {
   return nfr::doppler_distri(f, fd, fc);
 }
@@ -1903,7 +1903,7 @@ inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::s
  *
  * @sa égaliseur_création()
  */
-inline ArrayXf equalizer_zfe(IArrayXf h, int n)
+inline Vecf equalizer_zfe(const Vecf &h, int n)
 {
   return nfr::égaliseur_zfe(h, n);
 }
@@ -2114,10 +2114,10 @@ inline sptr<Filter<cfloat, cfloat, nfr::PLLConfig>> cpll_new(const PLLConfig &co
 struct CmpBitsRes
 {
   /** @brief Premier vecteur ré-aligné */
-  ArrayXf b0;
+  Vecf b0;
 
   /** @brief Deuxième vecteur ré-aligné */
-  ArrayXf b1;
+  Vecf b1;
 
   /** @brief Nombre total d'erreurs détectées */
   unsigned int nerr = 0;
@@ -2212,7 +2212,7 @@ extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, int k);
  * @par Exemple
  *
  */
-inline void plot_eye(tsd::vue::Figure &f, const ArrayXf &x, float T)
+inline void plot_eye(tsd::vue::Figure &f, const Vecf &x, float T)
 {
   return nfr::plot_eye(f, x, T);
 }
@@ -2232,9 +2232,9 @@ struct SNREstimator
 
 
   /** @brief Calcul deux vecteurs (S et N) correspondant resp. aux énergies du signal et du bruit, à partir d'un signal bruité x. */
-  virtual void step(const ArrayXcf &x, ArrayXf &S, ArrayXf &N)
+  virtual void step(const Veccf &x, Vecf &S, Vecf &N)
   {
-    return fr->step(x, S, N);
+    return fr->step(x, S.fr, N.fr);
   }
 };
 
@@ -2468,13 +2468,13 @@ inline tsd::Poly<int> primitive_polynomial(int n)
 
 
 /** @brief Binary vector (alternative to the BitStream class). */
-using ArrayHd = ArrayXb;
+using ArrayHd = Vecb;
 
 /** @brief LLR vector (floating point) */
-using ArrayLLR = ArrayXf;
+using ArrayLLR = Vecf;
 
 /** @brief LLR vector (8 bits encoded) */
-using ArrayLLRi = Eigen::Array<char, Eigen::Dynamic, 1>;
+using ArrayLLRi = Vector<char>;
 
 
 /** @addtogroup telecom-codes
@@ -2509,6 +2509,6 @@ struct Code
 
 }
 
-
-
+ostream_formater(dsp::telecom::ShapingFilterSpec)
+ostream_formater(dsp::telecom::WaveForm)
 

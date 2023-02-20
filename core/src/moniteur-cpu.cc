@@ -19,31 +19,31 @@ namespace tsd {
 
 MoniteurCpu moniteur_spectrum{"spectrum"}, moniteur_fft{"fft"};
 
-int64_t tic_μs(bool monotonique = true)
+int64_t tic_μs(bouléen monotonique = oui)
 {
   // Avec MSYS2, sous Windows, les compteurs Posix ne sont pas suffisament prècis
 # ifdef WIN
   static LARGE_INTEGER base_tick = {0}, frequency = {0};
-  static bool tick_init_done = false;
-  if(!tick_init_done)
+  static bouléen tick_init_done = non;
+  si(!tick_init_done)
   {
-    if(!QueryPerformanceFrequency(&frequency))
+    si(!QueryPerformanceFrequency(&frequency))
     {
       echec("Failed to initialize 64 bits counter.");
       frequency.QuadPart = 1000 * 1000;
     }
     QueryPerformanceCounter(&base_tick);
-    tick_init_done = true;
+    tick_init_done = oui;
   }
   LARGE_INTEGER tick;
   QueryPerformanceCounter(&tick);
-  return (int64_t) ((tick.QuadPart-base_tick.QuadPart)*1000.0*1000.0 / frequency.QuadPart);
+  retourne (int64_t) ((tick.QuadPart-base_tick.QuadPart)*1000.0*1000.0 / frequency.QuadPart);
 # elif USE_STD_CLOCK
-  return clock() * (1e6 / CLOCKS_PER_SEC);
-# else
+  retourne clock() * (1e6 / CLOCKS_PER_SEC);
+# sinon
   struct timespec ts;
   clock_gettime(monotonique ? CLOCK_MONOTONIC : CLOCK_THREAD_CPUTIME_ID, &ts);
-  return ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3;
+  retourne ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3;
 # endif
 }
 
@@ -57,17 +57,17 @@ struct MoniteurCpu::Impl
 
   struct PerThread
   {
-    bool en_cours     = false;
+    bouléen en_cours     = non;
 
     // cl0  : par thread
     // cl00 : monotonique
     int64_t cl0, cl00;
 
-    bool cl00_init = false;
+    bouléen cl00_init = non;
 
     int64_t total_μs  = 0;
     int64_t μs_en_cours = 0;
-    int cnt     = 0, total_cnt = 0;
+    entier cnt     = 0, total_cnt = 0;
     float pourcent_cpu   = 0;
 
     float last_add = 0;
@@ -78,32 +78,32 @@ struct MoniteurCpu::Impl
 
   void commence_op()
   {
-    auto &p = pt[this_thread::get_id()];
-    if(p.en_cours)
+    soit &p = pt[this_thread::get_id()];
+    si(p.en_cours)
       msg_avert("Moniteur [{}] : deja en cours.", nom);
-    p.en_cours  = true;
+    p.en_cours  = oui;
 
-    p.cl0 = tic_μs(false);
+    p.cl0 = tic_μs(non);
 
-    if(!p.cl00_init)
+    si(!p.cl00_init)
     {
-      p.cl00 = tic_μs(true);
-      p.cl00_init = true;
+      p.cl00 = tic_μs(oui);
+      p.cl00_init = oui;
     }
   }
   void fin_op()
   {
-    auto &p = pt[this_thread::get_id()];
-    if(!p.en_cours)
+    soit &p = pt[this_thread::get_id()];
+    si(!p.en_cours)
       msg_avert("Moniteur [{}] : pas en cours.", nom);
-    p.en_cours = false;
+    p.en_cours = non;
 
     // Attention, comptage à la ms près seulement !!!
 
-    auto now_thread = tic_μs(false);
-    auto now_mono   = tic_μs(true);
+    soit now_thread = tic_μs(non);
+    soit now_mono   = tic_μs(oui);
 
-    auto df = now_thread - p.cl0;
+    soit df = now_thread - p.cl0;
 
 
     //msg("df = {}", df);
@@ -113,15 +113,15 @@ struct MoniteurCpu::Impl
     p.μs_en_cours += df;
     p.cnt++;
 
-    /*if(df != 0)
+    /*si(df != 0)
     {
       msg("DF = {}, us en cours = {}", df, p.us_en_cours);
     }*/
 
-    auto df0 = (now_mono - p.cl00) * 1e-6f;
+    soit df0 = (now_mono - p.cl00) * 1e-6f;
 
     // Mise à jour toute les 500 ms
-    if(df0 > 0.5)
+    si(df0 > 0.5)
     {
       p.pourcent_cpu = (1e2f * p.μs_en_cours * 1e-6) / df0;
       //msg("MAJ {}: PCPU = {} (EN COURS = {}, TOT = {}, cl00={}, df0={})", nom, p.pourcent_cpu, p.us_en_cours, p.total_us, (float) now_mono, (float) df0);
@@ -137,19 +137,19 @@ struct MoniteurCpu::Impl
     Stats res;
     res.nom = nom;
 
-    auto now = tic_μs(true);
-    int nta = 0;
+    soit now = tic_μs(oui);
+    entier nta = 0;
 
     mut.lock();
-    for(auto &p: pt)
+    pour(auto &p: pt)
     {
-      auto df = (now - p.second.cl00) * 1e-6f;
-      if(df > 1)
+      soit df = (now - p.second.cl00) * 1e-6f;
+      si(df > 1)
       {
         // Thread plus actif.
         //msg("Thread plus actif : {}, df = {}", nom, df);
       }
-      else
+      sinon
       {
         nta++;
         res.conso_cpu_pourcents += p.second.pourcent_cpu;
@@ -160,7 +160,7 @@ struct MoniteurCpu::Impl
 
     //msg("Stats[{}]: cpu = {:e} %, nthreads actifs : {}, nb appels : {}", nom, res.conso_cpu_pourcents, nta, res.nb_appels);
 
-    return res;
+    retourne res;
   }
 
   /*void affiche_stats()
@@ -173,7 +173,7 @@ struct MoniteurCpu::Impl
   void reset()
   {
     //msg("Reset mon cpu.");
-    for(auto &p: pt)
+    pour(auto &p: pt)
       p.second = PerThread();
   }
 };
@@ -182,7 +182,7 @@ struct MoniteurCpu::Impl
 
 string &MoniteurCpu::nom()
 {
-  return impl->nom;
+  retourne impl->nom;
 }
 
 MoniteurCpu::MoniteurCpu(const string &nom)
@@ -208,7 +208,7 @@ void MoniteurCpu::fin_op()
 
 MoniteurCpu::Stats MoniteurCpu::stats() const
 {
-  return impl->lis_stats();
+  retourne impl->lis_stats();
 }
 
 void MoniteurCpu::reset()
@@ -223,13 +223,13 @@ void MoniteursStats::ajoute(MoniteurCpu &m)
 
 MoniteurCpu::Stats MoniteursStats::get(const string &nom) const
 {
-  for(auto &s: lst)
+  pour(auto &s: lst)
   {
-    if(s.nom == nom)
-      return s;
+    si(s.nom == nom)
+      retourne s;
   }
   msg_avert("Moniteur : stat non trouvée [{}]", nom);
-  return MoniteurCpu::Stats();
+  retourne MoniteurCpu::Stats();
 }
 
 }

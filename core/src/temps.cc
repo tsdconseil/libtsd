@@ -19,30 +19,30 @@ static const int64_t
   TICS_JOUR     =   24 * TICS_HEURE;
 
 
-static const int nbsecs_par_jour = 24 * 3600;
+static const entier nbsecs_par_jour = 24 * 3600;
 
 // Nombre de jours / cycle de 400 ans
 // =  400 années
 //  + 100 années bissextiles, sauf 3 années multiples de 100 et pas de 400.
-static const int nb_jours_cycle_400_ans = 365 * 400 + 100 - 3;
+static const entier nb_jours_cycle_400_ans = 365 * 400 + 100 - 3;
 
 
 // Nombre de jours / cycle de 100 ans
 // (24 années bisextiles).
-static const int nb_jours_cycle_100_ans = 365 * 100 + 24;
+static const entier nb_jours_cycle_100_ans = 365 * 100 + 24;
 
 
 // Nombre de jours / cycle de 4 ans
 // (1 année bisextile).
-static const int nb_jours_cycle_4_ans = 365 * 4 + 1;
+static const entier nb_jours_cycle_4_ans = 365 * 4 + 1;
 
-static const int nb_jours_par_mois[2][12] = {
+static const entier nb_jours_par_mois[2][12] = {
  //  1   2   3   4   5   6   7   8   9   10  11  12
     {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
     {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 };
 
-static const int cumul_jours_par_mois[2][12] = {
+static const entier cumul_jours_par_mois[2][12] = {
     //  1  2   3   4   5    6    7    8    9    10   11   12
     {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334},
     {0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335}
@@ -50,78 +50,78 @@ static const int cumul_jours_par_mois[2][12] = {
 
 Durée operator+(const Durée& ts1, const Durée& ts2)
 {
-  return Durée(ts1.tics + ts2.tics);
+  retourne Durée(ts1.tics + ts2.tics);
 }
 
 Durée operator-(const Durée& ts1, const Durée& ts2)
 {
-  return Durée(ts1.tics - ts2.tics);
+  retourne Durée(ts1.tics - ts2.tics);
 }
 
 double Durée::nb_jours() const
 {
-    return ((double) tics) / TICS_JOUR;
+    retourne ((double) tics) / TICS_JOUR;
 }
 
 double Durée::nb_heures() const
 {
-    return ((double) tics) / TICS_HEURE;
+    retourne ((double) tics) / TICS_HEURE;
 }
 
 double Durée::nb_minutes() const
 {
-    return ((double) tics) / TICS_MINUTE;
+    retourne ((double) tics) / TICS_MINUTE;
 }
 
 double Durée::nb_secondes() const
 {
-    return ((double) tics) / TICS_SECONDE;
+    retourne ((double) tics) / TICS_SECONDE;
 }
 
 double Durée::nb_millisecondes() const
 {
-    return ((double) tics) / TICS_MS;
+    retourne ((double) tics) / TICS_MS;
 }
 
 double Durée::nb_microsecondes() const
 {
-    return ((double) tics) / TICS_US;
+    retourne ((double) tics) / TICS_US;
 }
 
 
 std::ostream& operator<<(std::ostream& ss, const Durée& t)
 {
   ss << t.nb_microsecondes() << " µs";
-  return ss;
+  retourne ss;
 }
 
 Durée Durée::microsecondes(int64_t cnt)
 {
-  return Durée(cnt);
+  retourne Durée(cnt);
 }
 
 Durée Durée::millisecondes(int64_t cnt)
 {
-  return Durée(cnt * TICS_MS);
+  retourne Durée(cnt * TICS_MS);
 }
 
 Durée Durée::secondes(double cnt)
 {
-  return Durée(cnt * TICS_SECONDE);
+  retourne Durée(cnt * TICS_SECONDE);
 }
 
 Durée Durée::minutes(double cnt)
 {
-  return Durée(cnt * TICS_MINUTE);
+  retourne Durée(cnt * TICS_MINUTE);
 }
 
 Durée Durée::heures(double cnt)
 {
-  return Durée(cnt * TICS_HEURE);
+  retourne Durée(cnt * TICS_HEURE);
 }
 Durée Durée::jours(double cnt)
 {
-  return Durée(cnt * TICS_JOUR);
+  retourne Durée(cnt * TICS_JOUR);
 }
 
 Durée::Durée(const HeureComposite &hc)
@@ -131,11 +131,11 @@ Durée::Durée(const HeureComposite &hc)
 }
 
 Durée::Durée(
-    int jours,
-    int heures,
-    int minutes,
-    int secondes,
-    int microsecondes)
+    entier jours,
+    entier heures,
+    entier minutes,
+    entier secondes,
+    entier microsecondes)
 {
   tics = jours * TICS_JOUR +
       (heures * 3600 + minutes * 60 + secondes) * TICS_SECONDE
@@ -144,14 +144,14 @@ Durée::Durée(
 
 
 
-DateHeure::DateHeure(int année, double jours)
+DateHeure::DateHeure(entier année, double jours)
 {
   ntics = Durée::jours(grégorien_vers_jours(année, jours)).tics;
 }
 
 double DateHeure::temps_sidéral_local(double longitude) const
 {
-  return modulo_2π(temps_sidéral_Greenwich() + longitude);
+  retourne modulo_2π(temps_sidéral_Greenwich() + longitude);
 }
 
 DateHeure::DateHeure(const DateComposite &date)
@@ -159,30 +159,30 @@ DateHeure::DateHeure(const DateComposite &date)
   ntics = (Durée(date.heure) + Durée::jours(date.jour.nb_jours_debut_ère())).tics;
 }
 
-int DateHeure::microsecondes() const
+entier DateHeure::microsecondes() const
 {
-  return (int) (ntics % TICS_SECONDE / TICS_US);
+  retourne (entier) (ntics % TICS_SECONDE / TICS_US);
 }
 
-bool année_mois_valide(int année, int mois)
+bouléen année_mois_valide(entier année, entier mois)
 {
-  if(!année_est_valide(année))
-    return false;
-  return (mois >= 1) && (mois <= 12);
+  si(!année_est_valide(année))
+    retourne non;
+  retourne (mois >= 1) && (mois <= 12);
 }
 
-int mois_nb_jours(int année, int mois)
+entier mois_nb_jours(entier année, entier mois)
 {
-  if(!année_mois_valide(année, mois))
+  si(!année_mois_valide(année, mois))
     echec("mois_nb_jours: année ({}) ou mois ({}) invalide.", année, mois);
 
-  auto ptr = est_bissextile(année) ? nb_jours_par_mois[1] : nb_jours_par_mois[0];
-  return ptr[mois-1];
+  soit ptr = est_bissextile(année) ? nb_jours_par_mois[1] : nb_jours_par_mois[0];
+  retourne ptr[mois-1];
 }
 
-bool Calendrier::est_valide() const
+bouléen Calendrier::est_valide() const
 {
-  return année_mois_valide(année, mois)
+  retourne année_mois_valide(année, mois)
       &&  (jour >= 1) && (jour <= mois_nb_jours(année, mois));
 }
 
@@ -194,18 +194,18 @@ static std::vector<std::string> split(const std::string& str, const std::string&
   do
   {
     pos = str.find(delim, prev);
-    if(pos == std::string::npos)
+    si(pos == std::string::npos)
       pos = str.length();
     std::string token = str.substr(prev, pos-prev);
-    if(!token.empty())
+    si(!token.empty())
       tokens.push_back(token);
     prev = pos + delim.length();
   }
-  while (pos < str.length() && prev < str.length());
-  return tokens;
+  tantque (pos < str.length() && prev < str.length());
+  retourne tokens;
 }
 
-Calendrier::Calendrier(int année, int mois, int jour)
+Calendrier::Calendrier(entier année, entier mois, entier jour)
 {
   this->année = année;
   this->mois  = mois;
@@ -214,20 +214,20 @@ Calendrier::Calendrier(int année, int mois, int jour)
 
 Calendrier::Calendrier(const std::string &s)
 {
-  auto sp = split(s, "/");
-  if(sp.size() != 3)
+  soit sp = split(s, "/");
+  si(sp.size() != 3)
     echec("Date invalide : {}", s);
-  else
+  sinon
   {
     jour  = stoi(sp[0]);
     mois  = stoi(sp[1]);
     année = stoi(sp[2]);
   }
-  if(!est_valide())
+  si(!est_valide())
     echec("Date invalide : {}", s);
 }
 
-HeureComposite::HeureComposite(int heure, int minutes, int secondes, int ms, int µs)
+HeureComposite::HeureComposite(entier heure, entier minutes, entier secondes, entier ms, entier µs)
 {
   this->heure     = heure;
   this->minutes   = minutes;
@@ -238,23 +238,23 @@ HeureComposite::HeureComposite(int heure, int minutes, int secondes, int ms, int
 
 HeureComposite::HeureComposite(const std::string &s)
 {
-  auto sp = split(s, ":");
-  if(sp.size() != 3)
+  soit sp = split(s, ":");
+  si(sp.size() != 3)
     echec("HeureComposite : chaine invalide : {}", s);
-  else
+  sinon
   {
     heure    = stoi(sp[0]);
     minutes  = stoi(sp[1]);
     secondes = stoi(sp[2]);
   }
-  if(!vérifie_validité())
+  si(!vérifie_validité())
     echec("Heure composite invalide.");
 }
 
 
-bool HeureComposite::vérifie_validité() const
+bouléen HeureComposite::vérifie_validité() const
 {
-  return (heure >= 0) && (heure < 24)
+  retourne (heure >= 0) && (heure < 24)
       && (minutes >= 0) && (minutes < 60)
       && (secondes >= 0) && (secondes < 60)
       && (ms >= 0) && (ms < 1e3)
@@ -262,22 +262,22 @@ bool HeureComposite::vérifie_validité() const
 }
 
 
-int Calendrier::nb_jours_debut_année() const
+entier Calendrier::nb_jours_debut_année() const
 {
-  if(!est_valide())
+  si(!est_valide())
   {
     msg_avert("Date de calendrier invalide ({}/{}/{})", année, mois, jour);
-    return jour;
+    retourne jour;
   }
 
-  return (jour - 1) + cumul_jours_par_mois[est_bissextile(année) ? 1 : 0][mois-1];
+  retourne (jour - 1) + cumul_jours_par_mois[est_bissextile(année) ? 1 : 0][mois-1];
 }
 
-double grégorien_vers_jours(int année, double jour_année)
+double grégorien_vers_jours(entier année, double jour_année)
 {
   int64_t a1 = année - 1;
 
-  return
+  retourne
   // Nombre de jours de l'année précédente :
     365 * a1
   // Nombre de jours supplémentaires dues aux années bissextiles :
@@ -290,9 +290,9 @@ double grégorien_vers_jours(int année, double jour_année)
     + jour_année - 1;
 }
 
-int Calendrier::nb_jours_debut_ère() const
+entier Calendrier::nb_jours_debut_ère() const
 {
-  return grégorien_vers_jours(année, 1 + nb_jours_debut_année());
+  retourne grégorien_vers_jours(année, 1 + nb_jours_debut_année());
 }
 
 
@@ -301,12 +301,12 @@ static const DateHeure cst_epoque_unix = DateHeure({{1970,1,1}, {0, 0, 0}});
 
 DateHeure DateHeure::epoque_unix()
 {
-  return cst_epoque_unix;
+  retourne cst_epoque_unix;
 }
 
 DateHeure DateHeure::maintenant()
 {
-  return epoque_unix() + Durée::microsecondes(
+  retourne epoque_unix() + Durée::microsecondes(
       duration_cast<microseconds>(system_clock::now().time_since_epoch()).count());
 }
 
@@ -318,30 +318,30 @@ double DateHeure::nb_jours_Julien() const
   //         + floor( 275 * mon / 9.0 ) ...
   //         + jour + 1721013.5  ...
   //         + ( (sec/60.0 + mn ) / 60.0 + hr ) / 24.0;
-  return Durée(ntics).nb_jours() + 1721425.5;
+  retourne Durée(ntics).nb_jours() + 1721425.5;
 }
 
 double DateHeure::J2000() const
 {
-  return nb_jours_Julien() - 2415020.0;
+  retourne nb_jours_Julien() - 2415020.0;
 }
 
 DateHeure DateHeure::epoque_Matlab()
 {
   // 01/01/2000, 00h00
-  return DateHeure{{{2000, 1, 1}, {0, 0, 0}}};
+  retourne DateHeure{{{2000, 1, 1}, {0, 0, 0}}};
 }
 
 DateHeure DateHeure::epoque_J2000()
 {
   // 01/01/2000, 12h00
-  return DateHeure{{{2000, 1, 1}, {12, 0, 0}}};
+  retourne DateHeure{{{2000, 1, 1}, {12, 0, 0}}};
 }
 
 DateHeure DateHeure::epoque_GPS()
 {
   // 06/01/1980, 00h00
-  return DateHeure({{1980, 1, 6}, {0, 0, 0}});
+  retourne DateHeure({{1980, 1, 6}, {0, 0, 0}});
 }
 
 double DateHeure::temps_sidéral_Greenwich() const
@@ -349,75 +349,75 @@ double DateHeure::temps_sidéral_Greenwich() const
   // https://lweb.cfa.harvard.edu/~jzhao/times.html
 
   // Nb jours Juliens du minuit précédent
-  auto jd0 = floor(nb_jours_Julien() + 0.5) - 0.5;
-  auto t   = (jd0 - 2451545.0) / 36525.0;
-  auto jdf = nb_jours_Julien() - jd0;
-  auto gt  = 24110.54841 + t * (8640184.812866 + t * (0.093104 - t * 6.2E-6));
+  soit jd0 = floor(nb_jours_Julien() + 0.5) - 0.5;
+  soit t   = (jd0 - 2451545.0) / 36525.0;
+  soit jdf = nb_jours_Julien() - jd0;
+  soit gt  = 24110.54841 + t * (8640184.812866 + t * (0.093104 - t * 6.2E-6));
   gt  += jdf * 1.00273790935 * 86400.0;
-  return modulo_2π(deg2rad(gt * 360.0 / nbsecs_par_jour));
+  retourne modulo_2π(deg2rad(gt * 360.0 / nbsecs_par_jour));
 }
 
 
-bool est_bissextile(int année)
+bouléen est_bissextile(entier année)
 {
-  if(!année_est_valide(année))
-    return false;
-  return (((année % 4) == 0 && (année % 100) != 0) || (année % 400) == 0);
+  si(!année_est_valide(année))
+    retourne non;
+  retourne (((année % 4) == 0 && (année % 100) != 0) || (année % 400) == 0);
 }
 
-bool année_est_valide(int année)
+bouléen année_est_valide(entier année)
 {
-  return (année >= 1) && (année <= 9999);
+  retourne (année >= 1) && (année <= 9999);
 }
 
 
 HeureComposite DateHeure::decomp_heure() const
 {
-  return
-      {(int) ((ntics % TICS_JOUR)     / TICS_HEURE),
-       (int) ((ntics % TICS_HEURE)    / TICS_MINUTE),
-       (int) ((ntics % TICS_MINUTE)   / TICS_SECONDE),
-       (int) ((ntics % TICS_SECONDE)  / TICS_MS),
-       (int) ((ntics % TICS_MS)       / TICS_US)};
+  retourne
+      {(entier) ((ntics % TICS_JOUR)     / TICS_HEURE),
+       (entier) ((ntics % TICS_HEURE)    / TICS_MINUTE),
+       (entier) ((ntics % TICS_MINUTE)   / TICS_SECONDE),
+       (entier) ((ntics % TICS_SECONDE)  / TICS_MS),
+       (entier) ((ntics % TICS_MS)       / TICS_US)};
 }
 
 DateComposite DateHeure::decomposition() const
 {
-  return {calendrier(), decomp_heure()};
+  retourne {calendrier(), decomp_heure()};
 }
 
 DateHeure DateHeure::lis_chaine(const std::string &s_)
 {
-  int y,M,d,h,m,s;
+  entier y,M,d,h,m,s;
   sscanf(s_.c_str(), "%d-%d-%d %d:%d:%d", &y,&M,&d,&h,&m,&s);
-  return DateHeure{{{y,M,d},{h,m,s}}};
+  retourne DateHeure{{{y,M,d},{h,m,s}}};
 }
 
-DateHeure DateHeure::de_GPS(int semaine, int secs)
+DateHeure DateHeure::de_GPS(entier semaine, entier secs)
 {
   // 5 Janvier 1980
-  auto r = epoque_GPS();
+  soit r = epoque_GPS();
   r += Durée::secondes(secs);
   r += Durée::jours(7 * semaine);
   r += Durée::secondes(-18);
-  return r;
+  retourne r;
 }
 
-std::tuple<int, int> DateHeure::vers_GPS() const
+std::tuple<entier, entier> DateHeure::vers_GPS() const
 {
   // 5 Janvier 1980
-  auto e0 = epoque_GPS();
+  soit e0 = epoque_GPS();
 
-  auto nsecs = (*this - e0).nb_secondes();
+  soit nsecs = (*this - e0).nb_secondes();
 
   // 06/2017 : 18 leap seconds ahead of UTC
   nsecs += 18;
 
-  int sps         = nbsecs_par_jour * 7;
-  int nb_semaines = nsecs / sps;
-  int nb_secs     = nsecs - nb_semaines * sps;
+  entier sps         = nbsecs_par_jour * 7;
+  entier nb_semaines = nsecs / sps;
+  entier nb_secs     = nsecs - nb_semaines * sps;
 
-  return {nb_semaines, nb_secs};
+  retourne {nb_semaines, nb_secs};
 }
 
 DateComposite DateHeure::decomposition_locale() const
@@ -426,9 +426,9 @@ DateComposite DateHeure::decomposition_locale() const
   // tzset();
   //msg("timezone = {}", timezone);
 
-  /*static int decalage = -1000;
+  /*static entier decalage = -1000;
 
-  if(decalage == -1000)
+  si(decalage == -1000)
   {
     std::time_t t = std::time(nullptr);
     struct tm t1, t2;
@@ -442,36 +442,36 @@ DateComposite DateHeure::decomposition_locale() const
     msg("\n\n\n*** Décalage horaire locale vs UTC : {}\n\n\n", decalage);
   }*/
 
-  //auto s = std::chrono::sys_info.offset;
-  //int decalage = timezone;
+  //soit s = std::chrono::sys_info.offset;
+  //entier decalage = timezone;
   //decalage = 0;
   //using namespace std::chrono;
-  //static int decalage = std::chrono::get_tzdb().current_zone()->get_info(system_clock::now()).offset;
-  //return ajoute_secondes(-decalage).decomposition();
+  //static entier decalage = std::chrono::get_tzdb().current_zone()->get_info(system_clock::now()).offset;
+  //retourne ajoute_secondes(-decalage).decomposition();
 
   // TODO!!!
-  //return (*this + Durée::heures(2)).decomposition();
-  return (*this + Durée::heures(1)).decomposition();
+  //retourne (*this + Durée::heures(2)).decomposition();
+  retourne (*this + Durée::heures(1)).decomposition();
 }
 
 Calendrier DateHeure::calendrier() const
 {
-  int nb_jours = ntics / TICS_JOUR;
+  entier nb_jours = ntics / TICS_JOUR;
 
   // Décompte les cycles de 400 ans
-  int ncycles_400_ans = nb_jours / nb_jours_cycle_400_ans;
+  entier ncycles_400_ans = nb_jours / nb_jours_cycle_400_ans;
   nb_jours %= nb_jours_cycle_400_ans;
 
   // Décompte les cycles de 100 ans
   // 1,2,3,...99,  100,101,...,199, ....
-  int ncycles_100_ans = nb_jours / nb_jours_cycle_100_ans;
-  if (ncycles_100_ans == 4)
+  entier ncycles_100_ans = nb_jours / nb_jours_cycle_100_ans;
+  si (ncycles_100_ans == 4)
       // 31 décembre de la dernière année bissextile
       ncycles_100_ans = 3;
   nb_jours -= ncycles_100_ans * nb_jours_cycle_100_ans;
 
   // Décompte les cycles de 4 ans
-  int ncycles_4_ans = nb_jours / nb_jours_cycle_4_ans;
+  entier ncycles_4_ans = nb_jours / nb_jours_cycle_4_ans;
   nb_jours %= nb_jours_cycle_4_ans;
 
   // Décompte les années qui restent (dans le cycle de 4 ans en cours)
@@ -479,62 +479,71 @@ Calendrier DateHeure::calendrier() const
   // 1, 2, 3, 4
   // ...
   // 2021, 2022, 2023, 2024
-  // Soit en général :
+  // soit en général :
   // [365, 365, 365, 366]
   // 0 <= nb jours < 3 * 365 + 366
-  int nb_ans = 0;
-  if(nb_jours < 365)
+  entier nb_ans = 0;
+  si(nb_jours < 365)
     ;
-  else if(nb_jours < 2 * 365)
+  sinon si(nb_jours < 2 * 365)
   {
     nb_ans = 1;
     nb_jours -= 365;
   }
-  else if(nb_jours < 3 * 365)
+  sinon si(nb_jours < 3 * 365)
   {
     nb_ans = 2;
     nb_jours -= 2 * 365;
   }
-  else
+  sinon
   {
     nb_ans = 3;
     nb_jours -= 3 * 365;
   }
 
-  int année = (ncycles_400_ans * 400) + (ncycles_100_ans * 100)
+  entier année = (ncycles_400_ans * 400) + (ncycles_100_ans * 100)
             + (ncycles_4_ans * 4) + nb_ans + 1;
 
   // Nombre de jours pour chaque mois
-  auto ptr = est_bissextile(année) ? nb_jours_par_mois[1] : nb_jours_par_mois[0];
+  soit ptr = est_bissextile(année) ? nb_jours_par_mois[1] : nb_jours_par_mois[0];
 
-  int mois = 0;
-  while((nb_jours >= ptr[mois]) && (mois <= 11))
+  entier mois = 0;
+  tantque((nb_jours >= ptr[mois]) && (mois <= 11))
     nb_jours -= ptr[mois++];
 
-  return {année, mois + 1, nb_jours + 1};
+  retourne {année, mois + 1, nb_jours + 1};
 }
 
-bool mode_utc = false;
+bouléen mode_utc = non;
 
 std::ostream& operator<<(std::ostream& ss, const Calendrier &date)
 {
   ss << fmt::format("{:0>4d}-{:0>2d}-{:0>2d}", date.année, date.mois, date.jour);
-  return ss;
+  retourne ss;
+}
+
+
+std::ostream& operator<<(std::ostream& ss, const HeureComposite &hc)
+{
+  ss << fmt::format("{:0>2d}:{:0>2d}:{:0>2d},{:0>3d}:{:0>3d}",
+      hc.heure, hc.minutes, hc.secondes, hc.ms, hc.µs);
+  retourne ss;
 }
 
 std::ostream& operator<<(std::ostream& ss, const DateHeure &t)
 {
   DateComposite dc;
-  if(mode_utc)
+  si(mode_utc)
     dc = t.decomposition();
-  else
+  sinon
     dc = t.decomposition_locale();
   ss << fmt::format("{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}",
-      dc.jour.année, dc.jour.mois, dc.jour.jour, dc.heure.heure, dc.heure.minutes, dc.heure.secondes);
-  if(mode_utc)
+      dc.jour.année, dc.jour.mois, dc.jour.jour,
+      dc.heure.heure, dc.heure.minutes, dc.heure.secondes);
+  si(mode_utc)
     ss << " (UTC)";
-  else
+  sinon
     ss << " (local hour)";
-  return ss;
+  retourne ss;
 }
 }

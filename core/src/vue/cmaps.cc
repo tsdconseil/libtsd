@@ -11,27 +11,27 @@ namespace tsd::vue
 
     void calc(float t, float &r, float &v, float &b)
     {
-      int i = 0;
+      entier i = 0;
 
       tsd_assert_msg(pts.size() > 1, "Carte de couleur linéaire : au moins deux éléments attendu.");
 
-      if(t <= pts[0][0])
+      si(t <= pts[0][0])
       {
         r = pts[0][1];
         v = pts[0][2];
         b = pts[0][3];
-        return;
+        retourne;
       }
 
-      while(((i+1) < (int) pts.size()) && (t >= pts[i+1][0]))
+      tantque(((i+1) < (entier) pts.size()) && (t >= pts[i+1][0]))
         i++;
 
-      if((i+1) >= (int) pts.size())
+      si((i+1) >= (entier) pts.size())
       {
         r = pts.back()[1];
         v = pts.back()[2];
         b = pts.back()[3];
-        return;
+        retourne;
       }
 
       // pts[i] <= t < pts[i+1]
@@ -83,11 +83,11 @@ namespace tsd::vue
   {
     void calc(float t, float &r, float &v, float &b)
     {
-      if(t < 0)
+      si(t < 0)
         b = r = v = 1;
-      else if (t < 1)
+      sinon si (t < 1)
         b = r = v = 1 - t;
-      else
+      sinon
         b = r = v = 0;
     }
   };
@@ -96,11 +96,11 @@ namespace tsd::vue
   {
     void calc(float t, float &r, float &v, float &b)
     {
-      if(t < 0)
+      si(t < 0)
         b = r = v = 0;
-      else if (t < 1)
+      sinon si (t < 1)
         b = r = v = t;
-      else
+      sinon
         b = r = v = 1;
     }
   };
@@ -109,13 +109,13 @@ namespace tsd::vue
   {
     void calc(float t, float &r, float &v, float &b)
     {
-      if(t < 0)
+      si(t < 0)
         b = r = v = 1;
-      else if (t <= 0.5)
+      sinon si (t <= 0.5)
         b = r = v = 2 * t;
-      else if(t <= 1.0)
+      sinon si(t <= 1.0)
         b = r = v = 1 - 2 * (t - 0.5);
-      else
+      sinon
         b = r = v = 0;
     }
   };
@@ -128,35 +128,35 @@ namespace tsd::vue
     {
       r = v = b = 0;
 
-      if(t < 0)
+      si(t < 0)
       {
         b = 0.5;
       }
-      else if(t < 1.0/8)
+      sinon si(t < 1.0/8)
       {
         b = 0.5 + t * 4;
       }
-      else if(t < 3.0/8)
+      sinon si(t < 3.0/8)
       {
         b = 1.0;
         v = (t - 1.0/8) * 4;
       }
-      else if(t < 5.0/8)
+      sinon si(t < 5.0/8)
       {
         v = 1.0;
         r = (t - 3.0/8) * 4;
         b = 1.0 - (t - 3.0/8) * 4;
       }
-      else if(t < 7.0/8)
+      sinon si(t < 7.0/8)
       {
         r = 1;
         v = 1.0 - (t - 5.0/8) * 4;
       }
-      else if(t < 1)
+      sinon si(t < 1)
       {
         r = 1.0 - (t - 7.0/8) * 4;
       }
-      else
+      sinon
         r = 1.0f;
     }
   };
@@ -166,35 +166,36 @@ namespace tsd::vue
   {
     float R = 0, V = 0, B = 0;
     calc(t, R, V, B);
-    return Couleur{255*R, 255*V, 255*B};
+    retourne Couleur{255*R, 255*V, 255*B};
   }
 
   sptr<CMap> cmap_parse(const std::string &nom)
   {
-    if(nom == "mono")
-      return std::make_shared<CMapMono>();
-    else if(nom == "mono-inv")
-      return std::make_shared<CMapMonoInv>();
-    else if(nom == "mono-per")
-      return std::make_shared<CMapMonoPer>();
-    else if(nom == "hsv")
-      return std::make_shared<CMapHSV>();
-    else if(nom == "jet")
-      return std::make_shared<CMapJet>();
-    else if(nom == "parula")
-      return std::make_shared<CMapParula>();
+    si(nom == "mono")
+      retourne std::make_shared<CMapMono>();
+    sinon si(nom == "mono-inv")
+      retourne std::make_shared<CMapMonoInv>();
+    sinon si(nom == "mono-per")
+      retourne std::make_shared<CMapMonoPer>();
+    sinon si(nom == "hsv")
+      retourne std::make_shared<CMapHSV>();
+    sinon si(nom == "jet")
+      retourne std::make_shared<CMapJet>();
+    sinon si(nom == "parula")
+      retourne std::make_shared<CMapParula>();
     msg_erreur("Cmap inconnue : {}", nom);
-    return std::make_shared<CMapJet>();
+    retourne std::make_shared<CMapJet>();
   }
 
   void cmap_affiche(const std::string &nom, sptr<CMap> cmap)
   {
     Figure f(nom);
 
-    auto n = 100u;
-    ArrayXf x = linspace(0, 1, n), r(n), v(n), b(n);
+    soit n = 100u;
+    soit x = linspace(0, 1, n);
+    Vecf r(n), v(n), b(n);
 
-    for(auto i = 0u; i < n; i++)
+    pour(auto i = 0u; i < n; i++)
     {
       float R, V, B;
       cmap->calc(x(i), R, V, B);

@@ -11,13 +11,13 @@ namespace tsd::stats {
   template<typename T>
     T variance(const Vecteur<T> &vec)
   {
-    return vec.square().mean() - carré(vec.mean());
+    return carré(vec).moyenne() - carré(vec.moyenne());
   }
 
   template<typename T>
     T stdev(const Vecteur<T> &vec)
   {
-    return std::sqrt(variance(vec));
+    return sqrt(variance(vec));
   }
 
 
@@ -61,7 +61,7 @@ r_n\\
    * @f[
    *  x_n = \sum_{k=1}^{n} a_k x_{n-k} + e_n
    * @f] */
-  ArrayXf levinson_reel(const ArrayXf &r);
+  Vecf levinson_reel(const Vecf &r);
 
 
   /** @brief Récursion de Levinson - Durbin (cas général)
@@ -99,7 +99,7 @@ r_n\\
    *  @return     Solution @f$x@f$
    *
    *  */
-  extern ArrayXf levinson(const ArrayXf &l1, const ArrayXf &c1, const ArrayXf &y);
+  extern Vecf levinson(const Vecf &l1, const Vecf &c1, const Vecf &y);
 
   /** @brief Calcul d'une matrice d'auto-corrélation à partir d'un vecteur de corrélations
    *
@@ -120,20 +120,18 @@ r_n\\
    * @param r Auto-corrélation du signal
    * @return R
    */
-  template<typename derived>
-  auto r_vers_R(const Eigen::ArrayBase<derived> &r)
+  template<typename T>
+  auto r_vers_R(const Vecteur<T> &r)
   {
-    using T = typename derived::Scalar;
-    using rtype = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
-    int n = r.rows();
-    rtype R(n, n);
-    for(auto i = 0; i < n; i++)
+    soit n = r.rows();
+    TabT<T,2> R(n, n);
+    Pour(auto i = 0; i < n; i++)
     {
-      for(auto j = 0; j < n; j++)
+      Pour(auto j = 0; j < n; j++)
       {
-        R(i,j) = r(std::abs(i-j));
-        if constexpr(est_complexe<T>())
-          if(j > i)
+        R(i,j) = r(abs(i-j));
+        Si constexpr(est_complexe<T>())
+          Si(j > i)
             R(i,j) = conj(R(i,j));
       }
     }
@@ -151,7 +149,7 @@ r_n\\
    *  @f]
    **/
   template<typename T>
-  auto covmtx(const Vecteur<T> &x, int m)
+  auto covmtx(const Vecteur<T> &x, entier m)
   {
     // Si le signal est stationnaire :
     // R_ij = cov(x_(k+i) , x_(k+j)) = cov(x_0, x_(j-i))
@@ -159,7 +157,7 @@ r_n\\
     //      ligne 1 = cov(x1,x0), cov(x1,x1), etc.
     //              = cov(x0,x1)*, cov(x0,x0) etc.
     // Donc matrice auto-ajointe ou symétrique ?
-    auto [lags, cr] = tsd::fourier::xcorr(x, x, m);
+    soit [lags, cr] = tsd::fourier::xcorr(x, x, m);
     return r_vers_R(cr.tail(m));
   }
 
@@ -177,7 +175,7 @@ r_n\\
    * @param p Nombre de coefficients du modèle
    * @returns Les coefficients du filtre @f$a(z)@f$ et le vecteur d'erreur.
    */
-  extern std::tuple<ArrayXf, ArrayXf> lpc(const ArrayXf &x, int p);
+  extern std::tuple<Vecf, Vecf> lpc(const Vecf &x, entier p);
 
   /** @brief %Filtre de Wiener (RIF)
    *
@@ -198,7 +196,7 @@ r_n\\
    *  @return Coefficients du filtre d'égalisation optimal (filtre @f$h@f$)
    *
    */
-  extern ArrayXf wiener_rif(const MatrixXf &Rxy, const ArrayXf &rx, int p);
+  extern Vecf wiener_rif(const Tabf &Rxy, const Vecf &rx, entier p);
 
 
   /** @brief Paramètrage analyse sous-espace */
@@ -212,17 +210,17 @@ r_n\\
     } methode = MUSIC;
 
     /** @brief Si activé, trace des figures */
-    bool debug_actif = false;
+    bouléen debug_actif = non;
 
     /** @brief Nombre d'exponentielles complexes / de signaux sources (ou -1 pour détermination automatique) */
-    int Ns = 0;
+    entier Ns = 0;
 
     /** @brief Nombre de points d'analyse */
-    int Nf = 1000;
+    entier Nf = 1000;
 
     /** @brief Si vrai, la recherche est effectuée parmi les exponentielles complexes,
      *         par une méthode rapide type FFT, et la fonction de balayage n'est pas utilisée. */
-    bool est_sigexp = true;
+    bouléen est_sigexp = oui;
 
     /** @brief Fonction de balayage
      *
@@ -231,10 +229,10 @@ r_n\\
      *  - Paramètre i : index
      *  - Paramètre n : nombre de points
      *  - Paramètre m : dimension du vecteur à retourner (nombre de récepteurs en DOA) */
-    std::function<std::tuple<ArrayXf, ArrayXcf> (int i, int n, int m)> balayage = [](int i, int n, int m) -> std::tuple<ArrayXf, ArrayXcf>
+    std::function<std::tuple<Vecf, Veccf> (entier i, entier n, entier m)> balayage = [](entier i, entier n, entier m) -> std::tuple<Vecf, Veccf>
     {
       // Calcul du "vecteur de steering"
-      ArrayXf f(1);
+      Vecf f(1);
       f(0) = (1.0f*i)/n-0.5f;
       return {f, sigexp(f(0), m)};
     };
@@ -247,13 +245,13 @@ r_n\\
      *
      * (index ligne = valeurs de spectre, index colonne = variable)
      * Par exemple, pour une simple estimation de fréquence, c'est un simple vecteur colonne avec les fréquences normalisée. */
-    ArrayXXf var;
+    Tabf var;
 
     /** @brief Valeurs du spectre */
-    ArrayXf spectrum;
+    Vecf spectrum;
 
     /** @brief Nombre de sources détectées */
-    int Ns = 0;
+    entier Ns = 0;
   };
 
 
@@ -278,7 +276,7 @@ r_n\\
    *  @par Bibliographie
    *  <i>Statistical signal processing and modelling</i>, M.H. Hayes, 1996
    */
-  extern SubSpaceSpectrum subspace_spectrum(const MatrixXcf &R, const SubSpaceSpectrumConfig &config);
+  extern SubSpaceSpectrum subspace_spectrum(const Tabcf &R, const SubSpaceSpectrumConfig &config);
 
 
 

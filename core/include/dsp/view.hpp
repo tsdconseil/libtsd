@@ -12,15 +12,20 @@ namespace dsp::view
  *  @{
  */
 
-  using Dim   = tsd::vue::Dim;
-  using Rectf = tsd::vue::Rectf;
-  using Rect = tsd::vue::Rect;
+  using Dim    = tsd::vue::Dim;
+  using Rectf  = tsd::vue::Rectf;
+  using Rect   = tsd::vue::Rect;
   using Pointf = tsd::vue::Pointf;
-  using Point = tsd::vue::Point;
-
-  using Color = tsd::vue::Couleur;
+  using Point  = tsd::vue::Point;
+  using Color  = tsd::vue::Couleur;
 
   /** @brief %Figure with Matlab / Scilab type API.
+   *
+   *  <h3>%%Figure with Matlab / Scilab type API</h3>
+   *
+   *  @par Example:
+   *  @snippet exemples/src/ex-vue.cc ex_figure
+   *  @image html figure.png width=800px
    */
   struct Figure: tsd::vue::ARendable
   {
@@ -46,9 +51,9 @@ namespace dsp::view
       }
 
       /** @brief Définit une couleur différente pour chaque point de la courbe */
-      void set_colors(IArrayXf c, const std::string cmap = "")
+      void set_colors(const Vecf &c, const std::string cmap = "")
       {
-        courbe.def_couleurs(c, cmap);
+        courbe.def_couleurs(c.fr, cmap);
       }
 
       /** @brief Changement d'épaisseur du trait */
@@ -64,9 +69,9 @@ namespace dsp::view
       }
 
       /** @brief Définit, pour chaque point de la courbe, l'écart-type */
-      void set_σ(IArrayXf σ)
+      void set_σ(const Vecf &σ)
       {
-        courbe.def_σ(σ);
+        courbe.def_σ(σ.fr);
       }
 
       /** @brief Définit la dimension (en pixels) des marqueurs. */
@@ -84,10 +89,10 @@ namespace dsp::view
 
     Curve plot(const float &x, const float &y, const std::string &format = ""){return f.plot(x,y,format);}
 
-    template<typename derived, typename ... Ts>
-    Curve plot(const Eigen::ArrayBase<derived> &y, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+    template<typename T, typename ... Ts>
+    Curve plot(const Vector<T> &y, const std::string &format = "", const std::string &label = "", Ts &&... args)
     {
-      return f.plot(y, format, titre, args...);
+      return f.plot(y.fr, format, label, args...);
     }
 
 
@@ -98,7 +103,7 @@ namespace dsp::view
      *  @param x      Vecteur des valeurs en abcisse.
      *  @param y      Vecteur des valeurs en ordonnée.
      *  @param format Chaine de caractère optionnelle pour modifier le format.
-     *  @param titre  Argument optionnel indiquant le nom de la courbe
+     *  @param label  Argument optionnel indiquant le nom de la courbe
      *  @param args   Argument optionnel pour générer le nom de la courbe (format librairie fmt).
      *
      *  Le format est une chaine de caractère qui permet de choisir la couleur, le type de trait,
@@ -115,9 +120,9 @@ namespace dsp::view
      *
      */
     template<typename ... Ts>
-    Curve plot(const ArrayXf &x, const ArrayXf &y, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+    Curve plot(const Vecf &x, const Vecf &y, const std::string &format = "", const std::string &label = "", Ts &&... args)
     {
-      return f.plot(x, y, format, fmt::format(FMT_RUNTIME(titre), args...));
+      return f.plot(x.fr, y.fr, format, fmt::format(FMT_RUNTIME(label), args...));
     }
 
     /** @brief Affiche le spectre d'un signal
@@ -127,15 +132,15 @@ namespace dsp::view
      *  @param y      Signal à analyser (domaine temporel)
      *  @param fe     Fréquence d'échantillonnage
      *  @param format Spécification de format (optionnel)
-     *  @param titre  Nom de la courbe (optionnel)
+     *  @param label  Nom de la courbe (optionnel)
      *  @param args   ...
      *
      *  @sa Figure::plot(), Figure::plot_img()
      */
-    template<typename Derived, typename ... Ts>
-    Curve plot_psd(const Eigen::ArrayBase<Derived> &y, float fe = 1.0, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+    template<typename T, typename ... Ts>
+    Curve plot_psd(const Vector<T> &y, float fe = 1.0, const std::string &format = "", const std::string &label = "", Ts &&... args)
     {
-      return f.plot_psd(y, fe, format, titre, args...);
+      return f.plot_psd(y.fr, fe, format, label, args...);
     }
 
     /** @brief Dessine une surface 2d avec des niveaux de couleur.
@@ -150,25 +155,25 @@ namespace dsp::view
      *
      *  @sa Figure::plot(), Figure::plot_psd()
      */
-    Curve plot_img(IArrayXXf &Z, const std::string &format = "jet")
+    Curve plot_img(const Tabf &Z, const std::string &format = "jet")
     {
-      return f.plot_img(Z, format);
+      return f.plot_img(Z.fr, format);
     }
 
-    Curve plot_img(float xmin, float xmax, float ymin, float ymax, IArrayXXf &Z, const std::string &format = "jet")
+    Curve plot_img(const Rectf &rdi, const Tabf &Z, const std::string &format = "jet")
     {
-      return f.plot_img(xmin, xmax, ymin, ymax, Z, format);
+      return f.plot_img(rdi, Z, format);
     }
 
-    Curve plot_minmax(const ArrayXf &x, const ArrayXf &y1, const ArrayXf &y2)
+    Curve plot_minmax(const Vecf &x, const Vecf &y1, const Vecf &y2)
     {
-      return f.plot_minmax(x, y1, y2);
+      return f.plot_minmax(x.fr, y1.fr, y2.fr);
     }
 
     template<typename ... Ts>
-    Curve plot_iq(const ArrayXcf &z, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+    Curve plot_iq(const Veccf &z, const std::string &format = "", const std::string &label = "", Ts &&... args)
     {
-      return f.plot_iq(z, format, titre, args...);
+      return f.plot_iq(z.fr, format, label, args...);
     }
 
 
@@ -226,6 +231,11 @@ namespace dsp::view
     tsd::vue::Canva canva()
     {
       return f.canva();
+    }
+
+    tsd::vue::Canva canva_pre()
+    {
+      return f.canva_pre();
     }
 
     tsd::vue::Canva canva_pixel(const Dim &allocation)

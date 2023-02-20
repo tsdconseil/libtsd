@@ -51,7 +51,7 @@ r_n\\
    * @f[
    *  x_n = \sum_{k=1}^{n} a_k x_{n-k} + e_n
    * @f] */
-  inline ArrayXf levinson_real(const ArrayXf &r)
+  inline Vecf levinson_real(const Vecf &r)
   {
     return nfr::levinson_reel(r);
   }
@@ -92,7 +92,7 @@ r_n\\
    *  @return     Solution @f$x@f$
    *
    *  */
-  inline ArrayXf levinson(const ArrayXf &l1, const ArrayXf &c1, const ArrayXf &y)
+  inline Vecf levinson(const Vecf &l1, const Vecf &c1, const Vecf &y)
   {
     return nfr::levinson(l1, c1, y);
   }
@@ -116,8 +116,8 @@ r_n\\
    * @param r Auto-corrélation du signal
    * @return R
    */
-  template<typename derived>
-  auto r2R(const Eigen::ArrayBase<derived> &r)
+  template<typename T>
+  auto r2R(const Vector<T> &r)
   {
     return nfr::r_vers_R(r);
   }
@@ -152,7 +152,7 @@ r_n\\
    * @param p Nombre de coefficients du modèle
    * @returns Les coefficients du filtre @f$a(z)@f$ et le vecteur d'erreur.
    */
-  inline std::tuple<ArrayXf, ArrayXf> lpc(const ArrayXf &x, int p)
+  inline std::tuple<Vecf, Vecf> lpc(const Vecf &x, int p)
   {
     return nfr::lpc(x, p);
   }
@@ -176,7 +176,7 @@ r_n\\
    *  @return Coefficients du filtre d'égalisation optimal (filtre @f$h@f$)
    *
    */
-  inline ArrayXf wiener_fir(const MatrixXf &Rxy, const ArrayXf &rx, int p)
+  inline Vecf wiener_fir(const Tabf &Rxy, const Vecf &rx, int p)
   {
     return nfr::wiener_rif(Rxy, rx, p);
   }
@@ -225,12 +225,13 @@ r_n\\
      *  - Paramètre i : index
      *  - Paramètre n : nombre de points
      *  - Paramètre m : dimension du vecteur à retourner (nombre de récepteurs en DOA) */
-    std::function<std::tuple<ArrayXf, ArrayXcf> (int i, int n, int m)> balayage = [](int i, int n, int m) -> std::tuple<ArrayXf, ArrayXcf>
+    std::function<std::tuple<Vecf, Veccf> (int i, int n, int m)> balayage = [](int i, int n, int m) -> std::tuple<Vecf, Veccf>
     {
       // Calcul du "vecteur de steering"
-      ArrayXf f(1);
+      Vecf f(1);
       f(0) = (1.0f*i)/n-0.5f;
-      return {f, sigexp(f(0), m)};
+      Veccf se = sigexp(f(0), m);
+      return {f, se};
     };
   };
 
@@ -249,10 +250,10 @@ r_n\\
      *
      * (index ligne = valeurs de spectre, index colonne = variable)
      * Par exemple, pour une simple estimation de fréquence, c'est un simple vecteur colonne avec les fréquences normalisée. */
-    ArrayXXf var;
+    Tabf var;
 
     /** @brief Valeurs du spectre */
-    ArrayXf spectrum;
+    Vecf spectrum;
 
     /** @brief Nombre de sources détectées */
     int Ns = 0;
@@ -280,7 +281,7 @@ r_n\\
    *  @par Bibliographie
    *  <i>Statistical signal processing and modelling</i>, M.H. Hayes, 1996
    */
-  inline SubSpaceSpectrum subspace_spectrum(const MatrixXcf &R, const SubSpaceSpectrumConfig &config)
+  inline SubSpaceSpectrum subspace_spectrum(const Tabcf &R, const SubSpaceSpectrumConfig &config)
   {
     return nfr::subspace_spectrum(R, config.fr());
   }

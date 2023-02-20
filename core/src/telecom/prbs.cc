@@ -43,31 +43,31 @@ const std::vector<uint32_t> pols_prim =
     (1 << 5) | (1 << 3) | (1 << 2)
 };
 
-uint32_t polynome_primitif_binaire(int n)
+uint32_t polynome_primitif_binaire(entier n)
 {
-  if((n <= 0) || (n >= (int) pols_prim.size()))
+  si((n <= 0) || (n >= (entier) pols_prim.size()))
     echec("polynome_primitif : degré = {}, pas possible.", n);
-  return pols_prim[n] | 1; // Ajoute X^n, implicite
+  retourne pols_prim[n] | 1; // Ajoute X^n, implicite
 }
 
-Poly<int> polynome_primitif(int n)
+Poly<entier> polynome_primitif(entier n)
 {
-  Poly<int> res;
-  Poly<int> z = Poly<int>::z;
-  auto p = polynome_primitif_binaire(n);
-  for(auto i = 0; i < n; i++)
+  Poly<entier> res;
+  soit z = Poly<entier>::z;
+  soit p = polynome_primitif_binaire(n);
+  pour(auto i = 0; i < n; i++)
   {
-    if(p & (1 << i))
+    si(p & (1 << i))
       res = res + (z ^ (n-i));
   }
-  res = res + Poly<int>::one(); // Ajoute c0 = 1, non utilisé dans les calculs
-  return res;
+  res = res + Poly<entier>::one(); // Ajoute c0 = 1, non utilisé dans les calculs
+  retourne res;
 }
 
-BitStream code_mls(int reglen)
+BitStream code_mls(entier reglen)
 {
-  int m = std::pow(2,reglen) - 1;
-  auto pb = polynome_primitif_binaire(reglen);
+  soit m = pow(2,reglen) - 1;
+  soit pb = polynome_primitif_binaire(reglen);
   LFSRGenerateur gene;
   LFSRConfig config;
   config.sortie = LFSRConfig::POIDS_FAIBLE;
@@ -77,7 +77,7 @@ BitStream code_mls(int reglen)
   gene.configure(config);
   BitStream bs;
   gene.step(bs, m);
-  return bs;
+  retourne bs;
 }
 
 LFSRGenerateur::LFSRGenerateur(unsigned int reglen)
@@ -85,7 +85,7 @@ LFSRGenerateur::LFSRGenerateur(unsigned int reglen)
   configure(reglen);
 }
 
-int LFSRGenerateur::configure(unsigned int reglen)
+entier LFSRGenerateur::configure(unsigned int reglen)
 {
   tsd_assert_msg(reglen <= MAX_REGLEN, "Invalid PRBS reg len: {}.", reglen);
 
@@ -94,72 +94,39 @@ int LFSRGenerateur::configure(unsigned int reglen)
   //pol    = (best_pols[reglen]<<1) | 1;
   reg    = 0xfa17;//0x0001;
 
-  return 0;
+  retourne 0;
 }
 
-int LFSRGenerateur::configure(const LFSRConfig &config)
+entier LFSRGenerateur::configure(const LFSRConfig &config)
 {
   this->config = config;
   reg = config.p0;
-  return 0;
+  retourne 0;
 }
 
-/*void PrbsGene::step(std::vector<uint8_t> &v, uint32_t nbytes)
-{
-  uint32_t i, j, k, tmp, sum;
-
-  v.resize(nbytes);
-
-  for(i = 0; i < nbytes; i++)
-  {
-    v[i] = 0;
-    for(j = 0; j < 8; j++)
-    {
-      //printf("PRBS iteration start: reg=%x, pol=%x.\n", ctx->reg, ctx->pol);
-      tmp = reg & pol;
-      sum = 0;
-      for(k = 0; k < reglen; k++)
-        sum = sum ^ ((tmp >> k) & 1);
-      reg = (reg >> 1) | (sum << (reglen - 1));
-      v[i] |= (sum << (7-j));
-      //v[i] |= (sum << j);
-      //printf("PRBS iteration end: reg=%x, pol=%x.\n", ctx->reg, ctx->pol);
-    }
-  }
-}*/
 
 void LFSRGenerateur::step(BitStream &bs, unsigned int nbits)
 {
-  for(auto i = 0u; i < nbits; i++)
+  pour(auto i = 0u; i < nbits; i++)
   {
-    //auto tmp = reg & pol;
-    //auto somme = 0u;
-    //for(auto k = 0; k < reglen; k++)
-    //  somme = somme ^ ((tmp >> k) & 1);
+    entier somme = (__builtin_popcount(reg & config.pol) & 1);
+    entier sortie;
 
-    int somme = (__builtin_popcount(reg & config.pol) & 1);
-
-    //msg("LFSR iteration : reg={:b}, pol={:b}, s={:b}.", reg, config.pol, somme);
-
-    int sortie;
-
-    if(config.sortie == LFSRConfig::POL)
+    si(config.sortie == LFSRConfig::POL)
     {
-      auto tmp = reg & config.pol_sortie;
-      auto s = 0u;
-      for(auto k = 0; k < config.reglen; k++)
+      soit tmp = reg & config.pol_sortie;
+      soit s = 0u;
+      pour(auto k = 0; k < config.reglen; k++)
         s = s ^ ((tmp >> k) & 1);
       sortie = s;
     }
-    else if(config.sortie == LFSRConfig::POIDS_FAIBLE)
+    sinon si(config.sortie == LFSRConfig::POIDS_FAIBLE)
       sortie = reg & 1;
-    else
+    sinon
       sortie = somme;
 
     bs.push(sortie);
     reg = (reg >> 1) | (somme << (config.reglen - 1));
-
-    //msg("LFSR iteration : nvreg={:b}, sortie={}.", reg, sortie);
   }
 }
 
@@ -173,11 +140,12 @@ struct LFSRRecepteur::Impl
     PRBS_STATE_UNLOCKED = 0,
     PRBS_STATE_LOCKED
   } state = PRBS_STATE_UNLOCKED;
-  uint32_t nb_consecutive_bits_errors = 0;
-  uint32_t nb_consecutive_bits_ok = 0;
+
+  uint32_t  nb_consecutive_bits_errors = 0,
+            nb_consecutive_bits_ok = 0,
+            nb_bits_a_ignorer = 0;
   uint64_t bit_counter = 0;
-  uint32_t nb_bits_a_ignorer = 0;
-  bool est_verouille = false;
+  bouléen est_verouille = non;
   // Number of bits decoded (right or bad) since the last change in locked state
   uint64_t nb_bits = 0;
   // Number of errors detected since the last change in locked state
@@ -185,34 +153,34 @@ struct LFSRRecepteur::Impl
 
   void step(const BitStream &bs)
   {
-    auto nbits = bs.lon();
-    for(auto i = 0; i < nbits; i++)
+    soit nbits = bs.lon();
+    pour(auto i = 0; i < nbits; i++)
     {
       uint8_t digital_bit = bs[i];
       //uint8_t digital_bit = (v[i] >> (7-j)) & 1;
 
-      auto tmp = reg & pol;
-      auto sum = 0u;
-      for(auto k = 0u; k < reglen; k++)
+      soit tmp = reg & pol;
+      soit sum = 0u;
+      pour(auto k = 0u; k < reglen; k++)
         sum = sum ^ ((tmp >> k) & 1);
 
       /* Unlocked state */
-      if(state == Impl::PRBS_STATE_UNLOCKED)
+      si(state == Impl::PRBS_STATE_UNLOCKED)
       {
         /* Fill register with received data */
         reg = (reg >> 1) | (digital_bit << (reglen - 1));
 
-        if(digital_bit == sum)
+        si(digital_bit == sum)
         {
           /* Bit received == processed: no error */
           nb_consecutive_bits_ok++;
         }
-        else
+        sinon
         {
           /* Bit received != processed: error */
           nb_consecutive_bits_ok = 0;
         }
-        if(nb_consecutive_bits_ok > 20)
+        si(nb_consecutive_bits_ok > 20)
         {
           //printf("prbs lock @%Ld.\n", bit_counter);
           /* 8 consecutive bits are good: lock the receiver */
@@ -220,29 +188,29 @@ struct LFSRRecepteur::Impl
           nb_consecutive_bits_errors = 0;
           //nb_bits = 0;
           //nb_errors = 0;
-          est_verouille = true;
+          est_verouille = oui;
         }
       }
       /* Locked state */
-      else
+      sinon
       {
         /* Fill register with computed data */
         reg = (reg >> 1) | (sum << (reglen - 1));
         nb_bits++;
 
-        if(digital_bit == sum)
+        si(digital_bit == sum)
         {
           /* Bit received == processed: no error */
           nb_consecutive_bits_errors = 0;
         }
-        else
+        sinon
         {
           /* Bit received != processed: error */
           nb_consecutive_bits_errors++;
           nb_erreurs++;
           //printf("Error @bit %Ld.\n", bit_counter);
         }
-        if(nb_consecutive_bits_errors > 5)
+        si(nb_consecutive_bits_errors > 5)
         {
           //printf("prbs unlock @%Ld after %Ld bits (%Ld errors).\n",
               //bit_counter, nb_bits, nb_errors);
@@ -252,7 +220,7 @@ struct LFSRRecepteur::Impl
         }
       }
       bit_counter++;
-    } // for(i) : bits
+    } // pour(i) : bits
   }
 };
 
@@ -262,7 +230,7 @@ LFSRRecepteur::LFSRRecepteur()
   configure(16, 30);
 }
 
-int LFSRRecepteur::configure(uint16_t reglen, int nb_bits_to_ignore)
+entier LFSRRecepteur::configure(uint16_t reglen, entier nb_bits_to_ignore)
 {
   tsd_assert_msg(reglen <= MAX_REGLEN, "Invalid PRBS reg len: {}.", reglen);
 
@@ -273,7 +241,7 @@ int LFSRRecepteur::configure(uint16_t reglen, int nb_bits_to_ignore)
   impl->bit_counter       = 0;
   reset();
 
-  return 0;
+  retourne 0;
 }
 
 void LFSRRecepteur::reset()
@@ -282,7 +250,7 @@ void LFSRRecepteur::reset()
   impl->nb_consecutive_bits_ok = 0;
   impl->nb_bits = 0;
   impl->nb_erreurs = 0;
-  impl->est_verouille = false;
+  impl->est_verouille = non;
 }
 
 void LFSRRecepteur::step(const BitStream &bs)
@@ -292,19 +260,19 @@ void LFSRRecepteur::step(const BitStream &bs)
 
 void LFSRRecepteur::affiche_etat() const
 {
-  bool is_locked;
+  bouléen is_locked;
   float ber;
   lis_etat(is_locked, ber);
   msg("PRBS récepteur : vérouillé = {}, ber = {:.1e}", is_locked ? "oui" : "non", ber);
-  msg("  nb bits = {}, nb erreurs = {}", (int) impl->nb_bits, (int) impl->nb_erreurs);
+  msg("  nb bits = {}, nb erreurs = {}", (entier) impl->nb_bits, (entier) impl->nb_erreurs);
 }
 
-void LFSRRecepteur::lis_etat(bool &is_locked, float &ber) const
+void LFSRRecepteur::lis_etat(bouléen &is_locked, float &ber) const
 {
   is_locked = (impl->state == Impl::PRBS_STATE_LOCKED);
-  if((impl->nb_bits == 0) || (!is_locked) || (impl->nb_bits < 10))
+  si((impl->nb_bits == 0) || (!is_locked) || (impl->nb_bits < 10))
     ber = 0.5;
-  else
+  sinon
     ber = ((float) impl->nb_erreurs) / ((float) impl->nb_bits);
 }
 

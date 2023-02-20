@@ -2,6 +2,11 @@
 
 
 #include "tsd/tsd.hpp"
+#include "dsp/tab.hpp"
+
+
+#define Let auto
+#define let auto
 
 namespace dsp {
 
@@ -13,11 +18,10 @@ namespace dsp {
 #define dsp_assert      tsd_assert
 #define dsp_assert_msg  tsd_assert_msg
 
-/** @brief @f$\pi@f$ value, with 32 bits floating point accuracy. */
-static const auto pi = tsd::pi;
-
+/** @brief @f$\pi@f$ value, with 64 bits floating point accuracy. */
 static const auto π  = tsd::π;
 
+/** @brief @f$\pi@f$ value, with 32 bits floating point accuracy. */
 static const auto π_f  = tsd::π_f;
 
 /** @brief Short-cut for the complex 32 bits floating point type. */
@@ -27,58 +31,42 @@ using cfloat = tsd::cfloat;
 using cdouble = tsd::cdouble;
 
 /** @cond private */
-using Eigen::ArrayXf;
-using Eigen::ArrayXd;
-using Eigen::ArrayXXf;
-using Eigen::ArrayXXcf;
-using Eigen::ArrayXi;
-using Eigen::MatrixXf;
-using Eigen::MatrixXcf;
-using Eigen::VectorXf;
-using Eigen::VectorXcf;
 
 
 using fmt::format;
 
-/** @brief Vecteur de complexes 32 bits */
-using Eigen::ArrayXcf;
+
 /** @endcond */
 
 
+
 template<typename t>
-  using Tableau = tsd::Tableau<t>;
+  using Tableau = TabT<t,2>;
 
 /** @brief Shortcut for a column vector with generic (templated) data type. */
 template<typename t>
-  using Vector = tsd::Vecteur<t>;
+  using Vector = VecT<t>;
 
-/** @brief Input floating point array (const) */
-using IArrayXf   = tsd::IArrayXf;
 
-/** @brief Input complex floating point array (const) */
-using IArrayXXcf = tsd::IArrayXXcf;
-
-/** @brief Input complex floating point column vector (const) */
-using IArrayXcf  = tsd::IArrayXcf;
-
-/** @brief Vecteur flottant en sortie */
-using OArrayXf   = tsd::OArrayXf;
-using IArrayXXf  = tsd::IArrayXXf;
-using OArrayXXf  = tsd::OArrayXXf;
-
-/** @brief Boolean array */
-using ArrayXXb = tsd::ArrayXXb;
-
-/** @brief Boolean column array */
-using ArrayXb  = tsd::ArrayXb;
-
-using IArrayXXb = tsd::IArrayXXb;
-using IArrayXb  = tsd::IArrayXb;
 
 /** @brief Short-cut for a shared pointer. */
-template<typename T>
-  using sptr = std::shared_ptr<T>;
+//template<typename T>
+//  using sptr = std::shared_ptr<T>;
 
+//template<typename T, int ndims>
+//   using TabT = tsd::TabT<T, ndims>;
+
+/*template<typename T>
+   using VecT = tsd::VecT<T>;
+
+using tsd::Vecf;
+using tsd::Vecd;
+using tsd::Veci;
+using tsd::Veccf;
+using tsd::Vecb;
+using tsd::Tabf;
+using tsd::Tabcf;
+using tsd::Tabi;*/
 
 /** @brief Vertical concatenation of 2 vectors.
  *
@@ -116,13 +104,13 @@ template<typename T>
  *
  */
 template<typename T1, typename T2>
-  auto vconcat(const Eigen::ArrayBase<T1> &a, const Eigen::ArrayBase<T2> &b)
+  auto vconcat(const Vector<T1> &a, const Vector<T2> &b)
 {
   return tsd::vconcat(a, b);
 }
 
 template<typename T1, typename T2>
-  auto operator |(const Eigen::ArrayBase<T1> &a, const Eigen::ArrayBase<T2> &b)
+  auto operator |(const Vector<T1> &a, const Vector<T2> &b)
 {
   return vconcat(a, b);
 }
@@ -175,8 +163,8 @@ Vector<T> rotation_vec(const Vector<T> &x, int d)
  *
  *  @sa cumsum()
  */
-template<typename D>
-  auto diff(const Eigen::ArrayBase<D> &x)
+template<typename T>
+  auto diff(const Vector<T> &x)
 {
   return tsd::diff(x);
 }
@@ -202,8 +190,8 @@ template<typename D>
  *  @sa diff()
  *
  */
-template<typename D>
-    auto cumsum(const Eigen::ArrayBase<D> &x)
+template<typename T>
+    auto cumsum(const Vector<T> &x)
 {
   return tsd::cumsum(x);
 }
@@ -223,9 +211,10 @@ template<typename D>
  *  @sa modulo_pm_π(), modulo_2π()
  *
  */
-inline Eigen::ArrayXf phase_unwrap(const ArrayXf &x, float r = 2*π)
+template<typename T>
+inline Vector<T> phase_unwrap(const Vector<T> &x, float r = 2*π)
 {
-  return tsd::déplie_phase(x, r);
+  return tsd::déplie_phase(x.fr, r);
 }
 
 
@@ -244,9 +233,9 @@ inline Eigen::ArrayXf phase_unwrap(const ArrayXf &x, float r = 2*π)
  *
  *  @sa find_first()
  */
-inline std::vector<int> find(IArrayXb x)
+inline std::vector<int> find(const Vecb &x)
 {
-  return tsd::trouve(x);
+  return tsd::trouve(x.fr);
 }
 
 /** @brief Find the first true element index from a boolean vector.
@@ -262,9 +251,9 @@ inline std::vector<int> find(IArrayXb x)
  *
  *  @sa find()
  */
-inline int find_first(IArrayXb x)
+inline int find_first(const Vecb &x)
 {
-  return tsd::trouve_premier(x);
+  return tsd::trouve_premier(x.fr);
 }
 
 
@@ -290,7 +279,7 @@ inline int find_first(IArrayXb x)
 template<typename T>
  Vector<T> downsample(const Vector<T> &x, int pas)
  {
-  return tsd::sousech(x, pas);
+  return tsd::sousech(x.fr, pas);
  }
 
 /** @brief Oversampling of a column vector.
@@ -314,7 +303,7 @@ template<typename T>
 template<typename T>
  Vector<T> upsample(const Vector<T> &x, int R)
  {
-  return tsd::surech(x, R);
+  return tsd::surech(x.fr, R);
  }
 
 /** @brief Linear to decibel conversion.
@@ -353,7 +342,10 @@ template<typename T>
   return tsd::db2pow(x);
 }
 
-
+auto mag2db(const auto &x)
+{
+  retourne 2 * pow2db(x);
+}
 
 
 
@@ -402,10 +394,10 @@ inline int next_power_of_2(unsigned int i)
  *  @endcode
  *
  */
-template<typename D1, typename D2>
-  std::tuple<Vector<typename D1::Scalar>, Vector<typename D2::Scalar>>
-    pad_zeros(const Eigen::ArrayBase<D1> &x,
-              const Eigen::ArrayBase<D2> &y,
+template<typename T1, typename T2>
+  std::tuple<Vector<T1>, Vector<T2>>
+    pad_zeros(const Vector<T1> &x,
+              const Vector<T2> &y,
               bool p2 = false)
 {
   return tsd::pad_zeros(x, y, p2);
@@ -486,8 +478,8 @@ using Filter = tsd::Filtre<Te, Ts, Tc>;
  *  @note Because of the anti-aliasing filters, the output signal will be delayed compared to the input one.
  *  To resample without intruducing delay, one can use @ref resample_freq().
  */
-template<typename Derived>
-  auto resample(const Eigen::ArrayBase<Derived> &x, float r)
+template<typename T>
+  auto resample(const Vector<T> &x, float r)
 {
   return tsd::rééchan(x, r);
 }
@@ -601,6 +593,18 @@ T modulo_pm_π(T x)
 }
 
 
+template<typename T>
+  bool is_even(T &t) NOECLIPSE(requires(std::is_integral_v<T>))
+{
+  return tsd::est_pair(t);
+}
+
+template<typename T>
+  bool is_odd(T &t) NOECLIPSE(requires(std::is_integral_v<T>))
+{
+  return tsd::est_impair(t);
+}
+
 /** @brief Degrees to radians conversion.
  *
  *  <h3>Degrees to radians conversion</h3>
@@ -678,7 +682,7 @@ T rad2deg(T radians)
  *
  *  @sa logspace()
  */
-static inline auto linspace(float a, float b, unsigned int n)
+static inline Vecf linspace(float a, float b, unsigned int n)
 {
   return tsd::linspace(a,b,n);
 }
@@ -707,7 +711,7 @@ static inline auto linspace(float a, float b, unsigned int n)
  *
  *  @sa linspace()
  */
-static inline auto logspace(float a, float b, int n)
+static inline Vecf logspace(float a, float b, int n)
 {
   return tsd::logspace(a, b, n);
 }
@@ -724,7 +728,7 @@ static inline auto logspace(float a, float b, int n)
  *
  *  @sa linspace(), trange()
  */
-static inline ArrayXi irange(int a, int b)
+static inline Veci irange(int a, int b)
 {
   return tsd::intervalle_entier(a, b);
 }
@@ -742,7 +746,7 @@ static inline ArrayXi irange(int a, int b)
  *
  *  @sa linspace(), irange()
  */
-static inline ArrayXf trange(unsigned int n, float fs)
+static inline Vecf trange(unsigned int n, float fs)
 {
   return tsd::intervalle_temporel(n, fs);
 }
@@ -770,21 +774,21 @@ static inline ArrayXf trange(unsigned int n, float fs)
  *
  *  @sa randu(), randb()
  */
-static inline ArrayXf randn(unsigned int n)
+static inline Vecf randn(unsigned int n)
 {
   return tsd::randn(n);
 }
 
 /** @cond private */
 
-/** @brief Normal law (2d array)
- *  @sa randu() */
-static inline ArrayXXf randn_2d(unsigned int n, unsigned int m){return tsd::randn_2d(n,m);}
+/// @brief Normal law (2d array)
+// *  @sa randu() */
+//static inline Tabf randn_2d(unsigned int n, unsigned int m){return tsd::randn_2d(n,m);}
 
 
 
-/** @brief Loi uniforme, intervalle [0,1] (tableau 2d) */
-static inline ArrayXXf randu_2d(unsigned int n, unsigned int m){return tsd::randu_2d(n, m);}
+/// @brief Loi uniforme, intervalle [0,1] (tableau 2d) */
+//static inline Tabf randu_2d(unsigned int n, unsigned int m){return tsd::randu_2d(n, m);}
 
 
 /** @endcond */
@@ -794,7 +798,9 @@ static inline ArrayXXf randu_2d(unsigned int n, unsigned int m){return tsd::rand
  *  <h3>Uniform law</h3>
  *
  *  @param n Number of points to generate.
- *  @returns A vector of random values, sampling according to a uniform law between 0 and 1.
+ *  @param a Minimal value.
+ *  @param b Maximal value.
+ *  @returns A vector of random values, sampling according to a uniform law between a and b.
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_randu
@@ -802,7 +808,7 @@ static inline ArrayXXf randu_2d(unsigned int n, unsigned int m){return tsd::rand
  *
  *  @sa randn(), randi(), randb()
  */
-static inline ArrayXf randu(unsigned int n){return tsd::randu(n);}
+static inline Vecf randu(int n, float a = -1, float b = 1){return tsd::randu(n, a, b);}
 
 /** @brief Random binary vector.
  *
@@ -820,7 +826,7 @@ static inline ArrayXf randu(unsigned int n){return tsd::randu(n);}
  *
  *  @sa randn(), randu(), randi()
  */
-static inline ArrayXb randb(int n)
+static inline Vecb randb(int n)
 {
   return tsd::randb(n);
 }
@@ -839,7 +845,7 @@ static inline ArrayXb randb(int n)
  *
  *  @sa randn(), randu(), randb()
  */
-static inline ArrayXi randi(int M, int n)
+static inline Veci randi(int M, int n)
 {
   return tsd::randi(M, n);
 }
@@ -867,7 +873,7 @@ static inline ArrayXi randi(int M, int n)
  *
  *  @sa sigcos(), sigsin(), sigcar(), sigtri()
  */
-static inline ArrayXcf sigexp(float f, int n)
+static inline Veccf sigexp(float f, int n)
 {
   return tsd::sigexp(f, n);
 }
@@ -894,7 +900,7 @@ static inline ArrayXcf sigexp(float f, int n)
  *
  *  @sa sigcos(), sigexp(), sigcar(), sigtri()
  */
-static inline ArrayXf sigsin(float f, int n)
+static inline Vecf sigsin(float f, int n)
 {
   return tsd::sigsin(f, n);
 }
@@ -921,7 +927,7 @@ static inline ArrayXf sigsin(float f, int n)
  *
  *  @sa sigsin(), sigexp(), sigcar(), sigtri()
  */
-static inline ArrayXf sigcos(float f, int n)
+static inline Vecf sigcos(float f, int n)
 {
   return tsd::sigcos(f, n);
 }
@@ -939,7 +945,7 @@ static inline ArrayXf sigcos(float f, int n)
  *
  *  @sa sigcar(), sigsin(), sigcos(), sigexp()
  */
-static inline ArrayXf sigtri(int p, int n)
+static inline Vecf sigtri(int p, int n)
 {
   return tsd::sigtri(p, n);
 }
@@ -958,7 +964,7 @@ static inline ArrayXf sigtri(int p, int n)
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
-static inline ArrayXf sigsquare(int p, int n)
+static inline Vecf sigsquare(int p, int n)
 {
   return tsd::sigcar(p, n);
 }
@@ -976,7 +982,7 @@ static inline ArrayXf sigsquare(int p, int n)
  *  @image html sigimp.png width=600px
  *
  */
-static inline ArrayXf sigimp(int n, int p = 0)
+static inline Vecf sigimp(int n, int p = 0)
 {
   return tsd::sigimp(p, n);
 }
@@ -994,7 +1000,7 @@ static inline ArrayXf sigimp(int n, int p = 0)
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
-static inline ArrayXf sigsawtooth(int p, int n)
+static inline Vecf sigsawtooth(int p, int n)
 {
   return tsd::sigscie(p, n);
 }
@@ -1019,7 +1025,7 @@ static inline ArrayXf sigsawtooth(int p, int n)
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
-static inline ArrayXf siggsin(float f, int n, float a = 10)
+static inline Vecf siggsin(float f, int n, float a = 10)
 {
   return tsd::siggsin(f, n, a);
 }
@@ -1043,63 +1049,69 @@ static inline ArrayXf siggsin(float f, int n, float a = 10)
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp(), siggsin()
    */
-static inline ArrayXf siggauss(int n, float a = 10)
+static inline Vecf siggauss(int n, float a = 10)
 {
   return tsd::siggauss(n, a);
 }
 
 
-/** @brief Linear chirp.
+/** @brief Nyquist frequency signal generation (-1,1,-1,1,etc.).
  *
- *  <h3>Linear chirp</h3>
+ *  <h3>Signal at Nyquist frequency</h3>
+ *
+ *  Build a sinusoïd sampled at frequency @f$f_e/2@f$, that an alternating sequence
+ *  -1,1,-1,1,etc.
+ *
+ *  @param n Number of points to generate.
+ *
+ *  @par Example
+ *  @snippet exemples/src/ex-tsd.cc ex_signyquist
+ *  @image html signyquist.png width=600px
+ *
+ *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp()
+ */
+extern Vecf signyquist(int n);
+
+
+/** @brief Linear or quadratic chirp.
+ *
+ *  <h3>Linear or quadratic chirp</h3>
  *
  *  @f[
  *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
  *  @f]
  *
- *  The @f$f_k@f$ being lineairly distribued between @f$f_0@f$ and @f$f_1@f$.
+ *  The @f$f_k@f$ being lineairly or quadratically distribued between @f$f_0@f$ and @f$f_1@f$.
+ *
+ *  For a linear chirp:
+ *  @f[
+ *  f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)
+ *  @f]
+ *
+ *  For a quadratic chirp:
+ *  @f[
+ *  f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)^2
+ *  @f]
+ *
  *
  *  @param f0 Initial frequency (normalized).
  *  @param f1 Final frequency (normalized).
  *  @param n  Number of points to generate.
+ *  @param mode 'l' for linear, 'q' for quadratic.
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigchirp
  *  @image html sigchirp.png width=600px
  *
- *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp2()
+ *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
-static inline ArrayXf sigchirp(float f0, float f1, int n)
+static inline Vecf sigchirp(float f0, float f1, int n, char mode = 'l')
 {
-  return tsd::sigchirp(f0, f1, n);
+  return tsd::sigchirp(f0, f1, n, mode);
 }
 
 
 
-/** @brief Quadratic chirp.
- *
- *  <h3>Quadratic chirp</h3>
- *
- *  @f[
- *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
- *  @f]
- *
- *  The @f$f_k@f$ being quadraticaly distribued between @f$f_0@f$ and @f$f_1@f$:
- *  @f[
- *  f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)^2
- *  @f]
- *
- *  @param f0 Initial frequency (normalized).
- *  @param f1 Final frequency (normalized).
- *  @param n  Number of points to generate.
- *
- *  @par Example
- *  @snippet exemples/src/ex-tsd.cc ex_sigchirp2
- *  @image html sigchirp2.png width=600px
- *
- *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp()
- */
-extern ArrayXf sigchirp2(float f0, float f1, int n);
 
 
 using OHConfig = tsd::OHConfig;

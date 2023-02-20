@@ -4,48 +4,48 @@
 namespace tsd::fourier {
 
 
-std::tuple<ArrayXf, ArrayXf> psd_welch(const ArrayXcf &x, int N, const std::string fen)
+std::tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, const std::string fen)
 {
-  ArrayXf freqs = psd_freqs(N);
-  ArrayXf S = ArrayXf::Zero(N);
-  ArrayXf f = tsd::filtrage::fenetre(fen, N, false);
+  soit freqs = psd_freqs(N);
+  soit S = Vecf::zeros(N);
+  soit f = tsd::filtrage::fenetre(fen, N, non);
 
-  for(auto i = 0; i + N < x.rows(); i += N/2)
+  pour(auto i = 0; i + N < x.rows(); i += N/2)
   {
-    ArrayXcf xp = x.segment(i, N) * f;
-    S += fftshift(fft(xp).abs2());
+    soit xp = x.segment(i, N) * f;
+    S += fftshift(abs2(fft(xp)));
   }
 
-  return {freqs, 10.0f * S.log10()};
+  retourne {freqs, pow2db(S)};
 }
 
-ArrayXf tfd_freqs(int n, bool avec_shift)
+Vecf tfd_freqs(entier n, bouléen avec_shift)
 {
-  if(avec_shift)
+  si(avec_shift)
   {
-    if((n & 1) == 0)
-      return linspace(-0.5,0.5-1.0/n,n);
-    return linspace(-0.5+1.0/n, 0.5, n);
+    si(est_pair(n))
+      retourne linspace(-0.5,0.5-1.0/n,n);
+    retourne linspace(-0.5+1.0/n, 0.5, n);
   }
 
-  ArrayXf f(n);
-  if((n & 1) == 0)
+  Vecf f(n);
+  si(est_pair(n))
   {
     f.head(n/2) = linspace(0, 0.5-1.0/n, n/2);
     f.tail(n/2) = linspace(-0.5, -1.0/n, n/2);
   }
-  else
+  sinon
   {
     f.head(n/2+1) = linspace(0, 0.5-0.5/n, n/2+1);
     f.tail(n/2)   = linspace(-0.5, -1.0/n, n/2);
   }
-  return f;
+  retourne f;
 }
 
-ArrayXf psd_freqs(int n, bool complexe)
+Vecf psd_freqs(entier n, bouléen complexe)
 {
   /*
-   * if((n & 1) == 0)
+   * si((n & 1) == 0)
   {
     res.tail(n/2) = X.head(n/2);
     res.head(n/2) = X.tail(n/2);
@@ -63,98 +63,94 @@ ArrayXf psd_freqs(int n, bool complexe)
     // j = N/2+1 <=> k = 1     <=> f = 1
     // j = N-1   <=> k = N/2-1 <=> f = 1/2-1/N
   }
-  else
+  sinon
   {
     res.tail(1+n/2) = X.head(1+n/2);
     res.head(n/2)   = X.tail(n/2);
      *   X' = \left[X_{N/2+1}, X_{N/2+2}, \dots, X_{N-1}, X_0, X_1, \dots, X_{N/2}}\right]
   }
    */
-  if(complexe)
+  si(complexe)
   {
-    if((n & 1) == 0)
-      return linspace(-0.5,0.5-1.0/n,n);
-    else
-      return linspace(-0.5+1.0/n, 0.5, n);
+    soit t0 = -0.5, t1 = 0.5;
+    si(est_pair(n))
+      t1 -= 1.0/n;
+    sinon
+      t0 += 1.0/n;
+
+    retourne linspace(t0,t1,n);
   }
-  else
+  sinon
   {
-    if((n & 1) == 0)
-      return linspace(0,0.5,n/2);
-    else
-      return linspace(0,0.5-1.0/n,n/2);
+    soit t0 = 0.0,
+         t1 = 0.5;
+    si(est_impair(n))
+      t1 -= 1.0/n;
+    retourne linspace(t0,t1,n/2);
   }
 }
 
 
-static float fréq_estim_candan2(IArrayXcf x)
+static float fréq_estim_candan2(const Veccf &x)
 {
-  auto n = x.rows();
-  //ArrayXcf xp = x;
-  ArrayXcf X = fft(x); // TODO : move fft as a template to avoid this
+  soit n = x.rows();
+  soit X = fft(x); // TODO : move fft as a template to avoid this
 
-  int k;
-  X.abs().maxCoeff(&k);
+  soit k = abs(X).index_max();
 
-  auto X2 = X(k);
-  auto X1 = X((k-1+n)%n);
-  auto X3 = X((k+1)%n);
+  soit X2 = X(k),
+       X1 = X((k-1+n)%n),
+       X3 = X((k+1)%n);
 
-  auto p = ((X1 - X3) / (2.0f*X2-X3-X1)).real();
+  soit p = real((X1 - X3) / (2.0f*X2-X3-X1));
   p *= std::tan(π/n)/(π/n);
   p = std::atan(p*π/n) / (π/n);
 
-  return (k+p) / n;
+  retourne (k+p) / n;
 }
 
-static float fréq_estim_quadratique(IArrayXcf x)
+static float fréq_estim_quadratique(const Veccf &x)
 {
-  auto n = x.rows();
-  ArrayXcf X = fft(x);
+  soit n = x.rows();
+  soit X = abs(fft(x));
+  soit k = X.index_max();
 
-  int k;
-  X.abs().maxCoeff(&k);
+  soit AX2 = X(k),
+       AX1 = X((k-1+n)%n),
+       AX3 = X((k+1)%n);
 
-  auto AX2 = abs(X(k));
-  auto AX1 = abs(X((k-1+n)%n));
-  auto AX3 = abs(X((k+1)%n));
-
-  float p = 0.5 * (AX3 - AX1) / (2*AX2-AX3-AX1);
-  return (k+p) / n;
+  soit p = 0.5 * (AX3 - AX1) / (2*AX2-AX3-AX1);
+  retourne (k+p) / n;
 }
 
-float freqestim(IArrayXcf x, FreqEstimMethode m)
+float freqestim(const Veccf &x, FreqEstimMethode m)
 {
   float res = 0;
 
-  if(m == FreqEstimMethode::FFT)
+  si(m == FreqEstimMethode::FFT)
   {
-    ArrayXcf X = fft(x);
-    int k;
-    int n = X.rows();
-    X.abs().maxCoeff(&k);
+    soit n = x.rows();
+    soit k = (abs(fft(x))).index_max();
 
     // k = n/2 <=> n-n/2 = n/2 = -n/2 ?
     // 0 <=> 0
     // 1 <=> n-1
     //
-    //if(k >= n/2)
+    //si(k >= n/2)
       //k = -(n - k);
     res = ((float) k) / n;
   }
-  else if(m == FreqEstimMethode::QUADRATIC)
+  sinon si(m == FreqEstimMethode::QUADRATIC)
   {
     res = fréq_estim_quadratique(x);
   }
-  else if(m == FreqEstimMethode::CANDAN2)
+  sinon si(m == FreqEstimMethode::CANDAN2)
   {
     res = fréq_estim_candan2(x);
   }
-  if((res > 0.5) && (res <= 1.0))
-  {
+  si((res > 0.5) && (res <= 1.0))
     res -= 1;
-  }
-  return res;
+  retourne res;
 }
 
 }

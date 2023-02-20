@@ -19,22 +19,22 @@ struct TranspoBB: Filtre<Te, cfloat, TranspoBBConfig>
   sptr<SourceGen<cfloat>> ol;
   sptr<FiltreGen<cfloat>> filtre_image;
 
-  int configure_impl(const TranspoBBConfig &config)
+  entier configure_impl(const TranspoBBConfig &config)
   {
-    if(mode == 'r')
+    si(mode == 'r')
     {
       // Image filtering
-      if(config.fi < 0.25)
-          fc = config.fi;
-      else
-          fc = 0.5 - config.fi;
+      si(config.fi < 0.25)
+        fc = config.fi;
+      sinon
+        fc = 0.5 - config.fi;
 
-      auto ntaps = 63;
-      ArrayXf h = design_rif_fen(ntaps, "lp", fc);
+      soit ntaps = 63;
+      soit h = design_rif_fen(ntaps, "lp", fc);
       filtre_image = tsd::filtrage::filtre_rif<float,cfloat>(h);
     }
     ol = source_ohc(-config.fi);
-    return 0;
+    retourne 0;
   }
 
   TranspoBB(const TranspoBBConfig &config, char mode)
@@ -43,11 +43,11 @@ struct TranspoBB: Filtre<Te, cfloat, TranspoBBConfig>
     Configurable<TranspoBBConfig>::configure(config);
   }
 
-  void step(const Eigen::Ref<const Vecteur<Te>> x, ArrayXcf &y)
+  void step(const Vecteur<Te> &x, Veccf &y)
   {
     y = x * ol->step(x.rows());
 
-    if constexpr(!est_complexe<Te>())
+    si constexpr(!est_complexe<Te>())
       y = filtre_image->step(y);
   }
 };
@@ -55,14 +55,14 @@ struct TranspoBB: Filtre<Te, cfloat, TranspoBBConfig>
 template<typename T>
   sptr<Filtre<T,cfloat,TranspoBBConfig>> transpo_bb(const TranspoBBConfig &config)
   {
-    if constexpr(est_complexe<T>())
-      return make_shared<TranspoBB<cfloat>>(config, 'c');
-    else
-      return make_shared<TranspoBB<float>>(config, 'r');
+    si constexpr(est_complexe<T>())
+      retourne make_shared<TranspoBB<cfloat>>(config, 'c');
+    sinon
+      retourne make_shared<TranspoBB<float>>(config, 'r');
   }
 
-auto tbb1 = transpo_bb<float>;
-auto tbb2 = transpo_bb<cfloat>;
+soit tbb1 = transpo_bb<float>;
+soit tbb2 = transpo_bb<cfloat>;
 
 
 } // namespace

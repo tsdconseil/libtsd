@@ -4,7 +4,7 @@
 using namespace tsd;
 using namespace tsd::vue;
 
-int test_image()
+entier test_image()
 {
 
   Image image(550, 350);
@@ -59,10 +59,10 @@ int test_image()
   image.enregister("./build/test-log/test-image");
 
 
-  auto im2 = image.redim(100, 100);
+  soit im2 = image.redim(100, 100);
   im2.enregister("./build/test-log/test-image-r1");
 
-  auto im3 = image.redim(1000, 1000);
+  soit im3 = image.redim(1000, 1000);
   im3.enregister("./build/test-log/test-image-r2");
 
   //Figure f;
@@ -73,5 +73,5 @@ int test_image()
   //f.afficher();
   //Figure::attente_ihm();
 
-  return 0;
+  retourne 0;
 }

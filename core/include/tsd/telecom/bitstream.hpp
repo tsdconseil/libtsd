@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TSD_BITSTREAM_H
+#define TSD_BITSTREAM_H
 
 #include "tsd/tsd.hpp"
 
@@ -29,39 +30,39 @@ public:
    *
    *  Les éléments non nuls de x sont interprétés comme des 1.
    */
-  BitStream(IArrayXf x);
+  BitStream(const Vecf &x);
 
   /** @brief D'après la dimension (nombre de bits) */
-  BitStream(int n);
+  BitStream(entier n);
 
   /** @brief D'après une chaine de caractères de type "0100111001..." */
   BitStream(const std::string &s);
 
-  int dst_Hamming(const BitStream &bs) const;
+  entier dst_Hamming(const BitStream &bs) const;
 
   /** @brief Conversion vers vecteur de flottants (valeurs = 0 ou 1). */
-  ArrayXf array() const;
+  Vecf array() const;
 
   /** @brief Conversion vers vecteur d'entiers. */
-  Eigen::ArrayXi iarray() const;
+  Veci iarray() const;
 
   /** @brief Lecture d'un bit d'index donné */
-  bool operator [](unsigned int index) const;
+  bouléen operator [](unsigned int index) const;
 
   /** @brief Ecriture d'un bit d'index donné */
-  void set(unsigned int index, bool valeur);
+  void set(unsigned int index, bouléen valeur);
 
   /** @brief Train de bit pseudo-aléatoire */
-  static BitStream rand(int nbits);
+  static BitStream rand(entier nbits);
 
   /** @brief Zéros */
-  static BitStream zéros(int nbits);
+  static BitStream zéros(entier nbits);
 
   /** @brief Uns */
-  static BitStream uns(int nbits);
+  static BitStream uns(entier nbits);
 
   /** @brief Alternance de 0 et de 1 */
-  static BitStream altern(int nbits);
+  static BitStream altern(entier nbits);
 
   void restart();
 
@@ -70,23 +71,23 @@ public:
    *  <h3>Remise à zéro</h3>
    *
    * @warning Remet à zéro tous les bits. */
-  void resize(int nbits);
+  void resize(entier nbits);
 
   /** @brief Insertion d'un nouveau bit en fin de séquence. */
-  void push(bool b);
+  void push(bouléen b);
 
   void push_u32(uint32_t i);
 
   uint32_t pop_u32();
 
   /** @brief Lecture et dépilement d'un bit en début de séquence. */
-  bool pop();
+  bouléen pop();
 
   /** @brief Fin de séquence atteinte (en lecture) ? */
-  bool eof();
+  bouléen eof();
 
   /** @brief Nombre de bits */
-  int lon() const;
+  entier lon() const;
 
   /** @brief Suppression de tous les bits.
    *
@@ -99,20 +100,20 @@ public:
   void operator +=(const BitStream &t);
 
 
-  bool operator ==(const BitStream &t2);
+  bouléen operator ==(const BitStream &t2);
 
 
   unsigned char *get_ptr();
 
   /** @brief Ajoute des zéros à la fin */
-  void pad(int nzeros);
+  void pad(entier nzeros);
 
   /** @brief Ajoute (si besoin) des zéros de manière à ce que le nombre de bits soit un multiple de m */
-  void pad_mult(int m);
+  void pad_mult(entier m);
 
 private:
   std::vector<unsigned char> buffer;
-  int pos = 0, nbits = 0;
+  entier pos = 0, nbits = 0;
 };
 
 
@@ -124,8 +125,15 @@ extern BitStream operator +(const BitStream &t1, const BitStream &t2);
 
 
 
-extern BitStream randstream(int n);
+extern BitStream randstream(entier n);
 
 /** @} */
 
 }
+
+
+ostream_formater(tsd::telecom::BitStream)
+
+
+#endif
+

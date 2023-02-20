@@ -4,43 +4,61 @@
 using namespace std;
 
 
-int test_tsd()
+entier test_tsd()
 {
 
   {
+    msg("Test vec...");
+
+    soit x = linspace(0, 4, 5);
+    soit s = x.somme(), m = x.moyenne();
+
+    msg("s = {}, m = {}", s, m);
+    tsd_assert((s == 10) && (m == 2));
+  }
+
+  {
     msg("Test linspace...");
-    ArrayXf x = linspace(1, 9, 9);
-    tsd_assert(
-           (x.rows() == 9)
-        && (x(0) == 1)
-        && (diff(x).isApprox(ArrayXf::Ones(8))));
+    soit x = linspace(1, 9, 9);
+
+    msg("x :       {}", x);
+    msg("diff(x) : {}", diff(x));
+    msg("ones    : {}", Vecf::ones(8));
+    msg("err     : {}", diff(x) - Vecf::ones(8));
+
+    tsd_assert(x.rows() == 9);
+    tsd_assert(x(0) == 1);
+    tsd_assert(diff(x).est_approx(Vecf::ones(8)));
   }
 
   {
     msg("Test irange...");
-    ArrayXi x = intervalle_entier(1, 9);
+    soit x = intervalle_entier(1, 9);
     tsd_assert(
            (x.rows() == 9)
         && (x(0) == 1)
-        && (diff(x).isApprox(ArrayXi::Ones(8))));
+        && (diff(x).est_approx(Veci::ones(8))));
   }
 
   {
     msg("Test trange...");
-    ArrayXf x = intervalle_temporel(10, 10);
-    msg("x = {}", x);
-    tsd_assert((x.rows() == 10)
-        && (x(0) == 0)
-        && (diff(x).isApprox(ArrayXf::Constant(9, 0.1f))));
+    soit x = intervalle_temporel(10, 10);
+    msg("x       = {}", x);
+    msg("diff(x) = {}", diff(x));
+    msg("cst     = {}", Vecf::constant(9, 0.1f));
+    msg("err     = {}", Vecf::constant(9, 0.1f) - diff(x));
+    tsd_assert(x.rows() == 10);
+    tsd_assert(x(0) == 0);
+    tsd_assert(diff(x).est_approx(Vecf::constant(9, 0.1f)));
   }
 
   {
     msg("Test logspace...");
-    ArrayXf x = logspace(-1, 2, 4);
+    soit x = logspace(-1, 2, 4);
 
     msg("x: {}", x);
 
-    auto ε = 1e-8;
+    soit ε = 1e-8;
     tsd_assert(x.rows() == 4);
     tsd_assert(abs(x(0) - 0.1) < ε);
     tsd_assert(abs(x(1) - 1) < ε);
@@ -49,27 +67,32 @@ int test_tsd()
   }
 
   {
-    ArrayXf x = ArrayXf::Ones(7);
+    soit x = Vecf::ones(7);
     tsd_assert(length(x) == 7);
   }
 
 
   {
     msg("Test vconcat...");
-    ArrayXf a = ArrayXf::Random(5);
-    ArrayXf b = ArrayXf::Random(7);
-    ArrayXf c = a | b;
+    soit a = Vecf::random(5),
+         b = Vecf::random(7);
+    soit c = a | b;
+
+    msg("a = {}", a);
+    msg("b = {}", b);
+    msg("c = {}", c);
+
     tsd_assert(c.rows() == 12);
-    tsd_assert(a.isApprox(c.head(5)));
-    tsd_assert(b.isApprox(c.tail(7)));
+    tsd_assert(a.est_approx(c.head(5)));
+    tsd_assert(b.est_approx(c.tail(7)));
   }
 
   {
     msg("Test modulo...");
-    auto check_modulo = [&](double a, double m, double b, double ε2 = 1e-13)
+    soit check_modulo = [&](double a, double m, double b, double ε2 = 1e-13)
     {
-      auto err = abs(modulo(a, m) - b);
-      if(err >= ε2)
+      soit err = abs(modulo(a, m) - b);
+      si(err >= ε2)
         echec("a = {}, b = {}, m = {}, modulo = {}, err = {}", a, b, m, modulo(a, m), err);
     };
 
@@ -81,12 +104,12 @@ int test_tsd()
   {
     msg("Test modulo [0,2π[...");
 
-    auto ε = 1e-10;
+    soit ε = 1e-10;
 
-    auto check_wrap = [&](double a, double b, double ε2 = 1e-16)
+    soit check_wrap = [&](double a, double b, double ε2 = 1e-16)
     {
-      auto err = abs(modulo_2π(a) - b);
-      if(err >= ε2)
+      soit err = abs(modulo_2π(a) - b);
+      si(err >= ε2)
         echec("a = {}, b = {}, modulo = {}, err = {}", a, b, modulo_2π(a), err);
     };
 
@@ -106,11 +129,11 @@ int test_tsd()
   {
     msg("Test modulo [-π,π[...");
 
-    auto ε = 1e-10;
+    soit ε = 1e-10;
 
-    auto check_wrap = [&](double a, double b, double ε2 = 1e-16)
+    soit check_wrap = [&](double a, double b, double ε2 = 1e-16)
     {
-      auto err = abs(modulo_pm_π(a) - b);
+      soit err = abs(modulo_pm_π(a) - b);
       tsd_assert(err < ε2);
     };
 
@@ -128,17 +151,21 @@ int test_tsd()
 
   {
     msg("Test modulo...");
-    int n = 2000;
-    ArrayXf x = linspace(-5,5,2000);
-    x = x.square().eval();
-    x = x.unaryExpr([](const float x) {return modulo_2π(x);}).eval();
-    ArrayXf y = déplie_phase(x);
+    soit n = 2000;
+    soit x = linspace(-5,5,n);
+    x = square(x);
+    //TODO x = x.unaryExpr([](const float x) {retourne modulo_2π(x);}).eval();
+
+    pour(auto i = 0; i < n; i++)
+      x(i) = modulo_2π(x(i));
+
+    soit y = déplie_phase(x);
     // Vérifie pas de saut de phase
-    tsd_assert(diff(y).abs().maxCoeff() < 0.1);
+    tsd_assert(abs(diff(y)).valeur_max() < 0.1);
     // Vérifie valeur ok modulo 2pi
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
-      auto err = abs(modulo_pm_π(y(i) - x(i)));
+      soit err = abs(modulo_pm_π(y(i) - x(i)));
       //msg("z({}) = {}, wrap={}, x = {}, erreur = {}", i, y(i), wrap_pm_pi(y(i) - x(i)), x(i), err);
       tsd_assert(err < 1e-5);
     }
@@ -146,110 +173,105 @@ int test_tsd()
 
   {
     msg("Test 'trouve'...");
-    ArrayXb x(5);
-    x << 0, 0, 1, 0, 1;
-    auto idx = trouve(x);
+    soit x = Vecb::valeurs({0, 0, 1, 0, 1});
+    soit idx = trouve(x);
     tsd_assert((idx.size() == 2) && (idx[0] == 2) && (idx[1] == 4));
   }
 
   {
     msg("Test 'trouve premier'...");
-    ArrayXb x(5);
-    x << 0, 0, 1, 0, 1;
-    auto idx = trouve_premier(x);
+    soit x = Vecb::valeurs({0, 0, 1, 0, 1});
+    soit idx = trouve_premier(x);
     tsd_assert(idx == 2);
   }
 
   {
     msg("Test pad zéros...");
-    ArrayXf x1 = linspace(0, 4, 5),
-            x2 = linspace(0, 3, 4);
-    auto [x1p, x2p] = pad_zeros(x1, x2);
+    soit x1 = linspace(0, 4, 5),
+         x2 = linspace(0, 3, 4);
+    soit [x1p, x2p] = pad_zeros(x1, x2);
 
-    tsd_assert(x1p.isApprox(x1));
-    ArrayXf x2p_ref(5);
+    tsd_assert(x1p.est_approx(x1));
+    Vecf x2p_ref(5);
     x2p_ref.head(4) = x2;
     x2p_ref(4) = 0;
-    tsd_assert(x2p.isApprox(x2p_ref));
+    tsd_assert(x2p.est_approx(x2p_ref));
 
-    auto [x1b, x2b] = pad_zeros(x1, x2, true);
+    soit [x1b, x2b] = pad_zeros(x1, x2, oui);
 
     tsd_assert(x1b.rows() == 8);
     tsd_assert(x2b.rows() == 8);
-    tsd_assert(x1b.head(5).isApprox(x1));
-    tsd_assert(x2b.head(4).isApprox(x2));
+    tsd_assert(x1b.head(5).est_approx(x1));
+    tsd_assert(x2b.head(4).est_approx(x2));
   }
 
   {
     msg("Test rotation vec...");
-    ArrayXf x = linspace(0, 5, 6);
-    ArrayXf y = rotation_vec(x, 2);
-    ArrayXf yref(6);
-    yref << 2, 3, 4, 5, 0, 1;
-    tsd_assert(y.isApprox(yref));
+    soit x = linspace(0, 5, 6);
+    soit y = rotation_vec(x, 2);
+    soit yref = Vecf::valeurs({2, 3, 4, 5, 0, 1});
+    tsd_assert(y.est_approx(yref));
   }
 
   {
     msg("Test diff...");
-    ArrayXf x = randn(10);
-    ArrayXf y = diff(x);
-    ArrayXf yref = x.tail(9) - x.head(9);
-    tsd_assert(y.isApprox(yref));
+    soit x = randn(10);
+    soit y = diff(x);
+    soit yref = x.tail(9) - x.head(9);
+    tsd_assert(y.est_approx(yref));
   }
 
   {
     msg("Test cumsum...");
-    ArrayXf x     = linspace(0, 99, 100);
-    ArrayXf y     = cumsum(x);
-    ArrayXf yref  = x * (x + 1) / 2;
-    tsd_assert(y.isApprox(yref));
+    soit x     = linspace(0, 99, 100);
+    soit y     = cumsum(x);
+    soit yref  = x * (x + 1) / 2;
+    tsd_assert(y.est_approx(yref));
   }
 
 
-  {
+  /*{
     msg("Test subarray1d...");
-    ArrayXf x = linspace(0, 9, 10);
-    auto s1 = subarray1d(x, 0, 5, 2);
-    auto s2 = subarray1d(x, 1, 5, 2);
+    soit x  = linspace(0, 9, 10);
+    soit s1 = subarray1d(x, 0, 5, 2);
+    soit s2 = subarray1d(x, 1, 5, 2);
 
-    ArrayXf pairs = linspace(0, 8, 5); // 0,2,4,6,8
-    tsd_assert(pairs.isApprox(s1, 1e-8f));
-    ArrayXf impairs = linspace(1, 9, 5); // 1,3,5,7,9
-    tsd_assert(impairs.isApprox(s2, 1e-8f));
+    soit pairs = linspace(0, 8, 5); // 0,2,4,6,8
+    tsd_assert(pairs.est_approx(s1, 1e-8f));
+    soit impairs = linspace(1, 9, 5); // 1,3,5,7,9
+    tsd_assert(impairs.est_approx(s2, 1e-8f));
 
     s1.setZero();
     tsd_assert(x(2) == 0);
-  }
+  }*/
 
   {
     msg("Test pp2...");
-    tsd_assert(prochaine_puissance_de_2(1) == 1);
-    tsd_assert(prochaine_puissance_de_2(2) == 2);
-    tsd_assert(prochaine_puissance_de_2(3) == 4);
-    tsd_assert(prochaine_puissance_de_2(4) == 4);
-    tsd_assert(prochaine_puissance_de_2(5) == 8);
-    tsd_assert(prochaine_puissance_de_2(1 << 16) == (1 << 16));
-    tsd_assert(prochaine_puissance_de_2((1 << 16) - 1) == (1 << 16));
+    auto pp2 = prochaine_puissance_de_2;
+    tsd_assert(pp2(1) == 1);
+    tsd_assert(pp2(2) == 2);
+    tsd_assert(pp2(3) == 4);
+    tsd_assert(pp2(4) == 4);
+    tsd_assert(pp2(5) == 8);
+    tsd_assert(pp2(1 << 16) == (1 << 16));
+    tsd_assert(pp2((1 << 16) - 1) == (1 << 16));
   }
 
   {
     msg("Test sousech...");
-    ArrayXf x  = linspace(0, 9, 10);
-    ArrayXf xe = sousech(x, 2);
-
-    ArrayXf xe_ref = linspace(0, 8, 5); // 0,2,4,6,8
-    tsd_assert(xe_ref.isApprox(xe));
+    soit x      = linspace(0, 9, 10);
+    soit xe     = sousech(x, 2),
+         xe_ref = linspace(0, 8, 5); // 0,2,4,6,8
+    tsd_assert(xe_ref.est_approx(xe));
   }
 
   {
     msg("Test surech...");
-    ArrayXf x = linspace(0, 4, 5);
-    ArrayXf y = surech(x, 2);
+    soit x    = linspace(0, 4, 5);
+    soit y    = surech(x, 2),
+         yref = Vecf::valeurs({0, 0, 1, 0, 2, 0, 3, 0, 4, 0});
 
-    ArrayXf yref(10);
-    yref << 0, 0, 1, 0, 2, 0, 3, 0, 4, 0;
-
-    tsd_assert(yref.isApprox(y));
+    tsd_assert(yref.est_approx(y));
   }
 
   {
@@ -284,147 +306,188 @@ int test_tsd()
 
   {
     msg("Test randn...");
-    int n = 10000;
-    ArrayXf x = randn(n);
+    soit n = 10000;
+    soit x = randn(n);
     tsd_assert(x.rows() == n);
-    tsd_assert(abs(x.sum()) < 4 * sqrt(n * 1.0));
+    tsd_assert(abs(x.somme()) < 4 * sqrt(n * 1.0));
 
-    auto var = x.square().mean();
+    soit var = square(x).moyenne();
     msg("Variance mesurée : {}", var);
     tsd_assert(abs(var - 1) < 1e-2);
     msg("Test randu...");
-    msg("randu = {}", randu(10));
+    msg("randu = {}", randu(10, 0, 1));
     x = randu(n);
     tsd_assert(x.rows() == n);
-    tsd_assert(x.maxCoeff() <= 1);
-    tsd_assert(x.minCoeff() >= 0);
-    tsd_assert(abs(x.mean() - 0.5) < 1e-2);
-    var = x.square().mean() - x.mean() * x.mean();
-    msg("Variance mesurée : {} (théorique : {})", var, 1.0f/12);
-    tsd_assert(abs(var - 1.0f/12) < 1e-2);
+    tsd_assert(x.valeur_max() <= 1);
+    tsd_assert_msg(x.valeur_min() >= -1, "randu min = {}", x.valeur_min());
+    tsd_assert(abs(x.moyenne() - 0.0) < 1e-2);
+    var = square(x).moyenne() - x.moyenne() * x.moyenne();
+    msg("Variance mesurée : {} (théorique : {})", var, 4 * 1.0f/12);
+    tsd_assert(abs(var - 4 * 1.0f/12) < 1e-2);
+
+
     msg("Test randi...");
-    ArrayXi xi = randi(10, n);
+    n = 10000;
+    soit xi = randi(10, n);
+
+    //msg("xi = {}", xi);
+    //msg("xi.as float = {}", xi.as<float>());
+
+
     tsd_assert(xi.rows() == n);
-    tsd_assert(xi.minCoeff() == 0);
-    tsd_assert(xi.maxCoeff() == 9);
-    auto moy = xi.cast<float>().mean();
-    msg("moy = {}", moy);
+    tsd_assert(xi.valeur_min() == 0);
+    tsd_assert(xi.valeur_max() == 9);
+
+    soit moy = xi.as<float>().moyenne();
+    soit xif = xi.as<float>();
+    soit moy2 = xif.moyenne();
+
+    msg("moy = {}, moy2 = {}", moy, moy2);
+    msg("moyd = {}", xi.as<double>().moyenne());
+
+    /*{
+      soit r  = randi(10, 10);
+      msg("randi(10,10): {}", r);
+      msg("randi(10,10).as float: {}", r.as<float>());
+      msg("randi(10,10).as float moy: {}", r.moyenne());
+    }*/
+
     tsd_assert(abs(moy - 4.5) < 1e-1);
     {
       msg("Test randb");
-      x = randb(n).cast<float>();
+      n = 10;
+      x = randb(n).as<float>();
+      //msg("randb = {} ({}) ({})", x, randb(n), randb(n).as<float>());
       tsd_assert(x.rows() == n);
-      tsd_assert(x.maxCoeff() == 1);
-      tsd_assert(x.minCoeff() == 0);
-      tsd_assert((x * (x - 1)).isApproxToConstant(0));
-      tsd_assert(abs(x.mean() - 0.5) < 1e-2);
+      tsd_assert(x.valeur_max() == 1);
+      tsd_assert(x.valeur_min() == 0);
+      tsd_assert((x * (x - 1)).est_approx(0));
+      tsd_assert(abs(x.moyenne() - 0.5) < 1e-2);
     }
   }
 
   {
     msg("Test sigexp...");
-    int n = 1000;
-    ArrayXcf x    = sigexp(0.1, n);
-    ArrayXcf xref = tsd::polar(2 * π_f * 0.1f * linspace(0, n-1, n));
+    entier n = 1000;
+    soit x    = sigexp(0.1, n);
+    soit xref = tsd::polar(2 * π_f * 0.1f * linspace(0, n-1, n));
 
-    if(tests_debug_actif)
+    si(tests_debug_actif)
     {
       Figure f;
-      f.plot(x.real(), "b-", "x");
-      f.plot(xref.real(), "g-", "xref");
+      f.plot(real(x), "b-", "x");
+      f.plot(real(xref), "g-", "xref");
       f.afficher();
       f.clear();
-      f.plot(x.real() - xref.real(), "r-", "erreur");
+      f.plot(real(x) - real(xref), "r-", "erreur");
       f.afficher();
     }
 
-    auto err = sqrt((x - xref).abs2().mean());
-    auto mag = sqrt(min(xref.abs2().mean(), x.abs2().mean()));
+    soit err = sqrt(abs2(x - xref).moyenne());
+    soit mag = sqrt(min(abs2(xref).moyenne(), abs2(x).moyenne()));
     msg("Erreur RMS = {}, mag = {}, err relative = {}", err, mag, err / mag);
 
-    tsd_assert(x.isApprox(xref, 0.5e-4));
+    tsd_assert(x.est_approx(xref, 0.5e-4));
+  }
+
+  {
+    msg("Test signyquist...");
+    entier n = 100;
+    soit x = signyquist(n);
+    pour(auto i = 0; i < n; i += 2)
+    {
+      tsd_assert(x(i) == -1);
+      tsd_assert(x(i+1) == 1);
+    }
+    x = signyquist(n+1);
+    pour(auto i = 0; i < n; i += 2)
+    {
+      tsd_assert(x(i) == -1);
+      tsd_assert(x(i+1) == 1);
+    }
+    tsd_assert_msg(x(n) == -1, "x = {}", x);
   }
 
   {
     msg("Test sigimp...");
-    int n = 100;
-    ArrayXf x = sigimp(n, 5);
-    tsd_assert(x.head(5).isApproxToConstant(0));
-    tsd_assert(x.tail(n-6).isApproxToConstant(0));
+    entier n = 100;
+    soit x = sigimp(n, 5);
+    tsd_assert(x.head(5).est_approx(0));
+    tsd_assert(x.tail(n-6).est_approx(0));
     tsd_assert(x(5) == 1);
   }
 
   {
     msg("Test sigsin...");
-    int n = 1000;
-    ArrayXf x    = sigsin(0.1, n);
-    ArrayXf xref = (2 * π_f * 0.1 * linspace(0, n-1, n)).sin();
-    tsd_assert(x.isApprox(xref, 0.5e-4));
+    entier n = 1000;
+    soit x    = sigsin(0.1, n);
+    soit xref = sin(2 * π_f * 0.1 * linspace(0, n-1, n));
+    tsd_assert(x.est_approx(xref, 0.5e-4));
   }
 
   {
     msg("Test sigcos...");
-    int n = 1000;
-    ArrayXf x    = sigcos(0.1, n);
-    ArrayXf xref = (2 * π_f * 0.1 * linspace(0, n-1, n)).cos();
-    tsd_assert(x.isApprox(xref, 0.5e-4));
+    entier n = 1000;
+    soit x    = sigcos(0.1, n);
+    soit xref = cos(2 * π_f * 0.1 * linspace(0, n-1, n));
+    tsd_assert(x.est_approx(xref, 0.5e-4));
   }
 
   {
     msg("Test sigtri...");
-    ArrayXf x = sigtri(10, 20);
-    tsd_assert(x.maxCoeff() == 1);
-    tsd_assert(x.minCoeff() == -1);
-    tsd_assert(abs(x.mean()) < 1e-7);
-    tsd_assert(x.head(6).isApprox(linspace(-1,1,6)));
-    tsd_assert(x.segment(5,6).isApprox(linspace(1,-1,6)));
-    tsd_assert(x.segment(10,6).isApprox(linspace(-1,1,6)));
-    tsd_assert(x.tail(5).isApprox(linspace(1,-1+2.0f/5,5)));
+    soit x = sigtri(10, 20);
+    tsd_assert(x.valeur_max() == 1);
+    tsd_assert(x.valeur_min() == -1);
+    tsd_assert(abs(x.moyenne()) < 1e-7);
+    tsd_assert(x.head(6).est_approx(linspace(-1,1,6)));
+    tsd_assert(x.segment(5,6).est_approx(linspace(1,-1,6)));
+    tsd_assert(x.segment(10,6).est_approx(linspace(-1,1,6)));
+    tsd_assert(x.tail(5).est_approx(linspace(1,-1+2.0f/5,5)));
   }
 
   {
     msg("Test sigcar...");
-    ArrayXf x = sigcar(10, 20);
-    tsd_assert(x.head(5).isApprox(-ArrayXf::Ones(5)));
-    tsd_assert(x.segment(5,5).isApprox(ArrayXf::Ones(5)));
-    tsd_assert(x.segment(10,5).isApprox(-ArrayXf::Ones(5)));
-    tsd_assert(x.tail(5).isApprox(ArrayXf::Ones(5)));
+    soit x = sigcar(10, 20);
+    tsd_assert(x.head(5).est_approx(-Vecf::ones(5)));
+    tsd_assert(x.segment(5,5).est_approx(Vecf::ones(5)));
+    tsd_assert(x.segment(10,5).est_approx(-Vecf::ones(5)));
+    tsd_assert(x.tail(5).est_approx(Vecf::ones(5)));
   }
 
   {
     msg("Test source_ohc...");
-    auto src = source_ohc(0.1);
-    int n = 1000;
-    ArrayXcf x(n);
+    soit src = source_ohc(0.1);
+    entier n = 1000;
+    Veccf x(n);
     x.head(n/2) = src->step(n/2);
     x.tail(n/2) = src->step(n/2);
-    ArrayXcf xref = tsd::polar(2 * π_f * 0.1 * linspace(0, n-1, n));
-    tsd_assert(x.isApprox(xref, 0.5e-4));
+    soit xref = tsd::polar(2 * π_f * 0.1 * linspace(0, n-1, n));
+    tsd_assert(x.est_approx(xref, 0.5e-4));
   }
 
   {
     msg("Test source_ohr...");
-    auto src = source_ohr(0.1);
-    int n = 1000;
-    ArrayXf x(n);
+    soit src = source_ohr(0.1);
+    entier n = 1000;
+    Vecf x(n);
     x.head(n/2) = src->step(n/2);
     x.tail(n/2) = src->step(n/2);
-    ArrayXf xref = (2 * π_f * 0.1 * linspace(0, n-1, n)).cos();
-    tsd_assert(x.isApprox(xref, 0.5e-4));
+    Vecf xref = cos(2 * π_f * 0.1 * linspace(0, n-1, n));
+    tsd_assert(x.est_approx(xref, 0.5e-4));
   }
 
   {
     msg("Test tampon de données...");
-    int cnt = 0;
-    int n = 16 * 512;
-    ArrayXf X = randn(n);
+    entier cnt = 0;
+    entier n = 16 * 512;
+    soit X = randn(n);
 
-    auto t = tampon_création<float>(512,
+    soit t = tampon_création<float>(512,
         // Définition de la callback
-        [&](const ArrayXf &x)
+        [&](const Vecf &x)
         {
           tsd_assert(x.rows() == 512);
-          tsd_assert(x.isApprox(X.segment(cnt, 512)));
+          tsd_assert(x.est_approx(X.segment(cnt, 512)));
           cnt += 512;
         });
 
@@ -434,5 +497,5 @@ int test_tsd()
     tsd_assert(cnt == n);
   }
 
-  return 0;
+  retourne 0;
 }

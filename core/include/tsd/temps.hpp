@@ -21,7 +21,7 @@ namespace tsd::temps {
 struct HeureComposite
 {
   /** @brief Heure, entre 0 et 23 */
-  int heure = 0,
+  entier heure = 0,
   /** @brief Minutes, entre 0 et 59 */
       minutes = 0,
   /** @brief Secondes, entre 0 et 59 */
@@ -34,7 +34,7 @@ struct HeureComposite
   HeureComposite(){}
 
   /** @brief Constructeur */
-  HeureComposite(int heure, int minutes, int secondes, int ms = 0, int µs = 0);
+  HeureComposite(entier heure, entier minutes, entier secondes, entier ms = 0, entier µs = 0);
 
   /** @brief Constructeur, à partir d'une chaine de caractères de type HH::MM::SS
    *
@@ -52,7 +52,7 @@ struct HeureComposite
   HeureComposite(const std::string &s);
 
   /** @brief Vérifie si les heures, minutes et secondes sont dans un intervalle valide. */
-  bool vérifie_validité() const;
+  bouléen vérifie_validité() const;
 };
 
 
@@ -73,7 +73,7 @@ struct Durée
   Durée(int64_t tics_ = 0) : tics(tics_) {}
 
   /** @brief Constructeur, d'après un nombre de jours, heures, etc. */
-  Durée(int jours, int heures, int minutes, int secondes, int microsecondes = 0);
+  Durée(entier jours, entier heures, entier minutes, entier secondes, entier microsecondes = 0);
 
   /** @brief Constructeur, d'après une heure composite. */
   Durée(const HeureComposite &hc);
@@ -134,7 +134,7 @@ extern Durée operator-(const Durée& ts1, const Durée& ts2);
 struct Calendrier
 {
   /** @brief Année. */
-  int année = 0,
+  entier année = 0,
   /** @brief Mois (entre 1 et 12). */
       mois = 0,
   /** @brief Jour (entre 1 et 31). */
@@ -144,19 +144,19 @@ struct Calendrier
   Calendrier(){}
 
   /** @brief Constructeur */
-  Calendrier(int année, int mois, int jour);
+  Calendrier(entier année, entier mois, entier jour);
 
   /** @brief Constructeur, à partir d'une chaîne de caractères de type "JJ/MM/AAAA". */
   Calendrier(const std::string &s);
 
   /** @brief Nombre de jours entiers depuis le début de l'année en cours (= 0 pour le premier Janvier). */
-  int nb_jours_debut_année() const;
+  entier nb_jours_debut_année() const;
 
   /** @brief Vérifie si la date est valide (mois entre 1 et 12, jour entre 1 et 31, etc.) */
-  bool est_valide() const;
+  bouléen est_valide() const;
 
   /** @brief Calcul du nombre de jours depuis le 1/1/1, 0h00 (= 0 pour le 1/1/1) */
-  int nb_jours_debut_ère() const;
+  entier nb_jours_debut_ère() const;
 
   /** @brief Opérateur de comparaison. */
   std::strong_ordering operator<=>(const Calendrier&) const = default;
@@ -205,7 +205,7 @@ struct DateHeure
    *  @param année Année
    *  @param jour  Nombre fractionnaire de jours dans l'année (ex : 1.5 = 1er Janvier, 12h00).
    */
-  DateHeure(int année, double jour);
+  DateHeure(entier année, double jour);
 
   /** @brief Calcul le temps sidéral de Greenwich.
    *
@@ -263,16 +263,16 @@ struct DateHeure
 
 
   /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. */
-  std::tuple<int, int> vers_GPS() const;
+  std::tuple<entier, entier> vers_GPS() const;
 
   /** @brief Constructeur, à partir de l'heure GPS. */
-  static DateHeure de_GPS(int semaine, int secs);
+  static DateHeure de_GPS(entier semaine, entier secs);
 
   /** @brief Constructeur, à partir d'une chaîne de caractères de type "aaaa::mm::jj hh:mm:ss". */
   static DateHeure lis_chaine(const std::string &s);
 
   /** @brief Nombre de microsecondes depuis la dernière seconde entière, entre 0 et 1e6-1. */
-  int microsecondes() const;
+  entier microsecondes() const;
 
 
   std::strong_ordering operator<=>(const DateHeure&) const = default;
@@ -284,7 +284,7 @@ struct DateHeure
  * depuis le 1° Janvier 0, 0h00.
  *  @param année : 2022, etc.
  *  @param jour_année : 1 pour le premier Janvier 0h00, 1.5 pour le premier Janvier 12h00, etc. */
-extern double grégorien_vers_jours(int année, double jour_année);
+extern double grégorien_vers_jours(entier année, double jour_année);
 
 
 
@@ -294,7 +294,7 @@ extern double grégorien_vers_jours(int année, double jour_année);
  *  @param mois   Numéro de mois (intervalle de validité : 1 - 12)
  *  @returns      Vrai ou faux
  */
-extern bool année_mois_valide(int année, int mois);
+extern bouléen année_mois_valide(entier année, entier mois);
 
 /** @brief Nombre de jours pour un mois et une année donnée.
  *
@@ -304,7 +304,7 @@ extern bool année_mois_valide(int année, int mois);
  * @param mois Numéro de mois (entre 1 et 12).
  * @returns Nombre de jours, entre 28 et 31.
  */
-extern int mois_nb_jours(int année, int mois);
+extern entier mois_nb_jours(entier année, entier mois);
 
 /** @brief Vérifie si l'année est bissextile ou non.
  *
@@ -318,13 +318,13 @@ extern int mois_nb_jours(int année, int mois);
  *  @returns Vrai ou faux
  *
  */
-extern bool est_bissextile(int année);
+extern bouléen est_bissextile(entier année);
 
 /** @brief Vérifie si l'année est dans l'intervalle supporté (entre 1 and 9999).
  *  @param   année Numéro d'année à vérifier (comptée suivant l'ère usuelle)
  *  @returns Vrai ou faux.
  */
-extern bool année_est_valide(int année);
+extern bouléen année_est_valide(entier année);
 
 /** @brief Affichage d'une date / heure. */
 extern std::ostream& operator<<(std::ostream& strm, const DateHeure &t);
@@ -332,7 +332,7 @@ extern std::ostream& operator<<(std::ostream& strm, const DateHeure &t);
 /** @brief Affichage d'une date. */
 extern std::ostream& operator<<(std::ostream& strm, const Calendrier &date);
 
-
+extern std::ostream& operator<<(std::ostream& strm, const HeureComposite &date);
 
 
 
@@ -390,14 +390,14 @@ inline DateHeure operator-=(DateHeure& dt1, const Durée& dt2)
 }
 
 /** @brief Si vrai (par défaut), l'affichage des dates/heures est fait suivant le standard UTC, sinon, suivant l'heure locale. */
-extern bool mode_utc;
+extern bouléen mode_utc;
 
 /** @} */
 
 }
 
 
-template <> struct fmt::formatter<tsd::temps::DateHeure> {
+/*template <> struct fmt::formatter<tsd::temps::DateHeure> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::temps::DateHeure& t, FormatContext& ctx) const -> decltype(ctx.out()) 
@@ -420,8 +420,10 @@ template <> struct fmt::formatter<tsd::temps::Calendrier> {
   {
     return fmt::format_to(ctx.out(), "{:0>4d}-{:0>2d}-{:0>2d}", date.année, date.mois, date.jour);
   }
-};
+};*/
 
-
-
+ostream_formater(tsd::temps::Durée)
+ostream_formater(tsd::temps::DateHeure)
+ostream_formater(tsd::temps::Calendrier)
+ostream_formater(tsd::temps::HeureComposite)
 

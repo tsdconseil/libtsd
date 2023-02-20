@@ -30,9 +30,9 @@ namespace tsd::telecom {
 /*ArrayXXf filtre_polyphase(IArrayXf h, unsigned int m)
 {
   ArrayXf h2 = h;
-  auto ntaps = h.rows();
-  auto reste = ntaps % m;
-  if(reste != 0)
+  soit ntaps = h.rows();
+  soit reste = ntaps % m;
+  si(reste != 0)
   {
     //printf("Ntaps not multiple of nchn.\nPadding with %d zeros: ntaps %d", m - reste, ntaps);
     h2 = vconcat(h2, ArrayXf::Zero(m-reste));
@@ -41,7 +41,7 @@ namespace tsd::telecom {
   tsd_assert((ntaps % m) == 0);
   // en ligne : les filtres
   // en colonne : les canaux
-  return Eigen::Map<ArrayXXf>(h2.data(), m, ntaps/m);
+  retourne Eigen::Map<ArrayXXf>(h2.data(), m, ntaps/m);
   //H = flipdim(H,1);
 }*/
 
@@ -73,17 +73,17 @@ namespace tsd::telecom {
 // clf(); plot_psd(y,8*fs,'b');
 // </programlisting>
 // <imageobject><imagedata fileref="ex_channelize.png" format="PNG"/></imageobject>
-ArrayXcf canalisation(IArrayXXcf X, IArrayXf h)
+Veccf canalisation(const Tabcf X, const Vecf &h)
 {
 
   // A FAIRE : remplacer par un filtre au fil de l'eau
 
-  auto n = X.rows(); // Nb éch / canal
-  auto m = X.cols(); // Nb canaux
+  soit n = X.rows(); // Nb éch / canal
+  soit m = X.cols(); // Nb canaux
 
 //    y = zeros(n*m,1);
 //
-//    for i = 1:m
+//    pour i = 1:m
 //        nu = (i-1) / m; // normalized frequency
 //        xu = intdec(real(X(:,i)), m) + %i * intdec(imag(X(:,i)), m);
 //        xm = xu .* exp(2*%pi*%i*nu*(0:n*m-1)');
@@ -93,26 +93,30 @@ ArrayXcf canalisation(IArrayXXcf X, IArrayXf h)
 
 
   // IDFT suivant les colonnes (dim n°1)
-  auto Y = tsd::fourier::ifft(X);
+  Tabcf Y(n, m);
+  pour(auto k = 0; k < m; k++)
+    Y.col(k) = tsd::fourier::ifft(X.col(k));
+
+    //soit Y = tsd::fourier::ifft(X);
 
   // Y : chaque ligne = une fréquence donnée
 
   // (3) polyphase partition of the filter
-  ArrayXXf H = forme_polyphase(h, m); // Transférer ceci dans le module de filtrage
+  soit H = forme_polyphase(h, m); // Transférer ceci dans le module de filtrage
   // H : m lignes, len(h)/m colonnes
 
     // (2) Sortie du filtre polyphase
-  auto n2 = n;
-  auto n3 = n2 + (length(h)-1)/m;
-  ArrayXXcf XF = ArrayXXcf::Zero(m, n3);
-  for(auto i = 0; i < m; i++)
+  soit n2 = n;
+  soit n3 = n2 + (length(h)-1)/m;
+  soit XF = Tabcf::zeros(m, n3);
+  pour(auto i = 0; i < m; i++)
     XF.row(i) = tsd::filtrage::convol<cfloat,float>(H.row(i),Y.row(i));
 
   // (1) polyphase partition of the signal
   // On suppose qu'on a un bloc de nchn échantillons
   // A partir du signal d'entrée de n échantillons,
   // on forme nchn signaux de n / nchn échantillons
-  return iforme_polyphase<cfloat>(XF);
+  retourne iforme_polyphase<cfloat>(XF);
   // Chaque ligne de X peut être traitée séparément
 }
 
@@ -133,24 +137,24 @@ ArrayXcf canalisation(IArrayXXcf X, IArrayXf h)
 //   channelize
 //
 // Bibliography
-//   F.J. HARRIS, Digital Receivers and Transmitters Using Polyphase Filter Banks for Wireless Communications, 2003
+//   F.J. HARRIS, Digital Receivers and Transmitters Using Polyphase Filter Banks pour Wireless Communications, 2003
 
 
 // TODO : à supprimer et remplacer par filtre_rif_decim
 /*ArrayXf decimation_polyphase(IArrayXf x, IArrayXf h, unsigned int R)
 {
   ArrayXXf H = forme_polyphase(h, R);
-  auto ntaps = length(h);
-  auto X = forme_polyphase(x, R);
-  auto n2 = X.cols();
-  auto n3 = ceil(n2 + ((float)ntaps)/R - 1);
+  soit ntaps = length(h);
+  soit X = forme_polyphase(x, R);
+  soit n2 = X.cols();
+  soit n3 = ceil(n2 + ((float)ntaps)/R - 1);
   ArrayXXf XF = ArrayXXf::Zero(R, n3);
-  for(auto i = 0u; i < R; i++)
+  pour(auto i = 0u; i < R; i++)
     XF.row(i) = tsd::filtrage::convol<float,float>(H.row(i), X.row(i));
   ArrayXf y = ArrayXf::Zero(n3);
-  for(auto i = 0; i < n3; i++)
+  pour(auto i = 0; i < n3; i++)
       y(i) = XF.col(i).sum();
-  return y;
+  retourne y;
 }*/
 
 

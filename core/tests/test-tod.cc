@@ -14,17 +14,17 @@ void infos_ondelette(sptr<Ondelette<float>> ondelette)
   // de leurs réponses fréquentielle et impulsionnelle)
 
   {
-    int n = 512;
+    entier n = 512;
     //ArrayXf x, x0 = ArrayXf::Zero(n);
     //x0(0) = 1;
-    ArrayXf x, x0;
+    Vecf x, x0;
     x0 = randn(n);
     x = x0;
     dwt(ondelette, x, 9);
     iwt(ondelette, x, 9);
 
-    auto errmax = (x-x0).abs().maxCoeff();
-    auto err = std::sqrt((x-x0).abs2().mean());
+    soit errmax = abs(x-x0).valeur_max();
+    soit err = sqrt(abs2(x-x0).moyenne());
 
     msg("Erreur RMS reconstruction : {}, erreur max = {}", err, errmax);
   }
@@ -34,13 +34,13 @@ void infos_ondelette(sptr<Ondelette<float>> ondelette)
   msg("  construction de l'ondelette mère...");
 
 
-  int n = 512;
-  ArrayXf x = ArrayXf::Zero(n);
+  entier n = 512;
+  soit x = Vecf::zeros(n);
   x(0) = 1;
 
   iwt(ondelette, x, 9);
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figures f;
     f.subplot().plot(x);
@@ -66,18 +66,17 @@ void analyse_lift(const Lift &lift)
 
   std::cout << qmf;
 
-  ArrayXf h0 = qmf.H0.coefs;
-  ArrayXf h1 = qmf.H1.coefs;
+  soit h0 = qmf.H0.coefs, h1 = qmf.H1.coefs;
 
   //analyse_filtre(h0, 1, "h0");
   //analyse_filtre(h1, 1, "h1");
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figure f;
 
-    auto [fr0,xm0] = frmag(h0);
-    auto [fr1,xm1] = frmag(h1);
+    soit [fr0,xm0] = frmag(h0);
+    soit [fr1,xm1] = frmag(h1);
 
     f.plot(fr0, xm0, "b-", "h0");
     f.plot(fr1, xm1, "g-", "h1");
@@ -88,7 +87,7 @@ void analyse_lift(const Lift &lift)
 }
 
 
-int test_tod()
+entier test_tod()
 {
   //infos_ondelette(ondelette_db4<float>());
   //infos_ondelette(ondelette_haar<float>());
@@ -99,5 +98,5 @@ int test_tod()
   msg("Lift db2...");
   analyse_lift(lift_db2());
 
-  return 0;
+  retourne 0;
 }

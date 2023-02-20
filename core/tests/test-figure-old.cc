@@ -11,7 +11,7 @@ using namespace tsd::vue;
 void test_unites_unit(const std::vector<double> &tics, const std::string &unit = "")
 {
   std::string s1 = "";
-  for(auto t: tics)
+  pour(auto t: tics)
     s1 += fmt::format("{},", t);
 
 
@@ -20,14 +20,14 @@ void test_unites_unit(const std::vector<double> &tics, const std::string &unit =
 
   msg("test_unites : vec = [{}], unit={}, expo={}, ndigits={}", s1, unit, expo, ndigits);
 
-  for(auto t : tics)
+  pour(auto t : tics)
   {
     auto s = unites::valeur_vers_chaine(t, unit, expo, ndigits);
     msg(" label : {}", s);
   }
 }
 
-int test_unites()
+entier test_unites()
 {
   test_unites_unit({-0.02, 0.03});
   test_unites_unit({-0.02, 0.03, 0});
@@ -61,10 +61,10 @@ int test_unites()
 
   test_unites_unit({0,1000000,-1000000,2000000,-2000000,3000000,-3000000,4000000,-4000000}, "Hz");
 
-  return 0;
+  retourne 0;
 }
 
-int test_figure()
+entier test_figure()
 {
   Figure f;
 
@@ -90,7 +90,7 @@ int test_figure()
   {
     msg("Test échelle logarithmique...");
     Figure f;
-    int n = 30;
+    entier n = 30;
     ArrayXf x = (ArrayXf::Ones(n)*10).pow(linspace(0,-4,n));
     f.subplot(211);
     f.plot(x, "-ob");
@@ -105,7 +105,7 @@ int test_figure()
   {
       msg("Test plot min / max...");
       Figure f;
-      int n = 30;
+      entier n = 30;
       ArrayXf t = linspace(0, n-1, n);
       ArrayXf x = (ArrayXf::Ones(n)*10).pow(linspace(0,-4,n));
       x.tail(2).setZero();
@@ -132,7 +132,7 @@ int test_figure()
   {
       msg("Test plot min / max (2)...");
       Figure f;
-      int n = 30;
+      entier n = 30;
       ArrayXf t = linspace(0, n-1, n);
       ArrayXf x = (ArrayXf::Ones(n)*10).pow(linspace(0,-4,n));
 
@@ -149,7 +149,7 @@ int test_figure()
   {
     msg("test BER...");
 
-    int n = 10;
+    entier n = 10;
     ArrayXf ber(n), sigma(n);
     ber   << 0.452283,0.323602,0.189487,0.0862274,0.0218109,0.00124748,1.00604e-05,0,0,0;
     sigma << 0.0388947,0.0587929,0.00844648,0.00233075,0.0018141,0.000457055,3.01811e-05,0,0,0;
@@ -173,5 +173,5 @@ int test_figure()
     f.afficher();
   }
 
-  return 0;
+  retourne 0;
 }

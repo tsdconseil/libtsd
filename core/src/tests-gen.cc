@@ -19,47 +19,47 @@ namespace tsd {
 
 
 
-bool tests_debug_actif = false;
+bouléen tests_debug_actif = non;
 
-extern bool erreur_attendue;
+extern bouléen erreur_attendue;
 
 void vérifie_exception(std::function<void()> func)
 {
-  erreur_attendue = true;
-  bool erreur_détectée = false;
+  erreur_attendue = oui;
+  bouléen erreur_détectée = non;
   try
   {
     func();
   }
   catch(...)
   {
-    erreur_détectée = true;
+    erreur_détectée = oui;
     msg("Erreur bien détectée.");
   }
-  erreur_attendue = false;
+  erreur_attendue = non;
   tsd_assert_msg(erreur_détectée, "Une exception était attendue, elle n'a pas été détectée.");
 }
 
 
-int verifie_erreur_relative(float v, float ref, float precision, const std::string &refname)
+entier verifie_erreur_relative(float v, float ref, float precision, const std::string &refname)
 {
-  // TODO: not true
-  if((ref < 0.000001) && (v < 0.000001))
-    return 0;
+  // TODO: not oui
+  si((ref < 0.000001) && (v < 0.000001))
+    retourne 0;
 
-  if(((ref == 0.0) || (ref == -0.0)) && (v == 0.0))
-    return 0;
+  si(((ref == 0.0) || (ref == -0.0)) && (v == 0.0))
+    retourne 0;
 
-  float err = 100.0 * std::abs((v - ref) / ref);
+  float err = 100.0 * abs((v - ref) / ref);
 
-  if(err > precision)
+  si(err > precision)
   {
     msg_erreur("{}: erreur trop grande. Valeur = {}, référence = {}, erreur relative = {} %, erreur relative max = {} %.",
         refname.c_str(), v, ref, err, precision);
-    return -1;
+    retourne -1;
   }
 
-  return 0;
+  retourne 0;
 }
 
 
@@ -67,18 +67,18 @@ static uint64_t get_tick_count_us()
 {
   struct timespec ts;
 
-  if(clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
+  si(clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
   {
     perror("clock_gettime().");
-    return 0;
+    retourne 0;
   }
-  return (uint64_t) (ts.tv_nsec / 1000) + (((uint64_t) ts.tv_sec) * 1000 * 1000);
+  retourne (uint64_t) (ts.tv_nsec / 1000) + (((uint64_t) ts.tv_sec) * 1000 * 1000);
 }
 
 
-static int teste(int i, std::vector<Test> &tests)
+static entier teste(entier i, std::vector<Test> &tests)
 {
-  auto &t = tests[i];
+  soit &t = tests[i];
   fmt::print("\033[34;1mTest");
   fmt::print(" [{}/{}]", (i+1), tests.size());
 
@@ -89,7 +89,7 @@ static int teste(int i, std::vector<Test> &tests)
 
   float t0 = get_tick_count_us();
 
-  int res = -1;
+  entier res = -1;
   try
   {
     res = t.fonction();
@@ -103,11 +103,11 @@ static int teste(int i, std::vector<Test> &tests)
 
   float dms = (t1 - t0) / 1000.0;
 
-  if(res == 0)
+  si(res == 0)
   {
     fmt::print("  \033[32msuccès,\033[0m durée = {:.2f} ms.\n", dms);
   }
-  else
+  sinon
   {
     fmt::print("  \033[31mEchec test {},\033[0m durée = {:.2f} ms.\n", t.nom, dms);
     fmt::print("Abandon des tests.\n");
@@ -115,68 +115,68 @@ static int teste(int i, std::vector<Test> &tests)
 
   tsd::vue::stdo.flush();
 
-  return res;
+  retourne res;
 }
 
 
 
 
-int fait_tests(int argc, const char *argv[], std::vector<Test> &tests)
+entier fait_tests(entier argc, const char *argv[], std::vector<Test> &tests)
 {
 # ifdef WIN
-  // Pour éviter la fenêtre Windows en cas d'échec d'assertion
+  // pour éviter la fenêtre Windows en cas d'échec d'assertion
   // (celle-ci empêche le point d'arrêt gdb)
   _set_error_mode(_OUT_TO_STDERR);
 # endif
 
-  int opt;
+  entier opt;
   msg("Tests automatiques libtsd...");
 
   tsd::vue::stdo.def_dossier_sortie("./build/test-log");
 
-  while ((opt = getopt(argc, (char * const *) argv, "t:hald")) != -1)
+  tantque ((opt = getopt(argc, (char * const *) argv, "t:hald")) != -1)
   {
     std::string nom;
 
-    if(optarg != nullptr)
+    si(optarg != nullptr)
       nom = optarg;
 
     switch (opt)
     {
       case 'd':
-        tests_debug_actif = true;
+        tests_debug_actif = oui;
         break;
       case 't':
       {
-        for(auto i = 0u; i < tests.size(); i++)
+        pour(auto i = 0u; i < tests.size(); i++)
         {
-          if(tests[i].nom == nom)
+          si(tests[i].nom == nom)
           {
-            int res = teste(i, tests);
+            entier res = teste(i, tests);
             fmt::print("Fin des tests.\n");
-            return res;
+            retourne res;
           }
         }
         msg_erreur("Test non trouvé : [{}]", nom);
-        return -1;
+        retourne -1;
       }
       case 'h':
       case 'a':
       case 'l':
       {
         fmt::print("Liste des tests:\n");
-        for(auto &t: tests)
+        pour(auto &t: tests)
           fmt::print(" - {}\n", t.nom);
-        return 0;
+        retourne 0;
       }
     }
   }
 
-  for(auto i = 0u; i < tests.size(); i++)
+  pour(auto i = 0u; i < tests.size(); i++)
   {
-    int res = teste(i, tests);
-    if(res)
-      return res;
+    entier res = teste(i, tests);
+    si(res)
+      retourne res;
   }
 
 
@@ -184,7 +184,7 @@ int fait_tests(int argc, const char *argv[], std::vector<Test> &tests)
 
   tsd::vue::stdo.fin();
 
-  return 0;
+  retourne 0;
 }
 }
 

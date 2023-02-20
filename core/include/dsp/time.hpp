@@ -538,6 +538,11 @@ inline std::ostream& operator<<(std::ostream& strm, const Calendar &date)
   return strm << date.cl();
 }
 
+inline std::ostream& operator<<(std::ostream& strm, const HourComposite &date)
+{
+  return strm << date.hc();
+}
+
 /** @brief Différence entre deux points temporels */
 inline Duration operator-(const DateTime& dt1, const DateTime& dt2)
 {
@@ -596,7 +601,8 @@ inline bool &mode_utc = tsdt::mode_utc;
 }
 
 
-
+ostream_formater(dsp::time::Duration)
 ostream_formater(dsp::time::Calendar)
 ostream_formater(dsp::time::DateTime)
+ostream_formater(dsp::time::HourComposite)
 

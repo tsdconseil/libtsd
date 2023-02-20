@@ -1,27 +1,18 @@
-﻿#pragma once
+﻿#ifndef TSD_TSD_H
+#define TSD_TSD_H
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
-
-#include <complex>
-#include <Eigen/Core>
-#include <memory>
 #include <cstdarg>
 #include <vector>
 #include <numbers>
 #include <random>
-#include <fmt/core.h>
-#include <fmt/ostream.h>
-#include <fmt/color.h>
-#include <functional>
+#include <cmath>
+#include <algorithm>
 
-#ifndef FMT_RUNTIME
-#if (FMT_VERSION >= 80000)
-# define FMT_RUNTIME(AA) fmt::runtime(AA)
-#else
-# define FMT_RUNTIME(AA) AA
-#endif
-#endif
+#include "tsd/tableau.hpp"
+
+
 
 
 namespace cutils::model
@@ -29,125 +20,81 @@ namespace cutils::model
   class Node;
 }
 
-namespace tsd {
-extern void msg_impl2(const char *fn, const int ligne, int niveau, const char *fonction, const std::string &str);
 
-
-typedef std::function<void(const char *fn, const int ligne, int niveau, const char *fonction, const std::string &str)> logger_t;
-
-template<typename ... Ts>
-  void msg_impl(const char *fn, const int ligne, int niveau, const char *fonction, const std::string &format_str, Ts &&... args)
-{
-  auto s = fmt::format(FMT_RUNTIME(format_str), args...);
-  msg_impl2(fn, ligne, niveau, fonction, s);
-}
-
-extern void set_logger(logger_t logger);
-extern void reset_logger();
-
-}
-
-#define msg(...)          tsd::msg_impl(__FILE__, __LINE__, 1, __PRETTY_FUNCTION__, __VA_ARGS__)
-#define msg_majeur(...)   tsd::msg_impl(__FILE__, __LINE__, 2, __PRETTY_FUNCTION__, __VA_ARGS__)
-#define msg_avert(...)    tsd::msg_impl(__FILE__, __LINE__, 3, __PRETTY_FUNCTION__, __VA_ARGS__)
-#define msg_erreur(...)   tsd::msg_impl(__FILE__, __LINE__, 4, __PRETTY_FUNCTION__, __VA_ARGS__)
-#define echec(...)        tsd::msg_impl(__FILE__, __LINE__, 5, __PRETTY_FUNCTION__, __VA_ARGS__)
-
-/** @brief Display an error message in the log before asserting */
-#define tsd_assert_msg(AA, ...)  if(!(AA)) {tsd::msg_impl(__FILE__, __LINE__, 5, __PRETTY_FUNCTION__, __VA_ARGS__);}
-#define tsd_assert(AA)           if(!(AA)) {tsd::msg_impl(__FILE__, __LINE__, 5, __PRETTY_FUNCTION__, "{}", "Echec assertion : " #AA ".");}
-
-#define dsp_assertion(AA, ...) {printf("\033[1;37;41mEchec assertion : " #AA ".\nFichier: %s, ligne: %d.\033[0m", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); fflush(0); {*((char *) 0) = 5;} assert(AA);}
-
-/** @brief Returns -1 if the condition is not true (and add an error message in the log) */
-#define tsd_check(AA, ...) if(!(AA)){dsp_assertion(AA, __VA_ARGS__); return -1;}
-
-#ifdef DEBUG_MODE
-# define dsp_assert_safe tsd_assert
-# define dsp_check_safe tsd_check
-#else
-# define dsp_assert_safe(...)
-# define dsp_check_safe(...)
-#endif
-
+using std::sin;
+using std::cos;
+using std::tan;
+using std::log;
+using std::log2;
+using std::log10;
+using std::exp;
+using std::abs;
+using std::sqrt;
+using std::pow;
+using std::polar;
+using std::max;
+using std::min;
+using std::clamp;
+using std::real;
+using std::imag;
+using std::norm;
+using std::round;
+using std::ceil;
+using std::floor;
 
 namespace tsd
 {
+
+using std::sin;
+using std::cos;
+using std::tan;
+using std::log;
+using std::log10;
+using std::exp;
+using std::abs;
+using std::sqrt;
+using std::pow;
+using std::polar;
+using std::max;
+using std::min;
+using std::real;
+using std::imag;
+using std::norm;
 
 /** @addtogroup tsd
  *  @{ */
 
 
   /** @brief Valeur de @f$\pi@f$, en précision flottante 64 bits. */
-  static const auto pi = std::numbers::pi;
-
-  /** @brief Valeur de @f$\pi@f$, en précision flottante 64 bits. */
-  static const auto π = pi;
+  static const double π = std::numbers::pi;
 
   /** @brief Valeur de @f$\pi@f$, en précision flottante 32 bits. */
-  static const auto π_f = std::numbers::pi_v<float>;
+  static const float π_f = std::numbers::pi_v<float>;
 
 
   using namespace std::complex_literals;
 
-  /** @brief Raccourci pour nombre complexe flottant 32 bits */
-  typedef std::complex<float> cfloat;
 
-  /** @brief Raccourci pour nombre complexe flottant 64 bits */
-  typedef std::complex<double> cdouble;
+  /** @brief retourne -1, 1 ou 0. */
+  template <typename T> entier signe(T val) {
+      retourne (T(0) < val) - (val < T(0));
+  }
 
   /** @cond private */
-  using Eigen::ArrayXf;
-  using Eigen::ArrayXd;
-  using Eigen::ArrayXXf;
-  using Eigen::ArrayXXcf;
-  using Eigen::ArrayXi;
-  using Eigen::MatrixXf;
-  using Eigen::MatrixXcf;
-  using Eigen::VectorXf;
-  using Eigen::VectorXcf;
-
 
   using fmt::format;
 
-  /** @brief Vecteur de complexes 32 bits */
-  using Eigen::ArrayXcf;
+
 
   /** @endcond */
 
   template<typename t>
-    using Tableau = Eigen::Array<t, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor>;
+    using Tableau = TabT<t, 2>;
 
   /** @brief Raccourcis pour un vecteur colonne de données de type générique (paramètre de template t) */
   template<typename t>
-    using Vecteur = Eigen::Array<t, Eigen::Dynamic, 1, Eigen::ColMajor>;
+    using Vecteur = VecT<t>;
 
-  /** @brief Vecteur flottant en entrée (const) */
-  using IArrayXf   = const Eigen::Ref<const ArrayXf>;
-
-  /** @brief Tableau complexe flottant en entrée (const) */
-  using IArrayXXcf = const Eigen::Ref<const ArrayXXcf>;
-
-  /** @brief Vecteur complexe flottant en entrée (const) */
-  using IArrayXcf  = const Eigen::Ref<const ArrayXcf>;
-
-  /** @brief Vecteur flottant en sortie */
-  using OArrayXf   = Eigen::Ref<ArrayXf>;
-  using IArrayXXf  = const Eigen::Ref<const ArrayXXf>;
-  using OArrayXXf  = Eigen::Ref<ArrayXXf>;
-
-  /** @brief Tableau de bouléens */
-  using ArrayXXb = Eigen::Array<bool,Eigen::Dynamic,Eigen::Dynamic>;
-
-  /** @brief Vecteur colonne de bouléens */
-  using ArrayXb  = Eigen::Array<bool,Eigen::Dynamic,1>;
-
-  using IArrayXXb = const Eigen::Ref<const ArrayXXb>;
-  using IArrayXb  = const Eigen::Ref<const ArrayXb>;
-
-  /** @brief Raccourci pour définir un pointeur partagé */
-  template<typename T>
-    using sptr = std::shared_ptr<T>;
 
 
   /** @brief Concaténation verticale de deux vecteurs.
@@ -185,10 +132,10 @@ namespace tsd
    * @endcode
    *
    */
-  template<typename T1, typename T2>
-    auto vconcat(const Eigen::ArrayBase<T1> &a, const Eigen::ArrayBase<T2> &b)
+  template<typename T>
+    auto vconcat(const Vecteur<T> &a, const Vecteur<T> &b)
   {
-    Vecteur<typename T1::Scalar> c(a.rows()+b.rows());
+    Vecteur<T> c(a.rows()+b.rows());
     if(a.rows() > 0)
       c.head(a.rows()) = a;
     if(b.rows() > 0)
@@ -196,8 +143,8 @@ namespace tsd
     return c;
   }
 
-  template<typename T1, typename T2>
-    auto operator |(const Eigen::ArrayBase<T1> &a, const Eigen::ArrayBase<T2> &b)
+  template<typename T>
+    auto operator |(const Vecteur<T> &a, const Vecteur<T> &b)
   {
     return vconcat(a, b);
   }
@@ -205,7 +152,7 @@ namespace tsd
   /** @cond undoc */
   /* Calcule la longueur d'un vecteur colonne */
   template<typename T>
-    auto length(const Eigen::ArrayBase<T> &x)
+    auto length(const Vecteur<T> &x)
   {
     return x.rows();
   }
@@ -233,15 +180,11 @@ namespace tsd
    *  @endcode
    */
   template<typename T>
-  Vecteur<T> rotation_vec(const Vecteur<T> &x, int d)
+  Vecteur<T> rotation_vec(const Vecteur<T> &x, entier d)
   {
-    auto n = x.rows();
-    Vecteur<T> y(n);
-
-    for(auto i = 0; i < n; i++)
-      y(i) = x((i + d + n) % n);
-
-    return y;
+    soit n = x.dim();
+    retourne Vecteur<T>::int_expr(n,
+        IMAP(x((i + d + n) % n)));
   }
 
   /** @brief Différence entre 2 élements successifs d'un vecteur
@@ -263,11 +206,11 @@ namespace tsd
    *
    *  @sa cumsum()
    */
-  template<typename D>
-    auto diff(const Eigen::ArrayBase<D> &x)
+  template<typename T>
+    auto diff(const Vecteur<T> &x)
   {
-    auto n = x.rows();
-    return x.tail(n-1) - x.head(n-1);
+    soit n = x.rows();
+    retourne x.tail(n-1) - x.head(n-1);
   }
 
   /** @brief Somme cumulée d'un vecteur
@@ -290,18 +233,18 @@ namespace tsd
    *  @sa diff()
    *
    */
-  template<typename D>
-      auto cumsum(const Eigen::ArrayBase<D> &x)
+  template<typename T>
+      auto cumsum(const Vecteur<T> &x)
   {
-    auto n = x.rows();
-    Vecteur<typename D::Scalar> y(n);
-    typename D::Scalar cs = 0;
-    for(auto i = 0; i < n; i++)
+    soit n = x.rows();
+    Vecteur<T> y(n);
+    T cs = 0;
+    Pour(auto i = 0; i < n; i++)
     {
       cs += x(i);
       y(i) = cs;
     }
-    return y;
+    retourne y;
   }
 
   /** @brief Corrige les sauts de phases
@@ -319,7 +262,8 @@ namespace tsd
    *  @sa modulo_pm_π(), modulo_2π()
    *
    */
-  extern Eigen::ArrayXf déplie_phase(const ArrayXf &x, float r = 2*π);
+  template<typename T>
+    Vecteur<T> déplie_phase(const Vecteur<T> &x, float r = 2*π);
 
   /** @brief Recherche d'éléments vrais dans un tableau bouléen.
    *
@@ -330,13 +274,13 @@ namespace tsd
    *
    *  @par Exemple
    *  @code
-   *  ArrayXf x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
-   *  auto idx = trouve(x >= 0); // idx = {2, 3, 4}
+   *  soit x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
+   *  soit idx = trouve(x >= 0); // idx = {2, 3, 4}
    *  @endcode
    *
    *  @sa trouve_premier()
    */
-  extern std::vector<int> trouve(IArrayXb x);
+  extern std::vector<entier> trouve(const Vecb &x);
 
   /** @brief Recherche de l'indice du premier élément vrai dans un tableau de bouléens.
    *
@@ -345,25 +289,50 @@ namespace tsd
    *
    *  @par Exemple
    *  @code
-   *  ArrayXf x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
-   *  auto idx = trouve_premier(x >= 0); // idx = 2
+   *  soit x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
+   *  soit idx = trouve_premier(x >= 0); // idx = 2
    *  @endcode
    *
    *  @sa trouve()
    */
-  extern int trouve_premier(IArrayXb x);
+  extern entier trouve_premier(const Vecb &x);
 
-  extern ArrayXcf polar(const ArrayXf &θ);
-  extern ArrayXcf polar(const ArrayXf &ρ, const ArrayXf &θ);
+
+  extern entier trouve_dernier(const Vecb &x);
+
+  template<typename T>
+    entier trouve_premier_max_local(const Vecteur<T> &x)
+  {
+    pour(auto i = 1; i + 1 < x.rows(); i++)
+      si((x(i) > x(i-1)) && (x(i) > x(i+1)))
+        retourne i;
+    retourne -1;
+  }
+
+
+  template<typename T>
+   auto polar(const Vecteur<T> &θ)
+  {
+    retourne Vecteur<std::complex<T>>::int_expr(θ.dim(),
+        IMAP(std::polar((T) 1, θ(i))));
+  }
+
+  template<typename T>
+    auto polar(const Vecteur<T> &ρ, const Vecteur<T> &θ)
+  {
+    tsd_assert(ρ.dim() == θ.dim());
+    retourne Vecteur<std::complex<T>>::int_expr(θ.dim(),
+        IMAP(std::polar(ρ(i), θ(i))));
+  }
 
 
   // Equivalent à Scilab x(dec:pas:dec+pas*n)
   // Fonction à supprimer ?
-  inline auto subarray1d(IArrayXf &x, unsigned int dec, unsigned int n, unsigned int pas)
+  /*inline auto subarray1d(IArrayXf &x, unsigned int dec, unsigned int n, unsigned int pas)
   {
     auto p = (float *) x.data();
     return Eigen::Map<ArrayXf, 0, Eigen::InnerStride<>>(p + dec, n, Eigen::InnerStride<>(pas));
-  }
+  }*/
 
   // Equivalent de : y = x(1:pas:$)
   /** @brief Sous-échantillonnage d'un vecteur colonne
@@ -384,10 +353,13 @@ namespace tsd
    *
    */
   template<typename T>
-   auto sousech(const Vecteur<T> &x, int R)
+   auto sousech(const Vecteur<T> &x, entier R)
    {
-    return Eigen::Map<const Vecteur<T>,0,Eigen::InnerStride<>>(
-        x.data(), x.rows() / R, Eigen::InnerStride<>(R));
+    soit n = x.dim();
+    Vecteur<T> y(n / R);
+    pour(auto i = 0; i < n / R; i++)
+      y(i) = x(i * R);
+    retourne y;
    }
 
   /** @brief Sur-échantillonnage d'un vecteur colonne
@@ -408,24 +380,16 @@ namespace tsd
    *  @sa sousech()
    *
    */
-  template<typename D>
-      auto surech(const Eigen::ArrayBase<D> &x, int R)
+  template<typename T>
+      auto surech(const Vecteur<T> &x, entier R)
   {
-    using T = typename D::Scalar;
-    Vecteur<T> y = Vecteur<T>::Zero(x.rows()*R);
-    auto map = Eigen::Map<Vecteur<T>,0,Eigen::InnerStride<>>(y.data(), y.rows() / R, Eigen::InnerStride<>(R));
-    map = x;
-    return y;
+    entier n = x.dim();
+    soit y = Vecteur<T>::zeros(n * R);
+    pour(auto i = 0; i < n; i++)
+      y(i * R) = x(i);
+    retourne y;
   }
 
-  /*template<typename T>
-   Vecteur<T> surech(const Vecteur<T> &x, int R)
-   {
-    Vecteur<T> y = Vecteur<T>::Zero(x.rows()*R);
-    auto map = Eigen::Map<Vecteur<T>,0,Eigen::InnerStride<>>(y.data(), y.rows() / R, Eigen::InnerStride<>(R));
-    map = x;
-    return y;
-   }*/
 
   /** @brief Conversion linéaire vers decibels
    *
@@ -442,10 +406,15 @@ namespace tsd
   template<typename T>
     auto pow2db(const T &x)
   {
-    if constexpr (std::is_integral_v<T>)
-        return 10 * std::log10(x * 1.0);
-    else
-      return 10 * std::log10(x);
+    si constexpr (std::is_integral_v<T>)
+      retourne 10 * log10(x * 1.0);
+    sinon
+      retourne 10 * log10(x);
+  }
+
+  auto mag2db(const auto &x)
+  {
+    retourne 2 * pow2db(x);
   }
 
 
@@ -464,14 +433,19 @@ namespace tsd
   template<typename T>
     auto db2pow(const T &x)
   {
-    if constexpr (std::is_integral_v<T>)
-      return std::pow(10.0, x/10.0);
-    else
-      return std::pow((T) 10, x/10);
+    si constexpr (std::is_integral_v<T>)
+      retourne pow(10.0, x/10.0);
+    sinon
+      retourne pow((T) 10, x/10);
+  }
+
+  auto db2mag(const auto &x)
+  {
+    retourne db2pow(x/2);
   }
 
 
-  /** @brief Retourne la plus petite puissance de 2 supérieure ou égale à i.
+  /** @brief retourne la plus petite puissance de 2 supérieure ou égale à i.
    *
    * <h3>Prochaine puissance de 2</h3>
    *
@@ -486,7 +460,7 @@ namespace tsd
    * @endcode
    *
    */
-  extern int prochaine_puissance_de_2(unsigned int i);
+  extern entier prochaine_puissance_de_2(unsigned int i);
 
 
 
@@ -505,45 +479,44 @@ namespace tsd
    *
    *  @par Exemple
    *  @code
-   *  auto x = linspace(0,4,5);
+   *  soit x = linspace(0,4,5);
    *  // x = {0, 1, 2, 3, 4};
-   *  auto y = linspace(0,3,4);
+   *  soit y = linspace(0,3,4);
    *  // y = {0, 1, 2, 3};
    *
-   *  auto [x2,y2] = pad_zeros(x,y);
+   *  soit [x2,y2] = pad_zeros(x,y);
    *  // x2 = {0, 1, 2, 3, 4};
    *  // y2 = {0, 1, 3, 4, 0};
    *  @endcode
    *
    */
-  template<typename D1, typename D2>
-    std::tuple<Vecteur<typename D1::Scalar>, Vecteur<typename D2::Scalar>> pad_zeros(
-        const Eigen::ArrayBase<D1> &x,
-        const Eigen::ArrayBase<D2> &y,
-        bool p2 = false)
+  template<typename T>
+    std::tuple<Vecteur<T>, Vecteur<T>> pad_zeros(
+        const Vecteur<T> &x,
+        const Vecteur<T> &y,
+        bouléen p2 = non)
   {
-    Vecteur<typename D1::Scalar> b1p, b2p;
+    Vecteur<T> b1p, b2p;
 
-    auto n1 = x.rows(), n2 = y.rows();
+    soit n1 = x.dim(), n2 = y.dim();
+    soit n3 = max(n1, n2);
 
-    auto n3 = std::max(n1, n2);
-
-    if(p2)
+    si(p2)
       n3 = prochaine_puissance_de_2(n3);
 
-    b1p = ArrayXf::Zero(n3);
-    b2p = ArrayXf::Zero(n3);
+    b1p = Vecteur<T>::zeros(n3);
+    b2p = Vecteur<T>::zeros(n3);
     b1p.head(n1) = x;
     b2p.head(n2) = y;
 
-    return {b1p, b2p};
+    retourne {b1p, b2p};
   }
 
 
 
   /** @brief Calcule le carré d'un scalaire */
   template<typename T>
-    T carré(const T &v) {return v * v;}
+    T carré(const T &v) {retourne v * v;}
 
   /** @brief Structure abstraite pour une classe configurable.
    *  @tparam C Type de configuration */
@@ -555,25 +528,25 @@ namespace tsd
     /** @brief Configuration de la structure
      *  @param c Valeur de la configuration à appliquer
      *  @returns entier non nul en cas d'erreur. */
-    int configure(const C &c)
+    entier configure(const C &c)
     {
       if(callback_modif)
         callback_modif(c);
-      int res = configure_impl(c);
+      entier res = configure_impl(c);
       config = c;
-      return res;
+      retourne res;
     }
 
-    // Retourne 0 si supporté et rend "configure_impl" inutile
-    virtual int configure(const cutils::model::Node &n)
+    // retourne 0 si supporté et rend "configure_impl" inutile
+    virtual entier configure(const cutils::model::Node &n)
     {
       //config.deserialise(n);
       //configure_impl(config);
-      return -1;
+      retourne -1;
     }
 
     /** @brief Méthode abstraite à implémenter par la classe dérivée */
-    virtual int configure_impl(const C &c) = 0;
+    virtual entier configure_impl(const C &c) = 0;
 
     /** @brief Lecture de la configuration actuelle. */
     const C &lis_config() const {return config;}
@@ -595,7 +568,7 @@ namespace tsd
 
     /** @brief Traitement d'un bloc de données
      *  @param x Signal d'entrée (référence vers un vecteur Eigen) */
-    virtual void step(const Eigen::Ref<const Vecteur<Te>> x) = 0;
+    virtual void step(const Vecteur<Te> &x) = 0;
   };
 
   /** @brief Structure abstraite pour un puit de données générique et configurable */
@@ -615,7 +588,7 @@ namespace tsd
     /** @brief Production de n échantillons
      *  @param n Nombre d'échantillons à produire
      *  @returns Vecteur de n échantillons s*/
-    virtual Vecteur<Ts> step(int n) = 0;
+    virtual Vecteur<Ts> step(entier n) = 0;
   };
 
   /** @brief Structure abstraite pour source de données, configurable.
@@ -639,18 +612,18 @@ namespace tsd
      *  @param x  Signal d'entrée (référence vers un vecteur Eigen)
      *  @param y  Signal de sortie (ne peut être une référence car taille variable)
      */
-    virtual void step(const Eigen::Ref<const Vecteur<Te>> x, Vecteur<Ts> &y) = 0;
+    virtual void step(const Vecteur<Te> &x, Vecteur<Ts> &y) = 0;
 
 
     /** @brief Traitement d'un bloc de données
      *  @param x  Signal d'entrée (référence vers un vecteur Eigen)
      *  @returns  Signal de sortie
      */
-    Vecteur<Ts> step(const Eigen::Ref<const Vecteur<Te>> x)
+    Vecteur<Ts> step(const Vecteur<Te> &x)
     {
       Vecteur<Ts> y;
       step(x, y);
-      return y;
+      retourne y;
     }
 
     Ts step(Te x)
@@ -659,7 +632,7 @@ namespace tsd
       Vecteur<Ts> vy(1);
       vx(0) = x;
       step(vx, vy);
-      return vy(0);
+      retourne vy(0);
     }
   };
 
@@ -706,11 +679,11 @@ namespace tsd
    *  @note Du fait des filtres anti-repliement utilisés, le signal d'entrée est retardé.
    *  Pour ré-échantilloner sans introduire de retard, voir aussi la fonction @ref rééchan_freq().
    */
-  template<typename Derived>
-    auto rééchan(const Eigen::ArrayBase<Derived> &x, float r)
+  template<typename T>
+    auto rééchan(const Vecteur<T> &x, float r)
   {
-    auto f = tsd::filtrage::filtre_reechan<typename Derived::Scalar>(r);
-    return f->step(x);
+    soit f = tsd::filtrage::filtre_reechan<T>(r);
+    retourne f->step(x);
   }
 
 
@@ -739,31 +712,26 @@ namespace tsd
    *
    */
   template<typename T>
-    sptr<Sink<T, int>> tampon_création(int N, std::function<void (const Vecteur<T> &)> callback);
+    sptr<Sink<T, entier>> tampon_création(entier N, std::function<void (const Vecteur<T> &)> callback);
 
 
 
-  template<typename T>
-  struct est_complex_t : public std::false_type {};
 
-  template<typename T>
-  struct est_complex_t<std::complex<T>> : public std::true_type {};
-
-  template<typename T>
-  constexpr bool est_complexe() { return est_complex_t<T>::value; }
 
 
   // En attendant que la fonction eigen src(index) soit dispo dans Eigen
   template<typename T>
-  T sousvec(const T &src, const std::vector<int> &index)
+  T sousvec(const T &src, const std::vector<entier> &index)
   {
-    T res(index.size());
-    for(auto i = 0u; i < index.size(); i++)
+    soit n = (entier) index.size();
+    T res(n);
+    pour(auto i = 0; i < n; i++)
     {
-      assert(index[i] < src.rows());
-      res(i) = src(index[i]);
+      soit idx = index[i];
+      tsd_assert((idx >= 0) && (idx < src.rows()));
+      res(i) = src(idx);
     }
-    return res;
+    retourne res;
   }
 
   /** @brief Modulo avec résultat compris dans l'intervalle @f$[0,m[@f$.
@@ -779,7 +747,7 @@ namespace tsd
    *
    *  @par Exemple
    *  @code
-   *  auto y = modulo(1.5, 1.0); // -> y = 0.5
+   *  soit y = modulo(1.5, 1.0); // -> y = 0.5
    *  @endcode
    *
    *  @sa modulo_2π(), modulo_pm_2π()
@@ -788,16 +756,16 @@ namespace tsd
   template<typename T>
   T modulo(T x, T m)
   {
-    if(m == 0)
-      return x;
+    si(m == 0)
+      retourne x;
 
-    auto res = x - m * ((T) floor(x / m)); // floor(-0.1) = -1
+    soit res = x - m * ((T) floor(x / m)); // floor(-0.1) = -1
     // Peut arriver, si x = -une valeur très faible
     // Par exemple, x = -ε
     // res = -ε + y, ce qui peut être égal à y par troncature.
-    if(res == m)
+    si(res == m)
       res = 0;
-    return res;
+    retourne res;
   }
 
   /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[0,2\pi\right[@f$.
@@ -820,7 +788,7 @@ namespace tsd
   template<typename T>
   inline T modulo_2π(T x)
   {
-    return modulo(x, 2 * std::numbers::pi_v<T>);
+    retourne modulo(x, 2 * std::numbers::pi_v<T>);
   }
 
   /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[-\pi,\pi\right[@f$.
@@ -842,9 +810,22 @@ namespace tsd
   template<typename T>
   T modulo_pm_π(T x)
   {
-    auto π = std::numbers::pi_v<T>;
-    return modulo_2π(x + π) - π;
+    soit π = std::numbers::pi_v<T>;
+    retourne modulo_2π(x + π) - π;
   }
+
+  template<typename T>
+    bouléen est_pair(T t) NOECLIPSE(requires(std::is_integral_v<T>))
+  {
+    retourne ((t & 1) == 0);
+  }
+
+  template<typename T>
+    bouléen est_impair(T t) NOECLIPSE(requires(std::is_integral_v<T>))
+  {
+    retourne ((t & 1) == 1);
+  }
+
 
   /** @brief Conversion degrés vers radians.
    *
@@ -864,10 +845,10 @@ namespace tsd
   template<typename T>
   auto deg2rad(T degrees)
   {
-    if constexpr(std::is_integral_v<T>)
-      return degrees * π / 180;
-    else
-      return degrees * std::numbers::pi_v<T> / 180.0;
+    si constexpr(std::is_integral_v<T>)
+      retourne degrees * π / 180;
+    sinon
+      retourne degrees * std::numbers::pi_v<T> / 180;
   }
 
   /** @brief Conversion radians vers degrés.
@@ -888,7 +869,7 @@ namespace tsd
   template<typename T>
   T rad2deg(T radians)
   {
-    return radians * 180.0 / std::numbers::pi_v<T>;
+    retourne radians * 180.0 / std::numbers::pi_v<T>;
   }
 
 
@@ -926,9 +907,21 @@ namespace tsd
    *
    *  @sa logspace()
    */
-  static inline auto linspace(float a, float b, int n)
+  static inline auto linspace(float a, float b, entier n)
   {
-    return ArrayXf::LinSpaced(n, a, b);
+    Vecf x(n);
+
+    si(n > 0)
+      x(0) = a;
+
+    si(n > 1)
+    {
+      soit step = ((double) b-a) / (n-1);
+      pour(auto i = 1; i < n; i++)
+        x(i) = a + step * i;
+    }
+
+    retourne x;
   }
 
 
@@ -955,9 +948,9 @@ namespace tsd
    *
    *  @sa linspace()
    */
-  static inline auto logspace(float a, float b, int n)
+  static inline auto logspace(float a, float b, entier n)
   {
-    return (10 * ArrayXf::Ones(n)).pow(linspace(a, b, n));
+    retourne pow(Vecf::ones(n) * 10.0f, linspace(a, b, n));
   }
 
   /** @brief Intervalle entier
@@ -969,14 +962,18 @@ namespace tsd
    *   x_k = a + k,\quad k = 0,\dots,(b-a+1)
    *  @f]
    *
-   *  @sa linspace(), trange()
+   *  @sa linspace(), intervalle_temporel()
    */
-  static inline ArrayXi intervalle_entier(int a, int b)
+  static inline Veci intervalle_entier(entier a, entier b)
   {
-    return ArrayXi::LinSpaced((b - a) + 1, a, b);
+    Veci res((b - a) + 1);
+    soit j = 0;
+    pour(auto i = a; i <= b; i++)
+      res(j++) = i;
+    retourne res;
   }
 
-  /** @brief Intervalle temporel, en fonction de la fréquence d'échantillonnage
+  /** @brief Intervalle temporel, en fonction de la fréquence d'échantillonnage.
    *
    *  <h3>Intervalle temporel</h3>
    *
@@ -987,11 +984,11 @@ namespace tsd
    *   x_k = \frac{k}{f_e},\quad k = 0,\dots,n-1
    *  @f]
    *
-   *  @sa linspace(), irange()
+   *  @sa linspace(), intervalle_entier()
    */
-  static inline ArrayXf intervalle_temporel(unsigned int n, float fe)
+  static inline Vecf intervalle_temporel(entier n, float fe)
   {
-    return linspace(0, (n-1) / fe, n);
+    retourne linspace(0, (n-1) / fe, n);
   }
 
   /** @brief Loi normale (vecteur colonne).
@@ -1015,28 +1012,25 @@ namespace tsd
    *
    *  @sa randu(), randb()
    */
-  extern ArrayXf randn(int n);
+  extern Vecf randn(entier n);
+
+  extern Veccf randcn(entier n);
+
+  extern float randn();
 
   /** @brief Générateur aléatoire utilisé en interne */
   extern std::default_random_engine generateur_aleatoire;
 
-  /** @cond private */
 
-  /** @brief Loi normale (tableau 2d)
-   *  @sa randu() */
-  extern ArrayXXf randn_2d(unsigned int n, unsigned int m);
-
-  /** @brief Loi uniforme, intervalle [0,1] (tableau 2d) */
-  extern ArrayXXf randu_2d(unsigned int n, unsigned int m);
-
-  /** @endcond */
 
   /** @brief Loi uniforme (vecteur colonne).
    *
    *  <h3>Loi uniforme</h3>
    *
    *  @param n Nombre de points à générer
-   *  @returns Un vecteur de valeurs aléatoires, échantillonées suivant une loi uniforme entre 0 et 1.
+   *  @param a Valeur minimale
+   *  @param b Valeur maximale
+   *  @returns Un vecteur de valeurs aléatoires, échantillonées suivant une loi uniforme entre a et b.
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_randu
@@ -1044,7 +1038,10 @@ namespace tsd
    *
    *  @sa randn(), randi(), randb()
    */
-  extern ArrayXf randu(int n);
+  extern Vecf randu(entier n, float a = -1, float b = 1);
+
+  // Entre -1 et 1
+  extern float randu();
 
   /** @brief Loi aléatoire binaire.
    *
@@ -1062,7 +1059,7 @@ namespace tsd
    *
    *  @sa randn(), randu(), randi()
    */
-  extern ArrayXb randb(int n);
+  extern Vecb randb(entier n);
 
   /** @brief Loi aléatoire catégorielle
    *
@@ -1078,7 +1075,9 @@ namespace tsd
    *
    *  @sa randn(), randu(), randb()
    */
-  extern ArrayXi randi(int M, int n);
+  extern Veci randi(entier M, entier n);
+
+  extern entier randi(entier M);
 
   /** @brief Calcul efficace d'une exponentielle complexe
    *
@@ -1101,7 +1100,7 @@ namespace tsd
    *
    *  @sa sigcos(), sigsin(), sigcar(), sigtri()
    */
-  extern ArrayXcf sigexp(float f, int n);
+  extern Veccf sigexp(float f, entier n);
 
   /** @brief Calcul efficace d'une sinusoide.
    *
@@ -1124,7 +1123,7 @@ namespace tsd
    *
    *  @sa sigcos(), sigexp(), sigcar(), sigtri()
    */
-  extern ArrayXf sigsin(float f, int n);
+  extern Vecf sigsin(float f, entier n);
 
   /** @brief Calcul efficace d'un cosinus
    *
@@ -1147,7 +1146,7 @@ namespace tsd
    *
    *  @sa sigsin(), sigexp()
    */
-  extern ArrayXf sigcos(float f, int n);
+  extern Vecf sigcos(float f, entier n);
 
 
   /** @brief Signal triangulaire (périodique).
@@ -1163,7 +1162,7 @@ namespace tsd
    *
    *  @sa sigcar(), sigsin(), sigcos(), sigexp()
    */
-  extern ArrayXf sigtri(int p, int n);
+  extern Vecf sigtri(entier p, entier n);
 
   /** @brief Signal carré (périodique)
    *
@@ -1178,7 +1177,7 @@ namespace tsd
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp()
    */
-  extern ArrayXf sigcar(int p, int n);
+  extern Vecf sigcar(entier p, entier n);
 
   /** @brief Impulsion discrète
    *
@@ -1192,7 +1191,7 @@ namespace tsd
    *  @image html sigimp.png width=600px
    *
    */
-  extern ArrayXf sigimp(int n, int p = 0);
+  extern Vecf sigimp(entier n, entier p = 0);
 
 
   /** @brief Signal en dent de scie
@@ -1208,7 +1207,7 @@ namespace tsd
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp()
    */
-  extern ArrayXf sigscie(int p, int n);
+  extern Vecf sigscie(entier p, entier n);
 
   /** @brief Sinusoïde modulée par une Gaussienne
    *
@@ -1229,7 +1228,7 @@ namespace tsd
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp()
    */
-  extern ArrayXf siggsin(float f, int n, float a = 10);
+  extern Vecf siggsin(float f, entier n, float a = 10);
 
 
   /** @brief Impulsion filtrée par une Gaussienne
@@ -1250,39 +1249,24 @@ namespace tsd
      *
      *  @sa sigtri(), sigsin(), sigcos(), sigexp(), siggsin()
      */
-    extern ArrayXf siggauss(int n, float a = 10);
+    extern Vecf siggauss(entier n, float a = 10);
 
-  /** @brief Chirp linéaire
+  /** @brief Chirp linéaire ou quadratique.
    *
-   *  <h3>Chirp linéaire</h3>
+   *  <h3>Chirp linéaire ou quadratique</h3>
    *
    *  @f[
    *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
    *  @f]
    *
-   *  Les @f$f_k@f$ étant répartis linéairement entre @f$f_0@f$ et @f$f_1@f$.
+   *  Les @f$f_k@f$ étant répartis linéairement ou quadratiquement entre @f$f_0@f$ et @f$f_1@f$.
    *
-   *  @param f0 Fréquence initiale (normalisée).
-   *  @param f1 Fréquence finale (normalisée).
-   *  @param n Nombre d'échantillons à générer.
-   *
-   *  @par Exemple
-   *  @snippet exemples/src/ex-tsd.cc ex_sigchirp
-   *  @image html sigchirp.png width=600px
-   *
-   *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp2()
-   */
-  extern ArrayXf sigchirp(float f0, float f1, int n);
-
-  /** @brief Chirp quadratique
-   *
-   *  <h3>Chirp quadratique</h3>
-   *
+   *  Pour un chirp linéaire :
    *  @f[
-   *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
+   *  f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)
    *  @f]
    *
-   *  Les @f$f_k@f$ étant répartis quadratiquement entre @f$f_0@f$ et @f$f_1@f$ :
+   *  Pour un chirp quadratique :
    *  @f[
    *  f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)^2
    *  @f]
@@ -1290,14 +1274,33 @@ namespace tsd
    *  @param f0 Fréquence initiale (normalisée).
    *  @param f1 Fréquence finale (normalisée).
    *  @param n Nombre d'échantillons à générer.
+   *  @param mode 'l' pour linéaire, 'q' pour quadratique.
    *
    *  @par Exemple
-   *  @snippet exemples/src/ex-tsd.cc ex_sigchirp2
-   *  @image html sigchirp2.png width=600px
+   *  @snippet exemples/src/ex-tsd.cc ex_sigchirp
+   *  @image html sigchirp.png width=600px
+   *
+   *  @sa sigtri(), sigsin(), sigcos(), sigexp()
+   */
+  extern Vecf sigchirp(float f0, float f1, entier n, char mode = 'l');
+
+
+  /** @brief Signal à la fréquence de Nyquist (-1,1,-1,1,etc.).
+   *
+   *  <h3>Signal à la fréquence de Nyquist</h3>
+   *
+   *  Construit une sinusoïde de fréquence @f$f_e/2@f$, soit une séquence
+   *  alternée -1,1,-1,1,etc.
+   *
+   *  @param n Nombre d'échantillons à générer.
+   *
+   *  @par Exemple
+   *  @snippet exemples/src/ex-tsd.cc ex_signyquist
+   *  @image html signyquist.png width=600px
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp()
    */
-  extern ArrayXf sigchirp2(float f0, float f1, int n);
+  extern Vecf signyquist(entier n);
 
 
   /** @brief Configuration oscillateur harmonique */
@@ -1307,7 +1310,7 @@ namespace tsd
     float freq = 0;
 
     // Si vrai, applique un shift de la fréquence indiquée
-    //bool shift = false;
+    //bouléen shift = non;
     //float df = 0;
   };
 
@@ -1363,7 +1366,7 @@ namespace tsd
 
   struct OLUT
   {
-    OLUT(int resolution = 1024);
+    OLUT(entier resolution = 1024);
     cfloat step(float θ);
   private:
     struct Impl;
@@ -1377,19 +1380,8 @@ namespace tsd
 }
 
 
-#define ostream_formater(T) \
-template <> struct fmt::formatter<T> { \
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();} \
-  template <typename FormatContext> \
-  auto format(const T& t, FormatContext& ctx) const -> decltype(ctx.out())  \
-  { \
-    std::ostringstream ss; \
-    ss << t; \
-    return fmt::format_to(ctx.out(), "{}", ss.str()); \
-  } \
-};
 
-ostream_formater(Eigen::ArrayXf)
+/*ostream_formater(Eigen::ArrayXf)
 ostream_formater(Eigen::ArrayXcf)
 ostream_formater(Eigen::VectorXf)
 ostream_formater(Eigen::Vector3f)
@@ -1405,9 +1397,9 @@ ostream_formater(Eigen::VectorXcd)
 ostream_formater(Eigen::ArrayXXd)
 ostream_formater(Eigen::MatrixXd)
 
-ostream_formater(Eigen::Array4f)
+ostream_formater(Eigen::Array4f)*/
 
 
 
-
+#endif
 

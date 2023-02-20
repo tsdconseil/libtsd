@@ -17,34 +17,34 @@ using namespace tsd::filtrage;
 
 struct FMDiscri: FiltreGen<cfloat, float>
 {
-  int cnt = 0;
+  entier cnt = 0;
   cfloat x0 = 0.0f, x1 = 0.0f, x2 = 0.0f;
   cfloat last = 0.0f;
 
-  /*int configure_impl(const FMDiscriConfig &c)
+  /*entier configure_impl(const FMDiscriConfig &c)
   {
     //config = c;
     x0 = x1 = x2 = 0.0f;
-    return 0;
+    retourne 0;
   }*/
-  void step(const Eigen::Ref<const Vecteur<cfloat>> x, Vecteur<float> &y)
+  void step(const Vecteur<cfloat> &x, Vecteur<float> &y)
   {
     // D'après https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/
-    int n = x.rows();
+    entier n = x.rows();
 
     y.resize(n);
 
     // PB si x0 = x1 = 0, x2 != 0
 
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
       x2 = x1;
       x1 = x0;
       x0 = x(i);
 
-      if((cnt <= 2) || (x1 == 0.0f)) // TODO : test de nullité bancal
+      si((cnt <= 2) || (x1 == 0.0f)) // TODO : test de nullité bancal
         y(i) = 0;
-      else
+      sinon
         y(i) = (real(x1) * (imag(x0) - imag(x2)) - imag(x1) * (real(x0) - real(x2))) / (2 * std::norm(x1));
 
       y(i) = std::clamp(y(i), -π_f, π_f);
@@ -55,10 +55,10 @@ struct FMDiscri: FiltreGen<cfloat, float>
     // Attention, le discri génère une forme de filtrage !!!
 
 #   if 1
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
       // Discrimination polaire
-      y(i) = std::arg(x(i) * std::conj(last));
+      y(i) = std::arg(x(i) * conj(last));
       last = x(i);
     }
 #   endif
@@ -69,7 +69,7 @@ struct FMDiscri: FiltreGen<cfloat, float>
 
 sptr<FiltreGen<cfloat,float>> discriminateur_fm()
 {
-  return std::make_shared<FMDiscri>();
+  retourne std::make_shared<FMDiscri>();
 }
 
 
@@ -86,58 +86,52 @@ struct ModulateurAM: Filtre<float, float, AMConfig>
   {
     configure(config);
   }
-  int configure_impl(const AMConfig &c)
+  entier configure_impl(const AMConfig &c)
   {
     ra = filtre_reechan<float>(c.fe_rf / c.fe_sortie);
     ol = source_ohc(c.f_rf / c.fe_rf);
 
-    if(c.est_BLU())
+    si(c.est_BLU())
     {
       hilbert = hilbert_transformeur();
       hilbert->configure({255, "hn"});
     }
-    return 0;
+    retourne 0;
   }
-  void step(const Eigen::Ref<const Vecteur<float>> x1, Vecteur<float> &y)
+  void step(const Vecteur<float> &x1, Vecteur<float> &y)
   {
-    auto &config = Configurable<AMConfig>::config;
+    soit &config = Configurable<AMConfig>::config;
 
     // (1) Sur-échantillonnage
-    msg("sur-eq...");
     ra->step(x1, y);
 
     // https://www.mathworks.com/help/signal/examples/single-sideband-modulation-via-the-hilbert-transform.html
 
 
-    if(config.mode == AMConfig::Mode::DSB)
+    si(config.mode == AMConfig::Mode::DSB)
     {
-      auto mxcoef = y.abs().maxCoeff();
-      msg("mxcoef = {}", mxcoef);
+      soit mxcoef = abs(y).valeur_max();
 
       // (2) Transposition
-      msg("csin...");
       y = 1 + config.indice * y / mxcoef;
-
-      y *= ol->step(y.rows()).real();
-
-      msg("ok.");
+      y *= real(ol->step(y.rows()));
     }
-    else if (config.mode == AMConfig::Mode::DSB_SUPPRESSED_CARRIER)
+    sinon si (config.mode == AMConfig::Mode::DSB_SUPPRESSED_CARRIER)
     {
-      y *= ol->step(y.rows()).real();
+      y *= real(ol->step(y.rows()));
     }
-    else if(config.est_BLU())
+    sinon si(config.est_BLU())
     {
       // https://www.mathworks.com/help/signal/examples/single-sideband-modulation-via-the-hilbert-transform.html
       // Calcul du signal analytique
-      auto z    = hilbert->step(y);
-      auto xol  = ol->step(z.rows());
+      soit z    = hilbert->step(y);
+      soit xol  = ol->step(z.rows());
       float signe = config.mode == AMConfig::Mode::LSB ? -1 : 1;
-      y = z.real() * xol.real() + signe * z.imag() * xol.imag();
+      y = real(z) * real(xol) + signe * imag(z) * imag(xol);
     }
 
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
       Figures fig;
       fig.subplot().plot(x1, "", "Signal audio");
@@ -156,25 +150,25 @@ struct ModulateurAM: Filtre<float, float, AMConfig>
 struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
 {
   sptr<SourceGen<cfloat>> ol;
-  // Pour modes LSB, USB
+  // pour modes LSB, USB
   sptr<FiltreGen<float>> retard, hilbert, ra, filtre_lp, filtre_hp;
 
   DemodulateurAM()
   {
     configure(Configurable<AMConfig>::config);
   }
-  int configure_impl(const AMConfig &c)
+  entier configure_impl(const AMConfig &c)
   {
-    auto &config = Configurable<AMConfig>::config;
+    soit &config = Configurable<AMConfig>::config;
     config = c;
     ra = filtre_reechan<float>(config.fe_sortie / config.fe_rf);
     ol = source_ohc(-config.f_rf / config.fe_rf);
 
-    float fc_high = config.fcut_audio_high / config.fe_rf;
-    float fc_low  = config.fcut_audio_low / config.fe_rf;
+    soit fc_high = config.fcut_audio_high / config.fe_rf;
+    soit fc_low  = config.fcut_audio_low / config.fe_rf;
 
-    auto hlp = design_riia(4, "pb", "butt", fc_high);
-    auto hhp = design_riia(4, "pb", "butt", fc_low);
+    soit hlp = design_riia(4, "pb", "butt", fc_high);
+    soit hhp = design_riia(4, "pb", "butt", fc_low);
         //butterworth_lp(fc_high, 2);
     //auto hhp = butterworth_lp(fc_low,  2);
 
@@ -188,38 +182,38 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
     filtre_lp = filtre_sois<float>(hlp);
     filtre_hp = filtre_sois<float>(hhp);
 
-    if(config.est_BLU())
+    si(config.est_BLU())
     {
       hilbert = filtre_rif<float>(design_rif_hilbert(127));
       retard = ligne_a_retard<float>(127/2);
     }
 
     //fech_sortie = config.fe_rf;
-    return 0;
+    retourne 0;
   }
-  void step(const Eigen::Ref<const ArrayXcf> x, ArrayXf &y)
+  void step(const Veccf &x, Vecf &y)
   {
-    auto &config = Configurable<AMConfig>::config;
-    auto n = x.rows();
-    ArrayXcf xol = ol->step(n);
-    ArrayXcf rftc = x * xol;
+    soit &config = Configurable<AMConfig>::config;
+    soit n = x.rows();
+    soit xol = ol->step(n);
+    soit rftc = x * xol;
 
-    ArrayXf y1;
+    Vecf y1;
 
 
     // DSB ou DSB sans porteuse
-    if(!config.est_BLU())
+    si(!config.est_BLU())
     {
       // Idem méthode Wikipédia,
       // mais modifiée pour ne pas être dépendant de la phase
       // relative de l'OL par rapport à la porteuse
-      ArrayXf rft = rftc.real();
+      soit rft = real(rftc);
 
       rft = filtre_lp->step(rft);
       rft -= filtre_hp->step(rft);
       ra->step(rft, y);
   #   if 0
-      else
+      sinon
       {
       // Méthode telle que décrite dans Wikipédia
       // https://fr.wikipedia.org/wiki/Modulation_d%27amplitude#D%C3%A9modulation_par_DSP
@@ -253,12 +247,12 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
 
       stdo << f;
       }
-      //f.enregistrer("./build/ex/analogique/int.jpg");
+      //f.enregistrer("./build/ex/analogique/entier.jpg");
   #   endif
     }
 
     // BLU
-    else
+    sinon
     {
       // Filtre de Hilbert :
       // sin(t) -> -cos(t)
@@ -288,19 +282,19 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
       // => y2 = reel(x) - imag(h(x))
       //       = reel(x) - h(imag(x))
 
-      auto ix = hilbert->step(rftc.imag());
-      auto rx = retard->step(rftc.real());
+      soit ix = hilbert->step(imag(rftc));
+      soit rx = retard->step(real(rftc));
       y1 = rx - ix;
 
 
 
 
 
-      if(config.debug_actif)
+      si(config.debug_actif)
       {
         Figures f;
 
-        auto s = f.subplot();
+        soit s = f.subplot();
         s.plot_psd(x, config.fe_rf);
         s.titres("PSD signal entree");
         s = f.subplot();
@@ -323,16 +317,16 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
 
     // Post - traitements audio
     // Filtrage passe-bande
-    auto y_lp = filtre_lp->step(y1);
+    soit y_lp = filtre_lp->step(y1);
 
-    auto y_hp = filtre_hp->step(y1);
+    soit y_hp = filtre_hp->step(y1);
 
     tsd_assert(y_lp.rows() == y_hp.rows());
 
-    ArrayXf y_bp = y_lp - y_hp;
+    soit y_bp = y_lp - y_hp;
 
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
       Figures f;
 
@@ -368,11 +362,11 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
 
 sptr<Filtre<float, float, AMConfig>> modulateurAM()
 {
-  return std::make_shared<ModulateurAM>();
+  retourne std::make_shared<ModulateurAM>();
 }
 sptr<Filtre<cfloat, float, AMConfig>> demodulateurAM()
 {
-  return std::make_shared<DemodulateurAM>();
+  retourne std::make_shared<DemodulateurAM>();
 }
 
 
@@ -396,7 +390,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
   sptr<FiltreGen<float>>  rif_fm, rif_audio_L, rif_audio_R;
   float fech2 = 0;
   // Ratio de décimation
-  int R = 1;
+  entier R = 1;
 
   sptr<FiltreGen<cfloat,float>> discri = discriminateur_fm();
 
@@ -405,20 +399,45 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
 
   /*sptr<Filtre<cfloat, float, DemodConfig>>*/sptr<Démodulateur> demod_rds;
 
-  Eigen::MatrixXi H, offsets[4];
-  Eigen::VectorXi rdec;
+  Tabi H;
+  Veci offsets[4];
+  Veci rdec;
 
-  int configure_impl(const FMDemodConfig &cfg)
+  entier configure_impl(const FMDemodConfig &cfg)
   {
-    auto &config = Configurable<FMDemodConfig>::config;
+    soit &config = Configurable<FMDemodConfig>::config;
     config = cfg;
 
 
     rdec.setZero(26 * 4 * 2, 1);
 
-    H.resize(26, 10);
+    //H.resize(26, 10);
+
+
+    H = vconcat(Veci::zeros(10*10), Veci::valeurs(
+        {
+              1, 0, 1, 1, 0, 1, 1, 1, 0, 0,
+              0, 1, 0, 1, 1, 0, 1, 1, 1, 0,
+              0, 0, 1, 0, 1, 1, 0, 1, 1, 1,
+              1, 0, 1, 0, 0, 0, 0, 1, 1, 1,
+              1, 1, 1, 0, 0, 1, 1, 1, 1, 1,
+              1, 1, 0, 0, 0, 1, 0, 0, 1, 1,
+              1, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+              1, 1, 0, 1, 1, 1, 0, 1, 1, 0,
+              0, 1, 1, 0, 1, 1, 1, 0, 1, 1,
+              1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+              1, 1, 1, 1, 0, 1, 1, 1, 0, 0,
+              0, 1, 1, 1, 1, 0, 1, 1, 1, 0,
+              0, 0, 1, 1, 1, 1, 0, 1, 1, 1,
+              1, 0, 1, 0, 1, 0, 0, 1, 1, 1,
+              1, 1, 1, 0, 0, 0, 1, 1, 1, 1,
+              1, 1, 0, 0, 0, 1, 1, 0, 1, 1
+        }
+        )).reshape(26,10);
+
+
     //H.topRows(10) = Eigen::MatrixXi::Identity();
-    H.bottomRows(16)
+    /*H.bottomRows(16)
      << 1, 0, 1, 1, 0, 1, 1, 1, 0, 0,
         0, 1, 0, 1, 1, 0, 1, 1, 1, 0,
         0, 0, 1, 0, 1, 1, 0, 1, 1, 1,
@@ -434,30 +453,30 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
         0, 0, 1, 1, 1, 1, 0, 1, 1, 1,
         1, 0, 1, 0, 1, 0, 0, 1, 1, 1,
         1, 1, 1, 0, 0, 0, 1, 1, 1, 1,
-        1, 1, 0, 0, 0, 1, 1, 0, 1, 1;
+        1, 1, 0, 0, 0, 1, 1, 0, 1, 1;*/
 
-    for(auto k = 0; k < 4; k++)
-      offsets[k].resize(10, 1);
-    offsets[0] << 1, 1, 1, 1, 0, 1, 1, 0, 0, 0;
-    offsets[1] << 1, 1, 1, 1, 0, 1, 0, 1, 0, 0;
-    offsets[2] << 1, 0, 0, 1, 0, 1, 1, 1, 0, 0;
-    offsets[3]  << 1, 1, 0, 1, 0, 1, 0, 0, 0, 0;
+    //pour(soit k = 0; k < 4; k++)
+    //  offsets[k].resize(10);
+    offsets[0] = Veci::valeurs({1, 1, 1, 1, 0, 1, 1, 0, 0, 0});
+    offsets[1] = Veci::valeurs({1, 1, 1, 1, 0, 1, 0, 1, 0, 0});
+    offsets[2] = Veci::valeurs({1, 0, 0, 1, 0, 1, 1, 1, 0, 0});
+    offsets[3] = Veci::valeurs({1, 1, 0, 1, 0, 1, 0, 0, 0, 0});
 
 
    // Filtrage +/- 100 kHz
-    ArrayXf coefs = tsd::filtrage::design_rif_cs(255, 0.2, 100e3/config.fe);
+    soit coefs = tsd::filtrage::design_rif_cs(255, 0.2, 100e3/config.fe);
     rif_wb = tsd::filtrage::filtre_rif<float, cfloat>(coefs);
 
     // Filtrage après discri
-    ArrayXf coefs2 = tsd::filtrage::design_rif_cs(255, 0.1, 65e3/config.fe);
+    soit coefs2 = tsd::filtrage::design_rif_cs(255, 0.1, 65e3/config.fe);
     rif_fm = tsd::filtrage::filtre_rif<float, float>(coefs2);
 
     // Ré-échantillonnage
     fech2 = config.fe;
     R = 1;
-    if(config.fe >= 200)
+    si(config.fe >= 200)
     {
-      R = (int) std::floor(config.fe / (65e3 * 2));
+      R = (entier) floor(config.fe / (65e3 * 2));
       fech2 = config.fe / R;
     }
     msg("Configuration démod FM : fe = {:.1f} Hz, fe2 = {:.1f} Hz (R = 1/{}).", config.fe, fech2, R);
@@ -472,7 +491,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
     demod_rds = démodulateur_création(mc, dc);
 
     // Filtrage audio
-    ArrayXf coefs3 = tsd::filtrage::design_rif_cs(255, 0.1, 15e3/fech2);
+    soit coefs3 = tsd::filtrage::design_rif_cs(255, 0.1, 15e3/fech2);
     rif_audio_L = tsd::filtrage::filtre_rif<float, float>(coefs3);
     rif_audio_R = tsd::filtrage::filtre_rif<float, float>(coefs3);
 
@@ -485,7 +504,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
 
     //fech_sortie = fech2;
 
-    if(config.genere_img_debug)
+    si(config.genere_img_debug)
     {
       Figures f;
       f.subplot().plot(coefs, "b-", "Filtre wb");
@@ -494,62 +513,64 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
       f.afficher("fm-demod-coefs.png");
     }
 
-    return 0;
+    retourne 0;
   }
 
-  //template<typename T
-  void mod2(Eigen::Ref<Eigen::MatrixXi> A)
-  {
-    A = (A.unaryExpr([](const int x) { return x%2; })).eval();
-  }
 
-  void step(const Eigen::Ref<const ArrayXcf> x, ArrayXcf &y)
+  /*void mod2(const Tabi &A)
   {
-    auto &config = Configurable<FMDemodConfig>::config;
-    auto y1 = rif_wb->step(x);
-    auto a = discri->step(y1);
+    A = (A.unaryExpr([](const entier x) { retourne x%2; })).eval();
+  }*/
+
+  void step(const Veccf &x, Veccf &y)
+  {
+    soit &config = Configurable<FMDemodConfig>::config;
+    soit y1 = rif_wb->step(x);
+    soit a = discri->step(y1);
     a /= 75e3; // Excursion de 75 kHz
 
-    ArrayXf a2 = rif_fm->step(a);
-    ArrayXf a3 = sousech(a2, R);
+    soit a2 = rif_fm->step(a);
+    soit a3 = sousech(a2, R);
 
     //ArrayXf x_rds = demod_rds->step(ArrayXcf(a3));
     BitStream bs;
-    ArrayXXf llr;
-    demod_rds->step(ArrayXcf(a3), bs, llr);
+    Tabf llr;
+    demod_rds->step(a3, bs, llr);
     // Manchester : 2 position à essayer à chaque fois
     // Donc on travaille sur des blocs de 26 * 4 * 2 bits à chaque fois
 
 
-    auto N = 26 * 4 * 2;
-    for(auto i = 0; i < bs.lon(); i++)
+    soit N = 26 * 4 * 2;
+    pour(auto i = 0; i < bs.lon(); i++)
     {
       // Mise à jour de la fenêtre
       rdec.head(N - 1) = rdec.tail(N -1).eval();
       rdec(N-1) = bs[i];//x_rds(i) > 0 ? 1 : 0;
 
       // Décodage manchester
-      Eigen::MatrixXi dec(1, 26 * 4);
-      for(auto j = 0; j < N / 2; j++)
+      Tabi dec(1, 26 * 4);
+      pour(auto j = 0; j < N / 2; j++)
         dec(j) = rdec(2*j) == rdec(2*j+1) ? 0 : 1;
 
-      auto nerrs = 0u;
-      for(auto j = 0; j < 4; j++)
+      soit nerrs = 0u;
+      pour(auto j = 0; j < 4; j++)
       {
-        Eigen::MatrixXi syndrome = dec.block(0, j * 26, 1, 26) * H;
-        mod2(syndrome);
+        Tabi syndrome = dec.block(0, j * 26, 1, 26) * H;
+        //mod2(syndrome);
+        pour(auto c = 0; c < 26; c++)
+          syndrome(0, c) = syndrome(0, c) % 2;
         //nerrs += (syndrome - offsets[j]);//.abs().sum(); // TODO
       }
-      if(nerrs < 5)
+      si(nerrs < 5)
       {
         msg("RDS nerrs = {}", nerrs);
         uint16_t blk[4] = {0};
 
         std::string station;
 
-        //for(auto k = 0u; k < 4; k++)
+        //pour(auto k = 0u; k < 4; k++)
         //  blk[k] = mati_vers_binaire(dec.block(0, j * 26, 1, 16));
-        if((blk[1] & 0x0f) == 0)
+        si((blk[1] & 0x0f) == 0)
         {
           char st[5];
           st[0] = blk[2] & 0xff;
@@ -570,25 +591,25 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
     // un signal CW de référence à 19 kHz
     // et L-R à 38 kHz [23 - 53 kHz]
     // Et le signal RDS à 57 kHz
-    auto x_LpR = rif_audio_L->step(a3);
+    soit x_LpR = rif_audio_L->step(a3);
     //audio::wav_enregistre("./build/out-mono.wav", fech2, x_LpR);
 
 
     // Pb ici : il y a un décalage de phase entre x_LmR et x_LpR
     // --> Trouver la phase de la porteuse grâce au signal à 38k
     // Il vaut mieux le faire avec une PLL, plus général
-    auto cw = pll->step(a3);
+    soit cw = pll->step(a3);
 
     //ArrayXcf osc = OLH_signal(a3.rows(), 38e3 / fech);
-    ArrayXf x_LmR_non_filtre = cw.square() * a3;
-    ArrayXf x_LmR = rif_audio_R->step(x_LmR_non_filtre);
+    soit x_LmR_non_filtre = square(cw) * a3;
+    soit x_LmR = rif_audio_R->step(x_LmR_non_filtre);
 
-    auto L = x_LpR + x_LmR;
-    auto R = x_LpR - x_LmR;
+    soit L = x_LpR + x_LmR;
+    soit R = x_LpR - x_LmR;
 
     y.resize(L.rows());
-    y.real() = L;
-    y.imag() = R;
+    y.set_real(L);
+    y.set_imag(R);
 
     //audio::wav_enregistre_stereo("./build/out-stereo.wav", fech2, z);
 
@@ -597,7 +618,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
 
 
 
-    if(config.genere_img_debug)
+    si(config.genere_img_debug)
     {
 
       {
@@ -640,7 +661,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
 
 sptr<Filtre<cfloat, cfloat, FMDemodConfig>> demodulateurFM()
 {
-  return std::make_shared<FMDemod>();
+  retourne std::make_shared<FMDemod>();
 }
 
 

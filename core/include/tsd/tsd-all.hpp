@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TSD_ALL_H
+#define TSD_ALL_H
 
 
 #include "tsd/tsd.hpp"
@@ -17,3 +18,5 @@ using namespace tsd::telecom;
 using namespace tsd::stats;
 
 
+
+#endif

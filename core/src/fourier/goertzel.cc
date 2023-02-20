@@ -4,15 +4,15 @@
 
 namespace tsd::fourier {
 
-float goertzel(const ArrayXf &x, float f)
+float goertzel(const Vecf &x, float f)
 {
-  int n    = x.rows();
-  float c  = cos(2 * π * f);
+  soit n   = x.rows();
+  soit c   = cos(2 * π * f);
   float w0 = 0, w1 = 0;
-  float en = x.square().sum();
+  soit en = square(x).somme();
 
   // Dénominateur
-  for(auto i = 0; i < n; i++)
+  pour(auto i = 0; i < n; i++)
     std::tie(w0, w1) = std::pair(2 * c * w0 - w1  + x(i), w0);
 
   // i = 0   : w0 = x0, w1 = 0
@@ -25,20 +25,20 @@ float goertzel(const ArrayXf &x, float f)
   std::tie(w0, w1) = std::pair(2 * c * w0 - w1, w0);
 
   // Normalisation par rapport à l'énergie du signal
-  return 2 * (w0 * w0 - 2 * c * w0 * w1 + w1 * w1) / (en * n);
+  retourne 2 * (w0 * w0 - 2 * c * w0 * w1 + w1 * w1) / (en * n);
 }
 
 
 struct Goertzel: FiltreGen<float>
 {
   float w0 = 0, w1 = 0, c = 0;
-  int cnt = 0,
-      R = 0; // Nombre de points de la FFT équivalente
+  entier  cnt = 0,
+          R   = 0; // Nombre de points de la FFT équivalente
 
   sptr<FiltreGen<float, float>> filtre_energie;
 
   /** Initialisation contexte de goertzel */
-  Goertzel(float frequence, int R)
+  Goertzel(float frequence, entier R)
   {
     c               = cos(2.0f * π * frequence);
     this->R         = R;
@@ -46,22 +46,22 @@ struct Goertzel: FiltreGen<float>
   }
 
 
-  void step(const Eigen::Ref<const Vecteur<float>> x, Vecteur<float> &y)
+  void step(const Vecteur<float> &x, Vecteur<float> &y)
   {
-    int n = x.rows(), idx = 0;
+    soit n = x.rows(), idx = 0;
     y.resize((n + cnt) / R);
 
-    ArrayXf en = filtre_energie->step(x.square());
+    soit en = filtre_energie->step(square(x));
 
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
       std::tie(w0, w1) = std::pair(2 * c * w0 - w1  + x(i), w0);
       cnt++;
 
-      if(cnt >= R)
+      si(cnt >= R)
       {
         // Dernière étape, avec x_N = 0
-        auto [w0p, w1p] = std::pair(2 * c * w0 - w1, w0);
+        soit [w0p, w1p] = std::pair(2 * c * w0 - w1, w0);
 
         tsd_assert(idx < y.rows());
         // Normalisation par rapport à l'énergie du signal
@@ -76,9 +76,9 @@ struct Goertzel: FiltreGen<float>
   }
 };
 
-sptr<FiltreGen<float>> filtre_goertzel(float frequence, int N)
+sptr<FiltreGen<float>> filtre_goertzel(float frequence, entier N)
 {
-  return std::make_shared<Goertzel>(frequence, N);
+  retourne std::make_shared<Goertzel>(frequence, N);
 }
 
 }

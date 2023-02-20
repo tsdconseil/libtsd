@@ -23,13 +23,13 @@ namespace tsd::telecom {
 /** @brief Structure de configuration générateur LFSR */
 struct LFSRConfig
 {
-  int reglen = 0;
+  entier reglen = 0;
   uint32_t pol    = 0;
   uint32_t p0     = 0;
   uint32_t pol_sortie = 0;
   // Sinon, sortie = poids fort
-  // bool sortie_est_poids_faible = false;
-  // bool sortie_est_pol = false;
+  // bouléen sortie_est_poids_faible = non;
+  // bouléen sortie_est_pol = non;
 
   enum
   {
@@ -51,9 +51,9 @@ public:
    *  @param reglen: length of the PRBS register
    *  @note Sequence length will be (2^reglen)-1
    *  Requires 2 <= reglen <= PRBS_MAX_REGLEN */
-  int configure(unsigned int reglen);
+  entier configure(unsigned int reglen);
 
-  int configure(const LFSRConfig &config);
+  entier configure(const LFSRConfig &config);
 
   /** @brief Generate PRBS data */
   void step(BitStream &bs, unsigned int nbits);
@@ -77,7 +77,7 @@ public:
    *  @note Sequence length will be (2^reglen)-1
    *  Requires 2 <= reglen <= PRBS_MAX_REGLEN
    *  @param  nb_bits_to_ignore Les premiers bits ne sont pas pris en compte pour le calcul du BER. */
-  int configure(uint16_t reglen, int nb_bits_to_ignore = 0);
+  entier configure(uint16_t reglen, entier nb_bits_to_ignore = 0);
 
   void step(const BitStream &bs);
 
@@ -86,7 +86,7 @@ public:
 
   /** @param[out] is_locked
    *  @param[out] ber        Current bit error rate, or 0.5 if not locked. */
-  void lis_etat(bool &is_locked, float &ber) const;
+  void lis_etat(bouléen &is_locked, float &ber) const;
 
   void affiche_etat() const;
 

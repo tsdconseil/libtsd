@@ -19,75 +19,58 @@ namespace tsd {
 
 default_random_engine generateur_aleatoire;
 
-/** @brief Calcul de la matrice de covariance
- *  @param m Dimension de la matrice (nombre de délais examinés) */
-/*template<typename T>
-Eigen::MatrixXf cov(const Vecteur<T> &x, int m)
+
+
+
+
+Vecf sigscie(entier p, entier n)
 {
-  int n = x.rows();
-  Eigen::MatrixXf R = Eigen::MatrixXf::Zero(m, m);
-  for(auto i = m; i < n; i++)
-  {
-    auto t = x.segment(i - m, m).reverse().matrix();
-    R += t * t.adjoint();
-  }
-  return R / n;
-}*/
-
-
-
-ArrayXf sigscie(int p, int n)
-{
-  ArrayXf x(n);
-  for(auto i = 0; i < n; i++)
-    x(i) = ((i % p) - ((p-1) * 0.5)) / (0.5 * (p-1));
-  return x;
+  retourne Vecf::int_expr(n, IMAP(
+      ((i % p) - ((p-1) * 0.5)) / (0.5 * (p-1))));
 }
 
-ArrayXf sigtri(int p, int n)
+Vecf sigtri(entier p, entier n)
 {
-  ArrayXf x(n);
-  for(auto i = 0; i < n; i++)
+  Vecf x(n);
+  pour(auto i = 0; i < n; i++)
   {
-    int j = i % p;
-    if(j < p/2)
+    entier j = i % p;
+    si(j < p/2)
       x(i) = j;
-    else
+    sinon
       x(i) = p - j;
     x(i) -= 0.5 * (p/2);
     x(i) /= p;
   }
-  return 4*x; // entre -1 et 1
+  retourne 4*x; // entre -1 et 1
 }
 
-ArrayXf sigcar(int p, int n)
+Vecf sigcar(entier p, entier n)
 {
-  ArrayXf x(n);
-  for(auto i = 0; i < n; i++)
-    x(i) = 2 * (((i / (p/2)) % 2) - 0.5);
-  return x;
+  retourne Vecf::int_expr(n, IMAP(
+      2 * (((i / (p/2)) % 2) - 0.5)));
 }
 
-ArrayXf sigimp(int n, int p)
+Vecf sigimp(entier n, entier p)
 {
-  ArrayXf x = ArrayXf::Zero(n);
+  Vecf x = Vecf::zeros(n);
   tsd_assert_msg((p >= 0) && (p < n), "sigimp(n={},p={}) : p devrait être compris entre 0 et n-1.", n, p);
   x(p) = 1;
-  return x;
+  retourne x;
 }
 
 
 
-ArrayXcf sigexp(float f, int n)
+Veccf sigexp(float f, entier n)
 {
-  ArrayXcf x(n);
+  Veccf x(n);
   cdouble r = 1,
           w0 = std::polar<double>(1.0, f*2*π);
 
-  int i = 0;
-  while(i < n)
+  entier i = 0;
+  tantque(i < n)
   {
-    for(auto j = 0; (j < 1000) && (i < n); j++)
+    pour(auto j = 0; (j < 1000) && (i < n); j++)
     {
       x(i++) = r;
       r *= w0;
@@ -96,50 +79,66 @@ ArrayXcf sigexp(float f, int n)
     r /= abs(r);
   }
 
-  return x;
+  retourne x;
 }
 
-ArrayXf sigsin(float f, int n)
+Vecf sigsin(float f, entier n)
 {
-  return sigexp(f, n).imag();
+  retourne imag(sigexp(f, n));
 }
 
-ArrayXf sigcos(float f, int n)
+Vecf sigcos(float f, entier n)
 {
-  return sigexp(f, n).real();
+  retourne real(sigexp(f, n));
 }
 
-ArrayXf sigchirp(float f0, float f1, int n)
+Vecf signyquist(entier n)
 {
-  ArrayXf freq  = linspace(f0, f1, n);
-  ArrayXf phase = (2 * π) * cumsum(freq);
-  return phase.cos();
+  entier i;
+  Vecf x(n);
+  pour(i = 0; i + 1 < n; i += 2)
+  {
+    x(i) = -1;
+    x(i+1) = 1;
+  }
+  si(i == n - 1)
+    x(i) = -1;
+  retourne x;
 }
 
-ArrayXf sigchirp2(float f0, float f1, int n)
+Vecf sigchirp(float f0, float f1, entier n, char mode)
 {
-  ArrayXf freq  = f0 + (f1 - f0) * (linspace(0, 1, n)).square();
-  ArrayXf phase = (2 * π) * cumsum(freq);
-  return phase.cos();
+  Vecf freq;
+  si(mode == 'l')
+   freq = linspace(f0, f1, n);
+  sinon si(mode == 'q')
+    freq  = f0 + (f1 - f0) * square(linspace(0, 1, n));
+  sinon
+  {
+    msg_erreur("sigchirp: mode invalide '{}' (devrait être 'l' ou 'q').", mode);
+    retourne {};
+  }
+  soit phase = (2 * π) * cumsum(freq);
+  retourne cos(phase);
 }
 
-ArrayXf siggauss(int n, float a)
+Vecf siggauss(entier n, float a)
 {
-  ArrayXf t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
-  return (- a * t * t).exp();
+  soit t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
+  retourne exp(- a * t * t);
 }
 
-ArrayXf siggsin(float f, int n, float a)
+Vecf siggsin(float f, entier n, float a)
 {
-  ArrayXf x = sigsin(f, n);
-  ArrayXf t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
-  return x * (- a * t * t).exp();
+  soit x = sigsin(f, n);
+  soit t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
+  retourne x * exp(- a * t * t);
 }
 
-int prochaine_puissance_de_2(unsigned int i)
+entier prochaine_puissance_de_2(unsigned int i)
 {
-  int lg2 = (int) ceil(log((float) i) / log(2.0f));
-  return 1l << lg2;
+  entier lg2 = (entier) ceil(log((float) i) / log(2.0f));
+  retourne 1l << lg2;
 }
 
 uint64_t get_tick_count_µs()
@@ -147,15 +146,15 @@ uint64_t get_tick_count_µs()
 
 # if WIN32
   echec("TODO: VSTUDIO / get_tick_count_µs");
-  return 0;
+  retourne 0;
 # else
   struct timespec ts;
-  if(clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
+  si(clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
   {
     perror("clock_gettime().");
-    return 0;
+    retourne 0;
   }
-  return (ts.tv_nsec / 1000) + (((uint64_t)ts.tv_sec) * 1000 * 1000);
+  retourne (ts.tv_nsec / 1000) + (((uint64_t)ts.tv_sec) * 1000 * 1000);
 # endif
 }
 
@@ -163,66 +162,66 @@ uint64_t get_tick_count_µs()
 
 
 // En mode test
-bool erreur_attendue = false;
+bouléen erreur_attendue = non;
 
 
-void log_default(const char *fn, const int ligne, int niveau, const char *fonction, const string &str)
+void log_default(const char *fn, const entier ligne, entier niveau, const char *fonction, const string &str)
 {
   fmt::text_style drapeaux;
 
-  if(!erreur_attendue)
+  si(!erreur_attendue)
   {
-    if(niveau == 2)
+    si(niveau == 2)
       drapeaux = fmt::emphasis::bold;
-    else if(niveau == 3)
+    sinon si(niveau == 3)
       drapeaux = fg(fmt::color::crimson);
-    else if(niveau >= 4)
+    sinon si(niveau >= 4)
       drapeaux = fg(fmt::color::crimson) | fmt::emphasis::bold;
   }
 
-  auto tot = get_tick_count_µs();
+  soit tot = get_tick_count_µs();
 
   static int64_t first = -1, last = -1;
-  if(first == -1)
+  si(first == -1)
     first = last = tot;
 
-  auto aff = tot - first;
+  soit aff = tot - first;
   float diff = tot - last;
 
-  //auto aff = tot - last;
+  //soit aff = tot - last;
 
 
-  auto µs  = aff % 1000;
-  auto ms  = (aff / 1000) % 1000;
-  auto sec = (aff / 1000000);
+  soit µs  = aff % 1000;
+  soit ms  = (aff / 1000) % 1000;
+  soit sec = (aff / 1000000);
 
   string unit = "µs";
-  if(diff > 1000)
+  si(diff > 1000)
   {
     diff /= 1000;
     unit = "ms";
   }
-  if(diff > 1000)
+  si(diff > 1000)
   {
     diff /= 1000;
     unit = " s";
   }
 
-  auto s1 = fmt::format("[+{: >5.1f} {}]", diff, unit);
+  soit s1 = fmt::format("[+{: >5.1f} {}]", diff, unit);
 
-  if(unit == " s")
+  si(unit == " s")
     s1 = "\033[1;32m" + s1 + "\033[0m";
-  else if(unit == "ms")
+  sinon si(unit == "ms")
     s1 = "\033[1m" + s1 + "\033[0m";
 
 
 
-  auto s_dt  = fmt::format("[{:03d},{:03d},{:03d}] {}", sec, ms, µs, s1);
-  auto s_msg = fmt::format(" {}\n", str);
+  soit s_dt  = fmt::format("[{:03d},{:03d},{:03d}] {}", sec, ms, µs, s1);
+  soit s_msg = fmt::format(" {}\n", str);
 
   last = tot;
 
-  if(niveau >= 4)
+  si(niveau >= 4)
   {
     s_msg += fmt::format("(fichier : {}, ligne : {})\n", fn, ligne);
   }
@@ -234,7 +233,7 @@ void log_default(const char *fn, const int ligne, int niveau, const char *foncti
   fflush(0);
   flush(cout);
 
-  if(niveau >= 4)
+  si(niveau >= 4)
   {
     printf("Throw...\n"); fflush(0);
     throw runtime_error(str);
@@ -245,24 +244,24 @@ void log_default(const char *fn, const int ligne, int niveau, const char *foncti
 
 
 
-static logger_t log = log_default;
+static logger_t the_log = log_default;
 
 
 void reset_logger()
 {
-  log = log_default;
+  the_log = log_default;
 }
 
 void set_logger(logger_t log_)
 {
-  log = log_;
+  the_log = log_;
 }
 
-void msg_impl2(const char *fn, const int ligne, int niveau, const char *fonction, const string &str)
+void msg_impl2(const char *fn, const entier ligne, entier niveau, const char *fonction, const string &str)
 {
-  if(log)
-    log(fn, ligne, niveau, fonction, str);
-  else
+  si(the_log)
+    the_log(fn, ligne, niveau, fonction, str);
+  sinon
     // Car l'affectation log=log_default n'est pas forcément déjà faite ici.
     // (par exemple, si appel depuis l'initialisation d'une variable statique)
     log_default(fn, ligne, niveau, fonction, str);
@@ -273,66 +272,66 @@ void msg_impl2(const char *fn, const int ligne, int niveau, const char *fonction
  *  et spécifiée en paramètre.
  *  Dans cette nouvelle version, il n'y a pas de gestion de mutex. */
 template<typename T>
-struct TamponNv2: Sink<T, int>
+struct TamponNv2: Sink<T, entier>
 {
-  int N = 0, windex = 0;
+  entier N = 0, windex = 0;
   function<void (const Vecteur<T> &)> callback;
   Vecteur<T> tampon;
 
-  TamponNv2(int N, function<void (const Vecteur<T> &)> callback)
+  TamponNv2(entier N, function<void (const Vecteur<T> &)> callback)
   {
     this->callback = callback;
-    Configurable<int>::configure(N);
+    Configurable<entier>::configure(N);
   }
 
-  int configure_impl(const int &N)
+  entier configure_impl(const entier &N)
   {
     this->N = N;
     windex  = 0;
     // Allocation faite plus tard, afin d'éviter d'allouer de la mémoire si elle n'est pas utilisée...
-    return 0;
+    retourne 0;
   }
 
-  inline int dim()
+  inline entier dim()
   {
-    return windex;
+    retourne windex;
   }
 
-  void step(const Eigen::Ref<const Vecteur<T>> x)
+  void step(const Vecteur<T> &x)
   {
-    if((windex == 0) && (x.rows() == N))
+    si((windex == 0) && (x.rows() == N))
     {
-      if(callback)
+      si(callback)
         callback(x);
-      return;
+      retourne;
     }
 
-    if((tampon.rows() == 0) && (N > 0))
+    si((tampon.rows() == 0) && (N > 0))
       tampon.resize(N);
 
-    int nb_ech_entree = x.rows();
-    int i = 0;
-    while(i < nb_ech_entree)
+    entier nb_ech_entree = x.rows();
+    entier i = 0;
+    tantque(i < nb_ech_entree)
     {
       /* Write index + number of bytes remaining in
        * the input datablock. */
-      int new_windex = windex + nb_ech_entree - i;
+      entier new_windex = windex + nb_ech_entree - i;
 
-      /* If too much data for the FIFO */
-      if(new_windex >= N)
+      /* If too much data pour the FIFO */
+      si(new_windex >= N)
         new_windex = N;
 
       /* Copy input data to the FIFO */
-      int nech = new_windex - windex;
+      entier nech = new_windex - windex;
 
       tampon.segment(windex, nech) = x.segment(i, nech);
 
       i      += nech;
       windex = new_windex;
 
-      if(windex == N)
+      si(windex == N)
       {
-        if(callback)
+        si(callback)
           callback(tampon);
         windex = 0;
       }
@@ -343,230 +342,213 @@ struct TamponNv2: Sink<T, int>
 
 
 template<typename T>
-  sptr<Sink<T,int>> tampon_création(int N,
+  sptr<Sink<T,entier>> tampon_création(entier N,
       function<void (const Vecteur<T> &)> callback)
 {
-  return make_shared<TamponNv2<T>>(N, callback);
+  retourne make_shared<TamponNv2<T>>(N, callback);
 }
 
 
-template sptr<Sink<float,int>> tampon_création<float>(int N,
+template sptr<Sink<float,entier>> tampon_création<float>(entier N,
     function<void (const Vecteur<float> &)> callback);
 
-template sptr<Sink<cfloat,int>> tampon_création<cfloat>(int N,
+template sptr<Sink<cfloat,entier>> tampon_création<cfloat>(entier N,
     function<void (const Vecteur<cfloat> &)> callback);
 
 string vstrprintf( const char* format, va_list argv)
 {
   va_list argv2;
   va_copy(argv2, argv);
-  int length = vsnprintf(nullptr, 0, format, argv);
+  entier length = vsnprintf(nullptr, 0, format, argv);
   tsd_assert(length >= 0);
 
-  auto buf = new char[length + 1];
+  soit buf = new char[length + 1];
   vsnprintf(buf, length + 1, format, argv2);
 
   va_end(argv2);
 
   string str(buf);
   delete[] buf;
-  return str;
-  //return move(str);
+  retourne str;
+  //retourne move(str);
 }
 
-ArrayXXf randu_2d(unsigned int n, unsigned int m)
+
+
+Vecf randu(entier n, float a, float b)
 {
-  return 0.5 * ArrayXXf::Random(n, m) + 0.5;
+  uniform_real_distribution<float> distribution(a, b);
+
+  Vecf X(n);
+
+  soit ptr = X.data();
+  pour(auto i = 0; i < n; i++)
+    *ptr++ = distribution(generateur_aleatoire);
+
+  retourne X;
 }
 
-ArrayXf randu(int n)
+float randu()
 {
-  return 0.5 * ArrayXf::Random(n) + 0.5;
+  uniform_real_distribution<float> distribution(-1, 1);
+  retourne distribution(generateur_aleatoire);
 }
 
-ArrayXb randb(int n)
+Vecb randb(entier n)
 {
-  ArrayXb y(n);
+  Vecb y(n);
   default_random_engine generator;
   uniform_int_distribution<> dis(0, 1);
-  for(auto j = 0; j < n; j++)
+  pour(auto j = 0; j < n; j++)
     y(j) = dis(generator);
-  return y;
+  retourne y;
 }
 
-ArrayXi randi(int M, int n)
+
+entier randi(entier M)
 {
-  //static default_random_engine generateur;
-  uniform_int_distribution<int> distribution(0, M-1);
-  ArrayXi X(n);
-  auto ptr = X.data();
-  for(auto i = 0; i < n; i++)
-    *ptr++ = distribution(generateur_aleatoire);
-  return X;
+  uniform_int_distribution<entier> distribution(0, M-1);
+  retourne distribution(generateur_aleatoire);
 }
 
+Veci randi(entier M, entier n)
+{
+  uniform_int_distribution<entier> distribution(0, M-1);
+  Veci X(n);
+  soit ptr = X.raw_data;
+  pour(auto i = 0; i < n; i++)
+    *ptr++ = distribution(generateur_aleatoire);
+  retourne X;
+}
 
-ArrayXf randn(int n)
+float randn()
+{
+  normal_distribution<float> distribution(0.0f, 1.0f);
+  retourne distribution(generateur_aleatoire);
+}
+
+Vecf randn(entier n)
 {
   //static /*default_random_engine*//*mt19937_64*/minstd_rand0 generateur;
   //generateur.seed()
 
   normal_distribution<float> distribution(0.0f, 1.0f);
   //msg("      randn({})...", n);
-  ArrayXf X(n);
-  auto ptr = X.data();
-  for(auto i = 0; i < n; i++)
+  Vecf X(n);
+  soit ptr = X.raw_data;
+  pour(auto i = 0; i < n; i++)
     *ptr++ = distribution(generateur_aleatoire);
   //msg("      ok.");
-  return X;
+  retourne X;
 }
 
 
+Veccf randcn(entier n)
+{
+  normal_distribution<float> distribution(0.0f, 1.0f);
+  Veccf X(n);
+  soit ptr = X.raw_data;
+  pour(auto i = 0; i < n; i++)
+    *ptr++ = {distribution(generateur_aleatoire), distribution(generateur_aleatoire)};
+  retourne X;
+}
 
-ArrayXXf randn_2d(unsigned int n, unsigned int m)
+
+Tabf randn_2d(unsigned int n, unsigned int m)
 {
   //static default_random_engine generateur;
   normal_distribution<float> distribution(0.0f, 1.0f);
 
-  ArrayXXf X(n, m);
-  auto ptr = X.data();
-  for(auto i = 0u; i < m*n; i++)
+  Tabf X(n, m);
+  soit ptr = X.raw_data;
+  pour(auto i = 0u; i < m*n; i++)
     *ptr++ = distribution(generateur_aleatoire);
-  return X;
+  retourne X;
 }
 
-/*Eigen::ArrayXf diff(const Eigen::ArrayXf &x)
+template<typename T>
+Vecteur<T> déplie_phase(const Vecteur<T> &x, float r)
 {
-  auto n = x.rows();
-  return x.tail(n-1) - x.head(n-1);
-}
-
-Eigen::ArrayXi diff(const Eigen::ArrayXi &x)
-{
-  auto n = x.rows();
-  return x.tail(n-1) - x.head(n-1);
-}*/
-
-ArrayXf déplie_phase(const ArrayXf &x, float r)
-{
-  auto n = x.rows();
-  ArrayXf y(n);
+  soit n = x.rows();
+  Vecteur<T> y(n);
 
   y(0) = x(0);
-  for(auto i = 1; i < n; i++)
+  pour(auto i = 1; i < n; i++)
   {
-    float d = fmod(x(i)-y(i-1), r);
+    T d = fmod(x(i)-y(i-1), r);
 
     // d est entre -2pi et 2pi
-    if(d > r/2)
+    si(d > r/2)
       d -= r;
-    if(d < -π)
+    si(d < -π)
       d += r;
     y(i) = y(i-1) + d;
   }
 
-  return y;
+  retourne y;
 }
 
-/*ArrayXf cumsum(const ArrayXf &x)
-{
-  auto n = x.rows();
-  ArrayXf y(n);
-  double cs = 0;
-  for(auto i = 0; i < n; i++)
-  {
-    cs += x(i);
-    y(i) = cs;
-  }
-  return y;
-}
 
-Eigen::ArrayXi cumsum(const Eigen::ArrayXi &x)
+vector<entier> trouve(const Vecb &x)
 {
-  auto n = x.rows();
-  Eigen::ArrayXi y(n);
-  int32_t cs = 0;
-  for(auto i = 0; i < n; i++)
-  {
-    cs = cs + x(i);
-    y(i) = cs;
-  }
-  return y;
-}*/
-
-
-vector<int> trouve(IArrayXb x)
-{
-  vector<int> res;
-  for(auto i = 0; i < x.rows(); i++)
-    if(x(i))
+  vector<entier> res;
+  pour(auto i = 0; i < x.rows(); i++)
+    si(x(i))
       res.push_back(i);
-  return res;
+  retourne res;
 }
 
-/** @brief Retourne l'index du premier élément vrai, ou -1 si aucun n'est trouvé */
-int trouve_premier(IArrayXb x)
+/** @brief retourne l'index du premier élément vrai, ou -1 si aucun n'est trouvé */
+entier trouve_premier(const Vecb &x)
 {
-  for(auto i = 0; i < x.rows(); i++)
-    if(x(i))
-      return i;
-  return -1;
+  pour(auto i = 0; i < x.rows(); i++)
+    si(x(i))
+      retourne i;
+  retourne -1;
 }
 
-ArrayXcf polar(const ArrayXf &ρ, const ArrayXf &θ)
+/** @brief retourne l'index du premier élément vrai, ou -1 si aucun n'est trouvé */
+entier trouve_dernier(const Vecb &x)
 {
-  auto n = θ.rows();
-  tsd_assert(n == ρ.rows());
-  ArrayXcf res(n);
-  for(auto i = 0; i < n; i++)
-    res(i) = std::polar(ρ(i), θ(i));
-  return res;
+  pour(auto i = x.rows() - 1; i >= 0; i--)
+    si(!x(i))
+      retourne i + 1;
+  retourne -1;
 }
-
-ArrayXcf polar(const ArrayXf &θ)
-{
-  auto n = θ.rows();
-  ArrayXcf res(n);
-  for(auto i = 0; i < n; i++)
-    res(i) = std::polar(1.0f, θ(i));
-  return res;
-}
-
-
 
 
 struct OLUT::Impl
 {
-  int N;
-  ArrayXcf lut;
-  Impl(int res)
+  entier N;
+  Veccf lut;
+  Impl(entier N)
   {
-    N = res;
-    ArrayXf θ = linspace(0, 2*π_f*(1 - 1.0f/N), N);
+    this->N = N;
+    soit θ = linspace(0, 2*π_f*(1 - 1.0f/N), N);
     lut = polar(θ);
   }
   cfloat step(float θ0)
   {
-    auto θ = modulo_2π(θ0);
+    soit θ = modulo_2π(θ0);
 
     // Interpolation linéaire
     tsd_assert((θ >= 0) && (θ < 2 * π_f));
     float idf = θ * N / (2 * π_f);
-    int idi = floor(idf);
+    entier idi = floor(idf);
     float f = idf - idi;
     tsd_assert((idi >= 0) && (idi < N));
-    return lut(idi) * (1-f) + lut((idi+1)%N) * f;
+    retourne lut(idi) * (1-f) + lut((idi+1)%N) * f;
   }
 };
 
 
-OLUT::OLUT(int resolution)
+OLUT::OLUT(entier resolution)
 {
   impl = make_shared<Impl>(resolution);
 }
 cfloat OLUT::step(float θ)
 {
-  return impl->step(θ);
+  retourne impl->step(θ);
 }
 
 
@@ -584,26 +566,25 @@ struct OHC: Source<cfloat, OHConfig>
     configure({f});
   }
 
-  int configure_impl(const OHConfig &cfg)
+  entier configure_impl(const OHConfig &cfg)
   {
     freq      = cfg.freq;
-
     rotation  = std::polar(1.0, 2.0 * π * freq);
-    return 0;
+    retourne 0;
   }
 
-  ArrayXcf step(int n)
+  Veccf step(entier n)
   {
-    ArrayXcf y(n);
+    Veccf y(n);
     // A chaque première itération,
     // corrige le module
     acc /= abs(acc);
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
       y(i) = acc;
       acc *= rotation;
     }
-    return y;
+    retourne y;
   }
 
 };
@@ -617,14 +598,14 @@ struct OHR: Source<float, OHConfig>
     configure({nu});
   }
 
-  int configure_impl(const OHConfig &config)
+  entier configure_impl(const OHConfig &config)
   {
-    return ohc.configure(config);
+    retourne ohc.configure(config);
   }
 
-  ArrayXf step(int n)
+  Vecf step(entier n)
   {
-    return ohc.step(n).real();
+    retourne real(ohc.step(n));
   }
 };
 
@@ -632,15 +613,19 @@ struct OHR: Source<float, OHConfig>
 
 sptr<Source<float, OHConfig>> source_ohr(float freq)
 {
-  return make_shared<OHR>(freq);
+  retourne make_shared<OHR>(freq);
 }
 
 sptr<Source<cfloat, OHConfig>> source_ohc(float freq)
 {
-  return make_shared<OHC>(freq);
+  retourne make_shared<OHC>(freq);
 }
 
 
+namespace hidden{
+soit déplie_phase1 = déplie_phase<float>;
+soit déplie_phase2 = déplie_phase<double>;
+}
 
 
 }

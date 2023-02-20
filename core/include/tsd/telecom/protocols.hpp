@@ -24,12 +24,12 @@ struct ADSBTrame
 
 struct POCSAGDecodeurConfig
 {
-  bool debug_actif = false;
+  bouléen debug_actif = non;
   float fe = 1, fi = 0;
 
   // Normalement, 512, 1200 ou 2400 bauds
   // -1 = détermination automatique
-  int debit = -1;
+  entier debit = -1;
 
 };
 

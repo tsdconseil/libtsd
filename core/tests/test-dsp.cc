@@ -11,11 +11,36 @@ using namespace dsp::time;
 
 
 
-int test_dsp()
+entier test_dsp()
 {
   /*En en;
   en.en_field = 5;
   msg("en field = {}, fr = {}", en.en_field, en.champs_fr);*/
+
+
+  {
+    msg("Vérif affectation colonne d'un tableau...");
+    let M  = Tabf::zeros(5,10);
+    let v1 = Vecf::ones(5);
+    let v2 = 2 * v1;
+
+    msg("Affectation colonne 0 : get col(0)...");
+    //let col0 = M.col(0);
+    Vecf col0(M.col(0));
+    col0.fr.dump_infos();
+    msg("Affectation colonne 0 : copy (?)...");
+    col0 = v1;
+    msg("Affectation colonne 1...");
+    M.col(1) = v2;
+
+    msg("M = \n{}", M);
+    msg("v1 = {}", v1);
+    msg("v2 = {}", v2);
+
+    dsp_assert(M(0,0) == 1);
+    dsp_assert(M(0,1) == 2);
+  }
+
 
 
   // dsp::filter
@@ -26,16 +51,16 @@ int test_dsp()
   // dsp::fourier
   {
     FFTFilterConfig c;
-    c.freq_domain_processing = [](ArrayXcf &)
+    c.freq_domain_processing = [](tsd::Veccf &)
     {
 
     };
-    auto f = filter_fft(c);
+    let f = filter_fft(c);
   }
 
   // dsp::time
   {
-    auto t = DateTime::now();
+    let t = DateTime::now();
     msg("Now = {}", t);
     t += Duration::microseconds(100);
   }
@@ -43,15 +68,15 @@ int test_dsp()
   // dsp::view
   {
     Figure f;
-    ArrayXf t = linspace(0, 19, 20);
-    f.plot(t, t.sqrt(), "b-o");
+    let t = linspace(0, 19, 20);
+    f.plot(t, sqrt(t), "b-o");
     f.show();
   }
 
   // dsp::telecom
   {
-    auto spec = ShapingFilterSpec::srrc(0.3);
-    auto filt = spec.matched_filter(63, 4);
+    let spec = ShapingFilterSpec::srrc(0.3);
+    let filt = spec.matched_filter(63, 4);
     Figure f;
     f.plot(spec.get_coefs(63, 4), "", "Matched filter");
     f.show();
@@ -59,10 +84,10 @@ int test_dsp()
 
   // dsp::stats
   {
-    ArrayXf x = randn(10);
-    ArrayXf y = dsp::stats::levinson_real(x);
+    let x = randn(10);
+    let y = dsp::stats::levinson_real(x);
   }
 
-  return 0;
+  retourne 0;
 }
 

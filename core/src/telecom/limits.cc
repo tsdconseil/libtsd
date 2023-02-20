@@ -6,7 +6,7 @@ namespace tsd::telecom {
 
 float capacite_canal_awgn(float snr, float B)
 {
-  return B * log2(1 + snr);
+  retourne B * log2(1 + snr);
 }
 
 }

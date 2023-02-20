@@ -1,13 +1,13 @@
 #include "tsd/tsd-all.hpp"
 #include "tsd/wav.hpp"
 
-int test_wav()
+entier test_wav()
 {
   //tsd::audio::WavLecteur lecteur;
   //tsd_assert(lecteur.charge("./data/audio/man.wav") == 0);
   //lecteur.
 
-  auto [x, fech] = tsd::audio::wav_charge("./data/man.wav");
+  soit [x, fech] = tsd::audio::wav_charge("./data/man.wav");
   tsd_assert(x.rows() > 0);
   tsd_assert(fech > 0);
 
@@ -28,13 +28,13 @@ int test_wav()
     tsd::audio::WavEcrivain ecrivain;
     ecrivain.init("./build/tmp3.wav", {2, fech, tsd::audio::WavConfig::PCM_FLOAT});
 
-    tsd::ArrayXcf z = x;
-    z += tsd::cfloat(0,1) * x;
+    Veccf z = x.clone();
+    z.set_imag(x);
 
     ecrivain.ecris(z);
   }
 
   msg_avert("test_wav() : TODO : automatiser : le test !!!!");
 
-  return 0;
+  retourne 0;
 }

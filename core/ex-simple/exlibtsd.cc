@@ -8,11 +8,11 @@ using namespace tsd::filtrage;
 using namespace tsd::fourier;
 using namespace tsd::vue;
 
-int main()
+entier main()
 {
   msg("Exemple simple libtsd.");
 
-  int n     = 1000;
+  entier n     = 1000;
   ArrayXf t = linspace(0, 1, n);
   ArrayXf x = 2 * t - t.pow(3);
   ArrayXf y = x + 0.1 * randn(n);

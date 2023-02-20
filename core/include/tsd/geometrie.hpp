@@ -6,6 +6,8 @@
 #include "tsd/temps.hpp"
 
 
+#include <Eigen/Core>
+
 
 namespace tsd::geo {
 
@@ -66,7 +68,7 @@ struct Quaternion
 };
 
 
-//extern Eigen::Matrix3f rotmat_3d(float α, int axe);
+//extern Eigen::Matrix3f rotmat_3d(float α, entier axe);
 
 
 /** @brief Angles de %Cardan pour la  représentation d'une rotation 3d. */
@@ -88,7 +90,7 @@ struct Cardan
   Cardan(float φ, float θ, float ψ);
 
   /** @brief Matrice de rotation. */
-  Eigen::Matrix3f mat_rotation() const;
+  Tabf mat_rotation() const;
 
   /** @brief A partir d'un quaternion */
   Cardan(const Quaternion &q);
@@ -134,7 +136,7 @@ template<typename T>
 }
 
 template<typename T>
-  Eigen::Matrix<T, 3, 3> rotmat_3d(T α, int axe)
+  Eigen::Matrix<T, 3, 3> rotmat_3d(T α, entier axe)
 {
   if(axe == 0)
     return rotmat_3d_R1<T>(α);

@@ -6,7 +6,7 @@ using namespace tsd::tf;
 using namespace tsd::tf::cqt;
 
 
-ArrayXf cqt_chirp(float fs, float fmin, float fmax, float duration)
+Vecf cqt_chirp(float fs, float fmin, float fmax, float duration)
 {
 // Build a linear chirp test signal.
 //
@@ -21,10 +21,10 @@ ArrayXf cqt_chirp(float fs, float fmin, float fmax, float duration)
 // x: Output chirp signal
 //
 // Description
-// This function can be used for test purposes.
+// This function can be used pour test purposes.
 // It builds a simple linear chirp signal, as defined by :
 //
-// <latex>$$x = \sin\left(2\pi \int f(t)dt\right)$$</latex>,
+// <latex>$$x = \sin\left(2\pi \entier f(t)dt\right)$$</latex>,
 // with <latex>$$f(t) = f_{min} + \frac{t}{\textrm{duration}}\cdot\left(f_{max}-f_{min}\right)$$</latex>
 //
 // <refsection><title>Example</title></refsection>
@@ -42,31 +42,31 @@ ArrayXf cqt_chirp(float fs, float fmin, float fmax, float duration)
 // Authors
 //  J.A., full documentation available on <ulink url="http://www.tsdconseil.fr/log/scriptscilab/cqt">http://www.tsdconseil.fr/log/scriptscilab/cqt</ulink>
 
-    int n = ceil(duration * fs);
-    ArrayXf f = linspace(fmin, fmax, n) / fs; // Frequency (in Hz)
-    ArrayXf phase = 2 * π * cumsum(f); // Phase (in radians)
-    return phase.sin();
+    entier n = ceil(duration * fs);
+    soit f = linspace(fmin, fmax, n) / fs; // Frequency (in Hz)
+    soit phase = 2 * π * cumsum(f); // Phase (in radians)
+    retourne sin(phase);
 }
 
 
 
 
 
-int test_cqt()
+entier test_cqt()
 {
   msg_majeur("Test CQT...");
 
-  ArrayXf chirp = cqt_chirp(48e3, 1e3, 20e3, 10);
+  soit chirp = cqt_chirp(48e3, 1e3, 20e3, 10);
   //cqt.step(chirp);
-  //auto [x, fe] = tsd::audio::wav_charge("c:/dbi/samples/piano scale.wav");
+  //soit [x, fe] = tsd::audio::wav_charge("c:/dbi/samples/piano scale.wav");
 
-  ArrayXXf A = tsd::tf::periodogramme_cqt(chirp, 48e3, 27.5, 20e3, std::pow(2.0f, 1.0f/12), 20);
+  soit A = tsd::tf::periodogramme_cqt(chirp, 48e3, 27.5, 20e3, pow(2.0f, 1.0f/12), 20);
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figure fig("CQT");
     fig.plot_img(A, "mono");
     fig.afficher();
   }
-  return 0;
+  retourne 0;
 }

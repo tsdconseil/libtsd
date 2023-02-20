@@ -1,14 +1,9 @@
 ﻿#pragma once
 
 #include "tsd/tsd.hpp"
-#include <vector>
 #include <iosfwd>
 
-#define ENABLE_ROOTS 1
 
-#if ENABLE_ROOTS
-#include <unsupported/Eigen/Polynomials>
-#endif
 
 namespace tsd {
 
@@ -20,10 +15,10 @@ namespace tsd {
 template<typename T>
 struct Poly
 {
-  Vecteur<T> coefs;
+  VecT<T> coefs;
   std::string vname = "z";
   // Par défaut, définit d'après ses coefficients
-  bool mode_racines = false;
+  bouléen mode_racines = non;
   T mlt = 1.0f; // multiplieur si mode racine (= coefficient du monome le plus grand)
 
 
@@ -32,11 +27,15 @@ struct Poly
   {
   }
 
-  /** @brief Retourne les coefficients du polynôme */
+  /** @brief retourne les coefficients du polynôme */
   Vecteur<T> get_coefs() const
   {
-    Poly tmp = vers_coefs();
-    return tmp.coefs;
+    retourne vers_coefs().coefs;
+  }
+
+  entier degré() const
+  {
+    retourne coefs.rows() - 1;
   }
 
   /*Poly vers_racines() const
@@ -48,19 +47,27 @@ struct Poly
 
   }*/
 
+  Poly &operator =(const Poly<T> &src)
+  {
+    coefs        = src.coefs.clone();
+    mlt          = src.mlt;
+    mode_racines = src.mode_racines;
+    retourne *this;
+  }
+
   Poly vers_coefs() const
   {
-    if(!mode_racines)
-      return *this;
+    si(!mode_racines)
+      retourne *this;
 
     Poly res;
     res.vname         = vname;
-    res.mode_racines  = false;
+    res.mode_racines  = non;
 
     res.coefs.resize(1);
     res.coefs(0) = 1;
 
-    for(auto i = 0; i < coefs.rows(); i++)
+    pour(auto i = 0; i < coefs.rows(); i++)
     {
       Poly monome;
       monome.coefs.resize(2);
@@ -69,19 +76,19 @@ struct Poly
       res = res * monome;
     }
     res = res * mlt;
-    return res;
+    retourne res;
   }
 
   Poly<float> real() const
   {
     Poly<float> res;
-    res.coefs = coefs.real();
-    return res;
+    res.coefs = tsd::real(coefs);
+    retourne res;
   }
 
   explicit Poly(const T &val)
   {
-    mode_racines = false;
+    mode_racines = non;
     vname = "z";
     coefs.resize(1);
     coefs(0) = val;
@@ -90,8 +97,8 @@ struct Poly
   /** @brief Construction d'un polynôme d'après les coefficients */
   Poly(const Vecteur<T> &coefs)
   {
-    mode_racines = false;
-    this->coefs = coefs;
+    mode_racines = non;
+    this->coefs = coefs.clone();
     vname = "z";
   }
 
@@ -99,17 +106,17 @@ struct Poly
   static Poly from_roots(const Vecteur<T> &racines)
   {
     Poly res;
-    res.mode_racines = true;
-    res.coefs = racines;
+    res.mode_racines = oui;
+    res.coefs = racines.clone();
     res.mlt   = 1.0f;
-    return res;
+    retourne res;
   }
 
 
   void clean(T precision)
   {
-    for(auto k = 0u; k < coefs.length(); k++)
-      if((coefs(k) < precision) && (coefs(k) > -precision))
+    pour(auto k = 0u; k < coefs.length(); k++)
+      si((coefs(k) < precision) && (coefs(k) > -precision))
         coefs(k) = 0;
   }
 
@@ -126,159 +133,169 @@ struct Poly
   template<typename Trep>
     Trep horner(Trep val) const
   {
-    auto n = coefs.rows();
+    soit n = coefs.rows();
 
-    if(mode_racines)
+    si(mode_racines)
     {
-      if(n == 0)
-        return Trep(mlt);
+      si(n == 0)
+        retourne Trep(mlt);
 
       Trep res(mlt);
 
-      for(auto k = 0; k < n; k++)
+      pour(auto k = 0; k < n; k++)
         res = res * (val - Trep(coefs(k)));
 
-      return res;
+      retourne res;
 
     }
-    else
+    sinon
     {
       // Ex: P = a + bx + cx�
       // res = c
       // res = cx + b
       // res = cx² + bx + a
 
-      if(n == 0)
-        return Trep(0);//(Trep) 0;
+      si(n == 0)
+        retourne Trep(0);//(Trep) 0;
 
       Trep res(coefs(n-1));
 
-      for(auto k = 0; k < n - 1; k++)
+      pour(auto k = 0; k < n - 1; k++)
         res = res * val + Trep(coefs(n-k-2));
 
-      return res;
+      retourne res;
     }
   }
 
   void display_content(std::ostream &out) const
   {
-    auto n = coefs.rows();
+    soit n = coefs.rows();
 
-    if(mode_racines)
+    si(mode_racines)
     {
-      for(auto i = 0; i < n; i++)
+      pour(auto i = 0; i < n; i++)
       {
-        if(coefs(i) == (T) 0)
+        si(coefs(i) == (T) 0)
           out << vname;
-        else
+        sinon
           out << fmt::format("({} - {})", vname, coefs(i));
-        if(i + 1 < n)
+        si(i + 1 < n)
           out << " * ";
       }
-      return;
+      retourne;
     }
 
     // List des monomes non nuls;
     std::vector<std::pair<T,unsigned int>> lst;
-    for(auto i = 0; i < n; i++)
-    {
-      if(coefs(i) != 0.0f)
-      {
-        auto p = std::pair<T,unsigned int>(coefs(i),i);
-        lst.push_back(p);
-      }
-    }
+    pour(auto i = 0; i < n; i++)
+      si(coefs(i) != 0.0f)
+        lst.push_back({coefs(i),i});
 
-    if(lst.empty())
+    si(lst.empty())
       out << "0";
 
-    for(auto k = 0u; k < lst.size(); k++)
+    pour(auto k = 0u; k < lst.size(); k++)
     {
-      T coef = lst[k].first;
-      auto power = lst[k].second;
+      soit coef  = lst[k].first;
+      soit power = lst[k].second;
 
-      //printf("[%f,%d]", coef, power);
-
-      if((coef != 1.0f) || (power == 0))
+      si((coef != 1.0f) || (power == 0))
         out << coef << " ";
 
-      if(power == 1)
+      si(power == 1)
         out << vname;
-      else if(power == 2)
+      sinon si(power == 2)
         out << vname << "²";
-      else if(power > 0)
+      sinon si(power > 0)
         out << vname << "^" << power;
 
-      if(k + 1 < lst.size())
-      {
+      si(k + 1 < lst.size())
         out << " + ";
-      }
     }
   }
 
   Poly<T> operator ^(unsigned int e) const
   {
-    if(e == 0)
-    {
-      return Poly<T>::one();
-    }
-    if(mode_racines)
+    si(e == 0)
+      retourne Poly<T>::one();
+
+    si(mode_racines)
     {
       Poly<T> res = *this;
-      for(auto k = 1u; k < e; k++)
+      pour(auto k = 1u; k < e; k++)
         // Duplique les racines
-        res.coefs = vconcat(res.coefs, coefs).eval();
-      res.mlt = std::pow(mlt, e);
-      return res;
+        res.coefs = vconcat(res.coefs, coefs).clone();
+      res.mlt = pow(mlt, e);
+      retourne res;
     }
-    else
+    sinon
     {
       Poly<T> res;
       res.vname = vname;
-      res.coefs.setOnes(1);
+      res.coefs = VecT<T>::ones(1);
 
       // TODO: algo indien
-      for(auto k = 0u; k < e; k++)
+      Pour(auto k = 0u; k < e; k++)
         res = res * *this;
-      return res;
+      retourne res;
     }
   }
 
-  Poly<T> operator <<(int i) const
+  Poly<T> operator <<(entier i) const
   {
     Poly<T> res;
     res.vname = vname;
     res.coefs.resize(coefs.rows() + i);
     res.coefs.setZero();
-    for(auto k = 0; k < coefs.rows(); k++)
+    pour(auto k = 0; k < coefs.rows(); k++)
       res.coefs(i+k) = coefs(k);
-    return res;
+    retourne res;
   }
-
-  /*Poly<T> operator *(const float &s) const
-  {
-    auto res = *this;
-    res.coefs *= s;
-    return res;
-  }*/
 
   Poly<T> operator *(const T &s) const
   {
-    if(mode_racines)
+    si(mode_racines)
     {
-      Poly<T> res = *this;
-      res.mlt *= s;
-      return res;
+      Poly<T> res;
+      res.mode_racines  = oui;
+      res.coefs         = coefs.clone();
+      res.mlt           = mlt * s;
+      res.vname         = vname;
+      retourne res;
     }
-    else
+    sinon
     {
-      auto res = *this;
-      res.coefs *= s;
-      return res;
+      Poly<T> res;
+      res.coefs         = coefs * s;
+      res.mode_racines  = non;
+      res.vname         = vname;
+      retourne res;
     }
   }
 
+  Poly<T> &operator *=(const T &x)
+  {
+    *this = *this * x;
+    retourne *this;
+  }
 
+  Poly<T> &operator +=(const T &x)
+  {
+    *this = *this + x;
+    retourne *this;
+  }
+
+  Poly<T> &operator *=(const Poly<T> &x)
+  {
+    *this = *this * x;
+    retourne *this;
+  }
+
+  Poly<T> &operator +=(const Poly<T> &x)
+  {
+    *this = *this + x;
+    retourne *this;
+  }
 
   Poly<T> operator *(const Poly<T> &s) const
   {
@@ -286,37 +303,40 @@ struct Poly
     res.vname = vname;
     res.mode_racines = mode_racines;
 
-    auto s1 = *this, s2 = s;
+    Poly<T> s1 = *this, s2 = s;
 
-    if(s1.mode_racines && !s2.mode_racines)
-    {
+    si(s1.mode_racines && !s2.mode_racines)
       s1 = s1.vers_coefs();
-    }
-    else if(!s1.mode_racines && s2.mode_racines)
-    {
+    sinon si(!s1.mode_racines && s2.mode_racines)
       s2 = s2.vers_coefs();
-    }
 
     tsd_assert(s1.mode_racines == s2.mode_racines);
 
-    if(s1.mode_racines)
+    si(s1.mode_racines)
     {
       res.coefs = vconcat(s1.coefs, s2.coefs);
       res.mlt = s1.mlt * s2.mlt;
     }
-    else
+    sinon
     {
-      for(auto k = 0; k < s2.coefs.rows(); k++)
+      soit n1 = s1.coefs.rows(),
+           n2 = s2.coefs.rows();
+
+      pour(auto k = 0; k < n2; k++)
       {
-        Poly<T> prod = s1;
+        Poly<T> prod;
         // Shift prod and multiply by coef
-        prod.coefs.setZero(k + s1.coefs.rows());
-        for(auto i = 0; i < s1.coefs.rows(); i++)
+        prod.coefs.setZero(k + n1);
+
+        tsd_assert(prod.coefs.rows() == (k + n1));
+
+        pour(auto i = 0; i < n1; i++)
           prod.coefs(i+k) = s1.coefs(i) * s2.coefs(k);
+
         res = res + prod;
       }
     }
-    return res;
+    retourne res;
   }
 
   Poly<T> operator -(const T &s) const
@@ -326,53 +346,51 @@ struct Poly
 
   Poly<T> operator +(const T &s) const
   {
-    auto res = vers_coefs();
-    if(res.coefs.rows() == 0)
+    soit res = vers_coefs();
+    si(res.coefs.rows() == 0)
       res.coefs.resize(1);
     res.coefs(0) += s;
-    return res;
+    retourne res;
   }
 
   Poly<T> operator +(const Poly<T> &s) const
   {
-    auto s1 = vers_coefs(), s2 = s.vers_coefs();
+    soit s1 = vers_coefs(),
+         s2 = s.vers_coefs();
 
     Poly<T> res;
-    auto n1 = s1.coefs.rows(), n2 = s2.coefs.rows();
+    soit n1 = s1.coefs.rows(),
+         n2 = s2.coefs.rows();
     res.vname = vname;
 
-    if(n1 == n2)
+    si(n1 == n2)
       res.coefs = s1.coefs + s2.coefs;
-    else if(n1 > n2)
+    sinon si(n1 > n2)
     {
-      res.coefs = s1.coefs;
-      res.coefs.segment(0,n2) += s2.coefs;
+      res.coefs = s1.coefs.clone();
+      res.coefs.head(n2) += s2.coefs;
     }
-    else
+    sinon
     {
-      res.coefs = s2.coefs;
-      res.coefs.segment(0,n1) += s1.coefs;
+      res.coefs = s2.coefs.clone();
+      res.coefs.head(n1) += s1.coefs;
     }
-    return res;
+    retourne res;
   }
 
   Poly<T> operator -() const
   {
-    auto res = *this;
-    if(mode_racines)
-    {
+    soit res = *this;
+    si(mode_racines)
       res.mlt = -res.mlt;
-    }
-    else
-    {
+    sinon
       res.coefs = -coefs;
-    }
-    return res;
+    retourne res;
   }
 
   Poly<T> operator -(const Poly<T> &s) const
   {
-    return *this + (-s);
+    retourne *this + (-s);
   }
 
 
@@ -382,7 +400,7 @@ struct Poly
     res.coefs.resize(2);
     res.coefs(0) = 0;
     res.coefs(1) = 1;
-    return res;
+    retourne res;
   }
 
   static Poly<T> one()
@@ -390,97 +408,36 @@ struct Poly
     Poly<T> res;
     res.coefs.resize(1);
     res.coefs(0) = 1;
-    return res;
+    retourne res;
   }
 
   T norm() const
   {
-    return coefs.square().sum();
+    retourne coefs.square().somme();
   }
 
-  /*
-  // Que faire si T est déjà complexe ?
-  template<class S = T, std::enable_if_t<is_complex<S>{}>* = nullptr>
-  Vecteur<T> roots() const
-  {
-    Eigen::PolynomialSolver<T, Eigen::Dynamic> solver;
+  /** @brief retourne les racines du polynôme */
 
-    if(coefs.rows() <= 1)
-      return Vecteur<T>(0);
-
-    Vecteur<T> v = coefs;
-
-    while(v(v.rows()-1) == 0.0f)
-      v = v.head(v.rows()-1).eval();
-
-    solver.compute(v);
-    auto &r = solver.roots();
-    return Vecteur<T>(r);
-  }*/
-
-  //template<class S = T, std::enable_if_t<!is_complex<S>{}>* = nullptr>
-  /** @brief Retourne les racines du polynôme */
-  /*Vecteur<std::complex<float>>*/ArrayXcf roots() const
-  {
-    if(mode_racines)
-    {
-      return coefs;
-    }
-    if constexpr(est_complexe<T>())
-    {
-      echec("Pas possible de calculer les racines d'un polynôme complexe avec cette version de Eigen.");
-      return ArrayXcf();
-    }
-    else
-    {
-#     if ENABLE_ROOTS
-      Eigen::PolynomialSolver<T, Eigen::Dynamic> solver;
-
-      if(coefs.rows() <= 1)
-        return Vecteur<std::complex<float>>();
-
-      Vecteur<T> v = coefs / coefs.maxCoeff();
-
-      // Obligé, sinon la fonction Eigen se bloque (exemple : filtre Gaussien)
-      while((v.rows() > 1) && (std::abs(v(v.rows()-1)) < 1e-8)) //== 0.0f))
-        v = v.head(v.rows()-1).eval();
-
-      // Polynome nul
-      if((v.rows() == 1) && (v(0) == 0.0f))
-        return Vecteur<std::complex<float>>();
-
-      //msg("Calcul racines : v = {}", v);
-
-      solver.compute(v);
-      auto &r = solver.roots();
-      return Vecteur<std::complex<float>>(r);
-#     else
-      erreur("TODO : FRat::roots()");
-      return ArrayXcf(0);
-#     endif
-    }
-  }
-
-
+  Veccf roots() const;
 };
 
 
 template<typename T>
   Poly<T> operator *(const T &s, const Poly<T> &p)
 {
-  return p * s;
+  retourne p * s;
 }
 
 template<typename T>
   Poly<T> operator +(const T &s, const Poly<T> &p)
 {
-  return p + s;
+  retourne p + s;
 }
 
 template<typename T>
   Poly<T> operator -(const T &s, const Poly<T> &p)
 {
-  return (-p) + s;
+  retourne (-p) + s;
 }
 
 template<typename T>
@@ -492,17 +449,18 @@ std::ostream &operator<< (std::ostream &out, const Poly<T> &m)
   Poly<T> cp = m;
   //cp.simplify();
   cp.display_content(out);
-  return out;
+  retourne out;
 }
 
 template<typename T>
 Poly<T> real(const Poly<std::complex<T>> &p)
 {
   Poly<T> res;
-  res.coefs.resize(p.coefs.rows());
-  for(auto i = 0; i < p.coefs.rows(); i++)
+  soit n = p.coefs.rows();
+  res.coefs.resize(n);
+  pour(auto i = 0; i < n; i++)
     res.coefs(i) = p.coefs(i).real();
-  return res;
+  retourne res;
 }
 
 
@@ -523,22 +481,16 @@ class FRat
 public:
 
   /** @brief Constructeur, d'après un vecteur de coefficients (filtre RIF). */
-  FRat(Eigen::Array<T,-1,1> x)
+  FRat(const Vecteur<T> &x)
   {
     *this = rif(x);
   }
-
-  /*FRat(const Eigen::Array<T,-1,1> &x)
-  {
-    *this = rif(x);
-  }*/
 
   explicit FRat(const T &a)
   {
     numer = Poly<T>::one() * a;
     denom = Poly<T>::one();
   }
-
 
   /** @brief Constructeur par défaut */
   FRat()
@@ -547,13 +499,24 @@ public:
     denom = Poly<T>::one();
   }
 
+
+  std::tuple<Veccf,Veccf> roots() const
+  {
+    retourne {numer.roots(), denom.roots()};
+  }
+
+  std::tuple<entier,entier> degrés() const
+  {
+    retourne {numer.degré(), denom.degré()};
+  }
+
   /** @brief Développement des numérateur et dénominateur sous la forme de polynômes définis par leurs coefficients. */
   FRat<T> developpe() const
   {
     FRat<T> res;
     res.denom = denom.vers_coefs();
     res.numer = numer.vers_coefs();
-    return res;
+    retourne res;
   }
 
   /** @brief Extraction de la partie réelle des numérateurs et dénominateurs (attention ce n'est pas la partie réelle de la fraction !). */
@@ -565,10 +528,10 @@ public:
       res.denom = denom.real();
       res.numer = numer.real();
       // (a/b).real = a.r * (1/b).r - a.i * (1/b).i
-      return res;
+      retourne res;
     }
-    else
-      return *this;
+    sinon
+      retourne *this;
   }
 
   /** @brief Fraction rationnelle d'un filtre RIF.
@@ -592,18 +555,25 @@ public:
   static FRat<T> rif(const Vecteur<T> &a)
   {
     FRat<T> res;
-    auto K = a.rows();
-    if(K == 0)
+    soit K = a.rows();
+    si(K == 0)
     {
       msg_erreur("Filtre RIF : aucun coefficient.");
-      return res;
+      retourne res;
     }
 
     res.numer = Poly<T>(a.reverse());
-    Vecteur<T> c = Vecteur<T>::Zero(K);
+    soit c = Vecteur<T>::zeros(K);
     c(K - 1) = 1;
     res.denom = Poly<T>(c);
-    return res;
+    retourne res;
+  }
+
+  Vecteur<T> coefs_rif() const
+  {
+    si(!est_rif())
+      echec("FRat::coefs_rif(): ce filtre n'est pas un filtre RIF.");
+    retourne numer.coefs.reverse();
   }
 
   /** @brief Calcul de @f$H(z^{-1})@f$
@@ -616,21 +586,21 @@ public:
   {
     FRat<T> res;
 
-    auto a = numer.vers_coefs().coefs;
-    auto b = denom.vers_coefs().coefs;
+    soit a = numer.vers_coefs().coefs,
+         b = denom.vers_coefs().coefs;
 
-    int nn = a.rows();
-    int nd = b.rows();
+    soit nn = a.rows(),
+         nd = b.rows();
 
     res.numer = Poly<T>(a.reverse());
     res.denom = Poly<T>(b.reverse());
 
-    if(nn > nd)
+    Si(nn > nd)
       res.denom = res.denom * Poly<T>::z ^ (nn - nd);
-    else if(nd > nn)
+    sinon si(nd > nn)
       res.numer = res.numer * Poly<T>::z ^ (nd - nn);
 
-    return res;
+    retourne res;
   }
 
 
@@ -657,16 +627,16 @@ public:
   {
     FRat<T> res;
 
-    if((a.rows() == 0) || (b.rows() == 0))
+    si((a.rows() == 0) || (b.rows() == 0))
     {
       msg_erreur("Filtre RII : aucun coefficient.");
-      return res;
+      retourne {};
     }
 
     res.numer = Poly<T>(a);
     res.denom = Poly<T>(b);
 
-    return res.eval_inv_z();
+    retourne res.eval_inv_z();
   }
 
   static FRat<T> un()
@@ -674,7 +644,7 @@ public:
     FRat<T> res;
     res.numer = Poly<T>::one();
     res.denom = Poly<T>::one();
-    return res;
+    retourne res;
   }
 
 
@@ -696,29 +666,27 @@ public:
     FRat<T> res;
     res.numer = Poly<T>::z;
     res.denom = Poly<T>::one();
-    return res;
+    retourne res;
   }
 
-  static FRat<T> z_power(int n)
+  static FRat<T> z_power(entier n)
   {
     FRat<T> res;
-    if(n == 0)
+    si(n == 0)
+      retourne un();
+    sinon si(n > 0)
     {
-      return un();
-    }
-    else if(n > 0)
-    {
-      res.numer.coefs = Vecteur<T>::Zero(n+1);
+      res.numer.coefs = Vecteur<T>::zeros(n+1);
       res.numer.coefs(n) = 1;
-      res.denom.coefs = Vecteur<T>::Ones(1);
+      res.denom.coefs = Vecteur<T>::ones(1);
     }
-    else if(n < 0)
+    sinon
     {
-      res.denom.coefs = Vecteur<T>::Zero(-n+1);
+      res.denom.coefs = Vecteur<T>::zeros(-n+1);
       res.denom.coefs(-n) = 1;
-      res.numer.coefs = Vecteur<T>::Ones(1);
+      res.numer.coefs = Vecteur<T>::ones(1);
     }
-    return res;
+    retourne res;
   }
 
 
@@ -737,7 +705,7 @@ public:
   template<typename Trep>
     Trep horner(Trep x) const
   {
-    return numer.horner(x) / denom.horner(x);
+    retourne numer.horner(x) / denom.horner(x);
   }
 
   FRat operator *(const T &s) const
@@ -745,7 +713,7 @@ public:
     FRat res;
     res.numer = numer * s;
     res.denom = denom;
-    return res;
+    retourne res;
   }
 
   FRat<T> operator +(const T &s) const
@@ -753,7 +721,7 @@ public:
     FRat<T> res;
     res.numer = numer + denom * s;
     res.denom = denom;
-    return res;
+    retourne res;
   }
 
   FRat<T> operator -(const T &s) const
@@ -761,7 +729,7 @@ public:
     FRat<T> res;
     res.numer = numer - denom * s;
     res.denom = denom;
-    return res;
+    retourne res;
   }
 
   /** @brief Addition de deux fractions rationnelles. */
@@ -770,7 +738,7 @@ public:
     FRat<T> res;
     res.numer = numer * s.denom + s.numer * denom;
     res.denom = denom * s.denom;
-    return res;
+    retourne res;
   }
 
   /** @brief Soustraction de deux fractions rationnelles. */
@@ -779,7 +747,7 @@ public:
     FRat<T> res;
     res.numer = numer * s.denom - s.numer * denom;
     res.denom = denom * s.denom;
-    return res;
+    retourne res;
   }
 
   /** @brief Produit de deux fractions rationnelles. */
@@ -788,7 +756,7 @@ public:
     FRat res;
     res.numer = numer * s.numer;
     res.denom = denom * s.denom;
-    return res;
+    retourne res;
   }
 
   /** @brief Division de deux fractions rationnelles. */
@@ -797,7 +765,7 @@ public:
     FRat<T> res;
     res.numer = numer * s.denom;
     res.denom = denom * s.numer;
-    return res;
+    retourne res;
   }
 
   FRat<T> operator-() const
@@ -805,18 +773,18 @@ public:
     FRat<T> res;
     res.numer = -numer ;
     res.denom = denom;
-    return res;
+    retourne res;
   }
 
 
   /** @brief Calcul de @f$H^N(z)@f$. */
-  FRat<T> pow(unsigned int N) const
+  FRat<T> pow(unsigned int n) const
   {
-    if(N == 0)
-      return FRat<T>::un();
-    else if(N == 1)
-      return *this;
-    return pow(N-1) * *this;
+    si(n == 0)
+      retourne FRat<T>::un();
+    sinon si(n == 1)
+      retourne *this;
+    retourne pow(n-1) * *this;
   }
 
   /** @brief Calcul de @f$1/H(z)@f$ */
@@ -825,13 +793,13 @@ public:
     FRat<T> res;
     res.numer = denom;
     res.denom = numer;
-    return res;
+    retourne res;
   }
 
-  bool est_fir() const
+  bouléen est_rif() const
   {
-    auto Nd = denom.coefs.rows();
-    return denom.coefs.head(Nd-1).isZero() && (denom.coefs(Nd-1) == 1.0f);
+    soit Nd = denom.coefs.rows();
+    retourne denom.coefs.head(Nd-1).est_nul() && (denom.coefs(Nd-1) == 1.0f);
   }
 
   void afficher(std::ostream &out) const
@@ -884,25 +852,7 @@ std::ostream& operator<<(std::ostream& os, const FRat<float> &f);
 
 }
 
-template <> struct fmt::formatter<tsd::Poly<float>> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::Poly<float>& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    std::ostringstream os;
-    t.display_content(os);
-    return fmt::format_to(ctx.out(), "{}", os.str());
-  }
-};
 
+ostream_formater(tsd::Poly<float>)
+ostream_formater(tsd::FRat<float>)
 
-template <> struct fmt::formatter<tsd::FRat<float>> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::FRat<float>& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    std::ostringstream os;
-    t.afficher(os);
-    return fmt::format_to(ctx.out(), "{}", os.str());
-  }
-};

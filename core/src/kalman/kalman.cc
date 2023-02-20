@@ -1,6 +1,7 @@
 ﻿#include "tsd/tsd.hpp"
 #include "tsd/apps/kalman.hpp"
 #include "tsd/vue.hpp"
+#include "tsd/eig-util.hpp"
 #include <Eigen/Dense>
 
 
@@ -9,36 +10,36 @@ namespace tsd::kalman {
 
 
   /** D'après https://en.wikipedia.org/wiki/Algebraic_Riccati_equation#Solution */
-  std::tuple<MatrixXf, float> dare(const MatrixXf &A,
-      const MatrixXf &C, const MatrixXf &Q,
-      const MatrixXf &R,
+  std::tuple<Tabf, float> dare(const Tabf &A,
+      const Tabf &C, const Tabf &Q,
+      const Tabf &R,
       float tolerance,
-      int iter_max)
+      entier iter_max)
   {
-    MatrixXf P = Q,
-      At = A.transpose(),
-      Ct = C.transpose(),
-      Rinv = R.inverse();
+    Tabf P = Q,
+        At    = A.transpose(),
+        Ct    = C.transpose(),
+        Rinv  = R.inverse_matricielle();
     float diff = 0;
-    for(auto i = 0; i < iter_max; ++i)
+    pour(auto i = 0; i < iter_max; ++i)
     {
-      MatrixXf P2 = At * P * A - At * P * C * (R + Ct * P * C).inverse() * Ct * P * A + Q;
-      diff = ((P2 - P).array().abs().maxCoeff());
+      soit P2 = At * P * A - At * P * C * (R + Ct * P * C).inverse_matricielle() * Ct * P * A + Q;
+      diff = (abs(P2 - P)).maxCoeff();
       P = P2;
-      if(diff < tolerance)
+      si(diff < tolerance)
         break;
     }
-    return {P, diff};
+    retourne {P, diff};
   }
 
 
 sptr<SSMLineaire> ssm_lineaire(
-    const Eigen::MatrixXf &A,
-    const Eigen::MatrixXf &C,
-    const Eigen::MatrixXf &B,
-    const Eigen::MatrixXf &D)
+    const Tabf &A,
+    const Tabf &C,
+    const Tabf &B,
+    const Tabf &D)
 {
-  auto res = std::make_shared<SSMLineaire>();
+  soit res = std::make_shared<SSMLineaire>();
   res->A = A;
   res->C = C;
   res->B = B;
@@ -50,163 +51,174 @@ sptr<SSMLineaire> ssm_lineaire(
   tsd_assert_msg(A.cols() == A.rows(), "SSM linéaire : la matrice A devrait être carrée.");
   tsd_assert_msg(A.cols() == C.cols(), "SSM linéaire / matrice C : nombre de colonnes invalide.");
 
-  return res;
+  if(!(B.est_vide()))
+  {
+    tsd_assert_msg(C.rows() == D.rows(), "SSM linéaire : les matrices C et D devraientt avoir le même nombre de lignes.");
+  }
+
+  retourne res;
 }
 
-MatrixXf jacobienne_num(std::function<VectorXf(const VectorXf &)> f, const VectorXf &x)
+Tabf jacobienne_num(std::function<Vecf(const Vecf &)> f, const Vecf &x)
 {
-  VectorXf y = f(x);
-  int ne = x.rows(), ns = y.rows();
-  MatrixXf J(ns, ne);
+  soit y = f(x);
+  soit ne = x.rows(), ns = y.rows();
+  soit ε = 1e-5f;
+  Tabf J(ns, ne);
 
-  float ε = 1e-5;
-
-  for(auto i = 0; i < ne; i++)
+  pour(auto i = 0; i < ne; i++)
   {
-    VectorXf x2 = x;
+    soit x2 = x.clone();
     x2(i) += ε;
-    VectorXf y2 = f(x2);
-
-    J.col(i) = (y2 - y) / ε;
+    soit y2 = f(x2);
+    soit d = (y2 - y) / ε;
+    J.col(i) = d;
   }
 
-  return J;
+  retourne J;
 }
 
-std::string SSM::lis_nom_etat(int i) const
+std::string SSM::lis_nom_etat(entier i) const
 {
-  if(i < (int) noms_etats.size())
-    return noms_etats[i];
-  else
-    return fmt::format("Etat {}", i);
+  si(i < (entier) noms_etats.size())
+    retourne noms_etats[i];
+  sinon
+    retourne fmt::format("Etat {}", i);
 }
 
-std::string SSM::lis_nom_obs(int i) const
+std::string SSM::lis_nom_obs(entier i) const
 {
-  if(i < (int) noms_obs.size())
-    return noms_obs[i];
-  else
-    return fmt::format("Obs {}", i);
+  si(i < (entier) noms_obs.size())
+    retourne noms_obs[i];
+  sinon
+    retourne fmt::format("Obs {}", i);
 }
 
-MatrixXf SSM::Jf(const VectorXf &x) const
+Tabf SSM::Jf(const Vecf &x) const
 {
-  return jacobienne_num(std::bind(&SSM::f, this, std::placeholders::_1), x);
+  retourne jacobienne_num(std::bind(&SSM::f, this, std::placeholders::_1), x);
 }
 
-MatrixXf SSM::Jg(const VectorXf &x) const
+Tabf SSM::Jg(const Vecf &x) const
 {
-  return jacobienne_num(std::bind(&SSM::g, this, std::placeholders::_1), x);
+  retourne jacobienne_num(std::bind(&SSM::g, this, std::placeholders::_1), x);
 }
 
-VectorXf SSMLineaire::f(const VectorXf &x) const
+
+
+Vecf SSMLineaire::f(const Vecf &x) const
 {
-  return A * x; // u ?
+  retourne A.matprod(x);
 }
 
-VectorXf SSMLineaire::g(const VectorXf &x) const
+Vecf SSMLineaire::g(const Vecf &x) const
 {
-  return C * x;
+  retourne C.matprod(x);
 }
 
-MatrixXf SSMLineaire::Jf(const VectorXf &x) const
+Tabf SSMLineaire::Jf(const Vecf &x) const
 {
-  return A;
+  retourne A;
 }
 
-MatrixXf SSMLineaire::Jg(const VectorXf &x) const
+Tabf SSMLineaire::Jg(const Vecf &x) const
 {
-  return C;
+  retourne C;
 }
 
-std::tuple<ArrayXXf, ArrayXXf> SSM::steps(int n, const VectorXf &x0, const ArrayXXf &vin_)
+std::tuple<Tabf, Tabf> SSM::steps(entier n, const Vecf &x0, const Tabf &vin_)
 {
-  if(LQ.rows() == 0)
+  si(LQ.rows() == 0)
   {
-    LQ = Q;
-    LR = R;
-    if(!Q.isZero())
-      LQ = Q.llt().matrixL();
-    if(!R.isZero())
-      LR = R.llt().matrixL();
-
-    //msg("R = {}", R);
-    //msg("LR = {}", LR);
+    LQ = Q.clone();
+    LR = R.clone();
+    si(!Q.est_nul())
+      LQ = etab2tab(Eigen::MatrixXf(tab2etab(Q).llt().matrixL()));
+    si(!R.est_nul())
+      LR = etab2tab(Eigen::MatrixXf(tab2etab(R).llt().matrixL()));
   }
 
 
-  MatrixXf x = MatrixXf::Zero(ns, n);
-  MatrixXf y = MatrixXf::Zero(no, n);
+  soit x = Tabf::zeros(ns, n),
+       y = Tabf::zeros(no, n);
 
-  if(x0.rows() > 0)
+  si(x0.rows() > 0)
   {
-    if(x0.rows() != ns)
+    si(x0.rows() != ns)
       echec("ssm_simu: nb states = {}, but got x0 of size {}.", ns, x0.rows());
     etat = x0;
   }
-  if(etat.rows() == 0)
-    etat = VectorXf::Zero(ns);
+  si(etat.rows() == 0)
+    etat = Vecf::zeros(ns);
   x.col(0) = etat;
 
-  MatrixXf vin = MatrixXf::Zero(ni, n);
-
-  if(vin_.size() > 0)
+  soit vin = Tabf::zeros(ni, n);
+  si(vin_.rows() > 0)
   {
-    if((vin_.rows() != ni) || (vin_.cols() != n))
+    si((vin_.rows() != ni) || (vin_.cols() != n))
       echec("ssm_simu: nb input = {}, nb spl = {}, but got vin of size {}*{}",
           ni, n, vin.rows(), vin.cols());
-    vin = vin_.matrix();
+    vin = vin_;
   }
 
-  auto lmodele = dynamic_cast<SSMLineaire *>(this);
+  soit lmodele = dynamic_cast<SSMLineaire *>(this);
 
 
-  if(lmodele)
+  si(lmodele)
   {
-    if(ni > 0)
+    si(ni > 0)
     {
-      y.col(0) = lmodele->C * x.col(0) + lmodele->D * vin.col(0);
+      y.col(0) = (lmodele->C).matprod(x.col(0));// +
+      si(!(lmodele->D.est_vide()))
+        y.col(0) += (lmodele->D).matprod(vin.col(0));
 
-      for(auto i = 1; i < n; i++)
+      pour(auto i = 1; i < n; i++)
       {
-        auto V = LQ * randn(ns).matrix();
-        x.col(i) = lmodele->A * x.col(i-1) + lmodele->B * vin.col(i) + V;
-        auto W = LR * randn(no).matrix();
-        y.col(i) = lmodele->C * x.col(i) + lmodele->D * vin.col(i)  + W;
+        soit V = LQ.matprod(randn(ns));
+        x.col(i) = lmodele->A.matprod(x.col(i-1)) + V;
+
+        si(!(lmodele->B.est_vide()))
+          x.col(i) += (lmodele->B).matprod(vin.col(i));
+
+        soit W = LR.matprod(randn(no));
+        y.col(i) = lmodele->C.matprod(x.col(i)) + W;
+
+        si(!(lmodele->D.est_vide()))
+          y.col(i) += (lmodele->D).matprod(vin.col(i));
       }
     }
-    else
+    sinon
     {
-      y.col(0) = lmodele->C * x.col(0);
+      y.col(0) = lmodele->C.matprod(x.col(0));
 
-      for(auto i = 1; i < n; i++)
+      pour(auto i = 1; i < n; i++)
       {
-        VectorXf V = LQ * randn(ns).matrix();
-        x.col(i) = lmodele->A * x.col(i-1) + V;
-        VectorXf W = LR * randn(no).matrix();
-        y.col(i) = lmodele->C * x.col(i)  + W;
+        soit V = LQ.matprod(randn(ns));
+        x.col(i) = lmodele->A.matprod(x.col(i-1)) + V;
+        soit W = LR.matprod(randn(no));
+        y.col(i) = lmodele->C.matprod(x.col(i))  + W;
       }
     }
   }
-  else
+  sinon
   {
     //k = 0;
     //y.col(0) = g(x.col(0));
 
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
-      VectorXf W = LR * randn(no).matrix();
+      soit W = LR.matprod(randn(no));
       y.col(i) = g(etat) + W;
-      VectorXf V = LQ * randn(ns).matrix();
+      soit V = LQ.matprod(randn(ns));
       etat = f(etat) + V;
 
-      if(i + 1 < n)
+      si(i + 1 < n)
         x.col(i+1) = etat;
 
       k++;
     }
   }
-  return {x.array(), y.array()};
+  retourne {x, y};
 }
 
 void SSM::verifications() const
@@ -214,48 +226,46 @@ void SSM::verifications() const
   msg("Vérification système SSM [{}]...", nom);
   msg("ns={}, ni={}, no={}", ns, ni, no);
 
-  VectorXf x = randn(ns).matrix();
+  soit x = randn(ns);
 
   {
     // (1) Vérif jacobienne de g (fonction d'observation)
-    MatrixXf MJg = Jg(x);
+    soit MJg = Jg(x);
 
-    if(MJg.rows() != no)
+    si(MJg.rows() != no)
       echec("Dimension Jg incohérente ({} != {}).", MJg.rows(), no);
-    if(MJg.cols() != ns)
+    si(MJg.cols() != ns)
       echec("Dimension Jg incohérente ({} != {}).", MJg.cols(), ns);
 
 
-    MatrixXf Jgnum = jacobienne_num(std::bind(&SSM::g, this, std::placeholders::_1), x);//list(ekf.ssm.g, ekf.ssm), x);
+    soit Jgnum = jacobienne_num(std::bind(&SSM::g, this, std::placeholders::_1), x);
 
-    float eg   = (MJg - Jgnum).norm();
+    soit eg   = (MJg - Jgnum).norme();
     msg("Erreur jacobienne g : {}.", eg);
 
-    if(eg > 1e-4)
+    si(eg > 1e-4)
     {
-      int m, k;
-      (MJg - Jgnum).array().abs().maxCoeff(&m, &k);
+      soit [m, k] = (abs(MJg - Jgnum)).index_max();
       msg("Erreur max sur Jg: {}, {}", m, k);
     }
   }
 
   {
-    MatrixXf MJf = Jf(x);
+    soit MJf = Jf(x);
 
-    if(MJf.rows() != ns)
+    si(MJf.rows() != ns)
       echec("Dimension Jf incohérente.");
-    if(MJf.cols() != ns)
+    si(MJf.cols() != ns)
       echec("Dimension Jf incohérente.");
 
-    MatrixXf Jfnum = jacobienne_num(std::bind(&SSM::f, this, std::placeholders::_1), x);
+    soit Jfnum = jacobienne_num(std::bind(&SSM::f, this, std::placeholders::_1), x);
 
-    float ef = (MJf - Jfnum).norm();
+    float ef = (MJf - Jfnum).norme();
     msg("Erreur jacobienne f : {}.", ef);
 
-    if(ef > 1e-4)
+    si(ef > 1e-4)
     {
-      int m, k;
-      (MJf - Jfnum).array().abs().maxCoeff(&m, &k);
+      soit [m, k] = (abs(MJf - Jfnum)).index_max();
       msg("Erreur max sur Jf: {}, {}", m, k);
     }
   }
@@ -267,10 +277,10 @@ void SSM::verifications() const
 
 struct FiltreEKF : FiltreSSM
 {
-  VectorXf vobs;
-  MatrixXf P, K;
-  int k;
-  bool mode_debug = false;
+  Vecf vobs;
+  Tabf P, K;
+  entier k;
+  bouléen mode_debug = non;
 
   FiltreEKF(sptr<SSM> ssm)
   {
@@ -278,28 +288,28 @@ struct FiltreEKF : FiltreSSM
 
     ssm->verifications();
 
-    etat = VectorXf::Zero(ssm->ns);
+    etat = Vecf::zeros(ssm->ns);
     // Matrice de covariance de l'état initial
-    P = MatrixXf::Identity(ssm->ns,ssm->ns);
+    P = Tabf::eye(ssm->ns);
 
-    vobs = VectorXf::Zero(ssm->no);
+    vobs = Vecf::zeros(ssm->no);
     k = 0;
     //ekf.ssm.k = 0;
-    mode_debug = false;
+    mode_debug = non;
 
-    //if(argn(2) > 1)
+    //si(argn(2) > 1)
     //    ekf.state = varargin(1);
     //end;
 
-    //if(argn(2) > 2)
+    //si(argn(2) > 2)
     //    ekf.P = varargin(2);
     //end;
 
-    /*if(~isequal(size(ekf.state), [ssm.ns, 1]))
+    /*si(~isequal(size(ekf.state), [ssm.ns, 1]))
         error(sprintf("ekf_init: invalid initial state vector size (should be a %d * 1 vector, and is %d * %d.", ssm.ns, size(ekf.state,1), size(ekf.state,2)));
     end;
 
-    if(~isequal(size(ekf.P), [ssm.ns, ssm.ns]))
+    si(~isequal(size(ekf.P), [ssm.ns, ssm.ns]))
         error("ekf_init: invalid initial state covariance matrix size.");
     end;*/
   }
@@ -308,35 +318,35 @@ struct FiltreEKF : FiltreSSM
    *     nspl = size(vobs,2);
 
       // Appel direct sur une matrice d'observations
-      if(nspl > 1)
+      si(nspl > 1)
 
           s = zeros(ekf.ssm.ns,nspl);
           err = zeros(ekf.ssm.ns,nspl);
           //t00 = tic();
-          for i = 2:nspl
+          pour i = 2:nspl
               vobs_ = vobs(:,i);
-              if(argn(2) > 2)
+              si(argn(2) > 2)
                  dts = varargin(1);
                 [ekf,s_] = ekf_process(ekf,vobs_,dts(i));
-              else
+              sinon
                 [ekf,s_] = ekf_process(ekf,vobs_);
               end;
               s(:,i) = s_;
               //err(:,i) = xv(:,i) - s_;
-              if(modulo(i,64) == 0)
-                  //if(toc() - t00 > 1)
+              si(modulo(i,64) == 0)
+                  //si(toc() - t00 > 1)
                     //  t00 = tic();
                       printf("ekf_process: itération %d/%d.\n", i, nspl);
                   //end;
               end;
           end
-          return;
+          retourne;
       end;
    */
 
 
   //function [ekf,s] = ekf_process(ekf,vobs,varargin)
-  VectorXf step(const VectorXf &y, const VectorXf &u)//const VectorXf vobs, float dt)
+  Vecf step(const Vecf &y, const Vecf &u)//const VectorXf vobs, float dt)
   {
   // Proceed to one or more steps of the extended Kalman filter
   //
@@ -346,9 +356,9 @@ struct FiltreEKF : FiltreSSM
   //
   // Parameters
   // ekf: EKF filter object (see <link linkend="ekf_init">ekf_init</link>)
-  // y: Observations vector or matrix (one column for each time step)
+  // y: Observations vector or matrix (one column pour each time step)
   // dt: optional time interval(s) (scalar  or vector)
-  // x: Output state vector or matrix (one column for each time step)
+  // x: Output state vector or matrix (one column pour each time step)
   //
   // Description
   // With the Extended Kalman Filter (EKF), the Kalman equations can be applied to a non-linear model (suboptimal solution).
@@ -363,79 +373,79 @@ struct FiltreEKF : FiltreSSM
   // Authors
   //  J.A., full documentation available on <ulink url="http://www.tsdconseil.fr/log/bayes">http://www.tsdconseil.fr/log/bayes</ulink>
 
-      //if(ekf.ssm.subtype == 'linear')
+      //si(ekf.ssm.subtype == 'linear')
       //    [ekf,s] = kalman_process(ekf,vobs);
-      //    return;
+      //    retourne;
       //end;
 
 
 
       // Mise à jour intervalle de temps ?
       // (pour échantillonnage non régulier)
-      //if(argn(2) > 2)
+      //si(argn(2) > 2)
       //    ekf.ssm.dt = varargin(1);
       //end;
 
       // Jacobienne de la fonction de transition (à partir de l'état précédent)
       //MatrixXf Ak;
-      //if(!ssm.Jf)
+      //si(!ssm.Jf)
       //  Ak = jacobienne_num(ssm.f, state);
-      //else
-      MatrixXf Ak = ssm->Jf(etat);
+      //sinon
+      soit Ak = ssm->Jf(etat);
 
 
       // Estimation a priori de l'état suivant
-      VectorXf xm = ssm->f(etat);
+      soit xm = ssm->f(etat);
 
-      if(mode_debug)
+      si(mode_debug)
         msg("etat predit : {}", xm);
 
       // Jacobienne de la fonction d'observation
-      MatrixXf Ck = ssm->Jg(xm);
-      //if(ssm.Jg)
+      soit Ck = ssm->Jg(xm);
+      //si(ssm.Jg)
       //   Ck = ssm.Jg(xm);
-      //else
+      //sinon
       //   Ck = jacobienne_num(ssm.g, xm);
 
-      if(mode_debug)
+      si(mode_debug)
         msg("Ck : {}", Ck);
 
       // Observation a priori (à partir du nouvel état !)
-      VectorXf vobs_th = ssm->g(xm);
+      soit vobs_th = ssm->g(xm);
 
-      if(mode_debug)
+      si(mode_debug)
       {
         msg("obs predit : {}", vobs_th);
         msg("obs reelle : {}", vobs);
       }
 
       // A priori estimation of the error covariance matrix
-      MatrixXf Pm = Ak * P * Ak.transpose() + ssm->Q;
+      soit Pm = Ak.matprod(P.matprod(Ak.transpose())) + ssm->Q;
 
-      if(mode_debug)
+      si(mode_debug)
         msg("P predit : {}", Pm);
 
       // Optimal gain of the filter
-      if((Pm.isZero()) && (ssm->R.isZero()))
-          K = Ck.transpose().lu().inverse();
-      else
-        K = (Pm*Ck.transpose()) * (Ck * Pm * Ck.transpose() + ssm->R).lu().inverse();
+      si((Pm.est_nul()) && (ssm->R.est_nul()))
+          K = Ck.transpose().inverse_matricielle();
+      sinon
+        K = (Pm.matprod(Ck.transpose())).matprod((Ck.matprod((Pm.matprod(Ck.transpose())) + ssm->R).inverse_matricielle()));
 
-      if(mode_debug)
+      si(mode_debug)
         msg("K : {}", K);
 
       // A posteriori estimation of the state variables
-      VectorXf x = xm + K * (y - vobs_th);
+      soit x = xm + K.matprod((y - vobs_th));
 
-      if(mode_debug)
+      si(mode_debug)
         msg("etat post : {}", x);
 
       etat = x;
 
       // A posteriori estimation of the error covariance matrix:
-      P = (MatrixXf::Identity(ssm->ns,ssm->ns)-K*Ck)*Pm;
+      P = (Tabf::eye(ssm->ns) - K.matprod(Ck)).matprod(Pm);
 
-      if(mode_debug)
+      si(mode_debug)
       {
         //msg("K*Ck :   {}", K*Ck);
         //msg("Gauche : {}", MatrixXf::Identity(ssm->ns,ssm->ns)-K*Ck);
@@ -443,7 +453,7 @@ struct FiltreEKF : FiltreSSM
       }
       k++;
 
-      return x;
+      retourne x;
   }
 
 };
@@ -451,21 +461,21 @@ struct FiltreEKF : FiltreSSM
 
 struct FiltreKalman : FiltreSSM
 {
-  MatrixXf P;
+  Tabf P;
 
 
   // Initialization of a standard Kalman filter object
-  FiltreKalman(sptr<SSMLineaire> &ssm, const Eigen::VectorXf &x0, const Eigen::MatrixXf &p0)
+  FiltreKalman(sptr<SSMLineaire> &ssm, const Vecf &x0, const Tabf &p0)
   {
     this->ssm = ssm;
-    if(x0.rows() == 0)
-      etat = Eigen::VectorXf::Zero(ssm->ns);
-    else
+    si(x0.rows() == 0)
+      etat = Vecf::zeros(ssm->ns);
+    sinon
       etat = x0;
     // Matrice de covariance de l'état initial
-    if(p0.rows() == 0)
-      P = Eigen::MatrixXf::Identity(ssm->ns,ssm->ns);
-    else
+    si(p0.rows() == 0)
+      P = Tabf::eye(ssm->ns);
+    sinon
       P = p0;
     tsd_assert_msg(etat.rows() == ssm->ns,
         "Filtre de Kalman : nombre de lignes incorrect pour le vecteur état initial ({}, alors que ns={}).", etat.rows(), ssm->ns);
@@ -474,99 +484,99 @@ struct FiltreKalman : FiltreSSM
   }
 
 
-  // y: Current observations (column vector or matrix with one column for each time step)
-  // u: Current inputs (column vector or matrix with one column for each time step)
-  // x0: Initial state estimate (default is 0 or previous state if kalman_process already called)
+  // y: Current observations (column vector or matrix with one column pour each time step)
+  // u: Current inputs (column vector or matrix with one column pour each time step)
+  // x0: Initial state estimate (default is 0 or previous state si kalman_process already called)
   // p0: Covariance matrix on the initial state (default is eye matrix, or previously estimated covariance matrix is kalman_process already called)
-  // retourne x : Current estimate of the state (column vector or matrix with one column for each time step)
-  VectorXf step(const VectorXf &y, const VectorXf &u)
+  // retourne x : Current estimate of the state (column vector or matrix with one column pour each time step)
+  Vecf step(const Vecf &y, const Vecf &u)
   {
-    auto sl = std::dynamic_pointer_cast<SSMLineaire>(ssm);
+    soit sl = std::dynamic_pointer_cast<SSMLineaire>(ssm);
 
     // Estimation a priori de l'état suivant
-    VectorXf xm = sl->A * etat;
+    soit xm = sl->A.matprod(etat);
 
-    if(sl->B.rows() > 0)
-      xm += sl->B * u;
+    si(sl->B.rows() > 0)
+      xm += sl->B.matprod(u);
 
     // Observation a priori
-    VectorXf vobs_th = sl->C * xm;
+    soit vobs_th = sl->C.matprod(xm);
 
-    if(sl->D.rows())
-      vobs_th += sl->D * u;
+    si(sl->D.rows())
+      vobs_th += sl->D.matprod(u);
 
     // A priori estimation of the error covariance matrix
-    MatrixXf Pm = sl->A *  P * sl->A.transpose() + sl->Q;
+    soit Pm = sl->A.matprod(P.matprod((sl->A.transpose()))) + sl->Q;
 
-    MatrixXf K;
+    Tabf K;
 
     // Optimal gain of the filter
-    if((Pm.isZero()) && (sl->R.isZero()))
-        K = sl->C.inverse();
-    else
-      K = (Pm * sl->C.transpose()) * (sl->C * Pm * sl->C.transpose() + sl->R).lu().inverse();
+    si((Pm.est_nul()) && (sl->R.est_nul()))
+        K = sl->C.inverse_matricielle();
+    sinon
+      K = (Pm.matprod(sl->C.transpose())).matprod((sl->C.matprod(Pm.matprod(sl->C.transpose())) + sl->R).inverse_matricielle());
 
     // A posteriori estimation of the state variables
-    VectorXf x = xm + K * (y - vobs_th);
+    soit x = xm + K.matprod(y - vobs_th);
 
     etat = x;
 
     // A posteriori estimation of the error covariance matrix:
-    P = (Eigen::MatrixXf::Identity(sl->ns,sl->ns) - K * sl->C) * Pm;
+    P = (Tabf::eye(sl->ns) - K.matprod(sl->C)).matprod(Pm);
 
-    return etat.array();
+    retourne etat;
   }
 };
 
 
-ArrayXXf FiltreSSM::steps(const ArrayXXf &y, const ArrayXXf &u)
+Tabf FiltreSSM::steps(const Tabf &y, const Tabf &u)
 {
-  auto nspl = y.cols();
+  soit nspl = y.cols();
 
 
-  if(u.rows() != ssm->ni)
+  si(u.rows() != ssm->ni)
   {
     msg_erreur("kalman_process: nb inputs should be {}, got {}.", ssm->ni, u.rows());
-    return ArrayXXf();
+    retourne {};
   }
-  if((ssm->ni > 0) && (u.cols() != nspl))
+  si((ssm->ni > 0) && (u.cols() != nspl))
   {
     msg_erreur("kalman_process: not as many input columns as observation columns ({} vs {}).",
         u.cols(), nspl);
-    return ArrayXXf();
+    retourne {};
   }
 
-  MatrixXf s = MatrixXf::Zero(ssm->ns, nspl);
+  soit s = Tabf::zeros(ssm->ns, nspl);
   s.col(0) = etat;
   msg("Kalman : traitement {} échantillons...", nspl);
-  if(ssm->ni > 0)
+  si(ssm->ni > 0)
   {
-    for(auto i = 1; i < nspl; i++)
-      s.col(i) = step(y.col(i).matrix(), u.col(i).matrix());
+    pour(auto i = 1; i < nspl; i++)
+      s.col(i) = step(y.col(i), u.col(i));
   }
-  else
+  sinon
   {
-    for(auto i = 1; i < nspl; i++)
-      s.col(i) = step(y.col(i).matrix());
+    pour(auto i = 1; i < nspl; i++)
+      s.col(i) = step(y.col(i));
   }
-  return s;
+  retourne s;
 }
 
-sptr<FiltreSSM> filtre_kalman(sptr<SSMLineaire> ssm, const Eigen::VectorXf &x0, const Eigen::MatrixXf &p0)
+sptr<FiltreSSM> filtre_kalman(sptr<SSMLineaire> ssm, const Vecf &x0, const Tabf &p0)
 {
-  return std::make_shared<FiltreKalman>(ssm, x0, p0);
+  retourne std::make_shared<FiltreKalman>(ssm, x0, p0);
 }
 
 sptr<FiltreSSM> filtre_ekf(sptr<SSM> ssm)
 {
-  return std::make_shared<FiltreEKF>(ssm);
+  retourne std::make_shared<FiltreEKF>(ssm);
 }
 
 
 
-sptr<SSMLineaire> modele_marche_aleatoire(int ndim, const MatrixXf &Q, const MatrixXf &R)
+sptr<SSMLineaire> modele_marche_aleatoire(entier ndim, const Tabf &Q, const Tabf &R)
 {
-  auto ssm = std::make_shared<SSMLineaire>();
+  soit ssm = std::make_shared<SSMLineaire>();
 
   ssm->ni = 0;
   ssm->no = ndim;
@@ -575,43 +585,40 @@ sptr<SSMLineaire> modele_marche_aleatoire(int ndim, const MatrixXf &Q, const Mat
   ssm->Q = Q;
   ssm->R = R;
 
-  if(Q.rows() == 0)
-    ssm->Q = MatrixXf::Identity(ndim, ndim);
-  if(R.rows() == 0)
-    ssm->R = MatrixXf::Identity(ndim, ndim);
+  si(Q.rows() == 0)
+    ssm->Q = Tabf::eye(ndim);
+  si(R.rows() == 0)
+    ssm->R = Tabf::eye(ndim);
 
 
   // Vecteur d'état : x
-  ssm->A = MatrixXf::Identity(ndim,ndim);
-  ssm->C = MatrixXf::Identity(ndim,ndim);
-
-  //ssm = ssm_init(A,B,C,D,Q,R);
+  ssm->A = Tabf::eye(ndim);
+  ssm->C = Tabf::eye(ndim);
   ssm->nom = "marche aléatoire";
 
-  return ssm;
+  retourne ssm;
 }
 
 
 sptr<SSMLineaire> modele_constante(float R)
 {
-  auto res = modele_marche_aleatoire(1, MatrixXf::Zero(1,1), R * MatrixXf::Ones(1,1));
+  soit res = modele_marche_aleatoire(1, Tabf::zeros(1,1), R * Tabf::ones(1,1));
   res->nom = "valeur constante";
-  return res;
+  retourne res;
 }
 
 
 struct ModeleKitagawa: SSM
 {
-  VectorXf f(const VectorXf &x_) const
+  Vecf f(const Vecf &x) const
   {
-    auto x = x_.array();
-    return (x/2 + (25*x)/(1+x*x)+8*cos(1.2*k)).matrix();
+    retourne (x/2 + (25*x)/(1+x*x)+8*cos(1.2*k));
   }
-  VectorXf g(const VectorXf &x) const
+  Vecf g(const Vecf &x) const
   {
-    VectorXf y(1);
+    Vecf y(1);
     y(0) = x(0) * x(0) / 20;
-    return y;
+    retourne y;
   }
 
   ModeleKitagawa()
@@ -619,79 +626,78 @@ struct ModeleKitagawa: SSM
     ni = 0;
     ns = 1;
     no = 1;
-    Q  = 10 * MatrixXf::Ones(1,1);
-    R  = MatrixXf::Ones(1,1);
+    Q  = 10 * Tabf::ones(1,1);
+    R  = Tabf::ones(1,1);
     nom = "kitagawa";
   }
 };
 
 sptr<SSM> modele_kitagawa()
 {
-  return std::make_shared<ModeleKitagawa>();
+  retourne std::make_shared<ModeleKitagawa>();
 }
 
 
 
 
-MatrixXf kalman_ssg(sptr<const SSMLineaire> modele)
+Tabf kalman_ssg(sptr<const SSMLineaire> modele)
 {
 
 
     // Bruit de process null
     // => Gain asymptotique nul
-    if(modele->Q.isZero())
+    si(modele->Q.est_nul())
     {
       msg_avert("kalman_ssg: process noise is null => zero steady state kalman gain.");
-      return MatrixXf::Zero(modele->ns, modele->no);
+      retourne Tabf::zeros(modele->ns, modele->no);
     }
-    else
+    sinon
     {
-      auto [P, eps] = dare(modele->A.transpose(), modele->C.transpose(), modele->Q, modele->R, 1e-6, 1000);
-      //return (modele->R + modele->C.transpose()*P*modele->C).inverse() * modele->C.transpose() * P * modele->A;
-      return P * modele->C.transpose() * (modele->R + modele->C*P*modele->C.transpose()).inverse();
+      soit [P, eps] = dare(modele->A.transpose(), modele->C.transpose(), modele->Q, modele->R, 1e-6, 1000);
+      retourne P.matprod(modele->C.transpose().matprod(modele->R + modele->C.matprod(P.matprod(modele->C.transpose()))).inverse_matricielle());
     }
 }
 
 
 
 
-tsd::vue::Figures plot_etats(sptr<const SSM> ssm, const ArrayXXf &x, const ArrayXXf &xe)
+tsd::vue::Figures plot_etats(sptr<const SSM> ssm, const Tabf &x, const Tabf &xe)
 {
   tsd::vue::Figures res;
-  bool has_xe = xe.rows() > 0;
+  bouléen has_xe = xe.rows() > 0;
 
-  for(auto i = 0; i < ssm->ns; i++)
+  pour(auto i = 0; i < ssm->ns; i++)
   {
-    auto f = res.subplot();
-    if(has_xe)
+    soit f = res.subplot();
+    si(has_xe)
     {
       f.plot(x.row(i),"bo-", "Vrai");
       f.plot(xe.row(i),"gs-", "Estimé");
     }
-    else
+    sinon
       f.plot(x.row(i),"bo-");
     f.titre(ssm->lis_nom_etat(i));
-    if(has_xe)
+    si(has_xe)
     {
-      auto f = res.subplot();
+      soit f = res.subplot();
       f.plot(xe.row(i)-x.row(i),"r-","Erreur");
     }
   }
-  return res;
+  retourne res;
 }
 
 
-tsd::vue::Figures plot_obs(sptr<const SSM> sys, const ArrayXXf &y)
+tsd::vue::Figures plot_obs(sptr<const SSM> sys, const Tabf &y)
 {
   tsd::vue::Figures res;
   //f.titre("Observations");
-  for(auto i = 0; i < sys->no; i++)
+  pour(auto i = 0; i < sys->no; i++)
   {
-    auto f = res.subplot();
+    soit f = res.subplot();
     f.plot(y.row(i),"b-o");
     f.titre(sys->lis_nom_obs(i));
   }
-  return res;
+  retourne res;
 }
 
 

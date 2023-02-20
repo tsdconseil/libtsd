@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef TSD_TELECOM_H
+#define TSD_TELECOM_H
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
@@ -6,7 +7,6 @@
 #include "tsd/telecom/bitstream.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/fourier.hpp"
-#include <vector>
 #include <random>
 
 
@@ -70,7 +70,7 @@ struct SpecFiltreMiseEnForme
    *  @param osf    Facteur de sur-échantillonnage
    *  @returns      Vecteur des coefficients
    */
-  ArrayXf get_coefs(int ncoefs, int osf) const;
+  Vecf get_coefs(entier ncoefs, entier osf) const;
 
 
   /** @brief Création d'un filtre de mise en forme avec sur-échantillonnage intégré
@@ -92,7 +92,7 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_adapte()
    */
-  sptr<FiltreGen<cfloat>> filtre_mise_en_forme(int ncoefs, int R) const;
+  sptr<FiltreGen<cfloat>> filtre_mise_en_forme(entier ncoefs, entier R) const;
 
 
   /** @brief Idem filtre de mise en forme, mais sans le sur-échantillonnage
@@ -104,7 +104,7 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_mise_en_forme()
    */
-  sptr<FiltreGen<cfloat>> filtre_adapté(int ncoefs, int osf) const;
+  sptr<FiltreGen<cfloat>> filtre_adapté(entier ncoefs, entier osf) const;
 
   /** @brief Filtrage adapté et sous-échantillonnage à la fréquence symbole intégré
    *
@@ -115,14 +115,14 @@ struct SpecFiltreMiseEnForme
    *
    *  @sa filtre_mise_en_forme(), filtre_adapte()
    */
-  sptr<FiltreGen<cfloat>> filtre_adapté_décimation(int ncoefs, int osf) const;
+  sptr<FiltreGen<cfloat>> filtre_adapté_décimation(entier ncoefs, entier osf) const;
 
   struct Analyse
   {
     tsd::vue::Figures fig;
   };
 
-  Analyse analyse(int ncoefs, int osf) const;
+  Analyse analyse(entier ncoefs, entier osf) const;
 
 };
 
@@ -143,7 +143,7 @@ extern std::ostream& operator<<(std::ostream &ss, const SpecFiltreMiseEnForme &t
 struct FormeOnde
 {
   /** @brief Génération des symboles I/Q à partir d'un flux binaire. */
-  virtual ArrayXcf génère_symboles(const BitStream &bs);
+  virtual Veccf génère_symboles(const BitStream &bs);
 
   /** @brief Génération des échantillons I/Q à partir d'un flux binaire (y compris filtre de mise en forme).
    *
@@ -158,7 +158,7 @@ struct FormeOnde
    *
    *
    */
-  ArrayXcf génère_échantillons(const BitStream &bs, int ncoefs, int osf, float &retard);
+  Veccf génère_échantillons(const BitStream &bs, entier ncoefs, entier osf, float &retard);
 
 
   // Contexte de démodulation,
@@ -169,37 +169,37 @@ struct FormeOnde
     virtual void reset() = 0;
 
     /** Index = -1 si pas d'échantillon à sortir */
-    virtual std::tuple<int, cfloat> step(cfloat x) = 0;
+    virtual std::tuple<entier, cfloat> step(cfloat x) = 0;
   };
 
-  virtual sptr<Ctx> get_ctx(int OSF = 1) const; // Par défaut, contexte sans mémoire
+  virtual sptr<Ctx> get_ctx(entier OSF = 1) const; // Par défaut, contexte sans mémoire
 
   // Contexte pour la génération de symboles
   struct CtxGen
   {
     virtual void reset() = 0;
-    virtual ArrayXcf step(const BitStream &bs) = 0;
+    virtual Veccf step(const BitStream &bs) = 0;
   };
 
-  virtual sptr<CtxGen> get_contexte_tx(int ncoefs, int osf);
+  virtual sptr<CtxGen> get_contexte_tx(entier ncoefs, entier osf);
 
   /** @brief Décodage des symboles I/Q (par seuillage) et génération d'un train binaire. */
-  virtual void decode_symboles(BitStream &bs, const ArrayXcf &x);
+  virtual void decode_symboles(BitStream &bs, const Veccf &x);
 
   /** @brief Renvoie le ieme symbole de la constellation. */
   virtual cfloat lis_symbole(unsigned int i) const = 0;
 
   /** @brief Symbole le plus proche parmi les points de la constellation. */
-  virtual int symbole_plus_proche(const cfloat &point) const;
+  virtual entier symbole_plus_proche(const cfloat &point) const;
 
   /** @brief Taux d'erreur binaire théorique (pour cette forme d'onde) en fonction du SNR normalisé. */
   virtual float ber(float EbN0_dB) = 0;
 
   /** @brief Taux d'erreur binaire théorique en fonction du SNR normalisé. */
-  ArrayXf ber(const ArrayXf &EbN0_dB);
+  Vecf ber(const Vecf &EbN0_dB);
 
   /** @brief Renvoie les points de la constellation. */
-  virtual ArrayXcf constellation() const = 0;
+  virtual Veccf constellation() const = 0;
 
   /** @brief Excursion fréquentielle, en multiple de la fréquence symbole. */
   virtual float excursion() const;
@@ -215,33 +215,33 @@ struct FormeOnde
   struct Infos
   {
     /** @brief Vrai pour les modulations PSK, ASK, QAM, faux pour FSK. */
-    bool est_lineaire = true;
+    bouléen est_lineaire = oui;
 
     /** @brief Indique une modulation de phase (linéaire et amplitude constante). */
-    bool est_psk = false;
+    bouléen est_psk = non;
 
     /** @brief Indique une modulation d'amplitude */
-    bool est_ask = false;
+    bouléen est_ask = non;
 
     /** @brief Indique une modulation de fréquence */
-    bool est_fsk = false;
+    bouléen est_fsk = non;
 
     /** @brief Indique une modulation en quadrature */
-    bool est_qam = false;
+    bouléen est_qam = non;
 
     /** @brief Indice de modulation (pour les modulations FSK) */
     float index = 1.0f;
 
     /** @brief Nombre de symboles possibles */
-    int M;
+    entier M;
 
     /** @brief Nombre de bits par symbole (@f$\log_2(M)@f$) */
-    int k;
+    entier k;
   };
 
   Infos infos;
 
-  int cnt = 0;
+  entier cnt = 0;
 
   /** @brief Spécification du filtre de mise en forme */
   SpecFiltreMiseEnForme filtre;
@@ -296,7 +296,7 @@ extern sptr<FormeOnde> forme_onde_bpsk(const SpecFiltreMiseEnForme &filtre = Spe
  *
  * @sa forme_onde_psk(), forme_onde_bpsk(), forme_onde_qam(), forme_onde_fsk()
  */
-extern sptr<FormeOnde> forme_onde_ask(int M = 2, float K1 = -1, float K2 = 2, const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
+extern sptr<FormeOnde> forme_onde_ask(entier M = 2, float K1 = -1, float K2 = 2, const SpecFiltreMiseEnForme &filtre = SpecFiltreMiseEnForme::nrz());
 
 /** @brief Création d'une forme d'onde QPSK.
  *
@@ -377,8 +377,8 @@ template<typename TC, typename TR>
 struct ProtocoleDemodulateur
 {
   virtual ~ProtocoleDemodulateur(){};
-  virtual int configure(const TC &config) = 0;
-  virtual std::vector<TR> step(const ArrayXcf &x) = 0;
+  virtual entier configure(const TC &config) = 0;
+  virtual std::vector<TR> step(const Veccf &x) = 0;
 };
 
 /** @} */
@@ -414,19 +414,19 @@ struct ProtocoleDemodulateur
  *
  *  @par Exemple 2 : génération d'une séquence NRZ pseudo-aléatoire
  *  @code
- *    int nsymbs = 5;
- *    int osf    = 10; // Facteur de sur-échantillonnage
+ *    entier nsymbs = 5;
+ *    entier osf    = 10; // Facteur de sur-échantillonnage
  *    ArrayXf y = sah(randb(nsymbs), osf).cast<float>();
  *  @endcode
  */
 template<typename T>
-Vecteur<T> sah(const Vecteur<T> &x, int R)
+Vecteur<T> sah(const Vecteur<T> &x, entier R)
 {
-  int n = x.rows();
+  soit n = x.rows();
   Vecteur<T> y(n * R);
-  for(auto i = 0; i < n; i++)
+  pour(auto i = 0; i < n; i++)
     y.segment(i*R, R).setConstant(x(i));
-  return y;
+  retourne y;
 }
 
 /** @brief Conversion séquence binaire @f$\to@f$ vers séquence d'index symbole.
@@ -449,7 +449,7 @@ Vecteur<T> sah(const Vecteur<T> &x, int R)
  * @sa symdemap_binaire()
  *
  */
-extern ArrayXi symmap_binaire(const BitStream &x, int k);
+extern Veci symmap_binaire(const BitStream &x, entier k);
 
 /** @brief Conversion index @f$\to@f$ train binaire
  *
@@ -465,7 +465,7 @@ extern ArrayXi symmap_binaire(const BitStream &x, int k);
  *
  * @sa symmap_binaire()
  */
-extern void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k);
+extern void symdemap_binaire(BitStream &bs, const Veci &x, entier k);
 
 /** @brief Encodage différentiel (polynôme = @f$1/(1+X)@f$), MSB first.
  *
@@ -476,7 +476,7 @@ extern void symdemap_binaire(BitStream &bs, const ArrayXi &x, int k);
  * y_n = x_n \oplus y_{n-1}
  * @f]
  *
- * Soit la fonction de transfert :
+ * soit la fonction de transfert :
  * @f[
  * P = \frac{1}{1+X}
  * @f]
@@ -524,7 +524,7 @@ extern void diff_decode(BitStream &y, const BitStream &x);
  *  @param[out] y Train binaire de sortie
  *
  */
-extern void decode_hard(BitStream &y, const ArrayXf &llr);
+extern void decode_hard(BitStream &y, const Vecf &llr);
 
 /** @} */
 
@@ -569,7 +569,7 @@ extern void decode_hard(BitStream &y, const ArrayXf &llr);
  *
  * @sa bruit_thermique()
  */
-extern ArrayXcf bruit_awgn(IArrayXcf &x, float σ);
+extern Veccf bruit_awgn(const Veccf &x, float σ);
 
 /** @brief Ajoute un bruit blanc gaussien réel.
  *
@@ -584,7 +584,7 @@ extern ArrayXcf bruit_awgn(IArrayXcf &x, float σ);
  * @sa bruit_thermique()
  *
  */
-extern ArrayXf bruit_awgn(IArrayXf &x, float σ);
+extern Vecf bruit_awgn(const Vecf &x, float σ);
 
 
 /** @brief Type de canal dispersif (avec ou sans trajet dominant) */
@@ -610,6 +610,8 @@ struct CanalDispersifConfig
 
   /** @brief Facteur Ricien. */
   float K;
+
+  bouléen debug_actif = non;
 };
 
 
@@ -642,15 +644,15 @@ extern sptr<Filtre<cfloat, cfloat, CanalDispersifConfig>> canal_dispersif(const 
 struct FHSSConfig
 {
   /** @brief Séquence de sauts de fréquence */
-  Eigen::ArrayXi seq;
+  Veci seq;
   /** Facteur de sur-échantillonnage en entrée */
-  int osf_in;
+  entier osf_in;
   /** Facteur de sur-échantillonnage en sortie */
-  int osf_out;
+  entier osf_out;
   /** Fréquence individuelle de chaque saut, normalisée par rapport à la fréquence d'éch d'entrée */
   float df;
   /** Durée de chaque slot, en nombre de symboles de sortie */
-  int duree_slot = 0;
+  entier duree_slot = 0;
 };
 
 /** @brief Instanciation of a FHSS (Frequency Hopping Spread Sequence) spreader
@@ -666,9 +668,9 @@ extern sptr<Filtre<cfloat,cfloat,FHSSConfig>> fhss_modulation(const FHSSConfig &
 /** @brief DSSS configuration */
 struct DSSSConfig
 {
-  ArrayXf chips;
+  Vecf chips;
   // Facteur de sur-échantillonnage en entrée
-  int osf_in;
+  entier osf_in;
 };
 
 
@@ -742,7 +744,7 @@ struct Ted
 struct ClockRecConfig
 {
   /** @brief Input signal oversampling factor (e.g. ratio of input signal frequency vs symbol frequency) */
-  int osf = 8;
+  entier osf = 8;
 
   /** @brief Timing error detector object (default is Gardner detector). A ted can be created with the @ref ted_init() function. */
   sptr<Ted> ted;
@@ -755,10 +757,10 @@ struct ClockRecConfig
   float tc = 5;
 
   /** @brief Enable debug mode (generation of plots) */
-  bool debug_actif = false;
+  bouléen debug_actif = non;
 
   // Coefficients du filtre adapté
-  ArrayXf h_fa;
+  Vecf h_fa;
 };
 
 
@@ -805,7 +807,7 @@ using Ped = std::function<float (cfloat x)>;
   virtual float calcule(const std::complex<float> &x) = 0;
   std::string nom;
   unsigned int M = 2;
-  bool require_agc = false;
+  bouléen require_agc = non;
   float agc_tc = 3.0f;
 };*/
 
@@ -825,9 +827,9 @@ enum class PedType
 extern Ped ped_init(PedType type, sptr<FormeOnde> wf);
 
 
-extern Ped ped_costa(int M);
-extern Ped ped_ploop(int M);
-extern Ped ped_tloop(int M);
+extern Ped ped_costa(entier M);
+extern Ped ped_ploop(entier M);
+extern Ped ped_tloop(entier M);
 extern Ped ped_decision(sptr<FormeOnde> wf);
 
 /** @brief Interface abstraite pour un filtre de boucle. */
@@ -849,7 +851,8 @@ struct FiltreBoucle
  *     \theta_k = \theta_{k-1} + \alpha \cdot e_k
  *   @f]
  *
- *   Le facteur @f$\alpha@f$ étant calculé d'après la constante de temps spécifiée (voir @ref rii1_tc_vers_coef()).
+ *   Le facteur @f$\alpha@f$ étant calculé d'après la constante de temps spécifiée
+ *   (voir @ref lexp_tc_vers_coef()).
  *
  *  @param τ Constante de temps du filtre (en nombre d'échantillons).
  *
@@ -906,13 +909,13 @@ struct ModConfig
   float fsymb = 1;
 
   /** @brief Si vrai, un signal réel est généré */
-  bool sortie_reelle = true;
+  bouléen sortie_reelle = oui;
 
   /** @brief Génération de figure pour la mise au point. */
-  bool debug_actif   = false;
+  bouléen debug_actif   = non;
 
   /** @brief Nombre de coefficients à utiliser pour l'implémentation du filtre de mise en forme. */
-  int ncoefs_filtre_mise_en_forme = 0;
+  entier ncoefs_filtre_mise_en_forme = 0;
 };
 
 
@@ -926,11 +929,11 @@ struct Modulateur
    *  @param       bs  Train binaire
    *  @return      x   Flot d'échantillons I/Q
    */
-  virtual ArrayXcf step(const BitStream &bs) = 0;
+  virtual Veccf step(const BitStream &bs) = 0;
 
 
   /** Compléte l'émission avec des échantillons à zéros, filtrés proprement */
-  virtual ArrayXcf flush(int nech) = 0;
+  virtual Veccf flush(entier nech) = 0;
 
   /** @brief Délais, en nombre d'échantillons.
    *
@@ -964,7 +967,7 @@ struct Démodulateur
    *  @param      x   Flot I/Q à démoduler
    *  @param[out] bs  Train binaire (hard decision)
    */
-  virtual void step(const ArrayXcf &x, BitStream &bs){ArrayXXf llr; step(x, bs, llr);}
+  virtual void step(const Veccf &x, BitStream &bs){Tabf llr; step(x, bs, llr);}
 
   /** @brief Démodulation, avec calcul des LLR.
    *
@@ -974,7 +977,7 @@ struct Démodulateur
    *  @param[out] bs  Train binaire (hard decision)
    *  @param[out] llr Log-vraisemblances de chaque symbole (une ligne par symbole possible, une colonne par échantillon)
    */
-  virtual void step(const ArrayXcf &x, BitStream &bs, ArrayXXf &llr) = 0;
+  virtual void step(const Veccf &x, BitStream &bs, Tabf &llr) = 0;
 
 
   /** @brief Délais, en nombre d'échantillons.
@@ -989,7 +992,7 @@ struct Démodulateur
    */
   virtual void regle_horloge(float delais){}
 
-  virtual void reset(int cnt = 0) = 0;
+  virtual void reset(entier cnt = 0) = 0;
 };
 
 
@@ -1105,20 +1108,20 @@ struct DemodConfig
     struct
     {
       /** @brief Activation ou non du recouvrement d'horloge */
-      bool actif = true;
+      bouléen actif = oui;
 
       /** @brief Constante de temps du filtre de boucle, en nombre de symboles */
       float tc = 100;
 
       ItrpType itrp = ItrpType::CSPLINE;
-      int itrp_lagrange_degré = 3;
+      entier itrp_lagrange_degré = 3;
     } clock_rec;
 
     /** @brief Paramètrage du recouvrement de porteuse. */
     struct
     {
       /** @brief Activation ou non du recouvrement de porteuse */
-      bool actif = true;
+      bouléen actif = oui;
 
       /** @brief Bande-passante de la boucle (normalisée à la fréquence symbole). */
       float BL = 0.01;
@@ -1129,12 +1132,12 @@ struct DemodConfig
 
     struct
     {
-      bool actif = true;
+      bouléen actif = oui;
       // En nombre de symboles
       float tc = 10;
     } cag;
 
-    bool fa_actif = true;
+    bouléen fa_actif = oui;
   } dec;
 
   /** @brief Paramètres utilisés uniquement pour un démodulateur avec architecture <b>sans décision</b>. */
@@ -1147,25 +1150,25 @@ struct DemodConfig
     /** @brief Paramètrage du recouvrement d'horloge */
     struct
     {
-      bool actif              = true;
-      bool mode_ml            = false;
+      bouléen actif              = oui;
+      bouléen mode_ml            = non;
       TedType ted             = TedType::GARDNER;
       float tc                = 5.0f;
       ItrpType itrp           = ItrpType::CSPLINE;
-      int itrp_lagrange_degre = 3;
+      entier itrp_lagrange_degre = 3;
     } clock_rec;
 
     /** @brief Paramètrage du recouvrement de porteuse */
     struct
     {
-      bool actif  = true;
+      bouléen actif  = oui;
       PedType ped = PedType::AUTO;
       float BL = 0.01, η = 1;
     } carrier_rec;
   } ndec;
 
   /** @brief Affichage des signaux intermédiaires */
-  bool debug_actif = false;
+  bouléen debug_actif = non;
 };
 
 
@@ -1274,7 +1277,7 @@ struct TrameFormat
   sptr<FormeOnde> fo_entete;
 
   /** @brief Dimension des trames (nombre de bits utiles, après le motif de synchronisation). */
-  int nbits = 0;
+  entier nbits = 0;
 };
 
 
@@ -1291,7 +1294,7 @@ struct RécepteurConfig
   DemodConfig config_demod;
 
   /** @brief Dimension des blocs d'entrée (?). */
-  int BS = 0;
+  entier BS = 0;
 
   /** @brief Seuil de détection pour l'en-tête (entre 0 et 1), voir @ref détecteur_création(). */
   float seuil = 0.7;
@@ -1300,16 +1303,16 @@ struct RécepteurConfig
   float SNR_mini = 0;
 
   /** @brief Si vrai, calcul de la corrélation avec les motifs via des FFT / OLA (sinon filtres RIF). */
-  bool correl_fft = false;
+  bouléen correl_fft = non;
 
   /** @brief Callback optionnelle appelée avec le signal de corrélation normalisée (peut servir pour de la mise au point). */
-  std::function<void (const ArrayXf &c)> callback_corr;
+  std::function<void (const Vecf &c)> callback_corr;
 
   /** @brief Activation ou non des plots de mise au point */
-  bool debug_actif = false;
+  bouléen debug_actif = non;
 
   /** @brief Nombre de coefficient du filtre d'interpolation RIF utilisé avant le démodulateur pour corriger l'horloge. */
-  int ncoefs_interpolateur = 15;
+  entier ncoefs_interpolateur = 15;
 };
 
 /** @brief Trame décodée par un récepteur */
@@ -1325,16 +1328,16 @@ struct RécepteurTrame
   float EbN0;
 
   /** @brief Raw data, before demodulation */
-  ArrayXcf x;
+  Veccf x;
 
   /** @brief Raw data, with clock & phase corrected, before demodulation */
-  ArrayXcf x1;
+  Veccf x1;
 };
 
 struct RécepteurEtat
 {
   // Dim des blocs d'entrée
-  int Ne;
+  entier Ne;
 };
 
 /** @brief Interface abstraite vers un récepteur de trames.
@@ -1343,10 +1346,10 @@ struct RécepteurEtat
 struct Récepteur
 {
   /** @brief Fonction de configuration */
-  virtual int configure(const RécepteurConfig &config) = 0;
+  virtual entier configure(const RécepteurConfig &config) = 0;
 
   /** @brief Traitement d'un buffer de données. */
-  virtual std::vector<RécepteurTrame> step(const ArrayXcf &x) = 0;
+  virtual std::vector<RécepteurTrame> step(const Veccf &x) = 0;
 
   /** @brief Lecture des moniteurs CPU. */
   virtual MoniteursStats moniteurs() = 0;
@@ -1398,7 +1401,7 @@ struct ÉmetteurConfig
   TrameFormat format;
 
   /** @brief Activation ou non des plots de mise au point */
-  bool debug_actif = false;
+  bouléen debug_actif = non;
 };
 
 
@@ -1406,10 +1409,10 @@ struct ÉmetteurConfig
 struct Émetteur
 {
   /** @brief Fonction de configuration */
-  virtual int configure(const ÉmetteurConfig &config) = 0;
+  virtual entier configure(const ÉmetteurConfig &config) = 0;
 
   /** @brief Traitement d'un buffer de données. */
-  virtual ArrayXcf step(const BitStream &x) = 0;
+  virtual Veccf step(const BitStream &x) = 0;
 
   /** @brief Lecture des moniteurs CPU. */
   virtual MoniteursStats moniteurs() = 0;
@@ -1497,7 +1500,7 @@ extern sptr<Émetteur> émetteur_création(const ÉmetteurConfig &ec);
  *  @image html doppler_psd.png width=600px
  *
  */
-extern ArrayXf doppler_distri(ArrayXd f, float fd, double fc);
+extern Vecf doppler_distri(const Vecd &f, float fd, double fc);
 
 
 // @brief Compute thermal noise power
@@ -1550,7 +1553,7 @@ struct ECPConfig
   float fbit  = 1;
 
   /** @brief Affichage de courbes intermédiaires */
-  bool debug_actif = false;
+  bouléen debug_actif = non;
 };
 
 /** @brief Création d'un émulateur de canal de propagation
@@ -1605,7 +1608,7 @@ extern sptr<Filtre<cfloat, cfloat, ECPConfig>> ecp_création(const ECPConfig &co
  */
 extern sptr<FiltreGen<cfloat>> égaliseur_rif_création(sptr<FormeOnde> forme_onde,
     const std::string &structure, const std::string &fonction_erreur,
-    int K, float α, int N1, int N2);
+    entier K, float α, entier N1, entier N2);
 
 /** @brief Calcul du filtre inverse par zéro-forçage.
  *
@@ -1641,11 +1644,11 @@ extern sptr<FiltreGen<cfloat>> égaliseur_rif_création(sptr<FormeOnde> forme_on
  *
  * @sa égaliseur_création()
  */
-extern ArrayXf égaliseur_zfe(IArrayXf h, int n);
+extern Vecf égaliseur_zfe(const Vecf &h, entier n);
 
 
 
-extern Eigen::MatrixXf égaliseur_zfe_matrice(IArrayXf h, int n);
+extern Tabf égaliseur_zfe_matrice(const Vecf &h, entier n);
 
 
 /** @} */
@@ -1692,15 +1695,15 @@ extern float capacite_canal_awgn(float snr, float B = 1);
 struct PLLConfig
 {
   /** Sortie de la PLL :
-   *   - si sortie_porteuse = false : le signal résiduel, sinon la porteuse reconstruite
+   *   - si sortie_porteuse = non : le signal résiduel, sinon la porteuse reconstruite
    */
-  bool sortie_porteuse = false;
+  bouléen sortie_porteuse = non;
 
   /** @~french  @brief Fréquence attendue (normalisée)
    *  @~english @brief Expected frequency (normalized) */
   float freq = 0.0;
 
-  int loop_filter_order = 2;
+  entier loop_filter_order = 2;
 
   /** @~french  @brief Bande passante normalisée
    *  @~english @brief Loop bandwidth (normalized) */
@@ -1739,7 +1742,7 @@ struct PLLConfig
 
   /** @~french  @brief Activation du mode de mise au point (tracé des figures)
    *  @~english @brief Activation of the debug mode (plot figures) */
-  bool debug = false;
+  bouléen debug = non;
 };
 
 
@@ -1753,16 +1756,16 @@ struct RPLLConfig
   float freq;
 
   /** @brief Activation d'un filtrage autour de la porteuse */
-  bool filtre_bb_actif = false;
+  bouléen filtre_bb_actif = non;
 
   /** @brief Nombre de coefficients du filtre */
-  int ncoefs_bb = 127;
+  entier ncoefs_bb = 127;
 
   /** @~french  @brief Bande passante normalisée
    *  @~english @brief Loop bandwidth (normalized) */
   float bp = 0.01;
 
-  bool debug = false;
+  bouléen debug = non;
 };
 
 /** @brief Création d'une PLL (boucle à vérouillage de phase) à sortie réelle
@@ -1821,10 +1824,10 @@ extern sptr<Filtre<cfloat, cfloat, PLLConfig>> cpll_création(const PLLConfig &c
 struct CmpBitsRes
 {
   /** @brief Premier vecteur ré-aligné */
-  ArrayXf b0;
+  Vecf b0;
 
   /** @brief Deuxième vecteur ré-aligné */
-  ArrayXf b1;
+  Vecf b1;
 
   /** @brief Nombre total d'erreurs détectées */
   unsigned int nerr = 0;
@@ -1833,10 +1836,10 @@ struct CmpBitsRes
   float ber = 0;
 
   /** @brief Décalage temporel détecté */
-  int decalage = 0;
+  entier decalage = 0;
 
   /** @brief Déphasage détecté (pour les modulations de type M-PSK) */
-  int dec_phase = 0;
+  entier dec_phase = 0;
 
   /** @brief Score de corrélation (entre -1 et 1) */
   float score = 0;
@@ -1868,7 +1871,7 @@ extern CmpBitsRes cmp_bits(const BitStream &b0, const BitStream &b1);
  *  <h3>Comparaison de chaines binaires (PSK)</h3>
  *
  */
-extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, int k);
+extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, entier k);
 
 
 /** @} */
@@ -1919,7 +1922,7 @@ extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, int k);
  * @par Exemple
  *
  */
-extern void plot_eye(tsd::vue::Figure &f, const ArrayXf &x, float T);
+extern void plot_eye(tsd::vue::Figure &f, const Vecf &x, float T);
 
 /** @} */
 
@@ -1931,7 +1934,7 @@ extern void plot_eye(tsd::vue::Figure &f, const ArrayXf &x, float T);
 struct EstimateurSNR
 {
   /** @brief Calcul deux vecteurs (S et N) correspondant resp. aux énergies du signal et du bruit, à partir d'un signal bruité x. */
-  virtual void step(const ArrayXcf &x, ArrayXf &S, ArrayXf &N) = 0;
+  virtual void step(const Veccf &x, Vecf &S, Vecf &N) = 0;
 };
 
 
@@ -1990,7 +1993,7 @@ struct AMConfig
   } mode;
 
   /** @brief Est-ce une modulation à bande latérale unique ? */
-  bool est_BLU() const {return (mode == Mode::LSB) || (mode == Mode::USB);}
+  bouléen est_BLU() const {return (mode == Mode::LSB) || (mode == Mode::USB);}
 
 
   /** @brief Indice de modulation (utilisé seulement en mode DSB) */
@@ -2012,7 +2015,7 @@ struct AMConfig
   float fcut_audio_high = 8000;
 
   /** @brief Tracé des signaux intermédiaires */
-  bool debug_actif = false;
+  bouléen debug_actif = non;
 };
 
 
@@ -2029,7 +2032,7 @@ struct FMDiscriConfig
 struct FMDemodConfig
 {
   float fe;
-  bool genere_img_debug = false;
+  bouléen genere_img_debug = non;
 };
 
 /** @brief Modulation d'amplitude (analogique).
@@ -2107,7 +2110,7 @@ extern sptr<Filtre<cfloat, cfloat, FMDemodConfig>> demodulateurFM();
  *
  *  @sa code_Barker()
  */
-extern BitStream code_mls(int n);
+extern BitStream code_mls(entier n);
 
 /** @brief Génération d'un code de Barker.
  *
@@ -2121,13 +2124,13 @@ extern BitStream code_mls(int n);
  *
  *  @sa code_mls()
  */
-extern BitStream code_Barker(int n);
+extern BitStream code_Barker(entier n);
 
 /** @cond
  *  Renvoie un polynôme primitif de degré reglen.
  *  Le polynôme renvoyé est stocké "à l'envers", le LSB étant le coefficient
  *  de X^{n-1}, et le MSB celui de X^0. */
-extern uint32_t polynome_primitif_binaire(int reglen);
+extern uint32_t polynome_primitif_binaire(entier reglen);
 /** @endcond */
 
 /** @brief Calcul d'un polynôme primitif.
@@ -2144,20 +2147,20 @@ extern uint32_t polynome_primitif_binaire(int reglen);
  *
  *  @sa code_mls()
  */
-extern Poly<int> polynome_primitif(int n);
+extern Poly<entier> polynome_primitif(entier n);
 
 
 /** @} */
 
 
 /** @brief Vecteur binaire (alternative à la classe BitStream). */
-using ArrayHd = ArrayXb;
+using ArrayHd = Vecb;
 
 /** @brief Vecteur de LLR (flottantes) */
-using ArrayLLR = ArrayXf;
+using ArrayLLR = Vecf;
 
 /** @brief Vecteur de LLR (codées sur 8 bits) */
-using ArrayLLRi = Eigen::Array<char, Eigen::Dynamic, 1>;
+using ArrayLLRi = VecT<char>;
 
 
 /** @addtogroup telecom-codes
@@ -2169,9 +2172,9 @@ using ArrayLLRi = Eigen::Array<char, Eigen::Dynamic, 1>;
 struct Code
 {
   /** @brief Taille de bloc */
-  int n;
+  entier n;
   /** @brief Nb bits utiles */
-  int k;
+  entier k;
   /** @brief Nom du code */
   std::string nom;
 
@@ -2193,7 +2196,7 @@ struct Code
 }
 
 
-template <> struct fmt::formatter<tsd::telecom::FormeOnde> {
+/*template <> struct fmt::formatter<tsd::telecom::FormeOnde> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::telecom::FormeOnde& t, FormatContext& ctx) const -> decltype(ctx.out()) 
@@ -2214,7 +2217,10 @@ template <> struct fmt::formatter<tsd::telecom::SpecFiltreMiseEnForme> {
     ss << t;
     return fmt::format_to(ctx.out(), "{}", ss.str());
   }
-};
+};*/
 
+ostream_formater(tsd::telecom::FormeOnde)
+ostream_formater(tsd::telecom::SpecFiltreMiseEnForme)
 
+#endif
 

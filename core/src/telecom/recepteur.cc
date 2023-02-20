@@ -58,35 +58,35 @@ struct RécepteurImpl: Récepteur
 
   float osf;
 
-  bool demod_en_cours = false;
+  bouléen demod_en_cours = non;
 
-  int dim_motif = 0;
+  entier dim_motif = 0;
 
   vector<Detection> fingers;
 
   RécepteurTrame trame; // Trame en cours de réception
 
-  int Ne = 0;
+  entier Ne = 0;
 
-  ArrayXcf last;
+  Veccf last;
 
   // Compteur d'échantillons, remis à zéro à chaque appel externe de la fonction step,
   // et incrémenté de Ne échantillons à chaque appel interne de step_Ne.
-  int cnt_x = 0;
+  entier cnt_x = 0;
 
   vector<RécepteurTrame> trames;
 
-  bool tampon_vide = true;
+  bouléen tampon_vide = oui;
 
   // Nombre de bits / symboles
-  int nbits_par_symbole_entete, nbits_par_symbole_données;
+  entier nbits_par_symbole_entete, nbits_par_symbole_données;
 
   MoniteurCpu mon_ola{"recepteur/ola"},
               mon_demod{"recepteur/demod"},
               mon_misc{"recepteur/misc"};
 
   // Délais interpolateur + filtre adapté
-  int delais_interpolateur;
+  entier delais_interpolateur;
 
   // Nombre d'échantillons supplémentaires en début de motif
   // (vaut 0 ou 0.5, suivant si le délais du modulateur est entier ou non)
@@ -99,11 +99,11 @@ struct RécepteurImpl: Récepteur
 
   MoniteursStats moniteurs()
   {
-    auto res = détecteur->moniteurs();
+    soit res = détecteur->moniteurs();
     res.ajoute(mon_ola);
     res.ajoute(mon_demod);
     res.ajoute(mon_misc);
-    return res;
+    retourne res;
   }
 
 
@@ -111,9 +111,9 @@ struct RécepteurImpl: Récepteur
   // Ne fonctionne pas avec OSF=3, filtre SRRC
 
 
-  std::tuple<int,float> calc_retard()
+  std::tuple<entier,float> calc_retard()
   {
-    ArrayXf cf = config.format.modulation.forme_onde->filtre.get_coefs(
+    Vecf cf = config.format.modulation.forme_onde->filtre.get_coefs(
         config.format.modulation.ncoefs_filtre_mise_en_forme, osf);
 
     // osf/2 pour aller au milieu du premier bit
@@ -123,10 +123,10 @@ struct RécepteurImpl: Récepteur
             + osf / 2.0f;
 
 
-    int     delais_interpolateur = floor(d);
+    entier     delais_interpolateur = floor(d);
     float δt_interpolateur   = d - delais_interpolateur;
 
-    return {delais_interpolateur, δt_interpolateur};
+    retourne {delais_interpolateur, δt_interpolateur};
   }
 
   void regle_delais(float δ)
@@ -141,15 +141,15 @@ struct RécepteurImpl: Récepteur
 
     δ = std::clamp(δ, 0.0f, 1.0f);
 
-    ArrayXf h1 = itrp->coefs(δ);
-    ArrayXf h2 = config.format.modulation.forme_onde->filtre.get_coefs(
+    soit h1 = itrp->coefs(δ);
+    soit h2 = config.format.modulation.forme_onde->filtre.get_coefs(
         config.format.modulation.ncoefs_filtre_mise_en_forme, osf);
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
-      analyse_filtre(h2, 1.0f).afficher("Filtre adapté");
+      plot_filtre(h2, non, 1.0f).afficher("Filtre adapté");
       msg("Création d'un filtre d'interpolation, délais = {} échantillons ({} symboles)", δ, δ / osf);
-      analyse_filtre(h1, 1.0f).afficher("Filtre d'interpolation");
+      plot_filtre(h1, non, 1.0f).afficher("Filtre d'interpolation");
     }
 
     filtre_itrp = filtre_rif<float,cfloat>(h1);
@@ -168,45 +168,45 @@ struct RécepteurImpl: Récepteur
 
     res.Ne = Ne;
 
-    return res;
+    retourne res;
   }
 
 
 
-  int configure(const RécepteurConfig &rc)
+  entier configure(const RécepteurConfig &rc)
   {
     config = rc;
 
-    const auto &conf_mod = config.format.modulation;
+    const soit &conf_mod = config.format.modulation;
 
     this->wf    = conf_mod.forme_onde;
-    auto fe     = conf_mod.fe;
-    auto fsymb  = conf_mod.fsymb;
+    soit fe     = conf_mod.fe;
+    soit fsymb  = conf_mod.fsymb;
 
-    auto fo_entete = config.format.modulation.forme_onde;
+    soit fo_entete = config.format.modulation.forme_onde;
 
-    if(config.format.fo_entete)
+    si(config.format.fo_entete)
     {
       fo_entete = config.format.fo_entete;
       msg_majeur("Récepteur: fo entete = {}",  *fo_entete);
       msg_majeur("Récepteur: fo données = {}", *wf);
     }
 
-    if((fe <= 0)
+    si((fe <= 0)
         || (fsymb <= 0)
         || (modulo(fe, fsymb) != 0))
       echec("Récepteur : fréquences invalides (fe={} Hz, fsymb={} Hz).", fe, fsymb);
 
-    if(wf->infos.est_fsk)
+    si(wf->infos.est_fsk)
     {
       discri = discriminateur_fm();
     }
 
-    demod_en_cours = false;
+    demod_en_cours = non;
     mon_ola.reset();
     mon_demod.reset();
     fingers.clear();
-    tampon_vide = true;
+    tampon_vide = oui;
     trames.clear();
     trame.bs.clear();
     last.resize(0);
@@ -215,7 +215,7 @@ struct RécepteurImpl: Récepteur
 
     // Pas besoin de recouvrement d'horloge,
     // on est déjà calé
-    /*config.config_demod.dec.clock_rec.actif = false;
+    /*config.config_demod.dec.clock_rec.actif = non;
     {
       // La décimation à 1SPS est faite ici
       config.config_demod.fsymb = fsymb;
@@ -223,12 +223,12 @@ struct RécepteurImpl: Récepteur
       config.config_demod.fi    = 0;
     }*/
     // En FSK, pas de décimation ici
-    //if(wf->est_fsk)
+    //si(wf->est_fsk)
     //  config.config_demod.fe  = config.fe;
 
     ModConfig config_mod_entete = conf_mod;
     config_mod_entete.forme_onde = fo_entete;
-    auto mod = modulateur_création(config_mod_entete);
+    soit mod = modulateur_création(config_mod_entete);
 
 
     ModConfig config_mod_données = conf_mod;
@@ -236,7 +236,7 @@ struct RécepteurImpl: Récepteur
     config_mod_données.fe     = fsymb;
     config_mod_données.fi     = 0;
     osf = conf_mod.fe / conf_mod.fsymb; // Toujours 1 !
-    config.config_demod.dec.clock_rec.actif = false;
+    config.config_demod.dec.clock_rec.actif = non;
     demod = démodulateur_création(config_mod_données, config.config_demod);
 
     // Nombre de bits / symboles
@@ -254,33 +254,33 @@ struct RécepteurImpl: Récepteur
 
     // En effet, df(premier) = 0.5
 
-    int   di  = (int) floor(df);
+    entier   di  = (entier) floor(df);
     δt_modulateur = df - di;
     msg_majeur("Récepteur / modulateur : df = {}, di = {}", df, di);
 
     BitStream entete = config.format.entete;
     entete.pad_mult(fo_entete->infos.k);
 
-    // Pour flusher le modulateur
+    // pour flusher le modulateur
     BitStream et2 = entete;
-    for(auto i = 0; i < (di + 8) * nbits_par_symbole_entete; i++)
+    pour(auto i = 0; i < (di + 8) * nbits_par_symbole_entete; i++)
       et2.push(0);
 
-    ArrayXcf motif = mod->step(et2);
-    auto e = motif.abs2().mean();
+    soit motif = mod->step(et2);
+    soit e = abs2(motif).moyenne();
 
     // Peut arriver avec un OSF de 2, et filtre NRZ :
     // dans ce cas la latence du modulateur est de 0.5, et le premier bit commence à -0.5
-    if(di < 0)
+    si(di < 0)
     {
-      motif = vconcat(ArrayXcf::Zero(1), motif);
+      motif = vconcat(Veccf::zeros(1), motif);
       di++;
       df++;
     }
 
     tsd_assert(di >= 0);
 
-    if(wf->infos.est_fsk)
+    si(wf->infos.est_fsk)
     {
       motif = discri->step(motif);
       // Conversion angle -> valeur entre -1 et 1
@@ -288,7 +288,7 @@ struct RécepteurImpl: Récepteur
     }
 
     float fc = 0.5;
-    if(osf > 1)
+    si(osf > 1)
       // Moyenne entre 0.5 et 0.5 / osf
       fc = 0.45;//0.5 * (0.5 / osf + 0.5);
 
@@ -297,9 +297,9 @@ struct RécepteurImpl: Récepteur
     itrp = tsd::filtrage::itrp_sinc<cfloat>({config.ncoefs_interpolateur, 1024, fc, "hn"});
 
 
-    int nsymbs = (entete.lon() + nbits_par_symbole_entete - 1) / nbits_par_symbole_entete;
+    entier nsymbs = (entete.lon() + nbits_par_symbole_entete - 1) / nbits_par_symbole_entete;
     // M = nombre d'échantillons de l'en-tête
-    int M = nsymbs * osf;
+    entier M = nsymbs * osf;
 
     VERB(msg("Récepteur : {} bits / symbole, osf={}, nsymbs={} -> M = {} échans.", nbits_par_symbole_entete, osf, nsymbs, M);)
 
@@ -307,18 +307,18 @@ struct RécepteurImpl: Récepteur
     DetecteurConfig config_detecteur;
 
     float C;
-    int Nf, Nz;
+    entier Nf, Nz;
     ola_complexité_optimise(M, C, Nf, Nz, Ne);
 
     msg("Récepteur : calcul auto Ne optimal : M={} --> Ne={},Nz={},Nf=Ne+Nz={},C={} FLOPS/ech", M, Ne, Nz, Nf, C);
     config_detecteur.Ne = Ne;
-    config_detecteur.calculer_signal_correlation = config.callback_corr ? true : false;
+    config_detecteur.calculer_signal_correlation = config.callback_corr ? oui : non;
     config_detecteur.mode = DetecteurConfig::MODE_OLA;
     //ola_config.mode = DetecteurConfig::MODE_RIF;
 
 
 
-    // if(config_mod.wf->M != 2)
+    // si(config_mod.wf->M != 2)
       // echec("TODO : récepteur / gestion délais M != 2");
 
     msg("Latence modulateur : {} (floor: {}), osf : {}", df, di, osf);
@@ -331,7 +331,7 @@ struct RécepteurImpl: Récepteur
 
     config_detecteur.motif  = motif.segment(di, M);
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
       Figures f;
       f.subplot().plot(config.format.entete.array(), "|b", "En-tête binaire");
@@ -342,11 +342,11 @@ struct RécepteurImpl: Récepteur
       f.afficher(fmt::format("Récepteur : en-tête détection (e = {}).", e));
     }
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
-      auto [lags, xc] = xcorrb(config_detecteur.motif, config_detecteur.motif);
+      soit [lags, xc] = xcorrb(config_detecteur.motif, config_detecteur.motif);
       Figure f;
-      f.plot(lags, xc.abs(), "", "Auto-corrélation motif (biaisée)");
+      f.plot(lags, abs(xc), "", "Auto-corrélation motif (biaisée)");
       f.afficher();
     }
 
@@ -356,7 +356,7 @@ struct RécepteurImpl: Récepteur
     config_detecteur.seuil  = config.seuil;
     config_detecteur.gere_detection = [&](const Detection &det)
       {
-        if(det.SNR_dB >= config.SNR_mini)
+        si(det.SNR_dB >= config.SNR_mini)
         {
           VERB(msg("Récepteur, {}", det);)
           fingers.push_back(det);
@@ -372,8 +372,8 @@ struct RécepteurImpl: Récepteur
           step_Ne(x);
         });
 
-    last = ArrayXcf::Zero(Ne);
-    return 0;
+    last = Veccf::zeros(Ne);
+    retourne 0;
   }
 
 
@@ -383,39 +383,39 @@ struct RécepteurImpl: Récepteur
 
 
 
-  vector<RécepteurTrame> step(const ArrayXcf &x)
+  vector<RécepteurTrame> step(const Veccf &x)
   {
     VERB(msg("récepteur : step({} échans)", x.rows()));
     cnt_x = 0;
-    if(tampon_vide && (x.rows() == Ne))
+    si(tampon_vide && (x.rows() == Ne))
     {
       step_Ne(x);
     }
-    else
+    sinon
     {
-      tampon_vide = false;
+      tampon_vide = non;
       tampon->step(x);
     }
-    auto res = trames;
+    soit res = trames;
     trames.clear();
-    return res;
+    retourne res;
   }
 
   // A voir si on peut pas s'en passer (du fait que la dimension doive être Ne)
-  void step_Ne(const ArrayXcf &x_)
+  void step_Ne(const Veccf &x_)
   {
     tsd_assert(x_.rows() == Ne);
 
     VERB(msg("Récepteur : step Ne={}, cnt_x = {}", Ne, cnt_x));
 
-    ArrayXcf x;
+    Veccf x;
 
-    if(wf->infos.est_fsk)
+    si(wf->infos.est_fsk)
     {
       // Ceci introduit un retard de 1 échantillon
       x = discri->step(x_);
 
-      if(config.debug_actif)
+      si(config.debug_actif)
       {
         Figures f;
         f.subplot().plot(x_, "", "Avant discri FM.");
@@ -424,26 +424,26 @@ struct RécepteurImpl: Récepteur
       }
 
     }
-    else
+    sinon
       x = x_;
 
     fingers.clear();
 
     mon_ola.commence_op();
-    ArrayXf corr = détecteur->step(x);
+    soit corr = détecteur->step(x);
     mon_ola.fin_op();
 
     // idx dans [0,Ne-1] - delais_corr
     // Avec delais_corr = Ne  en mode FFT
     //                    M-1 en mode RIF
 
-    if(config.callback_corr)
+    si(config.callback_corr)
       config.callback_corr(corr);
 
-    if(demod_en_cours)
+    si(demod_en_cours)
     {
       step_demod(x);
-      if(trame.bs.lon() == config.format.nbits)
+      si(trame.bs.lon() == config.format.nbits)
       {
         trames.push_back(trame);
         trame.bs.clear();
@@ -452,13 +452,13 @@ struct RécepteurImpl: Récepteur
 
     mon_misc.commence_op();
 
-    for(auto &finger: fingers)
+    pour(auto &finger: fingers)
     {
       trame.det = finger;
 
       trame.bs.clear();
-      trame.x  = ArrayXcf();
-      trame.x1 = ArrayXcf();
+      trame.x  = Vecf();
+      trame.x1 = Vecf();
       cnt_demod = 0;
 
       // Position relative au buffer appelant
@@ -468,16 +468,16 @@ struct RécepteurImpl: Récepteur
 
       VERB(msg("Récepteur, après offset cnt (cnt_x={}): {}", cnt_x, trame.det));
 
-      auto fo_entete = config.format.modulation.forme_onde;
-      if(config.format.fo_entete)
+      soit fo_entete = config.format.modulation.forme_onde;
+      si(config.format.fo_entete)
         fo_entete = config.format.fo_entete;
 
-      int nb_bits_par_symbole = fo_entete->infos.k;
-      int nb_symb_entete = config.format.entete.lon() / nb_bits_par_symbole;
+      entier nb_bits_par_symbole = fo_entete->infos.k;
+      entier nb_symb_entete = config.format.entete.lon() / nb_bits_par_symbole;
 
       trame.EbN0 = pow2db((db2pow(finger.SNR_dB) * osf) / nb_bits_par_symbole);
 
-      demod_en_cours = true;
+      demod_en_cours = oui;
 
       VERB(msg("nb_bits_par_symbole = {}, nb bits en tete = {}, nb_symb_entete = {}",
           nb_bits_par_symbole, config.format.entete.lon(), nb_symb_entete);)
@@ -488,9 +488,9 @@ struct RécepteurImpl: Récepteur
       decim = decimateur<cfloat>(osf);
 
       // Reset des filtres
-      if(filtre_itrp)
+      si(filtre_itrp)
       {
-        ArrayXcf z = ArrayXcf::Zero(config.ncoefs_interpolateur);
+        soit z = Veccf::zeros(config.ncoefs_interpolateur);
         filtre_itrp->step(z);
         fa->step(z);
       }
@@ -500,17 +500,17 @@ struct RécepteurImpl: Récepteur
       // Idem regle_delais()
       std::tie(delais_interpolateur, δt_interpolateur) = calc_retard();
 
-      //msg("Récepteur : pos avant: prec={}, int={}", finger.position_prec, finger.position);
+      //msg("Récepteur : pos avant: prec={}, entier={}", finger.position_prec, finger.position);
       finger.position_prec += δt_modulateur;
       finger.position_prec += δt_interpolateur;
-      while(finger.position_prec < finger.position)
+      tantque(finger.position_prec < finger.position)
         finger.position--;
-      while(finger.position_prec >= finger.position + 1)
+      tantque(finger.position_prec >= finger.position + 1)
         finger.position++;
 
-      auto δ = finger.position_prec - finger.position;
+      soit δ = finger.position_prec - finger.position;
 
-      //msg("Récepteur : pos après: prec={}, int={}", finger.position_prec, finger.position);
+      //msg("Récepteur : pos après: prec={}, entier={}", finger.position_prec, finger.position);
       VERB(msg_majeur("Récepteur : réglage délais : δt_modulateur={}, δt_interpolateur={}.", δt_modulateur, δt_interpolateur);)
 
       //regle_delais(1-δ);
@@ -521,19 +521,19 @@ struct RécepteurImpl: Récepteur
       // finger.position_prec = index à partir du buffer en cours
       // (peut être négatif pour indiquer un début sur la fin du buffer précédent)
 
-      int nspl_strict = (config.format.nbits * osf + nbits_par_symbole_données-1) / nbits_par_symbole_données;
+      entier nspl_strict = (config.format.nbits * osf + nbits_par_symbole_données-1) / nbits_par_symbole_données;
       // + de quoi flusher les filtres
-      int nspl = nspl_strict + 4 * osf + delais_interpolateur;
+      entier nspl = nspl_strict + 4 * osf + delais_interpolateur;
 
       // Entre 0 et Ne-1
       // Position relative au début du tampon précédent
-      int idx = finger.position + Ne;
+      entier idx = finger.position + Ne;
 
       // Saute le motif
       idx += dim_motif;
 
       // A cause du discriminateur, qui induit un délais de 2 échantillons
-      /*if(wf->est_fsk)
+      /*si(wf->est_fsk)
       {
         idx += 2;
         delais_interpolateur -= 2;
@@ -541,33 +541,33 @@ struct RécepteurImpl: Récepteur
 
       //msg("nspl strict = {} (nbits = {}), idx={}, Ne={}, osf={}, nbits_par_symbole_données={}", nspl_strict, config.format.nbits, idx, Ne, osf, nbits_par_symbole_données);
 
-      ArrayXcf y;
+      Veccf y;
 
       // Tout sur le deuxième tampon ?
-      if(idx >= Ne)
+      si(idx >= Ne)
       {
-        if(nspl > Ne - (idx - Ne))
+        si(nspl > Ne - (idx - Ne))
           nspl = Ne - (idx - Ne);
 
         tsd_assert((idx - Ne >= 0) && (idx - Ne + nspl <= Ne));
 
         y = x.segment(idx - Ne, nspl);
       }
-      else
+      sinon
       {
         // Nombre d'échantillons à prendre sur le tampon précédent
-        int nspl1 = min(nspl, Ne - idx);
+        entier nspl1 = min(nspl, Ne - idx);
 
         // Tous les échantillons peuvent être pris du tampon précédent
-        if(nspl1 == nspl)
+        si(nspl1 == nspl)
         {
           tsd_assert((idx >= 0) && (idx + nspl <= Ne));
           y = last.segment(idx, nspl);
         }
-        else
+        sinon
         {
           // Check débordement tampon suivant
-          if(nspl - nspl1 > Ne)
+          si(nspl - nspl1 > Ne)
             nspl = Ne + nspl1;
 
           tsd_assert(nspl > 0);
@@ -581,32 +581,32 @@ struct RécepteurImpl: Récepteur
         }
       }
 
-      // int demod_start = finger.position_prec + dim_motif + x.rows();
+      // entier demod_start = finger.position_prec + dim_motif + x.rows();
       // tsd_assert(demod_start >= 0);
       // ArrayXcf y = last.tail(last.rows() - demod_start);
       // y = tsd::vconcat(y, x);
       // TODO : ajouter la suite à partir de x
 
-      if(config.debug_actif && (last.rows() > 0))
+      si(config.debug_actif && (last.rows() > 0))
       {
         Figures fs;
-        auto f = fs.subplot();
+        soit f = fs.subplot();
         f.plot(last);
         f.plot((float) (idx - dim_motif), 0.0f, "ro");
         f.titre("Buffer complet");
 
         f = fs.subplot();
-        f.plot(last.segment(idx-dim_motif, std::min(nspl_strict + dim_motif, Ne - (idx-dim_motif))));
+        f.plot(last.segment(idx-dim_motif, min(nspl_strict + dim_motif, Ne - (idx-dim_motif))));
 
-        if(idx - dim_motif + 1 < last.rows())
+        si(idx - dim_motif + 1 < last.rows())
         {
           f.plot((float) (0), real(last(idx-dim_motif)), "ro");
-          f.plot((float) (δ), real(last((int) round(idx-dim_motif+δ))), "bs");
+          f.plot((float) (δ), real(last((entier) round(idx-dim_motif+δ))), "bs");
         }
-        if(idx + 1 < last.rows())
+        si(idx + 1 < last.rows())
         {
           f.plot((float) (dim_motif), real(last(idx)), "mo");
-          f.plot((float) (dim_motif+δ), real(last((int) round(idx+δ))), "bs");
+          f.plot((float) (dim_motif+δ), real(last((entier) round(idx+δ))), "bs");
         }
         f.titre("Zoom");
 
@@ -628,18 +628,18 @@ struct RécepteurImpl: Récepteur
 
       mon_misc.commence_op();
 
-      if(trame.bs.lon() == config.format.nbits)
+      si(trame.bs.lon() == config.format.nbits)
       {
         trames.push_back(trame);
         trame.bs.clear();
       }
-      else if(&finger != &(fingers.back()))
+      sinon si(&finger != &(fingers.back()))
       {
         msg_avert("Pas de quoi finir de démoduler dans ce buffer, il manque {} bits / {} (un deuxième finger écrase le précédent).",
             config.format.nbits - trame.bs.lon(), config.format.nbits);
         msg("  score finger en cours : {} (SNR = {:.1f} dB), dernier finger : {} (SNR = {:.1f} dB)",
             finger.score, finger.SNR_dB, fingers.back().score, fingers.back().SNR_dB);
-        int nspl_strict = (config.format.nbits * osf + nbits_par_symbole_données-1) / nbits_par_symbole_données;
+        entier nspl_strict = (config.format.nbits * osf + nbits_par_symbole_données-1) / nbits_par_symbole_données;
         msg("  néchantillons dispos : {}, nbéchantillons nécessaires : {} (nbits={}, osf={}, nbits_par_symbole={} bits/symbole).", Ne - idx, nspl_strict, config.format.nbits, osf, nbits_par_symbole_données);
       }
     }
@@ -650,41 +650,41 @@ struct RécepteurImpl: Récepteur
     mon_misc.fin_op();
   }
 
-  int cnt_demod = 0;
-  void step_demod(const ArrayXcf &x)
+  entier cnt_demod = 0;
+  void step_demod(const Veccf &x)
   {
     mon_demod.commence_op();
 
     BitStream bs;
-    ArrayXXf llr;
+    Tabf llr;
 
     trame.x = vconcat(trame.x, x);
 
-    int nb_echans_theo = osf * (config.format.nbits + nbits_par_symbole_données - 1) / nbits_par_symbole_données;
+    entier nb_echans_theo = osf * (config.format.nbits + nbits_par_symbole_données - 1) / nbits_par_symbole_données;
 
-    if(trame.x.rows() > nb_echans_theo)
+    si(trame.x.rows() > nb_echans_theo)
       trame.x = trame.x.head(nb_echans_theo).eval();
 
-    ArrayXcf x1 = x * std::polar(1.0f / trame.det.gain, -trame.det.θ);
+    Veccf x1 = x * std::polar(1.0f / trame.det.gain, -trame.det.θ);
 
     // Le premier échantillon de x1 est exactement le milieu du premier symbole
 
-    ArrayXcf y = filtre_itrp->step(x1);
-    ArrayXcf y1 = fa->step(y);
+    soit y = filtre_itrp->step(x1);
+    soit y1 = fa->step(y);
 
     // TODO : intégrer ensemble, dans un seul filtre polyphase,
     // l'interpolateur, le filtre adapté et la décimation.
 
     // osf/2 pour ce placer au milieu du premier symbole
-    ArrayXcf y2, y3;
+    Veccf y2, y3;
 
-    if(delais_interpolateur == 0)
+    si(delais_interpolateur == 0)
       y2 = y1;
-    else if(delais_interpolateur >= y1.rows())
+    sinon si(delais_interpolateur >= y1.rows())
     {
       delais_interpolateur -= y1.rows(); // ???
     }
-    else
+    sinon
     {
 
       VERB(msg("Recalage signal : délais = {}", delais_interpolateur));
@@ -695,9 +695,9 @@ struct RécepteurImpl: Récepteur
 
     // Maintenant, on ne garde que une échantillon tous les R
     //  sauf si la waveform en veut plus
-    //if(wf->est_fsk)
+    //si(wf->est_fsk)
     //  y3 = y2;
-    //else
+    //sinon
     y3 = decim->step(y2);
 
 
@@ -708,11 +708,11 @@ struct RécepteurImpl: Récepteur
 
     //msg("TX1/b: {} elms, min coeff = {}", trame.x1.rows(), trame.x1.rows() > 0 ? trame.x1.abs().minCoeff() : 0);
 
-    if(trame.x1.rows() > nb_echans_theo / osf)
+    si(trame.x1.rows() > nb_echans_theo / osf)
       trame.x1 = trame.x1.head(nb_echans_theo / osf).eval();
 
 
-    /*if(trame.x1.abs().minCoeff() > 1e10)
+    /*si(trame.x1.abs().minCoeff() > 1e10)
     {
       msg_avert("PB REC: det={}", trame.det);
       msg("x.mincoef={},max={}", x.abs().minCoeff(),x.abs().maxCoeff());
@@ -724,7 +724,7 @@ struct RécepteurImpl: Récepteur
       msg("trame.x1: {}, {}", trame.x1.abs().minCoeff(), trame.x1.abs().maxCoeff());
     }*/
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
 
       //msg("Correction de porteuse : phase={}°, gain={:.2f}", rad2deg(trame.det.θ), trame.det.gain);
@@ -740,18 +740,18 @@ struct RécepteurImpl: Récepteur
       {
         Figure f;
         f.plot(y2);
-        for(auto i = 0; i < y2.rows(); i += osf)
+        pour(auto i = 0; i < y2.rows(); i += osf)
           f.plot((float) i, real(y2(i)), "ro");
         f.afficher("Timing");
       }
 
       {
         Figure f;
-        ArrayXcf y3((int) floor(y2.rows() / osf));
-        for(auto i = 0; i < y2.rows(); i += osf)
-          if(i / osf < y3.rows())
+        Veccf y3((entier) floor(y2.rows() / osf));
+        pour(auto i = 0; i < y2.rows(); i += osf)
+          si(i / osf < y3.rows())
             //y3(i / osf) = y2(i);
-            y3((int) (i / osf)) = y2(i);
+            y3((entier) (i / osf)) = y2(i);
         f.plot_iq(y3, "bo");
         f.afficher("Constellation après timing");
       }
@@ -761,12 +761,12 @@ struct RécepteurImpl: Récepteur
     demod->step(y3, bs, llr);
 
     // TODO: optim
-    for(auto i = 0; (i < bs.lon()) && (trame.bs.lon() < config.format.nbits); i++)
+    pour(auto i = 0; (i < bs.lon()) && (trame.bs.lon() < config.format.nbits); i++)
       trame.bs.push(bs[i]);
 
-    if(trame.bs.lon() == config.format.nbits)
+    si(trame.bs.lon() == config.format.nbits)
     {
-      demod_en_cours = false;
+      demod_en_cours = non;
     }
 
     mon_demod.fin_op();
@@ -776,9 +776,9 @@ struct RécepteurImpl: Récepteur
 
 sptr<Récepteur> récepteur_création(const RécepteurConfig &rc)
 {
-  auto res = make_shared<RécepteurImpl>();
+  soit res = make_shared<RécepteurImpl>();
   res->configure(rc);
-  return res;
+  retourne res;
 }
 
 

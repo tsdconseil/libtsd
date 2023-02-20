@@ -69,20 +69,20 @@ extern float sinc(float T, float f);
 extern float sinc(float t);
 
 
-/** @brief Noyau de Dirichlet (à documenter !)
+/** @brief Noyau de Dirichlet (sinus cardinal périodique) (à documenter !)
  *
  *  @f[
  *  D_N(\Omega) = \sum_{k=-N}^N e^{-\mathbf{i}\Omega k}
  *  @f]
  *
  * */
-extern double Dirichlet(int N, double Ω);
+extern double Dirichlet(entier N, double Ω);
 
 /** @brief Polynôme de Chebychev du premier type : @f$T_n\left(\cos(\theta)\right) = \cos(n\theta)@f$ */
-extern Poly<float> Chebychev_T(int n);
+extern Poly<float> Chebychev_T(entier n);
 
 /** @brief Polynôme de Chebychev du deuxième type : @f$U_n\left(\sin(\theta)\right) = \sin(n\theta)@f$ */
-extern Poly<float> Chebychev_U(int n);
+extern Poly<float> Chebychev_U(entier n);
 
 /** @} */
 

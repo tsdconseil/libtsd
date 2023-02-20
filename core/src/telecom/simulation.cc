@@ -10,50 +10,49 @@ namespace tsd::telecom {
 
 
 
-
-
-ArrayXf doppler_distri(ArrayXd f, float fd, double fc)
+// TODO: A passer dans tsd
+Veccf randnc(entier n)
 {
-  int n = f.rows();
-  ArrayXf S(n);
-  msg("fd = {}, fc = {}", fd, fc);
-  for(auto i = 0; i < n; i++)
-  {
-    if(abs(f(i)-fc) >= fd)
-      S(i) = 0;
-    else
-      S(i) = 1 / (π*fd*sqrt(1.0-pow((f(i)-fc)/fd, 2.0)));
-  }
-  return S;
+  Veccf y(n);
+  y.set_real(randn(n) / sqrt(2));
+  y.set_imag(randn(n) / sqrt(2));
+  retourne y;
+}
+
+Vecf doppler_distri(const Vecd &f, float fd, double fc)
+{
+  retourne Vecf::int_expr(f.rows(), IMAP(
+      (abs(f(i)-fc) >= fd) ? 0 : 1 / (π*fd*sqrt(1.0-pow((f(i)-fc)/fd, 2.0)));
+      ));
 }
 
 
 // ?
-ArrayXf doppler_filtre(float fd, float fs)
+Vecf doppler_filtre(float fd, float fs)
 {
-  //auto fs2 = 4 * fd; // OSF = 4
-  int ntaps = 512;
-  ArrayXd f = linspace(0, 2*fd, ntaps/2).cast<double>();
-  ArrayXf S = doppler_distri(f, fd, 0);
-  ArrayXf h = tsd::filtrage::design_rif_freq(ntaps, S);
-  h /= h.sum();
-  return h;
+  //soit fs2 = 4 * fd; // OSF = 4
+  soit ntaps = 512;
+  soit f = linspace(0, 2*fd, ntaps/2).as<double>();
+  soit S = doppler_distri(f, fd, 0);
+  soit h = tsd::filtrage::design_rif_freq(ntaps, S);
+  h /= h.somme();
+  retourne h;
 }
 
 
 
 struct CanalDispersif: Filtre<cfloat, cfloat, CanalDispersifConfig>
 {
-  ArrayXf hd;
+  Vecf hd;
 
   sptr<FiltreGen<cfloat>> rif, reechan;
 
-  ArrayXcf reste;
-  bool premier_appel = true;
+  Veccf reste;
+  bouléen premier_appel = oui;
 
-  int configure_impl(const CanalDispersifConfig &config)
+  entier configure_impl(const CanalDispersifConfig &config)
   {
-    return 0;
+    retourne 0;
   }
 
   CanalDispersif(const CanalDispersifConfig &config)
@@ -62,24 +61,21 @@ struct CanalDispersif: Filtre<cfloat, cfloat, CanalDispersifConfig>
 
     hd = doppler_filtre(config.fd, config.fe);
 
-    float fs2 = 4 * config.fd;
+    soit fs2 = 4 * config.fd;
 
-    tsd::filtrage::analyse_filtre(hd, config.fd).afficher();
+    tsd::filtrage::plot_filtre(hd, non, config.fd).afficher();
 
     rif     = tsd::filtrage::filtre_rif<float,cfloat>(hd);
     reechan = tsd::filtrage::filtre_reechan<cfloat>(config.fe / fs2);
-
-
   }
 
-  ArrayXcf gen_bruit(int n)
+  Veccf gen_bruit(entier n)
   {
-    auto &config = Configurable<CanalDispersifConfig>::config;
-    ArrayXcf b(n);
-    b.real() = randn(n) / sqrt(2);
-    b.imag() = randn(n) / sqrt(2);
+    soit &config = Configurable<CanalDispersifConfig>::config;
 
-    if(config.type == TypeCanal::RICE)
+    soit b = randnc(n);
+
+    si(config.type == TypeCanal::RICE)
     {
       // x = a + n
       // K = a²/σ²
@@ -87,42 +83,33 @@ struct CanalDispersif: Filtre<cfloat, cfloat, CanalDispersifConfig>
       b += sqrt(config.K);
       // normalisation :
       //noise = noise ./ sqrt(chn.K ^ 2 + 1);
-      b /= sqrt(b.square().mean());
+      b /= sqrt(square(b).moyenne());
     }
-    return b;
+    retourne b;
   }
 
-  void step(const Eigen::Ref<const Vecteur<cfloat>> x, Vecteur<cfloat> &y)
+  void step(const Vecteur<cfloat> &x, Vecteur<cfloat> &y)
   {
-    auto &config = Configurable<CanalDispersifConfig>::config;
-    int n   = x.rows();
-    int nr  = reste.rows();
-    // (1) Generate m samples
-    float fs2 = 4 * config.fd;
-    int m = ceil((n-nr+1) * fs2 / config.fe);
+    soit &config = Configurable<CanalDispersifConfig>::config;
+    soit n   = x.rows(), nr  = reste.rows();
 
-    //int nh = hd.rows();
+    // (1) Génère m échantillons
+    soit fs2 = 4 * config.fd;
+    soit m = (entier) ceil((n-nr+1) * fs2 / config.fe);
 
-    if(premier_appel)
+    si(premier_appel)
     {
-      premier_appel = false;
-      ArrayXcf x1 = rif->step(gen_bruit(hd.rows()));
-      reechan->step(x1);
+      premier_appel = non;
+      reechan->step(rif->step(gen_bruit(hd.rows())));
     }
 
-    ArrayXcf x0 = gen_bruit(m);
-    ArrayXcf x1 = rif->step(x0);
-    ArrayXcf x2 = reechan->step(x1);
-
-
-
-    //tsd_assert(x2.rows() >= x.rows());
-
-    /////////////////////////
+    soit x0 = gen_bruit(m);
+    soit x1 = rif->step(x0);
+    soit x2 = reechan->step(x1);
 
     y.resize(n);
 
-    if(nr > 0)
+    si(nr > 0)
       y.head(nr) = x.head(nr) * reste;
 
     tsd_assert(x2.rows() >= n - nr);
@@ -131,38 +118,32 @@ struct CanalDispersif: Filtre<cfloat, cfloat, CanalDispersifConfig>
 
     reste = x2.tail(x2.rows() - (n - nr));
 
+    si(config.debug_actif)
     {
       Figures f;
-      f.subplot().plot(x, "", "x (entrée)");
+      f.subplot().plot(x,  "", "x (entrée)");
       f.subplot().plot(x0, "", "x0 (bruit)");
       f.subplot().plot(x1, "", "x1 (filtre Doppler)");
       f.subplot().plot(x2, "", "x2 (ré-échan)");
-      f.subplot().plot(y, "", "y (produit)");
-      f.afficher();
+      f.subplot().plot(y,  "", "y (produit)");
+      f.afficher("Canal dispersif");
     }
-
-    // ArrayXcf x1 = tsd::filtrage::filtrer(hd, noise);
-    // x1 = x1.segment(3*nh/2, m).eval();
-    // (4) upsample to fs
-    //ArrayXcf x2 = resample(x1, fs / fs2);
   }
 };
 
 
 sptr<Filtre<cfloat, cfloat, CanalDispersifConfig>> canal_dispersif(const CanalDispersifConfig &config)
 {
-  return std::make_shared<CanalDispersif>(config);
+  retourne std::make_shared<CanalDispersif>(config);
 }
-
-
 
 
 
 float bruit_thermique(float bp, float T)
 {
   T += 273.15; // Conversion en Kelvin
-  float kb = 1.380650e-23; // en Joules
-  return kb * T * bp; // en W
+  soit kb = 1.380650e-23f; // en Joules
+  retourne kb * T * bp; // en W
 }
 
 

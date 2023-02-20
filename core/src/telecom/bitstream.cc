@@ -5,171 +5,168 @@
 namespace tsd::telecom {
 
 
-BitStream randstream(int n)
+BitStream randstream(entier n)
 {
-  return BitStream::rand(n);
+  retourne BitStream::rand(n);
 }
 
-BitStream BitStream::zéros(int nbits)
+BitStream BitStream::zéros(entier nbits)
 {
   BitStream r;
   // TODO : plus efficace
-  for(auto i = 0; i < nbits; i++)
+  pour(auto i = 0; i < nbits; i++)
     r.push(0);
-  return r;
+  retourne r;
 }
 
-BitStream BitStream::altern(int nbits)
+BitStream BitStream::altern(entier nbits)
 {
   BitStream r;
 
-  for(auto i = 0; i < nbits + 1; i += 2)
+  pour(auto i = 0; i < nbits + 1; i += 2)
   {
     r.push(1);
     r.push(0);
   }
 
-  if(nbits & 1)
+  si(nbits & 1)
     r.push(1);
 
-  return r;
+  retourne r;
 }
 
-BitStream BitStream::uns(int nbits)
+BitStream BitStream::uns(entier nbits)
 {
   BitStream r;
   // TODO : plus efficace
-  for(auto i = 0; i < nbits; i++)
+  pour(auto i = 0; i < nbits; i++)
     r.push(1);
-  return r;
+  retourne r;
 }
 
-BitStream BitStream::rand(int nbits)
+BitStream BitStream::rand(entier nbits)
 {
   BitStream r;
   r.resize(nbits);
   //std::mt19937 gene;
   std::uniform_int_distribution<> dis(0, 255);
-  for(auto j = 0u; j < r.buffer.size(); j++)
-  {
+  pour(auto j = 0u; j < r.buffer.size(); j++)
     r.buffer[j] = dis(generateur_aleatoire);
-  }
-  return r;
+  retourne r;
 }
 
-void BitStream::set(unsigned int index, bool valeur)
+void BitStream::set(unsigned int index, bouléen valeur)
 {
-  auto byte = index / 8;
-  auto bit  = index & 7;
+  soit octet = index / 8;
+  soit bit   = index & 7;
 
-  if(byte >= buffer.size())
+  si(octet >= buffer.size())
     echec("Ecriture bitstream : index invalide ({}, nb bits = {}).", index, buffer.size() * 8);
 
-  if(valeur)
-    buffer[byte] |= (1 << bit);
-  else
-    buffer[byte] &= ~(1 << bit);
+  si(valeur)
+    buffer[octet] |= (1 << bit);
+  sinon
+    buffer[octet] &= ~(1 << bit);
 }
 
-bool BitStream::operator [](unsigned int index) const
+bouléen BitStream::operator [](unsigned int index) const
 {
-  auto byte = index / 8;
-  auto bit  = index & 7;
+  soit octet = index / 8;
+  soit bit   = index & 7;
 
-
-  if(byte >= buffer.size())
+  si(octet >= buffer.size())
   {
     msg_erreur("Lecture bitstream : index invalide ({}, nb bits = {}, buffer size = {} bits).",
         index, nbits, buffer.size() * 8);
-    return false;
+    retourne non;
   }
 
-  return buffer[byte] & (1 << bit) ? true : false;
+  retourne buffer[octet] & (1 << bit) ? oui : non;
 }
 
 BitStream::BitStream(const std::string &s)
 {
-  for(auto i = 0u; i < s.size(); i++)
+  pour(auto i = 0u; i < s.size(); i++)
   {
-    if(s[i] == '1')
-      push(true);
-    else if(s[i] == '0')
-      push(false);
-    else
+    si(s[i] == '1')
+      push(oui);
+    sinon si(s[i] == '0')
+      push(non);
+    sinon
       echec("Construction bitstream : chaine invalide \"{}\"", s);
   }
 }
 
-int BitStream::dst_Hamming(const BitStream &bs) const
+entier BitStream::dst_Hamming(const BitStream &bs) const
 {
-  auto n = lon();
-  if(bs.lon() != n)
+  soit n = lon();
+  si(bs.lon() != n)
     echec("Distance de Hamming entre bitstream : dimensions différentes ({} vs {} bits).", n, bs.lon());
 
-  int cnt = 0;
-  for(auto i = 0; i < n; i++)
-    if((*this)[i] != bs[i])
+  soit cnt = 0;
+  pour(auto i = 0; i < n; i++)
+    si((*this)[i] != bs[i])
       cnt++;
 
-  return cnt;
+  retourne cnt;
 }
 
-BitStream::BitStream(int n)
+BitStream::BitStream(entier n)
 {
   resize(n);
 }
 
-BitStream::BitStream(IArrayXf x)
+BitStream::BitStream(const Vecf &x)
 {
-  auto nbits = x.rows();
+  soit nbits = x.rows();
   buffer.reserve((nbits + 7) / 8);
-  for(auto i = 0; i < nbits; i++)
+  pour(auto i = 0; i < nbits; i++)
     push(x(i) != 0.0f);
 }
 
-Eigen::ArrayXi BitStream::iarray() const
+Veci BitStream::iarray() const
 {
-  auto n = lon();
-  Eigen::ArrayXi res(n);
-  for(auto i = 0; i < n; i++)
+  soit n = lon();
+  Veci res(n);
+  pour(auto i = 0; i < n; i++)
     res(i) = (*this)[i] ? 1 : 0;
-  return res;
+  retourne res;
 }
 
-ArrayXf BitStream::array() const
+Vecf BitStream::array() const
 {
-  auto n = lon();
-  ArrayXf res(n);
-  for(auto i = 0; i < n; i++)
+  soit n = lon();
+  Vecf res(n);
+  pour(auto i = 0; i < n; i++)
     res(i) = (*this)[i] ? 1.0f : 0.0f;
-  return res;
+  retourne res;
 }
 
-int BitStream::lon() const
+entier BitStream::lon() const
 {
-  return nbits;//buffer.size() * 8;
+  retourne nbits;
 }
 
-bool BitStream::operator ==(const BitStream &t2)
+bouléen BitStream::operator ==(const BitStream &t2)
 {
-  return buffer == t2.buffer;
+  retourne buffer == t2.buffer;
 }
 
 BitStream operator +(const BitStream &t1, const BitStream &t2)
 {
   BitStream res;
-  for(auto i = 0; i < t1.lon(); i++)
+  pour(auto i = 0; i < t1.lon(); i++)
     res.push(t1[i]);
-  for(auto i = 0; i < t2.lon(); i++)
+  pour(auto i = 0; i < t2.lon(); i++)
     res.push(t2[i]);
-  return res;
+  retourne res;
 }
 
 std::ostream& operator<<(std::ostream &ss, const BitStream &t)
 {
-  for(auto i = 0; i < t.lon(); i++)
-    ss << ((int) t[i]);
-  return ss;
+  pour(auto i = 0; i < t.lon(); i++)
+    ss << ((entier) t[i]);
+  retourne ss;
 }
 
 void BitStream::restart()
@@ -184,25 +181,25 @@ void BitStream::clear()
 
 unsigned char *BitStream::get_ptr()
 {
-  return &(buffer[0]);
+  retourne &(buffer[0]);
 }
 
-void BitStream::pad(int nzeros)
+void BitStream::pad(entier nzeros)
 {
-  for(auto i = 0; i < nzeros; i++)
+  pour(auto i = 0; i < nzeros; i++)
     push(0);
 }
 
-void BitStream::pad_mult(int m)
+void BitStream::pad_mult(entier m)
 {
-  int nbits = lon();
-  int reste = nbits % m;
+  soit nbits = lon();
+  soit reste = nbits % m;
 
   // Exemples :
   //  - k = 1 => RAS
   //  - k = 2, nbits = 11 => push 1 bit
   //
-  if(reste != 0)
+  si(reste != 0)
     pad(m - reste);
 }
 
@@ -211,7 +208,7 @@ void BitStream::operator +=(const BitStream &t)
   *this = *this + t;
 }
 
-void BitStream::resize(int nbits)
+void BitStream::resize(entier nbits)
 {
   this->nbits = nbits;
   buffer.resize((nbits + 7) / 8, 0);
@@ -220,7 +217,7 @@ void BitStream::resize(int nbits)
 
 void BitStream::push_u32(uint32_t i)
 {
-  for(auto j = 0; j < 32; j++)
+  pour(auto j = 0; j < 32; j++)
     push(i & (1u << j));
 }
 
@@ -228,45 +225,29 @@ uint32_t BitStream::pop_u32()
 {
   uint32_t res = 0;
 
-  for(auto j = 0; j < 32; j++)
+  pour(auto j = 0; j < 32; j++)
       res |= ((uint32_t) pop() & 1) << j;
 
-  return res;
+  retourne res;
 }
 
-void BitStream::push(bool b)
+void BitStream::push(bouléen b)
 {
-  //if(pos >= (int) (8 * buffer.size()))
-    //buffer.resize(buffer.size() + 1, 0);
-
   nbits++;
-  if(nbits > (int) (8 * buffer.size()))
+  si(nbits > (entier) (8 * buffer.size()))
     buffer.resize((nbits + 7) / 8, 0);
 
   set(nbits-1, b);
-
-  //tsd_assert(!eof());
-
-  /*auto byte = nbits / 8;
-  auto bit  = nbits & 7;
-
-  if(b)
-    buffer[byte] |= (1 << bit);
-  else
-    buffer[byte] &= ~(1 << bit);
-
-  //pos++;
-  nbits++;*/
 }
 
-bool BitStream::pop()
+bouléen BitStream::pop()
 {
-  return (*this)[pos++];
+  retourne (*this)[pos++];
 } 
 
-bool BitStream::eof()
+bouléen BitStream::eof()
 {
-  return pos >= nbits;//(int) (8 * buffer.size());
+  retourne pos >= nbits;
 }
 
 

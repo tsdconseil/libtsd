@@ -1,34 +1,36 @@
 #include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 
-int test_filtre_fft()
+entier test_filtre_fft()
 {
   msg("Test filtre FFT...");
 
-  int BS = 512;
+  soit BS = 512;
   FiltreFFTConfig config;
-  config.nb_zeros_min             = 0;
+  config.nb_zeros_min         = 0;
   config.dim_blocs_temporel   = BS;
-  config.avec_fenetrage       = true;
-  config.traitement_freq = [&](ArrayXcf &X)
+  config.avec_fenetrage       = oui;
+  config.traitement_freq = [&](Veccf &X)
   {
+    // Ne fait rien
   };
 
-  auto [ola, NOLA] = filtre_fft(config);
+  soit [ola, NOLA] = filtre_fft(config);
 
-  int M = 1024, N = 4096;
+  soit M = 1024, N = 4096;
 
-  ArrayXcf x = ArrayXcf::Zero(N), motif = ArrayXcf::Zero(M);
+  soit x     = Veccf::zeros(N),
+       motif = Veccf::zeros(M);
 
-  for(auto i = 0; i < M; i++)
+  pour(auto i = 0; i < M; i++)
   {
-    /*float fs = 100.0f;
-    float Omega = 1.0f / fs;
-    x(i) = std::exp(2.0f*π*cfloat(0,1)*((float)i)*Omega);
+    /*soit fs = 100.0f;
+    soit Omega = 1.0f / fs;
+    x(i) = exp(2.0f*π*cfloat(0,1)*((float)i)*Omega);
     x(i) *= ((float) i) / N;*/
 
 
-    float a = std::abs(((float) i) - ((float) M)/2);
+    soit a = abs(((float) i) - ((float) M)/2);
     a = (M/2 - a) / (M/2);
     motif(i) = a - cfloat(0,1) * a;
   }
@@ -40,11 +42,16 @@ int test_filtre_fft()
 
   x.segment(N/2,M) = motif;
 
-  ArrayXcf y;
-  ola->step(x, y);
+  soit y = ola->step(x);
 
+  {
+    Figures f;
+    f.subplot().plot(x, "", "x");
+    f.subplot().plot(y, "", "y");
+    f.afficher();
+  }
 
-  return 0;
+  retourne 0;
 }
 
 

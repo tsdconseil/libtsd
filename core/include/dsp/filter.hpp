@@ -2,16 +2,12 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
-#include <dsp/view.hpp>
+#include "dsp/view.hpp"
 #include "dsp/dsp.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/filtrage/frat.hpp"
 
 namespace dsp {
-/*namespace view {
-  struct Figure;
-  struct Figures;
-}*/
 
   template<typename T>
    using FRat = tsd::FRat<T>;
@@ -55,7 +51,7 @@ namespace dsp::filter {
   /** @cond private  */
   using Window = tsdf::Fenetre;
 
-  inline ArrayXf window(Window type, int n, bool symetrical = true)
+  inline Vecf window(Window type, int n, bool symetrical = true)
   {
     return tsdf::fenetre(type, n, symetrical);
   }
@@ -78,7 +74,7 @@ namespace dsp::filter {
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
    *  @image html filtrage-fenetre.png width=600px
    */
-  inline ArrayXf window(const std::string &type, int n, bool symetrical = true)
+  inline Vecf window(const std::string &type, int n, bool symetrical = true)
   {
     return tsdf::fenetre(type, n, symetrical);
   }
@@ -103,7 +99,7 @@ namespace dsp::filter {
    *
    *  @sa design_rif_fen()
    */
-  inline ArrayXf window_chebychev(int n, float atten_db, bool symetrical = true)
+  inline Vecf window_chebychev(int n, float atten_db, bool symetrical = true)
   {
     return tsdf::fenêtre_chebychev(n, atten_db, symetrical);
   }
@@ -114,7 +110,7 @@ namespace dsp::filter {
    *
    *
    */
-  static inline ArrayXf window_slepian(int N, float B)
+  static inline Vecf window_slepian(int N, float B)
   {
     return tsdf::fenêtre_slepian(N, B);
   }
@@ -122,7 +118,7 @@ namespace dsp::filter {
 
   using FenInfos = tsdf::FenInfos;
 
-  static inline FenInfos window_analysis(const std::string &nom, const ArrayXf &x)
+  static inline FenInfos window_analysis(const std::string &nom, const Vecf &x)
   {
     return tsdf::fenetre_analyse(nom, x);
   }
@@ -180,7 +176,7 @@ namespace dsp::filter {
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre_kaiser
    *  @image html filtrage-fenetre-kaiser.png width=600px
    *   */
-  inline ArrayXf window_kaiser(float atten_db, float df, bool symetrical = true)
+  inline Vecf window_kaiser(float atten_db, float df, bool symetrical = true)
   {
     return tsdf::fenêtre_kaiser(atten_db, df, symetrical);
   }
@@ -199,7 +195,7 @@ namespace dsp::filter {
    * @return Column vector with window coefficients.
    *
    *  @sa fenetre_kaiser(), kaiser_param() */
-  inline ArrayXf window_kaiser1(int n, float β, bool symetrical = true)
+  inline Vecf window_kaiser1(int n, float β, bool symetrical = true)
   {
     return tsdf::fenêtre_kaiser1(n, β, symetrical);
   }
@@ -233,7 +229,7 @@ namespace dsp::filter {
  *  @sa repfreq(), frgroup(), frphase()
  */
 template<typename T>
-  std::tuple<ArrayXf, ArrayXf> frmag(const FRat<T> &h, unsigned int npts = 1024)
+  std::tuple<Vecf, Vecf> frmag(const FRat<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frmag(h, npts);
 }
@@ -254,7 +250,7 @@ template<typename T>
  *  @sa frmag(), frphase(), frgroup()
  */
 template<typename T>
-  ArrayXcf repfreq(const FRat<T> &h, const ArrayXf &fr)
+  Veccf repfreq(const FRat<T> &h, const Vecf &fr)
 {
   return tsdf::repfreq(fr, fr);
 }
@@ -264,7 +260,7 @@ template<typename T>
 
 /** @brief Impulse response. */
 template<typename T>
-  ArrayXf repimp(const FRat<T> &h, int npts = -1)
+  Vecf repimp(const FRat<T> &h, int npts = -1)
 {
   return tsdf::repimp(h, npts);
 }
@@ -282,7 +278,7 @@ template<typename T>
  *  @param npts Frequency resolution.
  *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the phases @f$y_k@f$ (in radians).
  */
-template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const FRat<T> &h, unsigned int npts = 1024)
+template<typename T> std::tuple<Vecf, Vecf> frphase(const FRat<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frphase<T>(h, npts);
 }
@@ -305,7 +301,7 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const FRat<T> &h, unsi
  *  @image html frgroup.png width=600px
  *
  */
-template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, unsigned int npts = 1024)
+template<typename T> std::tuple<Vecf, Vecf> frgroup(const FRat<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frgroup<T>(h, npts);
 }
@@ -322,6 +318,7 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, unsi
  * alongside with the zeros / poles diagram.
  *
  *  @param h      Transfert function to be analyzed.
+ *  @param complet If true, display all the responses (impulse, poles and zeros, etc.). Otherwise, displau only the the frequency response (in magnitude).
  *  @param fs     Sampling frequency.
  *  @return       The new figure.
  *
@@ -332,74 +329,45 @@ template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const FRat<T> &h, unsi
  * @sa filter_display()
  */
 template<typename T>
-  sptr<dsp::view::Figures> filter_analysis(const FRat<T> &h, float fs = 1.0f)
+  dsp::view::Figures plot_filter(const FRat<T> &h, bool complete = false, float fs = 1)
 {
-  return tsdf::analyse_filtre(h, fs);
-}
-
-/** @brief Display impulse and frequency response of a filter.
- *
- *  <h3>Display impulse and frequency response of a filter.</h3>
- *
- * This function build a new figure, and plots the frequency
- * and time response of the filter.
- *
- *  @param h      Transfert function to be analyzed.
- *  @param fs     Sampling frequency.
- *  @return       The new figure.
- *
- * @par Exeaple
- * @snippet exemples/src/filtrage/ex-filtrage.cc exemple_affiche
- * @image html filtrage-affiche.png width=1000px
- *
- * @sa filter_analysis() (for more plots)
- */
-template<typename T>
-  tsd::vue::Figures filter_display(const FRat<T> &h, float fs = 1.0f)
-{
-  return tsdf::affiche_filtre(h, fs);
+  return tsdf::plot_filtre(h, complete, fs);
 }
 
 
 /** @cond undoc */
 
+inline dsp::view::Figures plot_filter(const Vecf &h, bool complete = false, float fe = 1)
+{
+  return plot_filter(FRat<float>::rif(h), complete, fe);
+}
 
-template<typename T> ArrayXf repimp(const Vector<T> &h, int npts = -1)
+template<typename T> Vecf repimp(const Vector<T> &h, int npts = -1)
 {
   return tsdf::repimp(h, npts);
 }
-inline ArrayXcf repfreq(const ArrayXf &h, const ArrayXf &fr)
+inline Veccf repfreq(const Vecf &h, const Vecf &fr)
 {
   return tsdf::repfreq(h, fr);
 }
-template<typename T> ArrayXf repfreq(const Vector<T> &h, int npts = 1024)
+template<typename T> Vecf repfreq(const Vector<T> &h, int npts = 1024)
 {
   return tsdf::repfreq<T>(h, npts);
 }
 
-template<typename T> std::tuple<ArrayXf, ArrayXf> frmag(const Vector<T> &h, unsigned int npts = 1024)
+template<typename T> std::tuple<Vecf, Vecf> frmag(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frmag<T>(h, npts);
 }
 
-template<typename T> std::tuple<ArrayXf, ArrayXf> frphase(const Vector<T> &h, unsigned int npts = 1024)
+template<typename T> std::tuple<Vecf, Vecf> frphase(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frphase<T>(h, npts);
 }
 
-template<typename T> std::tuple<ArrayXf, ArrayXf> frgroup(const Vector<T> &h, unsigned int npts = 1024)
+template<typename T> std::tuple<Vecf, Vecf> frgroup(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frgroup<T>(h, npts);
-}
-
-inline dsp::view::Figures filter_analysis(const ArrayXf &h, float fe = 1.0f)
-{
-  return tsdf::analyse_filtre(h, fe);
-}
-
-inline dsp::view::Figures filter_display(const ArrayXf &h, float fe = 1.0f)
-{
-  return tsdf::affiche_filtre(h, fe);
 }
 
 /** @endcond */
@@ -458,7 +426,7 @@ template<typename T>
  *
  *  @sa frmag(), frphase()
  */
-inline std::tuple<ArrayXf, ArrayXf> firamp(const Eigen::ArrayXf &h, int L = 1024, bool symetrical = true)
+inline std::tuple<Vecf, Vecf> firamp(const Vecf &h, int L = 1024, bool symetrical = true)
 {
   return tsdf::rifamp(h, L, symetrical);
 }
@@ -518,7 +486,7 @@ struct SpecFreqIntervalle
  *
  *  @sa hilbert(), hilbert_transformeur()
  */
-inline ArrayXf design_fir_hilbert(int n, const std::string &window = "hn")
+inline Vecf design_fir_hilbert(int n, const std::string &window = "hn")
 {
   return tsdf::design_rif_hilbert(n, window);
 }
@@ -574,7 +542,7 @@ inline FRat<float> design_biquad(const BiquadSpec &spec)
  * @param gain_dB Gain, in dB, used only for the filter of type resonnance or plateau.
  *
  * @par Example: low-pass filters, with different values for the quality factor
- * @snippet exemples/src/filtrage/ex-filtrage.cc ex_biquad_lp
+ * @snippet exemples/src/filtrage/ex-rii.cc ex_biquad_lp
  * @image html ex-biquad-pb.png width=800px
  *
  * @par Bibliography
@@ -640,7 +608,7 @@ extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogi
  * @return h          Transfert function (digital)
  *
  * @par Example
- * @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_riia
+ * @snippet exemples/src/filtrage/ex-rii.cc ex_design_riia
  * @image html design-riia.png width=800px
  *
  * @sa bilinear_transform(), @ref filter_sois(), filter_iir()
@@ -687,7 +655,7 @@ inline FRat<cfloat> design_iira(int n, const std::string &type,
  *
  * @sa design_fir_freq_freqs()
  */
-inline ArrayXf design_fir_freq(int n, const ArrayXf &d)
+inline Vecf design_fir_freq(int n, const Vecf &d)
 {
   return tsdf::design_rif_freq(n, d);
 }
@@ -707,7 +675,7 @@ inline ArrayXf design_fir_freq(int n, const ArrayXf &d)
  *
  * @sa design_fir_freq()
  */
-inline ArrayXf design_fir_freq_freqs(int n)
+inline Vecf design_fir_freq_freqs(int n)
 {
   return tsdf::design_rif_freq_freqs(n);
 }
@@ -719,12 +687,46 @@ inline ArrayXf design_fir_freq_freqs(int n)
  *  @param n      Filter order
  *  @param d      Desired frequency response
  *  @param w      Weighting coefficients vector (must have the same length as d)
- *  @param debug  If true, display some plots with intermediate computings.
  *  @returns      Coefficients vector of the FIR filter (vector of length n)
  */
-inline ArrayXf design_fir_eq(unsigned int n, IArrayXf d, IArrayXf w, bool debug = false)
+inline Vecf design_fir_eq(unsigned int n, const Vecf &d, const Vecf &w)
 {
-  return tsdf::design_rif_eq(n, d, w, debug);
+  return tsdf::design_rif_eq(n, d, w);
+}
+
+
+
+/** @brief Half-band FIR design.
+ *
+ *  <h3>Half-band FIR design</h3>
+ *
+ *  The design is based on:
+ *  A “TRICK” for the Design of FIR Half-Band Filters,
+ *  P. P. VAIDYANATHAN AND TRUONG Q. NGUYEN, 1987.
+ *
+ *  @param n      Filter order (must be odd).
+ *  @param fc     -3 dB cutt-off frequency (amplitude = @f$1 / \sqrt(2)@f$).
+ *  @param debug  Enable debug plots.
+ *  @returns      Coefficients vector of the FIR filter (vector of length n)
+ *
+ *  Note that in all cases, the frequency at which the amplitude is 0.5
+ *  will always be 0.25 (symétry around @f$f_s/4@f$).
+ *
+ *  The filter order @f$n@f$ must be odd. Besides,
+ *  except for the central coefficient, one coefficient
+ *  every two is null.
+ *  That's why, if @f$m=(n-1)/2@f$ is event, then the first and last coefficient will be necessarily null (and useless for computations).
+ *
+ *  @par Example
+ *  @snippet exemples/src/filtrage/ex-hb.cc ex_hb
+ *  @image html design-hb.png width=800px
+ *
+ *  @sa design_fir_eq, filter_fir_half_band
+ *
+ */
+inline Vecf design_fir_half_band(int n, float fc)
+{
+  return tsdf::design_rif_demi_bande(n, fc);
 }
 
 #if 0
@@ -762,13 +764,24 @@ inline float sinc(float t)
  *
  * @param n       Filter order.
  * @param type    Filter type ("lp" for low-pass, "hp" for high-pass, ...)
- * @param fc      Normalized cut-off frequency.
+ * @param fc      Normalized cut-off frequency (-6 dB cut-off).
  * @param fen     Window type ("hn", "hm", "tr" ou "re"), see function @ref window()
  * @param fc2     Second cut-off frequency (only band-pass or band-stop type filters)
  * @returns       Vector with filter coefficients.
+ *
+ *
+ * @warning The cut-off frequency is specified at -6 dB instead of the classical -3 dB (attenuation factor of @f$1/2@f$ in amplitude, @f$1/4@f$ in power).
+ * Indeed, one of the properties of this filter is a symetry of the frequency response around the cut-off frequency (what ever the choosen window is).
+ *
+ * @par Example
+ * @snippet exemples/src/filtrage/ex-rif.cc ex_rif_fen
+ * @image html ex-rif-fen.png width=800px
+ *
+ *
  * @sa design_fir_eq(), design_fir_freq()
+ *
  */
-inline ArrayXf design_fir_wnd(unsigned int n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0)
+inline Vecf design_fir_wnd(unsigned int n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0)
 {
   return tsdf::design_rif_fen(n, type, fc, fen, fc2);
 }
@@ -788,7 +801,7 @@ inline ArrayXf design_fir_wnd(unsigned int n, const std::string &type, float fc,
  *
  * @sa design_fir_fen(), design_fir_wnd_chebychev()
  */
-inline ArrayXf design_rif_wnd_kaiser(const std::string &type, float fc, float atten_db,
+inline Vecf design_rif_wnd_kaiser(const std::string &type, float fc, float atten_db,
     float df, float fc2 = 0)
 {
   return tsdf::design_rif_fen_kaiser(type, fc, atten_db, df, fc2);
@@ -809,7 +822,7 @@ inline ArrayXf design_rif_wnd_kaiser(const std::string &type, float fc, float at
  *
  * @sa design_fir_wnd(), design_fir_wnd_kaiser()
  */
-inline ArrayXf design_fir_wnd_chebychev(int n, const std::string &type,
+inline Vecf design_fir_wnd_chebychev(int n, const std::string &type,
     float fc, float atten_db, float fc2 = 0)
 {
   return tsdf::design_rif_fen_chebychev(n, type, fc, atten_db, fc2);
@@ -828,7 +841,7 @@ inline ArrayXf design_fir_wnd_chebychev(int n, const std::string &type,
  *  @image html design-rif-cs.png width=800px
  *
  *  @sa design_fir_srrc() */
-inline ArrayXf design_fir_rc(int n, float β, float fc)
+inline Vecf design_fir_rc(int n, float β, float fc)
 {
   return tsdf::design_rif_cs(n, β, fc);
 }
@@ -848,7 +861,7 @@ inline ArrayXf design_fir_rc(int n, float β, float fc)
  *  @sa design_fir_rc(), design_fir_srrc1()
  *
  */
-inline ArrayXf design_fir_srrc(int n, float β, float fc)
+inline Vecf design_fir_srrc(int n, float β, float fc)
 {
   return tsdf::design_rif_rcs(n, β, fc);
 }
@@ -868,7 +881,7 @@ inline ArrayXf design_fir_srrc(int n, float β, float fc)
  *
  *  @sa design_fir_srrc()
  */
-inline ArrayXf design_fir_srrc1(int n, float β, float osf, char nrm = 's')
+inline Vecf design_fir_srrc1(int n, float β, float osf, char nrm = 's')
 {
   return tsdf::design_rif_rcs1(n, β, osf, nrm);
 }
@@ -886,7 +899,7 @@ inline ArrayXf design_fir_srrc1(int n, float β, float osf, char nrm = 's')
  *
  *  @sa design_fir_gaussian_telecom()
  */
-inline ArrayXf design_fir_gaussian(int n, float σ)
+inline Vecf design_fir_gaussian(int n, float σ)
 {
   return tsdf::design_rif_gaussien(n, σ);
 }
@@ -913,7 +926,7 @@ inline ArrayXf design_fir_gaussian(int n, float σ)
  *
  *  @sa design_fir_gaussian()
  */
-inline ArrayXf design_fir_gaussian_telecom(int n, float BT, int osf)
+inline Vecf design_fir_gaussian_telecom(int n, float BT, int osf)
 {
   return tsdf::design_rif_gaussien_telecom(n, BT, osf);
 }
@@ -942,7 +955,7 @@ inline float design_fir_gaussian_telecom_BT2sigma(float BT)
  * @return   Coefficients of the serie concatenation (@f$n_1+n_2-1@f$ taps)
  *
  */
-inline ArrayXf design_fir_prod(const ArrayXf &h1, const ArrayXf &h2)
+inline Vecf design_fir_prod(const Vecf &h1, const Vecf &h2)
 {
   return tsdf::design_rif_prod(h1, h2);
 }
@@ -1017,7 +1030,7 @@ using tsdf::CICComp;
     int R = 16, N = 4, M = 1;
     float fin = 6400, fcut=80;
     int ntaps = 61, R2 = 2;
-    ArrayXf h = design_cic_comp(R,N,M,fin,R2,fcut,ntaps);
+    Vecf h = design_cic_comp(R,N,M,fin,R2,fcut,ntaps);
     // h is the array of coefficents of the FIR compensation filter.
  * @endcode
  * @todo ex_cic_comp_rimp.png
@@ -1060,6 +1073,9 @@ inline FRat<float> design_dc_blocker(float fc)
   return tsdf::design_bloqueur_dc(fc);
 }
 
+
+typedef tsdf::Fréquence Frequency;
+
 /** @brief Transfert function of an exponential filter.
  *
  *  <h3>Transfert function of an exponential filter</h3>
@@ -1080,12 +1096,12 @@ inline FRat<float> design_dc_blocker(float fc)
  *  @return Digital transfert function.
  *
  *  @par Example
- *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rii1
+ *  @snippet exemples/src/filtrage/ex-rii1.cc ex_design_rii1
  *  @image html design-rii1.png width=1000px
  *
  *  @sa iir1_coef()
  */
-inline FRat<float> design_iir1(float fc){return tsdf::design_rii1(fc);}
+inline FRat<float> design_ema(Frequency fc){return tsdf::design_lexp(fc);}
 
 /** @brief Generate first order IIR filter forget factor (unique coefficient) from cut-off frequency
  *
@@ -1108,7 +1124,7 @@ inline FRat<float> design_iir1(float fc){return tsdf::design_rii1(fc);}
  *
  *  @sa design_iir1(), iir1_tc2coef()
  */
-inline float iir1_coef(float fc){return tsdf::rii1_coef(fc);}
+inline float ema_coef(Frequency fc){return tsdf::lexp_coef(fc);}
 
 /** @brief Same as previous function, but take as input the time constant (in samples).
  *
@@ -1130,14 +1146,14 @@ inline float iir1_coef(float fc){return tsdf::rii1_coef(fc);}
  *  @returns Coeficient @f$\gamma@f$ for the IIR filter
  *
  */
-inline float iir1_tc2coef(float tc)
+inline float ema_tc2coef(float tc)
 {
-  return tsdf::rii1_tc_vers_coef(tc);
+  return tsdf::lexp_tc_vers_coef(tc);
 }
 
-inline float iir1_coef2tc(float γ)
+inline float ema_coef2tc(float γ)
 {
-  return tsdf::rii1_coef_vers_tc(γ);
+  return tsdf::lexp_coef_vers_tc(γ);
 }
 
 /** @brief Compute cut-off frequency, from forget factor of first order IIR filter.
@@ -1146,9 +1162,9 @@ inline float iir1_coef2tc(float γ)
  *  @returns Normalized cut-off frequency.
  *
  *  @sa iir1_coef() */
-inline float iir1_fcut(float γ)
+inline Frequency ema_fcut(float γ)
 {
-  return tsdf::rii1_fcoupure(γ);
+  return tsdf::lexp_fcoupure(γ);
 }
 
 
@@ -1173,7 +1189,7 @@ inline float iir1_fcut(float γ)
  *  @sa polyphase_iforme()
  */
 template<typename T>
-  Tableau<T> polyphase_form(const Eigen::Ref<const Vector<T>> x, unsigned int M)
+  Tableau<T> polyphase_form(const Vector<T> &x, unsigned int M)
 {
   return tsdf::forme_polyphase(x, M);
 }
@@ -1188,7 +1204,7 @@ template<typename T>
  *  @sa polyphase_form()
  */
 template<typename T>
-  Vector<T> polyphase_iforme(const Eigen::Ref<const Tableau<T>> X)
+  Vector<T> polyphase_iforme(const Tableau<T> &X)
 {
   return tsdf::iforme_polyphase(X);
 }
@@ -1329,7 +1345,7 @@ inline sptr<Filter<float, cfloat, HilbertTransformeurConfig>>
  *  @sa filter_fir_fft()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FilterGen<T>> filter_fir(const Eigen::Ref<const Vector<Tc>> h)
+  sptr<FilterGen<T>> filter_fir(const Vector<Tc> &h)
 {
   return tsdf::filtre_rif<Tc,T>(h);
 }
@@ -1379,7 +1395,7 @@ template<typename T>
  *  @sa filter_fir()
  */
 template<typename T>
-  sptr<FilterGen<T>> filter_fir_fft(const ArrayXf &h)
+  sptr<FilterGen<T>> filter_fir_fft(const Vecf &h)
 {
   return tsdf::filtre_rif_fft<T>(h);
 }
@@ -1509,14 +1525,14 @@ inline CICAnalyse cic_analysis(const CICConfig &config, float Fin, float Fint = 
  *  R = 4, N = 8, M = 1;
  *  f = linspace(0,0.5,512);
  *  mag = cic_freq(R,N,M,f);
- *  clf(); plot(f,20*log10(mag+1e-10));
+ *  clf(); plot(f,mag2db(mag));
  * @endcode
  * @todo ex_cic_freq.png
  * CIC filter frequency response (SINC^N)
  *
  *  @sa cic_transfert
  */
-inline ArrayXf cic_freq(const CICConfig &config, const ArrayXf &f)
+inline Vecf cic_freq(const CICConfig &config, const Vecf &f)
 {
   return tsdf::cic_freq(config.fr(), f);
 }
@@ -1586,9 +1602,9 @@ template<typename T>
  *  @sa iir1_fcut(), iir1_coef()
  */
 template<typename T>
-  sptr<FilterGen<T>> filter_iir1(float γ)
+  sptr<FilterGen<T>> filter_ema(float γ)
   {
-    return tsdf::filtre_rii1<T>(γ);
+    return tsdf::filtre_lexp<T>(γ);
   }
 
 
@@ -1682,7 +1698,7 @@ Vector<T> filter(const FRat<Tc> &h, const Vector<T> &x)
 }
 
 template<typename T, typename Tc>
-Vector<typename T::Scalar> filter(const Vector<Tc> &h, const Eigen::ArrayBase<T> &x)
+Vector<typename T::Scalar> filter(const Vector<Tc> &h, const Vector<T> &x)
 {
   return tsdf::filtrer(h, x);
 }
@@ -1705,14 +1721,14 @@ Vector<typename T::Scalar> filter(const Vector<Tc> &h, const Eigen::ArrayBase<T>
  *  @sa filter()
  */
 template<typename T, typename Tc>
-  Vector<typename T::Scalar> filtfilt(const Vector<Tc> &h, const Eigen::ArrayBase<T> &x)
+  Vector<typename T::Scalar> filtfilt(const Vector<Tc> &h, const Vector<T> &x)
 {
   return tsdf::filtfilt(h, x);
 }
 
 
 template<typename T, typename Tc>
-  Vector<T> convol(const Eigen::Ref<const Vector<Tc>> h, const Eigen::Ref<const Vector<T>> x)
+  Vector<T> convol(const Vector<Tc> &h, const Vector<T> &x)
 {
   return tsdf::convol(h, x);
 }
@@ -1727,7 +1743,7 @@ template<typename T, typename Tc>
 
  *  @sa design_fir_hilbert(), hilbert_dft(), hilbert_transformer()
  */
-inline ArrayXcf hilbert(IArrayXf x, unsigned int ncoefs = 127)
+inline Veccf hilbert(const Vecf &x, unsigned int ncoefs = 127)
 {
   return tsdf::hilbert(x, ncoefs);
 }
@@ -1748,7 +1764,7 @@ inline ArrayXcf hilbert(IArrayXf x, unsigned int ncoefs = 127)
  *
  *
  *  @sa design_fir_hilbert(), hilbert(), hilbert_transformer() */
-inline ArrayXcf hilbert_dft(IArrayXf x)
+inline Veccf hilbert_dft(const Vecf &x)
 {
   return tsdf::hilbert_tfd(x);
 }
@@ -1855,14 +1871,17 @@ template<typename T>
  * @sa filter_fir_ups()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FilterGen<T>> filter_fir_decim(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
+  sptr<FilterGen<T>> filter_fir_decim(const Vector<Tc> &h, unsigned int R)
   {
     return tsdf::filtre_rif_decim(h, R);
   }
 
-/** @brief To be documented : FIR filter optimized for half-band filtering. */
+/** @brief To be documented : FIR filter optimized for half-band filtering.
+ *
+ *
+ *  @sa design_fir_half_band */
 template<typename Tc, typename T = Tc>
-  sptr<FilterGen<T>> filter_fir_half_band(const Eigen::Ref<const Vector<Tc>> c)
+  sptr<FilterGen<T>> filter_fir_half_band(const Vector<Tc> &c)
 {
   return tsdf::filtre_rif_demi_bande<Tc,T>(c);
 }
@@ -1886,7 +1905,7 @@ template<typename Tc, typename T = Tc>
  *  @sa filter_fir_ups_delay(), filter_fir_decim(), filter_fir()
  */
 template<typename Tc, typename T = Tc>
-  sptr<FilterGen<T>> filter_fir_ups(const Eigen::Ref<const Vector<Tc>> h, unsigned int R)
+  sptr<FilterGen<T>> filter_fir_ups(const Vector<Tc> &h, unsigned int R)
   {
     return tsdf::filtre_rif_ups(h, R);
   }
@@ -1975,7 +1994,7 @@ enum class InterpOption
  *
  */
 template<typename T>
-Vector<T> interp(const ArrayXf &x, const Vector<T> &y, const ArrayXf &x2, InterpOption mode = InterpOption::LINEAR)
+Vector<T> interp(const Vecf &x, const Vector<T> &y, const Vecf &x2, InterpOption mode = InterpOption::LINEAR)
 {
   return tsdf::interp(x, y, (tsdf::InterpOption) mode);
 }

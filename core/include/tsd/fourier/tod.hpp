@@ -30,7 +30,7 @@ struct Laurent
   /** @brief Polynôme */
   tsd::Poly<float> polynome;
   /** @brief Index du premier terme */
-  int n0 = 0;
+  entier n0 = 0;
 };
 
 
@@ -43,7 +43,7 @@ struct LiftElem
   Laurent polynome;
   /** @brief Si vrai, élément de type @f$\left(\begin{array}{cc}1& 0 \\ T(z)& 1\end{array}\right)@f$, sinon
    *  @f$\left(\begin{array}{cc}1 & S(z)\\ 0 & 1\end{array}\right)@f$ */
-  bool predict = true;
+  bouléen predict = oui;
 };
 
 /** @brief Spécification d'une ondelette sous forme d'étapes de lifting.
@@ -131,8 +131,8 @@ template<typename T = float>
 struct Ondelette
 {
   std::string nom;
-  virtual void lift_step(Vecteur<T> &x, int n)  = 0;
-  virtual void ilift_step(Vecteur<T> &x, int n) = 0;
+  virtual void lift_step(Vecteur<T> &x, entier n)  = 0;
+  virtual void ilift_step(Vecteur<T> &x, entier n) = 0;
 };
 
 
@@ -159,7 +159,7 @@ template<typename T>
  *
  */
 template<typename T>
-  void dwt(sptr<Ondelette<T>> ondelette, Vecteur<T> &x, int profondeur);
+  void dwt(sptr<Ondelette<T>> ondelette, Vecteur<T> &x, entier profondeur);
 
 /** @brief Transformée en ondelette inverse
  *
@@ -170,7 +170,7 @@ template<typename T>
  * @param profondeur Nombre d'étages de transformée
  */
 template<typename T>
-  void iwt(sptr<Ondelette<T>> ondelette, Vecteur<T> &x, int profondeur);
+  void iwt(sptr<Ondelette<T>> ondelette, Vecteur<T> &x, entier profondeur);
 
 
 
@@ -179,3 +179,10 @@ template<typename T>
 
 
 }
+
+
+ostream_formater(tsd::tf::tod::Laurent)
+ostream_formater(tsd::tf::tod::FormePolyphase)
+ostream_formater(tsd::tf::tod::QMF)
+
+

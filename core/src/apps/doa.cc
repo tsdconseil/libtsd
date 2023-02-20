@@ -5,8 +5,8 @@ using namespace tsd::stats;
 
 
 
-namespace tsd::apps::doa {
 
+namespace tsd::apps::doa {
 
 
   // Nb pos    = nb senseurs
@@ -14,25 +14,25 @@ namespace tsd::apps::doa {
   // Nb angles = nb sources
   // Angle = 0 <=> tangent, π/2 <=> perpendiculaire
   // Renvoie une matrice Nr par Ns
-  MatrixXcf steervec_1d(const ArrayXf &pos, const ArrayXf &angle)
+  Tabcf steervec_1d(const Vecf &pos, const Vecf &angle)
   {
-    int Ns = angle.rows(), Nr = pos.rows();
-    MatrixXcf A(Nr, Ns);
-    for(auto i = 0; i < Nr; i++)
-      for(auto j = 0; j < Ns; j++)
-        A(i,j) = std::polar(1.0f, pos(i) * std::cos(angle(j)));
-    return A;
+    soit Ns = angle.rows(), Nr = pos.rows();
+    Tabcf A(Nr, Ns);
+    pour(auto i = 0; i < Nr; i++)
+      pour(auto j = 0; j < Ns; j++)
+        A(i,j) = std::polar(1.0f, pos(i) * cos(angle(j)));
+    retourne A;
   }
 
 
-  MatrixXcf sensorcov_1d(const ArrayXf &pos, const ArrayXf &angle, float SNR_db)
+  Tabcf sensorcov_1d(const Vecf &pos, const Vecf &angle, float SNR_db)
   {
     // x = A s
     // R = E[ x x*] = A E[s s*] A* = k A A*
     // Avec colonnes de A = steering vectors
-    int /*Ns = angle.rows(),*/ Nr = pos.rows();
-    MatrixXcf A = steervec_1d(pos, angle);
-    return A * A.adjoint() + db2pow(SNR_db) * MatrixXf::Identity(Nr, Nr);
+    soit Nr = pos.rows();
+    Tabcf A = steervec_1d(pos, angle);
+    retourne A * A.transpose().conjugate() + db2pow(SNR_db) * Tabf::eye(Nr);
   }
 
 
@@ -40,35 +40,34 @@ namespace tsd::apps::doa {
    *  @param Ns Nombre de sources (ou -1 si détermination automatique)
    *  @param d  Distance entre deux antennes (en unité de longueur d'onde de la fréquence porteuse)
    *  @returns Vecteur des angles d'arrivée des signaux sources */
-  ArrayXf musicdoa_1d(const MatrixXcf &R, float d, int Ns)
+  Vecf musicdoa_1d(const Tabcf &R, float d, entier Ns)
   {
     SubSpaceSpectrumConfig config;
-    config.debug_actif = true;
-    config.balayage = [&](int i, int n, int m) -> std::tuple<ArrayXf, ArrayXcf>
+    config.debug_actif = oui;
+    config.balayage = [&](entier i, entier n, entier m) -> std::tuple<Vecf, Veccf>
     {
       // Calcul du "vecteur de steering"
       // (ici simple exponentielle complexe, de fréquence dans l'intervalle [-0.5,0.5[,
       // c'est à dire adaptée à la recherche de signaux périodiques)
-      ArrayXf phi(1);
+      Vecf phi(1);
       // Balayage entre -π / 2 et π / 2
       phi(0) = π * (1.0f*i) /n-1;
 
       // si phi = 0, fréquence = d
 
-      return {phi, sigexp(cos(phi(0)) * d, m)};
+      retourne {phi, sigexp(cos(phi(0)) * d, m)};
     };
-    auto res = subspace_spectrum(R, config);
+    soit res = subspace_spectrum(R, config);
 
-    ArrayXf phi = res.var.col(0);//, res.spectrum};
+    Vecf phi = res.var.col(0);//, res.spectrum};
 
     // Recherche des Ns signaux les plus forts
 
-    ArrayXf lst(res.Ns);
-    ArrayXf sp = res.spectrum;
-    for(auto i = 0; i < res.Ns; i++)
+    Vecf lst(res.Ns);
+    Vecf sp = res.spectrum;
+    pour(auto i = 0; i < res.Ns; i++)
     {
-      int index;
-      sp.maxCoeff(&index);
+      soit index = sp.index_max();
       sp(index) = 0;
       lst(i) = res.var(index, 0);
     }
@@ -77,7 +76,7 @@ namespace tsd::apps::doa {
     //   std::sort(derived().data(), derived().data()+size());
     //}
 
-    return lst;
+    retourne lst;
   }
 
 

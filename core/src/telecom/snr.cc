@@ -2,8 +2,8 @@
 
 namespace tsd::telecom {
 
-template <typename T> int sgn(T val) {
-    return (T(0) < val) - (val < T(0));
+template <typename T> entier sgn(T val) {
+    retourne (T(0) < val) - (val < T(0));
 }
 
 struct Matzner: EstimateurSNR
@@ -20,28 +20,28 @@ struct Matzner: EstimateurSNR
     this->γ = γ;
     e2 = e4 = 0;
   }
-  void step(const ArrayXcf &x, ArrayXf &S, ArrayXf &N)
+  void step(const Veccf &x, Vecf &S, Vecf &N)
   {
-    int n = x.rows();
+    soit n = x.rows();
     S.resize(n);
     N.resize(n);
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
-      float e2i = std::norm(x(i));
-      float e4i = e2i * e2i;
+      soit e2i = std::norm(x(i));
+      soit e4i = e2i * e2i;
 
       e2 = γ * e2i + (1 - γ) * e2;
       e4 = γ * e4i + (1 - γ) * e4;
 
       // n-PSK : ke = 1 (constant energy), kn = 2
-      S(i) = std::sqrt(2 * e2*e2 - e4);
+      S(i) = sqrt(2 * e2*e2 - e4);
       N(i) = e2 - S(i);
       // EbN0 = S / (3 * N);     /// ????
     }
   }
 };
 
-/** @brief SNR estimation using absolute value of signal / for BPSK signal */
+/** @brief SNR estimation using absolute value of signal / pour BPSK signal */
 struct BPSKAbsSNREstimator
 {
   float eabs, en;
@@ -62,21 +62,21 @@ struct BPSKAbsSNREstimator
   /** @param z Signal d'entrée
    *  @param[out] a   Absolute value of the signal gain (energy of signal is the square of this)
    *  @param[out] en  Energy of the noise */
-  void step(const ArrayXcf &x, ArrayXf &S, ArrayXf &N)
+  void step(const Veccf &x, Vecf &S, Vecf &N)
   {
-    int n = x.rows();
+    entier n = x.rows();
     S.resize(n);
     N.resize(n);
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
-      float eabsi = std::abs(std::real(x(i)));
-      float eni   = std::norm(x(i) - sgn(std::real(x(i))) * eabs);
+      soit eabsi = abs(real(x(i)));
+      soit eni   = norm(x(i) - sgn(real(x(i))) * eabs);
       eabs = γ * eabsi + (1-γ) * eabs;
       en = γ * eni   + (1-γ) * en;
       S(i) = eabs;
       N(i) = en;
     }
-    //a  = std::abs(z);
+    //a  = abs(z);
     //en = std::norm(z - sgn(z) * a);
   }
 
@@ -87,7 +87,7 @@ struct BPSKAbsSNREstimator
 
 sptr<EstimateurSNR> snr_Matzner(float γ)
 {
-  return std::make_shared<Matzner>(γ);
+  retourne std::make_shared<Matzner>(γ);
 }
 
 
@@ -108,7 +108,7 @@ public:
   {
     this->γ = γ;
     ugamma = qu0x16_t::one - γ;
-    if(γ != 0)
+    si(γ != 0)
       ugamma.v++;
     en = eabs = 0;
 

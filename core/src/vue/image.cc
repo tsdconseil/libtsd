@@ -6,81 +6,86 @@
 #include <iostream>
 #include <algorithm>
 
+using namespace std;
+
+
 namespace tsd::vue {
 
-  static bool est_deci(char c)
-  {
-    return ((c >= '0') && (c <= '9'));
-  }
+static bouléen est_deci(char c)
+{
+  retourne ((c >= '0') && (c <= '9'));
+}
 
-  // D'après libcutil
-  std::vector<int> parse_liste_entiers(const std::string &str)
+// D'après libcutil
+vector<entier> parse_liste_entiers(const string &str)
+{
+  soit n = (entier) str.size();
+  vector<entier> res;
+  entier current = 0;
+  si(!est_deci(str[0]))
+    retourne res;
+  pour(auto i = 0; i < n; i++)
   {
-    std::vector<int> res;
-    auto s = str.c_str();
-    res.clear();
-    int current = 0;
-    if(!est_deci(s[0]))
-      return std::vector<int>();
-    while(strlen(s) > 0)
+    si(est_deci(str[i]))
+      current = current * 10 + (str[i] - '0');
+    sinon
     {
-      if(est_deci(s[0]))
+      soit c = str[i];
+      si(((c == '.') || (c == ',') || (c == '/') || ((c == ':'))) && (i + 1 < n))
       {
-        current = current * 10 + (s[0] - '0');
+        res.push_back(current);
+        current = 0;
       }
-      else
-      {
-        auto c = s[0];
-        if(((c == '.') || (c == ',') || (c == '/') || ((c == ':'))) && (strlen(s) > 1))
-        {
-          res.push_back(current);
-          current = 0;
-        }
-        else
-        {
-          return std::vector<int>();
-        }
-      }
-      s++;
+      sinon
+        retourne vector<entier>();
     }
-    res.push_back(current);
-    return res;
   }
+  res.push_back(current);
+  retourne res;
+}
 
-  Couleur::Couleur(float r, float g, float b, float alpha)
+Couleur Couleur::mélange(const Couleur &a, const Couleur &b, float α)
+{
+  retourne
   {
-    this->r = std::clamp(r, 0.0f, 255.0f);
-    this->g = std::clamp(g, 0.0f, 255.0f);
-    this->b = std::clamp(b, 0.0f, 255.0f);
-    this->alpha = std::clamp(alpha, 0.0f, 255.0f);
-  }
+    α * a.r + (1 - α) * b.r,
+    α * a.g + (1 - α) * b.g,
+    α * a.b + (1 - α) * b.b
+  };
+}
 
-  /*Couleur::Couleur(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha)
-  {
-    this->r = r;
-    this->g = g;
-    this->b = b;
-    this->alpha = alpha;
-  }*/
+Couleur Couleur::rand()
+{
+  soit r = randi(256, 3);
+  retourne Couleur{(float) r(0), (float) r(1), (float) r(2)};
+}
 
-std::ostream& operator<<(std::ostream& ss, const Couleur &t)
+Couleur::Couleur(float r, float g, float b, float alpha)
+{
+  this->r     = clamp(r, 0.0f, 255.0f);
+  this->g     = clamp(g, 0.0f, 255.0f);
+  this->b     = clamp(b, 0.0f, 255.0f);
+  this->alpha = clamp(alpha, 0.0f, 255.0f);
+}
+
+ostream& operator<<(ostream& ss, const Couleur &t)
 {
   ss << fmt::format("(r={},v={},b={},a={})", t.r, t.g, t.b, t.alpha);
-  return ss;
+  retourne ss;
 }
 
-std::string Couleur::vers_chaine() const
+string Couleur::vers_chaine() const
 {
-  return fmt::format("{}.{}.{}", r, g, b);
+  retourne fmt::format("{}.{}.{}", r, g, b);
 }
 
-Couleur::Couleur(const std::string &s)
+Couleur::Couleur(const string &s)
 {
   alpha = 255;
-  if(!s.empty())
+  si(!s.empty())
   {
-    auto lst = parse_liste_entiers(s);
-    if(lst.size() == 3)
+    soit lst = parse_liste_entiers(s);
+    si(lst.size() == 3)
     {
       r = lst[0];
       g = lst[1];
@@ -99,12 +104,12 @@ Couleur::Couleur(int32_t rgba)
 
 int32_t Couleur::vers_rgba() const
 {
-  return (alpha << 24) | (r << 16) | (g << 8) | b;
+  retourne (alpha << 24) | (r << 16) | (g << 8) | b;
 }
 
 unsigned char Couleur::lumi() const
 {
-  return 0.299 * r + 0.587 * g + 0.114 * b;
+  retourne 0.299 * r + 0.587 * g + 0.114 * b;
 }
 
 const Couleur
@@ -119,32 +124,32 @@ const Couleur
   Couleur::Cyan   {0,255,255,255},
   Couleur::Marron {139,69,19,255},
   Couleur::Gris   {128,128,128,255},
-  Couleur::BleuSombre{0,0,180,255},
-  Couleur::VertSombre{0,100,0},
-  Couleur::RougeSombre{210,0,0},
-  Couleur::CyanSombre{0,192,192},
-  Couleur::VioletSombre{192,0,192},
-  Couleur::JauneSombre{192,192,0},
-  Couleur::MarronSombre{128,70,0},
-  Couleur::OrangeSombre{250,140,0};
+  Couleur::BleuSombre   {0,0,180,255},
+  Couleur::VertSombre   {0,100,0},
+  Couleur::RougeSombre  {210,0,0},
+  Couleur::CyanSombre   {0,192,192},
+  Couleur::VioletSombre {192,0,192},
+  Couleur::JauneSombre  {192,192,0},
+  Couleur::MarronSombre {128,70,0},
+  Couleur::OrangeSombre {210,118,0};
 
 
-  Couleur Couleur::eclaircir(float ratio) const
+  Couleur Couleur::eclaircir(float α) const
   {
-    Couleur y;
-    y.r = 255 - (255 - r) * ratio;
-    y.g = 255 - (255 - g) * ratio;
-    y.b = 255 - (255 - b) * ratio;
-    return y;
+    retourne {
+        255 - (255 - r) * α,
+        255 - (255 - g) * α,
+        255 - (255 - b) * α};
   }
 
-  Couleur Couleur::assombrir(float ratio) const
+  Couleur Couleur::assombrir(float α) const
   {
-    Couleur y;
-    y.r = r * ratio;
-    y.g = g * ratio;
-    y.b = b * ratio;
-    return y;
+    retourne
+    {
+      r * α,
+      g * α,
+      b * α
+    };
   }
 
 
@@ -153,7 +158,7 @@ const Couleur
 
 
 Image affiche_texte(
-    const std::vector<std::string> &lignes,
+    const vector<string> &lignes,
     const TexteConfiguration &config,
     TexteProps *props = nullptr)
 {
@@ -163,11 +168,11 @@ Image affiche_texte(
   // On applique d'abord les paramètres demandés, et on regarde si tout rentre
   // Sinon, on diminue le scale, et on recommence, jusqu'à ce que tout rentre.
   float scale = config.scale;
-  int nl = lignes.size();
+  entier nl = lignes.size();
 
-  std::vector<int> ypos(nl), xdim(nl), ydim(nl);
+  vector<entier> ypos(nl), xdim(nl), ydim(nl);
 
-  if(props != nullptr)
+  si(props != nullptr)
   {
     props->scale_out = 0;
     props->xdim.clear();
@@ -176,48 +181,48 @@ Image affiche_texte(
 
   Dim dim_max = config.dim_max;
 
-  if(dim_max.l == -1)
+  si(dim_max.l == -1)
   {
     dim_max.l = 1000;
     dim_max.h = 800;
   }
 
-  if((dim_max.l < 1) || (dim_max.h < 1))
+  si((dim_max.l < 1) || (dim_max.h < 1))
   {
     //msg_avert("Pas possible de placer du texte dans un rectangle de dimension ({},{}) pixels", dim_max.l, dim_max.h);
-    return O;
+    retourne O;
   }
 
 
   //msg("affiche texte : start.");
   Dim dim_totale;
-  int nitr = 0;
-  for(;;)
+  entier nitr = 0;
+  pour(;;)
   {
     nitr++;
     dim_totale = {0,0};
-    for(auto i = 0u; i < lignes.size(); i++)
+    pour(auto i = 0u; i < lignes.size(); i++)
     {
       ypos[i] = dim_totale.h;
       Dim dim = O.texte_dim(lignes[i], scale);
 
-      if(i + 1 < lignes.size())
+      si(i + 1 < lignes.size())
         dim.h += 5; // Ajoute un peu d'espace entre les lignes
 
-      dim_totale.l = std::max(dim.l, dim_totale.l);
+      dim_totale.l = max(dim.l, dim_totale.l);
 
       ydim[i] = dim.h;
       xdim[i] = dim.l;
       dim_totale.h += dim.h;
     }
-    if(config.dim_max.l == -1)
+    si(config.dim_max.l == -1)
       break;
-    if((dim_totale.l <= dim_max.l) && (dim_totale.h <= dim_max.h))
+    si((dim_totale.l <= dim_max.l) && (dim_totale.h <= dim_max.h))
       break;
-    if(scale < 1e-3)
+    si(scale < 1e-3)
     {
       msg_avert("Image::affiche_texte({} lignes, [{}]). Echec placement @scale = {}. Dim max = {}.", lignes.size(), lignes[0], scale, dim_max);
-      return O;
+      retourne O;
     }
     scale *= 0.9;
   }
@@ -225,7 +230,7 @@ Image affiche_texte(
   //infos("dim_totale = %d, %d", dim_totale.width, dim_totale.height);
   //dim_out = dim_totale;
 
-  if(props != nullptr)
+  si(props != nullptr)
   {
     props->scale_out = scale;
     props->xdim = xdim;
@@ -233,27 +238,20 @@ Image affiche_texte(
     props->ypos = ypos;
   }
 
-  // A supprimer
-  //dim_totale.l += 10;
-  //dim_totale.h += 10;
-
-  /*dim_totale.width  += 5;
-  dim_totale.height += 2;*/
-
   O.resize(dim_totale);
   O.remplir(config.couleur_fond);
   O.def_couleur_dessin(config.couleur);
-  for(auto i = 0u; i < lignes.size(); i++)
+  pour(auto i = 0u; i < lignes.size(); i++)
   {
     //msg("ypos[{}] = {}, dessin {}", i, ypos[i], lignes[i]);
-    auto x = 0;//config.org.x;
-    if(config.alignement == TexteConfiguration::ALIGN_CENTRE)
+    soit x = 0;//config.org.x;
+    si(config.alignement == TexteConfiguration::ALIGN_CENTRE)
     {
       x = dim_totale.l/2 - xdim[i]/2;
     }
 
     Dim d = O.texte_dim(lignes[i], scale);
-    if((d.l + x > O.sx()) || (d.h + ypos[i] > O.sy()))
+    si((d.l + x > O.sx()) || (d.h + ypos[i] > O.sy()))
     {
       msg_erreur("Dépassement texte.");
       msg("dim texte : {}, dim O : {}, x={}, ypos[{}] = {}",
@@ -265,11 +263,12 @@ Image affiche_texte(
     O.puts({x, ypos[i]}, lignes[i], scale);
   }
   //msg("affiche texte : end.");
-  return O;
+  retourne O;
 }
 
+#if 0
 
-void texte_ajoute(Image O, const TexteConfiguration &config, const std::string &s, ...)
+void texte_ajoute(Image O, const TexteConfiguration &config, const string &s, ...)
 {
   va_list ap;
   va_start(ap, s);
@@ -278,14 +277,14 @@ void texte_ajoute(Image O, const TexteConfiguration &config, const std::string &
   va_end(ap);
 
   TexteConfiguration tc = config;
-  if(tc.dim_max.l == -1)
+  si(tc.dim_max.l == -1)
     tc.dim_max.l = O.sx() - tc.org.x;
-  tc.dim_max.l = std::min(tc.dim_max.l, O.sx() - tc.org.x);
-  if(tc.dim_max.h == -1)
+  tc.dim_max.l = min(tc.dim_max.l, O.sx() - tc.org.x);
+  si(tc.dim_max.h == -1)
     tc.dim_max.h = O.sy() - tc.org.y;
-  tc.dim_max.h = std::min(tc.dim_max.h, O.sy() - tc.org.y);
+  tc.dim_max.h = min(tc.dim_max.h, O.sy() - tc.org.y);
 
-  auto T = texte_creation_image(buf, tc, nullptr);
+  soit T = texte_creation_image(buf, tc, nullptr);
 
   //infos("O.cols = %d, tc.org = %d, T.cols = %d", O.cols, tc.org.x, T.cols);
   tsd_assert(T.sx() + tc.org.x <= O.sx());
@@ -294,9 +293,10 @@ void texte_ajoute(Image O, const TexteConfiguration &config, const std::string &
   O.puti(Point{tc.org.x, tc.org.y}, T);
   //rdi_cible = tc.transparence * rdi_cible + (1.0 - tc.transparence) * T;
 }
+#endif
 
 
-Image texte_creation_image(const std::string &s,
+Image texte_creation_image(const string &s,
                            const TexteConfiguration &config,
                            TexteProps *props)
 {
@@ -304,28 +304,28 @@ Image texte_creation_image(const std::string &s,
   //infos("Text creation image[%s] : scale = %f", s.c_str(), config.scale);
 
   // Séparation des différentes lignes du texte
-  std::vector<std::string> lignes;
-  unsigned int i = 0;
+  vector<string> lignes;
+  soit i = 0u;
 
   //infos("affiche texte [%s]", s.c_str());
 
-  for(;;)
+  pour(;;)
   {
-    auto pos_rl = s.find('\n', i);
-    if(pos_rl == std::string::npos)
+    soit pos_rl = s.find('\n', i);
+    si(pos_rl == string::npos)
     {
-      auto l = s.substr(i);
+      soit l = s.substr(i);
       lignes.push_back(l);
       break;
     }
-    auto l = s.substr(i, pos_rl - i);
+    soit l = s.substr(i, pos_rl - i);
     lignes.push_back(l);
     i = pos_rl + 1;
   }
-  //for(auto i = 0u; i < lignes.size(); i++)
+  //pour(soit i = 0u; i < lignes.size(); i++)
     //infos("Ligne[%d] : [%s]", i, lignes[i].c_str());
 
-  return affiche_texte(lignes, config, props);
+  retourne affiche_texte(lignes, config, props);
 }
 }
 

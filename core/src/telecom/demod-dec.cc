@@ -1,19 +1,12 @@
-﻿#include "tsd/tsd.hpp"
-#include "tsd/telecom.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/vue.hpp"
+﻿#include "tsd/tsd-all.hpp"
 #include <optional>
 
-
 #define VERBOSE(AA)
-
-using namespace std;
-using namespace tsd::filtrage;
-using namespace tsd::vue;
 
 namespace tsd::telecom
 {
 
+using namespace std;
 
 // Config du recouvrement d'horloge
 struct RecHorlogeConfig
@@ -22,21 +15,21 @@ struct RecHorlogeConfig
   sptr<FormeOnde> forme_onde;
 
   // Facteur de sur-échantillonnage
-  int osf;
+  entier osf;
 
-  // Si faux, seule l'interpolation est active (pas de correction)
-  bool actif = true;
+  // si faux, seule l'interpolation est active (pas de correction)
+  bouléen actif = oui;
 
   // Constante de temps du filtre de boucle
   float tc = 10;
 
   // Plots de débug
-  bool debug_actif = false;
+  bouléen debug_actif = non;
 
-  int ncoefs_filtre_mise_en_forme = 0;
+  entier ncoefs_filtre_mise_en_forme = 0;
 
   ItrpType itrp = ItrpType::LINEAIRE;
-  int itrp_lagrange_degré = 1;
+  entier itrp_lagrange_degré = 1;
 };
 
 
@@ -48,7 +41,7 @@ struct RecHorloge
   sptr<Interpolateur<cfloat>> itrp;
 
   // Ligne à retard pour l'interpolateur
-  ArrayXcf fenetre_x;
+  Veccf fenetre_x;
   // Phase en cours
   float phase = 0, ph0 = 0;
   // Gain de correction
@@ -64,12 +57,12 @@ struct RecHorloge
   float erreur, dec;
 
   // Compteur d'échantillons
-  int cnt = 0;
+  entier cnt = 0;
 
   // Dernière sortie de l'interpolateur
   cfloat lyi = 0.0f;
 
-  bool disable = false;
+  bouléen disable = non;
 
   void reset()
   {
@@ -79,11 +72,11 @@ struct RecHorloge
     // -> il faut commencer à sampler au milieu, soit 1/2 symbole plus loin
     phase = (config.osf / 2) + 1;
 
-    fenetre_x  = ArrayXcf::Zero(itrp->K);
+    fenetre_x  = Veccf::zeros(itrp->K);
 
     // TODO : 5 * config.osf : arbitraire
     // TODO : reset direct de la ligne à retard
-    ArrayXcf z = ArrayXcf::Zero(5 * config.osf);
+    soit z = Veccf::zeros(5 * config.osf);
     fa->step(z);
   }
 
@@ -93,19 +86,20 @@ struct RecHorloge
 
     this->config = config;
 
-    gain = config.osf * (1 - std::exp(-1/(config.tc * config.osf)));
+
+    gain = config.osf * lexp_tc_vers_coef(config.tc);
 
     //itrp = itrp_sinc<cfloat>(7, 0.4, "hn");
     //itrp = itrp_sinc<cfloat>(2*config.osf+1, 0.5, "hn");
     //itrp = itrp_lineaire<cfloat>();
 
-    if(config.itrp == ItrpType::CSPLINE)
+    si(config.itrp == ItrpType::CSPLINE)
       itrp = itrp_cspline<cfloat>();
-    else if(config.itrp == ItrpType::LINEAIRE)
+    sinon si(config.itrp == ItrpType::LINEAIRE)
       itrp = itrp_lineaire<cfloat>();
-    else if(config.itrp == ItrpType::LAGRANGE)
+    sinon si(config.itrp == ItrpType::LAGRANGE)
       itrp = itrp_lagrange<cfloat>(config.itrp_lagrange_degré);
-    else
+    sinon
     {
       echec("clock rec: itrp inconnu.");
     }
@@ -114,21 +108,21 @@ struct RecHorloge
 
     reset();
 
-    msg("rec horloge: osf = {}, npts itrp = {}. phase initiale = {}, tc = {}",
-        config.osf, itrp->K, phase, config.tc);
+    msg("rec horloge: osf = {}, npts itrp = {}. phase initiale = {}, tc = {} symboles, gain={}",
+        config.osf, itrp->K, phase, config.tc, gain);
   }
 
-  inline void maj_fenetre(ArrayXcf &wnd, cfloat x)
+  inline void maj_fenetre(Veccf &wnd, cfloat x)
   {
-    auto n = wnd.rows();
-    wnd.head(n-1) = wnd.tail(n-1).eval();
+    soit n = wnd.rows();
+    wnd.head(n-1) = wnd.tail(n-1);
     wnd(n-1) = x;
   }
 
   // Filtrage adapté de n échantillons
-  inline ArrayXcf step0_filtre_adapte(const ArrayXcf &x)
+  inline Veccf step0_filtre_adapte(const Veccf &x)
   {
-    return fa->step(x);
+    retourne fa->step(x);
   }
 
   // Traite un échantillon, après le filtrage adapté
@@ -139,45 +133,45 @@ struct RecHorloge
 
     // Requiert: phase >= 1
     phase--;
-    if(phase > 1)
-      return {}; // pas de symbole à sortir
+    si(phase > 1)
+      retourne {}; // pas de symbole à sortir
 
     // Requiert: phase >= 0
-    if(phase < 0)
+    si(phase < 0)
     {
       msg_erreur("clock rec : phase négative ({}). Incrément phase = {}", phase, config.osf);
       phase = 0;
     }
 
     // Ici on est à la fréquence de la TED
-    auto yi  = itrp->step(fenetre_x, 0, phase);
+    soit yi  = itrp->step(fenetre_x, 0, phase);
 
-    if(std::isnan(yi.real()) || std::isnan(yi.imag()))
+    si(std::isnan(yi.real()) || std::isnan(yi.imag()))
       msg_erreur("Itrp : nan");//, fen itrp = {}.", fenetre_x);
 
     // Lecture au rythme de la TED, qui travaille à deux fois la fréquence symbole
     phase += ((float) config.osf) / 2;
 
-    if(cnt == 1)
+    si(cnt == 1)
     {
       cnt = 0;
-      return yi;
+      retourne yi;
     }
     lyi = yi;
     cnt++;
-    return {}; // Pas de symbole à sortir (on stocke juste yi = valeur intermédiaire entre deux symboles)
+    retourne {}; // Pas de symbole à sortir (on stocke juste yi = valeur intermédiaire entre deux symboles)
   }
 
   inline float cdot(cfloat a, cfloat b)
   {
-    return real(a) * real(b) + imag(a) * imag(b);
+    retourne real(a) * real(b) + imag(a) * imag(b);
   }
 
   inline void step2_maj_retard(cfloat yd0, cfloat yd1)
   {
-    if((yd0 != yd1) && (config.actif))
+    si((yd0 != yd1) && (config.actif))
     {
-      erreur = cdot(yd1 - yd0, lyi - (yd0 + yd1) / 2.0f) / std::abs(yd1 - yd0);
+      erreur = cdot(yd1 - yd0, lyi - (yd0 + yd1) / 2.0f) / abs(yd1 - yd0);
 
       // Filtre IIR du premier ordre
       // mu est exprimé en : nombre de samples d'entrée
@@ -221,7 +215,7 @@ struct DemodGen2: Démodulateur
   cfloat lye = 0.0f;
 
   /** Compteur d'échantillons */
-  int cnt = 0, cnt1 = 0;
+  entier cnt = 0, cnt1 = 0;
 
   /** Oscillateur local pour la correction de phase, basé sur une LUT. */
   OLUT lut;
@@ -240,17 +234,18 @@ struct DemodGen2: Démodulateur
   float delais()
   {
     echec("TODO : DemodGen2::delais()");
-    return 0;
+    retourne 0;
   }
 
-  void reset(int cnt)
+  void reset(entier cnt)
   {
     this->cnt = cnt;
-    cnt1 = osf - 1;
-    θ = 0;
-    lye   = 0;
+    cnt1      = osf - 1;
+    θ         = 0;
+    gain_cag  = 1;
+    lye       = 0;
     lf->reset();
-    if(config.dec.clock_rec.actif)
+    si(config.dec.clock_rec.actif)
       rec_horloge.reset();
     ctx_fo->reset();
   }
@@ -258,14 +253,16 @@ struct DemodGen2: Démodulateur
 
 
 
-  int configure(const ModConfig &modconfig, const DemodConfig &config)
+  entier configure(const ModConfig &modconfig, const DemodConfig &config)
   {
     this->config    = config;
     this->modconfig = modconfig;
-    auto fe = modconfig.fe, fsymb = modconfig.fsymb, fi = modconfig.fi;
+    soit fe     = modconfig.fe,
+         fsymb  = modconfig.fsymb,
+         fi     = modconfig.fi;
     cnt   = 0;
     osf   = fe / fsymb;
-    cnt1  = osf-1;
+    cnt1  = osf - 1;
 
     tsd_assert_msg(modconfig.forme_onde, "Démodulateur : la forme d'onde doit être renseignée.");
 
@@ -273,7 +270,7 @@ struct DemodGen2: Démodulateur
         fe, fsymb, osf, modconfig.forme_onde->excursion());
 
     // Configuration du recouvrement d'horloge
-    if(config.dec.clock_rec.actif)
+    si(config.dec.clock_rec.actif)
     {
       RecHorlogeConfig rhmc;
       rhmc.itrp                         = config.dec.clock_rec.itrp;
@@ -287,63 +284,55 @@ struct DemodGen2: Démodulateur
       rec_horloge.configure(rhmc);
     }
 
-    alpha_cag = tsd::filtrage::rii1_tc_vers_coef(config.dec.cag.tc);
+    alpha_cag = tsd::filtrage::lexp_tc_vers_coef(config.dec.cag.tc);
 
 
     // Initialisation du filtre de boucle pour la correction de phase
     lf = filtre_boucle_ordre_2(config.dec.carrier_rec.BL, config.dec.carrier_rec.η);
 
 
-    auto reste = fmod(fe, fsymb);
-    if(abs(reste) > 1e-6 * fe)
+    soit reste = fmod(fe, fsymb);
+    si(abs(reste) > 1e-6 * fe)
     {
       msg_avert("demod_init: la fréquence d'échantillonnage ({}) doit être un multiple de la fréquence symbole ({}) -- reste = {}.", fe, fsymb, reste);
     }
 
     // Configuratio de la transposition en bande de base
-    if(fi != 0)
+    si(fi != 0)
     {
       TranspoBBConfig config_tbb;
       config_tbb.fi = fi / fe;
       transpo = transpo_bb<cfloat>(config_tbb);
     }
 
-    ctx_fo = modconfig.forme_onde->get_ctx(osf);
+    ctx_fo = this->modconfig.forme_onde->get_ctx(osf);
 
     reset(0);
 
 
 
-    return 0;
+    retourne 0;
   }
 
 
-  /*void regle_horloge(float delais)
-  {
-    tsd_assert((delais >= 0) && (delais <= 1));
-    ArrayXf h = itrp->coefs(delais);
-    filtre_itrp = tsd::filtrage::filtre_rif<float,cfloat>(h);
-  }*/
-
-
-  void step(const ArrayXcf &x_, BitStream &bs, ArrayXXf &llr)
+  void step(const Veccf &x_, BitStream &bs, Tabf &llr)
   {
     VERBOSE(msg(" demod: start...");)
 
-    if(x_.rows() == 0)
-      return;
+    si(x_.rows() == 0)
+      retourne;
 
-    ArrayXcf x, x_dn, x_crr, x_mf, x_clk, x_agc, x_clk_crr;
+    Veccf x, x_dn, x_crr, x_mf, x_clk, x_agc, x_clk_crr, xf;
 
 
     // (1) Transposition en bande de base
-    if(modconfig.fi != 0)
+    si(modconfig.fi != 0)
       x_dn = transpo->step(x_);
-    else
+    sinon
       x_dn = x_;
 
     // Autre solution : démodulation cohérente
-    //if(config.wf->est_fsk)
+    //si(config.wf->est_fsk)
     //{
     //  x_dn = discri->step(x_dn);
     //}
@@ -351,55 +340,70 @@ struct DemodGen2: Démodulateur
     VERBOSE(msg(" demod: rec horloge...");)
 
     // Filtrage adapté
-    ArrayXcf xf;
-
-    if((osf > 1) && config.dec.clock_rec.actif && config.dec.fa_actif)
+    si((osf > 1) && config.dec.clock_rec.actif && config.dec.fa_actif)
       xf = rec_horloge.step0_filtre_adapte(x_dn);
-    else
+    sinon
       xf = x_dn; // Pas de filtrage possible
 
-    int n = xf.rows();
+    soit n = xf.rows(), ids = 0;
 
     //////////////////////////////////////////////////////////////////
     // Tableaux ci-dessous : utilisés uniquement pour le débug
-    vector<int> si, idx;
-    ArrayXcf v1, v2, v3, v8;
-    ArrayXf v4, v5, v6, v7, v9, v10, v11, v12, v13;
-    if(config.debug_actif)
+    vector<int32_t> si_, idx;
+    Veccf v1, v2, v3, v8, v2b, v14;
+    Vecf v4, v5, v6, v7, v9, v10, v11, v12, v13;
+    si(config.debug_actif)
     {
-      v1 = v2 = v3 = v8 = ArrayXcf::Zero(n);
-      v4 = v5 = v6 = v7 = v9 = v10 = v11 = v12 = v13 = ArrayXf::Zero(n);
+      // TODO : utiliser un tableau !
+      v1  = Veccf::zeros(n);
+      v2  = Veccf::zeros(n);
+      v2b = Veccf::zeros(n);
+      v3  = Veccf::zeros(n);
+      v8  = Veccf::zeros(n);
+      v14 = Veccf::zeros(n);
+      v4  = Vecf::zeros(n);
+      v5  = Vecf::zeros(n);
+      v6  = Vecf::zeros(n);
+      v7  = Vecf::zeros(n);
+      v9  = Vecf::zeros(n);
+      v10 = Vecf::zeros(n);
+      v11 = Vecf::zeros(n);
+      v12 = Vecf::zeros(n);
+      v13 = Vecf::zeros(n);
+
     }
     /////////////////////////////////////////////////////////////////
 
-    int ids = 0;
-
     VERBOSE(msg(" demod: boucle principale ({} échans)...", n);)
-    for(auto i = 0; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
       cnt++;
 
       // Correction de phase
       cfloat y = xf(i);
 
-      if(config.dec.carrier_rec.actif)
+      si(config.dec.carrier_rec.actif)
         y *= lut.step(-θ); //* std::polar(1, -θ)
 
+      si(config.debug_actif)
+      {
+        v14(i) = y;
+      }
 
       // Eventuellement, un étage de CAG
-      if(config.dec.cag.actif)
-      {
+      si(config.dec.cag.actif)
         y *= gain_cag;
-      }
+
+
 
       // yi = valeur interpolée (si le bouléen f vaut vrai, sinon pas de valeur)
       cfloat yi;
 
-      if(config.dec.clock_rec.actif)
+      si(config.dec.clock_rec.actif)
       {
-        auto interp = rec_horloge.step1_interpolation(y);
+        soit interp = rec_horloge.step1_interpolation(y);
 
-        if(config.debug_actif)
+        si(config.debug_actif)
         {
           v1(i) = y;
           v6(i) = rec_horloge.phase * 100.0 / osf;
@@ -407,13 +411,13 @@ struct DemodGen2: Démodulateur
         }
 
         // Pas de nouveau symbole, on continue
-        if(!interp)
+        si(!interp)
           continue;
         yi = *interp;
       }
-      else
+      sinon
       {
-        if(config.debug_actif)
+        si(config.debug_actif)
         {
           v1(i) = y;
           v6(i) = 0;
@@ -421,83 +425,71 @@ struct DemodGen2: Démodulateur
         }
 
         // TODO: en FSK, il ne faut pas faire ça...
-        cnt1 = (cnt1 + 1) % ((int) osf);
+        cnt1 = (cnt1 + 1) % ((entier) osf);
 
-        if(cnt1 == 0)
+        si(cnt1 == 0)
           yi  = y;
-        else
+        sinon
           continue;
       }
 
-
-
-
-
-      //config.wf->cnt = cnt-1;
+      si(config.debug_actif)
+        v2b(i) = yi;
 
       // Décision :
       //  - s = index du symbole le plus proche
       //  - ye = symbole I/Q correspondant
-      auto [s, ye] = ctx_fo->step(yi);
+      soit [s, ye] = ctx_fo->step(yi);
 
       // Pas de symbole à sortir
-      if(s == -1)
+      si(s == -1)
         continue;
 
-      // Décision : s = index du symbole le plus proche
-      //int s = config.wf->symbole_plus_proche(yi);
-
       // Enregistre le nouveau symbole décodé
-      si.push_back(s);
+      si_.push_back(s);
 
-      // Calcule le symbole I/Q correspondant
-      //cfloat ye = config.wf->lis_symbole(s);
-
-
-      if(config.dec.cag.actif)
+      si(config.dec.cag.actif)
       {
-        float erreur_gain = std::abs(yi) / std::abs(ye);
-        if(config.debug_actif)
+        float erreur_gain = abs(yi) / abs(ye);
+        si(config.debug_actif)
           v12(i) = erreur_gain - 1;
         gain_cag = (1 - alpha_cag) * gain_cag + alpha_cag * (1/erreur_gain);
       }
-
-
 
       // Maj niveau de bruit
       float bruit = std::norm(ye - yi); // Carré
 
       // Erreur de phase, basée sur la décision
-      float erreur_phase = std::arg(yi * std::conj(ye));
+      float erreur_phase = std::arg(yi * conj(ye));
 
       // Maj de l'adapteur de rythme
-      if(config.dec.clock_rec.actif && (cnt >= 2))
+      si(config.dec.clock_rec.actif && (cnt >= 2))
         rec_horloge.step2_maj_retard(lye, ye);
 
       // Enregistre le dernier symbole décodé
       lye = ye;
 
       // Boucle de correction de phase
-      if((cnt >= 2) && config.dec.carrier_rec.actif)
+      si((cnt >= 2) && config.dec.carrier_rec.actif)
         θ = lf->step(erreur_phase);
 
-      if(config.debug_actif)
+      si(config.debug_actif)
       {
         idx.push_back(i);
 
 
-        float SNR_lin = std::abs(ye) / sqrt(bruit);
-        float SNR = 20 * log10(SNR_lin);
+        float SNR_lin = abs(ye) / sqrt(bruit);
+        float SNR = mag2db(SNR_lin);
 
-        v13(ids) = SNR;
+        v13(ids)  = SNR;
         v11(ids)  = gain_cag;
-        v8(i)   = ye;
-        v2(i)   = yi;
-        //v3(i) = dyi;
-        v4(i)   = erreur_phase;
-        v5(i)   = rec_horloge.erreur;
-        v9(i)   = rec_horloge.dec;
-        v10(ids)  = std::sqrt(bruit);
+        v8(i)     = ye;
+        v2(i)     = yi;
+        v2b(i)    = yi;
+        v4(i)     = erreur_phase;
+        v5(i)     = rec_horloge.erreur;
+        v9(i)     = rec_horloge.dec;
+        v10(ids)  = sqrt(bruit);
 
         ids++;
       }
@@ -505,12 +497,13 @@ struct DemodGen2: Démodulateur
 
     // Conversion index de symbole vers train binaire
     VERBOSE(msg(" demod: symboles -> train binaire...");)
-    ArrayXi si2 = Eigen::Map<ArrayXi>(si.data(), si.size());
+    Veci si2(si_.size());// = Eigen::Map<ArrayXi>(si.data(), si.size());
+    memcpy(si2.data(), si_.data(), si_.size() * sizeof(int32_t));
     symdemap_binaire(bs, si2, modconfig.forme_onde->infos.k);
-    VERBOSE(msg("nb symboles décodés : {}, nb bits : {}", si.size(), bs.lon());)
+    VERBOSE(msg("nb symboles décodés : {}, nb bits : {}", si_.size(), bs.lon());)
 
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
       v10.conservativeResize(ids);
       v11.conservativeResize(ids);
@@ -519,18 +512,18 @@ struct DemodGen2: Démodulateur
       // Plot transposition
       {
         Figures f;
-        f.subplot().plot_iq(x_, ".b", "Signal entree (I/Q)");
+        f.subplot().plot_iq(x_, ".b", "Signal d'entrée (I/Q)");
         f.subplot().plot(x_);
-        f.subplot().plot_psd(x_, modconfig.fe);
+        f.subplot().plot_psd(x_, modconfig.fe, "", "PSD");
 
-        if(modconfig.fi != 0)
+        si(modconfig.fi != 0)
         {
           f.subplot().plot_iq(x_dn, ".b", "Transposition");
           f.subplot().plot(x_dn);
           f.subplot().plot_psd(x_dn, modconfig.fe);// * ratio_ra);
           f.afficher("Démodulation / 1 - transposition");
         }
-        else
+        sinon
           f.afficher("Démodulation / 1 - entrée");
 
       }
@@ -541,6 +534,14 @@ struct DemodGen2: Démodulateur
         f.subplot().plot_iq(xf, ".b", "Filtre adapté (const)");
         f.subplot().plot(xf, "-", "Filtre adapté");
         f.afficher("Démodulation / 2 - Filtrage adapté");
+      }
+
+      {
+        Figures f;
+        f.subplot().plot(real(sousvec(v2b, idx)), "a-o", "v2b");
+        f.subplot().plot(real(sousvec(v2, idx)), "b-o", "y interpolé");
+        f.subplot().plot(real(sousvec(v8, idx)), "g-o", "y décision");
+        f.afficher("Démodulation / 2' - Décision");
       }
 
       // CAG
@@ -558,31 +559,34 @@ struct DemodGen2: Démodulateur
       {
         Figures figs;
 
-        auto f = figs.subplot();
-        f.plot((180/π) * sousvec(v4, idx));
-        f.titres("Erreur de phase instantannée", "Echantillons", "Erreur (degrés)");
+        soit f = figs.subplot();
+        f.plot(sousvec(v4, idx) * (180/π));
+        f.titres("Erreur de phase instantanée", "Echantillons", "Erreur (degrés)");
 
         figs.subplot().plot(v10, "-r", "Erreur (décision - interpol)");
 
         figs.subplot().plot_iq(v1, ".b", "Corr. de porteuse (const)");
 
-        figs.subplot().plot(v1, "-o", "Corr. de porteuse");
+        figs.subplot().plot(v14, "-o", "Corr. de porteuse");
+        figs.subplot().plot(v1, "-o", "Corr. de porteuse et CAG");
         figs.afficher("Démodulation / 3 - Correction de porteuse");
       }
 
+
+
       // Plot correction d'horloge
-      if(config.dec.clock_rec.actif)
+      si(config.dec.clock_rec.actif)
       {
         Figures figs;
 
-        auto f = figs.subplot();
-        f.plot(sousvec(v2, idx).real(), "b-o", "y interpolé");
-        f.plot(sousvec(v8, idx).real(), "g-o", "y décision");
+        soit f = figs.subplot();
+        f.plot(real(sousvec(v2, idx)), "b-o", "y interpolé");
+        f.plot(real(sousvec(v8, idx)), "g-o", "y décision");
         //f.plot(sousvec(v3, idx).real(), "m-o", "dy interpolé");
 
         f = figs.subplot();
-        f.plot(100.0 * sousvec(v5, idx), "r-o");
-        f.titres("Erreur d'horloge instantannée", "Echantillons", "% période symbole");
+        f.plot(sousvec(v5, idx) * 100, "r-o");
+        f.titres("Erreur d'horloge instantanée", "Echantillons", "% période symbole");
 
         //f.subplot();
         //f.plot(100 * v9);
@@ -619,7 +623,7 @@ struct DemodGen2: Démodulateur
 
 sptr<Démodulateur> demodulateur2(const ModConfig &modconfig, const DemodConfig &config)
 {
-  return std::make_shared<DemodGen2>(modconfig, config);
+  retourne std::make_shared<DemodGen2>(modconfig, config);
 }
 }
 

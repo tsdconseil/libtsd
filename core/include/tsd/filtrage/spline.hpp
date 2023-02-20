@@ -37,7 +37,7 @@ namespace tsd::filtrage {
  *          + p(2) * (h(t,2) + h(t,1) * (1 - c) * 0.5)
  *          + p(3) * (h(t,3) * (1 - c) * 0.5)
  */
-extern void calc_filter(float g[4], float t, float c);
+extern Vecf cspline_filtre(float t, float c);
 
 
 /** @brief Compute a LUT for cardinal spline interpolation
@@ -55,7 +55,7 @@ extern void calc_filter(float g[4], float t, float c);
  *             256     ...          t = 1.0
  */
 // n = rapport de sur-échantillonage
-extern void cspline_calc_lut(ArrayXXf &lut, int n, float c = 0);
+extern Tabf cspline_calc_lut(entier n, float c = 0);
 
 
 

@@ -9,7 +9,7 @@ using namespace std;
 // d'après https://ccrma.stanford.edu/~jos/sasp/Quadratic_Interpolation_Spectral_Peaks.html
 static float qint_loc(float ym1, float y0, float yp1)
 {
-  return (yp1 - ym1) / (2 * (2*y0 - yp1 - ym1));
+  retourne (yp1 - ym1) / (2 * (2*y0 - yp1 - ym1));
 }
 
 
@@ -18,33 +18,32 @@ namespace tsd::fourier {
 
 /** @brief Estimation du délais le
  *  plus probable entre deux signaux (via une corrélation linéaire) */
-tuple<float,float> estimation_délais(IArrayXcf x, IArrayXcf y)//, bool fenêtrage)
+tuple<float,float> estimation_délais(const Veccf &x, const Veccf &y)
 {
-  auto [xp, yp] = pad_zeros(x, y);
+  soit [xp, yp] = pad_zeros(x, y);
 
-  int N = xp.rows();
+  soit N = xp.rows();
 
   tsd_assert(xp.rows() == N);
   tsd_assert(yp.rows() == N);
 
-  /*if(fenêtrage)
+  /*si(fenêtrage)
   {
-    ArrayXf f = tsd::filtrage::fenetre("hann", N, false);
+    ArrayXf f = tsd::filtrage::fenetre("hann", N, non);
     xp *= f;
     yp *= f;
   }*/
 
 
   // Utilise la version biaisée car sinon amplification des délais importants
-  auto [lags, corr] = xcorrb(xp, yp);
+  soit [lags, corr] = xcorrb(xp, yp);
 
   // Score normalisé
-  auto e1 = sqrt(xp.abs2().mean());
-  auto e2 = sqrt(yp.abs2().mean());
-  ArrayXf cn = corr.abs() / (e1 * e2 + 1e-50);
+  soit e1 = sqrt(abs2(xp).moyenne()),
+       e2 = sqrt(abs2(yp).moyenne());
+  soit cn = abs(corr) / (e1 * e2 + 1e-50);
 
-  int index;
-  float score = cn.maxCoeff(&index);
+  soit [score, index] = cn.max();
 
   /*{
     tsd::vue::Figure f;
@@ -71,19 +70,19 @@ tuple<float,float> estimation_délais(IArrayXcf x, IArrayXcf y)//, bool fenêtra
     msg("cn(index + 1) = {}", cn(index+1));
   }*/
 
-  float δ = 0;
+  soit δ = 0.0f;
 
-  if((index > 0) && (index + 1 < cn.rows()))
+  si((index > 0) && (index + 1 < cn.rows()))
   {
-    float cn0 = cn(index-1);
-    float cn1 = cn(index+1);
+    soit cn0 = cn(index-1),
+         cn1 = cn(index+1);
 
     // sortie du corrélateur = corrélation non normalisée
     δ = qint_loc(cn0, score, cn1);
 
     msg("cn0 = {}, cn = {}, cn1 = {} -> δ = {}", cn0, score, cn1, δ);
 
-    if((δ < -0.5) || (δ > 0.5))
+    si((δ < -0.5) || (δ > 0.5))
     {
       msg_avert("Echec interpolation quadratique: pics = {} {} {}, δ={}, idx={}, N={}",
           cn0, score, cn1, δ, index, N);
@@ -93,90 +92,85 @@ tuple<float,float> estimation_délais(IArrayXcf x, IArrayXcf y)//, bool fenêtra
 
   //msg("index = {}, lag = {}, dim = {}, lagf = {}", index, lags(index), xp.rows(), lags(index) + δ);
 
-  return {lags(index) + δ, score};
+  retourne {lags(index) + δ, score};
 
 
 
-  /*auto [xp, yp] = pad_zeros(x, y);
+  /*soit [xp, yp] = pad_zeros(x, y);
   EstimateurDelais est;
   est.configure(xp.rows());
   float délais, score;
   est.step(xp, yp, délais, score);
-  return {délais, score};*/
+  retourne {délais, score};*/
 }
 
-int estimation_délais_entier(IArrayXcf x, IArrayXcf y, float &score)
+entier estimation_délais_entier(const Veccf &x, const Veccf &y, float &score)
 {
-  auto [d, s] = estimation_délais(x, y);
+  soit [d, s] = estimation_délais(x, y);
   score = s;
-  return (int) round(d);
+  retourne (entier) round(d);
 }
 
 
 template<typename T>
-  tuple<Vecteur<T>, Vecteur<T>, int, float> aligne_entier(const Vecteur<T> &x1, const Vecteur<T> &y1)
+  tuple<Vecteur<T>, Vecteur<T>, entier, float> aligne_entier(const Vecteur<T> &x1, const Vecteur<T> &y1)
 {
   float score;
 
-  ArrayXcf x = x1, y = y1;
+  soit x = x1.as_complex(),
+       y = y1.as_complex();
+
 
   // Zéro-padding pour avoir la même dimension et qu'elle soit une puissance de 2
-  auto [xp, yp] = pad_zeros(x, y, true);
+  soit [xp, yp] = pad_zeros(x, y, oui);
 
+  //infos("aligne entier : #x=%d, #y=%d, #xp=%d, #yp=%d.", (entier) x.rows(), (entier) y.rows(), (entier) xp.rows(), (entier) yp.rows());
 
-  //infos("aligne entier : #x=%d, #y=%d, #xp=%d, #yp=%d.", (int) x.rows(), (int) y.rows(), (int) xp.rows(), (int) yp.rows());
+  soit d = estimation_délais_entier(xp, yp, score);
 
-  int d = estimation_délais_entier(xp, yp, score);
-
-  ArrayXcf xa, ya;
-  if(d == 0)
+  Veccf xa, ya;
+  si(d == 0)
   {
-    xa = x1;
-    ya = y1;
-    //xa = xp;
-    //ya = yp;
+    xa = x;
+    ya = y;
   }
-  else if(d < 0)
+  sinon si(d < 0)
   {
-    xa = x1.tail(x1.rows() + d);
-    ya = y1;
-
-    //xa = x1.tail(x1.rows()+d);
-    //ya = y1;//.head(x1.rows());
-    //xa = xp.tail(xp.rows()+d);
-    //ya = yp.head(xa.rows());
+    xa = x.tail(x.rows() + d);
+    ya = y;
   }
-  else
+  sinon
   {
-    xa = x1;
-    ya = y1.tail(y1.rows() - d);
-    //xa = y1.tail(y1.rows()-d);
-    //ya = x1.head(ya.rows());
-    //ya = yp.tail(yp.rows()-d);
-    //xa = xp.head(ya.rows());
+    xa = x;
+    ya = y.tail(y.rows() - d);
   }
 
-  if(xa.rows() > ya.rows())
-    xa = xa.head(ya.rows()).eval();
-  else if(xa.rows() < ya.rows())
-    ya = ya.head(xa.rows()).eval();
+  si(xa.rows() > ya.rows())
+  {
+    // Attention: xa peut être une référence ici !
 
-  //infos("aligne entier : d = %d, xa.rows() = %d, ya.rows() = %d", d, (int) xa.rows(), (int) ya.rows());
+    //msg("Changement dim...");
+    xa = xa.head(ya.rows());
+  }
+  sinon si(xa.rows() < ya.rows())
+  {
+    ya = ya.head(xa.rows());
+  }
 
   tsd_assert(xa.rows() == ya.rows());
 
-  if constexpr(est_complexe<T>())
-    return {xa, ya, d, score};
-  else
-    return {xa.real(), ya.real(), d, score};
+  si constexpr(est_complexe<T>())
+    retourne {xa, ya, d, score};
+  sinon
+    retourne {real(xa), real(ya), d, score};
 }
 
 template
-  tuple<Vecteur<float>, Vecteur<float>, int, float>
+  tuple<Vecteur<float>, Vecteur<float>, entier, float>
     aligne_entier<float>(const Vecteur<float> &x1, const Vecteur<float> &y1);
 
 template
-  tuple<Vecteur<cfloat>, Vecteur<cfloat>, int, float>
+  tuple<Vecteur<cfloat>, Vecteur<cfloat>, entier, float>
     aligne_entier<cfloat>(const Vecteur<cfloat> &x1, const Vecteur<cfloat> &y1);
 
 

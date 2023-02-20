@@ -2,28 +2,28 @@
 #include "tsd/tests.hpp"
 
 
-int test_ped(const std::string &nom, Ped ped)
+entier test_ped(const std::string &nom, Ped ped)
 {
   msg("Vérification détecteur d'erreur de phase [{}]...", nom);
   //tsd::telecom::DEPQuadratique det;
   //det.configure(2.0);
 
-  auto N = 512u;
-  tsd::ArrayXcf x = tsd::ArrayXcf::Zero(N);
-  float f = 0.02;
-  double ϕ_moy = 0;
-  for(auto i = 0u; i < N; i++)
+  soit N = 512u;
+  soit x = Veccf::zeros(N);
+  soit f = 0.02f;
+  soit ϕ_moy = 0.0;
+  pour(auto i = 0u; i < N; i++)
   {
     x(i) = std::polar(1.0f, 2 * π_f * f);
-    float ϕ = ped(x(i));
+    soit ϕ = ped(x(i));
     ϕ_moy += ϕ / N;
   }
 
-  float f_det = ϕ_moy / (2 * π);
+  soit f_det = ϕ_moy / (2 * π);
 
-  msg("  f = {}, détecté = {}, erreur = {}.", f, f_det, std::abs(f - f_det));
+  msg("  f = {}, détecté = {}, erreur = {}.", f, f_det, abs(f - f_det));
 
-  return verifie_erreur_relative(f, f_det, 10.0, "det freq");
+  retourne verifie_erreur_relative(f, f_det, 10.0, "det freq");
 }
 
 
@@ -31,67 +31,67 @@ int test_ped(const std::string &nom, Ped ped)
 
 
 
-int test_clkrec()
+entier test_clkrec()
 {
-  int res = 0;
+  entier res = 0;
 
   msg_majeur("Test recouvrement d'horloge...");
 
   ModConfig mc;
   mc.forme_onde             = forme_onde_psk(2);
-  mc.debug_actif    = true;
+  mc.debug_actif    = oui;
   mc.fe             = 800e3;//1e6;
   mc.fi             = 0;
   mc.fsymb          = 200e3;
-  mc.sortie_reelle  = false;
-  auto mod = modulateur_création(mc);
+  mc.sortie_reelle  = non;
+  soit mod = modulateur_création(mc);
 
   //ArrayXf xb = randb(70);
   //ArrayXf xb = randb(150);
 
   BitStream xb = randstream(70);
-  ArrayXcf y = mod->step(xb);
+  soit y = mod->step(xb);
 
 
-  ArrayXcf y2 = tsd::fourier::délais(y, 8.4);
+  soit y2 = tsd::fourier::délais(y, 8.4);
   //ArrayXcf y2 = tsd::fourier::delais_entier(y, 3);
 
-  auto f = filtre_mg<cfloat,cdouble>(mc.fe / mc.fsymb);
-  ArrayXcf y3 = f->step(y2);
+  soit f = filtre_mg<cfloat,cdouble>(mc.fe / mc.fsymb);
+  soit y3 = f->step(y2);
 
  // y = bruit_awgn(y, 0.1);
 
   ClockRecConfig config;
-  config.debug_actif  = true;
+  config.debug_actif  = oui;
   //config.itrp         = itrp_cspline<cfloat>();
   config.itrp         = itrp_lineaire<cfloat>();
   config.ted          = ted_init(TedType::GARDNER);
   config.tc           = 3;
   config.osf          = mc.fe / mc.fsymb;
-  auto cr = clock_rec_init(config);
+  soit cr = clock_rec_init(config);
 
   msg("appel clkrec...");
-  ArrayXcf y4 = cr->step(y3);
+  soit y4 = cr->step(y3);
   msg("ok.");
 
-  if(tests_debug_actif)
+  si(tests_debug_actif)
   {
     Figures f;
-    f.subplot(411).plot(y.real(), "ob-", "sortie modulateur");
-    f.subplot(412).plot(y2.real(), "ob-", "après délais fractionnaire");
-    f.subplot(413).plot(y3.real(), "ob-", "après filtre adapté");
-    f.subplot(414).plot(y4.real(), "ob-", "après clkrec");
+    f.subplot(411).plot(real(y), "ob-", "sortie modulateur");
+    f.subplot(412).plot(real(y2), "ob-", "après délais fractionnaire");
+    f.subplot(413).plot(real(y3), "ob-", "après filtre adapté");
+    f.subplot(414).plot(real(y4), "ob-", "après clkrec");
     f.afficher("Synthèse clk rec");
   }
 
-  return res;
+  retourne res;
 }
 
 
 
-int test_crec()
+entier test_crec()
 {
-  int res = 0;
+  entier res = 0;
   msg_majeur("Test recouvrement de porteuse (CPLL)...");
 
   res |= test_ped("ploop - M = 2", ped_ploop(2));
@@ -100,7 +100,7 @@ int test_crec()
   // res |= test_ped("costa - M = 4", ped_costa(4)); // ne marche pas
 
   PLLConfig config;
-  config.debug = true;
+  config.debug = oui;
   config.freq = 0;
   config.loop_filter_order = 2;
   //config.ped = ped_ploop(2);
@@ -109,39 +109,38 @@ int test_crec()
 
   ModConfig mc;
   mc.forme_onde = forme_onde_psk(2);
-  mc.debug_actif    = true;
+  mc.debug_actif    = oui;
   mc.fe             = 1e6;
   mc.fi             = 0;
   mc.fsymb          = 100e3;
-  mc.sortie_reelle  = false;
-  auto mod = modulateur_création(mc);
+  mc.sortie_reelle  = non;
+  soit mod = modulateur_création(mc);
 
   //ArrayXf xb = randb(1000);
   BitStream xb = randstream(1000);
-  ArrayXcf y = mod->step(xb);
+  soit y = mod->step(xb);
 
   y = bruit_awgn(y, 0.1);
 
   y *= std::polar(1.0f, π_f / 4);
-  int n = y.rows();
+  entier n = y.rows();
 
   float df = 0.01;//0.001;
 
-  auto ol = source_ohc(df);
+  soit ol = source_ohc(df);
   y *= ol->step(n);
 
   msg("Doppler : fréq = {}, pulsation = {} degrés.", df, df * 360);
 
-  auto pll = cpll_création(config);
+  soit pll = cpll_création(config);
 
-  ArrayXcf yc = pll->step(y);
+  soit yc = pll->step(y);
 
-
-  auto am = rad2deg(yc.square().arg().mean() / 2);
+  soit am = rad2deg(arg(square(yc)).moyenne() / 2);
 
   msg("Erreur de phase moyenne en sortie : {} degrés.", am);
 
-  tsd_assert(std::abs(am) < 10);
+  tsd_assert(abs(am) < 10);
 
   /*{
     Figure f("Entrée / sortie rec porteuse");
@@ -155,7 +154,7 @@ int test_crec()
   }*/
 
 
-  return res;
+  retourne res;
 }
 
 

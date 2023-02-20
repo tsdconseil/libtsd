@@ -34,7 +34,7 @@ struct DemodGen: Démodulateur
   // Ra après discri polaire (FSK seulement)
   float ratio_ra_dp = 1.0;
 
-  bool valide = false;
+  bouléen valide = non;
 
 
   DemodConfig config;
@@ -43,7 +43,7 @@ struct DemodGen: Démodulateur
   float delais()
   {
     echec("TODO : DemodGen::delais()");
-    return 0;
+    retourne 0;
   }
 
   DemodGen(const ModConfig &modconfig, const DemodConfig &config)
@@ -51,22 +51,22 @@ struct DemodGen: Démodulateur
     valide = (configure(modconfig, config) == 0);
   }
 
-  int configure(const ModConfig &modconfig, const DemodConfig &config)
+  entier configure(const ModConfig &modconfig, const DemodConfig &config)
   {
     this->config = config;
     this->modconfig = modconfig;
 
-    auto &fo = modconfig.forme_onde;
+    soit &fo = modconfig.forme_onde;
 
     discri = discriminateur_fm();
 
-    if(!fo)
+    si(!fo)
     {
       msg_erreur("Démodulateur : la forme d'onde doit être renseignée.");
-      return -1;
+      retourne -1;
     }
 
-    if(fmod(modconfig.fe,modconfig.fsymb) != 0)
+    si(fmod(modconfig.fe,modconfig.fsymb) != 0)
     {
       msg_avert("Démodulateur : sample frequency must be a multiple of symbol frequency ?");
     }
@@ -77,7 +77,7 @@ struct DemodGen: Démodulateur
 
     float ratio_osf_ideal = 8;
 
-    if(modconfig.fe > ratio_osf_ideal * fo->excursion() * modconfig.fsymb)
+    si(modconfig.fe > ratio_osf_ideal * fo->excursion() * modconfig.fsymb)
     {
       ratio_ra = fo->excursion() * modconfig.fsymb * ratio_osf_ideal / modconfig.fe;
       ra = tsd::filtrage::filtre_reechan<cfloat>(ratio_ra);
@@ -89,7 +89,7 @@ struct DemodGen: Démodulateur
     }
     osf3 = osf2;
 
-    if(fo->infos.est_fsk && (modconfig.fe * ratio_ra > ratio_osf_ideal * modconfig.fsymb))
+    si(fo->infos.est_fsk && (modconfig.fe * ratio_ra > ratio_osf_ideal * modconfig.fsymb))
     {
       ratio_ra_dp = modconfig.fsymb * ratio_osf_ideal / (modconfig.fe * ratio_ra);
       ra_dp = tsd::filtrage::filtre_reechan<cfloat>(ratio_ra_dp);
@@ -104,21 +104,21 @@ struct DemodGen: Démodulateur
     config_tbb.fi = modconfig.fi / modconfig.fe;
     dn = transpo_bb<cfloat>(config_tbb);
 
-    auto ted  = ted_init(config.ndec.clock_rec.ted);
+    soit ted  = ted_init(config.ndec.clock_rec.ted);
 
     tsd_assert(ted);
 
     sptr<Interpolateur<cfloat>> itrp;
-    if(config.ndec.clock_rec.itrp == ItrpType::CSPLINE)
+    si(config.ndec.clock_rec.itrp == ItrpType::CSPLINE)
       itrp = itrp_cspline<cfloat>();
-    else if(config.ndec.clock_rec.itrp == ItrpType::LINEAIRE)
+    sinon si(config.ndec.clock_rec.itrp == ItrpType::LINEAIRE)
       itrp = itrp_lineaire<cfloat>();
-    else if(config.ndec.clock_rec.itrp == ItrpType::LAGRANGE)
+    sinon si(config.ndec.clock_rec.itrp == ItrpType::LAGRANGE)
       itrp = itrp_lagrange<cfloat>(config.ndec.clock_rec.itrp_lagrange_degre);
-    else
+    sinon
     {
       msg_erreur("itrp inconnu.");
-      return -1;
+      retourne -1;
     }
 
 
@@ -133,16 +133,16 @@ struct DemodGen: Démodulateur
 
     msg("crecconfig.tc = {}", crecconfig.tc);
 
-    if(config.ndec.clock_rec.mode_ml)
+    si(config.ndec.clock_rec.mode_ml)
       clock_rec = clock_rec2_init(crecconfig);
-    else
+    sinon
       clock_rec = clock_rec_init(crecconfig);
 
-    filtre_rssi = filtre_rii1<float>(rii1_tc_vers_coef(config.ndec.tc_rssi_coarse * osf3)); // 10 symboles
-    filtre_rssi2 = filtre_rii1<float>(rii1_tc_vers_coef(config.ndec.tc_rssi_fine)); // 3 symboles
+    filtre_rssi = filtre_lexp<float>(lexp_tc_vers_coef(config.ndec.tc_rssi_coarse * osf3)); // 10 symboles
+    filtre_rssi2 = filtre_lexp<float>(lexp_tc_vers_coef(config.ndec.tc_rssi_fine)); // 3 symboles
 
 
-    if(!fo->infos.est_fsk)
+    si(!fo->infos.est_fsk)
     {
       ped = ped_init(config.ndec.carrier_rec.ped, modconfig.forme_onde);
 
@@ -161,9 +161,9 @@ struct DemodGen: Démodulateur
           modconfig.fe, modconfig.fi, modconfig.fsymb);
     }
 
-    valide = true;
+    valide = oui;
 
-    return 0;
+    retourne 0;
   }
 
   /*template<typename T, typename T1> auto operator()(const std::shared_ptr<T> p)
@@ -171,40 +171,40 @@ struct DemodGen: Démodulateur
           delete[] p;
   }*/
 
-  void reset(int cnt)
+  void reset(entier cnt)
   {
     // TODO
   }
 
-  void step(const ArrayXcf &x_, BitStream &bs, ArrayXXf &llr)
+  void step(const Veccf &x_, BitStream &bs, Tabf &llr)
   {
-    auto &wf = modconfig.forme_onde;
+    soit &wf = modconfig.forme_onde;
 
-    if(!valide)
-      return;
+    si(!valide)
+      retourne;
 
     msg(" demod: start...");
 
     //y.resize(0);
 
     //ArrayXf coarse_rssi;
-    ArrayXcf x, x_dn, x_crr, x_mf, x_clk, x_agc, x_clk_crr;
+    Veccf x, x_dn, x_crr, x_mf, x_clk, x_agc, x_clk_crr;
 
 
     // (1) Transposition en bande de base
-    if(modconfig.fi != 0)
+    si(modconfig.fi != 0)
     {
       msg(" demod: transpo...");
       x_dn = dn->step(x_);
     }
-    else
+    sinon
     {
       //infos("Downconcersion : fi = 0.");
       x_dn = x_;//x_.eval();
     }
 
 
-    if(ra)
+    si(ra)
     {
       msg(" demod: ra...");
       x_dn = ra->step(x_dn);
@@ -218,7 +218,7 @@ struct DemodGen: Démodulateur
 
     ///////////////////////////////////////////////
     /// FSK incoherent demodulation
-    ///  --> No need for carrier recovery
+    ///  --> No need pour carrier recovery
     /// But, matched filter in the frequency domain ?
     ///////////////////////////////////////////////
 
@@ -234,9 +234,9 @@ struct DemodGen: Démodulateur
 
 #   if 0
     // (2) Carrier recovery
-    if(!config.forme_onde->est_fsk)
+    si(!config.forme_onde->est_fsk)
       x_crr = carrier_rec->step(x_dn);
-    else
+    sinon
     {
       // Incoherent demodulation
       auto n = x_dn.rows();
@@ -251,12 +251,12 @@ struct DemodGen: Démodulateur
     //assert(!x_dn2.hasNaN());
 
     // En FSK, pas de carrier rec.
-    if(wf->infos.est_fsk) // TODO : tester mode différentiel plutôt
+    si(wf->infos.est_fsk) // TODO : tester mode différentiel plutôt
     {
       // Incoherent demodulation
       //auto n = x_dn.rows();
-      //if(n == 0)
-        //return;
+      //si(n == 0)
+        //retourne;
 
       x_dn = discri->step(x_dn);
 
@@ -266,7 +266,7 @@ struct DemodGen: Démodulateur
       //assert(coarse_rssi.rows() == x_dn2.rows());
 
       tsd_assert(!x_dn.hasNaN());
-      if(ra_dp)
+      si(ra_dp)
       {
         x_dn = ra_dp->step(x_dn);
       }
@@ -279,34 +279,34 @@ struct DemodGen: Démodulateur
 
     // Attention ici, la clock rec ML intégre le filtre adapté
 
-    if(config.ndec.clock_rec.mode_ml)
+    si(config.ndec.clock_rec.mode_ml)
     {
       x_mf = x_dn;
 
       x_crr = carrier_rec->step(x_mf);
 
-      if(osf3 == 1)
+      si(osf3 == 1)
         x_clk = x_crr; // TODO : mueller & mueller devrait pouvoir fonctionner avec un osf de 1
-      else
+      sinon
         x_clk = clock_rec->step(x_crr);// / (coarse_rssi + 1e-20f));
 
       x_clk_crr = x_clk;
     }
-    else
+    sinon
     {
       msg(" demod: psf...");
       // (3) Matched filter
       x_mf = psf->step(x_dn);
       msg(" demod: clkrec...");
-      if(osf3 == 1)
+      si(osf3 == 1)
         x_clk = x_mf; // TODO : mueller & mueller devrait pouvoir fonctionner avec un osf de 1
-      else
+      sinon
         x_clk = clock_rec->step(x_mf);// / (coarse_rssi + 1e-20f));
 
       msg(" demod: crrec...");
-      if(!wf->infos.est_fsk) // TODO : tester mode différentiel plutôt
+      si(!wf->infos.est_fsk) // TODO : tester mode différentiel plutôt
         x_crr = carrier_rec->step(x_clk);
-      else
+      sinon
         x_crr = x_clk;
 
       x_clk_crr = x_crr;
@@ -321,7 +321,7 @@ struct DemodGen: Démodulateur
 
 
     // TODO: à mettre ailleurs
-    if(wf->infos.est_psk && (wf->infos.M == 4))
+    si(wf->infos.est_psk && (wf->infos.M == 4))
     {
       // La carrier rec fait en sorte que la phase soit nulle
       // (ce qui n'est pas le cas de la convention choisie pour QPSK)
@@ -331,13 +331,13 @@ struct DemodGen: Démodulateur
 
     msg(" demod: rssi...");
     // (4) Fine RSSI estimation
-    ArrayXf ax = abs(x_clk_crr);
+    Vecf ax = abs(x_clk_crr);
     // PB avec les modulations qui ne sont pas à amplitude constante !
-    if(wf->infos.est_psk || wf->infos.est_fsk)
+    si(wf->infos.est_psk || wf->infos.est_fsk)
     {
       ax = filtre_rssi2->step(ax);
     }
-    else
+    sinon
     {
       // TRES BRICOLE !!!!
  //      auto m = ax.mean();
@@ -357,7 +357,7 @@ struct DemodGen: Démodulateur
 
     // Ou alors ne pas faire le démapping ici ?
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
       {
         Figures f;
@@ -371,11 +371,11 @@ struct DemodGen: Démodulateur
         f.afficher("Démodulation / 1");
       }
 
-      if(wf->infos.est_fsk)
+      si(wf->infos.est_fsk)
       {
         Figure f;
         f.plot(x_dn, "", "Discri. polaire, fech={:.1f} Hz, OSF={}",
-            modconfig.fsymb * osf3, (int) osf3);
+            modconfig.fsymb * osf3, (entier) osf3);
         f.afficher("Démodulation / fsk");
       }
 
@@ -407,9 +407,9 @@ extern sptr<Démodulateur> demodulateur2(const ModConfig &modconfig, const Demod
 
 sptr<Démodulateur> démodulateur_création(const ModConfig &modconfig, const DemodConfig &config)
 {
-  if(config.architecture == DemodConfig::ARCHI_SANS_DECISION)
-    return std::make_shared<DemodGen>(modconfig, config);
-  else
-    return demodulateur2(modconfig, config);
+  si(config.architecture == DemodConfig::ARCHI_SANS_DECISION)
+    retourne std::make_shared<DemodGen>(modconfig, config);
+  sinon
+    retourne demodulateur2(modconfig, config);
 }
 }

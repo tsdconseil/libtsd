@@ -139,7 +139,7 @@ struct Cardan
   }
 
   /** @brief Matrice de rotation. */
-  Eigen::Matrix3f mat_rotation() const
+  Tabf mat_rotation() const
   {
     return fr().mat_rotation();
   }
@@ -196,6 +196,6 @@ template<typename T>
 
 }
 
-
-
+ostream_formater(dsp::geo::Quaternion)
+ostream_formater(dsp::geo::Cardan)
 

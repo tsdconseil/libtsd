@@ -16,13 +16,13 @@ namespace tsd::geo {
 ostream& operator<<(ostream& ss, const Cardan &t)
 {
   ss << fmt::format("Cardan[φ={},θ={},ψ={}]", t.φ, t.θ, t.ψ);
-  return ss;
+  retourne ss;
 }
 
 ostream& operator<<(ostream& ss, const Quaternion &t)
 {
   ss << fmt::format("Quaternion[{}]", t.q);
-  return ss;
+  retourne ss;
 }
 
 static Eigen::Matrix3f makeC(const Eigen::Vector3f &v)
@@ -40,7 +40,7 @@ static Eigen::Matrix3f makeC(const Eigen::Vector3f &v)
   R(2,1) = v(0);
   R(2,2) = 0;
 
-  return R;
+  retourne R;
 }
 
 
@@ -50,18 +50,18 @@ Eigen::Matrix3f Quaternion::rot_mat() const
 {
   Eigen::Matrix3f R;
 
-  auto w = q(0), x = q(1), y = q(2), z = q(3);
+  soit w = q(0), x = q(1), y = q(2), z = q(3);
 
   R << 1-2*(y*y+z*z), 2*(x*y-z*w), 2*(x*z+y*w),
        2*(x*y+z*w), 1-2*(z*z+x*x), 2*(y*z-x*w),
        2*(x*z-y*w), 2*(y*z+x*w), 1-2*(y*y+x*x);
 
-  return R;
+  retourne R;
 }
 
 static inline Eigen::Vector3f cross(const Eigen::Vector3f &a, const Eigen::Vector3f &b)
 {
-  return Eigen::Vector3f(
+  retourne Eigen::Vector3f(
       a(1) * b(2) - a(2) * b(1),
       a(2) * b(0) - a(0) * b(2),
       a(0) * b(1) - a(1) * b(0));
@@ -73,8 +73,8 @@ Eigen::Vector3f Quaternion::rotate(const Eigen::Vector3f &x) const
 {
   Eigen::Vector3f e = -q.tail(3).matrix();
   float s = q(0);
-  return x + cross(2 * e, cross(e, x) - s * x);
-  //return rot_mat() * x;
+  retourne x + cross(2 * e, cross(e, x) - s * x);
+  //retourne rot_mat() * x;
 }
 
 Eigen::Matrix4f Quaternion::mat() const
@@ -86,7 +86,7 @@ Eigen::Matrix4f Quaternion::mat() const
   R.block(1, 0, 3, 1) = q.tail(3);
   R.block(1, 1, 3, 3) = makeC(q.tail(3));
 
-  return R;
+  retourne R;
 }
 
 
@@ -107,27 +107,27 @@ Quaternion::Quaternion(const Eigen::Matrix3f &R)
   // D'après https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf
   float t;
 
-  if(R(2,2) < 0)
+  si(R(2,2) < 0)
   {
-    if(R(0,0) > R(1,1))
+    si(R(0,0) > R(1,1))
     {
       t = 1 + R(0,0) - R(1,1) - R(2,2);
       q << R(2,1)-R(1,2), t, R(1,0)+R(0,1), R(2,0)+R(0,2);
     }
-    else
+    sinon
     {
       t = 1 - R(0,0) + R(1,1) - R(2,2);
       q << R(0,2)-R(2,0), R(0,1) + R(1,0), t, R(1,2)+R(2,1);
     }
   }
-  else
+  sinon
   {
-    if(R(0,0) < -R(1,1))
+    si(R(0,0) < -R(1,1))
     {
       t = 1 - R(0,0) - R(1,1) + R(2,2);
       q << R(1,0)-R(0,1), R(2,0)+R(0,2), R(1,2)+R(2,1), t;
     }
-    else
+    sinon
     {
       t = 1 + R(0,0) + R(1,1) + R(2,2);
       q << t, R(2,1)-R(1,2), R(0,2)-R(2,0), R(1,0)-R(0,1);
@@ -140,7 +140,7 @@ Quaternion::Quaternion(const Eigen::Matrix3f &R)
 
 Quaternion Quaternion::identite()
 {
-  return Quaternion{1,0,0,0};
+  retourne Quaternion{1,0,0,0};
 }
 
 
@@ -149,7 +149,7 @@ Quaternion Quaternion::inv() const
   Quaternion res;
   res.q(0) = q(0);
   res.q.tail(3) = - q.tail(3);
-  return res;
+  retourne res;
 }
 
 
@@ -169,7 +169,7 @@ Cardan::Cardan(const Eigen::Matrix3f &R)
 
 Cardan::Cardan(const Quaternion &q)
 {
-  auto v = q.q;
+  soit v = q.q;
   // Conversion from quaternion
   // eqn (290) from "Representing Attitude: Euler Angles, Unit Quaternions,
   // and Rotation Vectors", James Diebel, Oct 2006
@@ -185,7 +185,7 @@ Cardan::Cardan(const Quaternion &q)
   R << 1, 0, 0,
        0, ca, sa,
        0, -sa, ca;
-  return R;
+  retourne R;
 }
 
 static Eigen::Matrix3f rotmat_3d_R2(float α)
@@ -195,7 +195,7 @@ static Eigen::Matrix3f rotmat_3d_R2(float α)
   R << ca, 0, -sa,
        0, 1, 0,
        sa, 0, ca;
-  return R;
+  retourne R;
 }*/
 
 
@@ -208,22 +208,23 @@ static Eigen::Matrix3f rotmat_3d_R2(float α)
   R << ca, sa, 0,
        -sa, ca, 0,
        0, 0, 1;
-  return R;
+  retourne R;
 }*/
 
-/*Eigen::Matrix3f rotmat_3d(float α, int axe)
+/*Eigen::Matrix3f rotmat_3d(float α, entier axe)
 {
-  if(axe == 0)
-    return rotmat_3d_R1(α);
-  else if(axe == 1)
-    return rotmat_3d_R2(α);
-  return rotmat_3d_R3(α);
+  si(axe == 0)
+    retourne rotmat_3d_R1(α);
+  sinon si(axe == 1)
+    retourne rotmat_3d_R2(α);
+  retourne rotmat_3d_R3(α);
 }*/
 
 
-Eigen::Matrix3f Cardan::mat_rotation() const
+Tabf Cardan::mat_rotation() const
 {
-  return rotmat_3d_R1(φ) * rotmat_3d_R2(θ) * rotmat_3d_R3(ψ);
+  Eigen::Matrix3f r = rotmat_3d_R1(φ) * rotmat_3d_R2(θ) * rotmat_3d_R3(ψ);
+  retourne (Tabf::map(r.data(), 3, 3)).clone();
 }
 
 
@@ -236,7 +237,7 @@ Eigen::Matrix3f Cardan::mat_rotation() const
 
 
 // Examples
-//  // R = rotation matrix, for phi = %pi/4 and psi = %pi/2
+//  // R = rotation matrix, pour phi = %pi/4 and psi = %pi/2
 //  R = rotmat(cardan(%pi/4,0,%pi/2));
 
 

@@ -1,48 +1,46 @@
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/vue.hpp"
-
-using namespace tsd::vue;
+#include "tsd/tsd-all.hpp"
 
 namespace tsd::filtrage {
 
 
-  ArrayXf design_rif_freq_freqs(int n)
+  Vecf design_rif_freq_freqs(entier n)
   {
-    int m = (n+1) / 2;
-    return linspace(0,(m-1.0)/(2*m-1),m);
+    entier m = (n+1) / 2;
+    retourne linspace(0,(m-1.0)/(2*m-1),m);
   }
 
-  Figures design_rif_freq_analyse(int n, const ArrayXf &d)
+  // TODEL
+  Figures design_rif_freq_analyse(entier n, const Vecf &d)
   {
-    ArrayXf h = design_rif_freq(n, d);
+    soit h = design_rif_freq(n, d);
+    soit [fr,xm] = frmag<float>(h, 2048);
 
-    auto [fr,xm] = frmag<float>(h, 2048);
     Figures fig;
-    auto f = fig.subplot();
+    soit f = fig.subplot();
     f.plot(fr,abs(xm),"b-", "Réponse obtenue");
-    ArrayXf fr1 = design_rif_freq_freqs(n);
-    f.plot(fr1, d.abs(), "gs", "Points d'échantillonnage (gabarit)");
+
+    soit fr1 = design_rif_freq_freqs(n);
+    f.plot(fr1, abs(d), "gs", "Points d'échantillonnage (gabarit)");
     f.titre("Réponse fréquentielle");
 
-    return fig;
+    retourne fig;
   }
 
 
-  ArrayXf design_rif_freq(int N, const ArrayXf &f)
+  Vecf design_rif_freq(entier N, const Vecf &f)
   {
-    ArrayXf F = f;
-    int M = f.rows();
-    if(N == 0)
+    soit F = f.clone();
+    soit M = f.rows();
+
+    si(N == 0)
       N = 2 * M - 1;
 
     msg("Design RIF FREQ: N = {}, M = {}", N, M);
 
-    if(N != 2 * M - 1)
+    si(N != 2 * M - 1)
     {
       msg("design_rif_freq: interpolation gabarit {} points -> {} points.", M, (N+1)/2);
-      if((N & 1) == 0)
+      si((N & 1) == 0)
         N++;
       // Adapte le nombre de coefficients
       M = (N + 1) / 2;
@@ -52,37 +50,43 @@ namespace tsd::filtrage {
 
     tsd_assert(N == 2 * M - 1);
 
-    /*if(debug)
-    {
-      msg("Design RIF freq : ntaps = {}", ncoefs);
-      Figures fig;
-      fig.subplot().plot(f.abs(), "", "Avant interpolation");
-      fig.subplot().plot(F.abs(), "", "Après interpolation");
-      fig.afficher("rif-freq-gabarit");
-    }*/
+    soit Hd = Veccf::zeros(N);
+    // pour un filtre à phase linéaire
+    //soit θ  = linspace(0, -(2 * π * M * (M-1)) / N, M);
+    Hd.head(M).set_real(F);// * polar(θ);
 
-
-    ArrayXcf Hd = ArrayXcf::Zero(N);
-    // Pour un filtre à phase linéaire
-    //ArrayXf θ  = linspace(0, -(2 * π * M * (M-1)) / N, M);
-    Hd.head(M) = F;// * polar(θ);
-
-    tsd::fourier::force_csym(Hd);
+    csym_forçage(Hd);
 
     // Attention, problème de précision avec ifft !!!
-    ArrayXcf hc = tsd::fourier::fftshift(tsd::fourier::ifft(Hd));
-    //ArrayXcf hc = tsd::fourier::ifft(Hd);
+    soit hc = fftshift(ifft(Hd));
 
-    auto err = hc.imag().abs().maxCoeff();
-    tsd_assert_msg(err < 1e-3, "design_rif_freq : filtre réel attendu (err = {}).", err);
+    soit err = abs(imag(hc)).valeur_max();
+    tsd_assert_msg(err < 1e-3,
+        "design_rif_freq : filtre réel attendu (err = {}): hc = \n{}\nHd={}, F={}, f={}.", err, hc, Hd, F, f);
 
-    ArrayXf h = hc.real();
+    soit h = real(hc) / sqrt(N);
 
-    // Exemple : gabarit = constant = 1
-    // => fft(1) = 0.racine(N).000000
-    h /= std::sqrt(N);
+    si(debug_design)
+    {
+      msg("Design RIF freq : N={}, M={}", N, M);
+      Figures fig;
+      fig.subplot().plot(f, "", "Avant interpolation");
+      fig.subplot().plot(F, "", "Après interpolation");
+      fig.afficher("rif-freq-gabarit");
 
-    return h;
+
+      soit [fr,xm] = frmag<float>(h, 2048);
+
+      soit f = fig.subplot();
+      f.plot(fr,xm, "b-", "Réponse obtenue");
+
+      soit fr1 = design_rif_freq_freqs(N);
+      f.plot(fr1, F, "gs", "Points d'échantillonnage (gabarit)");
+      f.titre("Réponse fréquentielle");
+
+    }
+
+    retourne h;
   }
 
 

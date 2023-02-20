@@ -32,7 +32,7 @@ struct ModGen : Modulateur
 
   float latence = 0;
 
-  bool valide = false;
+  bouléen valide = non;
 
   ModConfig config;
 
@@ -52,17 +52,17 @@ struct ModGen : Modulateur
 
   float delais() const
   {
-    return latence;
+    retourne latence;
   }
 
-  int configure(const ModConfig &config)
+  entier configure(const ModConfig &config)
   {
     latence = 0;
     this->config = config;
 
     forme_onde = config.forme_onde;
 
-    if(!forme_onde)
+    si(!forme_onde)
       echec("Création modulateur : forme d'onde non spécifiée.");
 
     msg("<h3>Configuration modulateur</h3>");
@@ -71,11 +71,11 @@ struct ModGen : Modulateur
 
     fe1 = config.fe;
 
-    bool auto_adapation_rythme = false;
+    bouléen auto_adapation_rythme = non;
 
-    if(auto_adapation_rythme)
+    si(auto_adapation_rythme)
     {
-      if((fe1 > (16 * config.fsymb)) || (fmod(config.fe,config.fsymb) != 0))
+      si((fe1 > (16 * config.fsymb)) || (fmod(config.fe,config.fsymb) != 0))
       {
         fe1 = 16 * config.fsymb;
         msg("Fréquence d'échantillonnage interne : {} Hz, adaptation de rythme : {}",
@@ -95,19 +95,19 @@ struct ModGen : Modulateur
 
 
 
-    //if(fmod(config.fe,config.fsymb) != 0)
+    //si(fmod(config.fe,config.fsymb) != 0)
     //{
       //erreur("mod_init: sample frequency must be a multiple of symbol frequency.");
-      //return -1;
+      //retourne -1;
     //}
 
-    int ncoefs = config.ncoefs_filtre_mise_en_forme;
+    entier ncoefs = config.ncoefs_filtre_mise_en_forme;
 
     filtre_mise_en_forme = config.forme_onde->filtre.filtre_mise_en_forme(ncoefs, osf);
     ol = source_ohc(config.fi / config.fe);
 
     {
-      ArrayXf h = config.forme_onde->filtre.get_coefs(ncoefs, osf);
+      soit h = config.forme_onde->filtre.get_coefs(ncoefs, osf);
 
       //tsd_assert(h.rows() == ncoefs);
 
@@ -118,51 +118,50 @@ struct ModGen : Modulateur
       msg("Modulateur : calcule délais = {} (ncoefs1={}, ncoefs={}, osf={})", latence, ncoefs, h.rows(), osf);
     }
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
-      ArrayXf h = config.forme_onde->filtre.get_coefs(ncoefs, osf);
-      auto f = analyse_filtre(h, config.fe);
+      soit h = config.forme_onde->filtre.get_coefs(ncoefs, osf);
+      soit f = plot_filtre(h, non, config.fe);
       f.afficher("Filtre de mise en forme");
     }
 
     this->config.forme_onde->cnt = 0;
 
-    return 0;
+    retourne 0;
   }
 
-  ArrayXcf flush(int nech)
+  Veccf flush(entier nech)
   {
-    if(nech <= 0)
-      return ArrayXcf();
+    si(nech <= 0)
+      retourne {};
     // Nombre d'échantillons d'entrée = 1/osf * nombre d'échantillons de sortie
-    //return filtre_mise_en_forme->step(ArrayXcf::Zero((int) ceil((1.0 * nech) / osf)));
-    return step(ArrayXcf::Zero((int) ceil((1.0 * nech) / osf)));
+    //retourne filtre_mise_en_forme->step(ArrayXcf::Zero((entier) ceil((1.0 * nech) / osf)));
+    retourne step(Veccf::zeros((entier) ceil((1.0 * nech) / osf)));
   }
 
   // D'après les données binaires
-  ArrayXcf step(const BitStream &bs)
+  Veccf step(const BitStream &bs)
   {
-    return step(forme_onde->génère_symboles(bs));
+    retourne step(forme_onde->génère_symboles(bs));
   }
 
     // D'après les symboles
-  ArrayXcf step(const ArrayXcf &x_)
+  Veccf step(const Veccf &x_)
   {
     // Filtre de mise en forme, avec sur-échantillonnage intégré
-    ArrayXcf x = filtre_mise_en_forme->step(x_);
+    soit x = filtre_mise_en_forme->step(x_);
+    soit x_filtre = x.clone();
 
-    ArrayXcf x_filtre = x;
+    Vecf vfreqs, vphase;
 
-    ArrayXf vfreqs, vphase;
-
-    if(config.forme_onde->infos.est_fsk)
+    si(config.forme_onde->infos.est_fsk)
     {
       // df = 0.5 * h * fsymb
       // df sur un symbole = 0.5 * h / osf
       // 2 π / osf <=> h = 2
       // => θ = h * 2 * pi / osf / 2 = h * pi / osf
 
-      auto Ω_max = (π * config.forme_onde->infos.index) / osf;
+      soit Ω_max = (π * config.forme_onde->infos.index) / osf;
       // h = 2 -> Omega_max = 2 * pi / osf
 
       //msg("Ω max = {} degrés.", rad2deg(Ω_max));
@@ -173,10 +172,10 @@ struct ModGen : Modulateur
       //              = %pi * h / ovs;
       // Conversion phase -> IQ
 
-      ArrayXf xr = x.real();
+      soit xr = real(x);
 
-      float denom = xr.abs().maxCoeff();
-      if(denom == 0)
+      soit denom = abs(xr).valeur_max();
+      si(denom == 0)
         denom = 1.0f;
 
       // normalisation entre [-fmax,fmax]
@@ -187,67 +186,59 @@ struct ModGen : Modulateur
       x = polar(vphase);
     }
 
-    if(fe1 != config.fe)
+    si(fe1 != config.fe)
     {
       x = ra->step(x);
     }
 
     // Modulation RF
-    if(config.fi != 0)
+    si(config.fi != 0)
     {
       x *= ol->step(x.rows());
-      if(config.sortie_reelle)
-        x = x.real();
+      si(config.sortie_reelle)
+        x = real(x);
     }
 
 
-    if(config.debug_actif)
+    si(config.debug_actif)
     {
       msg("<h2>Modulation</h2>");
 
       {
         Figures f;
-        //f.subplot().plot(bs.array(), "|b", "Signal binaire");
-
         f.subplot().plot(x_, "|", "Symboles");
-
         f.subplot().plot_iq(x_, "ob", "Constellation");
-
         f.subplot().plot(x_filtre, "", "Pulse shaping");
-
         f.subplot().plot_iq(x_filtre, "ob-", "Constellation filtree");
-
         f.afficher("Modulation (1)");
       }
 
       {
         Figures f;
         f.subplot().plot(x_filtre, "", "Signal bande de base");
-
         f.subplot().plot_psd(x_filtre, fe1);
 
-        if(config.forme_onde->infos.est_fsk)
+        si(config.forme_onde->infos.est_fsk)
         {
           f.subplot().plot(vfreqs, "", "Vfreqs");
           f.subplot().plot(vphase, "", "Phase (cumsum)");
         }
 
         f.subplot().plot(x, "-", "Signal RF");
-
         f.subplot().plot_psd(x, config.fe);
         f.afficher("Modulation (2)");
       }
 
     }
 
-    return x;
+    retourne x;
   }
 };
 
 
 sptr<Modulateur> modulateur_création(const ModConfig &config)
 {
-  return std::make_shared<ModGen>(config);
+  retourne make_shared<ModGen>(config);
 }
 
 

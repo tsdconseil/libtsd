@@ -6,9 +6,6 @@ using namespace tsd::fourier;
 using namespace tsd::vue;
 
 #define VERB(AA)
-//AA
-
-
 
 namespace tsd::telecom
 {
@@ -21,10 +18,11 @@ struct ÉmetteurImpl: Émetteur
 
   float retard() const
   {
+    auto &mod = config.format.modulation;
     // Temps vers le milieu du premier bit transmis
-    return tsd::filtrage::filtre_rif_ups_délais(
-        config.format.modulation.ncoefs_filtre_mise_en_forme,
-        config.format.modulation.fe / config.format.modulation.fsymb);
+    retourne tsd::filtrage::filtre_rif_ups_délais(
+        mod.ncoefs_filtre_mise_en_forme,
+        mod.fe / mod.fsymb);
   }
 
   ÉmetteurImpl(const ÉmetteurConfig &config)
@@ -32,32 +30,29 @@ struct ÉmetteurImpl: Émetteur
     configure(config);
   }
 
-  int configure(const ÉmetteurConfig &config)
+  entier configure(const ÉmetteurConfig &config)
   {
     this->config = config;
     mod = modulateur_création(config.format.modulation);
 
-    if(config.format.fo_entete)
+    si(config.format.fo_entete)
     {
       msg_majeur("Émetteur: fo entete = {}", *config.format.fo_entete);
       msg_majeur("Émetteur: fo données = {}", *config.format.modulation.forme_onde);
     }
 
-    return 0;
+    retourne 0;
   }
 
-  ArrayXcf step(const BitStream &bs)
+  Veccf step(const BitStream &bs)
   {
     BitStream bs2;
-    auto &mconfig = config.format.modulation;
+    soit &mconfig = config.format.modulation;
+    soit fo_entete_specifique = config.format.fo_entete ? oui : non;
 
-    bool fo_entete_specifique = config.format.fo_entete ? true : false;
-
-
-
-    if(fo_entete_specifique)
+    si(fo_entete_specifique)
       bs2 = bs;
-    else
+    sinon
     {
       BitStream et2 = config.format.entete;
       et2.pad_mult(mconfig.forme_onde->infos.k);
@@ -66,25 +61,25 @@ struct ÉmetteurImpl: Émetteur
 
     // Ajoute des zéros pour flusher
 
-    //auto osf = mconfig.fe / mconfig.fsymb;
+    //soit osf = mconfig.fe / mconfig.fsymb;
 
-    int   d_ech           = (int) ceil(mod->delais());
-    int   nbits_par_symb  = mconfig.forme_onde->infos.k;
+    soit  d_ech           = (entier) ceil(mod->delais());
+    soit  nbits_par_symb  = mconfig.forme_onde->infos.k;
     //float nbits_par_echan = ((float) nbits_par_symb) / osf;
-    //int   d_bit           = (int) ceil(d_ech * nbits_par_echan);
+    //entier   d_bit           = (entier) ceil(d_ech * nbits_par_echan);
 
 
     //msg("Délais = {} échantillons, k = {} bits/symb, {} bits/échan => flush {} bits.",
     //    mod->delais(), config.forme_onde->k,
     //    nbits_par_echan, d_bit);
 
-    // Pour le flush du filtre
-    //for(auto i = 0; i < d_bit; i++)
+    // pour le flush du filtre
+    //pour(soit i = 0; i < d_bit; i++)
       //bs2.push(0);
     // PB : ceci termine avec une séquence I/Q constante non nulle...
 
-    ArrayXcf x;
-    if(fo_entete_specifique)
+    Veccf x;
+    si(fo_entete_specifique)
     {
       nbits_par_symb  = config.format.fo_entete->infos.k;
       mod->def_forme_onde(config.format.fo_entete);
@@ -92,15 +87,15 @@ struct ÉmetteurImpl: Émetteur
       BitStream tmp = config.format.entete;
       tmp.pad_mult(nbits_par_symb);
 
-      ArrayXcf x1 = mod->step(tmp);
+      soit x1 = mod->step(tmp);
 
       nbits_par_symb  = mconfig.forme_onde->infos.k;
       bs2.pad_mult(nbits_par_symb);
       mod->def_forme_onde(config.format.modulation.forme_onde);
-      ArrayXcf x2 = mod->step(bs2);
+      soit x2 = mod->step(bs2);
       x = vconcat(x1, x2);
     }
-    else
+    sinon
     {
       bs2.pad_mult(nbits_par_symb);
       x = mod->step(bs2);
@@ -113,18 +108,18 @@ struct ÉmetteurImpl: Émetteur
     // Flush sur 4 symboles
     //x = vconcat(x, mod->flush(4.0f / nbits_par_echan));
 
-    return x;
+    retourne x;
   }
 
   MoniteursStats moniteurs()
   {
-    return {};
+    retourne {};
   }
 };
 
 sptr<Émetteur> émetteur_création(const ÉmetteurConfig &ec)
 {
-  return std::make_shared<ÉmetteurImpl>(ec);
+  retourne make_shared<ÉmetteurImpl>(ec);
 }
 
 

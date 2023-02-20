@@ -1,17 +1,20 @@
-#pragma once
+
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
+
+#ifndef TSD_VUE_HPP
+#define TSD_VUE_HPP
 
 #include "tsd/tsd.hpp"
 #include "tsd/vue/image.hpp"
 
 
 namespace tsd::vue::unites {
-extern std::tuple<int,int> calc_expo_nb_chiffres(double t, const std::string &unite);
-extern std::string valeur_vers_chaine(double t, const std::string &unite, int expo, int nb_chiffres);
-extern std::tuple<int, int> calc_expo_nb_chiffres_commun(const std::vector<double> &tics, const std::string &unite);
+extern std::tuple<entier,entier> calc_expo_nb_chiffres(double t, const std::string &unite);
+extern std::string valeur_vers_chaine(double t, const std::string &unite, entier expo, entier nb_chiffres);
+extern std::tuple<entier, entier> calc_expo_nb_chiffres_commun(const std::vector<double> &tics, const std::string &unite);
 extern std::string valeur_vers_chaine(double t, const std::string &unite);
-extern std::string valeur_vers_chaine(double t, const std::string &unite, int nb_chiffres);
+extern std::string valeur_vers_chaine(double t, const std::string &unite, entier nb_chiffres);
 }
 
 
@@ -29,15 +32,16 @@ extern Couleur eclaircir_couleur(const Couleur &src, float ratio = 0.5);
 
 struct ConfigGrille
 {
-  int afficher = -1;
-  int lg_tiret = -1, lg_trou = -1;
+  entier afficher = -1;
+  entier lg_tiret = -1, lg_trou = -1;
   Couleur couleur{0,0,0,0};
-  int epaisseur = 1;
+  entier epaisseur = 1;
 
   // Par défaut : 50 pour majeur, 4 pour mineur
-  int pixels_par_tic_min = -1;
+  entier pixels_par_tic_min_x = -1;
+  entier pixels_par_tic_min_y = -1;
 
-  int sous_graduation = 5;
+  entier sous_graduation = 5;
 
   void from_style(const std::string &style);
   std::string vers_style() const;
@@ -45,27 +49,36 @@ struct ConfigGrille
   std::strong_ordering operator <=>(const ConfigGrille &c) const = default;
 };
 
+/** @brief Configuration pour l'affichage d'un axe (horizontal ou vertical) */
 struct ConfigAxe
 {
-  std::string id, label, unite;
-  /** @brief For manual zoom selection. */
+  std::string id, label, unité;
+
+  /** @brief Pour zoom manuel. */
   float vmin = -1.0, vmax = 1.0;
 
-  bool afficher                   = true;
-  int ecart_pixel                 = -1;
+  bouléen afficher                   = oui;
+  entier ecart_pixel                 = -1;
   float ecart_valeur              = -1;
 
-  bool echelle_logarithmique      = false;
+  bouléen echelle_logarithmique      = non;
 
-  /** Si vrai, les tics affichés sont ceux précisés dans le vecteur "tics" */
-  bool tic_manuels = false;
+  /** @brief Si vrai, les tics affichés sont ceux précisés dans le vecteur "tics". */
+  bouléen tic_manuels = non;
+
   std::vector<std::pair<float, std::string>> tics;
 
-
+  /** @brief Dim fonte valeurs des tics. */
   float valeurs_echelle = 0.6;
 
+  /** @brief Hauteur max. pour les valeurs des tics, en pixels. */
+  entier valeurs_hauteur_max = 18;
 
-  bool operator <=>(const ConfigAxe &c) const = default;
+  /** @brief Décalage avec l'axe, en pixels. */
+  entier valeurs_décalage = 4;
+
+
+  bouléen operator <=>(const ConfigAxe &c) const = default;
 
   operator std::string() const;
 };
@@ -85,16 +98,16 @@ struct ConfigSerie
 {
   std::string nom;
   Couleur couleur{0,0,0};
-  int largeur_de_trait  = 1;
+  entier largeur_de_trait  = 1;
   std::string unite;
-  bool visible          = true;
-  bool remplissage      = false;
+  bouléen visible          = oui;
+  bouléen remplissage      = non;
   std::string style;
 
   Marqueur marqueur = Marqueur::AUCUN;
   Trait trait = Trait::LIGNE;
 
-  bool operator <=>(const ConfigSerie &c) const = default;
+  bouléen operator <=>(const ConfigSerie &c) const = default;
 };
 
 
@@ -114,18 +127,18 @@ struct ConfigAxes
 
   std::string titre;
 
-  int titre_dim = 10;
+  float titre_echelle = 1.0;
 
   /** @brief Background color */
   Couleur couleur_arriere_plan = Couleur{255,255,255};
 
-  //bool affiche_cartouche_legende  = true;
+  //bouléen affiche_cartouche_legende  = oui;
 
-  bool est_mat_sur_clair() const;
+  bouléen est_mat_sur_clair() const;
 
   struct Legende
   {
-    bool afficher = true;
+    bouléen afficher = oui;
 
     struct Position
     {
@@ -139,6 +152,7 @@ struct ConfigAxes
 
       operator std::string() const;
       Position(const std::string &id = "ne");
+      Position(const char *id): Position(std::string(id)){}
 
       std::strong_ordering operator <=>(const Position &c) const = default;
     } position;
@@ -151,7 +165,7 @@ struct ConfigAxes
 
 
 
-  //int legende_dim = 6;
+  //entier legende_dim = 6;
 
   enum PositionAxeVertical
   {
@@ -159,11 +173,11 @@ struct ConfigAxes
     AXE_VERTICAL_DROITE
   } position_axe_vertical = AXE_VERTICAL_DROITE;
 
-  bool mode_isoview = false;
+  bouléen mode_isoview = non;
 
   float aspect_ratio = 1.0f;
 
-  bool operator <=>(const ConfigAxes &c) const = default;
+  bouléen operator <=>(const ConfigAxes &c) const = default;
 
   operator std::string() const;
 };
@@ -172,29 +186,32 @@ struct Axe
 {
   ConfigAxe config;
 
-  int dim; // nb pixels
+  entier dim; // nb pixels
   std::vector<double> tics_majeurs_pos;
   std::vector<double> tics_mineurs_pos;
 
   double ecart_tics_majeurs_valeur;
-  int   ecart_tics_majeurs_pixels;
+  entier   ecart_tics_majeurs_pixels;
 
-  bool tics_mineurs_presents;
+  double ecart_tics_mineurs_valeur;
+  entier   ecart_tics_mineurs_pixels;
+
+  bouléen tics_mineurs_presents;
   /** Center of X / Y axis, in lsb units */
   float   decalage_zero;
 
   /** This defines the display gain, for Y axis */
   float   pixels_par_lsb;
 
-  bool vertical = false;
+  bouléen vertical = non;
 
-  void configure(const ConfigAxe &config, int dim);
+  void configure(const ConfigAxe &config, entier dim);
 
-  bool tic_ok(float v);
-  bool tic_ok_souple(float v);
+  bouléen tic_ok(float v);
+  bouléen tic_ok_souple(float v);
 
   float pixel_vers_valeur(float p) const;
-  int valeur_vers_pixel(float v) const;
+  entier valeur_vers_pixel(float v) const;
   float valeur_vers_pixelf(float v) const;
   float vmin() const;
   float vmax() const;
@@ -225,7 +242,7 @@ struct Canva
 
   // x = x_clip + rdi_clip.l * (xv - rdi_view.x) / rdi_view.l
 
-  // Soit :
+  // soit :
   // x = alpha + beta * xv
 
 
@@ -240,8 +257,8 @@ struct Canva
   //    beta_x += -rdi.x / rdi.l, alpha_x *= 1 / rdi.l
 
   // Dessine dans un sous-rectangle de la vue en cours
-  Canva clip(const Rectf &rdi, const Rectf &vue, bool log_x = false, bool log_y = false) const;
-  Canva clip_alt(const Rectf &rdi, float xmin, float xmax, float ymin, float ymax, bool log_x, bool log_y) const;
+  Canva clip(const Rectf &rdi, const Rectf &vue, bouléen log_x = non, bouléen log_y = non) const;
+  Canva clip_alt(const Rectf &rdi, float xmin, float xmax, float ymin, float ymax, bouléen log_x, bouléen log_y) const;
 
   // Change l'échelle de la vue en cours
   Canva vue(const Rectf &vue) const;
@@ -264,13 +281,17 @@ struct Canva
   void set_orientation(Orientation orient);
   void set_dim_fonte(float echelle);
   void set_couleur(const Couleur &coul);
-  void set_epaisseur(int ep);
-  void set_remplissage(bool remplir, const Couleur &coul = Couleur{255,255,255});
+  void set_couleur_remplissage(const Couleur &coul);
+  void set_epaisseur(entier ep);
+  void set_remplissage(bouléen remplir, const Couleur &coul = Couleur{255,255,255});
+
+  void active_contours(bouléen contour_actif);
+  void active_remplissage(bouléen remplissage_actif);
 
 
-  void set_texte_arrière_plan(bool actif, const Couleur &coul = Couleur::Blanc);
+  void set_texte_arrière_plan(bouléen actif, const Couleur &coul = Couleur::Blanc);
 
-  void set_dotted(bool dotted);
+  void set_dotted(bouléen dotted);
   void set_align(Align hor, Align vert);
   void rectangle(float x0, float y0, float x1, float y1);
   void rectangle(const Rectf &r);
@@ -279,20 +300,23 @@ struct Canva
   void ligne(const Pointf &p0, const Pointf &p1);
   void fleche(const Pointf &p0, const Pointf &p1, float dim = 5);
 
+  struct GroupeTextes;
   void texte(float x0, float y0,
       const std::string &texte,
-      float dx_max = -1, float dy_max = -1);
+      float dx_max = -1, float dy_max = -1, sptr<GroupeTextes> grp = sptr<GroupeTextes>());
 
   void texte(const Pointf &p,
       const std::string &texte,
-      const Dimf &dim_max = {-1.0f, -1.0f});
+      const Dimf &dim_max = {-1.0f, -1.0f}
+      , sptr<GroupeTextes> grp = sptr<GroupeTextes>());
 
 
 
   void cercle(float x0, float y0, float r);
+  void cercle(const Pointf &p, float r);
   void ellipse(const Pointf &p, float a, float b, float theta = 0);
   void remplissage_vertical(float x0, float y0, float x1, float y1, float y2, float y3);
-  void dessine_accu(const ArrayXcf &pts);
+  void dessine_accu(const Veccf &pts);
   void def_image_fond(Image img);
   void dessine_img(float x0, float y0, float y1, float y2, Image img);
   void marqueur(const Pointf &p, Marqueur m, float dim_pixels);
@@ -308,6 +332,9 @@ struct Canva
   sptr<PointIntermediaire> enregistre_pti();
   void restaure_pti(sptr<Canva::PointIntermediaire> pti);
 
+
+  /** Création d'un groupe de texte dont la fonte sera forcée à être identique */
+  sptr<GroupeTextes> groupe_textes();
 
   Rectf calc_rdi_englobante() const;
 
@@ -327,7 +354,9 @@ struct Rendable: std::enable_shared_from_this<Rendable>
   virtual void afficher(const std::string &titre = "", const Dim &dim = {-1, -1}) const;
 
   Image genere_image(const Dim &dim = Dim{-1,-1}, const Couleur &arp = Couleur::Blanc) const;
-  //Image rendre() const {return genere_image();}
+
+
+  virtual Dim dimensions_idéales() const{retourne {-1,-1};}
 };
 
 
@@ -364,10 +393,10 @@ struct Axes
   void def_rdi_visible(float xmin, float xmax, float ymin, float ymax);
   void def_rdi_visible_abs(float xmin, float xmax, float ymin, float ymax);
 
-  void set_isoview(bool isoview);
+  void set_isoview(bouléen isoview);
   void fixe_aspect_ratio(float ysx);
 
-  void active_grilles(bool actives);
+  void active_grilles(bouléen actives);
   void supprime_decorations();
 
   /** @brief Définition de l'échelle d'affichage (lin ou log)
@@ -395,12 +424,33 @@ private:
 
 
 
+/** @brief Système de coordonnées pour l'affichage d'une surface 2d. */
+struct ParamGrille
+{
+  entier nc = 0, nr = 0;
+  float x0 = 0, y0 = 0;
+  float ẟx = 0, ẟy = 0;
+
+  ParamGrille(entier nc, entier nr, const Pointf &p0, const Pointf &p1);
+  Dimf dim() const;
+  Pointf ctr(entier ix, entier iy) const;
+  Pointf tl(entier ix, entier iy) const;
+  Pointf br(entier ix, entier iy) const;
+  Pointf bl(entier ix, entier iy) const;
+  Pointf tr(entier ix, entier iy) const;
+};
 
 
 
 
-  /** @brief %Figure avec API de type Matlab / Scilab.
-   */
+/** @brief %Figure avec API de type Matlab / Scilab.
+ *
+ *  <h3>%Figure avec API de type Matlab / Scilab</h3>
+ *
+ *  @par Exemple, avec différentes couleurs et différents marqueurs :
+ *  @snippet exemples/src/ex-vue.cc ex_figure
+ *  @image html figure.png width=800px
+ */
 struct Figure: ARendable
 {
   /** @brief %Courbe (telle que renvoyée par la méthode plot()).
@@ -414,19 +464,19 @@ struct Figure: ARendable
     void def_couleur(const tsd::vue::Couleur &coul);
 
     /** @brief Définit une couleur différente pour chaque point de la courbe */
-    void def_couleurs(IArrayXf c, const std::string cmap = "");
+    void def_couleurs(const Vecf &c, const std::string cmap = "");
 
     /** @brief Changement d'épaisseur du trait */
-    void def_epaisseur(int ep);
+    void def_epaisseur(entier ep);
 
     /** @brief Remplissage sous la courbe */
-    void def_remplissage(bool actif, bool vers_vmin = false, float vmin = 0);
+    void def_remplissage(bouléen actif, bouléen vers_vmin = non, float vmin = 0);
 
     /** @brief Définit, pour chaque point de la courbe, l'écart-type */
-    void def_σ(IArrayXf σ);
+    void def_σ(const Vecf &σ);
 
     /** @brief Définit la dimension (en pixels) des marqueurs. */
-    void def_dim_marqueur(int dim);
+    void def_dim_marqueur(entier dim);
 
     void def_légende(const std::string &titre);
 
@@ -447,27 +497,29 @@ struct Figure: ARendable
 
 
   Courbe plot(const float &x, const float &y, const std::string &format = "");
-  Courbe plot_int(const ArrayXf &x, const ArrayXf &y, const std::string &format = "", const std::string &titre = "");
-  Courbe plot_int(const ArrayXf &y, const std::string &format = "", const std::string &titre = "");
 
-  template<typename derived, typename ... Ts>
-  Courbe plot(const Eigen::ArrayBase<derived> &y, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+  Courbe plot_int(const Vecf &x, const Vecf &y, const std::string &format = "", const std::string &titre = "");
+
+  Courbe plot_int(const Vecf &y, const std::string &format = "", const std::string &titre = "");
+
+  template<typename T, typename ... Ts>
+  Courbe plot(const VecT<T> &y, const std::string &format = "", const std::string &label = "", Ts &&... args)
   {
-    if constexpr(est_complexe<typename derived::Scalar>())
+    if constexpr(est_complexe<T>())
     {
-      if(y.imag().abs2().sum() < y.real().abs2().sum() * 1e-5)
+      if(abs2(imag(y)).somme() < abs2(real(y)).somme() * 1e-5)
       {
-        return plot_int(y.real(), format, fmt::format(FMT_RUNTIME(titre), args...));
+        return plot_int(real(y), format, fmt::format(FMT_RUNTIME(label), args...));
       }
       else
       {
-        plot_int(y.real(), format, fmt::format(FMT_RUNTIME(titre), args...) + " (re)");
-        return plot_int(y.imag(), format, fmt::format(FMT_RUNTIME(titre), args...) + " (im)");
+        plot_int(real(y), format, fmt::format(FMT_RUNTIME(label), args...) + " (re)");
+        return plot_int(imag(y), format, fmt::format(FMT_RUNTIME(label), args...) + " (im)");
       }
     }
     else
     {
-      return plot_int(y, format, fmt::format(FMT_RUNTIME(titre), args...));
+      return plot_int(y, format, fmt::format(FMT_RUNTIME(label), args...));
     }
   }
 
@@ -478,7 +530,7 @@ struct Figure: ARendable
    *  @param x      Vecteur des valeurs en abcisse.
    *  @param y      Vecteur des valeurs en ordonnée.
    *  @param format Chaine de caractère optionnelle pour modifier le format.
-   *  @param titre  Argument optionnel indiquant le nom de la courbe
+   *  @param label  Argument optionnel indiquant le nom de la courbe
    *  @param args   Argument optionnel pour générer le nom de la courbe (format librairie fmt).
    *
    *  Le format est une chaine de caractère qui permet de choisir la couleur, le type de trait,
@@ -494,20 +546,20 @@ struct Figure: ARendable
    *  @sa Figure::plot_psd(), Figure::plot_img()
    *
    */
-  template<typename derived, typename ... Ts>
-  Courbe plot(const ArrayXf &x, const Eigen::ArrayBase<derived> &y, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+  template<typename T, typename ... Ts>
+  Courbe plot(const Vecf &x, const VecT<T> &y, const std::string &format = "", const std::string &label = "", Ts &&... args)
   {
-    auto t = FMT_RUNTIME(titre);
-    if constexpr(est_complexe<typename derived::Scalar>())
+    auto t = FMT_RUNTIME(label);
+    if constexpr(est_complexe<T>())
     {
-      if(y.imag().abs2().sum() < y.real().abs2().sum() * 1e-5)
+      if(abs2(imag(y)).somme() < abs2(real(y)).somme() * 1e-5)
       {
-        return plot_int(x, y.real(), format, fmt::format(t, args...));
+        return plot_int(x, real(y), format, fmt::format(t, args...));
       }
       else
       {
-        plot_int(x, y.real(), format, fmt::format(t, args...) + " (re)");
-        return plot_int(x, y.imag(), format, fmt::format(t, args...) + " (im)");
+        plot_int(x, real(y), format, fmt::format(t, args...) + " (re)");
+        return plot_int(x, imag(y), format, fmt::format(t, args...) + " (im)");
       }
     }
     else
@@ -516,7 +568,14 @@ struct Figure: ARendable
     }
   }
 
-  Courbe plot_psd_int(IArrayXcf y, float fe, const std::string &format, const std::string &titre);
+  template<typename T, typename ... Ts>
+  Courbe plot(const std::tuple<Vecf, VecT<T>> &xy, const std::string &format = "", const std::string &label = "", Ts &&... args)
+  {
+    soit [x, y] = xy;
+    retourne plot(x, y, format, fmt::format(FMT_RUNTIME(label), args...));
+  }
+
+  Courbe plot_psd_int(const Veccf &y, float fe, const std::string &format, const std::string &label);
 
   /** @brief Affiche le spectre d'un signal
    *
@@ -525,17 +584,18 @@ struct Figure: ARendable
    *  @param y      Signal à analyser (domaine temporel)
    *  @param fe     Fréquence d'échantillonnage
    *  @param format Spécification de format (optionnel)
-   *  @param titre  Nom de la courbe (optionnel)
+   *  @param label  Nom de la courbe (optionnel)
    *  @param args   ...
    *
    *  @sa Figure::plot(), Figure::plot_img()
    */
-  template<typename Derived, typename ... Ts>
-  Courbe plot_psd(const Eigen::ArrayBase<Derived> &y, float fe = 1.0, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+  template<typename T, typename ... Ts>
+  Courbe plot_psd(const VecT<T> &y, float fe = 1.0, const std::string &format = "", const std::string &label = "", Ts &&... args)
   {
-    ArrayXcf y2 = y;
-    return plot_psd_int(y2, fe, format, fmt::format(FMT_RUNTIME(titre), args...));
+    return plot_psd_int(y.as_complex(), fe, format, fmt::format(FMT_RUNTIME(label), args...));
   }
+
+
 
   /** @brief Dessine une surface 2d avec des niveaux de couleur.
    *
@@ -543,32 +603,38 @@ struct Figure: ARendable
    *
    *  Cette méthode dessine une surface 2d grâce à des niveaux de couleurs (par défaut, carte "jet").
    *
-   *  @param Z Tableau 2d à afficher
-   *  @param format Spécification optionnelle de format
+   *  @param Z      Tableau 2d à afficher.
+   *  @param format Spécification optionnelle de format.
+   *  @param rdi    Rectangle où placer l'image.
+   *
+   *
+   *  @image html plot-img.png width=600px
    *
    *
    *  @sa Figure::plot(), Figure::plot_psd()
    */
-  Courbe plot_img(IArrayXXf &Z, const std::string &format = "jet");
+  Courbe plot_img(const Rectf &rdi, const Tabf &Z, const std::string &format = "jet");
 
-  Courbe plot_img(float xmin, float xmax, float ymin, float ymax, IArrayXXf &Z, const std::string &format = "jet");
 
-  Courbe plot_minmax(const ArrayXf &x, const ArrayXf &y1, const ArrayXf &y2);
+  /** @brief Dessine une surface 2d avec des niveaux de couleur (dimensions par défaut). */
+  Courbe plot_img(const Tabf &Z, const std::string &format = "jet");
 
-  Courbe plot_iq_int(const ArrayXcf &z, const std::string &format, const std::string &titre);
+  Courbe plot_minmax(const Vecf &x, const Vecf &y1, const Vecf &y2);
+
+  Courbe plot_iq_int(const Veccf &z, const std::string &format, const std::string &label);
 
   template<typename ... Ts>
-    Courbe plot_iq(const ArrayXcf &z, const std::string &format = "", const std::string &titre = "", Ts &&... args)
+    Courbe plot_iq(const Veccf &z, const std::string &format = "", const std::string &label = "", Ts &&... args)
   {
-    return plot_iq_int(z, format, fmt::format(FMT_RUNTIME(titre), args...));
+    return plot_iq_int(z, format, fmt::format(FMT_RUNTIME(label), args...));
   }
 
 
-  /** Retourne la dernière courbe créée */
+  /** retourne la dernière courbe créée */
   //Courbe glc();
 
-  /** Retourne la ieme courbe */
-  //Courbe gc(int i);
+  /** retourne la ieme courbe */
+  //Courbe gc(entier i);
 
 
   std::vector<Courbe> &courbes();
@@ -630,22 +696,23 @@ struct Figure: ARendable
   //Image rendre(uint32_t sx = 1200, uint32_t sy = 800, const Rectf &rdi, const Couleur &arp = Couleur::Blanc) const;
 
   Canva canva();
+  Canva canva_pre();
 
   Canva canva_pixel(const Dim &allocation);
 
 
-  void def_echelle(bool log_x, bool log_y);
+  void def_echelle(bouléen log_x, bouléen log_y);
 
   //void rendre(Canva canva) const;
 
 
-  int rendre00() const;
+  entier rendre00() const;
   Canva rendre0(Canva canva_) const;
   void rendre1(Canva canva_, Canva canva) const;
 
 
   /** @brief Enregistrement sous la forme d'un fichier image */
-  //void enregistrer(const std::string &chemin_fichier, int sx = -1, int sy = -1) const;
+  //void enregistrer(const std::string &chemin_fichier, entier sx = -1, entier sy = -1) const;
 
   std::string lis_nom() const;
   void def_nom(const std::string &s);
@@ -668,7 +735,7 @@ private:
   struct Figures: ARendable
   {
 
-    Figures(int rows = -1, int cols = -1);
+    Figures(entier rows = -1, entier cols = -1);
 
     void clear();
 
@@ -678,7 +745,7 @@ private:
       *  @param rows   Nombre de lignes
       *  @param cols   Nombre de colonnes
       *  @param sel    Sélection du subplot en cours (numéro entre 1 et rows*cols). Ou -1 pour automatique (nouveau subplot). */
-     Figure subplot(int rows, int cols, int sel = -1);
+     Figure subplot(entier rows, entier cols, entier sel = -1);
 
      /** @brief Partitionne la figure en sous-plots.
       *
@@ -701,15 +768,15 @@ private:
       *    f.plot(...);
       *  @endcode
       *  @sa subplot() */
-     Figure subplot(int p = -1);
+     Figure subplot(entier p = -1);
 
      Figure gcf();
 
-     Figure gf(int sel);
+     Figure gf(entier sel);
 
 
      /** @brief Enregistrement sous la forme d'un fichier image */
-     //void enregistrer(const std::string &chemin_fichier, int sx = -1, int sy = -1) const;
+     //void enregistrer(const std::string &chemin_fichier, entier sx = -1, entier sy = -1) const;
      //void rendre(Canva canva) const;
 
 
@@ -730,81 +797,6 @@ private:
     Figures figures;
   };
 
-
-  struct EvtPlotConfig
-  {
-    struct Evt
-    {
-      std::string nom;
-      tsd::vue::Couleur coul = Couleur::Blanc;
-    };
-    std::vector<Evt> evts;
-    int idle_index = -1;
-  };
-
-
-
-  struct PlotEvt: Rendable
-  {
-    ArrayXi evt;
-    EvtPlotConfig cfg;
-
-    void maj(ArrayXi &evt, const EvtPlotConfig &cfg);
-    void rendre(Canva canva) const;
-  };
-
-  struct PlotEvt2Content
-  {
-    struct Evt
-    {
-      float t0, t1;
-      std::string label;
-      std::string titre;
-      std::string description;
-      Couleur couleur = Couleur::Vert;
-      bool sélectionné = false;
-      bool hide_label = false;
-    };
-
-    struct Ligne
-    {
-      std::string nom;
-      Couleur couleur_fond = Couleur::Blanc;
-
-      std::vector<Evt> evts;
-
-      void concaténation();
-    };
-    std::vector<Ligne> lignes;
-    float t0, t1;
-
-    bool orientation_verticale = false;
-  };
-
-
-
-  struct PlotEvt2: Rendable
-  {
-    PlotEvt2Content content;
-
-    mutable struct PlotInfos
-    {
-      struct Evt
-      {
-        Rectf rdi;
-      };
-      struct Ligne
-      {
-        Rectf rdi;
-        std::vector<Evt> evts;
-      };
-      std::vector<Ligne> lignes;
-
-    } infos;
-
-    void maj(const PlotEvt2Content &content);
-    void rendre(Canva canva) const;
-  };
 
 
   struct Stdo
@@ -828,12 +820,15 @@ private:
   extern std::function<void (sptr<const Rendable> fig, const std::string &titre)> stdo_ajoute_figure;
 
   // Active les réglages pour un mode impression par défaut
-  extern void set_mode_impression();
+  extern void set_mode_impression(bool mode_impression = oui);
+
+  extern bouléen get_mode_impression();
 
 }
 
 namespace tsd::ihm {
-extern void init(bool create_gtk_thread = false);
+extern void init(bouléen create_gtk_thread = non);
 }
 
 
+#endif

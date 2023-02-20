@@ -14,7 +14,7 @@ public:
   {
     std::string nom;
     float conso_cpu_pourcents = 0;
-    int   nb_appels = 0;
+    entier   nb_appels = 0;
   };
 
   MoniteurCpu(const std::string &nom = "");

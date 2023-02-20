@@ -12,15 +12,15 @@ namespace tsd::telecom {
 class SuiviPicFrequence
 {
 public:
-  int configure(unsigned int N);
-  void step(const ArrayXcf &x, float &freq_detectee, float &snr);
+  void configure(entier N);
+  void step(const Veccf &x, float &freq_detectee, float &snr);
 private:
   sptr<tsd::fourier::FFTPlan> fft_plan;
-  unsigned int N;
+  entier N;
 };
 
 
-extern std::tuple<float,float> localise_pic_frequence(const ArrayXcf &x);
+extern std::tuple<float,float> localise_pic_frequence(const Veccf &x);
 
 
 /** Détecteur d'erreur de phase quadratique */
@@ -29,7 +29,7 @@ extern std::tuple<float,float> localise_pic_frequence(const ArrayXcf &x);
 public:
   // Par défaut, BPSK standard
   // Mettre 4.0 pour de la QPSK, etc.
-  int configure(float power = 2.0);
+  entier configure(float power = 2.0);
   void step(cfloat x, float &dep);
   void step(ArrayXcf &x, float &df);
 

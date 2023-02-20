@@ -16,33 +16,32 @@ using namespace std;
 
 namespace tsd::vue {
 
-  struct bgra
-  {
-    unsigned char bgra[4];
-  };
+struct bgra
+{
+  unsigned char bgra[4];
+};
 
 
 struct Image::Impl
 {
-  int sx = 0, sy = 0;
+  entier sx = 0, sy = 0;
   bgra *bitmap = nullptr;
   bgra cd = {0}, cf = {0};
-  int ep = 1;
+  entier ep = 1;
   static sptr<Font> ftfonte;
 
 
   inline float fpart(float x)
   {
-      if(x > 0)
-        return x - (int) x;
-      else
-        return x - ((int) (x)+1);
-
+    si(x > 0)
+      retourne x - (entier) x;
+    sinon
+      retourne x - ((entier) (x)+1);
   }
 
   Dim dim() const
   {
-    return {sx, sy};
+    retourne {sx, sy};
   }
 
   void charger(const string &chemin)
@@ -50,7 +49,7 @@ struct Image::Impl
 
 #   if LIBTSD_USE_PNG
     //msg("lecture png [{}]...", chemin);
-    int width, height;
+    entier width, height;
     png_byte color_type;
     png_byte bit_depth;
     png_bytep *row_pointers = NULL;
@@ -58,14 +57,14 @@ struct Image::Impl
     FILE *fp = fopen(chemin.c_str(), "rb");
 
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-    if(!png)
+    si(!png)
       echec("png_create_read_struct");
 
     png_infop info = png_create_info_struct(png);
-    if(!info)
+    si(!info)
       echec("png_create_info_struct");
 
-    if(setjmp(png_jmpbuf(png)))
+    si(setjmp(png_jmpbuf(png)))
       echec("png_jmpbuf(png)");
 
     png_init_io(png, fp);
@@ -80,37 +79,37 @@ struct Image::Impl
     // Read any color_type into 8bit depth, RGBA format.
     // See http://www.libpng.org/pub/png/libpng-manual.txt
 
-    if(bit_depth == 16)
+    si(bit_depth == 16)
       png_set_strip_16(png);
 
-    if(color_type == PNG_COLOR_TYPE_PALETTE)
+    si(color_type == PNG_COLOR_TYPE_PALETTE)
       png_set_palette_to_rgb(png);
 
     // PNG_COLOR_TYPE_GRAY_ALPHA is always 8 or 16bit depth.
-    if(color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
+    si(color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
       png_set_expand_gray_1_2_4_to_8(png);
 
-    if(png_get_valid(png, info, PNG_INFO_tRNS))
+    si(png_get_valid(png, info, PNG_INFO_tRNS))
       png_set_tRNS_to_alpha(png);
 
     // These color_type don't have an alpha channel then fill it with 0xff.
-    if(color_type == PNG_COLOR_TYPE_RGB ||
+    si(color_type == PNG_COLOR_TYPE_RGB ||
        color_type == PNG_COLOR_TYPE_GRAY ||
        color_type == PNG_COLOR_TYPE_PALETTE)
       png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
 
-    if(color_type == PNG_COLOR_TYPE_GRAY ||
+    si(color_type == PNG_COLOR_TYPE_GRAY ||
        color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
       png_set_gray_to_rgb(png);
 
     png_read_update_info(png, info);
 
-    //auto nrb = png_get_rowbytes(png,info);
+    //soit nrb = png_get_rowbytes(png,info);
 
     //msg("mallocs (h = {}, w = {}, nrb = {})...", height, width, nrb);
 
     row_pointers = (png_bytep*)malloc(sizeof(png_bytep) * height);
-    for(int y = 0; y < height; y++) {
+    pour(entier y = 0; y < height; y++) {
       row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png,info));
     }
 
@@ -128,11 +127,11 @@ struct Image::Impl
     resize(width, height);
 
     msg("lecture octets..");
-    for(auto y = 0; y < height; y++)
+    pour(auto y = 0; y < height; y++)
     {
-      auto iptr = (unsigned char *) row_pointers[y];
-      auto optr = ((unsigned char *) ((char *) this->bitmap)) + y * sx * 4;
-      for(auto x = 0; x < width; x++)
+      soit iptr = (unsigned char *) row_pointers[y];
+      soit optr = ((unsigned char *) ((char *) this->bitmap)) + y * sx * 4;
+      pour(auto x = 0; x < width; x++)
       {
         optr[2] = *iptr++;
         optr[1] = *iptr++;
@@ -151,32 +150,31 @@ struct Image::Impl
 #   endif
   }
 
-  void enregister(const string &chemin)
+  void enregister(const string &chemin) const
   {
-
 #   if LIBTSD_USE_PNG
 
     string ch = chemin;
 
-    if((chemin.size() < 4) || (chemin[chemin.size()-4] != '.'))
+    si((chemin.size() < 4) || (chemin[chemin.size()-4] != '.'))
       ch += ".png";
 
-    //if(ch.ends_with(".png"))
-    if((ch.size() >= 4) && (ch.substr(ch.size() - 4, 4) == ".png"))
+    //si(ch.ends_with(".png"))
+    si((ch.size() >= 4) && (ch.substr(ch.size() - 4, 4) == ".png"))
     {
-      int width = sx, height = sy;
+      entier width = sx, height = sy;
       png_byte color_type = PNG_COLOR_TYPE_RGBA;
       png_byte bit_depth = 8;
 
       png_structp png_ptr;
       png_infop info_ptr;
-      //int number_of_passes;
+      //entier number_of_passes;
       png_bytep * row_pointers = (png_bytep *) malloc(sy * sizeof(png_bytep *));
-      auto ptr = (unsigned char *) data();
+      soit ptr = (unsigned char *) data();
 
-      auto ptri = (unsigned char *) malloc(sx * sy * 4);
-      auto tmp = ptri;
-      for(auto i = 0; i < sx * sy; i++)
+      soit ptri = (unsigned char *) malloc(sx * sy * 4);
+      soit tmp = ptri;
+      pour(auto i = 0; i < sx * sy; i++)
       {
         *tmp++ = ptr[2];
         *tmp++ = ptr[1];
@@ -186,49 +184,49 @@ struct Image::Impl
         ptr += 4;
       }
 
-      for(auto y = 0; y < sy; y++)
+      pour(auto y = 0; y < sy; y++)
         row_pointers[y] = ptri + y * sx * 4;
 
 
       /* create file */
       FILE *fp = fopen(ch.c_str(), "wb");
-      if (!fp)
+      si (!fp)
       {
-        msg_erreur("[write_png_file] File {} could not be opened for writing", ch.c_str());
-        return;
+        msg_erreur("[write_png_file] File {} could not be opened pour writing", ch.c_str());
+        retourne;
       }
 
 
       /* initialize stuff */
       png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
-      if (!png_ptr)
+      si (!png_ptr)
       {
         msg_erreur("[write_png_file] png_create_write_struct failed");
-        return;
+        retourne;
       }
 
       info_ptr = png_create_info_struct(png_ptr);
-      if (!info_ptr)
+      si (!info_ptr)
       {
         msg_erreur("[write_png_file] png_create_info_struct failed");
-        return;
+        retourne;
       }
 
-      if (setjmp(png_jmpbuf(png_ptr)))
+      si (setjmp(png_jmpbuf(png_ptr)))
       {
         msg_erreur("[write_png_file] Error during init_io");
-        return;
+        retourne;
       }
 
       png_init_io(png_ptr, fp);
 
 
       /* write header */
-      if(setjmp(png_jmpbuf(png_ptr)))
+      si(setjmp(png_jmpbuf(png_ptr)))
       {
         msg_erreur("[write_png_file] Error during writing header");
-        return;
+        retourne;
       }
 
       png_set_IHDR(png_ptr, info_ptr, width, height,
@@ -239,32 +237,32 @@ struct Image::Impl
 
 
       /* write bytes */
-      if (setjmp(png_jmpbuf(png_ptr)))
+      si (setjmp(png_jmpbuf(png_ptr)))
       {
         msg_erreur("[write_png_file] Error during writing bytes");
-        return;
+        retourne;
       }
 
       png_write_image(png_ptr, row_pointers);
 
 
       /* end write */
-      if (setjmp(png_jmpbuf(png_ptr)))
+      si (setjmp(png_jmpbuf(png_ptr)))
       {
         msg_erreur("[write_png_file] Error during end of write");
-        return;
+        retourne;
       }
 
       png_write_end(png_ptr, NULL);
 
       /* cleanup heap allocation */
-      //for(y=0; y<height; y++)
+      //pour(y=0; y<height; y++)
         // free(row_pointers[y]);
       free(row_pointers);
       free(ptri);
 
       fclose(fp);
-      return;
+      retourne;
     }
 #   endif
 
@@ -273,24 +271,24 @@ struct Image::Impl
 
   // On suppose que le signal d'entrée a été interpolé
   // pour des coordonnées entières de x
-  void courbe_xy(int xmin, const ArrayXf &Y)
+  void courbe_xy(entier xmin, const Vecf &Y)
   {
-    int xmax = Y.rows() + xmin - 1;
-    for(auto x = xmin; x < xmax; x++)
+    entier xmax = Y.rows() + xmin - 1;
+    pour(auto x = xmin; x < xmax; x++)
     {
       // Plutôt vertical, il faut utiliser les pixels adjacents horizontaux
-      if(abs(Y(x+1)-Y(x)) > 1)
+      si(abs(Y(x+1)-Y(x)) > 1)
       {
 
       }
-      else
+      sinon
       {
 
       }
 
 
 
-      /*for(auto y = ymin; y <= ymax; y++)
+      /*pour(auto y = ymin; y <= ymax; y++)
       {
 
       }*/
@@ -298,35 +296,152 @@ struct Image::Impl
   }
 
 
-  void pta(int x, int y, float a)
+  void pta(entier x, entier y, float a)
   {
-    if((x < 0) || (y < 0) || (x >= sx) || (y >= sy))
-      return;
+    si((x < 0) || (y < 0) || (x >= sx) || (y >= sy))
+      retourne;
 
-    auto ptr = bitmap + x + y * sx;
-    auto ip = (bgra *) &cd;
-    float a0 = sqrt(a);
+    soit ptr = bitmap + x + y * sx;
+    soit ip = (bgra *) &cd;
+    float a0 = sqrt(a) * cd.bgra[3] / 255.0f;
     float b0 = 1 - a0;
 
-    for(auto k = 0u; k < 4; k++)
+    pour(auto k = 0u; k < 4; k++)
       ptr->bgra[k] = ptr->bgra[k] * b0 + ip->bgra[k] * a0;
   }
 
+  bouléen est_entier(float x) const
+  {
+    retourne abs(x - floor(x)) < 1e-6;
+  }
+
+  // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+  // (p1,p2) <-> (p3,p4)
+  static Pointf intersecte_lignes(
+      const Pointf &p1, const Pointf &p2,
+      const Pointf &p3, const Pointf &p4)
+  {
+    soit d = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x),
+         a = p1.x*p2.y-p1.y*p2.x,
+         b = p3.x*p4.y - p3.y*p4.x;
+    retourne
+    {
+      (a * (p3.x - p4.x) - (p1.x - p2.x) * b) / d,
+      (a * (p3.y - p4.y) - (p1.y - p2.y) * b) / d
+    };
+  }
+
+  // Première intersection en partant de p0
+  std::tuple<Pointf, int> intersecte_ligne_rdi(const Pointf &p0, const Pointf &p1) const
+  {
+    Pointf r{-1,-1};
+    int côté = -1;
+
+    // Intersection avec ligne du haut
+    soit pnord  = intersecte_lignes(p0, p1, {0,0}, {sx-1,0}),
+         psud   = intersecte_lignes(p0, p1, {0,sy-1}, {sx-1,sy-1}),
+         pest   = intersecte_lignes(p0, p1, {sx-1,0}, {sx-1,sy-1}),
+         pouest = intersecte_lignes(p0, p1, {0,0}, {0,sy-1});
+
+    soit t = [&](const Pointf &p)
+    {
+      si((p.x >= 0) && (p.x <= sx-1) && (p.y >= 0) && (p.y <= sy-1))
+        r = p;
+    };
+
+    si((p0.y < 0) && (p0.x >= 0) && (p0.x <= sx-1))
+      t(pnord);
+    sinon si((p0.y >= sy) && (p0.x >= 0) && (p0.x <= sx-1))
+      t(psud);
+    sinon si((p0.x < 0) && (p0.y >= 0) && (p0.y <= sy-1))
+      t(pouest);
+    sinon si((p0.x >= sx-1) && (p0.y >= 0) && (p0.y <= sy-1))
+      t(pest);
+    sinon si((p0.x <= 0) && (p0.y <= 0))
+    {
+      t(pouest);
+      t(pnord);
+    }
+    sinon si((p0.x >= sx-1) && (p0.y <= 0))
+    {
+      t(pest);
+      t(pnord);
+    }
+    sinon si((p0.x <= 0) && (p0.y >= sy-1))
+    {
+      t(pouest);
+      t(psud);
+    }
+    sinon si((p0.x >= sx-1) && (p0.y >= sy-1))
+    {
+      t(pest);
+      t(psud);
+    }
+
+    retourne {r, côté};
+  }
+
+  // retourne vrai si en dehors
+  bouléen restreint_segment_rdi(float &x0, float &y0, float &x1, float &y1) const
+  {
+    // Trouve les points d'intersection avec la zone d'intérêt,
+    // et ne trace que dans cet intervalle
+
+    Pointf p0{x0,y0}, p1{x1,y1};
+
+    soit i0 = est_dans_rdi(p0);
+    soit i1 = est_dans_rdi(p1);
+
+    si(i0 && i1)
+      retourne non;
+
+    int c0 = -1, c1 = -1;
+
+    si(!i0)
+    {
+      std::tie(p0,c0) = intersecte_ligne_rdi(p0, p1);
+    }
+    si(!i1)
+    {
+      std::tie(p1,c1) = intersecte_ligne_rdi(p1, p0);
+    }
+
+    si((p0.x == -1) || (p1.x == -1))
+      retourne oui;
+
+    si(!i0 && !i1)
+    {
+      si(c0 == c1)
+        retourne oui;
+    }
+
+    x0 = p0.x;
+    y0 = p0.y;
+    x1 = p1.x;
+    y1 = p1.y;
+
+    retourne non;
+  }
+
+
   void ligne_aa(float x0, float y0, float x1, float y1, StyleLigne style)
   {
-    //if( ((x0 == x1) || (y0 == y1)) (abs(x0 - floor(x0) < 1e-6)
-    //    && (abs(x1 - floor(x1) < 1e-6)
+    si(restreint_segment_rdi(x0, y0, x1, y1))
+     retourne;
 
-    if(((x0 == x1) || (y0 == y1))
-        && (abs(x0 - floor(x0) < 1e-6))
-        && (abs(y0 - floor(y0) < 1e-6))
-        && (abs(y1 - floor(y1) < 1e-6))
-        && (abs(x1 - floor(x1) < 1e-6)))
-      ligne({(int) x0, (int) y0}, {(int) x1, (int) y1}, style);
-    else
+    si(((x0 == x1) || (y0 == y1))
+        && est_entier(x0) && est_entier(y0)
+        && est_entier(y1) && est_entier(x1))
+      ligne({(entier) x0, (entier) y0}, {(entier) x1, (entier) y1}, style);
+    sinon
     {
-      for(auto k = -ep/2; k <= (ep-1)/2; k++)
-        ligne_aa_int(x0, y0 + k, x1, y1 + k, style);
+      pour(auto k = -ep/2; k <= (ep-1)/2; k++)
+      {
+        si(abs(x1 - x0) > abs(y1 - y0))
+          ligne_aa_int(x0, y0 + k, x1, y1 + k, style);
+        sinon
+          ligne_aa_int(x0 + k, y0, x1 + k, y1, style);
+      }
     }
   }
 
@@ -339,20 +454,16 @@ struct Image::Impl
   {
     //infos("Ligne aa : (%dx%d) -> (%dx%d)", x0, y0, x1, y1);
 
-    {
-      // TODO : trouver les points d'intersection avec la zone d'intérêt,
-      // et ne tracer que dans cet intervalle
 
-    }
 
-    bool plutot_verticale = abs(y1 - y0) > abs(x1 - x0);
+    bouléen plutot_verticale = abs(y1 - y0) > abs(x1 - x0);
 
-    if(plutot_verticale)
+    si(plutot_verticale)
     {
       swap(x0 , y0);
       swap(x1 , y1);
     }
-    if(x0 > x1)
+    si(x0 > x1)
     {
       swap(x0,x1);
       swap(y0,y1);
@@ -366,21 +477,21 @@ struct Image::Impl
 
     //Couleur c(cd);
 
-    int xpxl1, xpxl2;
+    entier xpxl1, xpxl2;
 
     {
       // handle first endpoint
-      int xend = (int) round(x0);
+      entier xend = (entier) round(x0);
       float yend = y0 + pas * (xend - x0);
       float xgap = 1 - fpart(x0 + 0.5);
       xpxl1 = xend; // this will be used in the main loop
-      int ypxl1 = (int) (yend);
-      if(plutot_verticale)
+      entier ypxl1 = (entier) (yend);
+      si(plutot_verticale)
       {
         pta(ypxl1,   xpxl1, (1 - fpart(yend)) * xgap);
         pta(ypxl1+1, xpxl1, fpart(yend) * xgap);
       }
-      else
+      sinon
       {
         pta(xpxl1, ypxl1  , (1 - fpart(yend)) * xgap);
         pta(xpxl1, ypxl1+1,  fpart(yend) * xgap);
@@ -390,21 +501,21 @@ struct Image::Impl
 
 
 
-    //intery := yend + gradient // first y-intersection for the main loop
+    //intery := yend + gradient // first y-intersection pour the main loop
 
     {
       // handle second endpoint
-      int xend = round(x1);
+      entier xend = round(x1);
       float yend = y1 + pas * (xend - x1);
       float xgap = fpart(x1 + 0.5);
       xpxl2 = xend; //this will be used in the main loop
-      int ypxl2 = (int) (yend);
-      if(plutot_verticale)
+      entier ypxl2 = (entier) (yend);
+      si(plutot_verticale)
       {
         pta(ypxl2  , xpxl2, (1-fpart(yend)) * xgap);
         pta(ypxl2+1, xpxl2,  fpart(yend) * xgap);
       }
-      else
+      sinon
       {
         pta(xpxl2, ypxl2,  (1-fpart(yend)) * xgap);
         pta(xpxl2, ypxl2+1, fpart(yend) * xgap);
@@ -412,30 +523,30 @@ struct Image::Impl
     }
 
 
-    int inc = 1;
-    if(style == POINTILLEE)
+    entier inc = 1;
+    si(style == POINTILLEE)
     {
       inc = 3;
     }
 
     // main loop
-    if(plutot_verticale)
+    si(plutot_verticale)
     {
-      for(auto x = xpxl1+1; x <= xpxl2-1; x += inc)
+      pour(auto x = xpxl1+1; x <= xpxl2-1; x += inc)
       {
         float r = fpart(y);
-        pta((int) y, x, 1-r);
-        pta((int) y+1, x, r);
+        pta((entier) y, x, 1-r);
+        pta((entier) y+1, x, r);
         y += pas * inc;
       }
     }
-    else
+    sinon
     {
-      for(auto x = xpxl1+1; x <= xpxl2-1; x += inc)
+      pour(auto x = xpxl1+1; x <= xpxl2-1; x += inc)
       {
         float r = fpart(y);
-        pta(x, (int) y, 1-r);
-        pta(x, (int) y+1, r);
+        pta(x, (entier) y, 1-r);
+        pta(x, (entier) y+1, r);
         y += pas * inc;
       }
     }
@@ -444,30 +555,30 @@ struct Image::Impl
 
   ~Impl()
   {
-    if(bitmap != nullptr)
+    si(bitmap != nullptr)
       free(bitmap);
     bitmap = nullptr;
     sx = sy = 0;
   }
 
-  Impl(int sx, int sy, void *data = nullptr)
+  Impl(entier sx, entier sy, void *data = nullptr)
   {
     this->sx = sx;
     this->sy = sy;
-    if(sx * sy > 0)
+    si(sx * sy > 0)
     {
       bitmap = (bgra *) malloc(4*((size_t)sx)*((size_t)sy));
 
-      if(bitmap == nullptr)
+      si(bitmap == nullptr)
         echec("Echec allocation image : {} x {} ({:.1f} Mo)", sx, sy, 4.0f*sx*sy*1e-6);
 
-      if(data != nullptr)
+      si(data != nullptr)
         memcpy(bitmap, data, sx * sy * 4);
-      //else
+      //sinon
         //memset(bitmap, 255, sx * sy * 4);
     }
 
-    if(!ftfonte)
+    si(!ftfonte)
     {
       ftfonte = fonte_ft_creation();
     }
@@ -477,73 +588,73 @@ struct Image::Impl
   {
     Image res(sx, sy);
     memcpy(res.impl->bitmap, bitmap, sx * sy * 4);
-    return res;
+    retourne res;
   }
 
   const void *data() const
   {
-    return bitmap;
+    retourne bitmap;
   }
   void *data()
   {
-    return bitmap;
+    retourne bitmap;
   }
 
   Image rotation_90() const
   {
     Image res(sy, sx);
 
-    auto iptr = (const int32_t *) bitmap;
-    auto optr = (int32_t *) res.impl->bitmap;
+    soit iptr = (const int32_t *) bitmap;
+    soit optr = (int32_t *) res.impl->bitmap;
 
     optr += sx * sy - 1;
-    for(auto x = 0; x < sx; x++)
-      for(auto y = 0; y < sy; y++)
+    pour(auto x = 0; x < sx; x++)
+      pour(auto y = 0; y < sy; y++)
         *optr-- = iptr[(sx - 1 - x) + y * sx];
 
-    return res;
+    retourne res;
   }
 
 
 
 
-  inline bgra &pixel(int x, int y)
+  inline bgra &pixel(entier x, entier y)
   {
-    return *(bitmap + y * sx + x);
+    retourne *(bitmap + y * sx + x);
   }
 
-  inline const bgra &pixel(int x, int y) const
+  inline const bgra &pixel(entier x, entier y) const
   {
-    return *(bitmap + y * sx + x);
+    retourne *(bitmap + y * sx + x);
   }
 
 
   // Pose uniquement le gamma, avec la couleur en cours
   void put_gamma(const Point &pos, Image src)
   {
-    int isx = src.impl->sx, isy = src.impl->sy;
+    soit isx = src.impl->sx, isy = src.impl->sy;
 
-    if((isx + pos.x > sx) || (isy + pos.y > sy) || (pos.x < 0) || (pos.y < 0))
+    si((isx + pos.x > sx) || (isy + pos.y > sy) || (pos.x < 0) || (pos.y < 0))
     {
       //msg_avert("ImageBmp:: put gamma : dépassement.");
-      return;
+      retourne;
     }
 
-    for(auto y = 0; y < isy; y++)
+    pour(auto y = 0; y < isy; y++)
     {
-      for(auto x = 0; x < isx; x++)
+      pour(auto x = 0; x < isx; x++)
       {
-        const auto &iv = src.impl->pixel(x, y);
-        auto &ov = pixel(x + pos.x, y + pos.y);
-        float a = iv.bgra[3] / 255.0f;
-        float a_or = ov.bgra[3] / 255.0f;
+        const soit &iv = src.impl->pixel(x, y);
+        soit &ov = pixel(x + pos.x, y + pos.y);
+        soit a    = iv.bgra[3] / 255.0f,
+             a_or = ov.bgra[3] / 255.0f;
 
-        for(auto k = 0; k < 3; k++)
+        pour(auto k = 0; k < 3; k++)
           ov.bgra[k]      = (1 - a) * ov.bgra[k] + a * cd.bgra[k];
 
         ov.bgra[3]  = max(iv.bgra[3], ov.bgra[3]);
 
-        if((iv.bgra[3] > 0) && (a_or == 0))
+        si((iv.bgra[3] > 0) && (a_or == 0))
           ov.bgra[3]  = 255 - (255 - iv.bgra[3]) / 2;
       }
     }
@@ -551,170 +662,134 @@ struct Image::Impl
 
   void puti_avec_gamma(const Point &pos, Image src)
   {
+    soit isx = src.impl->sx, isy = src.impl->sy;
 
-    /*if((src->sx != sx) || (src->sy != sy))
+    si(pos.x < 0)
     {
-      erreur("ImageBmp::blend() : image source de dim différente : (%dx%d) != (%dx%d)", sx,sy,src->sx,src->sy);
-      return;
-    }*/
-
-    int isx = src.impl->sx, isy = src.impl->sy;
-
-
-    //if((pos.x < 0) || (pos.y < 0))
-    if(pos.x < 0)
-    {
-      Image src2 = src.sous_image(-pos.x, 0, src.sx() + pos.x, src.sy());
-      puti_avec_gamma({0, pos.y}, src2);
-      return;
+      puti_avec_gamma({0, pos.y}, src.sous_image(-pos.x, 0, src.sx() + pos.x, src.sy()));
+      retourne;
     }
-    if(pos.y < 0)
+    si(pos.y < 0)
     {
-      Image src2 = src.sous_image(0, -pos.y, src.sx(), src.sy() + pos.y);
-      puti_avec_gamma({pos.x, 0}, src2);
-      return;
+      puti_avec_gamma({pos.x, 0}, src.sous_image(0, -pos.y, src.sx(), src.sy() + pos.y));
+      retourne;
     }
 
-    /*if(isx + pos.x > sx)
-    {
-      int d =
-    }*/
-
-
-    if((isx + pos.x > sx) || (isy + pos.y > sy) || (pos.x < 0) || (pos.y < 0))
+    si((isx + pos.x > sx) || (isy + pos.y > sy) || (pos.x < 0) || (pos.y < 0))
     {
       msg_avert("ImageBmp:: put image avec gamma : dépassement : dim cible = {}x{}, pos={}, dim src={},{}.",
           sx, sy, pos, isx, isy);
-      return;
+      retourne;
     }
 
-    if((pos.x >= 2e9) || (pos.y >= 2e9))
+    si((pos.x >= 2e9) || (pos.y >= 2e9))
     {
       msg_erreur("pos = {}", pos);
     }
 
-    for(auto y = 0; y < isy; y++)
+    pour(auto y = 0; y < isy; y++)
     {
-      for(auto x = 0; x < isx; x++)
+      pour(auto x = 0; x < isx; x++)
       {
         // Enlever cette assertion !
 
-        if(!(((x + pos.x >= 0) && (y + pos.y >= 0) && (x + pos.x < sx) && (y + pos.y < sy))))
+        si(!(((x + pos.x >= 0) && (y + pos.y >= 0) && (x + pos.x < sx) && (y + pos.y < sy))))
         {
           echec("x={},y={},isx={},isy={},sx={},sy={},p.x={},p.y={},isy + pos.y={}",x,y,isx,isy,sx,sy,pos.x,pos.y,isy + pos.y);
         }
 
-        assert((x + pos.x >= 0) && (y + pos.y >= 0) && (x + pos.x < sx) && (y + pos.y < sy));
+        tsd_assert((x + pos.x >= 0) && (y + pos.y >= 0) && (x + pos.x < sx) && (y + pos.y < sy));
 
+        soit iv  = src.impl->pixel(x, y);
+        soit a   = iv.bgra[3] / 255.0f;
+        soit &ov = pixel(x + pos.x, y + pos.y);
 
-        auto iv = src.impl->pixel(x, y);
-        float a = iv.bgra[3] / 255.0f;
-        auto &ov = pixel(x + pos.x, y + pos.y);
-
-
-
-        for(auto k = 0; k < 3; k++)
+        pour(auto k = 0; k < 3; k++)
           ov.bgra[k] = (1 - a) * ov.bgra[k] + a * iv.bgra[k];
         ov.bgra[3]  = iv.bgra[3];
       }
     }
   }
 
-  inline bgra *ptr(int x, int y)
+  inline bgra *ptr(entier x, entier y)
   {
-    return bitmap + x + y * sx;
+    retourne bitmap + x + y * sx;
   }
 
-  Image sous_image(int x0, int y0, int l, int h)
+  Image sous_image(entier x0, entier y0, entier l, entier h)
   {
-    if((x0 < 0) || (y0 < 0) || (x0 + l > sx) || (y0 + h > sy) || (l < 0) || (h < 0))
+    si((x0 < 0) || (y0 < 0) || (x0 + l > sx) || (y0 + h > sy) || (l < 0) || (h < 0))
     {
       msg_avert("sous_image : hors borne.");
-      return Image();
+      retourne Image();
     }
 
-
     Image res(l, h);
-    for(auto y = 0; y < h; y++)
+    pour(auto y = 0; y < h; y++)
       memcpy(res.impl->bitmap + y * l, this->bitmap + x0 + (y0 + y) * sx, l * 4);
-    return res;
+    retourne res;
   }
 
   void puti(const Point &pos, Image src, Rect rdi_source)
   {
-    for(auto y = 0; y < rdi_source.h; y++)
-    {
+    pour(auto y = 0; y < rdi_source.h; y++)
       memcpy(ptr(pos.x, pos.y + y), src.impl->ptr(rdi_source.x, rdi_source.y + y), rdi_source.l * 4);
-    }
   }
 
   void puti(const Point &pos, Image src)
   {
-    if((pos.x < 0) || (pos.y < 0) || (pos.x + src.impl->sx > sx) || (pos.y + src.impl->sy > sy))
+    si((pos.x < 0) || (pos.y < 0) || (pos.x + src.impl->sx > sx) || (pos.y + src.impl->sy > sy))
     {
       DBG_AXES(msg("puti : pos = {}", pos);)
       Point pos2 = pos;
 
-      int x0 = max(-pos.x, 0);
-      int y0 = max(-pos.y, 0);
+      soit x0 = max(-pos.x, 0), y0 = max(-pos.y, 0);
 
-      if(pos2.x < 0)
+      si(pos2.x < 0)
         pos2.x = 0;
-      if(pos2.y < 0)
+      si(pos2.y < 0)
         pos2.y = 0;
 
-      int l = src.impl->sx - x0;
-      int h = src.impl->sy - y0;
+      soit l = src.impl->sx - x0, h = src.impl->sy - y0;
 
-      if(l + pos2.x > sx)
+      si(l + pos2.x > sx)
         l = sx - pos2.x;
-      if(h + pos2.y > sy)
+      si(h + pos2.y > sy)
         h = sy - pos2.y;
 
-      auto extrait = src.sous_image(x0, y0, l, h);
-      puti(pos2, extrait);
-      return;
+      puti(pos2, src.sous_image(x0, y0, l, h));
+      retourne;
     }
-    //msg("puti : src dim = {}x{}, dst dim = {}x{}, pos={}x{} (place = {}x{})", src->sx, src->sy, sx, sy, pos.x, pos.y, sx-pos.x, sy-pos.y);
 
-    auto dimx = src.impl->sx;
-    if(dimx + pos.x > sx)
+    soit dimx = src.impl->sx;
+    si(dimx + pos.x > sx)
       dimx = sx - pos.x;
 
-    for(auto y = pos.y; (y < pos.y + src.impl->sy) && (y < sy); y++)
-    {
-      if(dimx > 0)
+    pour(auto y = pos.y; (y < pos.y + src.impl->sy) && (y < sy); y++)
+      si(dimx > 0)
         memcpy(ptr(pos.x, y), src.impl->ptr(0, y - pos.y), dimx * 4);
-    }
   }
 
   void puti(const Rect &rdi, Image src)
   {
-    if((rdi.l == src.impl->sx) && (rdi.h == src.impl->sy))
+    si((rdi.l == src.impl->sx) && (rdi.h == src.impl->sy))
     {
       puti(Point{rdi.x, rdi.y}, src);
-      return;
+      retourne;
     }
 
-    if((rdi.l <= 0) || (rdi.h <= 0))
+    si((rdi.l <= 0) || (rdi.h <= 0))
     {
       msg_avert("RDI = {} x {} !!!", rdi.l, rdi.h);
-      return;
+      retourne;
     }
 
     // Image vide
-    if(src.sx() * src.sy() == 0)
-      return;
-
-
-    //auto srci = dynamic_pointer_cast<ImageBmp>(src);
-    //tsd_assert(srci);
-
+    si(src.sx() * src.sy() == 0)
+      retourne;
 
     msg_avert("Attention: redim {} -> {}x{}", src.get_dim(), rdi.l, rdi.h);
     puti(rdi, src.redim(rdi.l, rdi.h));
-
-    //msg_erreur("TODO: puti (rdi = {}x{}, source = {}x{}).", rdi.l, rdi.h, src->sx, src->sy);
   }
 
   void puti(const Point &pos, Image src, float γ)
@@ -726,60 +801,59 @@ struct Image::Impl
 
   Image blend_nv(Image src)
   {
-    auto s1 = this;
-    auto s2 = src.impl;
+    soit s1 = this;
+    soit s2 = src.impl;
     tsd_assert(s2);
-    if((s1->sx != s2->sx) || (s1->sy != s2->sy))
+    si((s1->sx != s2->sx) || (s1->sy != s2->sy))
     {
       msg_erreur("ImageBmp::blend() : image source de dim différente : ({}) != ({})", s1->dim(), src.get_dim());
-      return Image();
+      retourne Image();
     }
 
     Image res(s1->sx, s2->sy);
-    //auto r2 = dynamic_pointer_cast<ImageBmp>(res);
 
-    auto optr = (bgra *) res.impl->bitmap;
-    auto iptr1 = (const bgra *) s1->bitmap;
-    auto iptr2 = (const bgra *) s2->bitmap;
+    soit optr  = (bgra *) res.impl->bitmap;
+    soit iptr1 = (const bgra *) s1->bitmap,
+         iptr2 = (const bgra *) s2->bitmap;
 
-    for(auto i = 0; i < sy*sx; i++)
+    pour(auto i = 0; i < sy*sx; i++)
     {
-      float a = (*iptr2).bgra[3] / 255.0f;
-      for(auto k = 0; k < 3; k++)
+      soit a = (*iptr2).bgra[3] / 255.0f;
+      pour(auto k = 0; k < 3; k++)
       {
-        auto &ov  = (*optr).bgra[k];
-        auto &iv1 = (*iptr1).bgra[k];
-        auto &iv2 = (*iptr2).bgra[k];
+        soit &ov  = (*optr).bgra[k];
+        soit &iv1 = (*iptr1).bgra[k];
+        soit &iv2 = (*iptr2).bgra[k];
         ov = iv1 * (1 - a) + iv2 * a;
       }
       optr++;
       iptr1++;
       iptr2++;
     }
-    return res;
+    retourne res;
   }
 
 
   void blend(Image src)
   {
-    if((src.impl->sx != sx) || (src.impl->sy != sy))
+    si((src.impl->sx != sx) || (src.impl->sy != sy))
     {
       msg_erreur("ImageBmp::blend() : image source de dim différente : ({}x{}) != ({}x{})", sx,sy,src.impl->sx,src.impl->sy);
-      return;
+      retourne;
     }
 
-    auto optr = (bgra *) bitmap;
-    auto iptr = (const bgra *) src.impl->bitmap;
+    soit optr = (bgra *) bitmap;
+    soit iptr = (const bgra *) src.impl->bitmap;
 
-    for(auto x = 0; x < sx; x++)
+    pour(auto x = 0; x < sx; x++)
     {
-      for(auto y = 0; y < sy; y++)
+      pour(auto y = 0; y < sy; y++)
       {
         float a = (*iptr).bgra[3] / 255.0f;
-        for(auto k = 0; k < 3; k++)
+        pour(auto k = 0; k < 3; k++)
         {
-          auto &ov = (*optr).bgra[k];
-          auto &iv = (*iptr).bgra[k];
+          soit &ov = (*optr).bgra[k];
+          soit &iv = (*iptr).bgra[k];
           ov = ov * (1 - a) + iv * a;
         }
         optr++;
@@ -788,20 +862,18 @@ struct Image::Impl
     }
   }
 
-  void resize(int sx, int sy)
+  void resize(entier sx, entier sy)
   {
     this->sx = sx;
     this->sy = sy;
-    if(bitmap != nullptr)
+    si(bitmap != nullptr)
       free(bitmap);
     bitmap = nullptr;
-    if(sx * sy)
+    si(sx * sy)
     {
       bitmap = (bgra *) malloc(((size_t) sx)*((size_t) sy)*((size_t) 4));
-      if(bitmap == nullptr)
-      {
+      si(bitmap == nullptr)
         echec("Image resize({}x{} = {:.1f} Mo) : malloc error", sx, sy, 4.0f*sx*(sy*1e-6f));
-      }
     }
   }
 
@@ -813,7 +885,7 @@ struct Image::Impl
   {
     cf = {c.b, c.g, c.r, c.alpha};
   }
-  void def_epaisseur(int ep)
+  void def_epaisseur(entier ep)
   {
     this->ep = ep;
   }
@@ -823,10 +895,10 @@ struct Image::Impl
   {
     ligne(p0, p1, style);
 
-    float alpha = atan2(p1.y-p0.y,p1.x-p0.x);
+    float α = atan2(p1.y-p0.y,p1.x-p0.x);
 
-    float θ1 = 0.85*π  + alpha;
-    float θ2 = -0.85*π + alpha;
+    float θ1 = 0.85*π  + α;
+    float θ2 = -0.85*π + α;
     Point p;
     p.x = p1.x + lg * cos(θ1);
     p.y = p1.y + lg * sin(θ1);
@@ -839,43 +911,47 @@ struct Image::Impl
 
   void ligne(const Point &p0, const Point &p1, StyleLigne style)
   {
-    if(p0.x == p1.x)
+    si(p0.x == p1.x)
     {
-      int inc = 1;
-      if(style == StyleLigne::POINTILLEE)
+      soit inc = 1;
+      si(style == StyleLigne::POINTILLEE)
         inc *= 3;
-      auto ymin = max(0, min(p0.y, p1.y));
-      auto ymax = min(sy - 1, max(p0.y, p1.y));
+      soit ymin = max(0, min(p0.y, p1.y)),
+           ymax = min(sy - 1, max(p0.y, p1.y));
 
-      for(auto y = ymin; y <= ymax; y += inc)
-        for(auto k = -ep/2; k <= (ep-1)/2; k++)
+      pour(auto y = ymin; y <= ymax; y += inc)
+        pour(auto k = -ep/2; k <= (ep-1)/2; k++)
           point({p0.x+k, y});
     }
-    else if(p0.y == p1.y)
+    sinon si(p0.y == p1.y)
     {
-      int inc = 1;
-      if(style == StyleLigne::POINTILLEE)
+      soit inc = 1;
+      si(style == StyleLigne::POINTILLEE)
         inc *= 3;
-      auto xmin = max(0, min(p0.x, p1.x));
-      auto xmax = min(sx - 1, max(p0.x, p1.x));
-      for(auto x = xmin; x <= xmax; x += inc)
-        for(auto k = -ep/2; k <= (ep-1)/2; k++)
+      soit xmin = max(0, min(p0.x, p1.x)),
+           xmax = min(sx - 1, max(p0.x, p1.x));
+      pour(auto x = xmin; x <= xmax; x += inc)
+        pour(auto k = -ep/2; k <= (ep-1)/2; k++)
           point({x, p0.y+k});
     }
-    else
-    {
-      for(auto k = -ep/2; k <= (ep-1)/2; k++)
+    sinon
+      pour(auto k = -ep/2; k <= (ep-1)/2; k++)
         ligne_aa_int(p0.x, p0.y+k, p1.x, p1.y+k, style);
-    }
   }
+
+  inline bool est_dans_rdi(const Pointf &p)  const
+  {
+    retourne ((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy));
+  }
+
   inline void point(const Point &p)
   {
-    if((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
+    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
       pixel(p.x, p.y) =  cd;
   }
   inline void point(const Point &p, const Couleur &c)
   {
-    if((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
+    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
       pixel(p.x, p.y) = {c.b, c.g, c.r, c.alpha};
   }
 
@@ -886,94 +962,117 @@ struct Image::Impl
     res.bgra[1] = c.g;
     res.bgra[2] = c.r;
     res.bgra[3] = c.alpha;
-    return res;
+    retourne res;
   }
 
-  inline bgra pixel_e(int x, int y) const
+  inline bgra pixel_e(entier x, entier y) const
   {
     x = max(0,min(x, sx-1));
     y = max(0,min(y, sy-1));
-    return *(bitmap + y * sx + x);
+    retourne *(bitmap + y * sx + x);
   }
 
 
 
-  Image redim(int l, int h) const
+  Image redim(entier l, entier h) const
   {
-    if((l < sx/2) && (h < sy/2))
+    si((l < sx/2) && (h < sy/2))
     {
       Image nv(sx/2, sy/2);
 
       // Decimation rapport = 1/2
-      for(int y = 0; y + 1 < sy; y += 2)
+      pour(entier y = 0; y + 1 < sy; y += 2)
       {
-        for(int x = 0; x + 1 < sx; x += 2)
+        pour(entier x = 0; x + 1 < sx; x += 2)
         {
-          const auto &p00 = pixel(x, y),
+          const soit &p00 = pixel(x, y),
                      &p01 = pixel(x+1,y),
                      &p10 = pixel(x,y+1),
                      &p11 = pixel(x+1,y+1);
 
-          auto &po = nv.impl->pixel(x/2, y/2);
-          for(auto k = 0; k < 4; k++)
+          soit &po = nv.impl->pixel(x/2, y/2);
+          pour(auto k = 0; k < 4; k++)
             po.bgra[k] = (p00.bgra[k]+p01.bgra[k]+p10.bgra[k]+p11.bgra[k])/4;
         }
       }
 
-      return nv.redim(l, h);
+      retourne nv.redim(l, h);
     }
 
 
     // Interpolation bilinéaire
     Image res(l, h);
-    for(auto y = 0; y < h; y++)
+    pour(auto y = 0; y < h; y++)
     {
-      for(auto x = 0; x < l; x++)
+      pour(auto x = 0; x < l; x++)
       {
-        float xf = (x * 1.0f) / (l-1);
-        float yf = (y * 1.0f) / (h-1);
+        soit xf = (x * 1.0f) / (l-1),
+             yf = (y * 1.0f) / (h-1);
 
-        float xe = xf * sx, ye = yf * sy;
+        soit xe = xf * sx, ye = yf * sy;
 
-        int xei = floor(xe), yei = floor(ye);
-        float rx = xe - xei, ry = ye - yei;
+        soit xei = (entier) floor(xe), yei = (entier) floor(ye);
+        soit rx = xe - xei, ry = ye - yei;
 
-        auto p00 = pixel_e(xei, yei);
-        auto p01 = pixel_e(xei+1, yei);
-        auto p10 = pixel_e(xei, yei+1);
-        auto p11 = pixel_e(xei+1, yei+1);
+        soit p00 = pixel_e(xei, yei),
+             p01 = pixel_e(xei+1, yei),
+             p10 = pixel_e(xei, yei+1),
+             p11 = pixel_e(xei+1, yei+1);
 
-        for(auto k = 0; k < 4; k++)
+        pour(auto k = 0; k < 4; k++)
         {
-          auto i1 = p00.bgra[k] * (1-rx) + p01.bgra[k] * rx;
-          auto i2 = p10.bgra[k] * (1-rx) + p11.bgra[k] * rx;
+          soit i1 = p00.bgra[k] * (1-rx) + p01.bgra[k] * rx,
+               i2 = p10.bgra[k] * (1-rx) + p11.bgra[k] * rx;
           res.impl->pixel(x, y).bgra[k] = i1 * (1-ry) + i2 * ry;
         }
       }
     }
 
-    return res;
+    retourne res;
   }
 
-  void point(const Point &p, const Couleur &c, float alpha)
+  void point(const Point &p, const Couleur &c, float α)
   {
-    if((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
+    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
     {
-      auto &ov = pixel(p.x, p.y);
-      auto nv = couleur_vers_bgra(c);
+      soit &ov = pixel(p.x, p.y);
+      soit nv = couleur_vers_bgra(c);
 
-      for(auto k = 0; k < 4; k++)
-        ov.bgra[k] = alpha * nv.bgra[k] + (1-alpha) * ov.bgra[k];
+      pour(auto k = 0; k < 4; k++)
+        ov.bgra[k] = α * nv.bgra[k] + (1-α) * ov.bgra[k];
     }
   }
 
-  void point(const Point &p, const bgra &c, float alpha)
+  void point(const Point &p, const bgra &c, float α)
   {
-    if((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
+    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
     {
-      auto &ov = pixel(p.x, p.y);
-      for(auto k = 0; k < 4; k++)
-        ov.bgra[k] = alpha * c.bgra[k] + (1-alpha) * ov.bgra[k];
+      soit &ov = pixel(p.x, p.y);
+      pour(auto k = 0; k < 4; k++)
+        ov.bgra[k] = α * c.bgra[k] + (1-α) * ov.bgra[k];
+    }
+  }
+
+  void rectangle_plein_alpha(const Point &p0, const Point &p1, const bgra &c)
+  {
+    float α = c.bgra[3] / 255.0f;
+    //soit nv = couleur_vers_bgra(c);
+    soit xmin = max(0, min(p0.x, p1.x)),
+         ymin = max(0, min(p0.y, p1.y)),
+         xmax = min(sx-1,max(p0.x, p1.x)),
+         ymax = min(sy-1,max(p0.y, p1.y));
+
+    si(xmax >= xmin)
+    {
+      pour(auto y = ymin; y <= ymax; y++)
+      {
+        pour(auto x = xmin; x <= xmax; x++)
+        {
+          soit &ov = pixel(x, y);
+          pour(auto k = 0; k < 4; k++)
+            ov.bgra[k] = α * c.bgra[k] + (1-α) * ov.bgra[k];
+        }
+      }
     }
   }
 
@@ -990,36 +1089,36 @@ struct Image::Impl
     ligne(p1, {p0.x, p1.y}, StyleLigne::PLEINE);
   }
 
-  void cercle8(const Point &ctr, int x_, int y_, const bgra &c, float alpha)
+  void cercle8(const Point &ctr, entier x_, entier y_, const bgra &c, float α)
   {
-    // Dessinne les 8 octants
-    for(auto k = 0; k < 4; k++)
+    // Dessine les 8 octants
+    pour(auto k = 0; k < 4; k++)
     {
-      int x = x_, y = y_;
-      if(k & 1)
+      entier x = x_, y = y_;
+      si(k & 1)
         x = -x;
-      if((k / 2) & 1)
+      si((k / 2) & 1)
         y = -y;
 
-      for(auto l = 0; l < 2; l++)
+      pour(auto l = 0; l < 2; l++)
       {
-        point({ctr.x + x, ctr.y + y}, c, alpha);
+        point({ctr.x + x, ctr.y + y}, c, α);
         swap(x, y);
       }
     }
   }
 
-  void ellipse4(const Point &ctr, int x_, int y_, const bgra &c, float alpha)
+  void ellipse4(const Point &ctr, entier x_, entier y_, const bgra &c, float α)
   {
-    // Dessinne les 4 quadrants
-    for(auto k = 0; k < 4; k++)
+    // Dessine les 4 quadrants
+    pour(auto k = 0; k < 4; k++)
     {
-      int x = x_, y = y_;
-      if(k & 1)
+      entier x = x_, y = y_;
+      si(k & 1)
         x = -x;
-      if((k / 2) & 1)
+      si((k / 2) & 1)
         y = -y;
-      point({ctr.x + x, ctr.y + y}, c, alpha);
+      point({ctr.x + x, ctr.y + y}, c, α);
     }
   }
 
@@ -1034,8 +1133,8 @@ struct Image::Impl
 
   struct Ellipse2: Courbe2
   {
-    int xc, yc, rx, ry;
-    Ellipse2(int xc, int yc, int rx, int ry)
+    entier xc, yc, rx, ry;
+    Ellipse2(entier xc, entier yc, entier rx, entier ry)
     {
       this->xc = xc;
       this->yc = yc;
@@ -1046,67 +1145,67 @@ struct Image::Impl
     }
     tuple<float,float> xy(float t)
     {
-      return {xc + rx * cos(2*π*t), yc + ry * sin(2*π*t)};
+      retourne {xc + rx * cos(2*π*t), yc + ry * sin(2*π*t)};
     }
     tuple<float,float> der(float t)
     {
-      return {-2*π*rx * sin(2*π*t), 2*π*ry * cos(2*π*t)};
+      retourne {-2*π*rx * sin(2*π*t), 2*π*ry * cos(2*π*t)};
     }
   };
 
   void dessine_courbe_aa(Courbe2 *courbe, bgra cd)
   {
-    int nbitr = 0;
-    float t = 0;
-    while(t < 1)
+    soit nbitr = 0;
+    soit t = 0.0f;
+    tantque(t < 1)
     {
-      if(nbitr++ > 100000)
+      si(nbitr++ > 100000)
       {
         msg_avert("Dessine courbe AA : trop d'itérations.");
-        return;
+        retourne;
       }
-      auto [x, y]   = courbe->xy(t);
-      auto [dx, dy] = courbe->der(t);
+      soit [x, y]   = courbe->xy(t);
+      soit [dx, dy] = courbe->der(t);
       //msg("t = {}, pos={}x{}, der={}x{}", t, x, y, dx, dy);
 
       // OK
-      if(abs(dx) > abs(dy))
+      si(abs(dx) > abs(dy))
       {
         // Utilise deux pixels verticaux
         // cherche x entier
-        int xi   = floor(x);
+        entier xi   = floor(x);
         float dt = (xi - x) / dx;
         float yf = y + dt * dy;
-        int yi   = floor(yf);
-        float alpha = yf - yi;
+        entier yi   = floor(yf);
+        float α = yf - yi;
 
-        point({xi, yi}, cd, 1-alpha);
-        point({xi, yi+1}, cd, alpha);
+        point({xi, yi}, cd, 1-α);
+        point({xi, yi+1}, cd, α);
         t += abs(0.5f / dx);
       }
       // NOK
-      else
+      sinon
       {
         // Utilise deux pixels horizontaux
         // cherche x entier
-        int yi   = floor(y);
+        entier yi   = floor(y);
         float dt = (yi - y) / dy; // dt pour aller de y à floor(y)
         float xf = x + dt * dx;   // xf = point correspondant à floor(y)
-        int xi   = floor(xf);     // xi = point précédent
-        float alpha = xf - xi;
+        entier xi   = floor(xf);     // xi = point précédent
+        float α = xf - xi;
 
-        point({xi, yi}, cd, 1-alpha);
-        point({xi+1, yi}, cd, alpha);
+        point({xi, yi}, cd, 1-α);
+        point({xi+1, yi}, cd, α);
         t += abs(0.5f / dy);
       }
     }
   }
 
-  void ellipse(const Point &p_0, const Point &p_1, bgra cd, bool avec_alpha)
+  void ellipse(const Point &p_0, const Point &p_1, bgra cd, bouléen avec_alpha)
   {
     Point p0{(p_0.x+p_1.x)/2, (p_0.y+p_1.y)/2};
-    float rx = (p_1.x - p_0.x) / 2.0f;
-    float ry = (p_1.y - p_0.y) / 2.0f;
+    soit rx = (p_1.x - p_0.x) / 2.0f,
+         ry = (p_1.y - p_0.y) / 2.0f;
 
     Ellipse2 el2(p0.x, p0.y, rx, ry);
 
@@ -1115,80 +1214,90 @@ struct Image::Impl
 
   void ellipse(const Point &p0, const Point &p1)
   {
-    ellipse(p0, p1, cd, true);
+    ellipse(p0, p1, cd, oui);
   }
 
   // D'après An Efficient Antialiasing Technique, Xiaolin Wu, 1991
-  void cercle(const Point &p0, int r, bgra cd, bool avec_alpha)
+  void cercle(const Point &p0, entier r, bgra cd, bouléen avec_alpha)
   {
-    int i = r, T = 0;
+    soit i = r, T = 0;
+
     cercle8(p0, i, 0, cd, 1.0f);
 
-    for(auto j = 1; j <= i; j++)
+    pour(auto j = 1; j <= i; j++)
     {
       float rac = sqrt(r*r - j*j);
-      int d1 = ceil(rac);
-      if(d1 < T)
+      entier d1 = ceil(rac);
+      si(d1 < T)
         i--;
 
-      float alpha = d1 - rac;
+      float α = d1 - rac;
 
-      cercle8(p0, i,   j, cd, avec_alpha ? 1.0f-alpha : 1.0f);
-      cercle8(p0, i-1, j, cd, avec_alpha ? alpha : 1.0f);
+      cercle8(p0, i,   j, cd, avec_alpha ? 1.0f-α : 1.0f);
+      cercle8(p0, i-1, j, cd, avec_alpha ? α : 1.0f);
       T = d1;
     }
   }
 
-  void cercle(const Point &p0, int r)
+  void cercle(const Point &p0, entier r)
   {
-    cercle(p0, r, cd, true);
+    cercle(p0, r, cd, oui);
   }
+
+
 
   void rectangle_plein(const Point &p0, const Point &p1)
   {
-    int xmin = max(0, min(p0.x, p1.x));
-    int ymin = max(0, min(p0.y, p1.y));
-    int xmax = min(sx-1,max(p0.x, p1.x));
-    int ymax = min(sy-1,max(p0.y, p1.y));
+    if(cf.bgra[3] != 255)
+    {
+      rectangle_plein_alpha(p0, p1, cf);
+      return;
+    }
 
-    if(xmax >= xmin)
-      for(auto y = ymin; y <= ymax; y++)
+
+    soit xmin = max(0, min(p0.x, p1.x)),
+         ymin = max(0, min(p0.y, p1.y)),
+         xmax = min(sx-1,max(p0.x, p1.x)),
+         ymax = min(sy-1,max(p0.y, p1.y));
+
+    si(xmax >= xmin)
+      pour(auto y = ymin; y <= ymax; y++)
         fill(&(bitmap[y*sx+xmin]), &(bitmap[y*sx+xmax+1]), cf);
   }
   void ellipse_pleine(const Point &p0, const Point &p1)
   {
     msg_avert("TODO: image / ellipse pleine().");
   }
-  void cercle_plein(const Point &p0, int r)
+  void cercle_plein(const Point &p0, entier r)
   {
-    for(auto r2 = r; r2 >= 0; r2--)
+    pour(auto r2 = r; r2 >= 0; r2--)
       cercle(p0, r2, cf, r2 == r);
   }
   Dim texte_dim(const string &s, float dim)
   {
-    return ftfonte->rendre(s, dim).get_dim();
+    retourne ftfonte->rendre(s, dim).get_dim();
   }
 
-  int calc_align(int p0, int dim, Alignement align)
+  entier calc_align(entier p0, entier dim, Alignement align)
   {
-    if(align == Alignement::DEBUT)
-      return p0;
-    else if(align == Alignement::FIN)
-      return p0 - dim;
+    si(align == Alignement::DEBUT)
+      retourne p0;
+    sinon si(align == Alignement::FIN)
+      retourne p0 - dim;
     // Milieu
-    return p0 - dim / 2;
+    retourne p0 - dim / 2;
   }
 
   void puts(const Point &p0, const string &s, float dim, Alignement align_horizontal, Alignement align_vertical)
   {
-    if(s.empty())
-      return;
+    si(s.empty())
+      retourne;
 
-    auto i = ftfonte->rendre(s, dim);
-    if(i.empty())
+    soit i = ftfonte->rendre(s, dim);
+    si(i.empty())
     {
       msg_avert("Image::puts() : ftfonte->rendre : échec, s = [{}]", s);
-      return;
+      retourne;
     }
 
     Point p;
@@ -1201,14 +1310,14 @@ struct Image::Impl
 
 sptr<Font> Image::Impl::ftfonte;
 
-Image::Image(int sx, int sy, void *data)
+Image::Image(entier sx, entier sy, void *data)
 {
   impl = make_shared<Image::Impl>(sx, sy, data);
 }
 
 void Image::remplir(const Couleur &c)
 {
-  if(!empty())
+  si(!empty())
   {
     def_couleur_remplissage(c);
     fill(impl->bitmap, impl->bitmap + sx()*sy(), impl->cf);
@@ -1220,42 +1329,42 @@ void Image::resize(const Dim &d)
   resize(d.l, d.h);
 }
 
-const void *Image::data() const{return impl->data();}
-void *Image::data(){return impl->data();}
-Image Image::clone() const{return impl->clone();}
-void Image::resize(int sx, int sy){impl->resize(sx,sy);}
-Image Image::redim(int l, int h) const {return impl->redim(l,h);}
+const void *Image::data() const{retourne impl->data();}
+void *Image::data(){retourne impl->data();}
+Image Image::clone() const{retourne impl->clone();}
+void Image::resize(entier sx, entier sy){impl->resize(sx,sy);}
+Image Image::redim(entier l, entier h) const {retourne impl->redim(l,h);}
 void Image::def_couleur_dessin(const Couleur &c){impl->def_couleur_dessin(c);}
 void Image::def_couleur_remplissage(const Couleur &c){impl->def_couleur_remplissage(c);}
-void Image::def_epaisseur(int ep){impl->def_epaisseur(ep);}
+void Image::def_epaisseur(entier ep){impl->def_epaisseur(ep);}
 void Image::ligne_aa(float x0, float y0, float x1, float y1, StyleLigne style){impl->ligne_aa(x0, y0, x1, y1, style);}
 void Image::ligne(const Point &p0, const Point &p1, StyleLigne style){impl->ligne(p0, p1, style);}
 void Image::fleche(const Point &p0, const Point &p1, StyleLigne style, float lg){impl->fleche(p0, p1, style, lg);}
 //void Image::ligne(const Pointf &p0, const Pointf &p1, StyleLigne style){impl->ligne(p0, p1, style);}
 void Image::point(const Point &p0){impl->point(p0);}
-void Image::point(const Point &p0, const Couleur &c, float alpha){impl->point(p0, c, alpha);}
+void Image::point(const Point &p0, const Couleur &c, float α){impl->point(p0, c, α);}
 void Image::point(const Point &p0, const Couleur &c){impl->point(p0, c);}
 void Image::rectangle(const Point &p0, const Point &p1){impl->rectangle(p0, p1);}
 void Image::rectangle(const Rect &r){impl->rectangle(r);}
 void Image::ellipse(const Point &p0, const Point &p1){impl->ellipse(p0, p1);}
-void Image::cercle(const Point &p0, int r){impl->cercle(p0, r);}
+void Image::cercle(const Point &p0, entier r){impl->cercle(p0, r);}
 void Image::rectangle_plein(const Point &p0, const Point &p1){impl->rectangle_plein(p0, p1);}
 void Image::ellipse_pleine(const Point &p0, const Point &p1){impl->ellipse_pleine(p0, p1);}
-void Image::cercle_plein(const Point &p0, int r){impl->cercle_plein(p0, r);}
-Dim Image::texte_dim(const string &s, float dim){return impl->texte_dim(s, dim);}
+void Image::cercle_plein(const Point &p0, entier r){impl->cercle_plein(p0, r);}
+Dim Image::texte_dim(const string &s, float dim){retourne impl->texte_dim(s, dim);}
 void Image::puts(const Point &p0, const string &s, float dim, Alignement align_horizontal, Alignement align_vertical){impl->puts(p0, s, dim, align_horizontal, align_vertical);}
 void Image::puti(const Point &pos, Image src, Rect rdi_source){impl->puti(pos, src, rdi_source);}
 void Image::puti(const Rect &rdi, Image src){impl->puti(rdi, src);}
 void Image::puti(const Point &pos, Image src){impl->puti(pos, src);}
 void Image::puti_avec_gamma(const Point &pos, Image src){impl->puti_avec_gamma(pos, src);}
 void Image::puti(const Point &pos, Image src, float γ){impl->puti(pos, src, γ);}
-Image Image::rotation_90() const{return impl->rotation_90();}
+Image Image::rotation_90() const{retourne impl->rotation_90();}
 void Image::blend(Image src){impl->blend(src);}
-Image Image::blend_nv(Image src){return impl->blend_nv(src);}
-void Image::enregister(const string &chemin){impl->enregister(chemin);}
+Image Image::blend_nv(Image src){retourne impl->blend_nv(src);}
+void Image::enregister(const string &chemin) const {impl->enregister(chemin);}
 void Image::charger(const string &chemin){impl->charger(chemin);}
-Image Image::sous_image(int x0, int y0, int l, int h){return impl->sous_image(x0, y0, l, h);}
-Dim Image::get_dim() const {return impl->dim();}
+Image Image::sous_image(entier x0, entier y0, entier l, entier h){retourne impl->sous_image(x0, y0, l, h);}
+Dim Image::get_dim() const {retourne impl->dim();}
 void Image::put_gamma(const Point &pos, Image src){impl->put_gamma(pos, src);}
 }
 

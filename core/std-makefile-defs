@@ -148,7 +148,8 @@ ifeq ($(RMODE),debug)
 LOPT = $(OPTIONS_LINK_DEBUG)
 #  -fstack-protector-all
 COPT += $(OPTIONS_COMPIL_DEBUG)
-COPT += -g -DDEBUG_MODE -DMODE_DEBUG=1 -DMODE_RELEASE=0 -Ofast
+COPT += -g -DDEBUG_MODE -DMODE_DEBUG=1 -DMODE_RELEASE=0 -O3
+#-Ofast
 # -O1
 # -Og
 #-O1
@@ -280,6 +281,7 @@ $(BUILD_DIR)/objs/%o : %c
 	@$(ECHO) "Compilation c : \033[1m$<\033[0m..."
 	@$(CC) -c $(CFLAGS) $< -o $@
 
+# 
 $(BUILD_DIR)/%.exe:  $(BUILD_DIR)/objs-exe/%.o $(ELIBS)
 	@$(ECHO) "Construction de l'executable \033[34m$@\033[0m..."
 	@$(CXX) $<  $(LDFLAGS) -o $@ 

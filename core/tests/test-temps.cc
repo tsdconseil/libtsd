@@ -22,12 +22,12 @@ static void test_heure_composite()
 static void test_cal(const Calendrier &cal)
 {
   DateHeure t({cal, {7, 59, 30}});
-  auto cal2 = t.calendrier();
+  soit cal2 = t.calendrier();
   tsd_assert_msg(cal == cal2, "Erreur calendrier : {} VS {}", cal, cal2);
 }
 
 // A compléter !!!
-int test_date_heure()
+entier test_date_heure()
 {
   test_heure_composite();
 
@@ -54,7 +54,7 @@ int test_date_heure()
   tsd_assert(est_bissextile(2400));
 
   // Tests conversion Calendrier <-> DateHeure
-  for(auto année : {2000, 2020, 2021, 2022, 2023})
+  pour(auto année : {2000, 2020, 2021, 2022, 2023})
   {
     test_cal({année, 01, 01});
     test_cal({année, 01, 25});
@@ -70,7 +70,7 @@ int test_date_heure()
     msg("Test : DateHeure...");
     DateHeure t({{2022, 01, 25}, {7, 59, 30}});
 
-    auto cal = t.calendrier();
+    soit cal = t.calendrier();
 
     tsd_assert_msg(
         (cal.année == 2022)
@@ -78,7 +78,7 @@ int test_date_heure()
      && (cal.jour  == 25), "echec calendrier : {}", cal);
 
     msg("Test : DateHeure::decomposition()");
-    auto hr = t.decomposition();
+    soit hr = t.decomposition();
     tsd_assert(
         (hr.jour == cal)
         && (hr.heure.heure == 7)
@@ -94,9 +94,9 @@ int test_date_heure()
     // Arrondi à la seconde près
     t -= Durée::microsecondes(t.microsecondes());
 
-    auto [sem,secs] = t.vers_GPS();
-    auto t2 = DateHeure::de_GPS(sem, secs);
-    auto err = t - t2;
+    soit [sem,secs] = t.vers_GPS();
+    soit t2 = DateHeure::de_GPS(sem, secs);
+    soit err = t - t2;
     msg("Erreur GPS avant / après = {}", err);
     tsd_assert(err.nb_secondes() < 1e-6);
 
@@ -110,5 +110,5 @@ int test_date_heure()
     }
   }
 
-  return 0;
+  retourne 0;
 }
