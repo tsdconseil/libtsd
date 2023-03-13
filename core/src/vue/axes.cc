@@ -311,7 +311,7 @@ struct Axes::Impl
 
     if(get_mode_impression())
     {
-      set_def(cM.pixels_par_tic_min_x, sx / 12);
+      set_def(cM.pixels_par_tic_min_x, sx / 8);
       set_def(cM.pixels_par_tic_min_y, sx / 12);
     }
     else
@@ -1011,11 +1011,13 @@ struct Axes::Impl
       si(cah.tic_manuels && (idx < (entier) cah.tics.size()))
         s = cah.tics[idx].second;
 
-      O.texte(marge_gauche+ti,
-              y0 + cah.valeurs_décalage, s,
-              ah.ecart_tics_majeurs_pixels * 0.8, // *0.8 pour avoir un miminum d'espace
-              cah.valeurs_hauteur_max,
-              grp);
+      // * 0.8 pour avoir un miminum d'espace
+      soit dxmax = ah.ecart_tics_majeurs_pixels * 0.8;
+
+      si(marge_gauche+ti-dxmax/2 >= 0)
+        O.texte(marge_gauche+ti, y0 + cah.valeurs_décalage, s,
+                dxmax, cah.valeurs_hauteur_max,
+                grp);
 
       idx++;
     }
@@ -1063,7 +1065,9 @@ struct Axes::Impl
 
     soit dxmax = marge_valeurs - 6,
          dymax = config.axe_vertical.valeurs_hauteur_max;
-    O.texte(pos, y, val, dxmax, dymax, grp);
+
+    si(y - dymax / 2 >= 0)
+      O.texte(pos, y, val, dxmax, dymax, grp);
   }
 
 
@@ -1141,10 +1145,21 @@ struct Axes::Impl
       ly_max = max(dim.h, ly_max);
     }
 
+    soit afficher_traits = non;
+    pour(auto i = 0; i < n; i++)
+    {
+      soit &ch = config.series[i];
+      si(ch.remplissage || (ch.marqueur != Marqueur::AUCUN))
+      {
+        afficher_traits = oui;
+        break;
+      }
+    }
+
     soit hauteur_max     = sy_graphique / 2,
          hauteur_totale  = (ly_max + 2) * n,
          largeur_max     = sx_graphique / 3,
-         largeur_totale  = lx_max + 50;
+         largeur_totale  = lx_max + (afficher_traits ? 50 : 0);
 
     DBG(msg("l = {}, lmax = {}, h = {}, hmax = {}", largeur_totale, largeur_max, hauteur_totale, hauteur_max));
 
@@ -1159,7 +1174,13 @@ struct Axes::Impl
 
     DBG(msg("Après seuillage : largeur totale = {}, hauteur totale = {}", largeur_totale, hauteur_totale));
 
-    lx_max = largeur_totale - 50;
+
+
+    lx_max = largeur_totale;// - 50;
+
+    si(afficher_traits)
+      lx_max -= 50;
+
     soit h1 = (entier) ceil((1.0f * hauteur_totale) / n);
     hauteur_totale = h1 * n;
 
@@ -1209,13 +1230,17 @@ struct Axes::Impl
 
     soit p0 = r.tl();
 
-    canva.set_couleur(couleur_avant_plan);
+    canva.set_couleur(afficher_traits ? couleur_avant_plan : config.couleur_arriere_plan);
     canva.set_remplissage(oui, config.couleur_arriere_plan);
+
     canva.rectangle(p0.x, p0.y,
                     p0.x + largeur_totale - 1,
                     p0.y + hauteur_totale + 2);
 
     sptr<Canva::GroupeTextes> grp = canva.groupe_textes();
+
+
+
 
     pour(auto i = 0; i < n; i++)
     {
@@ -1230,32 +1255,35 @@ struct Axes::Impl
 
       // Comment faire pour que tous les labels aient la même échelle ?
       canva.set_dim_fonte(dim_texte);
-      canva.texte(p0.x + 5, yc+2, ch.nom, lx_max, h1-2, grp);
+      canva.texte(p0.x + 5, yc+2, ch.nom, lx_max, h1-6, grp);
 
       entier trait_xmin = p0.x+10+lx_max,
              trait_xmax = p0.x+largeur_totale-5;
 
-      si(ch.remplissage)
+      si(afficher_traits)
       {
-        soit s = ch.couleur.eclaircir(0.3);
-        canva.set_remplissage(oui, s);
-        canva.rectangle(Rect{trait_xmin,  yc - 7, trait_xmax - trait_xmin + 1, 14});
-        canva.set_remplissage(non);
-      }
-      sinon
-      {
-        si(ch.trait != Trait::AUCUN)
+        si(ch.remplissage)
         {
-          canva.set_dotted(ch.trait == Trait::DOTTED);
-          canva.ligne(Point{trait_xmin,yc}, Point{trait_xmax, yc});
-          canva.set_dotted(non);
-        }
-        si(ch.marqueur != Marqueur::AUCUN)
-        {
-          canva.set_remplissage(oui, ch.couleur);
-          canva.set_couleur(ch.couleur);
-          canva.marqueur({(trait_xmin + trait_xmax)/2, yc}, ch.marqueur, 5);
+          soit s = ch.couleur.eclaircir(0.3);
+          canva.set_remplissage(oui, s);
+          canva.rectangle(Rect{trait_xmin,  yc - 7, trait_xmax - trait_xmin + 1, 14});
           canva.set_remplissage(non);
+        }
+        sinon
+        {
+          si(ch.trait != Trait::AUCUN)
+          {
+            canva.set_dotted(ch.trait == Trait::DOTTED);
+            canva.ligne(Point{trait_xmin,yc}, Point{trait_xmax, yc});
+            canva.set_dotted(non);
+          }
+          si(ch.marqueur != Marqueur::AUCUN)
+          {
+            canva.set_remplissage(oui, ch.couleur);
+            canva.set_couleur(ch.couleur);
+            canva.marqueur({(trait_xmin + trait_xmax)/2, yc}, ch.marqueur, 5);
+            canva.set_remplissage(non);
+          }
         }
       }
     }

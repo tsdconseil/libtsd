@@ -106,16 +106,28 @@ float lexp_coef_vers_tc(float γ)
   retourne 1.0 / (2 * π * lexp_fcoupure(γ).value);
 }
 
-float bloqueur_dc_alpha(float fc)
+float bloqueur_dc_coef(float fc)
 {
-  retourne (sqrt(3.0f) - 2 * sin(π * fc)) / (sin(π * fc) + sqrt(3.0f) * cos(π * fc));
+  soit c = cos(2 * π * fc);
+  retourne (1 - sqrt(1 - c * c)) / c;
+}
+
+FRat<float> design_notch(float f0, float fc)
+{
+  soit a  = bloqueur_dc_coef(fc);
+  soit z  = FRat<float>::z();
+  soit Ω0 = 2 * π_f * f0;
+  soit h = ((z*z - 2 * cos(Ω0) * z + 1) / (z*z - 2 * a * cos(Ω0) * z + a*a));
+  retourne h * (1 / h.horner(1.0f)); // Equilibre le gain dans la bande passante (du moins est exact en DC)
 }
 
 FRat<float> design_bloqueur_dc(float fc)
 {
-  soit α = bloqueur_dc_alpha(fc);
-  soit zi = (FRat<float>::z()).inv();
-  retourne (1 - zi) / (1 - α * zi);
+  soit a = bloqueur_dc_coef(fc);
+  soit z = FRat<float>::z();
+  retourne ((z - 1) / (z - a)) * ((1 + a) / 2);
+  //soit zi = (FRat<float>::z()).inv();
+  //retourne ((1 - zi) / (1 - a * zi)) * ((1 + a) / 2);
 }
 
 FRat<float> design_lexp(Fréquence fc)

@@ -7,10 +7,6 @@
 
 namespace tsd {
 
-
-
-
-
 template<typename T>
   using FonctionAbstraite = std::function<T(float)>;
 
@@ -47,27 +43,32 @@ FonctionEchantillonnée<T> FonctionEchantillonnée<T>::def(
   retourne res;
 }
 
-//using FR = FonctionEchantillonnée<float>;
-//using FC = FonctionEchantillonnée<cfloat>;
+
+extern FonctionRéelle fct_impulsion,
+                      fct_échelon,
+                      fct_0,
+                      fct_1,
+                      fct_sin;
 
 
 
-extern FonctionRéelle fct_impulsion;
-extern FonctionRéelle fct_échelon;
-extern FonctionRéelle fct_0;
-extern FonctionRéelle fct_1;
-extern FonctionRéelle fct_sin;
 
-
-//extern FR fct_impulsion(float tmin, float tmax, int n);
-
-extern FonctionEchantillonnée<cfloat> TF(const FonctionEchantillonnée<float> &f);
-extern FonctionEchantillonnée<cfloat> TF(const FonctionAbstraite<float> &f, float fe, int N = 2048);
-
-
+/** @brief Intégration (approximation trapézoidale) */
 template<typename T>
 T intégrale_trap(const FonctionAbstraite<T> &f, float tmin, float tmax, int N);
 
+
+// To remove?
+extern FonctionEchantillonnée<cfloat> TF(const FonctionEchantillonnée<float> &f);
+// To remove?
+extern FonctionEchantillonnée<cfloat> TF(const FonctionAbstraite<float> &f, float fe, int N = 2048);
+
+
+/** @brief Approximation de la transformée de Fourier à temps continu.
+ *  @param δT L'intervalle temporel est [-δT/2, +δT/2].
+ *  @param δF L'intervalle fréquentielle est [-δF/2, +δF/2].
+ *  @param nt Nombre de points dans le domaine temporel.
+ *  @param nf Nombre de points dans le domaine fréquentiel. */
 template<typename T>
 FonctionEchantillonnée<cfloat> tfc(const FonctionAbstraite<T> &fct, float δT, float δF, int nt, int nf);
 

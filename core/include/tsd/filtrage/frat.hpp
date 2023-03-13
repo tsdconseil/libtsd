@@ -38,6 +38,18 @@ struct Poly
     retourne coefs.rows() - 1;
   }
 
+  // Nombre de coefficients successifs nuls, en commençant par 0
+  entier nb_coefs_nuls() const
+  {
+    entier r;
+    pour(r = 0; r < coefs.rows(); r++)
+    {
+      si(coefs(r) != 0)
+        break;
+    }
+    retourne r;
+  }
+
   /*Poly vers_racines() const
   {
     if(mode_racines)
@@ -759,21 +771,64 @@ public:
     retourne res;
   }
 
+  // Simplification si facteur z^m commun
+  void simplifier()
+  {
+    if(numer.mode_racines)
+      return; // A faire
+    soit nr = numer.coefs.rows(),
+         nd = denom.coefs.rows();
+    soit nr1 = numer.nb_coefs_nuls(),
+         nd1 = denom.nb_coefs_nuls();
+
+    soit m = min(nr1, nd1);
+    si(m > 0)
+    {
+      numer.coefs = numer.coefs.tail(nr - m);
+      denom.coefs = denom.coefs.tail(nd - m);
+    }
+  }
+
   /** @brief Division de deux fractions rationnelles. */
   FRat<T> operator /(const FRat<T> &s) const
   {
     FRat<T> res;
     res.numer = numer * s.denom;
     res.denom = denom * s.numer;
+    res.simplifier();
     retourne res;
   }
 
   FRat<T> operator-() const
   {
     FRat<T> res;
-    res.numer = -numer ;
+    res.numer = -numer;
     res.denom = denom;
     retourne res;
+  }
+
+  FRat<T> &operator *=(const T &x)
+  {
+    *this = *this * x;
+    retourne *this;
+  }
+
+  FRat<T> &operator +=(const T &x)
+  {
+    *this = *this + x;
+    retourne *this;
+  }
+
+  FRat<T> &operator -=(const T &x)
+  {
+    *this = *this - x;
+    retourne *this;
+  }
+
+  FRat<T> &operator /=(const T &x)
+  {
+    *this = *this / x;
+    retourne *this;
   }
 
 
@@ -811,6 +866,7 @@ public:
     out << ")";
   }
 
+
   Poly<T> numer, denom;
 };
 
@@ -837,7 +893,7 @@ template<typename T1, typename T2>
 template<typename T1, typename T2>
   FRat<T2> operator -(const T1 &v, const FRat<T2> &s)
 {
-  return s - v;
+  return -s + v;
 }
 
 /** @} */

@@ -752,7 +752,7 @@ namespace tsd::filtrage
 
     FiltreDC(float fc)
     {
-      α = bloqueur_dc_alpha(fc);
+      α = bloqueur_dc_coef(fc);
       xp = yp = (T) 0;
     }
     void step(const Vecteur<T> &x, Vecteur<T> &y)
@@ -764,7 +764,7 @@ namespace tsd::filtrage
 
       pour(auto i = 0; i < n; i++)
       {
-        y(i) = x(i) - xp + α * yp;
+        y(i) = (T) (0.5 * (1 + α)) * (x(i) - xp) + α * yp;
         xp = x(i);
         yp = y(i);
       }

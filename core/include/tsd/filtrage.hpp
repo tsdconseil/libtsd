@@ -1052,28 +1052,30 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, entier R2, fl
  *
  *  Calcul de la fonction de transfert suivante :
  *  @f[
- *  H(z) = \frac{1 - z^{-1}}{1 - \alpha \cdot z^{-1}}
+ *  H(z) = \frac{1 - z^{-1}}{1 - a \cdot z^{-1}} \cdot \frac{1+a}{2}
  *  @f]
  *  Avec
  *  @f[
- *  \alpha = \frac{\sqrt{3} - 2 \sin(\pi f_c)}{\sin(\pi f_c) + \sqrt{3} \cos(\pi f_c)}
+ *  a = \frac{1 \pm \sqrt{1-c^2}}{c},\quad c = \cos 2\pi f_c
  *  @f]
  *
- *  @param fc Fréquence de coupure normalisée (0 - 0,5)
+ *  @param fc Fréquence de coupure normalisée à -3 dB en magnitude (-6 dB en énergie)
  *
  *  @par Exemple
  *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_design_bloqueur_dc
  *  @image html bloqueur-dc-resp.png width=1000px
  *
  *  @par Bibliographie
- *  <i>The DC Blocking Filter,</i> J.M. de Freitas, 2007
+ *  Stein, <i>Digital signal processing</i>, 2000, page 301s
  *
  *  @sa filtre_dc()
  */
 extern FRat<float> design_bloqueur_dc(float fc);
 
+extern float bloqueur_dc_coef(float fc);
 
-extern float bloqueur_dc_alpha(float fc);
+
+extern FRat<float> design_notch(float f0, float fc);
 
 /** @brief Fréquence normalisée (rapport entre une fréquence et la fréquence d'échantillonnage). */
 struct Fréquence
@@ -1589,7 +1591,7 @@ template<typename T>
  *
  *  Implémente le filtre :
  *  @f[
- *  y_k = x_k - x_{k-1} + \alpha y_{k-1}
+ *  y_k = \frac{1+\alpha}{2}\cdot \left(x_k - x_{k-1}\right) + \alpha y_{k-1}
  *  @f]
  *
  *  @param fc Fréquence de coupure normalisée (entre 0 et 0.5)
@@ -1599,7 +1601,7 @@ template<typename T>
  *  @image html bloqueur-dc-ex.png width=1000px
  *
  *  @par Bibliographie
- *  <i>The DC Blocking Filter,</i> J.M. de Freitas, 2007
+ *  Stein, Digital Signal Processing, 2000
  *
  *  @sa design_bloqueur_dc()
  */

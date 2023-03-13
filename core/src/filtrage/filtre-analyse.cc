@@ -54,7 +54,7 @@ namespace tsd::filtrage {
   AnalyseLIT analyse_LIT(const FRat<T> &h, bool avec_plots)
   {
     AnalyseLIT res;
-    soit npts = 2048;
+    soit npts = 4096;//2048;
     soit [fr,mag] = frmag(h, npts);
     Vecf hr       = repimp(h);
     soit nc       = hr.rows();
@@ -63,14 +63,20 @@ namespace tsd::filtrage {
 
     soit m0 = mag(0), m1 = mag(npts-1);
 
-    si((m0 > 0.9) && (m1 < 0.1))
+    soit SEUIL = 0.2;
+
+    si((m0 > 1 - SEUIL) && (m1 < SEUIL))
       res.type = TypeFiltre::PASSE_BAS;
-    sinon si((m1 > 0.9) && (m0 < 0.1))
+    sinon si((m1 > 1 - SEUIL) && (m0 < SEUIL))
       res.type = TypeFiltre::PASSE_HAUT;
-    sinon si((m1 > 0.9) && (m1 > 0.9))
+    sinon si((m1 > 1 - SEUIL) && (m1 > 1 - SEUIL))
       res.type = TypeFiltre::COUPE_BANDE;
-    sinon si((m1 < 0.1) && (m1 < 0.1))
+    sinon si((m1 < SEUIL) && (m1 < SEUIL))
       res.type = TypeFiltre::PASSE_BANDE;
+    sinon si((m0 > 1 - SEUIL) && (m1 < m0))
+      res.type = TypeFiltre::PASSE_BAS;
+    sinon si((m1 > 1 - SEUIL) && (m0 < m1))
+      res.type = TypeFiltre::PASSE_HAUT;
     sinon
     {
       msg_avert("analyse_LIT(): type de filtre non géré (ni passe-bas, ni passe-haut, ni passe-bande, ni coupe-bande).");
@@ -86,15 +92,33 @@ namespace tsd::filtrage {
       msg("Type RIF: {} ({} coefficients)", res.type_rif, nc);
     }
 
-    res.gain_dc      = hr.somme();
-    res.gain_Nyquist = (signyquist(nc) * hr).somme();
+    //res.gain_dc      = hr.somme();
+    //res.gain_Nyquist = (signyquist(nc) * hr).somme();
+    //msg("Gain dc = {}, Nyquist = {}", res.gain_dc, res.gain_Nyquist);
 
+    // Directement d'après la fonction de transfert
+    res.gain_dc       = abs(h.horner((T) 1.0f));
+    res.gain_Nyquist  = abs(h.horner((T) -1.0f));
     msg("Gain dc = {}, Nyquist = {}", res.gain_dc, res.gain_Nyquist);
 
+    // magdB = énergie en log (carré de la magnitude)
     soit magdB = mag2db(mag);
 
-    soit index_3dB = trouve_premier(magdB < -3);
-    soit index_6dB = trouve_premier(magdB < -6);
+    // 3 dB = 3 dB en énergie, soit énergie = 1/2, mag = 1/sqrt(2)
+    // 6 dB = ...                             1/4, mag = 1/2
+
+    entier index_3dB = -1, index_6dB = -1;
+
+    si(res.type == TypeFiltre::PASSE_BAS)
+    {
+      index_3dB = trouve_premier(magdB < -3);
+      index_6dB = trouve_premier(magdB < -6);
+    }
+    sinon si(res.type == TypeFiltre::PASSE_HAUT)
+    {
+      index_3dB = trouve_dernier(magdB >= -3);
+      index_6dB = trouve_dernier(magdB >= -6);
+    }
 
 
     soit index_premier_lobe = -1;
@@ -172,8 +196,8 @@ namespace tsd::filtrage {
    }
 
    msg("  Atténuation lobe principal :          \033[33m{:.1f}\033[0m dB.", -magdB(0));
-   msg("  Largeur lobe principal (à -3 dB) :    \033[33m{:.3f}\033[0m (j={}, = {}/N)", res.largeur_lp, index_3dB, res.largeur_lp * nc);
-   msg("  Largeur lobe principal (à -6 dB) :    \033[33m{:.3f}\033[0m (j={}, = {}/N)", res.largeur_lp_6dB, index_6dB, res.largeur_lp_6dB * nc);
+   msg("  Largeur lobe principal (à -3 dB, demi-énergie)   :    \033[33m{:.4f}\033[0m (j={}, = {}/N)", res.largeur_lp, index_3dB, res.largeur_lp * nc);
+   msg("  Largeur lobe principal (à -6 dB, demi-amplitude) :    \033[33m{:.4f}\033[0m (j={}, = {}/N)", res.largeur_lp_6dB, index_6dB, res.largeur_lp_6dB * nc);
    si(index_premier_lobe >= 0)
    {
      msg("  Début bande atténuée : \033[33m{:.3f}\033[0m", res.freq_debut_ls);
@@ -184,8 +208,6 @@ namespace tsd::filtrage {
    }
    sinon
      msg("  Pas de lobe secondaire trouvé.");
-
-
 
     retourne res;
   }
@@ -291,7 +313,7 @@ Vecf repimp(const FRat<T> &h, entier npts)
     soit x = sigimp(npts);
     soit y = filtrer(h, x);
 
-    msg("repimp: {} -> {}", x, y);
+    //msg("repimp: {} -> {}", x, y);
 
     tantque((y.rows() > 1) && (abs(y(y.rows()-1)) < abs(y).moyenne() * 0.01))
       y = y.head(y.rows()-1).clone();

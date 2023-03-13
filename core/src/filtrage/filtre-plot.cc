@@ -35,7 +35,7 @@ void plot_plz(Figure &fig, const FRat<T> &h)
   soit gris = Couleur{200,200,200,128};
   c.set_couleur(gris);
   c.set_epaisseur(3);
-  c.set_remplissage(oui, Couleur::Vert.eclaircir(0.05));
+  c.set_remplissage(oui, Couleur::/*Vert*/Jaune.eclaircir(0.05));
   c.cercle(0, 0, 1.0);
   c.set_remplissage(non);
   c.set_epaisseur(1);
@@ -68,7 +68,7 @@ template<typename T>
   soit [fr, mag] = frmag(h);
   soit y = repimp(h);
 
-  soit c = f.subplot().plot(real(y), y.rows() < 50 ? "o|g" : "-g");
+  soit c = f.subplot().plot(real(y), y.rows() < 128 ? "o|g" : "-g");
   c.def_epaisseur(2);
   f.gcf().titres("Réponse impulsionnelle", "Echantillons");
 

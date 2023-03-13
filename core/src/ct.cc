@@ -11,50 +11,25 @@ FonctionRéelle fct_impulsion = [](float x)
   retourne abs(x) < 1e-6 ? 1 : 0;
 };
 
-/*float fct_impulsion(float x)
-{
-  retourne abs(x) < 1e-6 ? 1 : 0;
-}*/
-
 FonctionRéelle fct_échelon = [](float x)
 {
   retourne x < 0 ? -1 : ((x == 0) ? 0 : 1);
 };
 
-//float fct_1(float x)
 FonctionRéelle fct_1 = [](float x)
 {
   retourne 1;
 };
 
-//float fct_0(float x)
 FonctionRéelle fct_0 = [](float x)
 {
   retourne 0;
 };
 
 FonctionRéelle fct_sin = [](float x)
-//float fct_sin(float x)
 {
   retourne sin(x);
 };
-
-/*FonctionRéelle fct_impulsion()
-{
-  retourne [](float x){retourne abs(x) < 1e-6 ? 1 : 0;};
-}
-FonctionRéelle fct_échelon()
-{
-  retourne [](float x){retourne x < 0 ? -1 : ((x == 0) ? 0 : 1);};
-}
-FonctionRéelle fct_1()
-{
-  retourne [](float x){retourne 1;};
-}
-FonctionRéelle fct_0()
-{
-  retourne [](float x){retourne 0;};
-}*/
 
 
 template<typename TT>
@@ -80,13 +55,36 @@ T intégrale_trap(const FonctionAbstraite<T> &f, float tmin, float tmax, int n)
 
   soit f0 = f(t(0));
 
+  si(std::isnan(real(f0)))
+  {
+    echec("intégrale trap: f0=nan, t(0) = {}.", t(0));
+  }
+
   pour(auto i = 0; i + 1 < n; i++)
   {
     soit f1 = f(t(i+1));
+
+    si(std::isnan(real(f1)))
+    {
+      echec("intégrale trap: f1={}, t = {}, i ={}.", f1, t(i+1), i);
+    }
+
+    si(std::isnan(imag(f1)))
+    {
+      echec("intégrale trap: f1={}, t = {}, i ={}.", f1, t(i+1), i);
+    }
+
+
     //y += δ * (f0 + (f1 - f0) / 2);
     y += ((T) δ) * (f0 + f1) * ((T) 0.5);
     f0 = f1;
   }
+
+  si(std::isnan(real(y)))
+  {
+    echec("intégrale trap: nan.");
+  }
+
   retourne (T) y;
 }
 
@@ -141,7 +139,16 @@ FonctionEchantillonnée<cfloat> tfc(const FonctionAbstraite<T> &fct, float δT, 
   {
     soit tf = [i,f,fct](float x) -> cfloat
     {
-      retourne fct(x) * std::polar(1.0f, -2*π_f*x*f(i));
+      soit v = fct(x);
+
+      if constexpr(est_complexe<T>())
+     {
+      si(std::isnan(real(v)))
+      {
+        echec("tfc: nan @ x = {}", x);
+      }
+     }
+      retourne v * std::polar(1.0f, -2*π_f*x*f(i));
     };
     H(i) = intégrale_trap<cfloat>(tf, -δT/2, δT/2, nt);
   }
