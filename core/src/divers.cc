@@ -35,7 +35,8 @@ double Dirichlet(entier N, double Ω)
 
 //   retourne sin((N+0.5)*x)/sin(x/2);
 
-Poly<float> Chebychev_T(entier n)
+// Implémentation naïve (coût quadratique)
+static Poly<float> Chebychev_T_rec(entier n)
 {
   /** @brief polynome simple */
   soit z = Poly<float>::z;
@@ -47,6 +48,29 @@ Poly<float> Chebychev_T(entier n)
 
   // Attention : pas très fin -> cout quadratique
   retourne 2.0f * z * Chebychev_T(n-1) - Chebychev_T(n-2);
+}
+
+
+Poly<float> Chebychev_T(entier n)
+{
+  /** @brief polynome simple */
+  soit z = Poly<float>::z;
+  soit T0 = Poly<float>::one();
+  soit T1 = z;
+
+  si(n == 0)
+    retourne T0;
+  sinon si(n == 1)
+    retourne T1;
+
+  pour(auto k = 2; k <= n; k++)
+  {
+    soit T2 = 2.0f * z * T1 - T0;
+    T0 = T1;
+    T1 = T2;
+  }
+
+  retourne T1;
 }
 
 Poly<float> Chebychev_U(entier n)
