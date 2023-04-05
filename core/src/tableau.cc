@@ -3,8 +3,8 @@
 #include <Eigen/Core>
 #include <Eigen/LU>
 #include <fmt/core.h>
-#include <fmt/ostream.h>
-#include <fmt/color.h>
+//#include <fmt/ostream.h>
+//#include <fmt/color.h>
 
 #include <vector>
 #include <cstdlib>

@@ -83,7 +83,7 @@ namespace tsd::vue
         {"ll", SUD_OUEST},
         {"lr", SUD_EST}
     };
-    type = NORD_EST;
+    type = AUCUNE;
     pour(auto &c: codes)
       si(c.code == id)
         type = c.pos;
@@ -240,6 +240,13 @@ struct Axes::Impl
       soit canva = canva_.vue(Rect{0, 0, sx, sy});
       affiche_cartouche_legende(canva);
     }
+
+    DBG(msg("raxes: ok, titre..."));
+    canva_pixels.set_align(Align::CENTRE, Align::DEBUT);
+    canva_pixels.set_dim_fonte(config.titre_echelle);
+    canva_pixels.set_epaisseur(1);
+    canva_pixels.set_couleur(couleur_avant_plan);
+    canva_pixels.texte(0.5*sx_graphique, 0, config.titre, sx_graphique, sy_graphique / 4);
   }
 
   Dim get_dim_graphique(const Dim &dim_totale) const
@@ -462,7 +469,8 @@ struct Axes::Impl
     DBG(msg(" - grille (majeure) = {}", config.grille_majeure.couleur));
 
     mat_sur_clair = config.est_mat_sur_clair();
-    couleur_avant_plan = mat_sur_clair ? Couleur::Noir : Couleur::Blanc;
+    //couleur_avant_plan = mat_sur_clair ? Couleur::Noir : Couleur::Blanc;
+    couleur_avant_plan = config.couleur_avant_plan;
 
     DBG(msg(" - mat sur clair = {}", mat_sur_clair));
     DBG(msg(" - => avant plan = {}", couleur_avant_plan));
@@ -495,13 +503,14 @@ struct Axes::Impl
 
     affiche_grille(canva_pixels);
 
+#   if 0
     DBG(msg("raxes: ok, titre..."));
-
     canva_pixels.set_align(Align::CENTRE, Align::DEBUT);
     canva_pixels.set_dim_fonte(config.titre_echelle);
     canva_pixels.set_epaisseur(1);
     canva_pixels.set_couleur(couleur_avant_plan);
     canva_pixels.texte(0.5*sx_graphique, 0, config.titre, sx_graphique, sy_graphique / 4);
+#   endif
 
     DBG(msg(" raxes: fin."));
     retourne canva_res;
@@ -883,6 +892,7 @@ struct Axes::Impl
     si(av.tics_majeurs_pos.empty())
       msg_avert("Axes : aucun tic vertical !");
 
+    int idx = 0;
     pour(auto t: av.tics_majeurs_pos)
     {
       string s;
@@ -890,7 +900,12 @@ struct Axes::Impl
         s = fmt::format("{:.1e}", t);
       sinon
         s = tsd::vue::unites::valeur_vers_chaine(t, cav.unité, expo, nbchiffres);
+
+      si(cav.tic_manuels && (idx < (entier) cav.tics.size()))
+        s = cav.tics[idx].second;
+
       affiche_tic_majeur(O, t, 5, x0, s, grp);
+      idx++;
     }
     soit lg = 1;
     pour(auto t: av.tics_mineurs_pos)
@@ -1112,6 +1127,9 @@ struct Axes::Impl
       // Pas assez de place
       retourne;
 
+    si(config.legende.position.type == ConfigAxes::Legende::Position::AUCUNE)
+      retourne;
+
     soit a_description = non;
     pour(auto c: config.series)
     {
@@ -1230,7 +1248,8 @@ struct Axes::Impl
 
     soit p0 = r.tl();
 
-    canva.set_couleur(afficher_traits ? couleur_avant_plan : config.couleur_arriere_plan);
+    canva.set_couleur(couleur_avant_plan);
+        //afficher_traits ? couleur_avant_plan : config.couleur_arriere_plan);
     canva.set_remplissage(oui, config.couleur_arriere_plan);
 
     canva.rectangle(p0.x, p0.y,

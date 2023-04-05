@@ -9,18 +9,22 @@ namespace tsd::filtrage {
     retourne linspace(0,(m-1.0)/(2*m-1),m);
   }
 
-  // TODEL
   Figures design_rif_freq_analyse(entier n, const Vecf &d)
   {
+    soit m = d.rows();
+    tsd_assert(2 * m - 1 == n);
+
     soit h = design_rif_freq(n, d);
+    tsd_assert(h.rows() == n);
     soit [fr,xm] = frmag<float>(h, 2048);
 
     Figures fig;
     soit f = fig.subplot();
-    f.plot(fr,abs(xm),"b-", "Réponse obtenue");
+    f.plot(fr,abs(xm),"b-", "Réponse réelle");
 
     soit fr1 = design_rif_freq_freqs(n);
-    f.plot(fr1, abs(d), "gs", "Points d'échantillonnage (gabarit)");
+    tsd_assert(fr1.rows() == m);
+    f.plot(fr1, abs(d), "gs", "Points d'échantillonnage");
     f.titre("Réponse fréquentielle");
 
     retourne fig;
@@ -62,7 +66,8 @@ namespace tsd::filtrage {
 
     soit err = abs(imag(hc)).valeur_max();
     tsd_assert_msg(err < 1e-3,
-        "design_rif_freq : filtre réel attendu (err = {}): hc = \n{}\nHd={}, F={}, f={}.", err, hc, Hd, F, f);
+        "design_rif_freq : filtre réel attendu (err = {}): hc = \n{}\nHd={}, F={}, f={}.",
+        err, hc, Hd, F, f);
 
     soit h = real(hc) / sqrt(N);
 

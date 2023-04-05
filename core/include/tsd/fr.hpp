@@ -3,7 +3,7 @@
 
 
 
-#define soit      auto
+#ifndef soit
 #define soit      auto
 #define Soient    auto
 #define soient    auto
@@ -25,7 +25,7 @@ static const auto
 
 using bouléen = bool;
 using entier  = int;
-
+#endif
 
 #endif
 

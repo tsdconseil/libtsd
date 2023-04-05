@@ -859,7 +859,6 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
 
       //msg("OLA/STI : Ne = {}, padded.rows()={}", Ne, padded.rows());
 
-      // Ne = 16k, Padded = 32k
       padded.tail(Ne) = x;
 
 
@@ -965,7 +964,7 @@ struct FiltreFFTRIF: FiltreGen<T>
   FiltreFFTRIF(const Vecf &h)
   {
     FiltreFFTConfig ola_config;
-    ola_config.nb_zeros_min       = h.rows();
+    ola_config.nb_zeros_min       = h.rows(); // -1 ?
     ola_config.traitement_freq    = [&](Veccf &X)
     {
       X *= H;
@@ -986,9 +985,7 @@ struct FiltreFFTRIF: FiltreGen<T>
   }
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    Veccf y1;
-    ola.step(x.as_complex(), y1);
-    y = real(y1);
+    y = real(ola.Filtre<cfloat, cfloat, FiltreFFTConfig>::step(x.as_complex()));
   }
 };
 

@@ -280,6 +280,9 @@ auto cheb_eval(auto x, entier n)
 // TODO : gestion symétrie, parité
 Vecf fenêtre_chebychev(entier n, float atten_db, bouléen symetrique)
 {
+  si(n <= 1)
+    retourne Vecf::ones(n);
+
   soit Alin = pow(10.0, atten_db/20.0);
   soit β = real(std::cosh(std::acosh((cdouble) Alin) * (1.0/(n-1))));
 

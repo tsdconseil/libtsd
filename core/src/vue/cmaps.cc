@@ -1,10 +1,16 @@
 #include "tsd/tsd.hpp"
 #include "tsd/vue/image.hpp"
 #include "tsd/vue.hpp"
+#include <map>
+
+
 
 
 namespace tsd::vue
 {
+  //template<typename T>
+    //using std::make_shared<T>;
+
   struct CMapIlin: CMap
   {
     std::vector<std::vector<float>> pts;
@@ -57,6 +63,27 @@ namespace tsd::vue
           {0.75,  0.72692898,  0.75698787,  0.1691954},
           {0.875, 0.99505988,  0.78542889,  0.32106514},
           {1.0,   0.98680727,  0.95697596,  0.12661626}
+      };
+    }
+  };
+
+
+  struct CMapPM: CMapIlin
+  {
+    CMapPM()
+    {
+      pts = {
+
+          {0.00, 0.0,   0.0,  0.5},
+          {0.25, 0.0,   0.0,  1.0},
+          {0.50, 1.0,   1.0,  1.0},
+          {0.75, 1.0,   0.0,  0.0},
+          {1.00, 0.5,   0.0,  0.0}
+
+
+          /*{0.0, 0.0,   0.0,  1.0},
+          {0.5, 1.0,   1.0,  1.0},
+          {1.0, 1.0,   0.0,  0.0}*/
       };
     }
   };
@@ -157,7 +184,7 @@ namespace tsd::vue
         r = 1.0 - (t - 7.0/8) * 4;
       }
       sinon
-        r = 1.0f;
+        r = 0.5;
     }
   };
 
@@ -169,22 +196,32 @@ namespace tsd::vue
     retourne Couleur{255*R, 255*V, 255*B};
   }
 
+  template<typename T>
+  sptr<T> ms()
+  {
+    retourne std::make_shared<T>();
+  }
+
+  static std::map<std::string, sptr<CMap>> cmaps
+    =
+    {
+        {"mono",      ms<CMapMono>()},
+        {"mono-inv",  ms<CMapMonoInv>()},
+        {"mono-per",  ms<CMapMonoPer>()},
+        {"hsv",       ms<CMapHSV>()},
+        {"jet",       ms<CMapJet>()},
+        {"parula",    ms<CMapParula>()},
+        {"pm",        ms<CMapPM>()}
+    };
+
   sptr<CMap> cmap_parse(const std::string &nom)
   {
-    si(nom == "mono")
-      retourne std::make_shared<CMapMono>();
-    sinon si(nom == "mono-inv")
-      retourne std::make_shared<CMapMonoInv>();
-    sinon si(nom == "mono-per")
-      retourne std::make_shared<CMapMonoPer>();
-    sinon si(nom == "hsv")
-      retourne std::make_shared<CMapHSV>();
-    sinon si(nom == "jet")
-      retourne std::make_shared<CMapJet>();
-    sinon si(nom == "parula")
-      retourne std::make_shared<CMapParula>();
-    msg_erreur("Cmap inconnue : {}", nom);
-    retourne std::make_shared<CMapJet>();
+    si(cmaps.count(nom) == 0)
+    {
+      msg_erreur("Cmap inconnue : {}", nom);
+      retourne cmaps["jet"];
+    }
+    retourne cmaps[nom];
   }
 
   void cmap_affiche(const std::string &nom, sptr<CMap> cmap)

@@ -11,6 +11,7 @@ namespace tsd::filtrage
 
   bool debug_design = false;
 
+  //static auto z = FRat<float>::z();
 
   Vecf design_rif_prod(const Vecf &h1, const Vecf &h2)
   {
@@ -145,6 +146,47 @@ FRat<float> design_lexp(float γ)
   retourne design_lexp(lexp_fcoupure(γ));
 }
 
+
+
+//using mapint = std::map<string, int>;
+
+/*struct Exp
+{
+  template<typename T>
+    operator T();
+
+  template<typename T>
+    eval()
+  {
+  }
+};
+
+Exp k;
+
+Exp operator *(const Exp &x) const
+{
+
+}
+
+template<typename T>
+T somme(int imin, int imax, auto exp)
+{
+  T s = 0;
+  for(auto i = imin; i <= imax; i++)
+    s += exp.eval<T>({"k", i});
+  retourne somme;
+}*/
+
+
+FRat<float> design_mg(int K)
+{
+  FRat<float> h;
+  h.numer.coefs = Vecf::ones(K) / K;
+  retourne h.horner(FRat<float>::zinv());
+
+  /*retourne
+    somme<FRat<float>>(0, K-1, pow(z, -Exp{"k"}));*/
+}
 
 
 }

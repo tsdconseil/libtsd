@@ -21,10 +21,34 @@ struct Poly
   bouléen mode_racines = non;
   T mlt = 1.0f; // multiplieur si mode racine (= coefficient du monome le plus grand)
 
-
-
   Poly()
   {
+  }
+
+  /** @brief Construction d'un polynôme d'après les coefficients */
+  Poly(const Vecteur<T> &coefs)
+  {
+    mode_racines = non;
+    this->coefs = coefs.clone();
+    vname = "z";
+  }
+
+  /** @brief Construction d'un polynôme d'après les racines */
+  static Poly from_roots(const Vecteur<T> &racines)
+  {
+    Poly res;
+    res.mode_racines  = oui;
+    res.coefs         = racines.clone();
+    res.mlt           = 1.0f;
+    retourne res;
+  }
+
+  explicit Poly(const T &val)
+  {
+    mode_racines = non;
+    vname = "z";
+    coefs.resize(1);
+    coefs(0) = val;
   }
 
   /** @brief retourne les coefficients du polynôme */
@@ -50,22 +74,13 @@ struct Poly
     retourne r;
   }
 
-  /*Poly vers_racines() const
-  {
-    if(mode_racines)
-      return *this;
-
-    auto r = roots();
-
-  }*/
-
-  Poly &operator =(const Poly<T> &src)
+  /*Poly &operator =(const Poly<T> &src)
   {
     coefs        = src.coefs.clone();
     mlt          = src.mlt;
     mode_racines = src.mode_racines;
     retourne *this;
-  }
+  }*/
 
   Poly vers_coefs() const
   {
@@ -81,48 +96,28 @@ struct Poly
 
     pour(auto i = 0; i < coefs.rows(); i++)
     {
-      Poly monome;
+      soit monome = Poly(VecT<T>::valeurs({-coefs(i), 1}));
+      res *= monome;
+      /*Poly monome;
       monome.coefs.resize(2);
       monome.coefs(0) = -coefs(i);
       monome.coefs(1) = 1;
-      res = res * monome;
+      res = res * monome;*/
     }
-    res = res * mlt;
+    res *= mlt;
+    //res = res * mlt;
     retourne res;
   }
 
   Poly<float> real() const
   {
-    Poly<float> res;
+    retourne {tsd::real(coefs)};
+    /*Poly<float> res;
     res.coefs = tsd::real(coefs);
-    retourne res;
+    retourne res;*/
   }
 
-  explicit Poly(const T &val)
-  {
-    mode_racines = non;
-    vname = "z";
-    coefs.resize(1);
-    coefs(0) = val;
-  }
 
-  /** @brief Construction d'un polynôme d'après les coefficients */
-  Poly(const Vecteur<T> &coefs)
-  {
-    mode_racines = non;
-    this->coefs = coefs.clone();
-    vname = "z";
-  }
-
-  /** @brief Construction d'un polynôme d'après les racines */
-  static Poly from_roots(const Vecteur<T> &racines)
-  {
-    Poly res;
-    res.mode_racines = oui;
-    res.coefs = racines.clone();
-    res.mlt   = 1.0f;
-    retourne res;
-  }
 
 
   void clean(T precision)
@@ -233,10 +228,10 @@ struct Poly
 
     si(mode_racines)
     {
-      Poly<T> res = *this;
+      soit res = *this;
       pour(auto k = 1u; k < e; k++)
         // Duplique les racines
-        res.coefs = vconcat(res.coefs, coefs).clone();
+        res.coefs = vconcat(res.coefs, coefs);
       res.mlt = pow(mlt, e);
       retourne res;
     }
@@ -257,8 +252,7 @@ struct Poly
   {
     Poly<T> res;
     res.vname = vname;
-    res.coefs.resize(coefs.rows() + i);
-    res.coefs.setZero();
+    res.coefs = VecT<T>::zeros(coefs.rows() + i);
     pour(auto k = 0; k < coefs.rows(); k++)
       res.coefs(i+k) = coefs(k);
     retourne res;
@@ -360,7 +354,7 @@ struct Poly
   {
     soit res = vers_coefs();
     si(res.coefs.rows() == 0)
-      res.coefs.resize(1);
+      res.coefs = VecT<T>::zeros(1);
     res.coefs(0) += s;
     retourne res;
   }
@@ -408,11 +402,12 @@ struct Poly
 
   static Poly<T> basic()
   {
-    Poly<T> res;
+    /*Poly<T> res;
     res.coefs.resize(2);
     res.coefs(0) = 0;
     res.coefs(1) = 1;
-    retourne res;
+    retourne res;*/
+    retourne {VecT<T>::valeurs({(T) 0, (T) 1})};
   }
 
   static Poly<T> one()
@@ -488,27 +483,65 @@ Poly<T> real(const Poly<std::complex<T>> &p)
  * @f]
  */
 template<typename T = float>
-class FRat
+struct FRat
 {
-public:
+  Poly<T> numer, denom;
+
+  using VT = Vecteur<T>;
+  using PT = Poly<T>;
 
   /** @brief Constructeur, d'après un vecteur de coefficients (filtre RIF). */
-  FRat(const Vecteur<T> &x)
+  FRat(const VT &x)
   {
     *this = rif(x);
   }
 
   explicit FRat(const T &a)
   {
-    numer = Poly<T>::one() * a;
-    denom = Poly<T>::one();
+    numer = PT::one() * a;
+    denom = PT::one();
   }
 
   /** @brief Constructeur par défaut */
   FRat()
   {
-    numer = Poly<T>::one();
-    denom = Poly<T>::one();
+    numer = PT::one();
+    denom = PT::one();
+  }
+
+  FRat(const PT &numer, const PT &denom)
+  {
+    this->numer = numer;
+    this->denom = denom;
+  }
+
+  static FRat<T> un()
+  {
+    retourne {PT::one(), PT::one()};
+  }
+
+
+  /** @brief Renvoie le monôme @f$z@f$
+   *  <h3>Monôme @f$z@f$</h3>
+   *
+   *  Cette fonction peut être utile pour construire de manière algébrique une fonction de transfert.
+   *
+   *  @par Exemple
+   *  @code
+   *  auto z = FRat<float>::z();
+   *
+   *  auto H = (z-1) / (z.pow(2) - 0.5 * z + 2);
+   *  @endcode
+   *
+   */
+  static FRat<T> z()
+  {
+    retourne {PT::z, PT::one()};
+  }
+
+  static FRat<T> zinv()
+  {
+    retourne {PT::one(), PT::z};
   }
 
 
@@ -525,22 +558,18 @@ public:
   /** @brief Développement des numérateur et dénominateur sous la forme de polynômes définis par leurs coefficients. */
   FRat<T> developpe() const
   {
-    FRat<T> res;
-    res.denom = denom.vers_coefs();
-    res.numer = numer.vers_coefs();
-    retourne res;
+    retourne {numer.vers_coefs(), denom.vers_coefs()};
   }
 
+
+  // (a/b).real = a.r * (1/b).r - a.i * (1/b).i
+  // @todo : renommer, et utiliser une autre fonction pour la partie réelle de la fraction
   /** @brief Extraction de la partie réelle des numérateurs et dénominateurs (attention ce n'est pas la partie réelle de la fraction !). */
   auto real() const
   {
     if constexpr(est_complexe<T>())
     {
-      FRat<typename T::value_type> res;
-      res.denom = denom.real();
-      res.numer = numer.real();
-      // (a/b).real = a.r * (1/b).r - a.i * (1/b).i
-      retourne res;
+      retourne FRat<typename T::value_type>{numer.real(), denom.real()};
     }
     sinon
       retourne *this;
@@ -564,24 +593,21 @@ public:
    *
    *  @param a Liste des coefficients
    */
-  static FRat<T> rif(const Vecteur<T> &a)
+  static FRat<T> rif(const VT &a)
   {
-    FRat<T> res;
     soit K = a.rows();
     si(K == 0)
     {
       msg_erreur("Filtre RIF : aucun coefficient.");
-      retourne res;
+      retourne {};
     }
 
-    res.numer = Poly<T>(a.reverse());
-    soit c = Vecteur<T>::zeros(K);
+    soit c = VT::zeros(K);
     c(K - 1) = 1;
-    res.denom = Poly<T>(c);
-    retourne res;
+    retourne {PT(a.reverse()), PT(c)};
   }
 
-  Vecteur<T> coefs_rif() const
+  VT coefs_rif() const
   {
     si(!est_rif())
       echec("FRat::coefs_rif(): ce filtre n'est pas un filtre RIF.");
@@ -604,13 +630,13 @@ public:
     soit nn = a.rows(),
          nd = b.rows();
 
-    res.numer = Poly<T>(a.reverse());
-    res.denom = Poly<T>(b.reverse());
+    res.numer = PT(a.reverse());
+    res.denom = PT(b.reverse());
 
     Si(nn > nd)
-      res.denom = res.denom * Poly<T>::z ^ (nn - nd);
+      res.denom = res.denom * PT::z ^ (nn - nd);
     sinon si(nd > nn)
-      res.numer = res.numer * Poly<T>::z ^ (nd - nn);
+      res.numer = res.numer * PT::z ^ (nd - nn);
 
     retourne res;
   }
@@ -645,41 +671,13 @@ public:
       retourne {};
     }
 
-    res.numer = Poly<T>(a);
-    res.denom = Poly<T>(b);
+    res.numer = PT(a);
+    res.denom = PT(b);
 
     retourne res.eval_inv_z();
   }
 
-  static FRat<T> un()
-  {
-    FRat<T> res;
-    res.numer = Poly<T>::one();
-    res.denom = Poly<T>::one();
-    retourne res;
-  }
 
-
-  /** @brief Renvoie le monôme @f$z@f$
-   *  <h3>Monôme @f$z@f$</h3>
-   *
-   *  Cette fonction peut être utile pour construire de manière algébrique une fonction de transfert.
-   *
-   *  @par Exemple
-   *  @code
-   *  auto z = FRat<float>::z();
-   *
-   *  auto H = (z-1) / (z.pow(2) - 0.5 * z + 2);
-   *  @endcode
-   *
-   */
-  static FRat<T> z()
-  {
-    FRat<T> res;
-    res.numer = Poly<T>::z;
-    res.denom = Poly<T>::one();
-    retourne res;
-  }
 
   static FRat<T> z_power(entier n)
   {
@@ -688,15 +686,15 @@ public:
       retourne un();
     sinon si(n > 0)
     {
-      res.numer.coefs = Vecteur<T>::zeros(n+1);
+      res.numer.coefs = VT::zeros(n+1);
       res.numer.coefs(n) = 1;
-      res.denom.coefs = Vecteur<T>::ones(1);
+      res.denom.coefs = VT::ones(1);
     }
     sinon
     {
-      res.denom.coefs = Vecteur<T>::zeros(-n+1);
-      res.denom.coefs(-n) = 1;
-      res.numer.coefs = Vecteur<T>::ones(1);
+      res.denom.coefs = VT::zeros(n+1);
+      res.denom.coefs(n) = 1;
+      res.numer.coefs = VT::ones(1);
     }
     retourne res;
   }
@@ -722,53 +720,35 @@ public:
 
   FRat operator *(const T &s) const
   {
-    FRat res;
-    res.numer = numer * s;
-    res.denom = denom;
-    retourne res;
+    retourne {numer * s, denom};
   }
 
   FRat<T> operator +(const T &s) const
   {
-    FRat<T> res;
-    res.numer = numer + denom * s;
-    res.denom = denom;
-    retourne res;
+    retourne {numer + denom * s, denom};
   }
 
   FRat<T> operator -(const T &s) const
   {
-    FRat<T> res;
-    res.numer = numer - denom * s;
-    res.denom = denom;
-    retourne res;
+    retourne (*this) + (-s);
   }
 
   /** @brief Addition de deux fractions rationnelles. */
   FRat<T> operator +(const FRat<T> &s) const
   {
-    FRat<T> res;
-    res.numer = numer * s.denom + s.numer * denom;
-    res.denom = denom * s.denom;
-    retourne res;
+    retourne {numer * s.denom + s.numer * denom, denom * s.denom};
   }
 
   /** @brief Soustraction de deux fractions rationnelles. */
   FRat<T> operator -(const FRat<T> &s) const
   {
-    FRat<T> res;
-    res.numer = numer * s.denom - s.numer * denom;
-    res.denom = denom * s.denom;
-    retourne res;
+    retourne (*this) + (-s);
   }
 
   /** @brief Produit de deux fractions rationnelles. */
   FRat<T> operator *(const FRat<T> &s) const
   {
-    FRat res;
-    res.numer = numer * s.numer;
-    res.denom = denom * s.denom;
-    retourne res;
+    retourne {numer * s.numer, denom * s.denom};
   }
 
   // Simplification si facteur z^m commun
@@ -792,19 +772,14 @@ public:
   /** @brief Division de deux fractions rationnelles. */
   FRat<T> operator /(const FRat<T> &s) const
   {
-    FRat<T> res;
-    res.numer = numer * s.denom;
-    res.denom = denom * s.numer;
+    FRat<T> res = {numer * s.denom, denom * s.numer};
     res.simplifier();
     retourne res;
   }
 
   FRat<T> operator-() const
   {
-    FRat<T> res;
-    res.numer = -numer;
-    res.denom = denom;
-    retourne res;
+    retourne {-numer, denom};
   }
 
   FRat<T> &operator *=(const T &x)
@@ -845,10 +820,7 @@ public:
   /** @brief Calcul de @f$1/H(z)@f$ */
   FRat<T> inv() const
   {
-    FRat<T> res;
-    res.numer = denom;
-    res.denom = numer;
-    retourne res;
+    retourne {denom, numer};
   }
 
   bouléen est_rif() const
@@ -866,8 +838,6 @@ public:
     out << ")";
   }
 
-
-  Poly<T> numer, denom;
 };
 
 

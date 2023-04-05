@@ -66,12 +66,12 @@ T intégrale_trap(const FonctionAbstraite<T> &f, float tmin, float tmax, int n)
 
     si(std::isnan(real(f1)))
     {
-      echec("intégrale trap: f1={}, t = {}, i ={}.", f1, t(i+1), i);
+      echec("intégrale trap: f1={}:{}, t = {}, i ={}.", real(f1), imag(f1), t(i+1), i);
     }
 
     si(std::isnan(imag(f1)))
     {
-      echec("intégrale trap: f1={}, t = {}, i ={}.", f1, t(i+1), i);
+      echec("intégrale trap: f1={}:{}, t = {}, i ={}.", real(f1), imag(f1), t(i+1), i);
     }
 
 

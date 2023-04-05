@@ -1002,6 +1002,37 @@ Image Canva::rendre(const Dim &dim, const Rectf &rdi, const Couleur &arp)
   retourne impl->rendre(dim, rdi, arp);
 }
 
+void Canva::plot_cmap(const Tabf &Z, const Rectf &rdi, sptr<CMap> cmap)
+{
+  soit nr = Z.rows(), nc = Z.cols();
+  ParamGrille pg(nr, nc, rdi.tl(), rdi.br());
+
+  //DBG(msg("plot img : tl = {}, br = {}", ci.rdi_z.tl(), ci.rdi_z.br());)
+
+  //canva.ligne(ci.rdi_z.tl(), ci.rdi_z.br());
+
+  active_contours(non);
+  active_remplissage(oui);
+
+  pour(auto i = 0; i < nr; i++)
+  {
+    pour(auto j = 0; j < nc; j++)
+    {
+      soit coul = cmap->couleur(Z(i,j));
+
+      //si(((i % 5) == 0) && ((j % 5) == 0))
+      ///{
+      //coul = Couleur::rand();
+      //coul.alpha = 128;
+      set_couleur_remplissage(coul);
+      rectangle(pg.tl(i, j), pg.br(i, j));
+      //}
+    }
+  }
+  active_contours(oui);
+  active_remplissage(non);
+}
+
 void Canva::set_dim_fonte(float echelle)
 {
   impl->pinceau.dim_fonte = echelle;

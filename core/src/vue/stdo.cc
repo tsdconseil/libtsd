@@ -82,6 +82,8 @@ void Stdo::flush()
   priv.elems.clear();
   priv.cnt_racine++;
   priv.cnt_fig = 0;
+
+  priv.dossier_sortie = "";
 }
 
 

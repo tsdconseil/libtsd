@@ -2,6 +2,7 @@
 #include "tsd/filtrage/frat.hpp"
 #include "tsd/filtrage.hpp"
 #include "tsd/vue.hpp"
+#include <fmt/color.h>
 #include <random>
 #include <cstdarg>
 #include <iostream>

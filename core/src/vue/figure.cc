@@ -24,10 +24,9 @@ ParamGrille::ParamGrille(entier nc, entier nr, const Pointf &p0, const Pointf &p
   this->nr = nr;
   this->x0 = p0.x;
   this->y0 = p0.y;
+
   ẟx = (p1.x-x0)/(nc-1.0f);
   ẟy = (p1.y-y0)/(nr-1.0f);
-
-  //msg("nc={},nr={},ẟx={},ẟy={}",nc,nr,ẟx,ẟy);
 }
 
 Dimf ParamGrille::dim() const
@@ -525,7 +524,7 @@ struct Figure::Impl: Rendable
 
       si(ci.Z.rows() > 0)
       {
-        soit nr = ci.Z.rows(), nc = ci.Z.cols();
+        //soit nr = ci.Z.rows(), nc = ci.Z.cols();
         soit lst_opt = parse_liste_chaines(ci.format, ',');
 
         Tabf Zn;
@@ -552,6 +551,7 @@ struct Figure::Impl: Rendable
 
         soit cmap = tsd::vue::cmap_parse(str_cmap);
 
+#       if 0
         ParamGrille pg(nr, nc, ci.rdi_z.tl(), ci.rdi_z.br());
 
         DBG(msg("plot img : tl = {}, br = {}", ci.rdi_z.tl(), ci.rdi_z.br());)
@@ -578,6 +578,9 @@ struct Figure::Impl: Rendable
         }
         canva.active_contours(oui);
         canva.active_remplissage(non);
+#       endif
+
+        canva.plot_cmap(Zn, ci.rdi_z, cmap);
       }
 
       si(c.impl->σ.rows() > 0)
@@ -1037,7 +1040,7 @@ Figure Figures::gf(entier sel)
 
 Figure Figures::subplot(entier n, entier m, entier pos_)
 {
-  entier pos = pos_;
+  soit pos = pos_;
   si(((impl->n != n) || (impl->m != m)) && (impl->subplots.size() > 0))
   {
     impl->subplots.clear();
@@ -1047,7 +1050,7 @@ Figure Figures::subplot(entier n, entier m, entier pos_)
 
   si(pos <= 0)
   {
-    impl->subplots.push_back(Figure());
+    impl->subplots.push_back({});
     pos = impl->subplots.size();
   }
 
@@ -1057,7 +1060,7 @@ Figure Figures::subplot(entier n, entier m, entier pos_)
   }
 
   tantque(pos > (entier) impl->subplots.size())
-    impl->subplots.push_back(Figure());
+    impl->subplots.push_back({});
 
   impl->pos = pos;
   retourne impl->subplots[pos-1];
@@ -1073,13 +1076,13 @@ Figure Figures::subplot(entier i)
   si(i < 0)
   {
     impl->n = impl->m  = -1;
-    impl->subplots.push_back(Figure());
+    impl->subplots.push_back({});
     impl->pos = impl->subplots.size();
     retourne impl->subplots.back();
   }
 
-  soit n = i / 100;
-  soit m = (i - 100 * n) / 10;
+  soit n   = i / 100;
+  soit m   = (i - 100 * n) / 10;
   soit pos = i % 10;
 
   retourne subplot(n, m, pos);
@@ -1115,10 +1118,10 @@ Figure::Courbe Figure::plot_minmax(const Vecf &x, const Vecf &y1, const Vecf &y2
 {
   Figure::Courbe res;
   res.impl = make_shared<Figure::Courbe::Impl>();
-  res.impl->x    = x;
-  res.impl->ymin = y1;
-  res.impl->ymax = y2;
-  res.impl->y = (y1 + y2) / 2;
+  res.impl->x     = x;
+  res.impl->ymin  = y1;
+  res.impl->ymax  = y2;
+  res.impl->y     = (y1 + y2) / 2;
   res.impl->trait = Trait::MINMAX;
 
   impl->courbes.push_back(res);
@@ -1217,7 +1220,7 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, const string &f
   si(format.empty())
   {
     entier nc = courbes.size();
-    vector<string> fdef = {"b-", "g-", "r-", "y-", "c-", "m-", "k-"};
+    static const vector<string> fdef = {"b-", "g-", "r-", "y-", "c-", "m-", "k-"};
     format = fdef[nc % 7];
   }
 
@@ -1262,7 +1265,7 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, const string &f
 
 
   struct CodeCouleur {char code; Couleur couleur;};
-  CodeCouleur codes[] =
+  static const CodeCouleur codes[] =
   {
       {'b', Couleur::BleuSombre},
       {'g', Couleur::VertSombre},
@@ -1305,7 +1308,7 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, const string &f
 
 
   struct CodeMarqueur {char code; Marqueur marqueur;};
-  CodeMarqueur codesm[] =
+  static const CodeMarqueur codesm[] =
   {
       {'o', Marqueur::CERCLE},
       {'*', Marqueur::ETOILE},

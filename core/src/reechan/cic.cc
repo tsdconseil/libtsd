@@ -111,12 +111,8 @@ FRat<float> design_cic(const CICConfig &config)
       "Design CIC: paramètres invalides (R={}, N={}, M={})", config.R, config.N, config.M);
 
   soit RM = config.R * config.M;
-  FRat<float> h;
-  h.numer.coefs = Vecf::ones(RM) / RM;
-
-  //msg("design_cic: N = {}, RM = {}, h1 = {}", config.N, RM, h);
-
-  retourne h.horner(FRat<float>::z().inv()).pow(config.N);
+  FRat<float> h{Vecf::ones(RM) / RM, Vecf::ones(1)};
+  retourne h.eval_inv_z().pow(config.N);
 }
 
 CICAnalyse cic_analyse(const CICConfig &config, float fe, float f1)
@@ -148,7 +144,6 @@ CICAnalyse cic_analyse(const CICConfig &config, float fe, float f1)
 
   msg("CIC analyse : R={}, fe={} Hz, fs={} Hz, f1={} Hz, idfs={}, idf1={}",
       R, fe, fs, f1, idfs, idf1);
-  //msg("lmag = {}", lmag);
 
 
   soit atten  = lmag(idfs),
@@ -163,7 +158,7 @@ CICAnalyse cic_analyse(const CICConfig &config, float fe, float f1)
   soit f      = fr.head(idfs);
   soit nrep = clamp((entier) floor((mag.rows() - idfs) / idfs), 0, 4);
 
-  Tabf m_alias = Tabf::zeros(idfs,nrep);
+  soit m_alias = Tabf::zeros(idfs,nrep);
   pour(auto i = 0; i < nrep; i++)
   {
     m_alias.col(i) = lmag.segment(idfs*(i+1), idfs);
@@ -218,7 +213,7 @@ CICAnalyse cic_analyse(const CICConfig &config, float fe, float f1)
 }
 
 
-
+// TODO: supprimer et remplacer directement par repfreq / frmag
 Vecf cic_freq(const CICConfig &config, const Vecf &f)
 {
   soit n   = f.rows(), RM  = config.R * config.M;
@@ -237,7 +232,6 @@ Vecf cic_freq(const CICConfig &config, const Vecf &f)
 CICComp design_cic_comp(const CICConfig &config, float fe, entier R2, float fc, entier ncoefs)
 {
   // Pour l'instant, R2 non utilisé !
-
   CICComp res;
   soit analyse = cic_analyse(config, fe, fc);
   soit R = config.R;
@@ -310,8 +304,8 @@ CICComp design_cic_comp(const CICConfig &config, float fe, entier R2, float fc, 
 
   f = res.fig_spectre_bf;
   f.clear();
-  f.plot(fr2,mag2db(fm2),"g-","CIC filter");
-  f.plot(frc*fs,mag2db(fmc),"m-","Compensation filter");
+  f.plot(fr2,mag2db(fm2), "g-", "CIC filter");
+  f.plot(frc*fs,mag2db(fmc), "m-","Compensation filter");
   soit fmaxz = 2 * fc;
   idx = trouve_premier(frg*fe > fmaxz);
   f.plot(frg.head(idx)*fe,mag2db(fmg.head(idx)),"b-","Global filter");

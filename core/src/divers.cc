@@ -33,8 +33,7 @@ double Dirichlet(entier N, double Ω)
   retourne sin((N+0.5)*Ω) / sin(Ω/2);
 }
 
-//   retourne sin((N+0.5)*x)/sin(x/2);
-
+#if 0
 // Implémentation naïve (coût quadratique)
 static Poly<float> Chebychev_T_rec(entier n)
 {
@@ -49,14 +48,14 @@ static Poly<float> Chebychev_T_rec(entier n)
   // Attention : pas très fin -> cout quadratique
   retourne 2.0f * z * Chebychev_T(n-1) - Chebychev_T(n-2);
 }
+#endif
 
-
-Poly<float> Chebychev_T(entier n)
+Poly<float> Chebychev_TU(entier n, bouléen espèce)
 {
   /** @brief polynome simple */
   soit z = Poly<float>::z;
   soit T0 = Poly<float>::one();
-  soit T1 = z;
+  soit T1 = (espèce == 1) ? z : 2.0f * z;
 
   si(n == 0)
     retourne T0;
@@ -73,18 +72,14 @@ Poly<float> Chebychev_T(entier n)
   retourne T1;
 }
 
+Poly<float> Chebychev_T(entier n)
+{
+  retourne Chebychev_TU(n, 1);
+}
+
 Poly<float> Chebychev_U(entier n)
 {
-  /** @brief polynome simple */
-  soit z = Poly<float>::z;
-
-  si(n == 0)
-    retourne Poly<float>::one();
-  sinon si(n == 1)
-    retourne 2.0f * z;
-
-  // Attention : pas très fin -> cout quadratique
-  retourne 2.0f * z * Chebychev_U(n-1) - Chebychev_U(n-2);
+  retourne Chebychev_TU(n, 2);
 }
 
 

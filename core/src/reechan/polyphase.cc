@@ -13,139 +13,139 @@ using namespace tsd::vue;
 namespace tsd::filtrage {
 
 
-  template<typename T>
-  TabT<T,2> forme_polyphase(const Vecteur<T> &x, unsigned int M)
+template<typename T>
+TabT<T,2> forme_polyphase(const Vecteur<T> &x, unsigned int M)
+{
+  soit n = x.rows();
+
+  si(n == 0)
+    retourne {};
+
+  soit r = n % M;
+  Vecteur<T> x2;
+  si(r != 0)
+    x2 = x | Vecteur<T>::zeros(M-r);
+  sinon
+    x2 = x.clone();
+  n = x2.rows();
+
+  // n / M = nb échantillons par canal
+  soit X = x2.reshape(M, n / M);
+
+  retourne X;
+  // Inversion des lignes
+  //retourne X.reverse_rows();
+}
+
+
+template<typename T>
+Vecteur<T> iforme_polyphase(const TabT<T,2> &x)
+{
+  retourne x.reshape(x.cols() * x.rows());
+}
+
+
+
+
+
+
+// Implémentation optimisée pour filtre demi-bande
+template<typename T, typename Tc>
+struct FiltreRIFDemiBande: FiltreGen<T>
+{
+  Vecteur<T> fenêtre;
+  Vecteur<Tc> coefs;
+  entier index = 0, K;
+  entier odd = 0, R = 2;
+
+  FiltreRIFDemiBande(const Vecteur<Tc> &c)
   {
-    soit n = x.rows();
-
-    si(n == 0)
-      retourne {};
-
-    soit r = n % M;
-    Vecteur<T> x2;
-    si(r != 0)
-      x2 = x | Vecteur<T>::zeros(M-r);
-    sinon
-      x2 = x.clone();
-    n = x2.rows();
-
-    // n / M = nb échantillons par canal
-    soit X = x2.reshape(M, n / M);
-
-    retourne X;
-    // Inversion des lignes
-    //retourne X.reverse_rows();
+    coefs = c;
+    K     = coefs.rows();
+    fenêtre = Vecteur<T>::zeros(K);
   }
 
-
-  template<typename T>
-  Vecteur<T> iforme_polyphase(const TabT<T,2> &x)
+  void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    retourne x.reshape(x.cols() * x.rows());
+    tsd_assert(K > 0);
+    soit n    = x.rows();
+    soit iptr = x.data();
+    soit optr = y.data();
+    si(iptr != optr)
+    {
+      y.resize((n + odd) / R);
+      optr = y.data();
+    }
+
+    pour(auto j = 0; j < n; j++)
+    {
+      soit cptr = coefs.data();
+
+      T somme = 0;
+
+      // La moitié des coefficients sont nuls.
+      // .... x3 x2 x1 x0
+      // -> y0 = x0 * h0 + x2 * h1 + ...
+      // -> y1 = x2 * h0 + ?
+
+      // Donc on n'utilise que le signal pair ?
+      // xpair   -> H0
+      // ximpair -> H1 (nul)
+
+      // Attention, 3 coefficients centrals non nuls puis zéros réguliérement.
+      // Disons filtre de type h0 0 h1 0 h2
+      //
+
+      // Remplace les deux plus ancien éléments
+      fenêtre(index) = *iptr++;
+      index = (index + 1) % K;
+
+      // Ne calcule qu'un échantillon sur R
+      si(odd < R - 1)
+      {
+        odd++;
+        continue;
+      }
+      odd = 0;
+
+      soit wptr = fenêtre.data() + index;
+
+      // Nombre d'échantillons à la fin de la ligne à retard
+      soit K1 = K - index;
+      // Nombre d'échantillons au début de la ligne à retard
+      soit K2 = K - K1;
+
+      entier i;
+      pour(i = 0; i < K1; i += 2) // 1 coefficient sur 2 du filtre est nul
+      {
+        somme += *wptr * *cptr;
+        wptr  += 2;
+        cptr  += 2;
+      }
+
+      i = i - K1;
+
+      // Redémarre au début de la ligne à retard
+      wptr = fenêtre.data() + i;
+      pour(; i < K2; i += 2)
+      {
+        somme += *wptr * *cptr;
+        wptr  += 2;
+        cptr  += 2;
+      }
+
+      // Coefficient central non nul = 0.5 (forcément)
+      somme += /*coefs(K/2)*/ 0.5f * fenêtre((index + K/2) % K);
+
+
+      /*  pour i = 0; i < N; i += R
+       * (fenêtre(index + i [N]) + fenêtre(index - 1 - i [N])) * coefs(i)
+       */
+
+      *optr++ = somme;
+    }
   }
-
-
-
-
-
-
-  // Implémentation optimisée pour filtre demi-bande
-  template<typename T, typename Tc>
-  struct FiltreRIFDemiBande: FiltreGen<T>
-  {
-    Vecteur<T> fenêtre;
-    Vecteur<Tc> coefs;
-    entier index = 0, K;
-    entier odd = 0, R = 2;
-
-    FiltreRIFDemiBande(const Vecteur<Tc> &c)
-    {
-      coefs = c;
-      K     = coefs.rows();
-      fenêtre = Vecteur<T>::zeros(K);
-    }
-
-    void step(const Vecteur<T> &x, Vecteur<T> &y)
-    {
-      tsd_assert(K > 0);
-      soit n    = x.rows();
-      soit iptr = x.data();
-      soit optr = y.data();
-      si(iptr != optr)
-      {
-        y.resize((n + odd) / R);
-        optr = y.data();
-      }
-
-      pour(auto j = 0; j < n; j++)
-      {
-        soit cptr = coefs.data();
-
-        T somme = 0;
-
-        // La moitié des coefficients sont nuls.
-        // .... x3 x2 x1 x0
-        // -> y0 = x0 * h0 + x2 * h1 + ...
-        // -> y1 = x2 * h0 + ?
-
-        // Donc on n'utilise que le signal pair ?
-        // xpair   -> H0
-        // ximpair -> H1 (nul)
-
-        // Attention, 3 coefficients centrals non nuls puis zéros réguliérement.
-        // Disons filtre de type h0 0 h1 0 h2
-        //
-
-        // Remplace les deux plus ancien éléments
-        fenêtre(index) = *iptr++;
-        index = (index + 1) % K;
-
-        // Ne calcule qu'un échantillon sur R
-        si(odd < R - 1)
-        {
-          odd++;
-          continue;
-        }
-        odd = 0;
-
-        soit wptr = fenêtre.data() + index;
-
-        // Nombre d'échantillons à la fin de la ligne à retard
-        soit K1 = K - index;
-        // Nombre d'échantillons au début de la ligne à retard
-        soit K2 = K - K1;
-
-        entier i;
-        pour(i = 0; i < K1; i += 2) // 1 coefficient sur 2 du filtre est nul
-        {
-          somme += *wptr * *cptr;
-          wptr  += 2;
-          cptr  += 2;
-        }
-
-        i = i - K1;
-
-        // Redémarre au début de la ligne à retard
-        wptr = fenêtre.data() + i;
-        pour(; i < K2; i += 2)
-        {
-          somme += *wptr * *cptr;
-          wptr  += 2;
-          cptr  += 2;
-        }
-
-        // Coefficient central non nul = 0.5 (forcément)
-        somme += /*coefs(K/2)*/ 0.5f * fenêtre((index + K/2) % K);
-
-
-        /*  pour i = 0; i < N; i += R
-         * (fenêtre(index + i [N]) + fenêtre(index - 1 - i [N])) * coefs(i)
-         */
-
-        *optr++ = somme;
-      }
-    }
-  };
+};
 
 
 

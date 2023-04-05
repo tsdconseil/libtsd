@@ -539,19 +539,19 @@ std::ostream& operator<<(std::ostream &ss, const BiquadSpec &t)
 FRat<float> design_biquad(const BiquadSpec &spec)
 {
   // Gain en amplitude
-  float A = sqrt(db2pow(spec.gain_dB));
+  soit A = sqrt(db2mag(spec.gain_dB));
 
   msg("design_biquad: {}", spec);
   msg("design_biquad: gain = {} dB -> A = {}", spec.gain_dB, A);
 
   // Pulsation
-  float ω = 2 * π * spec.f;
-  float sn = sin(ω), cs = cos(ω);
+  soit ω = 2 * π * spec.f;
+  soit sn = sin(ω), cs = cos(ω);
 
   // Facteur d'ammortissement
-  float α = sn / (2 * spec.Q);
+  soit α = sn / (2 * spec.Q);
   //float α = sn * sinh(0.5f * log(2.0f) * bw * omega);
-  float β = sqrt(2 * A);
+  soit β = sqrt(2 * A);
 
   float a0 = 1, a1 = 1, a2 = 1, b0 = 1, b1 = 1, b2 = 1;
 
@@ -573,7 +573,7 @@ FRat<float> design_biquad(const BiquadSpec &spec)
     a1 = -2 * cs;
     a2 = 1 - α;
     break;
-  case BiquadSpec::COUPE_BANDE:
+  case BiquadSpec::PASSE_BANDE:
     b0 = α;
     b1 = 0;
     b2 = -α;
@@ -581,7 +581,7 @@ FRat<float> design_biquad(const BiquadSpec &spec)
     a1 = -2 * cs;
     a2 = 1 - α;
     break;
-  case BiquadSpec::PASSE_BANDE:
+  case BiquadSpec::COUPE_BANDE:
     b0 = 1;
     b1 = -2 * cs;
     b2 = 1;

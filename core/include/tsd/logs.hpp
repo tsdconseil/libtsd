@@ -2,9 +2,10 @@
 #define CORE2_INCLUDE_TSD_LOGS_HPP_
 
 
+//#define FMT_HEADER_ONLY
 #include <fmt/core.h>
 #include <fmt/ostream.h>
-#include <fmt/color.h>
+//#include <fmt/color.h>
 #include <functional>
 #include <cassert>
 
@@ -37,11 +38,20 @@ extern void reset_logger();
 
 }
 
+#ifndef msg
+
+#define msg_verb(...)     tsd::msg_impl(__FILE__, __LINE__, 0, __PRETTY_FUNCTION__, __VA_ARGS__)
 #define msg(...)          tsd::msg_impl(__FILE__, __LINE__, 1, __PRETTY_FUNCTION__, __VA_ARGS__)
 #define msg_majeur(...)   tsd::msg_impl(__FILE__, __LINE__, 2, __PRETTY_FUNCTION__, __VA_ARGS__)
 #define msg_avert(...)    tsd::msg_impl(__FILE__, __LINE__, 3, __PRETTY_FUNCTION__, __VA_ARGS__)
 #define msg_erreur(...)   tsd::msg_impl(__FILE__, __LINE__, 4, __PRETTY_FUNCTION__, __VA_ARGS__)
+
+
+#endif
+
+#ifndef echec
 #define echec(...)        tsd::msg_impl(__FILE__, __LINE__, 5, __PRETTY_FUNCTION__, __VA_ARGS__)
+#endif
 
 /** @brief Display an error message in the log before asserting */
 #define tsd_assert_msg(AA, ...)  if(!(AA)) {tsd::msg_impl(__FILE__, __LINE__, 5, __PRETTY_FUNCTION__, __VA_ARGS__);}

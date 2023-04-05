@@ -10,32 +10,92 @@ namespace tsd::filtrage {
 
 
 template<typename T>
-  void plot_plz(tsd::vue::Figure &fig, const Vecteur<T> &h)
+  void plot_plz(tsd::vue::Figure &fig, const Vecteur<T> &h, bouléen cmap)
 {
-  plot_plz(fig, FRat<T>::rif(h));
+  plot_plz(fig, FRat<T>::rif(h), cmap);
 }
 
 
+
+
+
+
 template<typename T>
-void plot_plz(Figure &fig, const FRat<T> &h)
+void plot_plz(Figure &fig, const FRat<T> &h, bouléen cmap)
 {
   soit [zéros,pôles] = h.roots();
 
   fig.axes().set_isoview(oui);
-  fig.axes().get_config().grille_mineure.afficher = non;
+  soit &cfg = fig.axes().get_config();
+  cfg.grille_mineure.afficher = non;
+  si(cmap)
+  {
+    cfg.couleur_avant_plan = Couleur::Gris.eclaircir(0.5);
+    cfg.axe_horizontal.afficher = non;
+    cfg.axe_vertical.afficher   = non;
+  }
   fig.def_pos_legende("se");
   fig.def_rdi_min({-1.1, -1.1, 2.1, 2.1});
 
-  si(zéros.rows() > 0)
-    fig.plot_iq(zéros, "sb", "zéros");
-  si(pôles.rows() > 0)
-    fig.plot_iq(pôles, "sr", "pôles");
+
+  si(cmap)
+  {
+    soit nx = 101, ny = 101;
+    Tabf Z(nx,ny);
+
+    pour(auto ix = 0; ix < nx; ix++)
+    {
+      pour(auto iy = 0; iy < ny; iy++)
+      {
+        cfloat z;
+        z.real(-1.5+(3.0*ix)/nx);
+        z.imag(-1.5+(3.0*iy)/ny);
+        Z(ix,iy) = abs(h.horner(z));
+      }
+    }
+
+    // Gain = +/- 10 dB par rapport à 0 dB
+    // Soit [0,1 - 10]
+    // [max-10 dB, max]
+
+    Z = Z.cwiseMax(0.001f);
+    Z = Z.cwiseMin(1000.0f);
+    Z = log10(Z); // -> [-3, 3]
+    Z = (Z + 3) / 6; // [0, 1]
+
+    /*Z = Z.cwiseMax(0.01f);
+    Z = Z.cwiseMin(100.0f);
+    Z = log10(Z); // -> [-2, 2]
+    Z = (Z + 2) / 4; // [0, 1]
+    */
+
+    fig.canva_pre().plot_cmap(Z, {-1.5, -1.5, 3.0, 3.0}, cmap_parse("pm"));
+    //fig.plot_img({-1.5, -1.5, 3.0, 3.0}, Z, "mono");
+  }
+
+  string cz = "b", cp = "r";
+
+  si(cmap)
+  {
+    cz = "w";
+    cp = "y";
+  }
+
+  si(!cmap)
+  {
+    si(zéros.rows() > 0)
+      fig.plot_iq(zéros, "s" + cz, "zéros");
+    si(pôles.rows() > 0)
+      fig.plot_iq(pôles, "s" + cp, "pôles");
+  }
+
 
   soit c = fig.canva_pre();
   soit gris = Couleur{200,200,200,128};
   c.set_couleur(gris);
   c.set_epaisseur(3);
-  c.set_remplissage(oui, Couleur::/*Vert*/Jaune.eclaircir(0.05));
+  si(!cmap)
+    c.set_remplissage(oui, Couleur::Jaune.eclaircir(0.05));
   c.cercle(0, 0, 1.0);
   c.set_remplissage(non);
   c.set_epaisseur(1);
@@ -45,7 +105,6 @@ void plot_plz(Figure &fig, const FRat<T> &h)
     c.cercle(0, 0, k);
   }
   c.set_align(Align::CENTRE, Align::CENTRE);
-  //c.set_couleur()
   pour(auto θ = 0.0; θ <= 315; θ += 45)
   {
     Pointf p{cos(deg2rad(θ)), sin(deg2rad(θ))};
@@ -55,8 +114,6 @@ void plot_plz(Figure &fig, const FRat<T> &h)
     p2.y *= 1.15;
     c.texte(p2, fmt::format("{}°", (int) θ));
   }
-
-  //fig.titre("Pôles et zéros");
 }
 
 
@@ -170,6 +227,6 @@ Figures plot_filtre(const FRat<T> &h, bouléen complet, float fe)
 
 template Figures plot_filtre(const FRat<float> &h, bouléen, float fe);
 template Figures plot_filtre(const FRat<cfloat> &h, bouléen, float fe);
-template void plot_plz(tsd::vue::Figure &fig, const Vecteur<float> &h);
+template void plot_plz(tsd::vue::Figure &fig, const Vecteur<float> &h, bouléen cmap);
 
 }

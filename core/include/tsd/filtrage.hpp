@@ -377,11 +377,11 @@ cfloat repfreq(const Vecteur<T> &h, float fr)
  *  @image html filtrage-plz.png width=600px
  *  */
 template<typename T>
-  void plot_plz(tsd::vue::Figure &fig, const FRat<T> &h);
+  void plot_plz(tsd::vue::Figure &fig, const FRat<T> &h, bouléen cmap = non);
 
 
 template<typename T>
-  void plot_plz(tsd::vue::Figure &fig, const Vecteur<T> &h);
+  void plot_plz(tsd::vue::Figure &fig, const Vecteur<T> &h, bouléen cmap = non);
 
 
 /** @brief Réponse en amplitude d'un filtre RIF symétrique ou anti-symétrique (phase linéaire).
@@ -545,7 +545,7 @@ struct BiquadSpec
   enum Type
   {
     /** @brief Passe-bas */
-    PASSE_BAS,
+    PASSE_BAS = 0,
     /** @brief Passe-haut */
     PASSE_HAUT,
     /** @brief Passe-bande */
@@ -567,7 +567,7 @@ struct BiquadSpec
    *  Non utilisé pour low et high shelf. */
   float Q;
 
-  /** @brief Utilisé uniquement pour les filtres à résonnance, et shelf. */
+  /** @brief Utilisé uniquement pour les filtres à résonnance, et plateau. */
   float gain_dB = 1;
 };
 
@@ -1086,6 +1086,10 @@ struct Fréquence
   Fréquence(float v):value(v){}
   operator float() const {return value;}
 };
+
+
+/** @brief Fonction de transfert d'une moyenne glissante d'ordre K */
+extern FRat<float> design_mg(int K);
 
 /** @brief Fonction de transfert d'un filtre exponentiel (d'après la fréquence de coupure)
  *

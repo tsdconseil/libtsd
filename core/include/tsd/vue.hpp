@@ -131,6 +131,7 @@ struct ConfigAxes
 
   /** @brief Background color */
   Couleur couleur_arriere_plan = Couleur{255,255,255};
+  Couleur couleur_avant_plan = Couleur{0,0,0};
 
   //bouléen affiche_cartouche_legende  = oui;
 
@@ -147,7 +148,8 @@ struct ConfigAxes
         NORD_EST = 0,
         SUD_EST,
         SUD_OUEST,
-        NORD_OUEST
+        NORD_OUEST,
+        AUCUNE
       } type = NORD_EST;
 
       operator std::string() const;
@@ -318,7 +320,10 @@ struct Canva
   void remplissage_vertical(float x0, float y0, float x1, float y1, float y2, float y3);
   void dessine_accu(const Veccf &pts);
   void def_image_fond(Image img);
+  // TODO : décrire différence entre dessine_img et plot_cmap...
   void dessine_img(float x0, float y0, float y1, float y2, Image img);
+  void plot_cmap(const Tabf &Z, const Rectf &rdi, sptr<CMap> cmap);
+
   void marqueur(const Pointf &p, Marqueur m, float dim_pixels);
   void get_pixel_size(float &width, float &heigth);
   /** @brief Coordonnées pixel vers unités */

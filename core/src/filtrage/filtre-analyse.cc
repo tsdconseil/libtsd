@@ -299,6 +299,7 @@ Vecf repimp(const FRat<T> &h, entier npts)
 
   // si T = complexe, la réponse est forcément complexe !!!
 
+# if 0
   si constexpr (est_complexe<T>())
   {
     soit x = sigimp(npts);
@@ -309,12 +310,10 @@ Vecf repimp(const FRat<T> &h, entier npts)
 
   }
   sinon
+# endif
   {
     soit x = sigimp(npts);
     soit y = filtrer(h, x);
-
-    //msg("repimp: {} -> {}", x, y);
-
     tantque((y.rows() > 1) && (abs(y(y.rows()-1)) < abs(y).moyenne() * 0.01))
       y = y.head(y.rows()-1).clone();
     retourne real(y);

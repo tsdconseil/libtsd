@@ -40,7 +40,7 @@ int64_t tic_μs(bouléen monotonique = oui)
   retourne (int64_t) ((tick.QuadPart-base_tick.QuadPart)*1000.0*1000.0 / frequency.QuadPart);
 # elif USE_STD_CLOCK
   retourne clock() * (1e6 / CLOCKS_PER_SEC);
-# sinon
+# else
   struct timespec ts;
   clock_gettime(monotonique ? CLOCK_MONOTONIC : CLOCK_THREAD_CPUTIME_ID, &ts);
   retourne ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3;
