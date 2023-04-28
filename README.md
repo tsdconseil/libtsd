@@ -34,8 +34,8 @@ int main()
     f.save("./lp-filter.png");
     
     let n = 500;
-    let x = sigcos(0.01, n) + 0.1 * randn(n);
-    let y = filter(h, x);
+    let x = sigcos(0.01, n) + 0.1 * randn(n),
+        y = filter(h, x);
     
     f.clear();
     f.plot(x, "b-", "Noisy signal");
@@ -70,8 +70,8 @@ int main()
     f.enregistrer("./filtre.png");
     
     soit n = 500;
-    soit x = sigcos(0.01, n) + 0.1 * randn(n);
-    soit y = filtrer(h, x);
+    soit x = sigcos(0.01, n) + 0.1 * randn(n),
+         y = filtrer(h, x);
     
     f.clear();
     f.plot(x, "b-", "Signal bruité");
