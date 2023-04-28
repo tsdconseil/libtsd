@@ -8,6 +8,7 @@ Libtsd provides functions in C++ for digital signal processing, with the followi
 
  - English documentation: https://tsdconseil.github.io/libtsd/en
  - Documentation en français : https://tsdconseil.github.io/libtsd/fr
+ - Installation instructions: https://tsdconseil.github.io/libtsd/en/pageinstall.html
  - Graphical demonstrator: (will soon be provided)
 
 # Simple example (english API)
