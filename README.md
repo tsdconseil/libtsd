@@ -6,7 +6,7 @@ Libtsd provides functions in C++ for digital signal processing, with the followi
 
 # Simple example (english API)
 
-```
+```cpp
 #include "dsp/dsp-all.hpp"
 
 int main()
@@ -42,7 +42,7 @@ int main()
 
 # Simple example (french API)
 
-```
+```cpp
 #include "tsd/tsd-all.hpp"
 
 int main()
