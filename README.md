@@ -4,6 +4,79 @@ Libtsd provides functions in C++ for digital signal processing, with the followi
   - A clear distinction between API (header files) and implementation (source files). 
   - A multilanguage API (english using dsp/dsp.hpp, french using tsd/tsd.hpp)
 
+# Simple example (english API)
+
+```
+#include "dsp/dsp-all.hpp"
+
+int main()
+{
+  {
+    // Example 1: simple plot
+    Figure f;
+    let x = linspace(0, 8 * π, 100);
+    f.plot(x, cos(x));
+    f.save("./cosinus.png");
+  }
+  {
+    // Example 2: filter design
+    let h = design_fir_wnd(31, "lp", 0.25);
+    
+    Figure f;
+    f.plot(h, "|o", "impulse response");
+    f.save("./lp-filter.png");
+    
+    let n = 500;
+    let x = sigcos(0.01, n) + 0.1 * randn(n);
+    let y = filter(h, x);
+    
+    f.clear();
+    f.plot(x, "b-", "Noisy signal");
+    f.plot(y, "r-", "Filtered signal");
+    f.save("./filtering.png");
+  }
+  
+}
+
+```
+
+# Simple example (french API)
+
+```
+#include "tsd/tsd-all.hpp"
+
+int main()
+{
+  {
+    // Exemple 1 : tracé simple
+    Figure f;
+    soit x = linspace(0, 8 * π, 100);
+    f.plot(x, cos(x));
+    f.enregistrer("./cosinus.png");
+  }
+  {
+    // Exemple 2 : conception de filtre
+    soit h = design_rif_fen(31, "pb", 0.25);
+    
+    Figure f;
+    f.plot(h, "|o", "réponse impulsionnelle");
+    f.enregistrer("./filtre.png");
+    
+    soit n = 500;
+    soit x = sigcos(0.01, n) + 0.1 * randn(n);
+    soit y = filtrer(h, x);
+    
+    f.clear();
+    f.plot(x, "b-", "Signal bruité");
+    f.plot(y, "r-", "Signal filtré");
+    f.enregistrer("./filtrage.png");
+  }
+  
+}
+
+```
+
+
 # Resources
 
  - English documentation: https://tsdconseil.github.io/libtsd/en
