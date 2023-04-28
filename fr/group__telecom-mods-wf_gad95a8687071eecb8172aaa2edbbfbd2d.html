@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_gad95a8687071ee
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1telecom_1_1_forme_onde.html">FormeOnde</a>&gt; tsd::telecom::forme_onde_fsk </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1telecom_1_1_forme_onde.html">FormeOnde</a>&gt; tsd::telecom::forme_onde_fsk </td>
           <td>(</td>
           <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>M</em> = <code>2</code>, </td>
@@ -157,22 +157,22 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_gad95a8687071ee
 </dl>
 <dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// 2-FSK, indice de modulation = 4</span></div>
-<div class="line">  <span class="keyword">auto</span> w = <a class="code" href="group__telecom-mods-wf_gad95a8687071eecb8172aaa2edbbfbd2d.html#gad95a8687071eecb8172aaa2edbbfbd2d">forme_onde_fsk</a>(2, 4);</div>
+<div class="line">  soit w = <a class="code" href="group__telecom-mods-wf_gad95a8687071eecb8172aaa2edbbfbd2d.html#gad95a8687071eecb8172aaa2edbbfbd2d">forme_onde_fsk</a>(2, 4);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 16 bits aléatoires</span></div>
-<div class="line">  <span class="keyword">auto</span> bs = randstream(16);</div>
+<div class="line">  soit bs = randstream(16);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Fréquence d&#39;échantillonnage  = 10 kHz</span></div>
 <div class="line">  <span class="comment">// Fréquence intermédiaire      = 500 Hz</span></div>
 <div class="line">  <span class="comment">// Fréquence symbole            = 0.1 kHz</span></div>
 <div class="line">  <span class="comment">// -&gt; Déviation = fsymb * h / 2 = 200 Hz</span></div>
-<div class="line">  <span class="keyword">auto</span> mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>({w, 10e3, 500, 0.1e3});</div>
+<div class="line">  soit mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>({w, 10e3, 500, 0.1e3});</div>
 <div class="line"> </div>
-<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line">  soit x = mod-&gt;step(bs);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hbo&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
-<div class="line">  f.subplot().plot(x.real(), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Modulation FSK&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(x), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Modulation FSK&quot;</span>);</div>
 <div class="line">  f.subplot().plot_psd(x, 10e3);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__telecom-mods-wf_gad95a8687071eecb8172aaa2edbbfbd2d_html_gad95a8687071eecb8172aaa2edbbfbd2d"><div class="ttname"><a href="group__telecom-mods-wf_gad95a8687071eecb8172aaa2edbbfbd2d.html#gad95a8687071eecb8172aaa2edbbfbd2d">tsd::telecom::forme_onde_fsk</a></div><div class="ttdeci">sptr&lt; FormeOnde &gt; forme_onde_fsk(unsigned int M=2, float index=0.4, const SpecFiltreMiseEnForme &amp;filtre=SpecFiltreMiseEnForme::nrz())</div><div class="ttdoc">Création d'une forme d'onde FSK.</div></div>
@@ -191,7 +191,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_gad95a8687071ee
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods-wf.html">Formes d&#39;ondes</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

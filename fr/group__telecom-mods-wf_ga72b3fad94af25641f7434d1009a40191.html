@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga72b3fad94af25
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1telecom_1_1_forme_onde.html">FormeOnde</a>&gt; tsd::telecom::forme_onde_psk </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1telecom_1_1_forme_onde.html">FormeOnde</a>&gt; tsd::telecom::forme_onde_psk </td>
           <td>(</td>
           <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
@@ -148,10 +148,10 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga72b3fad94af25
 <dl class="section warning"><dt>Avertissement</dt><dd>\(M\) doit être une puissance de 2.</dd></dl>
 <dl class="section user"><dt>Exemple 1 : tracé de quelques constellations PSK</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  Figures f;</div>
-<div class="line">  <span class="keywordflow">for</span>(<span class="keyword">auto</span> M: {2, 4, 8, 16})</div>
+<div class="line">  pour(<span class="keyword">auto</span> M: {2, 4, 8, 16})</div>
 <div class="line">  {</div>
-<div class="line">    <span class="keyword">auto</span> w = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(M);</div>
-<div class="line">    <span class="keyword">auto</span> constel = w-&gt;constellation();</div>
+<div class="line">    soit w = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(M);</div>
+<div class="line">    soit constel = w-&gt;constellation();</div>
 <div class="line">    f.subplot().plot_iq(constel, <span class="stringliteral">&quot;o&quot;</span>, w-&gt;desc());</div>
 <div class="line">  }</div>
 <div class="line"> </div>
@@ -162,14 +162,14 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga72b3fad94af25
 Exemples de formes d'ondes PSK : BPSK, QPSK, 8PSK, 16PSK</div></div>
 </dd></dl>
 <dl class="section user"><dt>Exemple 2 : Taux d'erreur binaires théoriques</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> w2 = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(2);</div>
-<div class="line">  <span class="keyword">auto</span> w4 = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(4);</div>
-<div class="line">  <span class="keyword">auto</span> w8 = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(8);</div>
+<div class="line">  soit w2 = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(2),</div>
+<div class="line">       w4 = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(4),</div>
+<div class="line">       w8 = <a class="code" href="group__telecom-mods-wf_ga72b3fad94af25641f7434d1009a40191.html#ga72b3fad94af25641f7434d1009a40191">forme_onde_psk</a>(8);</div>
 <div class="line"> </div>
-<div class="line">  ArrayXf EbN0 = <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(-2, 15, 20);</div>
-<div class="line">  ArrayXf ber2  = w2-&gt;ber(EbN0);</div>
-<div class="line">  ArrayXf ber4  = w4-&gt;ber(EbN0);</div>
-<div class="line">  ArrayXf ber8  = w8-&gt;ber(EbN0);</div>
+<div class="line">  soit EbN0 = <a class="code" href="group__tsd-gen_ga80957cb1bfeb043dfa61f4849d2dab46.html#ga80957cb1bfeb043dfa61f4849d2dab46">linspace</a>(-2, 15, 20);</div>
+<div class="line">  soit ber2  = w2-&gt;ber(EbN0),</div>
+<div class="line">       ber4  = w4-&gt;ber(EbN0),</div>
+<div class="line">       ber8  = w8-&gt;ber(EbN0);</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(EbN0, ber2, <span class="stringliteral">&quot;-ob&quot;</span>, <span class="stringliteral">&quot;bpsk&quot;</span>);</div>
@@ -178,7 +178,7 @@ Exemples de formes d'ondes PSK : BPSK, QPSK, 8PSK, 16PSK</div></div>
 <div class="line">  f.titres(<span class="stringliteral">&quot;BER théorique PSK&quot;</span>, <span class="stringliteral">&quot;Eb/N0&quot;</span>, <span class="stringliteral">&quot;Taux d&#39;erreur binaire&quot;</span>);</div>
 <div class="line">  f.axes().def_echelle(<span class="stringliteral">&quot;lin&quot;</span>, <span class="stringliteral">&quot;log&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:928</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga80957cb1bfeb043dfa61f4849d2dab46_html_ga80957cb1bfeb043dfa61f4849d2dab46"><div class="ttname"><a href="group__tsd-gen_ga80957cb1bfeb043dfa61f4849d2dab46.html#ga80957cb1bfeb043dfa61f4849d2dab46">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, entier n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:907</div></div>
 </div><!-- fragment --><div class="image">
 <img src="waveform-psk2.png" alt="" width="800px"/>
 <div class="caption">
@@ -194,7 +194,7 @@ Taux d'erreur binaire</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods-wf.html">Formes d&#39;ondes</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

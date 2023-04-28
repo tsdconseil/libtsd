@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_ga910b5c9cfb3efdcc
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1telecom_1_1_d_xC3_xA9modulateur.html">Démodulateur</a>&gt; tsd::telecom::démodulateur_création </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1telecom_1_1_d_xC3_xA9modulateur.html">Démodulateur</a>&gt; tsd::telecom::démodulateur_création </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structtsd_1_1telecom_1_1_mod_config.html">ModConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>modconfig</em>, </td>
@@ -193,18 +193,18 @@ Démodulation bande de base - architecture basée sur la décision</div></div>
 <dl class="section user"><dt>Exemple : démodulation QPSK</dt><dd><div class="fragment"><div class="line">  <span class="comment">// QPSK demodulator (NRZ matched filter),</span></div>
 <div class="line">  <span class="comment">// sampling frequency = 1 MHz, IF = 200 KHz, FSYMB = 20 KHz</span></div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> wf = <a class="code" href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">forme_onde_qpsk</a>(<a class="code" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#ade0567b3c8300e63cb0a477dba0a60a1">SpecFiltreMiseEnForme::rcs</a>(0.25));</div>
+<div class="line">  soit wf = <a class="code" href="group__telecom-mods-wf_ga1f04b6504ee95df5e89426658680eefe.html#ga1f04b6504ee95df5e89426658680eefe">forme_onde_qpsk</a>(<a class="code" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#ade0567b3c8300e63cb0a477dba0a60a1">SpecFiltreMiseEnForme::rcs</a>(0.25));</div>
 <div class="line"> </div>
 <div class="line">  ModConfig mconfig{wf, 100e3, 0, 20e3};</div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> demod = <a class="code" href="group__telecom-mods_ga910b5c9cfb3efdcc2bc9ebec396ae4f5.html#ga910b5c9cfb3efdcc2bc9ebec396ae4f5">démodulateur_création</a>(mconfig);</div>
+<div class="line">  soit demod = <a class="code" href="group__telecom-mods_ga910b5c9cfb3efdcc2bc9ebec396ae4f5.html#ga910b5c9cfb3efdcc2bc9ebec396ae4f5">démodulateur_création</a>(mconfig);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Create a modulator to simulate RF signal</span></div>
-<div class="line">  <span class="keyword">auto</span> mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>(mconfig);</div>
+<div class="line">  soit mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>(mconfig);</div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> bs = randstream(100);</div>
-<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line">  soit bs = randstream(100);</div>
+<div class="line">  soit x = mod-&gt;step(bs);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Proceed to demodulation</span></div>
 <div class="line">  BitStream bs2;</div>
@@ -234,7 +234,7 @@ Exemples de démodulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods.html">Modulations numériques</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

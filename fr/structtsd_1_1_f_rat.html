@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>libtsd: Référence du modèle de la structure tsd::FRat&lt; T &gt;</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">libtsd
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="pageinstall.html"><span>Installation</span></a></li>
+      <li><a href="pagelicence.html"><span>Licence</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('structtsd_1_1_f_rat.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Fonctions membres publiques</a> &#124;
+<a href="#pub-static-methods">Fonctions membres publiques statiques</a> &#124;
+<a href="structtsd_1_1_f_rat-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence du modèle de la structure tsd::FRat&lt; T &gt;<div class="ingroups"><a class="el" href="group__filtrage.html">Filtrage linéaire</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Fraction rationnelle polynomiale, avec coefficients réels ou complexes.  
+ <a href="structtsd_1_1_f_rat.html#details">Plus de détails...</a></p>
+
+<p><code>#include &lt;<a class="el" href="frat_8hpp_source.html">tsd/filtrage/frat.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Fonctions membres publiques</h2></td></tr>
+<tr class="memitem:a319e4c1ffeaebb1877d09d48f48080d8"><td class="memItemLeft" align="right" valign="top"><a id="a319e4c1ffeaebb1877d09d48f48080d8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a319e4c1ffeaebb1877d09d48f48080d8">FRat</a> (const VT &amp;x)</td></tr>
+<tr class="memdesc:a319e4c1ffeaebb1877d09d48f48080d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur, d'après un vecteur de coefficients (filtre RIF). <br /></td></tr>
+<tr class="separator:a319e4c1ffeaebb1877d09d48f48080d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f1824bacc4dcbf512cb9ceb63240204"><td class="memItemLeft" align="right" valign="top"><a id="a4f1824bacc4dcbf512cb9ceb63240204"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a4f1824bacc4dcbf512cb9ceb63240204">FRat</a> ()</td></tr>
+<tr class="memdesc:a4f1824bacc4dcbf512cb9ceb63240204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur par défaut. <br /></td></tr>
+<tr class="separator:a4f1824bacc4dcbf512cb9ceb63240204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28dc1d9767ea35fe2b31b9d7422cf111"><td class="memItemLeft" align="right" valign="top"><a id="a28dc1d9767ea35fe2b31b9d7422cf111"></a>
+<a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a28dc1d9767ea35fe2b31b9d7422cf111">developpe</a> () const</td></tr>
+<tr class="memdesc:a28dc1d9767ea35fe2b31b9d7422cf111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Développement des numérateur et dénominateur sous la forme de polynômes définis par leurs coefficients. <br /></td></tr>
+<tr class="separator:a28dc1d9767ea35fe2b31b9d7422cf111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10855723a5d4e6f8b0acac6b11243679"><td class="memItemLeft" align="right" valign="top"><a id="a10855723a5d4e6f8b0acac6b11243679"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a10855723a5d4e6f8b0acac6b11243679">real</a> () const</td></tr>
+<tr class="memdesc:a10855723a5d4e6f8b0acac6b11243679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extraction de la partie réelle des numérateurs et dénominateurs (attention ce n'est pas la partie réelle de la fraction !). <br /></td></tr>
+<tr class="separator:a10855723a5d4e6f8b0acac6b11243679"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2b48c77031ff5fb286f6ffd8af79835"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat_ab2b48c77031ff5fb286f6ffd8af79835.html#ab2b48c77031ff5fb286f6ffd8af79835">eval_inv_z</a> () const</td></tr>
+<tr class="memdesc:ab2b48c77031ff5fb286f6ffd8af79835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de \(H(z^{-1})\).  <a href="structtsd_1_1_f_rat_ab2b48c77031ff5fb286f6ffd8af79835.html#ab2b48c77031ff5fb286f6ffd8af79835">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ab2b48c77031ff5fb286f6ffd8af79835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a551e38604e4ab00ef0fe74afdfd76af3"><td class="memTemplParams" colspan="2">template&lt;typename Trep &gt; </td></tr>
+<tr class="memitem:a551e38604e4ab00ef0fe74afdfd76af3"><td class="memTemplItemLeft" align="right" valign="top">Trep&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat_a551e38604e4ab00ef0fe74afdfd76af3.html#a551e38604e4ab00ef0fe74afdfd76af3">horner</a> (Trep x) const</td></tr>
+<tr class="memdesc:a551e38604e4ab00ef0fe74afdfd76af3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluation d'une fraction rationnelle.  <a href="structtsd_1_1_f_rat_a551e38604e4ab00ef0fe74afdfd76af3.html#a551e38604e4ab00ef0fe74afdfd76af3">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a551e38604e4ab00ef0fe74afdfd76af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7811f20dbc4e1535e0aeb2514d2f2aeb"><td class="memItemLeft" align="right" valign="top"><a id="a7811f20dbc4e1535e0aeb2514d2f2aeb"></a>
+<a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a7811f20dbc4e1535e0aeb2514d2f2aeb">operator+</a> (const <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt; &amp;s) const</td></tr>
+<tr class="memdesc:a7811f20dbc4e1535e0aeb2514d2f2aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Addition de deux fractions rationnelles. <br /></td></tr>
+<tr class="separator:a7811f20dbc4e1535e0aeb2514d2f2aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c39ad9ef3e2251adc595268054c5bfa"><td class="memItemLeft" align="right" valign="top"><a id="a1c39ad9ef3e2251adc595268054c5bfa"></a>
+<a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a1c39ad9ef3e2251adc595268054c5bfa">operator-</a> (const <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt; &amp;s) const</td></tr>
+<tr class="memdesc:a1c39ad9ef3e2251adc595268054c5bfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Soustraction de deux fractions rationnelles. <br /></td></tr>
+<tr class="separator:a1c39ad9ef3e2251adc595268054c5bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7062c9784ca9298d3723396437a97190"><td class="memItemLeft" align="right" valign="top"><a id="a7062c9784ca9298d3723396437a97190"></a>
+<a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a7062c9784ca9298d3723396437a97190">operator*</a> (const <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt; &amp;s) const</td></tr>
+<tr class="memdesc:a7062c9784ca9298d3723396437a97190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produit de deux fractions rationnelles. <br /></td></tr>
+<tr class="separator:a7062c9784ca9298d3723396437a97190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09307009bd555dbb4a7ac44938aea1c0"><td class="memItemLeft" align="right" valign="top"><a id="a09307009bd555dbb4a7ac44938aea1c0"></a>
+<a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a09307009bd555dbb4a7ac44938aea1c0">operator/</a> (const <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt; &amp;s) const</td></tr>
+<tr class="memdesc:a09307009bd555dbb4a7ac44938aea1c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Division de deux fractions rationnelles. <br /></td></tr>
+<tr class="separator:a09307009bd555dbb4a7ac44938aea1c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d3d87083de6adaf35115bb38b62147f"><td class="memItemLeft" align="right" valign="top"><a id="a3d3d87083de6adaf35115bb38b62147f"></a>
+<a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#a3d3d87083de6adaf35115bb38b62147f">pow</a> (unsigned int n) const</td></tr>
+<tr class="memdesc:a3d3d87083de6adaf35115bb38b62147f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de \(H^N(z)\). <br /></td></tr>
+<tr class="separator:a3d3d87083de6adaf35115bb38b62147f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb4b182cd1a258afa6ddb2c7054d84bd"><td class="memItemLeft" align="right" valign="top"><a id="aeb4b182cd1a258afa6ddb2c7054d84bd"></a>
+<a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html#aeb4b182cd1a258afa6ddb2c7054d84bd">inv</a> () const</td></tr>
+<tr class="memdesc:aeb4b182cd1a258afa6ddb2c7054d84bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcul de \(1/H(z)\). <br /></td></tr>
+<tr class="separator:aeb4b182cd1a258afa6ddb2c7054d84bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Fonctions membres publiques statiques</h2></td></tr>
+<tr class="memitem:a6261579d1348aa37cc8b3e7976a598d9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat_a6261579d1348aa37cc8b3e7976a598d9.html#a6261579d1348aa37cc8b3e7976a598d9">z</a> ()</td></tr>
+<tr class="memdesc:a6261579d1348aa37cc8b3e7976a598d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renvoie le monôme \(z\).  <a href="structtsd_1_1_f_rat_a6261579d1348aa37cc8b3e7976a598d9.html#a6261579d1348aa37cc8b3e7976a598d9">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a6261579d1348aa37cc8b3e7976a598d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b3ddd6e38ecd5f7eef9868e48cdd168"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat_a0b3ddd6e38ecd5f7eef9868e48cdd168.html#a0b3ddd6e38ecd5f7eef9868e48cdd168">rif</a> (const VT &amp;a)</td></tr>
+<tr class="memdesc:a0b3ddd6e38ecd5f7eef9868e48cdd168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction rationnelle d'un filtre RIF.  <a href="structtsd_1_1_f_rat_a0b3ddd6e38ecd5f7eef9868e48cdd168.html#a0b3ddd6e38ecd5f7eef9868e48cdd168">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a0b3ddd6e38ecd5f7eef9868e48cdd168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a592540cd223672b0ac4cf801bb47f1a8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat_a592540cd223672b0ac4cf801bb47f1a8.html#a592540cd223672b0ac4cf801bb47f1a8">rii</a> (const <a class="el" href="group__tsd.html#ga8bb8cd44ef45e269cf7f9b0b2276e81a">Vecteur</a>&lt; T &gt; &amp;a, const <a class="el" href="group__tsd.html#ga8bb8cd44ef45e269cf7f9b0b2276e81a">Vecteur</a>&lt; T &gt; &amp;b)</td></tr>
+<tr class="memdesc:a592540cd223672b0ac4cf801bb47f1a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction rationnelle d'un filtre RII.  <a href="structtsd_1_1_f_rat_a592540cd223672b0ac4cf801bb47f1a8.html#a592540cd223672b0ac4cf801bb47f1a8">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a592540cd223672b0ac4cf801bb47f1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><h3>template&lt;typename T = float&gt;<br />
+struct tsd::FRat&lt; T &gt;</h3>
+
+<p>La fraction peut être représentée sous forme coefficients : </p><p class="formulaDsp">
+\[ H(z) = \frac{a_{K-1} + a_{K-2} z + ... a_0 z^{K-1}}{b_{L-1} + b_{L-2} z + ... b_0 z^{L-1}} \]
+</p>
+<p> ou racines : </p><p class="formulaDsp">
+\[ H(z) = G\cdot\frac{\prod z - z_i}{\prod z - p_i} \]
+</p>
+ </div><hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
+<li>tsd/filtrage/<a class="el" href="frat_8hpp_source.html">frat.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><a class="el" href="structtsd_1_1_f_rat.html">FRat</a></li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gaee9662187ec76
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtsd_1_1_f_rat.html">FRat</a>&lt;float&gt; tsd::filtrage::design_bloqueur_dc </td>
+          <td class="memname"><a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt;float&gt; tsd::filtrage::design_bloqueur_dc </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>fc</em></td><td>)</td>
@@ -127,28 +127,40 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gaee9662187ec76
 </div><div class="memdoc">
 <h3>Fonction de transfert bloqueur DC</h3>
 <p>Calcul de la fonction de transfert suivante : </p><p class="formulaDsp">
-\[ H(z) = \frac{1 - z^{-1}}{1 - \alpha \cdot z^{-1}} \]
+\[ H(z) = r \cdot\frac{1 - z}{1 - r \cdot z} \]
 </p>
 <p> Avec </p><p class="formulaDsp">
-\[ \alpha = \frac{\sqrt{3} - 2 \sin(\pi f_c)}{\sin(\pi f_c) + \sqrt{3} \cos(\pi f_c)} \]
+\[ r = 1 - \gamma \]
 </p>
+<p> Et \(\gamma\) étant calculé de la même manière que pour un filtre exponentiel</p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fc</td><td>Fréquence de coupure normalisée (0 - 0,5)</td></tr>
+    <tr><td class="paramname">fc</td><td><a class="el" href="structtsd_1_1filtrage_1_1_fr_xC3_xA9quence.html" title="Fréquence normalisée (rapport entre une fréquence et la fréquence d&#39;échantillonnage).">Fréquence</a> de coupure normalisée à -3 dB en magnitude (-6 dB en énergie)</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">    <span class="keywordtype">float</span> fc = 0.01;</div>
-<div class="line">    <span class="keyword">auto</span> h = <a class="code" href="group__filtrage-design_gaee9662187ec764b730aa155fbeb22c97.html#gaee9662187ec764b730aa155fbeb22c97">design_bloqueur_dc</a>(fc);</div>
-<div class="line">    <span class="keyword">auto</span> f = <a class="code" href="group__filtrage-analyse_ga76b23c3f40ede495161e487fcc857797.html#ga76b23c3f40ede495161e487fcc857797">affiche_filtre</a>(h);</div>
-<div class="line">    f.afficher();</div>
-<div class="ttc" id="agroup__filtrage-analyse_ga76b23c3f40ede495161e487fcc857797_html_ga76b23c3f40ede495161e487fcc857797"><div class="ttname"><a href="group__filtrage-analyse_ga76b23c3f40ede495161e487fcc857797.html#ga76b23c3f40ede495161e487fcc857797">tsd::filtrage::affiche_filtre</a></div><div class="ttdeci">tsd::vue::Figures affiche_filtre(const FRat&lt; T &gt; &amp;h, float fe=1.0f)</div><div class="ttdoc">Affichage des réponses impulsionnelles et fréquentielles d'un filtre.</div></div>
+<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">    soit fc = 0.01f;</div>
+<div class="line">    soit h = <a class="code" href="group__filtrage-design_gaee9662187ec764b730aa155fbeb22c97.html#gaee9662187ec764b730aa155fbeb22c97">design_bloqueur_dc</a>(fc);</div>
+<div class="line">    msg(<span class="stringliteral">&quot;Bloqueur DC : {}&quot;</span>, h);</div>
+<div class="line"> </div>
+<div class="line">    msg(<span class="stringliteral">&quot;num = {}, den = {}&quot;</span>, h.numer, h.denom);</div>
+<div class="line"> </div>
+<div class="line">    h.simplifier();</div>
+<div class="line">    msg(<span class="stringliteral">&quot;simp: {}&quot;</span>, h);</div>
+<div class="line">    msg(<span class="stringliteral">&quot;ncn num = {}, den = {}&quot;</span>, h.numer.nb_coefs_nuls(), h.denom.nb_coefs_nuls());</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">    export_filtre_figs(h, <span class="stringliteral">&quot;./res/filtres/dc/dc&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// soit f = plot_filtre(h, non);</span></div>
+<div class="line">    <span class="comment">// f.afficher();</span></div>
+<div class="line">    <span class="comment">// msg(&quot;Enregistrement...&quot;);</span></div>
 <div class="ttc" id="agroup__filtrage-design_gaee9662187ec764b730aa155fbeb22c97_html_gaee9662187ec764b730aa155fbeb22c97"><div class="ttname"><a href="group__filtrage-design_gaee9662187ec764b730aa155fbeb22c97.html#gaee9662187ec764b730aa155fbeb22c97">tsd::filtrage::design_bloqueur_dc</a></div><div class="ttdeci">FRat&lt; float &gt; design_bloqueur_dc(float fc)</div><div class="ttdoc">Fonction de transfert pour un bloqueur DC.</div></div>
 </div><!-- fragment --><div class="image">
 <img src="bloqueur-dc-resp.png" alt="" width="1000px"/>
 </div>
 </dd></dl>
-<dl class="section user"><dt>Bibliographie</dt><dd><em>The DC Blocking Filter,</em> J.M. de Freitas, 2007</dd></dl>
+<dl class="section user"><dt>Bibliographie</dt><dd>Stein, <em>Digital signal processing</em>, 2000, page 301s</dd></dl>
 <dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__filtrage-tr_ga13497c95beaca4e47e6edb8d5cbbd24f.html#ga13497c95beaca4e47e6edb8d5cbbd24f" title="Filtre pour la suppression du DC (basses fréquences).">filtre_dc()</a> </dd></dl>
 
 </div>
@@ -159,7 +171,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gaee9662187ec76
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Design de filtres</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:57 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

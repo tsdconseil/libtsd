@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__kalman_gabca2a22443f281ab6a3e2c
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1kalman_1_1_s_s_m.html">SSM</a>&gt; tsd::kalman::modele_kitagawa </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1kalman_1_1_s_s_m.html">SSM</a>&gt; tsd::kalman::modele_kitagawa </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -132,16 +132,16 @@ $(document).ready(function(){initNavTree('group__kalman_gabca2a22443f281ab6a3e2c
 <p class="formulaDsp">
 \[ g(x) = x^2/20 \]
 </p>
-<dl class="section user"><dt>Exemple :</dt><dd><div class="fragment"><div class="line">  <span class="keyword">auto</span> sys = <a class="code" href="group__kalman_gabca2a22443f281ab6a3e2cb4f55ddbef.html#gabca2a22443f281ab6a3e2cb4f55ddbef">modele_kitagawa</a>();</div>
+<dl class="section user"><dt>Exemple :</dt><dd><div class="fragment"><div class="line">  soit sys = <a class="code" href="group__kalman_gabca2a22443f281ab6a3e2cb4f55ddbef.html#gabca2a22443f281ab6a3e2cb4f55ddbef">modele_kitagawa</a>();</div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> [x,y] = sys-&gt;steps(100);</div>
+<div class="line">  soit [x,y] = sys-&gt;steps(100);</div>
 <div class="line"> </div>
-<div class="line">  <a class="code" href="group__kalman_gad08eb4bec93982362cb9a867615f807a.html#gad08eb4bec93982362cb9a867615f807a">plot_obs</a>(sys, y).afficher();</div>
-<div class="line">  <a class="code" href="group__kalman_ga0d736be0749d28bf8c7be2c9ee405cd9.html#ga0d736be0749d28bf8c7be2c9ee405cd9">plot_etats</a>(sys, x).afficher();</div>
+<div class="line">  <a class="code" href="group__kalman_gaf20cabab6f4d19435b56b507a31f4381.html#gaf20cabab6f4d19435b56b507a31f4381">plot_obs</a>(sys, y).afficher();</div>
+<div class="line">  <a class="code" href="group__kalman_ga9ef352e7fe48178131bfd1d3803c594c.html#ga9ef352e7fe48178131bfd1d3803c594c">plot_etats</a>(sys, x).afficher();</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__kalman_ga0d736be0749d28bf8c7be2c9ee405cd9_html_ga0d736be0749d28bf8c7be2c9ee405cd9"><div class="ttname"><a href="group__kalman_ga0d736be0749d28bf8c7be2c9ee405cd9.html#ga0d736be0749d28bf8c7be2c9ee405cd9">tsd::kalman::plot_etats</a></div><div class="ttdeci">tsd::vue::Figures plot_etats(sptr&lt; const SSM &gt; ssm, const ArrayXXf &amp;x, const ArrayXXf &amp;xe=ArrayXXf())</div><div class="ttdoc">Affichage d'une séquence d'états.</div></div>
+<div class="ttc" id="agroup__kalman_ga9ef352e7fe48178131bfd1d3803c594c_html_ga9ef352e7fe48178131bfd1d3803c594c"><div class="ttname"><a href="group__kalman_ga9ef352e7fe48178131bfd1d3803c594c.html#ga9ef352e7fe48178131bfd1d3803c594c">tsd::kalman::plot_etats</a></div><div class="ttdeci">tsd::vue::Figures plot_etats(sptr&lt; const SSM &gt; ssm, const Tabf &amp;x, const Tabf &amp;xe=Tabf())</div><div class="ttdoc">Affichage d'une séquence d'états.</div></div>
 <div class="ttc" id="agroup__kalman_gabca2a22443f281ab6a3e2cb4f55ddbef_html_gabca2a22443f281ab6a3e2cb4f55ddbef"><div class="ttname"><a href="group__kalman_gabca2a22443f281ab6a3e2cb4f55ddbef.html#gabca2a22443f281ab6a3e2cb4f55ddbef">tsd::kalman::modele_kitagawa</a></div><div class="ttdeci">sptr&lt; SSM &gt; modele_kitagawa()</div><div class="ttdoc">Modèle non linéaire de Kitagawa.</div></div>
-<div class="ttc" id="agroup__kalman_gad08eb4bec93982362cb9a867615f807a_html_gad08eb4bec93982362cb9a867615f807a"><div class="ttname"><a href="group__kalman_gad08eb4bec93982362cb9a867615f807a.html#gad08eb4bec93982362cb9a867615f807a">tsd::kalman::plot_obs</a></div><div class="ttdeci">tsd::vue::Figures plot_obs(sptr&lt; const SSM &gt; sys, const ArrayXXf &amp;y)</div><div class="ttdoc">Affichage d'une séquence d'observations.</div></div>
+<div class="ttc" id="agroup__kalman_gaf20cabab6f4d19435b56b507a31f4381_html_gaf20cabab6f4d19435b56b507a31f4381"><div class="ttname"><a href="group__kalman_gaf20cabab6f4d19435b56b507a31f4381.html#gaf20cabab6f4d19435b56b507a31f4381">tsd::kalman::plot_obs</a></div><div class="ttdeci">tsd::vue::Figures plot_obs(sptr&lt; const SSM &gt; sys, const Tabf &amp;y)</div><div class="ttdoc">Affichage d'une séquence d'observations.</div></div>
 </div><!-- fragment --> <div class="image">
 <img src="modele-kitagawa-obs.png" alt="" width="800px"/>
 </div>
@@ -149,7 +149,7 @@ $(document).ready(function(){initNavTree('group__kalman_gabca2a22443f281ab6a3e2c
 <img src="modele-kitagawa-etat.png" alt="" width="800px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__kalman_ga74a2c52e597b80f141160a572318b071.html#ga74a2c52e597b80f141160a572318b071" title="Marche aléatoire.">modele_marche_aleatoire()</a>, <a class="el" href="group__kalman_ga2538ea389516043e19124db840f1e10d.html#ga2538ea389516043e19124db840f1e10d" title="Le système en représentation d&#39;état le plus simple : une valeur constante.">modele_constante()</a>, <a class="el" href="group__kalman_ga6048710d5bfa6351fc5c37d91913af4b.html#ga6048710d5bfa6351fc5c37d91913af4b" title="Modèle générique IMU (Inertial Measuring Unit).">modele_imu()</a></dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__kalman_ga0a2a3ebb3496dc7a4c3389587cfd6f92.html#ga0a2a3ebb3496dc7a4c3389587cfd6f92" title="Marche aléatoire.">modele_marche_aleatoire()</a>, <a class="el" href="group__kalman_ga2538ea389516043e19124db840f1e10d.html#ga2538ea389516043e19124db840f1e10d" title="Le système en représentation d&#39;état le plus simple : une valeur constante.">modele_constante()</a>, <a class="el" href="group__kalman_ga6048710d5bfa6351fc5c37d91913af4b.html#ga6048710d5bfa6351fc5c37d91913af4b" title="Modèle générique IMU (Inertial Measuring Unit).">modele_imu()</a></dd></dl>
 <dl class="section user"><dt>Références</dt><dd>G. Kitagawa, Monte Carlo filter and smoother for non-Gaussian non-linear state space models, J. Comput. Graph. Statist., vol. 5, no. 1, pp. 1–25, 1996. </dd></dl>
 
 </div>
@@ -160,7 +160,7 @@ $(document).ready(function(){initNavTree('group__kalman_gabca2a22443f281ab6a3e2c
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__kalman.html">Filtrage de Kalman</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -196,15 +196,15 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gaf3b64868b4eb2
 <div class="line">  Figures f;</div>
 <div class="line">  <span class="keywordflow">for</span>(<span class="keyword">auto</span> type: {<span class="stringliteral">&quot;butt&quot;</span>, <span class="stringliteral">&quot;cheb1&quot;</span>, <span class="stringliteral">&quot;cheb2&quot;</span>, <span class="stringliteral">&quot;ellip&quot;</span>})</div>
 <div class="line">  {</div>
-<div class="line">    <span class="keyword">auto</span> h = design_riia(10, <span class="stringliteral">&quot;lp&quot;</span>, type, 0.25, 1, 60);</div>
-<div class="line">    <span class="keyword">auto</span> [fr, xm] = <a class="code" href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">frmag</a>(h);</div>
+<div class="line">    soit h = design_riia(10, <span class="stringliteral">&quot;lp&quot;</span>, type, 0.25, 1, 60);</div>
+<div class="line">    soit [fr, xm] = <a class="code" href="group__filtrage-analyse_gac51a99ecb95d86d6441dcbeaa86720a9.html#gac51a99ecb95d86d6441dcbeaa86720a9">frmag</a>(h);</div>
 <div class="line"> </div>
-<div class="line">    f.subplot().plot(fr, 20 * log10(xm), <span class="stringliteral">&quot;b-&quot;</span>, type);</div>
-<div class="line">    <span class="comment">// Pour pouvoir comparer les réponses entre elles</span></div>
+<div class="line">    f.subplot().plot(fr, mag2db(xm), <span class="stringliteral">&quot;b-&quot;</span>, type);</div>
+<div class="line">    <span class="comment">// pour pouvoir comparer les réponses entre elles</span></div>
 <div class="line">    f.gcf().def_rdi({0, -100, 0.5, 100});</div>
 <div class="line">  }</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26_html_ga9d800b2c1bc4d55b004507cf55d23f26"><div class="ttname"><a href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">dsp::filter::frmag</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; frmag(const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</div><div class="ttdoc">Magnitude of a FIR or IIR filter.</div><div class="ttdef"><b>Definition:</b> filter.hpp:236</div></div>
+<div class="ttc" id="agroup__filtrage-analyse_gac51a99ecb95d86d6441dcbeaa86720a9_html_gac51a99ecb95d86d6441dcbeaa86720a9"><div class="ttname"><a href="group__filtrage-analyse_gac51a99ecb95d86d6441dcbeaa86720a9.html#gac51a99ecb95d86d6441dcbeaa86720a9">dsp::filter::frmag</a></div><div class="ttdeci">std::tuple&lt; Vecf, Vecf &gt; frmag(const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</div><div class="ttdoc">Magnitude of a FIR or IIR filter.</div><div class="ttdef"><b>Definition:</b> filter.hpp:232</div></div>
 </div><!-- fragment --><div class="image">
 <img src="design-riia.png" alt="" width="800px"/>
 </div>
@@ -219,7 +219,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_gaf3b64868b4eb2
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Linear filter design</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Mon Dec 19 2022 09:48:56 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

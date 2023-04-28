@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['σ_5fnoise_980',['σ_noise',['../structdsp_1_1fourier_1_1_detection.html#a7dd5b94f752cd4ab70e82a9329c14cfb',1,'dsp::fourier::Detection']]]
+  ['θ_998',['θ',['../structdsp_1_1fourier_1_1_detection.html#a3afcc62358694d7df4e8ee14a587815e',1,'dsp::fourier::Detection::θ()'],['../structdsp_1_1geo_1_1_cardan.html#aa3afb74e9cb26c7b295c3e3f759df120',1,'dsp::geo::Cardan::θ()']]]
 ];

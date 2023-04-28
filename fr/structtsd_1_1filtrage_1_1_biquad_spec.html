@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('structtsd_1_1filtrage_1_1_biquad_spec.
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Types publics</h2></td></tr>
 <tr class="memitem:a8ee6d399fd9c61d6821519b2f23d4b60"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec_a8ee6d399fd9c61d6821519b2f23d4b60.html#a8ee6d399fd9c61d6821519b2f23d4b60">Type</a> { <br />
-&#160;&#160;<a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec_a8ee6d399fd9c61d6821519b2f23d4b60.html#a8ee6d399fd9c61d6821519b2f23d4b60a3d4ceb971c5ccc5c88430d882ebfdc8e">PASSE_BAS</a>
+&#160;&#160;<a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec_a8ee6d399fd9c61d6821519b2f23d4b60.html#a8ee6d399fd9c61d6821519b2f23d4b60a3d4ceb971c5ccc5c88430d882ebfdc8e">PASSE_BAS</a> = 0
 , <a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec_a8ee6d399fd9c61d6821519b2f23d4b60.html#a8ee6d399fd9c61d6821519b2f23d4b60ace4c2d03121239e01b187879805f8623">PASSE_HAUT</a>
 , <a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec_a8ee6d399fd9c61d6821519b2f23d4b60.html#a8ee6d399fd9c61d6821519b2f23d4b60ae36ef5619c048e6972a3a2c2422603e4">PASSE_BANDE</a>
 , <a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec_a8ee6d399fd9c61d6821519b2f23d4b60.html#a8ee6d399fd9c61d6821519b2f23d4b60a65f760506852d43ebc20b192154587ec">COUPE_BANDE</a>
@@ -144,7 +144,7 @@ Types publics</h2></td></tr>
 Attributs publics</h2></td></tr>
 <tr class="memitem:a728138ff6d1eefe9b6e4ce786c1378e8"><td class="memItemLeft" align="right" valign="top"><a id="a728138ff6d1eefe9b6e4ce786c1378e8"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec.html#a728138ff6d1eefe9b6e4ce786c1378e8">f</a></td></tr>
-<tr class="memdesc:a728138ff6d1eefe9b6e4ce786c1378e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fréquence de coupure (ou centrale) normalisée (entre 0 et 0,5). <br /></td></tr>
+<tr class="memdesc:a728138ff6d1eefe9b6e4ce786c1378e8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structtsd_1_1filtrage_1_1_fr_xC3_xA9quence.html" title="Fréquence normalisée (rapport entre une fréquence et la fréquence d&#39;échantillonnage).">Fréquence</a> de coupure (ou centrale) normalisée (entre 0 et 0,5). <br /></td></tr>
 <tr class="separator:a728138ff6d1eefe9b6e4ce786c1378e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8450c4ecd46b084ffc49cbabd86ae432"><td class="memItemLeft" align="right" valign="top"><a id="a8450c4ecd46b084ffc49cbabd86ae432"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec.html#a8450c4ecd46b084ffc49cbabd86ae432">Q</a></td></tr>
@@ -152,7 +152,7 @@ float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str
 <tr class="separator:a8450c4ecd46b084ffc49cbabd86ae432"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25fad5ad573459b602a2c1420455bc35"><td class="memItemLeft" align="right" valign="top"><a id="a25fad5ad573459b602a2c1420455bc35"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec.html#a25fad5ad573459b602a2c1420455bc35">gain_dB</a> = 1</td></tr>
-<tr class="memdesc:a25fad5ad573459b602a2c1420455bc35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utilisé uniquement pour les filtres à résonnance, et shelf. <br /></td></tr>
+<tr class="memdesc:a25fad5ad573459b602a2c1420455bc35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utilisé uniquement pour les filtres à résonnance, et plateau. <br /></td></tr>
 <tr class="separator:a25fad5ad573459b602a2c1420455bc35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
@@ -164,7 +164,7 @@ float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><b>filtrage</b></li><li class="navelem"><a class="el" href="structtsd_1_1filtrage_1_1_biquad_spec.html">BiquadSpec</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

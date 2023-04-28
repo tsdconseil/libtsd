@@ -114,61 +114,58 @@ $(document).ready(function(){initNavTree('pageinstall.html',''); initResizable()
 <div class="title">Installation </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>La librairie est écrite en C++17, et requiert une version de GCC &gt;= 10.2.0.</p>
+<div class="textblock"><p>The library is written in C++20, and has the following requirements:</p><ul>
+<li>GCC (with G++ frontend), version &gt;= 10.2.0,</li>
+<li>libfmt, version &gt;= 8.0.0</li>
+<li>libpng-dev</li>
+<li>libfreetype6-dev</li>
+<li>libeigen3-dev, version &gt;= 3.0.0</li>
+</ul>
 <h1><a class="anchor" id="inst-ubu"></a>
-Installation pour Ubuntu 20.04</h1>
-<h2><a class="anchor" id="inst-ubu-pre"></a>
-Prérequis obligatoires</h2>
-<div class="fragment"><div class="line">sudo apt-get install gcc g++ make pkg-config libfmt-dev libeigen3-dev</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Si vous avez déjà GCC installé, il faut vérifier qu'il est au moins en version 9.3.0, sinon il faut le mettre à jour.</dd></dl>
-<h2><a class="anchor" id="inst-ubu-opt"></a>
-Prérequis optionnels</h2>
-<p>Et si vous souhaitez pouvoir générer des graphiques : </p><div class="fragment"><div class="line">sudo apt-get install libpng-dev libfreetype6-dev</div>
-</div><!-- fragment --><p>Et si de plus vous souhaitez pouvoir les visualiser en temps réel : </p><div class="fragment"><div class="line">sudo apt-get install libgtkmm-3.0-dev</div>
-</div><!-- fragment --><h2><a class="anchor" id="inst-ubu-comp"></a>
-Compilation et installation de libtsd</h2>
-<dl class="section note"><dt>Note</dt><dd>Au moment de la configuration, le logiciel cmake devrait détecter automatiquement si libpng, libfreetype, et libgtkmm-3.0-dev sont disponibles, et, le cas échéant, activer la possibilté de générer des graphiques.</dd></dl>
-<div class="fragment"><div class="line">git clone tsdconseil/libtsd</div>
-<div class="line">mkdir build</div>
-<div class="line">cd build</div>
-<div class="line">cmake ../libtsd</div>
-<div class="line">make -j 8</div>
-<div class="line">sudo make install</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>To enable the autotests, add the following option to the cmake command: -DBUILD_TESTS</dd></dl>
-<h1><a class="anchor" id="inst-win"></a>
-Installation pour Windows 10 (avec MSYS 2)</h1>
-<h2><a class="anchor" id="inst-win-pre"></a>
-Prérequis obligatoires</h2>
+Installation of dependencies for Ubuntu 22.04</h1>
+<p>To install the required dependencies, you can use the following command:</p>
+<div class="fragment"><div class="line">sudo apt-get install gcc g++ make pkg-config libfmt-dev libeigen3-dev libpng-dev libfreetype6-dev</div>
+</div><!-- fragment --><h1><a class="anchor" id="inst-win"></a>
+Installation of dependencies for Windows 10/11 (with MSYS 2)</h1>
 <ul>
-<li>Télécharger et installer l'environnement MSYS2, disponible à l'adresse suivante : <a href="https://www.msys2.org/">https://www.msys2.org/</a> (sélectionner la version 64 bits).</li>
-<li>Dans le dossier c:/msys64, lancer le programme "mingw64.exe"</li>
-<li>Exécuter : <div class="fragment"><div class="line">pacman -Syu</div>
+<li>Download and install the MSYS2 environnement, available at the following url: <a href="https://www.msys2.org/">https://www.msys2.org/</a> (select the 64 bits version).</li>
+<li>In the folder c:/msys64, launch the program "mingw64.exe"</li>
+<li>In this terminal, execute the following command: <div class="fragment"><div class="line">pacman -Syu</div>
 </div><!-- fragment --></li>
-<li>Fermer le terminal, et en ouvrir un nouveau (mingw64.exe)</li>
-<li>Exécuter la commande suivante : <div class="fragment"><div class="line">pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-make mingw-w64-x86_64-pkg-config mingw-w64-x86_64-eigen3 mingw-w64-x86_64-fmt</div>
+<li>Close the terminal, and open again another one (mingw64.exe)</li>
+<li>In this terminal, execute the following command: <div class="fragment"><div class="line">pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-make mingw-w64-x86_64-pkg-config mingw-w64-x86_64-eigen3 mingw-w64-x86_64-fmt mingw-w64-x86_64-freetype mingw-w64-x86_64-libpng</div>
 </div><!-- fragment --></li>
 </ul>
-<h2><a class="anchor" id="inst-win-opt"></a>
-Prérequis optionnels</h2>
-<p>Et si vous souhaitez pouvoir générer et visualiser des graphiques : </p><div class="fragment"><div class="line">pacman -S mingw-w64-x86_64-freetype mingw-w64-x86_64-libpng</div>
-</div><!-- fragment --><p>Et si de plus vous souhaitez pouvoir les visualiser en temps réel : </p><div class="fragment"><div class="line">pacman -S mingw-w64-x86_64-gtkmm3</div>
-</div><!-- fragment --><h2><a class="anchor" id="inst-win-comp"></a>
-Compilation et installation de libtsd</h2>
-<div class="fragment"><div class="line">git clone tsdconseil/libtsd</div>
-<div class="line">mkdir build</div>
-<div class="line">cmake ../libtsd</div>
+<h1><a class="anchor" id="inst-comp"></a>
+Compilation and installation of the library (Linux &amp; Windows)</h1>
+<p>In a terminal (standard terminal for Linux, MSYS terminal for windows), exectute the following commands: </p><div class="fragment"><div class="line">git clone tsdconseil/libtsd</div>
+<div class="line">cd libtsd</div>
 <div class="line">make -j 8</div>
 <div class="line">sudo make install</div>
 </div><!-- fragment --><h1><a class="anchor" id="inst-use"></a>
 Veryfing installation</h1>
-<p>Si vous avez activés l'option BUILD_TESTS du cmake (voir plus haut), vous pouvez exécuter le programme d'auto-tests, nonmmé libtsd-test. </p>
+<p>In the exemples folder, you can find an example file (example.cc). To compile, use the following command: </p><div class="fragment"><div class="line">cd libtsd/exemples</div>
+<div class="line">make</div>
+</div><!-- fragment --><p> A file named example.exe should have been created (note that the .exe extension is here just for Windows system compatibity: it is here also in Linux, but useless). Then, you can run it: </p><div class="fragment"><div class="line">./example.exe</div>
+</div><!-- fragment --><p> A PNG image file with a plot should have been created: cosinus.png. You can reuse the compilation options from the Makefile in your own program (see section below).</p>
+<h1><a class="anchor" id="inst-autotests"></a>
+Compiling and running autotests</h1>
+<div class="fragment"><div class="line">cd libtsd</div>
+<div class="line">make TESTS=1 -j 8</div>
+<div class="line">./build/debug/tests.exe</div>
+</div><!-- fragment --><h1><a class="anchor" id="inst-own-prg"></a>
+Using the library</h1>
+<p>The following compiling and linking options must be added to your makefile: </p><div class="fragment"><div class="line">CXXFLAGS = -g -march=native -fPIC -std=c++2a `pkg-config --cflags eigen3` -I/usr/local/include</div>
+<div class="line">LDFLAGS  = -ltsd -lfreetype -lpng -lz -lfmt -L/usr/local/lib -fopenmp</div>
+</div><!-- fragment --><p>Then, in your C++ file, just add the following line at the beginning: </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;dsp/dsp-all.hpp&gt;</span></div>
+</div><!-- fragment --><p> The dsp, <a class="el" href="namespacedsp_1_1fourier.html" title="Signal transformations: FFT, CQT, ...">dsp::fourier</a> and dsp::filter namespaces are then made available. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:05 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:07 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

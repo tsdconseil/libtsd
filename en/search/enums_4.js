@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['pedtype_1010',['PedType',['../group__telecom-crec.html#gad674c92c04654ffa9efd62db5d104396',1,'dsp::telecom']]]
+  ['tedtype_1027',['TedType',['../group__telecom-crec.html#ga8143a70798ec3fbc8ac8ee6998316f9f',1,'dsp::telecom']]],
+  ['type_1028',['Type',['../structdsp_1_1telecom_1_1_shaping_filter_spec_ae907d863ad978902ad5746d91b07b989.html#ae907d863ad978902ad5746d91b07b989',1,'dsp::telecom::ShapingFilterSpec']]]
 ];

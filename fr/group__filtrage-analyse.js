@@ -1,13 +1,14 @@
 var group__filtrage_analyse =
 [
-    [ "affiche_filtre", "group__filtrage-analyse_ga76b23c3f40ede495161e487fcc857797.html#ga76b23c3f40ede495161e487fcc857797", null ],
-    [ "analyse_filtre", "group__filtrage-analyse_ga861f564afd23637762d3298c4f7b5ade.html#ga861f564afd23637762d3298c4f7b5ade", null ],
-    [ "frgroup", "group__filtrage-analyse_ga8fe3e05a296824c93aa1e849278bf618.html#ga8fe3e05a296824c93aa1e849278bf618", null ],
-    [ "frmag", "group__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf.html#ga4323e861c058a011302a37d836d9f2cf", null ],
-    [ "frphase", "group__filtrage-analyse_gaa57adccfda76bdb0ccbee38492465b3f.html#gaa57adccfda76bdb0ccbee38492465b3f", null ],
-    [ "plot_plz", "group__filtrage-analyse_ga791243c17b31d519960634c92d8f7ebb.html#ga791243c17b31d519960634c92d8f7ebb", null ],
-    [ "repfreq", "group__filtrage-analyse_ga85ea3af6dcc263069867d982d2ad8fce.html#ga85ea3af6dcc263069867d982d2ad8fce", null ],
-    [ "repimp", "group__filtrage-analyse.html#ga70d2c5c18351c42716edb51f30d81bf6", null ],
-    [ "rif_delais", "group__filtrage-analyse_gacb989e50ae1bf216efc1cafe1b38cb0b.html#gacb989e50ae1bf216efc1cafe1b38cb0b", null ],
-    [ "rifamp", "group__filtrage-analyse_gab887c1452d96aa2d3ae904dfb81ac83d.html#gab887c1452d96aa2d3ae904dfb81ac83d", null ]
+    [ "analyse_LIT", "group__filtrage-analyse_ga7eb30ba3974fe4d708e2e0015798448d.html#ga7eb30ba3974fe4d708e2e0015798448d", null ],
+    [ "frgroup", "group__filtrage-analyse_ga24a2c208af94ea882fb8efb2acab72b6.html#ga24a2c208af94ea882fb8efb2acab72b6", null ],
+    [ "frmag", "group__filtrage-analyse_ga863529bdc8dfe78d91b1f2d70a7444cf.html#ga863529bdc8dfe78d91b1f2d70a7444cf", null ],
+    [ "frphase", "group__filtrage-analyse_gaf49a6eee1a4ed1bda2c3d11f8aab501c.html#gaf49a6eee1a4ed1bda2c3d11f8aab501c", null ],
+    [ "plot_filtre", "group__filtrage-analyse_gac2fc123f2b00e7ff48a7543357c3c7d1.html#gac2fc123f2b00e7ff48a7543357c3c7d1", null ],
+    [ "plot_plz", "group__filtrage-analyse_ga6a48ff5082da3d52496dfcac8d0bd78c.html#ga6a48ff5082da3d52496dfcac8d0bd78c", null ],
+    [ "repfreq", "group__filtrage-analyse_ga28bd73047dc6220f494d788a964936d9.html#ga28bd73047dc6220f494d788a964936d9", null ],
+    [ "repimp", "group__filtrage-analyse.html#ga89486ffa1b16b7379c44a6697277dfec", null ],
+    [ "rif_delais", "group__filtrage-analyse_ga47f5496e718a2a54749b0a27820792f4.html#ga47f5496e718a2a54749b0a27820792f4", null ],
+    [ "rifamp", "group__filtrage-analyse_gaa96688ceff82dd8511290e5d03f829f7.html#gaa96688ceff82dd8511290e5d03f829f7", null ],
+    [ "type_rif", "group__filtrage-analyse.html#ga0f8be6c4076eb2580f004bde72200e19", null ]
 ];

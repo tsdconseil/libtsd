@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['rayleigh_1025',['RAYLEIGH',['../group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#gga54026a7d1121da81388781553bcd3acba180559a33b5f3ea5e81e432ea4fc842b',1,'dsp::telecom']]],
-  ['rice_1026',['RICE',['../group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#gga54026a7d1121da81388781553bcd3acba50d033843db4489d807b90f41ec41fd4',1,'dsp::telecom']]]
+  ['srrc_1041',['SRRC',['../structdsp_1_1telecom_1_1_shaping_filter_spec_ae907d863ad978902ad5746d91b07b989.html#ae907d863ad978902ad5746d91b07b989afbfc5fd53b1036a97a4a03e325d9e373',1,'dsp::telecom::ShapingFilterSpec']]]
 ];

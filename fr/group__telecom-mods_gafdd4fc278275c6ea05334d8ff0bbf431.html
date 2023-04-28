@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gafdd4fc278275c6ea
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1telecom_1_1_r_xC3_xA9cepteur.html">Récepteur</a>&gt; tsd::telecom::récepteur_création </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1telecom_1_1_r_xC3_xA9cepteur.html">Récepteur</a>&gt; tsd::telecom::récepteur_création </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structtsd_1_1telecom_1_1_r_xC3_xA9cepteur_config.html">RécepteurConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>rc</em></td><td>)</td>
@@ -148,7 +148,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gafdd4fc278275c6ea
 <dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  <span class="comment">// Configuration de l&#39;émetteur</span></div>
 <div class="line"><span class="comment"></span>  ÉmetteurConfig ec;</div>
 <div class="line">  <span class="comment">// En-tête de synchonisation (13 bits)</span></div>
-<div class="line">  ec.format.entete = <a class="code" href="group__telecom-codes-synchro_gac224dbfb7737da9e87fe235857a29d40.html#gac224dbfb7737da9e87fe235857a29d40">code_Barker</a>(13);</div>
+<div class="line">  ec.format.entete = <a class="code" href="group__telecom-codes-synchro_ga38d457b3af227405f652217add2d081c.html#ga38d457b3af227405f652217add2d081c">code_Barker</a>(13);</div>
 <div class="line">  <span class="comment">// Nombre de bits utiles</span></div>
 <div class="line">  ec.format.nbits  = 16;</div>
 <div class="line">  <span class="comment">// Facteur de sur-échantillonnage = 8</span></div>
@@ -158,33 +158,32 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gafdd4fc278275c6ea
 <div class="line">  ec.format.modulation.forme_onde = <a class="code" href="group__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5.html#ga1a54a4e979c98d41008a0f598e148cf5">forme_onde_bpsk</a>(<a class="code" href="structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme.html#ade0567b3c8300e63cb0a477dba0a60a1">SpecFiltreMiseEnForme::rcs</a>(0.6));</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Instanciation de l&#39;émetteur</span></div>
-<div class="line">  <span class="keyword">auto</span> tx = <a class="code" href="group__telecom-mods_ga86867c89c28de87b0e37a504b008cd1d.html#ga86867c89c28de87b0e37a504b008cd1d">émetteur_création</a>(ec);</div>
+<div class="line">  soit tx = <a class="code" href="group__telecom-mods_ga86867c89c28de87b0e37a504b008cd1d.html#ga86867c89c28de87b0e37a504b008cd1d">émetteur_création</a>(ec);</div>
 <div class="line"> </div>
 <div class="line">  RécepteurConfig rc;</div>
 <div class="line">  rc.format = ec.format;</div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> rx = <a class="code" href="group__telecom-mods_gafdd4fc278275c6ea05334d8ff0bbf431.html#gafdd4fc278275c6ea05334d8ff0bbf431">récepteur_création</a>(rc);</div>
+<div class="line">  soit rx = <a class="code" href="group__telecom-mods_gafdd4fc278275c6ea05334d8ff0bbf431.html#gafdd4fc278275c6ea05334d8ff0bbf431">récepteur_création</a>(rc);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 16 bits alternés (101010...)</span></div>
-<div class="line">  <span class="keyword">auto</span> data = <a class="code" href="classtsd_1_1telecom_1_1_bit_stream.html#a1dad22eeffaa5acaf6e226ec3a185a09">BitStream::altern</a>(16);</div>
+<div class="line">  soit data = <a class="code" href="classtsd_1_1telecom_1_1_bit_stream.html#adc6e6a9b8faa01e1017be415ad5368be">BitStream::altern</a>(16);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Emission d&#39;une trame</span></div>
-<div class="line">  ArrayXcf iq = tx-&gt;step(data);</div>
+<div class="line">  soit iq = tx-&gt;step(data);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Note : flush du signal (car le récepteur réagit avec du retard)</span></div>
-<div class="line">  <span class="keyword">auto</span> trames = rx-&gt;step(iq | ArrayXcf::Zero(2000));</div>
+<div class="line">  soit trames = rx-&gt;step(iq | Veccf::zeros(2000));</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot(141).plot(ec.format.entete.array(), <span class="stringliteral">&quot;|bo&quot;</span>, <span class="stringliteral">&quot;En-tête de synchronisation&quot;</span>);</div>
 <div class="line">  f.subplot(142).plot(data.array(), <span class="stringliteral">&quot;|go&quot;</span>, <span class="stringliteral">&quot;Données envoyées&quot;</span>);</div>
 <div class="line">  f.subplot(143).plot(iq, <span class="stringliteral">&quot;-m&quot;</span>);</div>
 <div class="line">  f.gcf().titre(<span class="stringliteral">&quot;Trame modulée (en-tête + données)&quot;</span>);</div>
-<div class="line">  <span class="keywordflow">if</span>(trames.size() &gt; 0)</div>
-<div class="line">    f.subplot(144).plot(trames[0].bs.array(), <span class="stringliteral">&quot;|go&quot;</span>, <span class="stringliteral">&quot;Données décodées&quot;</span>);</div>
+<div class="line">  si(!trames.empty())</div>
+<div class="line">    f.subplot(144).plot(trames[0].bs.array(), &quot;|go&quot;, &quot;Données décodées&quot;);</div>
 <div class="line"> </div>
-<div class="line"> </div>
-<div class="ttc" id="aclasstsd_1_1telecom_1_1_bit_stream_html_a1dad22eeffaa5acaf6e226ec3a185a09"><div class="ttname"><a href="classtsd_1_1telecom_1_1_bit_stream.html#a1dad22eeffaa5acaf6e226ec3a185a09">tsd::telecom::BitStream::altern</a></div><div class="ttdeci">static BitStream altern(int nbits)</div><div class="ttdoc">Alternance de 0 et de 1.</div></div>
-<div class="ttc" id="agroup__telecom-codes-synchro_gac224dbfb7737da9e87fe235857a29d40_html_gac224dbfb7737da9e87fe235857a29d40"><div class="ttname"><a href="group__telecom-codes-synchro_gac224dbfb7737da9e87fe235857a29d40.html#gac224dbfb7737da9e87fe235857a29d40">tsd::telecom::code_Barker</a></div><div class="ttdeci">BitStream code_Barker(int n)</div><div class="ttdoc">Génération d'un code de Barker.</div></div>
+<div class="ttc" id="aclasstsd_1_1telecom_1_1_bit_stream_html_adc6e6a9b8faa01e1017be415ad5368be"><div class="ttname"><a href="classtsd_1_1telecom_1_1_bit_stream.html#adc6e6a9b8faa01e1017be415ad5368be">tsd::telecom::BitStream::altern</a></div><div class="ttdeci">static BitStream altern(entier nbits)</div><div class="ttdoc">Alternance de 0 et de 1.</div></div>
+<div class="ttc" id="agroup__telecom-codes-synchro_ga38d457b3af227405f652217add2d081c_html_ga38d457b3af227405f652217add2d081c"><div class="ttname"><a href="group__telecom-codes-synchro_ga38d457b3af227405f652217add2d081c.html#ga38d457b3af227405f652217add2d081c">tsd::telecom::code_Barker</a></div><div class="ttdeci">BitStream code_Barker(entier n)</div><div class="ttdoc">Génération d'un code de Barker.</div></div>
 <div class="ttc" id="agroup__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5_html_ga1a54a4e979c98d41008a0f598e148cf5"><div class="ttname"><a href="group__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5.html#ga1a54a4e979c98d41008a0f598e148cf5">tsd::telecom::forme_onde_bpsk</a></div><div class="ttdeci">sptr&lt; FormeOnde &gt; forme_onde_bpsk(const SpecFiltreMiseEnForme &amp;filtre=SpecFiltreMiseEnForme::nrz())</div><div class="ttdoc">Création d'une forme d'onde BPSK.</div></div>
 <div class="ttc" id="agroup__telecom-mods_ga86867c89c28de87b0e37a504b008cd1d_html_ga86867c89c28de87b0e37a504b008cd1d"><div class="ttname"><a href="group__telecom-mods_ga86867c89c28de87b0e37a504b008cd1d.html#ga86867c89c28de87b0e37a504b008cd1d">tsd::telecom::émetteur_création</a></div><div class="ttdeci">sptr&lt; Émetteur &gt; émetteur_création(const ÉmetteurConfig &amp;ec)</div><div class="ttdoc">Création d'un générateur de trames.</div></div>
 <div class="ttc" id="agroup__telecom-mods_gafdd4fc278275c6ea05334d8ff0bbf431_html_gafdd4fc278275c6ea05334d8ff0bbf431"><div class="ttname"><a href="group__telecom-mods_gafdd4fc278275c6ea05334d8ff0bbf431.html#gafdd4fc278275c6ea05334d8ff0bbf431">tsd::telecom::récepteur_création</a></div><div class="ttdeci">sptr&lt; Récepteur &gt; récepteur_création(const RécepteurConfig &amp;rc)</div><div class="ttdoc">Création d'un récepteur de trame.</div></div>
@@ -203,7 +202,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gafdd4fc278275c6ea
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods.html">Modulations numériques</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -120,8 +120,8 @@ $(document).ready(function(){initNavTree('group__filtrage.html',''); initResizab
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader"> </h2>
 <p>Ce module regroupe des fonctions pour le design, l'analyse et l'implémentation des filtres LIT (Linéaires à Invariant dans le Temps) discrets.</p>
-<p>Ces filtres sont représentés dans la librairie soit par un tableau de coefficients pour les filtres RIF (classe <a href="https://eigen.tuxfamily.org/dox/group__TutorialArrayClass.html" rel="external nofollow" target="_blank"><code>Eigen::ArrayXf</code></a>), ou par une fonction de transfert (classe <a class="el" href="classtsd_1_1_f_rat.html">FRat</a>) dans le cas général (filtres RII).</p>
-<p>Une fois le design d'un filtre effectué, celui-ci peut être utilisé pour traiter directement un vecteur (signal de durée finie), ce sont les fonctions <a class="el" href="group__filtrage-fini_ga8f5f8003a3ca4033972c95f9f8e8ec16.html#ga8f5f8003a3ca4033972c95f9f8e8ec16">filtrer()</a>, <a class="el" href="group__filtrage-fini_ga717bbb50f79ab36f6299e031d0e8412b.html#ga717bbb50f79ab36f6299e031d0e8412b">filtfilt()</a>, etc. décrite dans le sous-module <a class="el" href="group__filtrage-fini.html">Filtrage sur des signaux de durée finie</a>. Pour traiter des signaux reçus continus (par exemple, pour du traitement en temps réel), différentes structures avec contexte sont disponibles, décrite dans le sous-module <a class="el" href="group__filtrage-tr.html">Implémentation de filtres au fil de l'eau</a>.</p>
+<p>Ces filtres sont représentés dans la librairie soit par un tableau de coefficients pour les filtres RIF (classe <a href="https://eigen.tuxfamily.org/dox/group__TutorialArrayClass.html" rel="external nofollow" target="_blank"><code>Eigen::ArrayXf</code></a>), ou par une fonction de transfert (classe <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>) dans le cas général (filtres RII).</p>
+<p>Une fois le design d'un filtre effectué, celui-ci peut être utilisé pour traiter directement un vecteur (signal de durée finie), ce sont les fonctions <a class="el" href="group__filtrage-fini_ga8f5f8003a3ca4033972c95f9f8e8ec16.html#ga8f5f8003a3ca4033972c95f9f8e8ec16">filtrer()</a>, <a class="el" href="group__filtrage-fini_ga3558c8322d616b43db381b988e76a99a.html#ga3558c8322d616b43db381b988e76a99a">filtfilt()</a>, etc. décrite dans le sous-module <a class="el" href="group__filtrage-fini.html">Filtrage sur des signaux de durée finie</a>. Pour traiter des signaux reçus continus (par exemple, pour du traitement en temps réel), différentes structures avec contexte sont disponibles, décrite dans le sous-module <a class="el" href="group__filtrage-tr.html">Implémentation de filtres au fil de l'eau</a>.</p>
 <p><img src="ex-biquad-0.png" alt="" width="400px" style="float: right; margin: 10px" class="inline"/></p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;tsd/filtrage.hpp&quot;</span></div>
 </div><!-- fragment --> <table class="memberdecls">
@@ -151,22 +151,22 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_poly.html">tsd::Poly&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polynôme (définit d'après ses racines ou ses coefficients)  <a href="structtsd_1_1_poly.html#details">Plus de détails...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtsd_1_1_f_rat.html">tsd::FRat&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction rationnelle polynomiale, avec coefficients réels ou complexes.  <a href="classtsd_1_1_f_rat.html#details">Plus de détails...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1_f_rat.html">tsd::FRat&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction rationnelle polynomiale, avec coefficients réels ou complexes.  <a href="structtsd_1_1_f_rat.html#details">Plus de détails...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Fonctions</h2></td></tr>
-<tr class="memitem:ga52724960519d447cab75f6053635184f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage_ga52724960519d447cab75f6053635184f.html#ga52724960519d447cab75f6053635184f">tsd::filtrage::verifie_frequence_normalisee</a> (float f, const std::string &amp;msg=&quot;&quot;)</td></tr>
-<tr class="memdesc:ga52724960519d447cab75f6053635184f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérification de la validité d'une fréquence normalisée.  <a href="group__filtrage_ga52724960519d447cab75f6053635184f.html#ga52724960519d447cab75f6053635184f">Plus de détails...</a><br /></td></tr>
-<tr class="separator:ga52724960519d447cab75f6053635184f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff821491efa167bc0fd7a5791c23ec36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filtrage_gaff821491efa167bc0fd7a5791c23ec36.html#gaff821491efa167bc0fd7a5791c23ec36">tsd::filtrage::verifie_frequence_normalisee</a> (float f, const string &amp;msg=&quot;&quot;)</td></tr>
+<tr class="memdesc:gaff821491efa167bc0fd7a5791c23ec36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérification de la validité d'une fréquence normalisée.  <a href="group__filtrage_gaff821491efa167bc0fd7a5791c23ec36.html#gaff821491efa167bc0fd7a5791c23ec36">Plus de détails...</a><br /></td></tr>
+<tr class="separator:gaff821491efa167bc0fd7a5791c23ec36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

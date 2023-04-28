@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gac33ecab308cec14f
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="structdsp_1_1telecom_1_1_loop_filter.html">LoopFilter</a>&gt; dsp::telecom::filter_loop_second_order </td>
+          <td class="memname">sptr&lt;<a class="el" href="structdsp_1_1telecom_1_1_loop_filter.html">LoopFilter</a>&gt; dsp::telecom::filter_loop_second_order </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>BL</em>, </td>
@@ -143,22 +143,22 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gac33ecab308cec14f
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Filtre de boucle du second ordre</h3>
+<h3>Second order filter loop</h3>
 <p class="formulaDsp">
 \[ \theta_k = \theta_{k-1} + \mu_{k-1}\\ \mu_k = \mu_{k-1} + \gamma\cdot\left((1+\rho) e_k - e_{k-1}\right) \]
 </p>
-<p>Avec : </p><p class="formulaDsp">
+<p>With : </p><p class="formulaDsp">
 \[ \gamma = \frac{16 \eta^2 \cdot B}{A \cdot (1 + 4 \eta^2)}\\ \rho = \frac{4 B}{1 + 4 \eta^2} \]
 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">BL</td><td>Bande passante (normalisée à la fréquence d'échantillonnage) de la boucle </td></tr>
-    <tr><td class="paramname">η</td><td>Facteur d'amortissement</td></tr>
+    <tr><td class="paramname">BL</td><td>Loop bandwidth (normalized to the sampling frequency) </td></tr>
+    <tr><td class="paramname">η</td><td>Damping factor</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section user"><dt>Bibliography</dt><dd><em>DVBS2 : Carrier phase synchronization techniques for broadband satellite transmissions, ESA, 2003</em></dd></dl>
-<dl class="section see"><dt>See also</dt><dd>filter_loop_order_1() </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__telecom-crec_gaaaf32ab927106bf6c229ab26927f2d99.html#gaaaf32ab927106bf6c229ab26927f2d99" title="First order loop filter.">filter_loop_first_order()</a> </dd></dl>
 
 </div>
 </div>
@@ -168,7 +168,7 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gac33ecab308cec14f
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

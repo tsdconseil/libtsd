@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;Detecteur&gt; dsp::fourier::detector_new </td>
+          <td class="memname">sptr&lt;Detecteur&gt; dsp::fourier::detector_new </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structdsp_1_1fourier_1_1_detector_config.html">DetectorConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em> = <code><a class="el" href="structdsp_1_1fourier_1_1_detector_config.html">DetectorConfig</a>()</code></td><td>)</td>
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
 \[ y_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k-(M-1)} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k-(M-1)}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}} \]
 </p>
 <p>The \(y_n\) are thus between 0 and 1, and will be equal to 1 only if the signal is exactly equal to the pattern (up to some scale factor) on the interval \([n-M+1\dots n]\).</p>
-<p>The computing being done in the frequency domain through the Overlap-And-Add technique (see <a class="el" href="group__fourier_gaa75b0c21f7e35119b923bc861e48c7a6.html#gaa75b0c21f7e35119b923bc861e48c7a6">filter_fft()</a>), the complexity is of order \(\log_2 M\) operations per sample (if \(M\) is a power of 2).</p>
+<p>The computing being done in the frequency domain through the Overlap-And-Add technique (see <a class="el" href="group__fourier_ga93586a65fe0ab81ef2e732ae5a41c215.html#ga93586a65fe0ab81ef2e732ae5a41c215">filter_fft()</a>), the complexity is of order \(\log_2 M\) operations per sample (if \(M\) is a power of 2).</p>
 <p>This block will:</p><ul>
 <li>Return, as output, the correlation signal (green signal in the example below),</li>
 <li>Call a user callback whenever the correlation is above a configurable threshold. As parameters of this callback, the following informations are given (see the structure <a class="el" href="structdsp_1_1fourier_1_1_detection.html">Detection</a>):<ul>
@@ -157,25 +157,19 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Filter cfloat \(\to\) float, that take as input samples, and produces as output, the normalized correlation with the pattern.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">int</span> M = 512; <span class="comment">// Dimension du motif</span></div>
-<div class="line">  <span class="keywordtype">int</span> N = 16*M; <span class="comment">// Dimension du signal</span></div>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  soit M = 512;  <span class="comment">// Dimension du motif</span></div>
+<div class="line">  soit N = 16*M; <span class="comment">// Dimension du signal</span></div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Motif de synchronisation</span></div>
-<div class="line">  ArrayXcf motif = <a class="code" href="group__tsd-gen_gaaa4d62d70c30c10e62b91bc7b3751e3a.html#gaaa4d62d70c30c10e62b91bc7b3751e3a">sigchirp2</a>(0.001, 0.2, M);</div>
+<div class="line">  soit motif = <a class="code" href="group__tsd-gen_ga3af427a9048ebadb2f2cfb5bb040a22e.html#ga3af427a9048ebadb2f2cfb5bb040a22e">sigchirp</a>(0.001, 0.2, M, <span class="charliteral">&#39;q&#39;</span>);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Signal = bruit</span></div>
-<div class="line">  ArrayXcf x = 0.1 * <a class="code" href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">randn</a>(N);</div>
+<div class="line">  soit x = (0.1 * <a class="code" href="group__tsd-gen_ga61d23b9425bbf84b39580f55efc215b8.html#ga61d23b9425bbf84b39580f55efc215b8">randn</a>(N)).as&lt;cfloat&gt;();</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// + motif à détecter au milieu</span></div>
 <div class="line">  x.segment(900, M) = motif;</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">int</span> pos_detection = 0;</div>
-<div class="line"> </div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">//float C;</span></div>
-<div class="line">  <span class="comment">//int Nf, Nz, Ne;</span></div>
-<div class="line">  <span class="comment">//ola_complexité_optimise(M, C, Nf, Nz, Ne);</span></div>
-<div class="line"> </div>
+<div class="line">  soit pos_detection = 0;</div>
 <div class="line"> </div>
 <div class="line">  DetecteurConfig config;</div>
 <div class="line">  config.motif  = motif;</div>
@@ -185,21 +179,21 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
 <div class="line">    msg(<span class="stringliteral">&quot;Detection : {}.&quot;</span>, det);</div>
 <div class="line">    pos_detection = det.position;</div>
 <div class="line">  };</div>
-<div class="line">  <span class="keyword">auto</span> det = détecteur_création(config);</div>
-<div class="line">  ArrayXf y = det-&gt;step(x);</div>
+<div class="line">  soit det = détecteur_création(config);</div>
+<div class="line">  soit y = det-&gt;step(x);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
-<div class="line">  f.subplot().plot(motif.real(), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Motif à détecter&quot;</span>);</div>
-<div class="line">  f.subplot().plot(x.real(), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(motif), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Motif à détecter&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(x), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
 <div class="line">  f.gcf().def_rdi({0, -1, 8000, 2});</div>
 <div class="line"> </div>
 <div class="line">  f.gcf().canva().set_couleur(tsd::vue::Couleur::Vert);</div>
 <div class="line">  f.gcf().canva().set_epaisseur(3);</div>
-<div class="line">  f.gcf().canva().set_remplissage(<span class="keyword">false</span>);</div>
+<div class="line">  f.gcf().canva().set_remplissage(non);</div>
 <div class="line">  f.gcf().canva().rectangle(pos_detection, 1, pos_detection + M - 1, -1);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_ga0900621a525834a05cf888939fd1998d_html_ga0900621a525834a05cf888939fd1998d"><div class="ttname"><a href="group__tsd-gen_ga0900621a525834a05cf888939fd1998d.html#ga0900621a525834a05cf888939fd1998d">dsp::randn</a></div><div class="ttdeci">static ArrayXf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:768</div></div>
-<div class="ttc" id="agroup__tsd-gen_gaaa4d62d70c30c10e62b91bc7b3751e3a_html_gaaa4d62d70c30c10e62b91bc7b3751e3a"><div class="ttname"><a href="group__tsd-gen_gaaa4d62d70c30c10e62b91bc7b3751e3a.html#gaaa4d62d70c30c10e62b91bc7b3751e3a">dsp::sigchirp2</a></div><div class="ttdeci">ArrayXf sigchirp2(float f0, float f1, int n)</div><div class="ttdoc">Quadratic chirp.</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga3af427a9048ebadb2f2cfb5bb040a22e_html_ga3af427a9048ebadb2f2cfb5bb040a22e"><div class="ttname"><a href="group__tsd-gen_ga3af427a9048ebadb2f2cfb5bb040a22e.html#ga3af427a9048ebadb2f2cfb5bb040a22e">dsp::sigchirp</a></div><div class="ttdeci">static Vecf sigchirp(float f0, float f1, int n, char mode='l')</div><div class="ttdoc">Linear or quadratic chirp.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:1108</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga61d23b9425bbf84b39580f55efc215b8_html_ga61d23b9425bbf84b39580f55efc215b8"><div class="ttname"><a href="group__tsd-gen_ga61d23b9425bbf84b39580f55efc215b8.html#ga61d23b9425bbf84b39580f55efc215b8">dsp::randn</a></div><div class="ttdeci">static Vecf randn(unsigned int n)</div><div class="ttdoc">Normal law (column vector).</div><div class="ttdef"><b>Definition:</b> dsp.hpp:777</div></div>
 </div><!-- fragment --><div class="image">
 <img src="fft_correlateur.png" alt="" width="800px"/>
 </div>
@@ -213,7 +207,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga089a06312af84b4b
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

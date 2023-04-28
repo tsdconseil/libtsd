@@ -143,7 +143,7 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga2c02d0f3abe2e407
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Capacité d'un canal</h3>
+<h3>AWGN channel capacity</h3>
 <p>Computes the ideal AWGN channel capacity, in bits/s: </p><p class="formulaDsp">
 \[ c = B\cdot \log_2(1+\textrm{SNR}) \]
 </p>
@@ -155,17 +155,17 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga2c02d0f3abe2e407
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Channel capacity, in bits/s</dd></dl>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line">  <span class="keywordtype">int</span> n = 100;</div>
-<div class="line">  ArrayXf snr_db = <a class="code" href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">linspace</a>(-10, 20, n);</div>
-<div class="line">  ArrayXf C = snr_db.unaryExpr([](<span class="keywordtype">float</span> x){<span class="keywordflow">return</span> capacite_canal_awgn(<a class="code" href="group__tsd_ga7a4b5f5e35637817ec3e32fe13504807.html#ga7a4b5f5e35637817ec3e32fe13504807">db2pow</a>(x));});</div>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
+<div class="line">  soit n = 100;</div>
+<div class="line">  soit snr_db = <a class="code" href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">linspace</a>(-10, 20, n);</div>
+<div class="line">  soit C = snr_db.unaryExpr([](<span class="keywordtype">float</span> x){<span class="keywordflow">return</span> capacite_canal_awgn(<a class="code" href="group__tsd_ga7a4b5f5e35637817ec3e32fe13504807.html#ga7a4b5f5e35637817ec3e32fe13504807">db2pow</a>(x));});</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(snr_db, C);</div>
 <div class="line">  f.titres(<span class="stringliteral">&quot;Capacité canal AWGN&quot;</span>, <span class="stringliteral">&quot;SNR (dB)&quot;</span>, <span class="stringliteral">&quot;Capacité (bit / s / Hz)&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f_html_gaa70f93ef0e524a151b58de4b4e54a14f"><div class="ttname"><a href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">dsp::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:676</div></div>
-<div class="ttc" id="agroup__tsd_ga7a4b5f5e35637817ec3e32fe13504807_html_ga7a4b5f5e35637817ec3e32fe13504807"><div class="ttname"><a href="group__tsd_ga7a4b5f5e35637817ec3e32fe13504807.html#ga7a4b5f5e35637817ec3e32fe13504807">dsp::db2pow</a></div><div class="ttdeci">auto db2pow(const T &amp;x)</div><div class="ttdoc">Decibels to linear conversion.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:346</div></div>
+<div class="ttc" id="agroup__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137_html_gaf3a870bf1c339ba500d0e9dd02e52137"><div class="ttname"><a href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">dsp::linspace</a></div><div class="ttdeci">static Vecf linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:685</div></div>
+<div class="ttc" id="agroup__tsd_ga7a4b5f5e35637817ec3e32fe13504807_html_ga7a4b5f5e35637817ec3e32fe13504807"><div class="ttname"><a href="group__tsd_ga7a4b5f5e35637817ec3e32fe13504807.html#ga7a4b5f5e35637817ec3e32fe13504807">dsp::db2pow</a></div><div class="ttdeci">auto db2pow(const T &amp;x)</div><div class="ttdoc">Decibels to linear conversion.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:340</div></div>
 </div><!-- fragment --> <div class="image">
 <img src="capa.png" alt="" width="800px"/>
 </div>
@@ -179,7 +179,7 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga2c02d0f3abe2e407
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

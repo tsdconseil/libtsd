@@ -119,9 +119,9 @@ $(document).ready(function(){initNavTree('group__telecom-ps_ga375747854552a3f172
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt;T&gt; dsp::telecom::sah </td>
+          <td class="memname"><a class="el" href="group__tsd.html#ga0e34dcdb103305a2b7d8798e627ea651">Vector</a>&lt;T&gt; dsp::telecom::sah </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__tsd.html#ga0e34dcdb103305a2b7d8798e627ea651">Vector</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
@@ -148,17 +148,17 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Oversampled signal.</dd></dl>
-<dl class="section user"><dt>Example 1: duplicating values</dt><dd><div class="fragment"><div class="line">ArrayXf x(5);</div>
+<dl class="section user"><dt>Example 1: duplicating values</dt><dd><div class="fragment"><div class="line">Vecf x(5);</div>
 <div class="line">x &lt;&lt; 0, 1, 2, 3, 4;</div>
-<div class="line">ArrayXf y = <a class="code" href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">sah</a>(x, 2);</div>
+<div class="line">Vecf y = <a class="code" href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">sah</a>(x, 2);</div>
 <div class="line"><span class="comment">// y = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]</span></div>
 <div class="ttc" id="agroup__telecom-ps_ga375747854552a3f1725e48372495d8c3_html_ga375747854552a3f1725e48372495d8c3"><div class="ttname"><a href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">dsp::telecom::sah</a></div><div class="ttdeci">Vector&lt; T &gt; sah(const Vector&lt; T &gt; &amp;x, int R)</div><div class="ttdoc">Sample and hold oversampling.</div><div class="ttdef"><b>Definition:</b> telecom.hpp:539</div></div>
 </div><!-- fragment --></dd></dl>
 <dl class="section user"><dt>Example 2: generating a pseudo-random NRZ sequence</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">int</span> nsymbs = 5;  <span class="comment">// Number of symbol to generate</span></div>
 <div class="line"><span class="keywordtype">int</span> osf    = 10; <span class="comment">// Over-sampling ratio</span></div>
-<div class="line">ArrayXf y = <a class="code" href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">sah</a>(<a class="code" href="group__tsd-gen_ga8157b41897e4cc405e65950cc717c299.html#ga8157b41897e4cc405e65950cc717c299">randb</a>(nsymbs), osf);</div>
+<div class="line">Vecf y = <a class="code" href="group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3">sah</a>(<a class="code" href="group__tsd-gen_ga813f2d039a5bf4ad23060d42b304a173.html#ga813f2d039a5bf4ad23060d42b304a173">randb</a>(nsymbs), osf);</div>
 <div class="line"><span class="comment">// Will generate nsymbs * osf samples (each symbol is repeated osf times)</span></div>
-<div class="ttc" id="agroup__tsd-gen_ga8157b41897e4cc405e65950cc717c299_html_ga8157b41897e4cc405e65950cc717c299"><div class="ttname"><a href="group__tsd-gen_ga8157b41897e4cc405e65950cc717c299.html#ga8157b41897e4cc405e65950cc717c299">dsp::randb</a></div><div class="ttdeci">static ArrayXb randb(int n)</div><div class="ttdoc">Random binary vector.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:818</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga813f2d039a5bf4ad23060d42b304a173_html_ga813f2d039a5bf4ad23060d42b304a173"><div class="ttname"><a href="group__tsd-gen_ga813f2d039a5bf4ad23060d42b304a173.html#ga813f2d039a5bf4ad23060d42b304a173">dsp::randb</a></div><div class="ttdeci">static Vecb randb(int n)</div><div class="ttdoc">Random binary vector.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:829</div></div>
 </div><!-- fragment --> </dd></dl>
 
 </div>
@@ -169,7 +169,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

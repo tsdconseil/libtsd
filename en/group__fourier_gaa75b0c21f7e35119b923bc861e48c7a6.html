@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__fourier_gaa75b0c21f7e35119b923b
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::tuple&lt;<a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="group__tsd_ga45923d187d821768b6fc6834f436a42b.html#ga45923d187d821768b6fc6834f436a42b">Filter</a>&lt;<a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, tsdF::FiltreFFTConfig&gt; &gt;, int&gt; dsp::fourier::filter_fft </td>
+          <td class="memname">std::tuple&lt;sptr&lt;<a class="el" href="group__tsd_ga45923d187d821768b6fc6834f436a42b.html#ga45923d187d821768b6fc6834f436a42b">Filter</a>&lt;<a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, tsdF::FiltreFFTConfig&gt; &gt;, int&gt; dsp::fourier::filter_fft </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structdsp_1_1fourier_1_1_f_f_t_filter_config.html">FFTFilterConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
@@ -159,32 +159,31 @@ $(document).ready(function(){initNavTree('group__fourier_gaa75b0c21f7e35119b923b
 <li>an integer which is the dimension \(N\) of the FFT (that is, the dimension of the vectors that will be given to the callback).</li>
 </ul>
 </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>For the more specific problem of efficient FIR filter computing (using the FFT), use rather <a class="el" href="group__filtrage-tr_ga166d523d2b3e96b84b7b9035917014a2.html#ga166d523d2b3e96b84b7b9035917014a2">filter_fir_fft()</a>, which is based on this function, and is simpler to use. </dd></dl>
-<dl class="section user"><dt>Example: Low-pass filter</dt><dd>In this example, we low-pass filter a signal by simply zeroing half the spectrum. <div class="fragment"><div class="line">  <span class="keywordtype">int</span> n = 8192;</div>
+<dl class="section note"><dt>Note</dt><dd>For the more specific problem of efficient FIR filter computing (using the FFT), use rather <a class="el" href="group__filtrage-tr_gadc16401b313f3a5ff3c20ce244dcd319.html#gadc16401b313f3a5ff3c20ce244dcd319">filter_fir_fft()</a>, which is based on this function, and is simpler to use. </dd></dl>
+<dl class="section user"><dt>Example: Low-pass filter</dt><dd>In this example, we low-pass filter a signal by simply zeroing half the spectrum. <div class="fragment"><div class="line">  soit n = 8192;</div>
 <div class="line">  <span class="comment">// signal utile à f = 0.04 * fe Hz, et parasite à f=0.400 * fe Hz</span></div>
-<div class="line">  ArrayXcf x = <a class="code" href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">sigsin</a>(0.004, n) + <a class="code" href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">sigsin</a>(0.4, n);</div>
+<div class="line">  soit x = (<a class="code" href="group__tsd-gen_ga12a7257648aeb0298365fdd1df349599.html#ga12a7257648aeb0298365fdd1df349599">sigsin</a>(0.004, n) + <a class="code" href="group__tsd-gen_ga12a7257648aeb0298365fdd1df349599.html#ga12a7257648aeb0298365fdd1df349599">sigsin</a>(0.4, n)).as&lt;cfloat&gt;();</div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="line">  tsd::fourier::FiltreFFTConfig config;</div>
+<div class="line">  FiltreFFTConfig config;</div>
 <div class="line">  <span class="comment">// Cette callback sera appelée à chaque itération de l&#39;OLA</span></div>
-<div class="line">  config.traitement_freq = [&amp;](ArrayXcf &amp;X)</div>
-<div class="line">    {</div>
+<div class="line">  config.traitement_freq = [&amp;](Veccf &amp;X)</div>
+<div class="line">  {</div>
 <div class="line">    tsd_assert(X.rows() == 512);</div>
-<div class="line">      X.segment(128, 256).setZero();</div>
-<div class="line">    };</div>
+<div class="line">    X.segment(128, 256).setZero();</div>
+<div class="line">  };</div>
 <div class="line">  config.dim_blocs_temporel   = 512;  <span class="comment">// Par bloc de 512 échantillons</span></div>
 <div class="line">  config.nb_zeros_min         = 0;    <span class="comment">// Zéro-padding non nécessaire</span></div>
-<div class="line">  config.avec_fenetrage       = <span class="keyword">true</span>; <span class="comment">// Fenêtre de Hann et recouvrement de 50 %</span></div>
+<div class="line">  config.avec_fenetrage       = oui;  <span class="comment">// Fenêtre de Hann et recouvrement de 50 %</span></div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> [ola, N] = tsd::fourier::filtre_fft(config);</div>
-<div class="line"> </div>
-<div class="line">  ArrayXf y = (ola-&gt;step(x)).real();</div>
-<div class="ttc" id="agroup__tsd-gen_ga4de086ec7949d7f349b833b91b130435_html_ga4de086ec7949d7f349b833b91b130435"><div class="ttname"><a href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">dsp::sigsin</a></div><div class="ttdeci">static ArrayXf sigsin(float f, int n)</div><div class="ttdoc">Efficient computing of a sinusoid.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:892</div></div>
+<div class="line">  soit [ola, N] = filtre_fft(config);</div>
+<div class="line">  soit y = real(ola-&gt;step(x));</div>
+<div class="ttc" id="agroup__tsd-gen_ga12a7257648aeb0298365fdd1df349599_html_ga12a7257648aeb0298365fdd1df349599"><div class="ttname"><a href="group__tsd-gen_ga12a7257648aeb0298365fdd1df349599.html#ga12a7257648aeb0298365fdd1df349599">dsp::sigsin</a></div><div class="ttdeci">static Vecf sigsin(float f, int n)</div><div class="ttdoc">Efficient computing of a sinusoid.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:900</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-ola-pb.png" alt="" width="800px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-tr_ga166d523d2b3e96b84b7b9035917014a2.html#ga166d523d2b3e96b84b7b9035917014a2" title="Efficient implementation of a FIR filter in the frequency domain.">filter_fir_fft()</a>, filter_rfft(), <a class="el" href="group__fourier_ga3bc88eb0fea93349ca6ea29088dd5b8b.html#ga3bc88eb0fea93349ca6ea29088dd5b8b" title="Compute the complexity of an OLA filter, in FLOPS by input sample.">ola_complexity()</a>, <a class="el" href="group__fourier_gac3860c9e44768c6b4f413b464f66910b.html#gac3860c9e44768c6b4f413b464f66910b" title="Compute optimal parameters for an OLA filter.">ola_complexity_optimize()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filtrage-tr_gadc16401b313f3a5ff3c20ce244dcd319.html#gadc16401b313f3a5ff3c20ce244dcd319" title="Efficient implementation of a FIR filter in the frequency domain.">filter_fir_fft()</a>, filter_rfft(), <a class="el" href="group__fourier_ga3bc88eb0fea93349ca6ea29088dd5b8b.html#ga3bc88eb0fea93349ca6ea29088dd5b8b" title="Compute the complexity of an OLA filter, in FLOPS by input sample.">ola_complexity()</a>, <a class="el" href="group__fourier_gac3860c9e44768c6b4f413b464f66910b.html#gac3860c9e44768c6b4f413b464f66910b" title="Compute optimal parameters for an OLA filter.">ola_complexity_optimize()</a> </dd></dl>
 
 </div>
 </div>
@@ -194,7 +193,7 @@ $(document).ready(function(){initNavTree('group__fourier_gaa75b0c21f7e35119b923b
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Mon Dec 19 2022 09:48:57 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

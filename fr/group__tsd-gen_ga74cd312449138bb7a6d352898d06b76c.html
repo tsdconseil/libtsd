@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__tsd-gen_ga74cd312449138bb7a6d35
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1_source.html">Source</a>&lt;<a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, OHConfig&gt; &gt; tsd::source_ohc </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1_source.html">Source</a>&lt;<a class="el" href="namespacetsd.html#a9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, <a class="el" href="structtsd_1_1_o_h_config.html">OHConfig</a>&gt; &gt; tsd::source_ohc </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>freq</em></td><td>)</td>
@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('group__tsd-gen_ga74cd312449138bb7a6d35
       </table>
 </div><div class="memdoc">
 <h3>Oscillateur harmonique (sortie complexe)</h3>
-<p>Cette fonction renvoie une source de données, qui peut être appellée plusieurs fois (génération d'un flux continu d'échantillons, à la différence de <a class="el" href="group__tsd-gen_gac4293d904396d81b91b09982cbb10084.html#gac4293d904396d81b91b09982cbb10084">sigexp()</a>, qui ne peut générer qu'un nombre fini et prédeterminé d'échantillons).</p>
+<p>Cette fonction renvoie une source de données, qui peut être appellée plusieurs fois (génération d'un flux continu d'échantillons, à la différence de <a class="el" href="group__tsd-gen_gaf18f73efc7a13380c59ea04fe67ace23.html#gaf18f73efc7a13380c59ea04fe67ace23">sigexp()</a>, qui ne peut générer qu'un nombre fini et prédeterminé d'échantillons).</p>
 <p>L'oscillateur en quadrature est basé sur un simple filtre récursif (complexe) d'ordre 1 : </p><p class="formulaDsp">
 \[ z_k = z_{k-1} \cdot e^{2\pi\mathbf{i}f} \]
 </p>
@@ -142,9 +142,9 @@ $(document).ready(function(){initNavTree('group__tsd-gen_ga74cd312449138bb7a6d35
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Une source de donnée complexe.</dd></dl>
 <dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  <span class="comment">// Set oscillator frequency = one 40th of the sampling frequency</span></div>
-<div class="line">  <span class="keyword">auto</span> ol = <a class="code" href="group__tsd-gen_ga74cd312449138bb7a6d352898d06b76c.html#ga74cd312449138bb7a6d352898d06b76c">source_ohc</a>(0.025);</div>
+<div class="line">  soit ol = <a class="code" href="group__tsd-gen_ga74cd312449138bb7a6d352898d06b76c.html#ga74cd312449138bb7a6d352898d06b76c">source_ohc</a>(0.025);</div>
 <div class="line">  <span class="comment">// Generate 200 samples</span></div>
-<div class="line">  ArrayXcf x = ol-&gt;step(200);</div>
+<div class="line">  soit x = ol-&gt;step(200);</div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
 <div class="ttc" id="agroup__tsd-gen_ga74cd312449138bb7a6d352898d06b76c_html_ga74cd312449138bb7a6d352898d06b76c"><div class="ttname"><a href="group__tsd-gen_ga74cd312449138bb7a6d352898d06b76c.html#ga74cd312449138bb7a6d352898d06b76c">tsd::source_ohc</a></div><div class="ttdeci">sptr&lt; Source&lt; cfloat, OHConfig &gt; &gt; source_ohc(float freq)</div><div class="ttdoc">Génération d'un signal exponentiel via un oscillateur harmonique.</div></div>
@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('group__tsd-gen_ga74cd312449138bb7a6d35
 <img src="ohc.png" alt="" width="600px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__tsd-gen_gaadd3d3b6ee96a8ce94133ea1dc9be67b.html#gaadd3d3b6ee96a8ce94133ea1dc9be67b" title="Génération d&#39;un signal sinusoïdal via un oscillateur harmonique.">source_ohr()</a>, <a class="el" href="group__tsd-gen_gac4293d904396d81b91b09982cbb10084.html#gac4293d904396d81b91b09982cbb10084" title="Calcul efficace d&#39;une exponentielle complexe.">sigexp()</a> </dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__tsd-gen_gaadd3d3b6ee96a8ce94133ea1dc9be67b.html#gaadd3d3b6ee96a8ce94133ea1dc9be67b" title="Génération d&#39;un signal sinusoïdal via un oscillateur harmonique.">source_ohr()</a>, <a class="el" href="group__tsd-gen_gaf18f73efc7a13380c59ea04fe67ace23.html#gaf18f73efc7a13380c59ea04fe67ace23" title="Calcul efficace d&#39;une exponentielle complexe.">sigexp()</a> </dd></dl>
 
 </div>
 </div>
@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('group__tsd-gen_ga74cd312449138bb7a6d35
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

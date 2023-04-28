@@ -119,9 +119,9 @@ $(document).ready(function(){initNavTree('group__fourier-corr_gacc03fae86dfde652
 template&lt;typename T  = float&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt;T&gt; tsd::fourier::délais </td>
+          <td class="memname"><a class="el" href="group__tsd.html#ga8bb8cd44ef45e269cf7f9b0b2276e81a">Vecteur</a>&lt;T&gt; tsd::fourier::délais </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__tsd.html#ga1ad6f528e828508496f394ae3f3e72e8">Vecteur</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__tsd.html#ga8bb8cd44ef45e269cf7f9b0b2276e81a">Vecteur</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
@@ -156,14 +156,14 @@ template&lt;typename T  = float&gt; </div>
 <dl class="section return"><dt>Renvoie</dt><dd>Signal décalé dans le temps.</dd></dl>
 <dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// Signal test : gaussienne</span></div>
-<div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga9260324dbd33bb21e26ffc69991265b6.html#ga9260324dbd33bb21e26ffc69991265b6">siggauss</a>(20);</div>
+<div class="line">  soit x = <a class="code" href="group__tsd-gen_gafe2613ea43033b057b06e688be04168f.html#gafe2613ea43033b057b06e688be04168f">siggauss</a>(20);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Délais de 1 échantillons</span></div>
-<div class="line">  ArrayXf x1 = <a class="code" href="group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7">délais</a>(x, 1);</div>
+<div class="line">  soit x1 = <a class="code" href="group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7">délais</a>(x, 1),</div>
 <div class="line">  <span class="comment">// Délais de 1.5 échantillons</span></div>
-<div class="line">  ArrayXf x2 = <a class="code" href="group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7">délais</a>(x, 1.5);</div>
+<div class="line">       x2 = <a class="code" href="group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7">délais</a>(x, 1.5),</div>
 <div class="line">  <span class="comment">// Avance de 1  échantillons</span></div>
-<div class="line">  ArrayXf x3 = <a class="code" href="group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7">délais</a>(x, -1);</div>
+<div class="line">       x3 = <a class="code" href="group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7">délais</a>(x, -1);</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(x,  <span class="stringliteral">&quot;b-o&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
@@ -172,7 +172,7 @@ template&lt;typename T  = float&gt; </div>
 <div class="line">  f.plot(x3, <span class="stringliteral">&quot;c-o&quot;</span>, <span class="stringliteral">&quot;x3 (-1)&quot;</span>);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7_html_gacc03fae86dfde65225a49de7ee0b65c7"><div class="ttname"><a href="group__fourier-corr_gacc03fae86dfde65225a49de7ee0b65c7.html#gacc03fae86dfde65225a49de7ee0b65c7">tsd::fourier::délais</a></div><div class="ttdeci">Vecteur&lt; T &gt; délais(const Vecteur&lt; T &gt; &amp;x, float τ)</div><div class="ttdoc">Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga9260324dbd33bb21e26ffc69991265b6_html_ga9260324dbd33bb21e26ffc69991265b6"><div class="ttname"><a href="group__tsd-gen_ga9260324dbd33bb21e26ffc69991265b6.html#ga9260324dbd33bb21e26ffc69991265b6">tsd::siggauss</a></div><div class="ttdeci">ArrayXf siggauss(int n, float a=10)</div><div class="ttdoc">Impulsion filtrée par une Gaussienne.</div></div>
+<div class="ttc" id="agroup__tsd-gen_gafe2613ea43033b057b06e688be04168f_html_gafe2613ea43033b057b06e688be04168f"><div class="ttname"><a href="group__tsd-gen_gafe2613ea43033b057b06e688be04168f.html#gafe2613ea43033b057b06e688be04168f">tsd::siggauss</a></div><div class="ttdeci">Vecf siggauss(entier n, float a=10)</div><div class="ttdoc">Impulsion filtrée par une Gaussienne.</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-delais.png" alt="" width="800px"/>
 </div>
@@ -186,7 +186,7 @@ template&lt;typename T  = float&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><a class="el" href="namespacetsd_1_1fourier.html">fourier</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

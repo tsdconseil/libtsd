@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__kalman_ga2538ea389516043e19124d
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1kalman_1_1_s_s_m_lineaire.html">SSMLineaire</a>&gt; tsd::kalman::modele_constante </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1kalman_1_1_s_s_m_lineaire.html">SSMLineaire</a>&gt; tsd::kalman::modele_constante </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>R</em> = <code>0.1</code></td><td>)</td>
@@ -137,11 +137,11 @@ $(document).ready(function(){initNavTree('group__kalman_ga2538ea389516043e19124d
   </dd>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Modèle linéaire</dd></dl>
-<dl class="section user"><dt>Exemple :</dt><dd><div class="fragment"><div class="line">  <span class="keyword">auto</span> sys = <a class="code" href="group__kalman_ga2538ea389516043e19124db840f1e10d.html#ga2538ea389516043e19124db840f1e10d">modele_constante</a>();</div>
+<dl class="section user"><dt>Exemple :</dt><dd><div class="fragment"><div class="line">  soit sys = <a class="code" href="group__kalman_ga2538ea389516043e19124db840f1e10d.html#ga2538ea389516043e19124db840f1e10d">modele_constante</a>();</div>
 <div class="line">  <span class="comment">// Valeur initiale de l&#39;état = 1</span></div>
-<div class="line">  VectorXf x0 = 1 * VectorXf::Ones(1);</div>
+<div class="line">  soit x0 = Vecf::ones(1);</div>
 <div class="line">  <span class="comment">// Simulation : 50 itérations</span></div>
-<div class="line">  <span class="keyword">auto</span> [x,y] = sys-&gt;steps(50, x0);</div>
+<div class="line">  soit [x,y] = sys-&gt;steps(50, x0);</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(x.row(0), <span class="stringliteral">&quot;b-o&quot;</span>, <span class="stringliteral">&quot;Vrais états&quot;</span>);</div>
@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('group__kalman_ga2538ea389516043e19124d
 <img src="ex-modele-constante.png" alt="" width="800px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__kalman_ga74a2c52e597b80f141160a572318b071.html#ga74a2c52e597b80f141160a572318b071" title="Marche aléatoire.">modele_marche_aleatoire()</a>, <a class="el" href="group__kalman_gabca2a22443f281ab6a3e2cb4f55ddbef.html#gabca2a22443f281ab6a3e2cb4f55ddbef" title="Modèle non linéaire de Kitagawa.">modele_kitagawa()</a>, <a class="el" href="group__kalman_ga6048710d5bfa6351fc5c37d91913af4b.html#ga6048710d5bfa6351fc5c37d91913af4b" title="Modèle générique IMU (Inertial Measuring Unit).">modele_imu()</a> </dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__kalman_ga0a2a3ebb3496dc7a4c3389587cfd6f92.html#ga0a2a3ebb3496dc7a4c3389587cfd6f92" title="Marche aléatoire.">modele_marche_aleatoire()</a>, <a class="el" href="group__kalman_gabca2a22443f281ab6a3e2cb4f55ddbef.html#gabca2a22443f281ab6a3e2cb4f55ddbef" title="Modèle non linéaire de Kitagawa.">modele_kitagawa()</a>, <a class="el" href="group__kalman_ga6048710d5bfa6351fc5c37d91913af4b.html#ga6048710d5bfa6351fc5c37d91913af4b" title="Modèle générique IMU (Inertial Measuring Unit).">modele_imu()</a> </dd></dl>
 
 </div>
 </div>
@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('group__kalman_ga2538ea389516043e19124d
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__kalman.html">Filtrage de Kalman</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

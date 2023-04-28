@@ -1,17 +1,17 @@
 var group__fourier_freq =
 [
     [ "SpectrumConfig", "structtsd_1_1fourier_1_1_spectrum_config.html", [
-      [ "Nf", "structtsd_1_1fourier_1_1_spectrum_config.html#a6fac391aabe4ae408a85519c4f7c2aa1", null ],
-      [ "Ns", "structtsd_1_1fourier_1_1_spectrum_config.html#a26994e3c18012dd15b4d50090b38427d", null ],
-      [ "active", "structtsd_1_1fourier_1_1_spectrum_config.html#a51e509c01cd24771a4b2f9aac0350fd3", null ],
-      [ "BS", "structtsd_1_1fourier_1_1_spectrum_config.html#a89a9409e1d9c8217ca7881259ff7625c", null ],
+      [ "Nf", "structtsd_1_1fourier_1_1_spectrum_config.html#ae95c7321ae2b176d318b85ae8e94aa92", null ],
+      [ "Ns", "structtsd_1_1fourier_1_1_spectrum_config.html#af8ab7d5ee2dbddb5f1513ca55ae82722", null ],
+      [ "active", "structtsd_1_1fourier_1_1_spectrum_config.html#a69feacfa44c688932d0290eaa5be38c6", null ],
+      [ "BS", "structtsd_1_1fourier_1_1_spectrum_config.html#a5d42df8fd2f40422bdcf6dd72005c4e8", null ],
       [ "fenetre", "structtsd_1_1fourier_1_1_spectrum_config.html#a8c678239bcb0d052f48361869dfe1256", null ],
-      [ "masque_bf", "structtsd_1_1fourier_1_1_spectrum_config.html#af3f37e767288d71510d8f82e6a622c9f", null ],
-      [ "masque_hf", "structtsd_1_1fourier_1_1_spectrum_config.html#a06d5b3f04f1e3130d5a34fd47bb8841b", null ],
-      [ "nmeans", "structtsd_1_1fourier_1_1_spectrum_config.html#a4116b993770515898c75589db23ef00a", null ],
-      [ "nsubs", "structtsd_1_1fourier_1_1_spectrum_config.html#a4721e82ca6e80d22cd503bf4cddf11db", null ],
+      [ "masque_bf", "structtsd_1_1fourier_1_1_spectrum_config.html#a8013e1352114ab68809de11c9810534c", null ],
+      [ "masque_hf", "structtsd_1_1fourier_1_1_spectrum_config.html#a2de53cd11870a4b00b576312c45eb2d7", null ],
+      [ "nmeans", "structtsd_1_1fourier_1_1_spectrum_config.html#aa515604c08cded331f19aa0b77b3457d", null ],
+      [ "nsubs", "structtsd_1_1fourier_1_1_spectrum_config.html#aac30c35cd1d0b89369082f5170fbeee5", null ],
       [ "plan", "structtsd_1_1fourier_1_1_spectrum_config.html#aebe8ed756c76c567c85f2ed13a66f733", null ],
-      [ "step", "structtsd_1_1fourier_1_1_spectrum_config.html#af699e1a07f4161694a0e6725a9a61599", null ],
+      [ "step", "structtsd_1_1fourier_1_1_spectrum_config.html#a8a2ff88d0f0316d199c99d58fb7aaa95", null ],
       [ "sweep", "structtsd_1_1fourier_1_1_spectrum_config.html#aac4ed008729b4bda98d4859698d7ae6a", null ]
     ] ],
     [ "FreqEstimMethode", "group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#gabd028e3f546c64caa97c62c6bf7c2148", [
@@ -19,11 +19,11 @@ var group__fourier_freq =
       [ "CANDAN2", "group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148acca18af737748adf8f7397371578f83b", null ],
       [ "QUADRATIC", "group__fourier-freq_gabd028e3f546c64caa97c62c6bf7c2148.html#ggabd028e3f546c64caa97c62c6bf7c2148a5aa5646bf84bfcc9f1f37e4b24a7360b", null ]
     ] ],
-    [ "filtre_goertzel", "group__fourier-freq_ga1837cf83280649d38997349b565b7e48.html#ga1837cf83280649d38997349b565b7e48", null ],
-    [ "freqestim", "group__fourier-freq_ga705b6d02d0727a0e800beb9166f46af3.html#ga705b6d02d0727a0e800beb9166f46af3", null ],
-    [ "goertzel", "group__fourier-freq_ga2b82fe2ece5fbbfbda2f25241c7be181.html#ga2b82fe2ece5fbbfbda2f25241c7be181", null ],
-    [ "psd", "group__fourier-freq_gad69033300000f2c22c22bcb52166d13d.html#gad69033300000f2c22c22bcb52166d13d", null ],
-    [ "psd_sousesp", "group__fourier-freq_ga1d13f61d27653f5ea555c3b7d51d2c86.html#ga1d13f61d27653f5ea555c3b7d51d2c86", null ],
-    [ "psd_welch", "group__fourier-freq_ga9b50837a796328f14cde2cc6a2d7b897.html#ga9b50837a796328f14cde2cc6a2d7b897", null ],
+    [ "filtre_goertzel", "group__fourier-freq_ga5c4dbf2b9e3b604a417963cd6c19dc3a.html#ga5c4dbf2b9e3b604a417963cd6c19dc3a", null ],
+    [ "freqestim", "group__fourier-freq_gaa432227204dcb136dfb66b01fce9a6f9.html#gaa432227204dcb136dfb66b01fce9a6f9", null ],
+    [ "goertzel", "group__fourier-freq_ga5832bb063cfbd32d4df6837cc44c71cb.html#ga5832bb063cfbd32d4df6837cc44c71cb", null ],
+    [ "psd", "group__fourier-freq_gad1466ee49dc482bb2bc9111414b03e81.html#gad1466ee49dc482bb2bc9111414b03e81", null ],
+    [ "psd_sousesp", "group__fourier-freq_gaf3ed1da4e17e48d46341a6a31f674e94.html#gaf3ed1da4e17e48d46341a6a31f674e94", null ],
+    [ "psd_welch", "group__fourier-freq_gac5165df99caaa60bf14e34b221c33399.html#gac5165df99caaa60bf14e34b221c33399", null ],
     [ "rt_spectrum", "group__fourier-freq.html#gaeb7a9e682ed2434217a717c2e9ea7404", null ]
 ];

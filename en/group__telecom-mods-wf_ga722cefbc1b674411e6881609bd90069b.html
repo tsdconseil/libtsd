@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga722cefbc1b674
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="structdsp_1_1telecom_1_1_wave_form.html">WaveForm</a>&gt; dsp::telecom::waveform_psk </td>
+          <td class="memname">sptr&lt;<a class="el" href="structdsp_1_1telecom_1_1_wave_form.html">WaveForm</a>&gt; dsp::telecom::waveform_psk </td>
           <td>(</td>
           <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
@@ -156,10 +156,10 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga722cefbc1b674
 <dl class="section warning"><dt>Warning</dt><dd>\(M\) must be a power of 2.</dd></dl>
 <dl class="section user"><dt>Example 1: Some PSK modulations</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  Figures f;</div>
-<div class="line">  <span class="keywordflow">for</span>(<span class="keyword">auto</span> M: {2, 4, 8, 16})</div>
+<div class="line">  pour(<span class="keyword">auto</span> M: {2, 4, 8, 16})</div>
 <div class="line">  {</div>
-<div class="line">    <span class="keyword">auto</span> w = forme_onde_psk(M);</div>
-<div class="line">    <span class="keyword">auto</span> constel = w-&gt;constellation();</div>
+<div class="line">    soit w = forme_onde_psk(M);</div>
+<div class="line">    soit constel = w-&gt;constellation();</div>
 <div class="line">    f.subplot().plot_iq(constel, <span class="stringliteral">&quot;o&quot;</span>, w-&gt;desc());</div>
 <div class="line">  }</div>
 <div class="line"> </div>
@@ -169,14 +169,14 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga722cefbc1b674
 Waveforms examples: BPSK, QPSK, 8PSK, 16PSK</div></div>
 </dd></dl>
 <dl class="section user"><dt>Example 2: Theoretical bit error rates</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> w2 = forme_onde_psk(2);</div>
-<div class="line">  <span class="keyword">auto</span> w4 = forme_onde_psk(4);</div>
-<div class="line">  <span class="keyword">auto</span> w8 = forme_onde_psk(8);</div>
+<div class="line">  soit w2 = forme_onde_psk(2),</div>
+<div class="line">       w4 = forme_onde_psk(4),</div>
+<div class="line">       w8 = forme_onde_psk(8);</div>
 <div class="line"> </div>
-<div class="line">  ArrayXf EbN0 = <a class="code" href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">linspace</a>(-2, 15, 20);</div>
-<div class="line">  ArrayXf ber2  = w2-&gt;ber(EbN0);</div>
-<div class="line">  ArrayXf ber4  = w4-&gt;ber(EbN0);</div>
-<div class="line">  ArrayXf ber8  = w8-&gt;ber(EbN0);</div>
+<div class="line">  soit EbN0 = <a class="code" href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">linspace</a>(-2, 15, 20);</div>
+<div class="line">  soit ber2  = w2-&gt;ber(EbN0),</div>
+<div class="line">       ber4  = w4-&gt;ber(EbN0),</div>
+<div class="line">       ber8  = w8-&gt;ber(EbN0);</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(EbN0, ber2, <span class="stringliteral">&quot;-ob&quot;</span>, <span class="stringliteral">&quot;bpsk&quot;</span>);</div>
@@ -185,7 +185,7 @@ Waveforms examples: BPSK, QPSK, 8PSK, 16PSK</div></div>
 <div class="line">  f.titres(<span class="stringliteral">&quot;BER théorique PSK&quot;</span>, <span class="stringliteral">&quot;Eb/N0&quot;</span>, <span class="stringliteral">&quot;Taux d&#39;erreur binaire&quot;</span>);</div>
 <div class="line">  f.axes().def_echelle(<span class="stringliteral">&quot;lin&quot;</span>, <span class="stringliteral">&quot;log&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f_html_gaa70f93ef0e524a151b58de4b4e54a14f"><div class="ttname"><a href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">dsp::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:676</div></div>
+<div class="ttc" id="agroup__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137_html_gaf3a870bf1c339ba500d0e9dd02e52137"><div class="ttname"><a href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">dsp::linspace</a></div><div class="ttdeci">static Vecf linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:685</div></div>
 </div><!-- fragment --><div class="image">
 <img src="waveform-psk2.png" alt="" width="800px"/>
 <div class="caption">
@@ -201,7 +201,7 @@ BER</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

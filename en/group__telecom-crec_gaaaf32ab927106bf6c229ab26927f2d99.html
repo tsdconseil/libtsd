@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gaaaf32ab927106bf6
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="structdsp_1_1telecom_1_1_loop_filter.html">LoopFilter</a>&gt; dsp::telecom::filter_loop_first_order </td>
+          <td class="memname">sptr&lt;<a class="el" href="structdsp_1_1telecom_1_1_loop_filter.html">LoopFilter</a>&gt; dsp::telecom::filter_loop_first_order </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>τ</em></td><td>)</td>
@@ -133,18 +133,18 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gaaaf32ab927106bf6
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>Filtre de boucle du premier ordre</h3>
-<p>Ce filtre consiste tout simplement en un filtre RII du premier ordre : </p><p class="formulaDsp">
+<h3>First order loop filter</h3>
+<p>This filter is simply a first order RII filter (that is, an exponential filter): </p><p class="formulaDsp">
 \[ \theta_k = \theta_{k-1} + \alpha \cdot e_k \]
 </p>
-<p>Le facteur \(\alpha\) étant calculé d'après la constante de temps spécifiée (voir rii1_tc_vers_coef()).</p>
+<p>The \(\alpha\) factor being computed according to the specified time constant (see iir1_tc2coef()).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">τ</td><td>Constante de temps du filtre (en nombre d'échantillons).</td></tr>
+    <tr><td class="paramname">τ</td><td>Filter time constant (in number of samples).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>filter_loop_order_2() </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__telecom-crec_gac33ecab308cec14f14d7e7c622dd0c4d.html#gac33ecab308cec14f14d7e7c622dd0c4d" title="Second order filter loop.">filter_loop_second_order()</a>, iir1_tc2coef() </dd></dl>
 
 </div>
 </div>
@@ -154,7 +154,7 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gaaaf32ab927106bf6
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

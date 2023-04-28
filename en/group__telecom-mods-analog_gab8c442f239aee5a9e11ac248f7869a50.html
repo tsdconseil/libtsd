@@ -117,46 +117,44 @@ $(document).ready(function(){initNavTree('group__telecom-mods-analog_gab8c442f23
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="group__tsd_ga60b14ce4566451be99edf16652e5b8e1.html#ga60b14ce4566451be99edf16652e5b8e1">FilterGen</a>&lt;<a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>,float&gt; &gt; dsp::telecom::discriminateur_fm </td>
+          <td class="memname">sptr&lt;<a class="el" href="group__tsd_ga60b14ce4566451be99edf16652e5b8e1.html#ga60b14ce4566451be99edf16652e5b8e1">FilterGen</a>&lt;<a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>,float&gt; &gt; dsp::telecom::discriminateur_fm </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<h3>Discrimination FM</h3>
-<p>Implémente un discriminateur polaire (calcul de la fréquence instantanée pour un signal en bande de base), qui peut servir de brique pour la démodulation FM : </p><p class="formulaDsp">
+<h3>Polar discrimination for FM demodulation</h3>
+<p>Implement a polar discriminator (computes the instantaneous frequency for a baseband signal), which can serve as a building block for a FM demodulator: </p><p class="formulaDsp">
 \[ y(t) = \frac{d\arg x}{dt}(t) \]
 </p>
-<p>L'implémentation est basée sur <a href="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/">https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/</a>, qui permet un calcul efficace, sans arctangente : </p><p class="formulaDsp">
+<p>The implementation si based on <a href="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/">https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/</a>, which enable an efficient, arc-tangent free, computing: </p><p class="formulaDsp">
 \[ y(t) = \frac{\mathcal{Re}(x(t)) \frac{d\mathcal{Im}(x(t))}{dt} - \mathcal{Im}(x(t)) \frac{d\mathcal{Re}(x(t))}{dt}}{\left|x(t)\right|^2} \]
 </p>
-<p>Les dérivées étant approximées à l'ordre 1 : </p><p class="formulaDsp">
+<p>The derivative is approximated at the first order: </p><p class="formulaDsp">
 \[ \frac{dx}{dt}(k) \sim \frac{x_{k+1}-x_{k-1}}{2} \]
 </p>
-<dl class="section return"><dt>Returns</dt><dd>Filtre cfloat (signal bande de base, complexe) vers float (fréquence instantanée, sous forme de pulsation normalisée (entre \(-\pi\) et \(\pi\))). </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Du fait de l'aproximation utilisée pour le calcul de la dérivée, ce bloc génére un retard de 1 échantillon.</dd></dl>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line"> </div>
-<div class="line"> </div>
+<dl class="section return"><dt>Returns</dt><dd>Filter cfloat (baseband signal, complex) to float (instantaneous frequnency, as a normalized pulsation (between \(-\pi\) and \(\pi\))). </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Because of the aproximation done for derivative computation, this block insert a delay of 1 sample.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// Signal test</span></div>
-<div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga685802375870ff4bf5224dc16ee2a382.html#ga685802375870ff4bf5224dc16ee2a382">siggauss</a>(1000) / 10;</div>
+<div class="line">  soit x = <a class="code" href="group__tsd-gen_ga2971b1bdd0395cf2f76cc9799772d26e.html#ga2971b1bdd0395cf2f76cc9799772d26e">siggauss</a>(1000) / 10;</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Modulation FM</span></div>
-<div class="line">  ArrayXcf y = polar(<a class="code" href="group__tsd_gac6062dd92418b37724dfb5751f08dd2d.html#gac6062dd92418b37724dfb5751f08dd2d">cumsum</a>(x));</div>
+<div class="line">  soit y = polar(<a class="code" href="group__tsd_ga911cb0503dba380d37a891252ee2433c.html#ga911cb0503dba380d37a891252ee2433c">cumsum</a>(x));</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Démod</span></div>
-<div class="line">  <span class="keyword">auto</span> discri = <a class="code" href="group__telecom-mods-analog_gab8c442f239aee5a9e11ac248f7869a50.html#gab8c442f239aee5a9e11ac248f7869a50">discriminateur_fm</a>();</div>
-<div class="line">  ArrayXf z = discri-&gt;step(y);</div>
+<div class="line">  soit discri = <a class="code" href="group__telecom-mods-analog_gab8c442f239aee5a9e11ac248f7869a50.html#gab8c442f239aee5a9e11ac248f7869a50">discriminateur_fm</a>();</div>
+<div class="line">  soit z = discri-&gt;step(y);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Signal test&quot;</span>);</div>
 <div class="line">  f.subplot().plot(y, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Signal modulé FM&quot;</span>);</div>
 <div class="line">  f.subplot().plot(z, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Sortie discriminateur&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__telecom-mods-analog_gab8c442f239aee5a9e11ac248f7869a50_html_gab8c442f239aee5a9e11ac248f7869a50"><div class="ttname"><a href="group__telecom-mods-analog_gab8c442f239aee5a9e11ac248f7869a50.html#gab8c442f239aee5a9e11ac248f7869a50">dsp::telecom::discriminateur_fm</a></div><div class="ttdeci">sptr&lt; FilterGen&lt; cfloat, float &gt; &gt; discriminateur_fm()</div><div class="ttdoc">Discrimination polaire pour la démodulation FM.</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga685802375870ff4bf5224dc16ee2a382_html_ga685802375870ff4bf5224dc16ee2a382"><div class="ttname"><a href="group__tsd-gen_ga685802375870ff4bf5224dc16ee2a382.html#ga685802375870ff4bf5224dc16ee2a382">dsp::siggauss</a></div><div class="ttdeci">static ArrayXf siggauss(int n, float a=10)</div><div class="ttdoc">Gaussian filtered impulse.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:1041</div></div>
-<div class="ttc" id="agroup__tsd_gac6062dd92418b37724dfb5751f08dd2d_html_gac6062dd92418b37724dfb5751f08dd2d"><div class="ttname"><a href="group__tsd_gac6062dd92418b37724dfb5751f08dd2d.html#gac6062dd92418b37724dfb5751f08dd2d">dsp::cumsum</a></div><div class="ttdeci">auto cumsum(const Eigen::ArrayBase&lt; D &gt; &amp;x)</div><div class="ttdoc">Accumulated sum of a vector.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:201</div></div>
+<div class="ttc" id="agroup__telecom-mods-analog_gab8c442f239aee5a9e11ac248f7869a50_html_gab8c442f239aee5a9e11ac248f7869a50"><div class="ttname"><a href="group__telecom-mods-analog_gab8c442f239aee5a9e11ac248f7869a50.html#gab8c442f239aee5a9e11ac248f7869a50">dsp::telecom::discriminateur_fm</a></div><div class="ttdeci">sptr&lt; FilterGen&lt; cfloat, float &gt; &gt; discriminateur_fm()</div><div class="ttdoc">Polar discrimination for FM demodulation.</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga2971b1bdd0395cf2f76cc9799772d26e_html_ga2971b1bdd0395cf2f76cc9799772d26e"><div class="ttname"><a href="group__tsd-gen_ga2971b1bdd0395cf2f76cc9799772d26e.html#ga2971b1bdd0395cf2f76cc9799772d26e">dsp::siggauss</a></div><div class="ttdeci">static Vecf siggauss(int n, float a=10)</div><div class="ttdoc">Gaussian filtered impulse.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:1052</div></div>
+<div class="ttc" id="agroup__tsd_ga911cb0503dba380d37a891252ee2433c_html_ga911cb0503dba380d37a891252ee2433c"><div class="ttname"><a href="group__tsd_ga911cb0503dba380d37a891252ee2433c.html#ga911cb0503dba380d37a891252ee2433c">dsp::cumsum</a></div><div class="ttdeci">auto cumsum(const Vector&lt; T &gt; &amp;x)</div><div class="ttdoc">Accumulated sum of a vector.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:194</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-discriminateur-fm.png" alt="" width="800px"/>
 </div>
@@ -170,7 +168,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-analog_gab8c442f23
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

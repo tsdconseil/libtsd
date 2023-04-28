@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga9635fa2ba7f5cc2c
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1_filtre.html">Filtre</a>&lt;<a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, <a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, <a class="el" href="structtsd_1_1telecom_1_1_canal_dispersif_config.html">CanalDispersifConfig</a>&gt; &gt; tsd::telecom::canal_dispersif </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1_filtre.html">Filtre</a>&lt;<a class="el" href="namespacetsd.html#a9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, <a class="el" href="namespacetsd.html#a9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>, <a class="el" href="structtsd_1_1telecom_1_1_canal_dispersif_config.html">CanalDispersifConfig</a>&gt; &gt; tsd::telecom::canal_dispersif </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structtsd_1_1telecom_1_1_canal_dispersif_config.html">CanalDispersifConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
@@ -140,17 +140,16 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga9635fa2ba7f5cc2c
 <div class="line">  config.fd   = 10;</div>
 <div class="line">  <span class="comment">// Sampling frequency = 10 kHz</span></div>
 <div class="line">  config.fe   = 1e4;</div>
-<div class="line">  config.type = <a class="code" href="group__telecom-simu_ga75ea56ba89f6c0a0985ff996e9ddb6e4.html#gga75ea56ba89f6c0a0985ff996e9ddb6e4a5b29fc2cf98302b220e84a989dc913a0">TypeCanal::RICE</a>;</div>
+<div class="line">  config.type = <a class="code" href="group__telecom-simu_ga6c24b6dcb6bec5b2fa2f0eb970ec4d38.html#gga6c24b6dcb6bec5b2fa2f0eb970ec4d38a5b29fc2cf98302b220e84a989dc913a0">TypeCanal::RICE</a>;</div>
 <div class="line">  <span class="comment">// Facteur Ricien (importance du trajet dominant % aux autre trajets)</span></div>
 <div class="line">  config.K    = 2;</div>
 <div class="line"> </div>
 <div class="line">  <span class="keyword">auto</span> canal = <a class="code" href="group__telecom-simu_ga9635fa2ba7f5cc2ca8f30f19fe8e773a.html#ga9635fa2ba7f5cc2ca8f30f19fe8e773a">canal_dispersif</a>(config);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 1 seconde</span></div>
-<div class="line">  ArrayXcf x = ArrayXcf::Ones(config.fe);</div>
-<div class="line"> </div>
-<div class="line">  ArrayXcf y = canal-&gt;step(x);</div>
-<div class="ttc" id="agroup__telecom-simu_ga75ea56ba89f6c0a0985ff996e9ddb6e4_html_gga75ea56ba89f6c0a0985ff996e9ddb6e4a5b29fc2cf98302b220e84a989dc913a0"><div class="ttname"><a href="group__telecom-simu_ga75ea56ba89f6c0a0985ff996e9ddb6e4.html#gga75ea56ba89f6c0a0985ff996e9ddb6e4a5b29fc2cf98302b220e84a989dc913a0">tsd::telecom::RICE</a></div><div class="ttdeci">@ RICE</div><div class="ttdoc">Avec trajet dominant.</div><div class="ttdef"><b>Definition:</b> telecom.hpp:596</div></div>
+<div class="line">  soit x = Veccf::ones(config.fe);</div>
+<div class="line">  soit y = canal-&gt;step(x);</div>
+<div class="ttc" id="agroup__telecom-simu_ga6c24b6dcb6bec5b2fa2f0eb970ec4d38_html_gga6c24b6dcb6bec5b2fa2f0eb970ec4d38a5b29fc2cf98302b220e84a989dc913a0"><div class="ttname"><a href="group__telecom-simu_ga6c24b6dcb6bec5b2fa2f0eb970ec4d38.html#gga6c24b6dcb6bec5b2fa2f0eb970ec4d38a5b29fc2cf98302b220e84a989dc913a0">tsd::telecom::RICE</a></div><div class="ttdeci">@ RICE</div><div class="ttdoc">Avec trajet dominant.</div><div class="ttdef"><b>Definition:</b> telecom.hpp:596</div></div>
 <div class="ttc" id="agroup__telecom-simu_ga9635fa2ba7f5cc2ca8f30f19fe8e773a_html_ga9635fa2ba7f5cc2ca8f30f19fe8e773a"><div class="ttname"><a href="group__telecom-simu_ga9635fa2ba7f5cc2ca8f30f19fe8e773a.html#ga9635fa2ba7f5cc2ca8f30f19fe8e773a">tsd::telecom::canal_dispersif</a></div><div class="ttdeci">sptr&lt; Filtre&lt; cfloat, cfloat, CanalDispersifConfig &gt; &gt; canal_dispersif(const CanalDispersifConfig &amp;config)</div><div class="ttdoc">Création d'un simulateur de canal dispersif.</div></div>
 </div><!-- fragment --> <div class="image">
 <img src="canal-dispersif.png" alt="" width="800px"/>
@@ -165,7 +164,7 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga9635fa2ba7f5cc2c
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-simu.html">Simulation</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

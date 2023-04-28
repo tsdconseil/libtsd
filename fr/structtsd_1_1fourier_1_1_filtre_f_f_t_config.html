@@ -118,29 +118,29 @@ $(document).ready(function(){initNavTree('structtsd_1_1fourier_1_1_filtre_f_f_t_
 </div><!--header-->
 <div class="contents">
 
-<p>Structure de configuration pour un filtre FFT (voir <a class="el" href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">filtre_fft()</a>).  
+<p>Structure de configuration pour un filtre FFT (voir <a class="el" href="group__fourier_gaf9b6d62902e82b512c042232cca548e6.html#gaf9b6d62902e82b512c042232cca548e6">filtre_fft()</a>).  
 </p>
 
 <p><code>#include &lt;<a class="el" href="fourier_8hpp_source.html">tsd/fourier.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Attributs publics</h2></td></tr>
-<tr class="memitem:a7713632f5230fc4685b21b8d1d402fbe"><td class="memItemLeft" align="right" valign="top"><a id="a7713632f5230fc4685b21b8d1d402fbe"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a7713632f5230fc4685b21b8d1d402fbe">dim_blocs_temporel</a> = 0</td></tr>
-<tr class="memdesc:a7713632f5230fc4685b21b8d1d402fbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'échantillons par bloc temporel (ou zéro si déterminé automatiquement) <br /></td></tr>
-<tr class="separator:a7713632f5230fc4685b21b8d1d402fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa140b1932bcdcf3c159fb31d9d0c395"><td class="memItemLeft" align="right" valign="top"><a id="afa140b1932bcdcf3c159fb31d9d0c395"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#afa140b1932bcdcf3c159fb31d9d0c395">nb_zeros_min</a> = 0</td></tr>
-<tr class="memdesc:afa140b1932bcdcf3c159fb31d9d0c395"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre minimum de zéros insérés en début de bloc (<em>"zéro-padding"</em>) <br /></td></tr>
-<tr class="separator:afa140b1932bcdcf3c159fb31d9d0c395"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaefabb7283538aa961732203b8cb6f9"><td class="memItemLeft" align="right" valign="top"><a id="abaefabb7283538aa961732203b8cb6f9"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#abaefabb7283538aa961732203b8cb6f9">avec_fenetrage</a> = false</td></tr>
-<tr class="memdesc:abaefabb7283538aa961732203b8cb6f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Si vrai, une fenêtre de Hann est utilisée, avec un recouvrement de 1/2 pour un reconstruction parfaite. <br /></td></tr>
-<tr class="separator:abaefabb7283538aa961732203b8cb6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35857c92e8b81ded86be8c44acb6950a"><td class="memItemLeft" align="right" valign="top"><a id="a35857c92e8b81ded86be8c44acb6950a"></a>
-std::function&lt; void(ArrayXcf &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a35857c92e8b81ded86be8c44acb6950a">traitement_freq</a></td></tr>
-<tr class="memdesc:a35857c92e8b81ded86be8c44acb6950a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback appelée pour le traitement dans le domaine fréquentiel (à réaliser par l'utilisateur). <br /></td></tr>
-<tr class="separator:a35857c92e8b81ded86be8c44acb6950a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60a2f094be904de71dceaa73e55abe4a"><td class="memItemLeft" align="right" valign="top"><a id="a60a2f094be904de71dceaa73e55abe4a"></a>
+entier&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a60a2f094be904de71dceaa73e55abe4a">dim_blocs_temporel</a> = 0</td></tr>
+<tr class="memdesc:a60a2f094be904de71dceaa73e55abe4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'échantillons par bloc temporel (ou zéro si déterminé automatiquement) <br /></td></tr>
+<tr class="separator:a60a2f094be904de71dceaa73e55abe4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d606b7442ae048364b6f3ddee03163a"><td class="memItemLeft" align="right" valign="top"><a id="a1d606b7442ae048364b6f3ddee03163a"></a>
+entier&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#a1d606b7442ae048364b6f3ddee03163a">nb_zeros_min</a> = 0</td></tr>
+<tr class="memdesc:a1d606b7442ae048364b6f3ddee03163a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre minimum de zéros insérés en début de bloc (<em>"zéro-padding"</em>) <br /></td></tr>
+<tr class="separator:a1d606b7442ae048364b6f3ddee03163a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abac3e46621762009cade415dbdbef694"><td class="memItemLeft" align="right" valign="top"><a id="abac3e46621762009cade415dbdbef694"></a>
+bouléen&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#abac3e46621762009cade415dbdbef694">avec_fenetrage</a> = non</td></tr>
+<tr class="memdesc:abac3e46621762009cade415dbdbef694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Si vrai, une fenêtre de Hann est utilisée, avec un recouvrement de 1/2 pour un reconstruction parfaite. <br /></td></tr>
+<tr class="separator:abac3e46621762009cade415dbdbef694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae761e754b6cead1dd46f5debbd4f7854"><td class="memItemLeft" align="right" valign="top"><a id="ae761e754b6cead1dd46f5debbd4f7854"></a>
+std::function&lt; void(Veccf &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html#ae761e754b6cead1dd46f5debbd4f7854">traitement_freq</a></td></tr>
+<tr class="memdesc:ae761e754b6cead1dd46f5debbd4f7854"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback appelée pour le traitement dans le domaine fréquentiel (à réaliser par l'utilisateur). <br /></td></tr>
+<tr class="separator:ae761e754b6cead1dd46f5debbd4f7854"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
 <li>tsd/<a class="el" href="fourier_8hpp_source.html">fourier.hpp</a></li>
@@ -151,7 +151,7 @@ std::function&lt; void(ArrayXcf &amp;)&gt;&#160;</td><td class="memItemRight" va
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><a class="el" href="namespacetsd_1_1fourier.html">fourier</a></li><li class="navelem"><a class="el" href="structtsd_1_1fourier_1_1_filtre_f_f_t_config.html">FiltreFFTConfig</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

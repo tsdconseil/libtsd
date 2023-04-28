@@ -2,20 +2,24 @@ var group__telecom_mods =
 [
     [ "Waveforms", "group__telecom-mods-wf.html", "group__telecom-mods-wf" ],
     [ "ModConfig", "structdsp_1_1telecom_1_1_mod_config.html", [
-      [ "fe", "structdsp_1_1telecom_1_1_mod_config.html#a697bc4aecc5a682f12c04d6689a03a67", null ],
+      [ "debug_active", "structdsp_1_1telecom_1_1_mod_config.html#a55bdb7ae019698f6b264ee07eac2ddf8", null ],
       [ "fi", "structdsp_1_1telecom_1_1_mod_config.html#a53ab881df04d73541e18e6855706fe2b", null ],
+      [ "fs", "structdsp_1_1telecom_1_1_mod_config.html#ac7a380b9dc116e2dbc0e6de52b0bba4d", null ],
       [ "fsymb", "structdsp_1_1telecom_1_1_mod_config.html#afc3cfdb9288d7e3b72fbd818b0462476", null ],
+      [ "real_output", "structdsp_1_1telecom_1_1_mod_config.html#a57fd800b54f738de554476f8e59e74f9", null ],
+      [ "shaping_filter_ntaps", "structdsp_1_1telecom_1_1_mod_config.html#aec5796aeb7b8f06d743cffcaf5641af2", null ],
       [ "wf", "structdsp_1_1telecom_1_1_mod_config.html#a6ea6265476a9de1ccc9387b6cdadd416", null ]
     ] ],
     [ "Modulator", "structdsp_1_1telecom_1_1_modulator.html", [
       [ "delay", "structdsp_1_1telecom_1_1_modulator_a1d3f51e70793118ffb2191738407a7c8.html#a1d3f51e70793118ffb2191738407a7c8", null ],
-      [ "flush", "structdsp_1_1telecom_1_1_modulator_a8a7aab33e8e2469582f0c4d73dc69f97.html#a8a7aab33e8e2469582f0c4d73dc69f97", null ],
-      [ "step", "structdsp_1_1telecom_1_1_modulator_a66af8bfcbbc95818b38935cd3e450b11.html#a66af8bfcbbc95818b38935cd3e450b11", null ]
+      [ "flush", "structdsp_1_1telecom_1_1_modulator_a4982d46ac170522f34323e1b937bfe39.html#a4982d46ac170522f34323e1b937bfe39", null ],
+      [ "set_waveform", "structdsp_1_1telecom_1_1_modulator_a9f4a008cfc7e79500d7df44e6efdb7f4.html#a9f4a008cfc7e79500d7df44e6efdb7f4", null ],
+      [ "step", "structdsp_1_1telecom_1_1_modulator_a64e170c048e782045523bf268c00c0a9.html#a64e170c048e782045523bf268c00c0a9", null ]
     ] ],
     [ "Demodulator", "structdsp_1_1telecom_1_1_demodulator.html", [
       [ "delay", "structdsp_1_1telecom_1_1_demodulator_a2a135a4b917cd219835b4452592d0333.html#a2a135a4b917cd219835b4452592d0333", null ],
-      [ "step", "structdsp_1_1telecom_1_1_demodulator_ab68c28f5eb045cabc24b7917b5c5352c.html#ab68c28f5eb045cabc24b7917b5c5352c", null ],
-      [ "step", "structdsp_1_1telecom_1_1_demodulator_a6fa457f0979d2d15e2dd5e75684f8ffa.html#a6fa457f0979d2d15e2dd5e75684f8ffa", null ],
+      [ "step", "structdsp_1_1telecom_1_1_demodulator_a2c2332644d7cf7340d229ecb9eb71e1a.html#a2c2332644d7cf7340d229ecb9eb71e1a", null ],
+      [ "step", "structdsp_1_1telecom_1_1_demodulator_af7fdf00abe70f97b8553550950c10c5f.html#af7fdf00abe70f97b8553550950c10c5f", null ],
       [ "tune_clock", "structdsp_1_1telecom_1_1_demodulator_a9abc5356b2857a0c66a7e9cd1e376d04.html#a9abc5356b2857a0c66a7e9cd1e376d04", null ]
     ] ],
     [ "DemodConfig", "structdsp_1_1telecom_1_1_demod_config.html", [
@@ -43,7 +47,7 @@ var group__telecom_mods =
     ] ],
     [ "PacketReceiverConfig", "structdsp_1_1telecom_1_1_packet_receiver_config.html", [
       [ "BS", "structdsp_1_1telecom_1_1_packet_receiver_config.html#aee85b419d5f6e1176703fffb2d81bedd", null ],
-      [ "callback_corr", "structdsp_1_1telecom_1_1_packet_receiver_config.html#ad980d1f87d9737492adda1f7fffd70cb", null ],
+      [ "callback_corr", "structdsp_1_1telecom_1_1_packet_receiver_config.html#a64ef51ba8b9f67ede0bde1453bd1d5ca", null ],
       [ "config_demod", "structdsp_1_1telecom_1_1_packet_receiver_config.html#a765ca71a6c1d93704426341305ee0736", null ],
       [ "correl_fft", "structdsp_1_1telecom_1_1_packet_receiver_config.html#a1e16b9398161c9deeabb46fd55f21a19", null ],
       [ "debug_actif", "structdsp_1_1telecom_1_1_packet_receiver_config.html#a681664ab7f10d8e3795763a770c6834e", null ],
@@ -56,13 +60,13 @@ var group__telecom_mods =
       [ "bs", "structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a0aa98b4202d1831e7c6d8ef63418d8e4", null ],
       [ "det", "structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a2c5ada86e8ec0060f34c3a9a899885c2", null ],
       [ "EbN0", "structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a929bc646eaceb86a817c06734b0b2d88", null ],
-      [ "x", "structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a64802b014df5b2dd9a32e4f4188490c0", null ],
-      [ "x1", "structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#aa1151fce3beffdb670971772931ece4a", null ]
+      [ "x", "structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a0547c988b4c4d82057258083b38b3828", null ],
+      [ "x1", "structdsp_1_1telecom_1_1_r_xC3_xA9cepteur_trame.html#a0fede7bf5afc61fe96953efcd97aa3ad", null ]
     ] ],
     [ "PacketReceiver", "structdsp_1_1telecom_1_1_packet_receiver.html", [
       [ "configure", "structdsp_1_1telecom_1_1_packet_receiver.html#acce8804c6e820c258dea2450a440af2b", null ],
       [ "moniteurs", "structdsp_1_1telecom_1_1_packet_receiver.html#a53e5fb2f927705446f7bc1903a444bea", null ],
-      [ "step", "structdsp_1_1telecom_1_1_packet_receiver.html#a6cb93597f20b3ec72878d5d80ccec345", null ]
+      [ "step", "structdsp_1_1telecom_1_1_packet_receiver.html#a1d01b5fb6bb6b6a814dd9fab001d1164", null ]
     ] ],
     [ "PacketEmitterConfig", "structdsp_1_1telecom_1_1_packet_emitter_config.html", [
       [ "debug_actif", "structdsp_1_1telecom_1_1_packet_emitter_config.html#ae7a20d46661bac1f5ac2e8c9208b13f0", null ],
@@ -72,7 +76,7 @@ var group__telecom_mods =
       [ "configure", "structdsp_1_1telecom_1_1_packet_emitter.html#a73178f305be62e0b39d19b91714d68cc", null ],
       [ "delay", "structdsp_1_1telecom_1_1_packet_emitter.html#abaf4801f38f0314c29e8b3ce925cf54d", null ],
       [ "moniteurs", "structdsp_1_1telecom_1_1_packet_emitter.html#adab58070c6e9d18e6dd260e7fa3738c6", null ],
-      [ "step", "structdsp_1_1telecom_1_1_packet_emitter.html#a32526c85fc54a77e6b4ea31cd7e11e2b", null ]
+      [ "step", "structdsp_1_1telecom_1_1_packet_emitter.html#a69dfd3c55cec28d461fb35c00ae8ea55", null ]
     ] ],
     [ "demodulator_new", "group__telecom-mods_gad9ce7099a88285e5e541380b97ce5b89.html#gad9ce7099a88285e5e541380b97ce5b89", null ],
     [ "modulator_new", "group__telecom-mods_ga33861c98ecb45c2195b6bd90c3c179f5.html#ga33861c98ecb45c2195b6bd90c3c179f5", null ],

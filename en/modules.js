@@ -4,7 +4,7 @@ var modules =
     [ "Date / time", "group__tsd-temps.html", "group__tsd-temps" ],
     [ "Visualizations", "group__vue.html", "group__vue" ],
     [ "Miscellaneous functions", "group__divers.html", "group__divers" ],
-    [ "Geometry", "group__geometrie.html", null ],
+    [ "Geometry", "group__geometrie.html", "group__geometrie" ],
     [ "Linear filtering", "group__filtrage.html", "group__filtrage" ],
     [ "Fourier transform", "group__fourier.html", "group__fourier" ],
     [ "Time-frequency representations", "group__temps-frequence.html", "group__temps-frequence" ],

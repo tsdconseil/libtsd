@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('group__tsd_gafddcf80180c426c96ce455032
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="group__tsd.html#gacb1ad7e0d910dd0d94f9f899e0549fa1">Sink</a>&lt;T,int&gt; &gt; dsp::buffer_new </td>
+          <td class="memname">sptr&lt;<a class="el" href="group__tsd.html#gacb1ad7e0d910dd0d94f9f899e0549fa1">Sink</a>&lt;T,int&gt; &gt; dsp::buffer_new </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>N</em>, </td>
@@ -127,7 +127,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::function&lt; void(const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; void(const <a class="el" href="group__tsd.html#ga0e34dcdb103305a2b7d8798e627ea651">Vector</a>&lt; T &gt; &amp;)&gt;&#160;</td>
           <td class="paramname"><em>callback</em>&#160;</td>
         </tr>
         <tr>
@@ -157,17 +157,17 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section user"><dt>Example: preparation of packets for a FFT</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> t = tampon_création&lt;float&gt;(512,</div>
+<div class="line">  soit t = tampon_création&lt;float&gt;(512,</div>
 <div class="line">      <span class="comment">// Définition de la callback</span></div>
-<div class="line">      [](<span class="keyword">const</span> ArrayXf &amp;x)</div>
+<div class="line">      [](<span class="keyword">const</span> Vecf &amp;x)</div>
 <div class="line">      {</div>
 <div class="line">        <span class="comment">// Ici, on est certain d&#39;avoir 512 échantillons</span></div>
 <div class="line">        tsd_assert(x.rows() == 512);</div>
-<div class="line">        ArrayXcf X = <a class="code" href="group__fourier_ga1b27c9c60ac6b9c7c46f204dff8459fb.html#ga1b27c9c60ac6b9c7c46f204dff8459fb">fft</a>(x);</div>
+<div class="line">        soit X = <a class="code" href="group__fourier_ga3520bf5a3057e5386da5ea31f11f1257.html#ga3520bf5a3057e5386da5ea31f11f1257">fft</a>(x);</div>
 <div class="line">      });</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 10000 échantillons à traiter</span></div>
-<div class="line">  ArrayXf x(10000);</div>
+<div class="line">  Vecf x(10000);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// x = ...</span></div>
 <div class="line"> </div>
@@ -175,7 +175,7 @@ template&lt;typename T &gt; </div>
 <div class="line">  t-&gt;step(x);</div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__fourier_ga1b27c9c60ac6b9c7c46f204dff8459fb_html_ga1b27c9c60ac6b9c7c46f204dff8459fb"><div class="ttname"><a href="group__fourier_ga1b27c9c60ac6b9c7c46f204dff8459fb.html#ga1b27c9c60ac6b9c7c46f204dff8459fb">dsp::fourier::fft</a></div><div class="ttdeci">auto fft(const Eigen::ArrayBase&lt; derived &gt; &amp;x)</div><div class="ttdoc">Fast discrete Fourier Transform (FFT).</div><div class="ttdef"><b>Definition:</b> fourier.hpp:169</div></div>
+<div class="ttc" id="agroup__fourier_ga3520bf5a3057e5386da5ea31f11f1257_html_ga3520bf5a3057e5386da5ea31f11f1257"><div class="ttname"><a href="group__fourier_ga3520bf5a3057e5386da5ea31f11f1257.html#ga3520bf5a3057e5386da5ea31f11f1257">dsp::fourier::fft</a></div><div class="ttdeci">auto fft(const Vector&lt; T &gt; &amp;x)</div><div class="ttdoc">Fast discrete Fourier Transform (FFT).</div><div class="ttdef"><b>Definition:</b> fourier.hpp:169</div></div>
 </div><!-- fragment -->Note that 10000 not being a multiple of 512, the last samples are not processed (they would be if the method t-&gt;step()) is called with more samples). </dd></dl>
 
 </div>
@@ -186,7 +186,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

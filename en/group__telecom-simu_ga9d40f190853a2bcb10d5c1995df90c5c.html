@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga9d40f190853a2bcb
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="group__tsd_ga45923d187d821768b6fc6834f436a42b.html#ga45923d187d821768b6fc6834f436a42b">Filter</a>&lt;<a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, nfr::CanalDispersifConfig&gt; &gt; dsp::telecom::dispersive_channel </td>
+          <td class="memname">sptr&lt;<a class="el" href="group__tsd_ga45923d187d821768b6fc6834f436a42b.html#ga45923d187d821768b6fc6834f436a42b">Filter</a>&lt;<a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, <a class="el" href="group__tsd.html#gaa8c330358a956022365d97b01ba56225">cfloat</a>, nfr::CanalDispersifConfig&gt; &gt; dsp::telecom::dispersive_channel </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structdsp_1_1telecom_1_1_dispersive_channel_config.html">DispersiveChannelConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
@@ -148,17 +148,15 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga9d40f190853a2bcb
 <div class="line">  config.fd   = 10;</div>
 <div class="line">  <span class="comment">// Sampling frequency = 10 kHz</span></div>
 <div class="line">  config.fe   = 1e4;</div>
-<div class="line">  config.type = <a class="code" href="group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#gga54026a7d1121da81388781553bcd3acba50d033843db4489d807b90f41ec41fd4">TypeCanal::RICE</a>;</div>
+<div class="line">  config.type = TypeCanal::RICE;</div>
 <div class="line">  <span class="comment">// Facteur Ricien (importance du trajet dominant % aux autre trajets)</span></div>
 <div class="line">  config.K    = 2;</div>
 <div class="line"> </div>
 <div class="line">  <span class="keyword">auto</span> canal = canal_dispersif(config);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 1 seconde</span></div>
-<div class="line">  ArrayXcf x = ArrayXcf::Ones(config.fe);</div>
-<div class="line"> </div>
-<div class="line">  ArrayXcf y = canal-&gt;step(x);</div>
-<div class="ttc" id="agroup__telecom-simu_ga54026a7d1121da81388781553bcd3acb_html_gga54026a7d1121da81388781553bcd3acba50d033843db4489d807b90f41ec41fd4"><div class="ttname"><a href="group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#gga54026a7d1121da81388781553bcd3acba50d033843db4489d807b90f41ec41fd4">dsp::telecom::RICE</a></div><div class="ttdeci">@ RICE</div><div class="ttdoc">With dominant path.</div><div class="ttdef"><b>Definition:</b> telecom.hpp:730</div></div>
+<div class="line">  soit x = Veccf::ones(config.fe);</div>
+<div class="line">  soit y = canal-&gt;step(x);</div>
 </div><!-- fragment --> <div class="image">
 <img src="canal-dispersif.png" alt="" width="800px"/>
 </div>
@@ -172,7 +170,7 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga9d40f190853a2bcb
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

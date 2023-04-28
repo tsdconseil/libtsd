@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1fourier_1_1_detecteur.html">Detecteur</a>&gt; tsd::fourier::détecteur_création </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1fourier_1_1_detecteur.html">Detecteur</a>&gt; tsd::fourier::détecteur_création </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structtsd_1_1fourier_1_1_detecteur_config.html">DetecteurConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em> = <code><a class="el" href="structtsd_1_1fourier_1_1_detecteur_config.html">DetecteurConfig</a>()</code></td><td>)</td>
@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
 \[ c_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}} \]
 </p>
 <p>Les \(c_n\) sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle \([n\dots n + M[\).</p>
-<p>Le calcul pouvant être fait soit grâce à un filtre RIF (avec une complexité de l'ordre de \(M\) opérations / échantillon), soit de manière efficace dans le domaine fréquentiel via la technique <em>Overlap-And-Add</em> (bloc <a class="el" href="group__fourier_ga0c01b0b59ae01c0957cfe30a3b92cb5b.html#ga0c01b0b59ae01c0957cfe30a3b92cb5b">filtre_fft()</a>), la complexité étant alors de l'ordre de \(\log_2(M)\) opérations par échantillon (si \(M\) est une puissance de 2).</p>
+<p>Le calcul pouvant être fait soit grâce à un filtre RIF (avec une complexité de l'ordre de \(M\) opérations / échantillon), soit de manière efficace dans le domaine fréquentiel via la technique <em>Overlap-And-Add</em> (bloc <a class="el" href="group__fourier_gaf9b6d62902e82b512c042232cca548e6.html#gaf9b6d62902e82b512c042232cca548e6">filtre_fft()</a>), la complexité étant alors de l'ordre de \(\log_2(M)\) opérations par échantillon (si \(M\) est une puissance de 2).</p>
 <p>Ensuite, les pics isolés correspondant à des positions possibles de motif sont détectés. Les deux critères suivants sont vérifiés~:</p><ul>
 <li>Score \(c_n\) supérieur à un seuil paramétrable,</li>
 <li>Absence de pic de score supérieur dans un voisinage de \(\pm\) la moitié de la durée du motif de synchronisation.</li>
@@ -154,25 +154,19 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
   </dd>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd><a class="el" href="structtsd_1_1_filtre.html" title="Structure abstraite pour un filtre de données configurable.">Filtre</a> cfloat \(\to\) float, qui prend en entrée des échantillons, et sort, au fil de l'eau, la corrélation normalisée avec le motif.</dd></dl>
-<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">int</span> M = 512; <span class="comment">// Dimension du motif</span></div>
-<div class="line">  <span class="keywordtype">int</span> N = 16*M; <span class="comment">// Dimension du signal</span></div>
+<dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line">  soit M = 512;  <span class="comment">// Dimension du motif</span></div>
+<div class="line">  soit N = 16*M; <span class="comment">// Dimension du signal</span></div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Motif de synchronisation</span></div>
-<div class="line">  ArrayXcf motif = <a class="code" href="group__tsd-gen_gae9fae5f674602bd178ea4a81a1c08d2b.html#gae9fae5f674602bd178ea4a81a1c08d2b">sigchirp2</a>(0.001, 0.2, M);</div>
+<div class="line">  soit motif = <a class="code" href="group__tsd-gen_gaac31a4ad09d8889c7700fe7b66937a0a.html#gaac31a4ad09d8889c7700fe7b66937a0a">sigchirp</a>(0.001, 0.2, M, <span class="charliteral">&#39;q&#39;</span>);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Signal = bruit</span></div>
-<div class="line">  ArrayXcf x = 0.1 * <a class="code" href="group__tsd-gen_ga4ec36c6d71e373aa785a7542a3673928.html#ga4ec36c6d71e373aa785a7542a3673928">randn</a>(N);</div>
+<div class="line">  soit x = (0.1 * <a class="code" href="group__tsd-gen_gabfd951e580e839356b81fe76c899c002.html#gabfd951e580e839356b81fe76c899c002">randn</a>(N)).as&lt;cfloat&gt;();</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// + motif à détecter au milieu</span></div>
 <div class="line">  x.segment(900, M) = motif;</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">int</span> pos_detection = 0;</div>
-<div class="line"> </div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">//float C;</span></div>
-<div class="line">  <span class="comment">//int Nf, Nz, Ne;</span></div>
-<div class="line">  <span class="comment">//ola_complexité_optimise(M, C, Nf, Nz, Ne);</span></div>
-<div class="line"> </div>
+<div class="line">  soit pos_detection = 0;</div>
 <div class="line"> </div>
 <div class="line">  DetecteurConfig config;</div>
 <div class="line">  config.motif  = motif;</div>
@@ -182,22 +176,22 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
 <div class="line">    msg(<span class="stringliteral">&quot;Detection : {}.&quot;</span>, det);</div>
 <div class="line">    pos_detection = det.position;</div>
 <div class="line">  };</div>
-<div class="line">  <span class="keyword">auto</span> det = <a class="code" href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">détecteur_création</a>(config);</div>
-<div class="line">  ArrayXf y = det-&gt;step(x);</div>
+<div class="line">  soit det = <a class="code" href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">détecteur_création</a>(config);</div>
+<div class="line">  soit y = det-&gt;step(x);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
-<div class="line">  f.subplot().plot(motif.real(), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Motif à détecter&quot;</span>);</div>
-<div class="line">  f.subplot().plot(x.real(), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(motif), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Motif à détecter&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(x), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
 <div class="line">  f.gcf().def_rdi({0, -1, 8000, 2});</div>
 <div class="line"> </div>
 <div class="line">  f.gcf().canva().set_couleur(tsd::vue::Couleur::Vert);</div>
 <div class="line">  f.gcf().canva().set_epaisseur(3);</div>
-<div class="line">  f.gcf().canva().set_remplissage(<span class="keyword">false</span>);</div>
+<div class="line">  f.gcf().canva().set_remplissage(non);</div>
 <div class="line">  f.gcf().canva().rectangle(pos_detection, 1, pos_detection + M - 1, -1);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41_html_ga13b37a130f9dcb36bcda22ea52d12c41"><div class="ttname"><a href="group__fourier-corr_ga13b37a130f9dcb36bcda22ea52d12c41.html#ga13b37a130f9dcb36bcda22ea52d12c41">tsd::fourier::détecteur_création</a></div><div class="ttdeci">sptr&lt; Detecteur &gt; détecteur_création(const DetecteurConfig &amp;config=DetecteurConfig())</div><div class="ttdoc">Détecteur par corrélation.</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga4ec36c6d71e373aa785a7542a3673928_html_ga4ec36c6d71e373aa785a7542a3673928"><div class="ttname"><a href="group__tsd-gen_ga4ec36c6d71e373aa785a7542a3673928.html#ga4ec36c6d71e373aa785a7542a3673928">tsd::randn</a></div><div class="ttdeci">ArrayXf randn(int n)</div><div class="ttdoc">Loi normale (vecteur colonne).</div></div>
-<div class="ttc" id="agroup__tsd-gen_gae9fae5f674602bd178ea4a81a1c08d2b_html_gae9fae5f674602bd178ea4a81a1c08d2b"><div class="ttname"><a href="group__tsd-gen_gae9fae5f674602bd178ea4a81a1c08d2b.html#gae9fae5f674602bd178ea4a81a1c08d2b">tsd::sigchirp2</a></div><div class="ttdeci">ArrayXf sigchirp2(float f0, float f1, int n)</div><div class="ttdoc">Chirp quadratique.</div></div>
+<div class="ttc" id="agroup__tsd-gen_gaac31a4ad09d8889c7700fe7b66937a0a_html_gaac31a4ad09d8889c7700fe7b66937a0a"><div class="ttname"><a href="group__tsd-gen_gaac31a4ad09d8889c7700fe7b66937a0a.html#gaac31a4ad09d8889c7700fe7b66937a0a">tsd::sigchirp</a></div><div class="ttdeci">Vecf sigchirp(float f0, float f1, entier n, char mode='l')</div><div class="ttdoc">Chirp linéaire ou quadratique.</div></div>
+<div class="ttc" id="agroup__tsd-gen_gabfd951e580e839356b81fe76c899c002_html_gabfd951e580e839356b81fe76c899c002"><div class="ttname"><a href="group__tsd-gen_gabfd951e580e839356b81fe76c899c002.html#gabfd951e580e839356b81fe76c899c002">tsd::randn</a></div><div class="ttdeci">Vecf randn(entier n)</div><div class="ttdoc">Loi normale (vecteur colonne).</div></div>
 </div><!-- fragment --><div class="image">
 <img src="fft_correlateur.png" alt="" width="800px"/>
 </div>
@@ -211,7 +205,7 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga13b37a130f9dcb36
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetsd.html">tsd</a></li><li class="navelem"><a class="el" href="namespacetsd_1_1fourier.html">fourier</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

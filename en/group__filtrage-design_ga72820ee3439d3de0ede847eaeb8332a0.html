@@ -188,12 +188,11 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga72820ee3439d3
 <dl class="section user"><dt>Example: low-pass filters, with different values for the quality factor</dt><dd><div class="fragment"><div class="line">    Figure f;</div>
 <div class="line">    <span class="keywordflow">for</span>(<span class="keyword">auto</span> Q: {0.5f, 1.0f/sqrt(2.0f), 1.0f, 2.0f})</div>
 <div class="line">    {</div>
-<div class="line">      <span class="keyword">auto</span> h = <a class="code" href="group__filtrage-design_ga35e455b68cdd1c219bafd8461964ed2e.html#ga35e455b68cdd1c219bafd8461964ed2e">design_biquad</a>(<span class="stringliteral">&quot;pb&quot;</span>, 0.25, Q);</div>
-<div class="line">      <span class="keyword">auto</span> [fr, mag] = <a class="code" href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">frmag</a>(h);</div>
-<div class="line">      f.plot(fr, mag, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Q={:.2f}&quot;</span>, Q);</div>
+<div class="line">      soit h = <a class="code" href="group__filtrage-design_ga35e455b68cdd1c219bafd8461964ed2e.html#ga35e455b68cdd1c219bafd8461964ed2e">design_biquad</a>(<span class="stringliteral">&quot;pb&quot;</span>, 0.25, Q);</div>
+<div class="line">      f.plot(<a class="code" href="group__filtrage-analyse_gac51a99ecb95d86d6441dcbeaa86720a9.html#gac51a99ecb95d86d6441dcbeaa86720a9">frmag</a>(h), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Q={:.2f}&quot;</span>, Q);</div>
 <div class="line">    }</div>
-<div class="ttc" id="agroup__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26_html_ga9d800b2c1bc4d55b004507cf55d23f26"><div class="ttname"><a href="group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26">dsp::filter::frmag</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; frmag(const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</div><div class="ttdoc">Magnitude of a FIR or IIR filter.</div><div class="ttdef"><b>Definition:</b> filter.hpp:236</div></div>
-<div class="ttc" id="agroup__filtrage-design_ga35e455b68cdd1c219bafd8461964ed2e_html_ga35e455b68cdd1c219bafd8461964ed2e"><div class="ttname"><a href="group__filtrage-design_ga35e455b68cdd1c219bafd8461964ed2e.html#ga35e455b68cdd1c219bafd8461964ed2e">dsp::filter::design_biquad</a></div><div class="ttdeci">FRat&lt; float &gt; design_biquad(const BiquadSpec &amp;spec)</div><div class="ttdoc">Biquad filter design.</div><div class="ttdef"><b>Definition:</b> filter.hpp:540</div></div>
+<div class="ttc" id="agroup__filtrage-analyse_gac51a99ecb95d86d6441dcbeaa86720a9_html_gac51a99ecb95d86d6441dcbeaa86720a9"><div class="ttname"><a href="group__filtrage-analyse_gac51a99ecb95d86d6441dcbeaa86720a9.html#gac51a99ecb95d86d6441dcbeaa86720a9">dsp::filter::frmag</a></div><div class="ttdeci">std::tuple&lt; Vecf, Vecf &gt; frmag(const FRat&lt; T &gt; &amp;h, unsigned int npts=1024)</div><div class="ttdoc">Magnitude of a FIR or IIR filter.</div><div class="ttdef"><b>Definition:</b> filter.hpp:232</div></div>
+<div class="ttc" id="agroup__filtrage-design_ga35e455b68cdd1c219bafd8461964ed2e_html_ga35e455b68cdd1c219bafd8461964ed2e"><div class="ttname"><a href="group__filtrage-design_ga35e455b68cdd1c219bafd8461964ed2e.html#ga35e455b68cdd1c219bafd8461964ed2e">dsp::filter::design_biquad</a></div><div class="ttdeci">FRat&lt; float &gt; design_biquad(const BiquadSpec &amp;spec)</div><div class="ttdoc">Biquad filter design.</div><div class="ttdef"><b>Definition:</b> filter.hpp:508</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-biquad-pb.png" alt="" width="800px"/>
 </div>
@@ -214,7 +213,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga72820ee3439d3
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Linear filter design</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Mon Dec 19 2022 09:48:56 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

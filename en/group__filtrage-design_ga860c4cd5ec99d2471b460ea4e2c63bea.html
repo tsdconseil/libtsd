@@ -146,10 +146,22 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga860c4cd5ec99d
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">    <span class="keywordtype">float</span> fc = 0.01;</div>
-<div class="line">    <span class="keyword">auto</span> h = design_bloqueur_dc(fc);</div>
-<div class="line">    <span class="keyword">auto</span> f = affiche_filtre(h);</div>
-<div class="line">    f.afficher();</div>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">    soit fc = 0.01f;</div>
+<div class="line">    soit h = design_bloqueur_dc(fc);</div>
+<div class="line">    msg(<span class="stringliteral">&quot;Bloqueur DC : {}&quot;</span>, h);</div>
+<div class="line"> </div>
+<div class="line">    msg(<span class="stringliteral">&quot;num = {}, den = {}&quot;</span>, h.numer, h.denom);</div>
+<div class="line"> </div>
+<div class="line">    h.simplifier();</div>
+<div class="line">    msg(<span class="stringliteral">&quot;simp: {}&quot;</span>, h);</div>
+<div class="line">    msg(<span class="stringliteral">&quot;ncn num = {}, den = {}&quot;</span>, h.numer.nb_coefs_nuls(), h.denom.nb_coefs_nuls());</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">    export_filtre_figs(h, <span class="stringliteral">&quot;./res/filtres/dc/dc&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// soit f = plot_filtre(h, non);</span></div>
+<div class="line">    <span class="comment">// f.afficher();</span></div>
+<div class="line">    <span class="comment">// msg(&quot;Enregistrement...&quot;);</span></div>
 </div><!-- fragment --><div class="image">
 <img src="bloqueur-dc-resp.png" alt="" width="1000px"/>
 </div>
@@ -165,7 +177,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga860c4cd5ec99d
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Linear filter design</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:07 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

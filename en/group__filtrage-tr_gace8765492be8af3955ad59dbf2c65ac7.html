@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('group__filtrage-tr_gace8765492be8af395
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="group__tsd_ga60b14ce4566451be99edf16652e5b8e1.html#ga60b14ce4566451be99edf16652e5b8e1">FilterGen</a>&lt;T&gt; &gt; dsp::filter::filter_dc </td>
+          <td class="memname">sptr&lt;<a class="el" href="group__tsd_ga60b14ce4566451be99edf16652e5b8e1.html#ga60b14ce4566451be99edf16652e5b8e1">FilterGen</a>&lt;T&gt; &gt; dsp::filter::filter_dc </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>fc</em></td><td>)</td>
@@ -137,20 +137,67 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">  <span class="keywordtype">float</span> fc = 0.01;</div>
-<div class="line">  <span class="keywordtype">int</span> n = 500;</div>
-<div class="line">  ArrayXf x = 0.2 * <a class="code" href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">sigsin</a>(0.1, n) + 1.0f;</div>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
+<div class="line">    msg(<span class="stringliteral">&quot;num = {}, den = {}&quot;</span>, h.numer, h.denom);</div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">auto</span> filtre = filtre_dc&lt;float&gt;(fc);</div>
+<div class="line">    h.simplifier();</div>
+<div class="line">    msg(<span class="stringliteral">&quot;simp: {}&quot;</span>, h);</div>
+<div class="line">    msg(<span class="stringliteral">&quot;ncn num = {}, den = {}&quot;</span>, h.numer.nb_coefs_nuls(), h.denom.nb_coefs_nuls());</div>
 <div class="line"> </div>
-<div class="line">  ArrayXf y = filtre-&gt;step(x);</div>
+<div class="line"> </div>
+<div class="line">    export_filtre_figs(h, <span class="stringliteral">&quot;./res/filtres/dc/dc&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// soit f = plot_filtre(h, non);</span></div>
+<div class="line">    <span class="comment">// f.afficher();</span></div>
+<div class="line">    <span class="comment">// msg(&quot;Enregistrement...&quot;);</span></div>
+<div class="line"><span class="comment"></span>    <span class="comment">// f.enregistrer(&quot;../doxy/images/bloqueur-dc-resp.png&quot;);</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*soit r = analyse_LIT(h, true);</span></div>
+<div class="line"><span class="comment">    r.fig.enregistrer(&quot;./res/filtres/dc/analyse.png&quot;);*/</span></div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*{</span></div>
+<div class="line"><span class="comment">      soit [fr,mag] = frmag(h);</span></div>
+<div class="line"><span class="comment">      Figure f;</span></div>
+<div class="line"><span class="comment">      f.plot(fr, mag, &quot;-r&quot;);</span></div>
+<div class="line"><span class="comment">      f.enregistrer(&quot;./res/filtres/dc/frmag.png&quot;);</span></div>
+<div class="line"><span class="comment">    }</span></div>
+<div class="line"><span class="comment"></span> </div>
+<div class="line"><span class="comment">    {</span></div>
+<div class="line"><span class="comment">      soit rimp = repimp(h);</span></div>
+<div class="line"><span class="comment">      Figure f;</span></div>
+<div class="line"><span class="comment">      f.plot(rimp, &quot;-ob&quot;);</span></div>
+<div class="line"><span class="comment">      f.axes().supprime_decorations();</span></div>
+<div class="line"><span class="comment">      f.enregistrer(&quot;./res/filtres/dc/rimp.png&quot;);</span></div>
+<div class="line"><span class="comment">    }</span></div>
+<div class="line"><span class="comment">    pour(auto cmap: {false, true})</span></div>
+<div class="line"><span class="comment">    {</span></div>
+<div class="line"><span class="comment">      Figure f;</span></div>
+<div class="line"><span class="comment">      plot_plz(f, h, cmap);</span></div>
+<div class="line"><span class="comment">      f.enregistrer(sformat(&quot;./res/filtres/dc/plz{}.png&quot;, cmap ? &quot;-cm&quot; : &quot;&quot;), {1200,1200});</span></div>
+<div class="line"><span class="comment">    }*/</span></div>
+<div class="line"> </div>
+<div class="line">    msg(<span class="stringliteral">&quot;enreg ok&quot;</span>);</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  msg(<span class="stringliteral">&quot;filtre dc...&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">  soit fc = 0.01f;</div>
+<div class="line">  soit n = 500;</div>
+<div class="line">  soit x = 0.2 * <a class="code" href="group__tsd-gen_ga12a7257648aeb0298365fdd1df349599.html#ga12a7257648aeb0298365fdd1df349599">sigsin</a>(0.1, n) + 1.0f;</div>
+<div class="line"> </div>
+<div class="line">  soit filtre = filtre_dc&lt;float&gt;(fc);</div>
+<div class="line"> </div>
+<div class="line">  soit y = filtre-&gt;step(x);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot(221).plot(x, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal d&#39;entrée&quot;</span>);</div>
 <div class="line">  f.subplot(222).plot_psd(x, 1, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Spectre signal d&#39;entrée&quot;</span>);</div>
 <div class="line">  f.subplot(223).plot(y, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal de sortie&quot;</span>);</div>
 <div class="line">  f.subplot(224).plot_psd(y.tail(y.rows()-200), 1, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Spectre signal de sortie&quot;</span>);</div>
-<div class="ttc" id="agroup__tsd-gen_ga4de086ec7949d7f349b833b91b130435_html_ga4de086ec7949d7f349b833b91b130435"><div class="ttname"><a href="group__tsd-gen_ga4de086ec7949d7f349b833b91b130435.html#ga4de086ec7949d7f349b833b91b130435">dsp::sigsin</a></div><div class="ttdeci">static ArrayXf sigsin(float f, int n)</div><div class="ttdoc">Efficient computing of a sinusoid.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:892</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga12a7257648aeb0298365fdd1df349599_html_ga12a7257648aeb0298365fdd1df349599"><div class="ttname"><a href="group__tsd-gen_ga12a7257648aeb0298365fdd1df349599.html#ga12a7257648aeb0298365fdd1df349599">dsp::sigsin</a></div><div class="ttdeci">static Vecf sigsin(float f, int n)</div><div class="ttdoc">Efficient computing of a sinusoid.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:903</div></div>
 </div><!-- fragment --> <div class="image">
 <img src="bloqueur-dc-ex.png" alt="" width="1000px"/>
 </div>
@@ -166,7 +213,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implementation of continuous streaming filter</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:07 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

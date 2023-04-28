@@ -2,7 +2,7 @@ var group__tsd_temps =
 [
     [ "HourComposite", "structdsp_1_1time_1_1_hour_composite.html", [
       [ "HourComposite", "structdsp_1_1time_1_1_hour_composite.html#a47d2d4d6388c9326bab3de643331297d", null ],
-      [ "HourComposite", "structdsp_1_1time_1_1_hour_composite_aa2eb850fd6687e8a15ff01e173349c2a.html#aa2eb850fd6687e8a15ff01e173349c2a", null ],
+      [ "HourComposite", "structdsp_1_1time_1_1_hour_composite_ae55ac7697570f2038c61e1084a823df1.html#ae55ac7697570f2038c61e1084a823df1", null ],
       [ "check_valid", "structdsp_1_1time_1_1_hour_composite.html#adec773559692a71a9f7102ec672debae", null ],
       [ "hour", "structdsp_1_1time_1_1_hour_composite.html#aeb6962567cfce38348fd086caf006b40", null ],
       [ "minutes", "structdsp_1_1time_1_1_hour_composite.html#ab0a7354bba07ac32769cd1ff41b4cc0d", null ],
@@ -17,6 +17,7 @@ var group__tsd_temps =
       [ "days", "structdsp_1_1time_1_1_duration.html#adc055e17cfa8d7c8a1d7f508cd68d5b8", null ],
       [ "hours", "structdsp_1_1time_1_1_duration.html#a994168d69b968736a0fc24cca4960ed9", null ],
       [ "microseconds", "structdsp_1_1time_1_1_duration.html#a105639f2c2513294253fb4dd9a32d282", null ],
+      [ "milliseconds", "structdsp_1_1time_1_1_duration.html#a62d257887a6c115bd4b0a671dd74af6f", null ],
       [ "minutes", "structdsp_1_1time_1_1_duration.html#a1bbb2c3fea0ae80c27acd77c92e07d84", null ],
       [ "nb_days", "structdsp_1_1time_1_1_duration.html#a3a2960f9bd005046579a056ff33c826c", null ],
       [ "nb_hours", "structdsp_1_1time_1_1_duration.html#a2e801c3541263b2c5a308f3f5c6e8557", null ],
@@ -31,7 +32,7 @@ var group__tsd_temps =
     [ "Calendar", "structdsp_1_1time_1_1_calendar.html", [
       [ "Calendar", "structdsp_1_1time_1_1_calendar.html#ab5d01d1fc32c5d26e563699e9b853eb6", null ],
       [ "Calendar", "structdsp_1_1time_1_1_calendar.html#ab0d9023180516e847e3736294a545670", null ],
-      [ "Calendar", "structdsp_1_1time_1_1_calendar.html#a754965c4f84cdb2ac0780bc9b99045b6", null ],
+      [ "Calendar", "structdsp_1_1time_1_1_calendar.html#a03deae93204b89019df85dc450500804", null ],
       [ "is_valid", "structdsp_1_1time_1_1_calendar.html#a2b41582ef0ecf23a8a8a4cc676a73eb3", null ],
       [ "nb_days_since_beginning_of_era", "structdsp_1_1time_1_1_calendar.html#aaa05874737f0ab4ce4a175de88219498", null ],
       [ "nb_days_since_beginning_of_year", "structdsp_1_1time_1_1_calendar.html#ab55a82c9cbc5323087aad4bf15369810", null ],
@@ -64,8 +65,8 @@ var group__tsd_temps =
       [ "microseconds", "structdsp_1_1time_1_1_date_time.html#a199293ceb187506eb1d3a460f251d2ff", null ],
       [ "nb_Julian_days", "structdsp_1_1time_1_1_date_time.html#a4c6879377c5c4d73d184e173294e099a", null ],
       [ "now", "structdsp_1_1time_1_1_date_time.html#af9fe7b5efa935de4e5df7a9f87aa795c", null ],
-      [ "parse", "structdsp_1_1time_1_1_date_time.html#ae1b2c4106dfab256a98ac49eedc1b8aa", null ],
-      [ "to_GPS", "structdsp_1_1time_1_1_date_time.html#a45fd44d1871cdfd47aa222168947f2b5", null ],
+      [ "parse", "structdsp_1_1time_1_1_date_time.html#a3338f957b098420a28dd697eb748429a", null ],
+      [ "to_GPS", "structdsp_1_1time_1_1_date_time.html#a3fb194d146ed038e582f7ad926e905e9", null ],
       [ "ntics", "structdsp_1_1time_1_1_date_time.html#a821a48b31dc93ffcda6516a05451b107", null ]
     ] ],
     [ "année_est_valide", "group__tsd-temps_gab7e1e4669f9c8753ccc7869b8b7e97f1.html#gab7e1e4669f9c8753ccc7869b8b7e97f1", null ],

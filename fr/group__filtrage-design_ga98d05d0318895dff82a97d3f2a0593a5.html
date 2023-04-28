@@ -171,7 +171,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga98d05d0318895
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
     <tr><td class="paramname">type</td><td>Type de filtre ("lp", "hp", "bp", "sb", ...). </td></tr>
-    <tr><td class="paramname">f</td><td>Fréquence de coupure (ou centrale pour les filtres passe ou stoppe bande) normalisée, entre 0 et 0,5. </td></tr>
+    <tr><td class="paramname">f</td><td><a class="el" href="structtsd_1_1filtrage_1_1_fr_xC3_xA9quence.html" title="Fréquence normalisée (rapport entre une fréquence et la fréquence d&#39;échantillonnage).">Fréquence</a> de coupure (ou centrale pour les filtres passe ou stoppe bande) normalisée, entre 0 et 0,5. </td></tr>
     <tr><td class="paramname">Q</td><td>Facteur de qualité (note : pour \(Q&gt;1/\sqrt(2)\sim 0{,71}\), il y aura une résonnance). </td></tr>
     <tr><td class="paramname">gain_dB</td><td>Gain, en dB, pour les filtres de type résonnance ou plateau.</td></tr>
   </table>
@@ -180,11 +180,10 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga98d05d0318895
 <dl class="section user"><dt>Exemple : filtres passe-bas, avec différentes valeurs pour le facteur de qualité</dt><dd><div class="fragment"><div class="line">    Figure f;</div>
 <div class="line">    <span class="keywordflow">for</span>(<span class="keyword">auto</span> Q: {0.5f, 1.0f/sqrt(2.0f), 1.0f, 2.0f})</div>
 <div class="line">    {</div>
-<div class="line">      <span class="keyword">auto</span> h = <a class="code" href="group__filtrage-design_ga8aeb824a5c30fed8ecb091becb549412.html#ga8aeb824a5c30fed8ecb091becb549412">design_biquad</a>(<span class="stringliteral">&quot;pb&quot;</span>, 0.25, Q);</div>
-<div class="line">      <span class="keyword">auto</span> [fr, mag] = <a class="code" href="group__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf.html#ga4323e861c058a011302a37d836d9f2cf">frmag</a>(h);</div>
-<div class="line">      f.plot(fr, mag, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Q={:.2f}&quot;</span>, Q);</div>
+<div class="line">      soit h = <a class="code" href="group__filtrage-design_ga8aeb824a5c30fed8ecb091becb549412.html#ga8aeb824a5c30fed8ecb091becb549412">design_biquad</a>(<span class="stringliteral">&quot;pb&quot;</span>, 0.25, Q);</div>
+<div class="line">      f.plot(<a class="code" href="group__filtrage-analyse_ga30dd55df780f8803c217f6a7cbfaaae2.html#ga30dd55df780f8803c217f6a7cbfaaae2">frmag</a>(h), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Q={:.2f}&quot;</span>, Q);</div>
 <div class="line">    }</div>
-<div class="ttc" id="agroup__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf_html_ga4323e861c058a011302a37d836d9f2cf"><div class="ttname"><a href="group__filtrage-analyse_ga4323e861c058a011302a37d836d9f2cf.html#ga4323e861c058a011302a37d836d9f2cf">tsd::filtrage::frmag</a></div><div class="ttdeci">std::tuple&lt; ArrayXf, ArrayXf &gt; frmag(const FRat&lt; T &gt; &amp;h, int npts=1024)</div><div class="ttdoc">Magnitude d'une filtre RIF ou RII.</div></div>
+<div class="ttc" id="agroup__filtrage-analyse_ga30dd55df780f8803c217f6a7cbfaaae2_html_ga30dd55df780f8803c217f6a7cbfaaae2"><div class="ttname"><a href="group__filtrage-analyse_ga30dd55df780f8803c217f6a7cbfaaae2.html#ga30dd55df780f8803c217f6a7cbfaaae2">tsd::filtrage::frmag</a></div><div class="ttdeci">std::tuple&lt; Vecf, Vecf &gt; frmag(const FRat&lt; T &gt; &amp;h, entier npts=1024)</div><div class="ttdoc">Magnitude d'une filtre RIF ou RII.</div></div>
 <div class="ttc" id="agroup__filtrage-design_ga8aeb824a5c30fed8ecb091becb549412_html_ga8aeb824a5c30fed8ecb091becb549412"><div class="ttname"><a href="group__filtrage-design_ga8aeb824a5c30fed8ecb091becb549412.html#ga8aeb824a5c30fed8ecb091becb549412">tsd::filtrage::design_biquad</a></div><div class="ttdeci">FRat&lt; float &gt; design_biquad(const BiquadSpec &amp;spec)</div><div class="ttdoc">Design filtre biquad.</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-biquad-pb.png" alt="" width="800px"/>
@@ -204,7 +203,7 @@ $(document).ready(function(){initNavTree('group__filtrage-design_ga98d05d0318895
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-design.html">Design de filtres</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:57 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Lundi 19 Décembre 2022 09:48:49 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

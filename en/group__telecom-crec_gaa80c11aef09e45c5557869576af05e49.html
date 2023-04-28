@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gaa80c11aef09e45c5
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="group__tsd_ga45923d187d821768b6fc6834f436a42b.html#ga45923d187d821768b6fc6834f436a42b">Filter</a>&lt;float, float, nfr::RPLLConfig&gt; &gt; dsp::telecom::rpll_new </td>
+          <td class="memname">sptr&lt;<a class="el" href="group__tsd_ga45923d187d821768b6fc6834f436a42b.html#ga45923d187d821768b6fc6834f436a42b">Filter</a>&lt;float, float, nfr::RPLLConfig&gt; &gt; dsp::telecom::rpll_new </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structdsp_1_1telecom_1_1_r_p_l_l_config.html">RPLLConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
@@ -133,23 +133,16 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gaa80c11aef09e45c5
   </tr>
 </table>
 </div><div class="memdoc">
-<h3>PLL (réelle)</h3>
+<h3>PLL (real output)</h3>
 <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>Structure de configuration </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Filtre générique à entrées / sorties réelles</dd></dl>
-<p>Cette PLL est capable de se vérouiller sur une sinusoide réelle (ou un signal modulé si un détecteur d'erreur de phase adéquat est fournit). Pour un signal complexe (exponentielle complexe), voir la fonction cpll_création().</p>
-<p>Creation of a real-output PLL (phase-locked loop) </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">config</td><td>Configuration structure </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Generic filter with real input / output</dd></dl>
-<p>This PLL is able to lock on a sinusoidal signal (or a modulated signal provided an adequat phase error detector is provided). For a complex carrier (complex exponential), see the function cpll_création(). </p>
+<dl class="section return"><dt>Returns</dt><dd>Generic filter with real (float) input / output</dd></dl>
+<p>This PLL will lock on a real sinusoid (or on a modulated signal if a suitable phase error detector is provided). For a complex exponential, see the function <a class="el" href="group__telecom-crec_ga983e12798d649999b86d1ad2146416d8.html#ga983e12798d649999b86d1ad2146416d8">cpll_new()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__telecom-crec_ga983e12798d649999b86d1ad2146416d8.html#ga983e12798d649999b86d1ad2146416d8" title="Création d&#39;une PLL (boucle à vérouillage de phase) à sortie complexe.">cpll_new()</a> </dd></dl>
 
 </div>
 </div>
@@ -159,7 +152,7 @@ $(document).ready(function(){initNavTree('group__telecom-crec_gaa80c11aef09e45c5
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

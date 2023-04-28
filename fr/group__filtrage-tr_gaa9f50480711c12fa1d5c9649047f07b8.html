@@ -119,9 +119,9 @@ $(document).ready(function(){initNavTree('group__filtrage-tr_gaa9f50480711c12fa1
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt;T&gt; &gt; tsd::filtrage::filtre_sois </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt;T&gt; &gt; tsd::filtrage::filtre_sois </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classtsd_1_1_f_rat.html">FRat</a>&lt; <a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structtsd_1_1_f_rat.html">FRat</a>&lt; <a class="el" href="namespacetsd.html#a9da159320f29c3ccd16bb8b97e268ab2">cfloat</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>h</em>, </td>
         </tr>
         <tr>
@@ -151,8 +151,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Filtre réel vers réel</dd></dl>
 <p>La forme directe 2 est légérement plus efficace que la forme 1. Cependant, si les coefficients du filtre sont amenés à changer en cours de fonctionnement, il vaut mieux utiliser la première forme, car la forme 2 risque de générer des discontinuités.</p>
-<dl class="section warning"><dt>Avertissement</dt><dd>Il est recommandé que la fonction de transfert passée en entrée soit sous la forme pôles / zéros, et non pas sous la forme de la liste des coefficients, car avec cette dernière représentation, la position des pôles et zéros (et donc la réponse fréquentielle) est très instable (très sensible aux erreurs de troncature lors de la quantification des coefficients). Notez que la fonction <a class="el" href="group__filtrage-design_ga427d40453d0882b4c08f780dbc792b9b.html#ga427d40453d0882b4c08f780dbc792b9b">design_riia()</a> renvoie bien une fonction de transfert sous la forme pôles / zéros.</dd></dl>
-<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__filtrage-tr_gad80e5f59e5c7f142b5ab696eb1198f4c.html#gad80e5f59e5c7f142b5ab696eb1198f4c" title="Filtre RII (forme directe I), non recommandée (utiliser plutôt filtre_sois() à la place).">filtre_rii()</a>, <a class="el" href="group__filtrage-design_ga427d40453d0882b4c08f780dbc792b9b.html#ga427d40453d0882b4c08f780dbc792b9b" title="Design RII d&#39;après un prototype analogique classique.">design_riia()</a> </dd></dl>
+<dl class="section warning"><dt>Avertissement</dt><dd>Il est recommandé que la fonction de transfert passée en entrée soit sous la forme pôles / zéros, et non pas sous la forme de la liste des coefficients, car avec cette dernière représentation, la position des pôles et zéros (et donc la réponse fréquentielle) est très instable (très sensible aux erreurs de troncature lors de la quantification des coefficients). Notez que la fonction <a class="el" href="group__filtrage-design_ga4f902a7f629dfec3b914587e1fd31256.html#ga4f902a7f629dfec3b914587e1fd31256">design_riia()</a> renvoie bien une fonction de transfert sous la forme pôles / zéros.</dd></dl>
+<dl class="section see"><dt>Voir également</dt><dd><a class="el" href="group__filtrage-tr_gad80e5f59e5c7f142b5ab696eb1198f4c.html#gad80e5f59e5c7f142b5ab696eb1198f4c" title="Filtre RII (forme directe I), non recommandée (utiliser plutôt filtre_sois() à la place).">filtre_rii()</a>, <a class="el" href="group__filtrage-design_ga4f902a7f629dfec3b914587e1fd31256.html#ga4f902a7f629dfec3b914587e1fd31256" title="Design RII d&#39;après un prototype analogique classique.">design_riia()</a> </dd></dl>
 
 </div>
 </div>
@@ -162,7 +162,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__filtrage-tr.html">Implémentation de filtres au fil de l&#39;eau</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

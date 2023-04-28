@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gade6cc0295c587c9a
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1telecom_1_1_modulateur.html">Modulateur</a>&gt; tsd::telecom::modulateur_création </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1telecom_1_1_modulateur.html">Modulateur</a>&gt; tsd::telecom::modulateur_création </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structtsd_1_1telecom_1_1_mod_config.html">ModConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
@@ -162,15 +162,16 @@ $(document).ready(function(){initNavTree('group__telecom-mods_gade6cc0295c587c9a
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
-<div class="line">  <span class="keyword">auto</span> mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>(config);</div>
+<div class="line"> </div>
+<div class="line">  soit mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>(config);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 64 bits aléatoires</span></div>
-<div class="line">  <span class="keyword">auto</span> bs = randstream(64);</div>
-<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line">  soit bs = randstream(64);</div>
+<div class="line">  soit x = mod-&gt;step(bs);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
-<div class="line">  f.subplot().plot(x.real(), <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal modulé BPSK (NRZ)&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(x), <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal modulé BPSK (NRZ)&quot;</span>);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5_html_ga1a54a4e979c98d41008a0f598e148cf5"><div class="ttname"><a href="group__telecom-mods-wf_ga1a54a4e979c98d41008a0f598e148cf5.html#ga1a54a4e979c98d41008a0f598e148cf5">tsd::telecom::forme_onde_bpsk</a></div><div class="ttdeci">sptr&lt; FormeOnde &gt; forme_onde_bpsk(const SpecFiltreMiseEnForme &amp;filtre=SpecFiltreMiseEnForme::nrz())</div><div class="ttdoc">Création d'une forme d'onde BPSK.</div></div>
 <div class="ttc" id="agroup__telecom-mods_gade6cc0295c587c9af509bb19b164274e_html_gade6cc0295c587c9af509bb19b164274e"><div class="ttname"><a href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">tsd::telecom::modulateur_création</a></div><div class="ttdeci">sptr&lt; Modulateur &gt; modulateur_création(const ModConfig &amp;config)</div><div class="ttdoc">Création d'un modulateur numérique.</div></div>
@@ -185,11 +186,12 @@ Exemples de modulation BPSK</div></div>
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
-<div class="line">  <span class="keyword">auto</span> mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>(config);</div>
+<div class="line"> </div>
+<div class="line">  soit mod = <a class="code" href="group__telecom-mods_gade6cc0295c587c9af509bb19b164274e.html#gade6cc0295c587c9af509bb19b164274e">modulateur_création</a>(config);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 64 bits aléatoires</span></div>
-<div class="line">  <span class="keyword">auto</span> bs = randstream(64);</div>
-<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line">  soit bs = randstream(64);</div>
+<div class="line">  soit x = mod-&gt;step(bs);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
@@ -211,7 +213,7 @@ Exemples de modulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods.html">Modulations numériques</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

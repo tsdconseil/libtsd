@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__fourier-freq_gafae31ef3a4c79902
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="group__tsd_ga60b14ce4566451be99edf16652e5b8e1.html#ga60b14ce4566451be99edf16652e5b8e1">FilterGen</a>&lt;float&gt; &gt; dsp::fourier::filter_goertzel </td>
+          <td class="memname">sptr&lt;<a class="el" href="group__tsd_ga60b14ce4566451be99edf16652e5b8e1.html#ga60b14ce4566451be99edf16652e5b8e1">FilterGen</a>&lt;float&gt; &gt; dsp::fourier::filter_goertzel </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>frequence</em>, </td>
@@ -144,7 +144,7 @@ $(document).ready(function(){initNavTree('group__fourier-freq_gafae31ef3a4c79902
 </table>
 </div><div class="memdoc">
 <h3>Filtre de Goertzel (calcul au fil de l'eau)</h3>
-<p>Ce filtre calcule au fil de l'eau la densité de puissance (normalisée à la puissance totale du signal) à une fréquence donnée (voir <a class="el" href="group__fourier-freq_ga4067a208b4edabab6a4a9db8d7271d50.html#ga4067a208b4edabab6a4a9db8d7271d50">goertzel()</a>).</p>
+<p>Ce filtre calcule au fil de l'eau la densité de puissance (normalisée à la puissance totale du signal) à une fréquence donnée (voir <a class="el" href="group__fourier-freq_ga270f58212b9eed6d2566961fa316cb27.html#ga270f58212b9eed6d2566961fa316cb27">goertzel()</a>).</p>
 <p>Le calcul est fait par blocs de \(N\) échantillons, et la fréquence d'échantillonnage en sortie est donc divisée par \(N\) par rapport à la fréquence d'entrée (1 échantillon produit pour \(N\) échantillons consommés) : </p><p class="formulaDsp">
 \[ y_i = \frac{\left|2\cdot\mathcal{F}(x_{Ni\dots Ni + N-1})(f)\right|^2}{\displaystyle{\sum_{k=Ni}^{Ni+N-1}{x_k^2}}} \]
 </p>
@@ -161,28 +161,29 @@ $(document).ready(function(){initNavTree('group__fourier-freq_gafae31ef3a4c79902
 <dl class="section user"><dt>Exemple : détection d'une sinusoïde pure</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// Tableau des fréquences :</span></div>
 <div class="line">  <span class="comment">// fréquence cible seulement au milieu</span></div>
-<div class="line">  ArrayXf vfreq = freq * ArrayXf::Ones(n);</div>
+<div class="line">  soit vfreq = freq * Vecf::ones(n);</div>
 <div class="line">  vfreq.head(n/3).setConstant(freq * 0.2);</div>
 <div class="line">  vfreq.tail(n/3).setConstant(freq * 5.0);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Signal de fréquence variable</span></div>
-<div class="line">  ArrayXf x = sin(2 * π * vfreq * <a class="code" href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">linspace</a>(0, n-1, n));</div>
+<div class="line">  soit x = sin(2 * <a class="code" href="group__tsd.html#gaded7c35d29f59ed9625835211a4b9c6d">π</a> * vfreq * <a class="code" href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">linspace</a>(0, n-1, n));</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Applique le filtre de Goertzel au fil de l&#39;eau</span></div>
-<div class="line">  <span class="keyword">auto</span> g = tsd::fourier::filtre_goertzel(freq, N);</div>
-<div class="line">  ArrayXf y = g-&gt;step(x);</div>
+<div class="line">  soit g = tsd::fourier::filtre_goertzel(freq, N);</div>
+<div class="line">  soit y = g-&gt;step(x);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Affichages</span></div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(vfreq, <span class="stringliteral">&quot;r-&quot;</span>, <span class="stringliteral">&quot;Fréquence test&quot;</span>);</div>
 <div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal test&quot;</span>);</div>
 <div class="line">  f.subplot().plot(y, <span class="stringliteral">&quot;g-&quot;</span>, <span class="stringliteral">&quot;Détection&quot;</span>);</div>
-<div class="ttc" id="agroup__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f_html_gaa70f93ef0e524a151b58de4b4e54a14f"><div class="ttname"><a href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">dsp::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:676</div></div>
+<div class="ttc" id="agroup__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137_html_gaf3a870bf1c339ba500d0e9dd02e52137"><div class="ttname"><a href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">dsp::linspace</a></div><div class="ttdeci">static Vecf linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:685</div></div>
+<div class="ttc" id="agroup__tsd_html_gaded7c35d29f59ed9625835211a4b9c6d"><div class="ttname"><a href="group__tsd.html#gaded7c35d29f59ed9625835211a4b9c6d">dsp::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">value, with 64 bits floating point accuracy.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:22</div></div>
 </div><!-- fragment --><div class="image">
 <img src="goertzel.png" alt="" width="600px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__fourier-freq_ga4067a208b4edabab6a4a9db8d7271d50.html#ga4067a208b4edabab6a4a9db8d7271d50" title="Filtre de Goertzel (calcul sur un buffer).">goertzel()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__fourier-freq_ga270f58212b9eed6d2566961fa316cb27.html#ga270f58212b9eed6d2566961fa316cb27" title="Filtre de Goertzel (calcul sur un buffer).">goertzel()</a> </dd></dl>
 
 </div>
 </div>
@@ -192,7 +193,7 @@ $(document).ready(function(){initNavTree('group__fourier-freq_gafae31ef3a4c79902
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

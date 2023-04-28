@@ -1,5 +1,5 @@
 var group__telecom_eq =
 [
-    [ "equalizer_fir_new", "group__telecom-eq_ga4628ef8fcdd0f995fb9279dcccbe8cef.html#ga4628ef8fcdd0f995fb9279dcccbe8cef", null ],
-    [ "equalizer_zfe", "group__telecom-eq_ga50e7ad3b57b33c13ec14fce2d9b16790.html#ga50e7ad3b57b33c13ec14fce2d9b16790", null ]
+    [ "equalizer_fir_new", "group__telecom-eq_gab25eff4d26a4d300f7869fb794c48b2b.html#gab25eff4d26a4d300f7869fb794c48b2b", null ],
+    [ "equalizer_zfe", "group__telecom-eq_ga6b959fd151780ad95db6045ad4051ddb.html#ga6b959fd151780ad95db6045ad4051ddb", null ]
 ];

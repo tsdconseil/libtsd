@@ -1,13 +1,12 @@
 var group__filtrage_analyse =
 [
-    [ "filter_analysis", "group__filtrage-analyse_ga35a32d268d320ec69bec9d0c5fa45934.html#ga35a32d268d320ec69bec9d0c5fa45934", null ],
-    [ "filter_display", "group__filtrage-analyse_ga5a9be31c1f1ff0843772c44235e08847.html#ga5a9be31c1f1ff0843772c44235e08847", null ],
     [ "fir_delay", "group__filtrage-analyse_gaae684340c4bab3a62c3320efe0e02e37.html#gaae684340c4bab3a62c3320efe0e02e37", null ],
-    [ "firamp", "group__filtrage-analyse_gadcc57f3c4cafc7d1b7720080203f641a.html#gadcc57f3c4cafc7d1b7720080203f641a", null ],
-    [ "frgroup", "group__filtrage-analyse_ga7e0a0028a2c2eba7870bf5dc1bef70ac.html#ga7e0a0028a2c2eba7870bf5dc1bef70ac", null ],
-    [ "frmag", "group__filtrage-analyse_ga9d800b2c1bc4d55b004507cf55d23f26.html#ga9d800b2c1bc4d55b004507cf55d23f26", null ],
-    [ "frphase", "group__filtrage-analyse_gabce5b2ff2d0a33bf3d255550b4909abc.html#gabce5b2ff2d0a33bf3d255550b4909abc", null ],
+    [ "firamp", "group__filtrage-analyse_gadeb7e50b4f061cd759ac7a2b32fc59c8.html#gadeb7e50b4f061cd759ac7a2b32fc59c8", null ],
+    [ "frgroup", "group__filtrage-analyse_ga22f868d16ca5b5b26e6bdf3c8366b976.html#ga22f868d16ca5b5b26e6bdf3c8366b976", null ],
+    [ "frmag", "group__filtrage-analyse_ga5c4b0ffc99a3f55a4dc9c4ee69dd336e.html#ga5c4b0ffc99a3f55a4dc9c4ee69dd336e", null ],
+    [ "frphase", "group__filtrage-analyse_ga3a7f6291f53ce72fc5fa0a958d6ac5ea.html#ga3a7f6291f53ce72fc5fa0a958d6ac5ea", null ],
+    [ "plot_filter", "group__filtrage-analyse_gaf5b41096ba3ba37303bd0900864fb81a.html#gaf5b41096ba3ba37303bd0900864fb81a", null ],
     [ "plot_plz", "group__filtrage-analyse_ga94f4a5af262d729c9d59f9f54cce1500.html#ga94f4a5af262d729c9d59f9f54cce1500", null ],
-    [ "repfreq", "group__filtrage-analyse_gaf55ebe66ce37b1115ba98ddb10d07d7a.html#gaf55ebe66ce37b1115ba98ddb10d07d7a", null ],
-    [ "repimp", "group__filtrage-analyse.html#gae8d046965d64d7aa129d55732a074bff", null ]
+    [ "repfreq", "group__filtrage-analyse_gad7775ab6928fb90225e162aeafc7da9d.html#gad7775ab6928fb90225e162aeafc7da9d", null ],
+    [ "repimp", "group__filtrage-analyse.html#ga63b4be46f2a39c668dafd5bd760f427b", null ]
 ];

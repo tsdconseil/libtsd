@@ -8,7 +8,7 @@ var group__telecom_ps =
         [ "SRRC", "structdsp_1_1telecom_1_1_shaping_filter_spec_ae907d863ad978902ad5746d91b07b989.html#ae907d863ad978902ad5746d91b07b989afbfc5fd53b1036a97a4a03e325d9e373", null ]
       ] ],
       [ "gaussian", "structdsp_1_1telecom_1_1_shaping_filter_spec.html#a2f8f1843d138f31d0d42bb655b107db9", null ],
-      [ "get_coefs", "structdsp_1_1telecom_1_1_shaping_filter_spec_a171cd6a5a6fc162f02cf8506f70a0120.html#a171cd6a5a6fc162f02cf8506f70a0120", null ],
+      [ "get_coefs", "structdsp_1_1telecom_1_1_shaping_filter_spec_a5a1e694d4cc8b774a4cb07d4c651125b.html#a5a1e694d4cc8b774a4cb07d4c651125b", null ],
       [ "matched_filter", "structdsp_1_1telecom_1_1_shaping_filter_spec_a5d5fc5462ae3aa7e2fb57593cf77f59a.html#a5d5fc5462ae3aa7e2fb57593cf77f59a", null ],
       [ "matched_filter_with_decimation", "structdsp_1_1telecom_1_1_shaping_filter_spec_abff52e8aa84d0578f190901dbb43dd07.html#abff52e8aa84d0578f190901dbb43dd07", null ],
       [ "none", "structdsp_1_1telecom_1_1_shaping_filter_spec.html#ab596bace2492e2e00136e83e408c3364", null ],
@@ -19,10 +19,10 @@ var group__telecom_ps =
       [ "type", "structdsp_1_1telecom_1_1_shaping_filter_spec.html#a5e03dcdd28276236ccc5cad5b400bec5", null ],
       [ "β", "structdsp_1_1telecom_1_1_shaping_filter_spec.html#a8f3c8ca2c4804e3c20ec1ff9a0aedf03", null ]
     ] ],
-    [ "decode_hard", "group__telecom-ps_ga0697c7f0ac49088c4a3b1d6913c2a582.html#ga0697c7f0ac49088c4a3b1d6913c2a582", null ],
+    [ "decode_hard", "group__telecom-ps_ga518244895d9b4fcd925ba8f8374706d7.html#ga518244895d9b4fcd925ba8f8374706d7", null ],
     [ "diff_decode", "group__telecom-ps_gaf39029ce9bdeecc98c24847024a8f487.html#gaf39029ce9bdeecc98c24847024a8f487", null ],
     [ "diff_encode", "group__telecom-ps_ga0dc79b713413814e11923d0dacd5b6a8.html#ga0dc79b713413814e11923d0dacd5b6a8", null ],
     [ "sah", "group__telecom-ps_ga375747854552a3f1725e48372495d8c3.html#ga375747854552a3f1725e48372495d8c3", null ],
-    [ "symmap_binary", "group__telecom-ps_ga880b4bc111034e7bfcafd44f6afab8ad.html#ga880b4bc111034e7bfcafd44f6afab8ad", null ],
-    [ "symunmap_binary", "group__telecom-ps_gaa572b64124907e55b825d80db2fba801.html#gaa572b64124907e55b825d80db2fba801", null ]
+    [ "symmap_binary", "group__telecom-ps_gacd3493d4571585fb9bea562102cc5fc2.html#gacd3493d4571585fb9bea562102cc5fc2", null ],
+    [ "symunmap_binary", "group__telecom-ps_ga8014f044b7004c23360def757526a233.html#ga8014f044b7004c23360def757526a233", null ]
 ];

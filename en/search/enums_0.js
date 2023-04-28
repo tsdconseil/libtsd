@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['channeltype_1005',['ChannelType',['../group__telecom-simu_ga54026a7d1121da81388781553bcd3acb.html#ga54026a7d1121da81388781553bcd3acb',1,'dsp::telecom']]]
+  ['freqestimmethode_1022',['FreqEstimMethode',['../group__fourier-freq_ga949e91d67bb0669a70edd5070f9c6fb1.html#ga949e91d67bb0669a70edd5070f9c6fb1',1,'dsp::fourier']]]
 ];

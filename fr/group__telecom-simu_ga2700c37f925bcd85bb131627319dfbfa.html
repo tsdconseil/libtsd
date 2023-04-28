@@ -148,17 +148,17 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga2700c37f925bcd85
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Channel capacity, in bits/s</dd></dl>
 <dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line">  <span class="keywordtype">int</span> n = 100;</div>
-<div class="line">  ArrayXf snr_db = <a class="code" href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">linspace</a>(-10, 20, n);</div>
-<div class="line">  ArrayXf C = snr_db.unaryExpr([](<span class="keywordtype">float</span> x){<span class="keywordflow">return</span> <a class="code" href="group__telecom-simu_ga2700c37f925bcd85bb131627319dfbfa.html#ga2700c37f925bcd85bb131627319dfbfa">capacite_canal_awgn</a>(<a class="code" href="group__tsd_ga104f6d10ca347c6a42a2f33b9e0615dc.html#ga104f6d10ca347c6a42a2f33b9e0615dc">db2pow</a>(x));});</div>
+<div class="line">  soit n = 100;</div>
+<div class="line">  soit snr_db = <a class="code" href="group__tsd-gen_ga80957cb1bfeb043dfa61f4849d2dab46.html#ga80957cb1bfeb043dfa61f4849d2dab46">linspace</a>(-10, 20, n);</div>
+<div class="line">  soit C = snr_db.unaryExpr([](<span class="keywordtype">float</span> x){<span class="keywordflow">return</span> <a class="code" href="group__telecom-simu_ga2700c37f925bcd85bb131627319dfbfa.html#ga2700c37f925bcd85bb131627319dfbfa">capacite_canal_awgn</a>(<a class="code" href="group__tsd_ga104f6d10ca347c6a42a2f33b9e0615dc.html#ga104f6d10ca347c6a42a2f33b9e0615dc">db2pow</a>(x));});</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(snr_db, C);</div>
 <div class="line">  f.titres(<span class="stringliteral">&quot;Capacité canal AWGN&quot;</span>, <span class="stringliteral">&quot;SNR (dB)&quot;</span>, <span class="stringliteral">&quot;Capacité (bit / s / Hz)&quot;</span>);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__telecom-simu_ga2700c37f925bcd85bb131627319dfbfa_html_ga2700c37f925bcd85bb131627319dfbfa"><div class="ttname"><a href="group__telecom-simu_ga2700c37f925bcd85bb131627319dfbfa.html#ga2700c37f925bcd85bb131627319dfbfa">tsd::telecom::capacite_canal_awgn</a></div><div class="ttdeci">float capacite_canal_awgn(float snr, float B=1)</div><div class="ttdoc">Capacité d'un canal AWGN.</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4_html_ga176972789ee2910b23d7ed3bf1f51af4"><div class="ttname"><a href="group__tsd-gen_ga176972789ee2910b23d7ed3bf1f51af4.html#ga176972789ee2910b23d7ed3bf1f51af4">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, int n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:928</div></div>
-<div class="ttc" id="agroup__tsd_ga104f6d10ca347c6a42a2f33b9e0615dc_html_ga104f6d10ca347c6a42a2f33b9e0615dc"><div class="ttname"><a href="group__tsd_ga104f6d10ca347c6a42a2f33b9e0615dc.html#ga104f6d10ca347c6a42a2f33b9e0615dc">tsd::db2pow</a></div><div class="ttdeci">auto db2pow(const T &amp;x)</div><div class="ttdoc">Conversion decibels vers linéaire.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:464</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga80957cb1bfeb043dfa61f4849d2dab46_html_ga80957cb1bfeb043dfa61f4849d2dab46"><div class="ttname"><a href="group__tsd-gen_ga80957cb1bfeb043dfa61f4849d2dab46.html#ga80957cb1bfeb043dfa61f4849d2dab46">tsd::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, entier n)</div><div class="ttdoc">Intervalle de points équidistants.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:907</div></div>
+<div class="ttc" id="agroup__tsd_ga104f6d10ca347c6a42a2f33b9e0615dc_html_ga104f6d10ca347c6a42a2f33b9e0615dc"><div class="ttname"><a href="group__tsd_ga104f6d10ca347c6a42a2f33b9e0615dc.html#ga104f6d10ca347c6a42a2f33b9e0615dc">tsd::db2pow</a></div><div class="ttdeci">auto db2pow(const T &amp;x)</div><div class="ttdoc">Conversion decibels vers linéaire.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:431</div></div>
 </div><!-- fragment --> <div class="image">
 <img src="capa.png" alt="" width="800px"/>
 </div>
@@ -172,7 +172,7 @@ $(document).ready(function(){initNavTree('group__telecom-simu_ga2700c37f925bcd85
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-simu.html">Simulation</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

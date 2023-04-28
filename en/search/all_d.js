@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['n_322',['N',['../structdsp_1_1filter_1_1_c_i_c_config.html#a9df1674bf14d90931e7be9879b1c5bab',1,'dsp::filter::CICConfig']]],
-  ['n_323',['n',['../structdsp_1_1telecom_1_1_code.html#aeca63bc0a6dd90b973a10cbea6cbd504',1,'dsp::telecom::Code']]],
+  ['n_322',['n',['../structdsp_1_1telecom_1_1_code.html#aeca63bc0a6dd90b973a10cbea6cbd504',1,'dsp::telecom::Code']]],
+  ['n_323',['N',['../structdsp_1_1filter_1_1_c_i_c_config.html#a9df1674bf14d90931e7be9879b1c5bab',1,'dsp::filter::CICConfig']]],
   ['nb_5fdays_324',['nb_days',['../structdsp_1_1time_1_1_duration.html#a3a2960f9bd005046579a056ff33c826c',1,'dsp::time::Duration']]],
   ['nb_5fdays_5fsince_5fbeginning_5fof_5fera_325',['nb_days_since_beginning_of_era',['../structdsp_1_1time_1_1_calendar.html#aaa05874737f0ab4ce4a175de88219498',1,'dsp::time::Calendar']]],
   ['nb_5fdays_5fsince_5fbeginning_5fof_5fyear_326',['nb_days_since_beginning_of_year',['../structdsp_1_1time_1_1_calendar.html#ab55a82c9cbc5323087aad4bf15369810',1,'dsp::time::Calendar']]],
@@ -16,7 +16,7 @@ var searchData=
   ['ncoefs_5finterpolateur_335',['ncoefs_interpolateur',['../structdsp_1_1telecom_1_1_packet_receiver_config.html#a6b339419104827248d5bb8ddafa0d3e3',1,'dsp::telecom::PacketReceiverConfig']]],
   ['next_5fpower_5fof_5f2_336',['next_power_of_2',['../group__tsd_ga17e5c5690d22a97fd703bd1270555f22.html#ga17e5c5690d22a97fd703bd1270555f22',1,'dsp']]],
   ['nf_337',['Nf',['../structdsp_1_1stats_1_1_sub_space_spectrum_config.html#a4b8ed2c601a79d1c680c34909e7dff70',1,'dsp::stats::SubSpaceSpectrumConfig']]],
-  ['nom_338',['nom',['../structdsp_1_1telecom_1_1_code.html#ae9f8a68994ca646bfc57c8ba69628664',1,'dsp::telecom::Code']]],
+  ['nom_338',['nom',['../structdsp_1_1telecom_1_1_code.html#aad6dafdb6d078a993295c772d4b689b6',1,'dsp::telecom::Code']]],
   ['none_339',['none',['../structdsp_1_1telecom_1_1_shaping_filter_spec.html#ab596bace2492e2e00136e83e408c3364',1,'dsp::telecom::ShapingFilterSpec']]],
   ['none_340',['NONE',['../structdsp_1_1telecom_1_1_shaping_filter_spec_ae907d863ad978902ad5746d91b07b989.html#ae907d863ad978902ad5746d91b07b989a9640fe4a86840ef4340d19d72d50e503',1,'dsp::telecom::ShapingFilterSpec']]],
   ['now_341',['now',['../structdsp_1_1time_1_1_date_time.html#af9fe7b5efa935de4e5df7a9f87aa795c',1,'dsp::time::DateTime']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['srrc_1027',['SRRC',['../structdsp_1_1telecom_1_1_shaping_filter_spec_ae907d863ad978902ad5746d91b07b989.html#ae907d863ad978902ad5746d91b07b989afbfc5fd53b1036a97a4a03e325d9e373',1,'dsp::telecom::ShapingFilterSpec']]]
+  ['usb_1042',['USB',['../structdsp_1_1telecom_1_1_a_m_config_adbd46c51a24b9fe2f5b454683cc5304f.html#adbd46c51a24b9fe2f5b454683cc5304fa45fad7d6b7c2daecee8e08169b3a985c',1,'dsp::telecom::AMConfig']]]
 ];

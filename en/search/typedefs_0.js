@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['arrayhd_981',['ArrayHd',['../namespacedsp_1_1telecom.html#ad1650e66fb661966394346dfbde1fb9a',1,'dsp::telecom']]],
-  ['arrayllr_982',['ArrayLLR',['../namespacedsp_1_1telecom.html#af4c029bf6932f57af863aece87e442ac',1,'dsp::telecom']]],
-  ['arrayllri_983',['ArrayLLRi',['../namespacedsp_1_1telecom.html#a098b97d58539ac61863fcc7e820277fc',1,'dsp::telecom']]],
-  ['arrayxb_984',['ArrayXb',['../group__tsd.html#ga72277890c90d5dcb01d762c922f455f0',1,'dsp']]],
-  ['arrayxxb_985',['ArrayXXb',['../group__tsd.html#ga78cf30dfd88757d6c65a82d4f056cde1',1,'dsp']]]
+  ['arrayhd_1004',['ArrayHd',['../namespacedsp_1_1telecom.html#a47601efdfc1e84ce540309e3ade0831f',1,'dsp::telecom']]],
+  ['arrayllr_1005',['ArrayLLR',['../namespacedsp_1_1telecom.html#a8ac5eb3b0aca6f1849e893f507b34c85',1,'dsp::telecom']]],
+  ['arrayllri_1006',['ArrayLLRi',['../namespacedsp_1_1telecom.html#a4395f56bfad80eda083fb6ebc5646101',1,'dsp::telecom']]]
 ];

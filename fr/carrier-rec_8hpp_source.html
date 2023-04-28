@@ -128,15 +128,15 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span>SuiviPicFrequence</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keywordtype">int</span> configure(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> N);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordtype">void</span> step(<span class="keyword">const</span> ArrayXcf &amp;x, <span class="keywordtype">float</span> &amp;freq_detectee, <span class="keywordtype">float</span> &amp;snr);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keywordtype">void</span> configure(entier N);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordtype">void</span> step(<span class="keyword">const</span> Veccf &amp;x, <span class="keywordtype">float</span> &amp;freq_detectee, <span class="keywordtype">float</span> &amp;snr);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  sptr&lt;tsd::fourier::FFTPlan&gt; fft_plan;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> N;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  entier N;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">extern</span> std::tuple&lt;float,float&gt; localise_pic_frequence(<span class="keyword">const</span> ArrayXcf &amp;x);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">extern</span> tuple&lt;float,float&gt; localise_pic_frequence(<span class="keyword">const</span> Veccf &amp;x);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">/*class DEPQuadratique</span></div>
@@ -144,7 +144,7 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">public:</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  // Par défaut, BPSK standard</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">  // Mettre 4.0 pour de la QPSK, etc.</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">  int configure(float power = 2.0);</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">  entier configure(float power = 2.0);</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">  void step(cfloat x, float &amp;dep);</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">  void step(ArrayXcf &amp;x, float &amp;df);</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span> </div>
@@ -211,13 +211,13 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keywordtype">void</span> set_initial_state(<span class="keywordtype">float</span> freq, <span class="keywordtype">float</span> phase)</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    mu    = freq * 2 * <a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    mu    = freq * 2 * <a class="code" href="group__tsd.html#ga0f2cf1685544948ce17bafb24fcca144">π</a>;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    theta = phase;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  }</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keywordtype">float</span> get_current_freq()<span class="keyword"> const</span></div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keyword">  </span>{</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> mu / (2 * <a class="code" href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">π</a>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> mu / (2 * <a class="code" href="group__tsd.html#ga0f2cf1685544948ce17bafb24fcca144">π</a>);</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  }</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordtype">float</span> get_current_phase()<span class="keyword"> const</span></div>
@@ -234,7 +234,7 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="ttc" id="agroup__tsd_html_gad33f675879923d93b4769f0709e96f31"><div class="ttname"><a href="group__tsd.html#gad33f675879923d93b4769f0709e96f31">tsd::π</a></div><div class="ttdeci">static const auto π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:84</div></div>
+<div class="ttc" id="agroup__tsd_html_ga0f2cf1685544948ce17bafb24fcca144"><div class="ttname"><a href="group__tsd.html#ga0f2cf1685544948ce17bafb24fcca144">tsd::π</a></div><div class="ttdeci">static const double π</div><div class="ttdoc">Valeur de , en précision flottante 64 bits.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:66</div></div>
 <div class="ttc" id="astructtsd_1_1telecom_1_1_p_l_l1_config_a67c94c7f9e75c9d726d55e06b1717e34_html_a67c94c7f9e75c9d726d55e06b1717e34"><div class="ttname"><a href="structtsd_1_1telecom_1_1_p_l_l1_config_a67c94c7f9e75c9d726d55e06b1717e34.html#a67c94c7f9e75c9d726d55e06b1717e34">tsd::telecom::PLL1Config::tc</a></div><div class="ttdeci">float tc</div><div class="ttdef"><b>Definition:</b> carrier-rec.hpp:46</div></div>
 <div class="ttc" id="astructtsd_1_1telecom_1_1_p_l_l1_config_html"><div class="ttname"><a href="structtsd_1_1telecom_1_1_p_l_l1_config.html">tsd::telecom::PLL1Config</a></div><div class="ttdef"><b>Definition:</b> carrier-rec.hpp:44</div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -243,7 +243,7 @@ $(document).ready(function(){initNavTree('carrier-rec_8hpp_source.html',''); ini
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_761a2ca73a74301a2ece799a0de2d706.html">tsd</a></li><li class="navelem"><a class="el" href="dir_c695ee0cd6c30db38e260116c2eb4f30.html">telecom</a></li><li class="navelem"><b>carrier-rec.hpp</b></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:57 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:11 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

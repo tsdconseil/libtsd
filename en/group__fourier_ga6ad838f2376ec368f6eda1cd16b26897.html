@@ -119,9 +119,9 @@ $(document).ready(function(){initNavTree('group__fourier_ga6ad838f2376ec368f6eda
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt;T&gt; dsp::fourier::resample_freq </td>
+          <td class="memname"><a class="el" href="group__tsd.html#ga0e34dcdb103305a2b7d8798e627ea651">Vector</a>&lt;T&gt; dsp::fourier::resample_freq </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__tsd.html#ga0e34dcdb103305a2b7d8798e627ea651">Vector</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
@@ -148,22 +148,22 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Note that, because of some assumptions implicit with the DFT, some artefacts may be created at the signal borders. To mitigate this phenomena, one can pre-apply a window, or insert zeroes before and after the actual samples, but these are not perfect solutions.</dd></dl>
 <dl class="section user"><dt>Example showing the spurius artefacts</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">linspace</a>(0, 1 - 1.0/10, 10);</div>
+<div class="line">  soit x = <a class="code" href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">linspace</a>(0, 1 - 1.0/10, 10);</div>
 <div class="line">  <span class="comment">// Interpolation d&#39;un facteur 10 (10 fois plus d&#39;échantillons en sortie)</span></div>
-<div class="line">  ArrayXf y = rééchan_freq(x, 10);</div>
+<div class="line">  soit y = rééchan_freq(x, 10);</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
-<div class="line">  ArrayXf t  = x;</div>
-<div class="line">  ArrayXf t2 = <a class="code" href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">linspace</a>(0, 1 - 1.0/100, y.rows());</div>
+<div class="line">  soit t  = x;</div>
+<div class="line">  soit t2 = <a class="code" href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">linspace</a>(0, 1 - 1.0/100, y.rows());</div>
 <div class="line">  f.plot(t,  x, <span class="stringliteral">&quot;b-o&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
 <div class="line">  f.plot(t2, y, <span class="stringliteral">&quot;g-&quot;</span>,  <span class="stringliteral">&quot;y&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f_html_gaa70f93ef0e524a151b58de4b4e54a14f"><div class="ttname"><a href="group__tsd-gen_gaa70f93ef0e524a151b58de4b4e54a14f.html#gaa70f93ef0e524a151b58de4b4e54a14f">dsp::linspace</a></div><div class="ttdeci">static auto linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:676</div></div>
+<div class="ttc" id="agroup__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137_html_gaf3a870bf1c339ba500d0e9dd02e52137"><div class="ttname"><a href="group__tsd-gen_gaf3a870bf1c339ba500d0e9dd02e52137.html#gaf3a870bf1c339ba500d0e9dd02e52137">dsp::linspace</a></div><div class="ttdeci">static Vecf linspace(float a, float b, unsigned int n)</div><div class="ttdoc">Equidistant point interval.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:685</div></div>
 </div><!-- fragment --><div class="image">
 <img src="fourier-resample.png" alt="" width="1000px"/>
 </div>
 </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__tsd_ga12f0296034639a47a7dd2dbfb048be0f.html#ga12f0296034639a47a7dd2dbfb048be0f" title="Finite signal resampling, with arbitrary ratio.">resample()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__tsd_ga11b1872227788c8905a7c8c679381d7d.html#ga11b1872227788c8905a7c8c679381d7d" title="Finite signal resampling, with arbitrary ratio.">resample()</a> </dd></dl>
 
 </div>
 </div>
@@ -173,7 +173,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

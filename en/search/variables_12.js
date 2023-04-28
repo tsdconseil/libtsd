@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wf_972',['wf',['../structdsp_1_1telecom_1_1_mod_config.html#a6ea6265476a9de1ccc9387b6cdadd416',1,'dsp::telecom::ModConfig']]]
+  ['var_990',['var',['../structdsp_1_1stats_1_1_sub_space_spectrum_a055ecff64fe06189ce81b185970d7621.html#a055ecff64fe06189ce81b185970d7621',1,'dsp::stats::SubSpaceSpectrum']]]
 ];

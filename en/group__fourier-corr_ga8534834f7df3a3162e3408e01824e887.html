@@ -119,9 +119,9 @@ $(document).ready(function(){initNavTree('group__fourier-corr_ga8534834f7df3a316
 template&lt;typename T  = float&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt;T&gt; dsp::fourier::delay </td>
+          <td class="memname"><a class="el" href="group__tsd.html#ga0e34dcdb103305a2b7d8798e627ea651">Vector</a>&lt;T&gt; dsp::fourier::delay </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="group__tsd.html#ga80f43e9dba50fb42b953e0229ae4aeb6">Vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__tsd.html#ga0e34dcdb103305a2b7d8798e627ea651">Vector</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
@@ -156,14 +156,14 @@ template&lt;typename T  = float&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>Time shifted vector.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// Signal test : gaussienne</span></div>
-<div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga685802375870ff4bf5224dc16ee2a382.html#ga685802375870ff4bf5224dc16ee2a382">siggauss</a>(20);</div>
+<div class="line">  soit x = <a class="code" href="group__tsd-gen_ga2971b1bdd0395cf2f76cc9799772d26e.html#ga2971b1bdd0395cf2f76cc9799772d26e">siggauss</a>(20);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Délais de 1 échantillons</span></div>
-<div class="line">  ArrayXf x1 = délais(x, 1);</div>
+<div class="line">  soit x1 = délais(x, 1),</div>
 <div class="line">  <span class="comment">// Délais de 1.5 échantillons</span></div>
-<div class="line">  ArrayXf x2 = délais(x, 1.5);</div>
+<div class="line">       x2 = délais(x, 1.5),</div>
 <div class="line">  <span class="comment">// Avance de 1  échantillons</span></div>
-<div class="line">  ArrayXf x3 = délais(x, -1);</div>
+<div class="line">       x3 = délais(x, -1);</div>
 <div class="line"> </div>
 <div class="line">  Figure f;</div>
 <div class="line">  f.plot(x,  <span class="stringliteral">&quot;b-o&quot;</span>, <span class="stringliteral">&quot;x&quot;</span>);</div>
@@ -171,13 +171,13 @@ template&lt;typename T  = float&gt; </div>
 <div class="line">  f.plot(x2, <span class="stringliteral">&quot;m-o&quot;</span>, <span class="stringliteral">&quot;x2 (+1,5)&quot;</span>);</div>
 <div class="line">  f.plot(x3, <span class="stringliteral">&quot;c-o&quot;</span>, <span class="stringliteral">&quot;x3 (-1)&quot;</span>);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__tsd-gen_ga685802375870ff4bf5224dc16ee2a382_html_ga685802375870ff4bf5224dc16ee2a382"><div class="ttname"><a href="group__tsd-gen_ga685802375870ff4bf5224dc16ee2a382.html#ga685802375870ff4bf5224dc16ee2a382">dsp::siggauss</a></div><div class="ttdeci">static ArrayXf siggauss(int n, float a=10)</div><div class="ttdoc">Gaussian filtered impulse.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:1041</div></div>
+<div class="ttc" id="agroup__tsd-gen_ga2971b1bdd0395cf2f76cc9799772d26e_html_ga2971b1bdd0395cf2f76cc9799772d26e"><div class="ttname"><a href="group__tsd-gen_ga2971b1bdd0395cf2f76cc9799772d26e.html#ga2971b1bdd0395cf2f76cc9799772d26e">dsp::siggauss</a></div><div class="ttdeci">static Vecf siggauss(int n, float a=10)</div><div class="ttdoc">Gaussian filtered impulse.</div><div class="ttdef"><b>Definition:</b> dsp.hpp:1052</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-delais.png" alt="" width="800px"/>
 </div>
  </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="structdsp_1_1telecom_1_1_wave_form_a40e2c4b84efc9765d82f662cd9b8aa5b.html#a40e2c4b84efc9765d82f662cd9b8aa5b">dsp::telecom::WaveForm::make_samples()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="structdsp_1_1telecom_1_1_wave_form_a4171de03a56f4d3a8a872e69e2b10cb8.html#a4171de03a56f4d3a8a872e69e2b10cb8">dsp::telecom::WaveForm::make_samples()</a>.</p>
 
 </div>
 </div>
@@ -187,7 +187,7 @@ template&lt;typename T  = float&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1fourier.html">fourier</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

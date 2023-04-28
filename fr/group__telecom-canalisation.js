@@ -2,10 +2,10 @@ var group__telecom_canalisation =
 [
     [ "FHSSConfig", "structtsd_1_1telecom_1_1_f_h_s_s_config.html", [
       [ "df", "structtsd_1_1telecom_1_1_f_h_s_s_config_a10723c22333d4f89ab1b85c965b78b94.html#a10723c22333d4f89ab1b85c965b78b94", null ],
-      [ "duree_slot", "structtsd_1_1telecom_1_1_f_h_s_s_config_a5bff1e52606f58202f62a942096e9415.html#a5bff1e52606f58202f62a942096e9415", null ],
-      [ "osf_in", "structtsd_1_1telecom_1_1_f_h_s_s_config_a0e9ceeabdb5c9b8bfdf2388e56e89d18.html#a0e9ceeabdb5c9b8bfdf2388e56e89d18", null ],
-      [ "osf_out", "structtsd_1_1telecom_1_1_f_h_s_s_config_a9ac1c0ad37a10deaec63051d6ebd5bd4.html#a9ac1c0ad37a10deaec63051d6ebd5bd4", null ],
-      [ "seq", "structtsd_1_1telecom_1_1_f_h_s_s_config.html#a2c86355bf62c39221978cf87ae20dcda", null ]
+      [ "duree_slot", "structtsd_1_1telecom_1_1_f_h_s_s_config_ab7fcf1f1c2332e55af5c3a835377d962.html#ab7fcf1f1c2332e55af5c3a835377d962", null ],
+      [ "osf_in", "structtsd_1_1telecom_1_1_f_h_s_s_config_a1da96d1eb88385c83fdeb5928d3f24fe.html#a1da96d1eb88385c83fdeb5928d3f24fe", null ],
+      [ "osf_out", "structtsd_1_1telecom_1_1_f_h_s_s_config_ab0da2d62dbf9ff77a64a70d257ea0f1c.html#ab0da2d62dbf9ff77a64a70d257ea0f1c", null ],
+      [ "seq", "structtsd_1_1telecom_1_1_f_h_s_s_config.html#adfe9b13f0696a7c9e06d81762a906324", null ]
     ] ],
     [ "DSSSConfig", "structtsd_1_1telecom_1_1_d_s_s_s_config.html", null ],
     [ "TranspoBBConfig", "structtsd_1_1telecom_1_1_transpo_b_b_config.html", [

@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['score_956',['score',['../structdsp_1_1fourier_1_1_detection.html#aa3f47b69269e1a5286dbe0f68fd7a51d',1,'dsp::fourier::Detection']]],
-  ['seconds_957',['seconds',['../structdsp_1_1time_1_1_hour_composite.html#a3d8815361f4c7b2239626e1ae9d5fae3',1,'dsp::time::HourComposite']]],
-  ['seuil_958',['seuil',['../structdsp_1_1telecom_1_1_packet_receiver_config.html#a269ee248f0deb549983f9feca669700d',1,'dsp::telecom::PacketReceiverConfig']]],
-  ['slot_5fduration_959',['slot_duration',['../structdsp_1_1telecom_1_1_f_h_s_s_config_afdd06622e72517e868839a64c0a5f98d.html#afdd06622e72517e868839a64c0a5f98d',1,'dsp::telecom::FHSSConfig']]],
-  ['snr_5fdb_960',['SNR_dB',['../structdsp_1_1fourier_1_1_detection.html#a8b0efeaf69b3babb0465ea6c1761943b',1,'dsp::fourier::Detection']]],
-  ['snr_5fmini_961',['SNR_mini',['../structdsp_1_1telecom_1_1_packet_receiver_config.html#ad387f77dc4f39af0f1f07f2395d08bb2',1,'dsp::telecom::PacketReceiverConfig']]],
-  ['sortie_5fporteuse_962',['sortie_porteuse',['../structdsp_1_1telecom_1_1_p_l_l_config_a9aadb830aa21c6df0f0cb920b317d7a7.html#a9aadb830aa21c6df0f0cb920b317d7a7',1,'dsp::telecom::PLLConfig']]],
-  ['spectrum_963',['spectrum',['../structdsp_1_1stats_1_1_sub_space_spectrum.html#a4fdd64416e67a3693f0f55231d2fb13b',1,'dsp::stats::SubSpaceSpectrum']]]
+  ['r_970',['R',['../structdsp_1_1filter_1_1_c_i_c_config.html#ae36d98023ba23d366c65a571287a724a',1,'dsp::filter::CICConfig']]],
+  ['ra_5fratio_971',['ra_ratio',['../structdsp_1_1telecom_1_1_transpo_b_b_config.html#ab2067c3378bf2f47e32469a5d60ed65c',1,'dsp::telecom::TranspoBBConfig']]],
+  ['real_5foutput_972',['real_output',['../structdsp_1_1telecom_1_1_mod_config.html#a57fd800b54f738de554476f8e59e74f9',1,'dsp::telecom::ModConfig']]],
+  ['rician_5ffactor_973',['Rician_factor',['../structdsp_1_1telecom_1_1_dispersive_channel_config.html#a36a719011b46576a309b034992efc4df',1,'dsp::telecom::DispersiveChannelConfig']]]
 ];

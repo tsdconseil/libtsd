@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga96d14a562e017
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="structdsp_1_1telecom_1_1_wave_form.html">WaveForm</a>&gt; dsp::telecom::waveform_fsk </td>
+          <td class="memname">sptr&lt;<a class="el" href="structdsp_1_1telecom_1_1_wave_form.html">WaveForm</a>&gt; dsp::telecom::waveform_fsk </td>
           <td>(</td>
           <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>M</em> = <code>2</code>, </td>
@@ -164,22 +164,22 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga96d14a562e017
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"> </div>
 <div class="line">  <span class="comment">// 2-FSK, indice de modulation = 4</span></div>
-<div class="line">  <span class="keyword">auto</span> w = forme_onde_fsk(2, 4);</div>
+<div class="line">  soit w = forme_onde_fsk(2, 4);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 16 bits aléatoires</span></div>
-<div class="line">  <span class="keyword">auto</span> bs = randstream(16);</div>
+<div class="line">  soit bs = randstream(16);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Fréquence d&#39;échantillonnage  = 10 kHz</span></div>
 <div class="line">  <span class="comment">// Fréquence intermédiaire      = 500 Hz</span></div>
 <div class="line">  <span class="comment">// Fréquence symbole            = 0.1 kHz</span></div>
 <div class="line">  <span class="comment">// -&gt; Déviation = fsymb * h / 2 = 200 Hz</span></div>
-<div class="line">  <span class="keyword">auto</span> mod = modulateur_création({w, 10e3, 500, 0.1e3});</div>
+<div class="line">  soit mod = modulateur_création({w, 10e3, 500, 0.1e3});</div>
 <div class="line"> </div>
-<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line">  soit x = mod-&gt;step(bs);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hbo&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
-<div class="line">  f.subplot().plot(x.real(), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Modulation FSK&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(x), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Modulation FSK&quot;</span>);</div>
 <div class="line">  f.subplot().plot_psd(x, 10e3);</div>
 <div class="line"> </div>
 </div><!-- fragment --><div class="image">
@@ -198,7 +198,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-wf_ga96d14a562e017
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

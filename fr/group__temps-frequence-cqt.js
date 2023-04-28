@@ -9,7 +9,7 @@ var group__temps_frequence_cqt =
       [ "γ", "structtsd_1_1tf_1_1cqt_1_1_c_q_t_config.html#a7bff81b87ab19921aa6e0e48c9864f9b", null ]
     ] ],
     [ "CQT", "classtsd_1_1tf_1_1cqt_1_1_c_q_t.html", [
-      [ "interpolation", "classtsd_1_1tf_1_1cqt_1_1_c_q_t_a6807d56643f63937d91fcd17117f51e9.html#a6807d56643f63937d91fcd17117f51e9", null ],
-      [ "step", "classtsd_1_1tf_1_1cqt_1_1_c_q_t.html#a10947ee2c19995fbc1ff1fcdcaf6d9da", null ]
+      [ "interpolation", "classtsd_1_1tf_1_1cqt_1_1_c_q_t_aaaff3277c16c167cd9b3934ccfc4d659.html#aaaff3277c16c167cd9b3934ccfc4d659", null ],
+      [ "step", "classtsd_1_1tf_1_1cqt_1_1_c_q_t.html#a29bc2b504ebddb35db51f029c3f76144", null ]
     ] ]
 ];

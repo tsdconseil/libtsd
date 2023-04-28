@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods_ga33861c98ecb45c21
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga2bdb8287f8213bd4bcdd6a47a4886586">sptr</a>&lt;<a class="el" href="structdsp_1_1telecom_1_1_modulator.html">Modulator</a>&gt; dsp::telecom::modulator_new </td>
+          <td class="memname">sptr&lt;<a class="el" href="structdsp_1_1telecom_1_1_modulator.html">Modulator</a>&gt; dsp::telecom::modulator_new </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structdsp_1_1telecom_1_1_mod_config.html">ModConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
@@ -141,15 +141,16 @@ $(document).ready(function(){initNavTree('group__telecom-mods_ga33861c98ecb45c21
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
-<div class="line">  <span class="keyword">auto</span> mod = modulateur_création(config);</div>
+<div class="line"> </div>
+<div class="line">  soit mod = modulateur_création(config);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 64 bits aléatoires</span></div>
-<div class="line">  <span class="keyword">auto</span> bs = randstream(64);</div>
-<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line">  soit bs = randstream(64);</div>
+<div class="line">  soit x = mod-&gt;step(bs);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
-<div class="line">  f.subplot().plot(x.real(), <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal modulé BPSK (NRZ)&quot;</span>);</div>
+<div class="line">  f.subplot().plot(real(x), <span class="stringliteral">&quot;b-&quot;</span>, <span class="stringliteral">&quot;Signal modulé BPSK (NRZ)&quot;</span>);</div>
 <div class="line"> </div>
 </div><!-- fragment --><div class="image">
 <img src="ex-modulateur.png" alt="" width="800px"/>
@@ -162,11 +163,12 @@ Exemples de modulation BPSK</div></div>
 <div class="line">  config.fe     = 100e3; <span class="comment">// Fréquence d&#39;échantillonnage = 100 kHz</span></div>
 <div class="line">  config.fi     = 0;     <span class="comment">// Pas de fréquence intermédiaire</span></div>
 <div class="line">  config.fsymb  = 10e3;  <span class="comment">// Fréquence symbole = 10 kHz</span></div>
-<div class="line">  <span class="keyword">auto</span> mod = modulateur_création(config);</div>
+<div class="line"> </div>
+<div class="line">  soit mod = modulateur_création(config);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// 64 bits aléatoires</span></div>
-<div class="line">  <span class="keyword">auto</span> bs = randstream(64);</div>
-<div class="line">  ArrayXcf x = mod-&gt;step(bs);</div>
+<div class="line">  soit bs = randstream(64);</div>
+<div class="line">  soit x = mod-&gt;step(bs);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(bs.array(), <span class="stringliteral">&quot;hb&quot;</span>, <span class="stringliteral">&quot;Train binaire&quot;</span>);</div>
@@ -186,7 +188,7 @@ Exemples de modulation QPSK</div></div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacedsp.html">dsp</a></li><li class="navelem"><a class="el" href="namespacedsp_1_1telecom.html">telecom</a></li>
-    <li class="footer">Generated on Tue Mar 15 2022 07:48:06 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Fri Apr 28 2023 10:45:08 for libtsd by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

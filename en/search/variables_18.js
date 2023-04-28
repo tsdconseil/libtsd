@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['θ_979',['θ',['../structdsp_1_1fourier_1_1_detection.html#a3afcc62358694d7df4e8ee14a587815e',1,'dsp::fourier::Detection']]]
+  ['η_997',['η',['../structdsp_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a69e0669ae640818103886303275f1ff1',1,'dsp::telecom::DemodConfig::DemodDecConfig']]]
 ];

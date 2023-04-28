@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['cdouble_1343',['cdouble',['../group__tsd.html#ga446297b61ea1bc647c3fc9c84dcc94ce',1,'tsd']]],
-  ['cfloat_1344',['cfloat',['../group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2',1,'tsd']]]
+  ['ped_1375',['Ped',['../group__telecom-crec.html#ga86f29d45da505596b0b60e53d0996bd6',1,'tsd::telecom']]]
 ];

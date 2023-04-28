@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-analog_ga51fb68b99
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__tsd.html#ga9e2377b654c93e22d894bcdcae510500">sptr</a>&lt;<a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt;<a class="el" href="group__tsd.html#ga9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>,float&gt; &gt; tsd::telecom::discriminateur_fm </td>
+          <td class="memname">sptr&lt;<a class="el" href="structtsd_1_1_filtre_gen.html">FiltreGen</a>&lt;<a class="el" href="namespacetsd.html#a9da159320f29c3ccd16bb8b97e268ab2">cfloat</a>,float&gt; &gt; tsd::telecom::discriminateur_fm </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -137,17 +137,15 @@ $(document).ready(function(){initNavTree('group__telecom-mods-analog_ga51fb68b99
 <dl class="section return"><dt>Renvoie</dt><dd><a class="el" href="structtsd_1_1_filtre.html" title="Structure abstraite pour un filtre de données configurable.">Filtre</a> cfloat (signal bande de base, complexe) vers float (fréquence instantanée, sous forme de pulsation normalisée (entre \(-\pi\) et \(\pi\))). </dd></dl>
 <dl class="section warning"><dt>Avertissement</dt><dd>Du fait de l'aproximation utilisée pour le calcul de la dérivée, ce bloc génére un retard de 1 échantillon.</dd></dl>
 <dl class="section user"><dt>Exemple</dt><dd><div class="fragment"><div class="line"> </div>
-<div class="line"> </div>
-<div class="line"> </div>
 <div class="line">  <span class="comment">// Signal test</span></div>
-<div class="line">  ArrayXf x = <a class="code" href="group__tsd-gen_ga9260324dbd33bb21e26ffc69991265b6.html#ga9260324dbd33bb21e26ffc69991265b6">siggauss</a>(1000) / 10;</div>
+<div class="line">  soit x = <a class="code" href="group__tsd-gen_gafe2613ea43033b057b06e688be04168f.html#gafe2613ea43033b057b06e688be04168f">siggauss</a>(1000) / 10;</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Modulation FM</span></div>
-<div class="line">  ArrayXcf y = polar(<a class="code" href="group__tsd_ga5588c037fbd933a078a8b3db038a1898.html#ga5588c037fbd933a078a8b3db038a1898">cumsum</a>(x));</div>
+<div class="line">  soit y = polar(<a class="code" href="group__tsd_ga7584740d640d5586afe319e3c908645d.html#ga7584740d640d5586afe319e3c908645d">cumsum</a>(x));</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Démod</span></div>
-<div class="line">  <span class="keyword">auto</span> discri = <a class="code" href="group__telecom-mods-analog_ga51fb68b998e407a8ca66ae9b5a497d06.html#ga51fb68b998e407a8ca66ae9b5a497d06">discriminateur_fm</a>();</div>
-<div class="line">  ArrayXf z = discri-&gt;step(y);</div>
+<div class="line">  soit discri = <a class="code" href="group__telecom-mods-analog_ga51fb68b998e407a8ca66ae9b5a497d06.html#ga51fb68b998e407a8ca66ae9b5a497d06">discriminateur_fm</a>();</div>
+<div class="line">  soit z = discri-&gt;step(y);</div>
 <div class="line"> </div>
 <div class="line">  Figures f;</div>
 <div class="line">  f.subplot().plot(x, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Signal test&quot;</span>);</div>
@@ -155,8 +153,8 @@ $(document).ready(function(){initNavTree('group__telecom-mods-analog_ga51fb68b99
 <div class="line">  f.subplot().plot(z, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Sortie discriminateur&quot;</span>);</div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__telecom-mods-analog_ga51fb68b998e407a8ca66ae9b5a497d06_html_ga51fb68b998e407a8ca66ae9b5a497d06"><div class="ttname"><a href="group__telecom-mods-analog_ga51fb68b998e407a8ca66ae9b5a497d06.html#ga51fb68b998e407a8ca66ae9b5a497d06">tsd::telecom::discriminateur_fm</a></div><div class="ttdeci">sptr&lt; FiltreGen&lt; cfloat, float &gt; &gt; discriminateur_fm()</div><div class="ttdoc">Discrimination polaire pour la démodulation FM.</div></div>
-<div class="ttc" id="agroup__tsd-gen_ga9260324dbd33bb21e26ffc69991265b6_html_ga9260324dbd33bb21e26ffc69991265b6"><div class="ttname"><a href="group__tsd-gen_ga9260324dbd33bb21e26ffc69991265b6.html#ga9260324dbd33bb21e26ffc69991265b6">tsd::siggauss</a></div><div class="ttdeci">ArrayXf siggauss(int n, float a=10)</div><div class="ttdoc">Impulsion filtrée par une Gaussienne.</div></div>
-<div class="ttc" id="agroup__tsd_ga5588c037fbd933a078a8b3db038a1898_html_ga5588c037fbd933a078a8b3db038a1898"><div class="ttname"><a href="group__tsd_ga5588c037fbd933a078a8b3db038a1898.html#ga5588c037fbd933a078a8b3db038a1898">tsd::cumsum</a></div><div class="ttdeci">auto cumsum(const Eigen::ArrayBase&lt; D &gt; &amp;x)</div><div class="ttdoc">Somme cumulée d'un vecteur.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:293</div></div>
+<div class="ttc" id="agroup__tsd-gen_gafe2613ea43033b057b06e688be04168f_html_gafe2613ea43033b057b06e688be04168f"><div class="ttname"><a href="group__tsd-gen_gafe2613ea43033b057b06e688be04168f.html#gafe2613ea43033b057b06e688be04168f">tsd::siggauss</a></div><div class="ttdeci">Vecf siggauss(entier n, float a=10)</div><div class="ttdoc">Impulsion filtrée par une Gaussienne.</div></div>
+<div class="ttc" id="agroup__tsd_ga7584740d640d5586afe319e3c908645d_html_ga7584740d640d5586afe319e3c908645d"><div class="ttname"><a href="group__tsd_ga7584740d640d5586afe319e3c908645d.html#ga7584740d640d5586afe319e3c908645d">tsd::cumsum</a></div><div class="ttdeci">auto cumsum(const Vecteur&lt; T &gt; &amp;x)</div><div class="ttdoc">Somme cumulée d'un vecteur.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:234</div></div>
 </div><!-- fragment --><div class="image">
 <img src="ex-discriminateur-fm.png" alt="" width="800px"/>
 </div>
@@ -170,7 +168,7 @@ $(document).ready(function(){initNavTree('group__telecom-mods-analog_ga51fb68b99
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="group__telecom-mods-analog.html">Modulations analogiques</a></li>
-    <li class="footer">Généré le Mardi 15 Mars 2022 07:47:58 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:12 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

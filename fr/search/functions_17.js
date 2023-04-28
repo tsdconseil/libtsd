@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['xcorr_1164',['xcorr',['../group__fourier-corr_ga905acbf2d7cee38e09c735dee74aa8a9.html#ga905acbf2d7cee38e09c735dee74aa8a9',1,'tsd::fourier']]],
-  ['xcorrb_1165',['xcorrb',['../group__fourier-corr_gaa6f678050aa7881601b8bb912649e0d9.html#gaa6f678050aa7881601b8bb912649e0d9',1,'tsd::fourier']]]
+  ['xcorr_1189',['xcorr',['../group__fourier-corr_gabc05b575a412e8e1fb8448520c5cf3c5.html#gabc05b575a412e8e1fb8448520c5cf3c5',1,'tsd::fourier']]],
+  ['xcorrb_1190',['xcorrb',['../group__fourier-corr_gad7f9d463fbf60db805175da76dce36e3.html#gad7f9d463fbf60db805175da76dce36e3',1,'tsd::fourier']]]
 ];

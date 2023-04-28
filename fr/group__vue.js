@@ -1,24 +1,32 @@
 var group__vue =
 [
+    [ "ConfigAxe", "structtsd_1_1vue_1_1_config_axe.html", [
+      [ "tic_manuels", "structtsd_1_1vue_1_1_config_axe.html#a7cc3f9b68b0b3139540d2191ebe4bdfa", null ],
+      [ "valeurs_décalage", "structtsd_1_1vue_1_1_config_axe.html#a3edd021c7aab0719287efb5334a1461b", null ],
+      [ "valeurs_echelle", "structtsd_1_1vue_1_1_config_axe.html#a42319818b0e5fcbbaa33d133c65d90a5", null ],
+      [ "valeurs_hauteur_max", "structtsd_1_1vue_1_1_config_axe.html#afc87b8ea11417aa9b721ef045e7b7035", null ],
+      [ "vmin", "structtsd_1_1vue_1_1_config_axe.html#ad711d49e8e559d28ef6437872c77e230", null ]
+    ] ],
     [ "ConfigSerie", "structtsd_1_1vue_1_1_config_serie.html", null ],
+    [ "ParamGrille", "structtsd_1_1vue_1_1_param_grille.html", null ],
     [ "Figure", "structtsd_1_1vue_1_1_figure.html", [
       [ "Courbe", "structtsd_1_1vue_1_1_figure_1_1_courbe.html", [
         [ "def_couleur", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#a3f4eb0b83a3733981ef26b30b98031a6", null ],
-        [ "def_couleurs", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#adc3a20664ba55bf6beedbf4fe2eff276", null ],
-        [ "def_dim_marqueur", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#afd2b09d4941e2a601bde1b4807c61ec4", null ],
-        [ "def_epaisseur", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#ad55a34407472ade85c47708705e476c2", null ],
-        [ "def_remplissage", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#afc83ea2e93d640d9aaabd8ee5f913f2e", null ],
-        [ "def_σ", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#aab35830de54d87c4b6b1e4989c751376", null ]
+        [ "def_couleurs", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#a4837e81d4650d3e359aef0a8640cea76", null ],
+        [ "def_dim_marqueur", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#a15f44530e04a001c543b559629fe32c7", null ],
+        [ "def_epaisseur", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#a86036d9a43895b69d6a01e97c4b299b2", null ],
+        [ "def_remplissage", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#a6d49a3992990e333d3882893a648e7f6", null ],
+        [ "def_σ", "structtsd_1_1vue_1_1_figure_1_1_courbe.html#a59e5ed5a001f24143c4bdd4aed4dfdb1", null ]
       ] ],
       [ "attente_ihm", "structtsd_1_1vue_1_1_figure.html#a9ce2a3e1390c5be5a54fbee164bb0da2", null ],
       [ "canva", "structtsd_1_1vue_1_1_figure_a31393dca1c4f57308a8ebfa89ef144f8.html#a31393dca1c4f57308a8ebfa89ef144f8", null ],
       [ "clear", "structtsd_1_1vue_1_1_figure.html#a2bd69fd385d35c56cc287f3665c40555", null ],
-      [ "courbes", "structtsd_1_1vue_1_1_figure_ac2b78d47e53d04509942c4ea3ec47c67.html#ac2b78d47e53d04509942c4ea3ec47c67", null ],
-      [ "lis_nom", "structtsd_1_1vue_1_1_figure.html#a7970bc20a458a41f8ebd36ccbb1ca0d2", null ],
-      [ "plot", "structtsd_1_1vue_1_1_figure_a07b98c462feb2b177aa78b67599561e7.html#a07b98c462feb2b177aa78b67599561e7", null ],
-      [ "plot_img", "structtsd_1_1vue_1_1_figure_a2dc831754d8289adc4783f12a3bc9059.html#a2dc831754d8289adc4783f12a3bc9059", null ],
-      [ "plot_psd", "structtsd_1_1vue_1_1_figure_aa4b2ae33d441e093e81ce679f14b358a.html#aa4b2ae33d441e093e81ce679f14b358a", null ],
-      [ "titre", "structtsd_1_1vue_1_1_figure_ad50ae6b7123793b5317e65087abac5d4.html#ad50ae6b7123793b5317e65087abac5d4", null ],
-      [ "titres", "structtsd_1_1vue_1_1_figure_a8469f3e86378aad37fd7b47bf5437323.html#a8469f3e86378aad37fd7b47bf5437323", null ]
+      [ "lis_nom", "structtsd_1_1vue_1_1_figure.html#ae49f92787f6da71062472f59bcc091ec", null ],
+      [ "plot", "structtsd_1_1vue_1_1_figure_a5c43b6d39f99f166d2bcca00895caeef.html#a5c43b6d39f99f166d2bcca00895caeef", null ],
+      [ "plot_img", "structtsd_1_1vue_1_1_figure_a31930d900b5048fe15b9d4caa28b97ca.html#a31930d900b5048fe15b9d4caa28b97ca", null ],
+      [ "plot_img", "structtsd_1_1vue_1_1_figure.html#a3a17be7a441e259ceeaaa91f06255700", null ],
+      [ "plot_psd", "structtsd_1_1vue_1_1_figure_a8b5a4d3b60f9b34cc6e766cc8a1fb93d.html#a8b5a4d3b60f9b34cc6e766cc8a1fb93d", null ],
+      [ "titre", "structtsd_1_1vue_1_1_figure_a2e9ab09ca75f0b718497aeaa298c585e.html#a2e9ab09ca75f0b718497aeaa298c585e", null ],
+      [ "titres", "structtsd_1_1vue_1_1_figure_a6a695e03eb2aa1bcd7c754bb5ee0444f.html#a6a695e03eb2aa1bcd7c754bb5ee0444f", null ]
     ] ]
 ];

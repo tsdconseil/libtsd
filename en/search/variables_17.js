@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['η_978',['η',['../structdsp_1_1telecom_1_1_demod_config_1_1_demod_dec_config.html#a69e0669ae640818103886303275f1ff1',1,'dsp::telecom::DemodConfig::DemodDecConfig']]]
+  ['β_996',['β',['../structdsp_1_1telecom_1_1_shaping_filter_spec.html#a8f3c8ca2c4804e3c20ec1ff9a0aedf03',1,'dsp::telecom::ShapingFilterSpec']]]
 ];
