@@ -58,11 +58,11 @@ struct LiftElem
  */
 struct Lift
 {
-  std::string nom;
+  string nom;
   /** @brief Terme de normalisation */
   float K;
   /** @brief Les différents étages */
-  std::vector<LiftElem> etapes;
+  vector<LiftElem> etapes;
 };
 
 /** @brief Spécification d'une ondelette sous la forme d'un filtre polyphase (matrice 2x2 de polynômes de Laurent)
@@ -130,7 +130,7 @@ extern Lift lift_db2();
 template<typename T = float>
 struct Ondelette
 {
-  std::string nom;
+  string nom;
   virtual void lift_step(Vecteur<T> &x, entier n)  = 0;
   virtual void ilift_step(Vecteur<T> &x, entier n) = 0;
 };

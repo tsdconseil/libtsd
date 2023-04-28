@@ -9,6 +9,12 @@
 # include <png.h>
 #endif
 
+#ifdef WIN
+# include "windows.h"
+#else
+# include <sys/stat.h>
+#endif
+
 
 #define DBG_AXES(AA)
 
@@ -20,6 +26,57 @@ struct bgra
 {
   unsigned char bgra[4];
 };
+
+
+// [chemin, fichier]
+static tuple<string, string>  analyse_chemin(cstring chemin_complet)
+{
+  si(chemin_complet == ".")
+    retourne {".", ""};
+
+  soit n = (entier) chemin_complet.size();
+  // Index dernier '/'
+  soit j = -1;
+
+
+  pour(auto i = 0; i < n; i++)
+    si((chemin_complet[i] == '/') || (chemin_complet[i] == '\\'))
+      j = i;
+
+  // Pas de '/'
+  si(j == -1)
+    retourne {"", chemin_complet};
+
+  // '/' exclu
+  retourne {chemin_complet.substr(0, j), chemin_complet.substr(j+1)};
+}
+
+static bouléen fichier_existe(const string &nom)
+{
+  soit f = fopen(nom.c_str(), "r");
+  si(f == nullptr)
+    retourne non;
+  fclose(f);
+  retourne oui;
+}
+
+static void creation_dossier(const string &chemin)
+{
+# ifdef WIN
+  CreateDirectory(chemin.c_str(), nullptr);
+# else
+  entier res = mkdir(chemin.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+  si(!res)
+    msg_avert("Echec création dossier {}.", chemin);
+# endif
+}
+
+static void creation_dossier_si_inexistant(const string &chemin)
+{
+  si(!fichier_existe(chemin))
+    creation_dossier(chemin);
+}
+
 
 
 struct Image::Impl
@@ -150,6 +207,7 @@ struct Image::Impl
 #   endif
   }
 
+
   void enregister(const string &chemin) const
   {
 #   if LIBTSD_USE_PNG
@@ -158,6 +216,9 @@ struct Image::Impl
 
     si((chemin.size() < 4) || (chemin[chemin.size()-4] != '.'))
       ch += ".png";
+
+    soit [dossier, fichier] = analyse_chemin(ch);
+    creation_dossier_si_inexistant(dossier);
 
     //si(ch.ends_with(".png"))
     si((ch.size() >= 4) && (ch.substr(ch.size() - 4, 4) == ".png"))
@@ -332,7 +393,7 @@ struct Image::Impl
   }
 
   // Première intersection en partant de p0
-  std::tuple<Pointf, int> intersecte_ligne_rdi(const Pointf &p0, const Pointf &p1) const
+  tuple<Pointf, int> intersecte_ligne_rdi(const Pointf &p0, const Pointf &p1) const
   {
     Pointf r{-1,-1};
     int côté = -1;

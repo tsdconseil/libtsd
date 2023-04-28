@@ -50,13 +50,11 @@ public:
    * This function intepolate the result of the CQT so as to have the same number of points,
    * and aligned at the same time, for all frequency bins.
    */
-  std::tuple<Vecf, Vecf, Tabf> interpolation(float ofs);
+  tuple<Vecf, Vecf, Tabf> interpolation(float ofs);
 
   void affiche_noyaux();
 
-private:
-  struct Impl;
-  sptr<Impl> impl;
+  _PIMPL_
 };
 
 

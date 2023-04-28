@@ -35,7 +35,7 @@ namespace dsp::filter {
    *
    * @sa echec(), msg_erreur()
    */
-  inline void verifie_frequence_normalisee(float f, const std::string &msg = "")
+  inline void verifie_frequence_normalisee(float f, cstring msg = "")
   {
     return tsdf::verifie_frequence_normalisee(f, msg);
   }
@@ -74,7 +74,7 @@ namespace dsp::filter {
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
    *  @image html filtrage-fenetre.png width=600px
    */
-  inline Vecf window(const std::string &type, int n, bool symetrical = true)
+  inline Vecf window(cstring type, int n, bool symetrical = true)
   {
     return tsdf::fenetre(type, n, symetrical);
   }
@@ -118,7 +118,7 @@ namespace dsp::filter {
 
   using FenInfos = tsdf::FenInfos;
 
-  static inline FenInfos window_analysis(const std::string &nom, const Vecf &x)
+  static inline FenInfos window_analysis(cstring nom, const Vecf &x)
   {
     return tsdf::fenetre_analyse(nom, x);
   }
@@ -155,7 +155,7 @@ namespace dsp::filter {
    *  auto [β, n] = kaiser_param(60, 0.1);
    *  @endcode
    */
-  inline std::tuple<float, int> kaiser_param(float atten_db, float df)
+  inline tuple<float, int> kaiser_param(float atten_db, float df)
   {
     return tsdf::kaiser_param(atten_db, df);
   }
@@ -229,7 +229,7 @@ namespace dsp::filter {
  *  @sa repfreq(), frgroup(), frphase()
  */
 template<typename T>
-  std::tuple<Vecf, Vecf> frmag(const FRat<T> &h, unsigned int npts = 1024)
+  tuple<Vecf, Vecf> frmag(const FRat<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frmag(h, npts);
 }
@@ -278,7 +278,7 @@ template<typename T>
  *  @param npts Frequency resolution.
  *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the phases @f$y_k@f$ (in radians).
  */
-template<typename T> std::tuple<Vecf, Vecf> frphase(const FRat<T> &h, unsigned int npts = 1024)
+template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frphase<T>(h, npts);
 }
@@ -301,7 +301,7 @@ template<typename T> std::tuple<Vecf, Vecf> frphase(const FRat<T> &h, unsigned i
  *  @image html frgroup.png width=600px
  *
  */
-template<typename T> std::tuple<Vecf, Vecf> frgroup(const FRat<T> &h, unsigned int npts = 1024)
+template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frgroup<T>(h, npts);
 }
@@ -355,17 +355,17 @@ template<typename T> Vecf repfreq(const Vector<T> &h, int npts = 1024)
   return tsdf::repfreq<T>(h, npts);
 }
 
-template<typename T> std::tuple<Vecf, Vecf> frmag(const Vector<T> &h, unsigned int npts = 1024)
+template<typename T> tuple<Vecf, Vecf> frmag(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frmag<T>(h, npts);
 }
 
-template<typename T> std::tuple<Vecf, Vecf> frphase(const Vector<T> &h, unsigned int npts = 1024)
+template<typename T> tuple<Vecf, Vecf> frphase(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frphase<T>(h, npts);
 }
 
-template<typename T> std::tuple<Vecf, Vecf> frgroup(const Vector<T> &h, unsigned int npts = 1024)
+template<typename T> tuple<Vecf, Vecf> frgroup(const Vector<T> &h, unsigned int npts = 1024)
 {
   return tsdf::frgroup<T>(h, npts);
 }
@@ -426,7 +426,7 @@ template<typename T>
  *
  *  @sa frmag(), frphase()
  */
-inline std::tuple<Vecf, Vecf> firamp(const Vecf &h, int L = 1024, bool symetrical = true)
+inline tuple<Vecf, Vecf> firamp(const Vecf &h, int L = 1024, bool symetrical = true)
 {
   return tsdf::rifamp(h, L, symetrical);
 }
@@ -486,7 +486,7 @@ struct SpecFreqIntervalle
  *
  *  @sa hilbert(), hilbert_transformeur()
  */
-inline Vecf design_fir_hilbert(int n, const std::string &window = "hn")
+inline Vecf design_fir_hilbert(int n, cstring window = "hn")
 {
   return tsdf::design_rif_hilbert(n, window);
 }
@@ -550,7 +550,7 @@ inline FRat<float> design_biquad(const BiquadSpec &spec)
  *      https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html,
  * - <i>F0 and Q in filters, Mini tutorial,</i> Analog Devices,
  */
-inline FRat<float> design_biquad(const std::string type, float f, float Q, float gain_dB = 0)
+inline FRat<float> design_biquad(cstring type, float f, float Q, float gain_dB = 0)
 {
   return tsdf::design_biquad(type, f, Q, gain_dB);
 }
@@ -613,8 +613,8 @@ extern FRat<cfloat> design_riia_laplace(int n, TypeFiltre type, PrototypeAnalogi
  *
  * @sa bilinear_transform(), @ref filter_sois(), filter_iir()
  */
-inline FRat<cfloat> design_iira(int n, const std::string &type,
-    const std::string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60)
+inline FRat<cfloat> design_iira(int n, cstring type,
+    cstring prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60)
 {
   return tsdf::design_riia(n, type, prototype, fc, δ_bp, δ_bc);
 }
@@ -781,7 +781,7 @@ inline float sinc(float t)
  * @sa design_fir_eq(), design_fir_freq()
  *
  */
-inline Vecf design_fir_wnd(unsigned int n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0)
+inline Vecf design_fir_wnd(unsigned int n, const std::string &type, float fc, cstring fen = "hn", float fc2 = 0)
 {
   return tsdf::design_rif_fen(n, type, fc, fen, fc2);
 }
@@ -801,7 +801,7 @@ inline Vecf design_fir_wnd(unsigned int n, const std::string &type, float fc, co
  *
  * @sa design_fir_fen(), design_fir_wnd_chebychev()
  */
-inline Vecf design_rif_wnd_kaiser(const std::string &type, float fc, float atten_db,
+inline Vecf design_rif_wnd_kaiser(cstring type, float fc, float atten_db,
     float df, float fc2 = 0)
 {
   return tsdf::design_rif_fen_kaiser(type, fc, atten_db, df, fc2);
@@ -822,7 +822,7 @@ inline Vecf design_rif_wnd_kaiser(const std::string &type, float fc, float atten
  *
  * @sa design_fir_wnd(), design_fir_wnd_kaiser()
  */
-inline Vecf design_fir_wnd_chebychev(int n, const std::string &type,
+inline Vecf design_fir_wnd_chebychev(int n, cstring type,
     float fc, float atten_db, float fc2 = 0)
 {
   return tsdf::design_rif_fen_chebychev(n, type, fc, atten_db, fc2);
@@ -1319,7 +1319,7 @@ using tsdf::HilbertTransformeurConfig;
  * @sa design_fir_hilbert(), hilbert(), hilbert_dft()
  */
 inline sptr<Filter<float, cfloat, HilbertTransformeurConfig>>
-  hilbert_transformer(unsigned int n = 31, const std::string &fenetre = "hn")
+  hilbert_transformer(unsigned int n = 31, cstring fenetre = "hn")
 {
   return tsdf::hilbert_transformeur(n, fenetre);
 }
@@ -1843,7 +1843,7 @@ using InterpolatorSincConfig = tsdf::InterpolateurSincConfig;
  *  @sa InterpolatorFIR, itrp_cspline(), itrp_linear(), itrp_lagrange()
  */
 template<typename T>
-  sptr<InterpolatorFIR<T>> itrp_sinc(int ncoefs, float fcut = 0.5, const std::string &window_type = "hn")
+  sptr<InterpolatorFIR<T>> itrp_sinc(int ncoefs, float fcut = 0.5, cstring window_type = "hn")
 {
   return tsdf::itrp_sinc<T>(ncoefs, fcut, window_type);
 }

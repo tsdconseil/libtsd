@@ -119,7 +119,7 @@ namespace tsd::stats {
 
 
 
-  std::tuple<Vecf, Vecf> lpc(const Vecf &x, entier p)
+  tuple<Vecf, Vecf> lpc(const Vecf &x, entier p)
   {
     //ArrayXf r = xcorr(x, x, p).real();
     soit [lags, cr] = xcorr(x, x, p);
@@ -223,7 +223,7 @@ namespace tsd::stats {
 
 
 namespace tsd::fourier {
-  std::tuple<Vecf, Vecf> psd_sousesp(const Veccf &x, entier Ns, entier Nf, entier m)
+  tuple<Vecf, Vecf> psd_sousesp(const Veccf &x, entier Ns, entier Nf, entier m)
   {
     tsd::stats::SubSpaceSpectrumConfig config;
     config.Ns = Ns;

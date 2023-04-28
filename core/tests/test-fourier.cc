@@ -350,7 +350,7 @@ static entier test_delais_fractionnaire(float d)
 
   soit em = err.valeur_max();
 
-  std::string tps = "float";
+  string tps = "float";
   si(tests_debug_actif)
   {
     Figures f;
@@ -361,7 +361,7 @@ static entier test_delais_fractionnaire(float d)
       s.plot(real(x0), "b-", "x0");
       s.plot(real(x1), "g-", "x1");
       s.plot(imag(x1), "r-", "x1 (imag)");
-      s.titre(fmt::format("x0, x1 = x0(n-{})", d));
+      s.titre(sformat("x0, x1 = x0(n-{})", d));
       tps = "cfloat";
 
       s = f.subplot(222);
@@ -374,17 +374,17 @@ static entier test_delais_fractionnaire(float d)
       soit s = f.subplot(221);
       s.plot(x0, "b-", "x0");
       s.plot(x1, "g-", "x1");
-      s.titre(fmt::format("x0, x1 = x0(n-{})", d));
+      s.titre(sformat("x0, x1 = x0(n-{})", d));
     }
-    //f.titre(fmt::format("Délais fractionnaire - {} = {}", tps, d));
-    f.subplot(223).plot(err, "r-", fmt::format("erreur (max = {})", em));
+    //f.titre(sformat("Délais fractionnaire - {} = {}", tps, d));
+    f.subplot(223).plot(err, "r-", sformat("erreur (max = {})", em));
 
     soit s = f.subplot(224);
     s.plot(linspace(n/2,n/2+19,20), real(x0.segment(n/2, 20)), "b-", "x0");
     s.plot(linspace(n/2,n/2+19,20), real(x1.segment(n/2, 20)), "g-", "x0");
     s.titre("Zoom t = [n/2,n/2+19]");
 
-    f.afficher(fmt::format("test-delais-frac-{}-{}.png", tps, d));
+    f.afficher(sformat("test-delais-frac-{}-{}.png", tps, d));
   }
 
   msg("Délais fractionnaire - {} = {}, erreur max = {}.", tps, d, em);
@@ -449,8 +449,8 @@ static void test_delais_unitaire(float délais_vrai, float snr_db, entier type_s
     Figure f;
     f.plot(x0/7, "b-", "x0");
     f.plot(x1/4, "g-", "x1");
-    f.titre(fmt::format("Délais réf={:.2g}, détecté={}, score={}", délais_vrai, d, score));
-    f.afficher(fmt::format("test-delais-{:.2f}.png", délais_vrai));
+    f.titre(sformat("Délais réf={:.2g}, détecté={}, score={}", délais_vrai, d, score));
+    f.afficher(sformat("test-delais-{:.2f}.png", délais_vrai));
 
     {
       Figure f;
@@ -474,7 +474,7 @@ static void test_delais_unitaire(float délais_vrai, float snr_db, entier type_s
 
 
 
-static std::tuple<Vecf, Veccf> xcorr_ref(const Veccf &x, const Veccf &y, entier m = -1, bouléen biais = non)
+static tuple<Vecf, Veccf> xcorr_ref(const Veccf &x, const Veccf &y, entier m = -1, bouléen biais = non)
 {
   soit n = x.rows();
   si(m == -1)

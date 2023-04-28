@@ -383,7 +383,7 @@ struct FiltreFFTConfig
  *
  *  @sa filtre_rif_fft(), filtre_rfft(), ola_complexité(), ola_complexité_optimise()
  */
-extern std::tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, entier> filtre_fft(const FiltreFFTConfig &config);
+extern tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, entier> filtre_fft(const FiltreFFTConfig &config);
 
 
 
@@ -426,7 +426,7 @@ extern void ola_complexité_optimise(entier M, float &C, entier &Nf, entier &Nz,
 // *  Ce filtre est identique à @ref filtre_fft(), à l'exception du fait que les types d'entrées / sorties sont réels (implémentation plus efficace).
 // *
 // *  @sa filtre_fft()
-//extern std::tuple<sptr<Filtre<float, float, FiltreFFTConfig>>, entier> filtre_rfft(const FiltreFFTConfig &config);
+//extern tuple<sptr<Filtre<float, float, FiltreFFTConfig>>, entier> filtre_rfft(const FiltreFFTConfig &config);
 
 /** @brief Transformée en z-chirp
  *
@@ -467,7 +467,7 @@ extern Veccf czt(const Veccf &x, entier m, cfloat W, cfloat z0 = 1.0f);
  *
  * @sa xcorr(), xcorrb()
  */
-extern std::tuple<Vecf, Veccf> ccorr(const Veccf &x, const Veccf &y = Veccf());
+extern tuple<Vecf, Veccf> ccorr(const Veccf &x, const Veccf &y = Veccf());
 
 
 /** @brief Corrélation (non biaisée) entre deux vecteurs complexes
@@ -505,7 +505,7 @@ extern std::tuple<Vecf, Veccf> ccorr(const Veccf &x, const Veccf &y = Veccf());
  *
  * @sa xcorrb(), ccorr(), détecteur_création()
  */
-extern std::tuple<Vecf, Veccf> xcorr(const Veccf &x, const Veccf &y = Veccf(), entier m = -1);
+extern tuple<Vecf, Veccf> xcorr(const Veccf &x, const Veccf &y = Veccf(), entier m = -1);
 
 
 /** @brief Corrélation (biaisée) entre deux vecteurs complexes.
@@ -524,7 +524,7 @@ extern std::tuple<Vecf, Veccf> xcorr(const Veccf &x, const Veccf &y = Veccf(), e
  *
  *  @sa xcorr(), ccorr(), détecteur_création()
  */
-extern std::tuple<Vecf, Veccf> xcorrb(const Veccf &x, const Veccf &y = Veccf(), entier m = -1);
+extern tuple<Vecf, Veccf> xcorrb(const Veccf &x, const Veccf &y = Veccf(), entier m = -1);
 
 /** @brief Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).
  *
@@ -564,12 +564,12 @@ template<typename T = float>
 
 /** @brief Estimation du délais le
  *  plus probable entre deux signaux (via une corrélation) */
-extern std::tuple<float, float> estimation_délais(const Veccf &x, const Veccf &y);
+extern tuple<float, float> estimation_délais(const Veccf &x, const Veccf &y);
 
 
 /** @brief Alignement de deux signaux */
 template<typename T>
-  std::tuple<Vecteur<T>, Vecteur<T>, entier, float> aligne_entier(const Vecteur<T> &x, const Vecteur<T> &y);
+  tuple<Vecteur<T>, Vecteur<T>, entier, float> aligne_entier(const Vecteur<T> &x, const Vecteur<T> &y);
 
 
 /** @brief Informations calculées à partir du motif détecté. */
@@ -722,9 +722,7 @@ public:
   entier configure(entier N);
   void step(const Tabcf &x, const Tabcf &y, entier delais);
 
-private:
-  struct Impl;
-  sptr<Impl> impl;
+  _PIMPL_
 };
 
 
@@ -763,7 +761,7 @@ extern Vecf psd_freqs(entier n, bouléen complexe = oui);
  * @sa psd_welch(), psd_subspace()
  */
 template<typename T>
-std::tuple<Vecf, Vecf> psd(const Vecteur<T> &x)
+tuple<Vecf, Vecf> psd(const Vecteur<T> &x)
 {
   soit fen = tsd::filtrage::fenetre("hn", x.rows(), non);
   soit xf = x * fen;
@@ -799,7 +797,7 @@ std::tuple<Vecf, Vecf> psd(const Vecteur<T> &x)
  * @sa psd(), psd_subspace()
  *
  */
-extern std::tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, const std::string fen = "hn");
+extern tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, cstring fen = "hn");
 
 
 /** @brief Calcul d'un spectre par la méthode des sous-espaces
@@ -839,7 +837,7 @@ extern std::tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, const std::str
  *  le nombre de signaux à détecter (en effet, un cosinus ou sinus peut se représenter comme la somme de deux exponentielles complexes).
  *
  */
-extern std::tuple<Vecf, Vecf> psd_sousesp(const Veccf &x, entier Ns, entier Nf = 1024, entier m = 0);//, const SubSpaceSpectrumConfig &config);
+extern tuple<Vecf, Vecf> psd_sousesp(const Veccf &x, entier Ns, entier Nf = 1024, entier m = 0);//, const SubSpaceSpectrumConfig &config);
 
 
 /** @brief Choix d'un algorithme pour l'estimation de fréquence */

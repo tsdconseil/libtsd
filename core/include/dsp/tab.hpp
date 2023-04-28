@@ -16,8 +16,6 @@ using tsd::cdouble;
 template<typename T>
   constexpr bool is_complex() { retourne tsd::est_complex_t<T>(); }
 
-using tsd::sptr;
-
 using tsd::bool_t;
 
 // Tableau de données évaluées, avec type spécifique, et nombre de dimensions spécifique
@@ -184,38 +182,38 @@ struct TabT
     return fr.valeur_min();
   }
 
-  std::tuple<T, T> minmax_values() const NOECLIPSE(requires(!is_complex<T>()))
+  tuple<T, T> minmax_values() const NOECLIPSE(requires(!is_complex<T>()))
   {
     return fr.valeurs_minmax();
   }
 
-  std::tuple<entier, entier> max_index() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
+  tuple<entier, entier> max_index() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
   {
     return fr.index_max();
   }
 
-  std::tuple<entier, entier> min_index() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
+  tuple<entier, entier> min_index() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
   {
     return fr.index_min();
   }
 
 
-  std::tuple<T, entier> max() const NOECLIPSE(requires((ndims == 1) && !is_complex<T>()))
+  tuple<T, entier> max() const NOECLIPSE(requires((ndims == 1) && !is_complex<T>()))
   {
     return fr.max();
   }
 
-  std::tuple<T, entier, entier> max() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
+  tuple<T, entier, entier> max() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
   {
     return fr.max();
   }
 
-  std::tuple<T, entier> min() const NOECLIPSE(requires((ndims == 1) && !is_complex<T>()))
+  tuple<T, entier> min() const NOECLIPSE(requires((ndims == 1) && !is_complex<T>()))
   {
     return fr.min();
   }
 
-  std::tuple<T, entier, entier> min() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
+  tuple<T, entier, entier> min() const NOECLIPSE(requires((ndims == 2) && !is_complex<T>()))
   {
     return fr.min();
   }
@@ -530,7 +528,7 @@ struct TabT
       return tsd::TabT<T, ndims>::valeurs(nrows, ncols, vals);
     }
 
-    static TabT map(std::vector<T> &x)
+    static TabT map(vector<T> &x)
     {
       return tsd::TabT<T, ndims>::map(x);
     }

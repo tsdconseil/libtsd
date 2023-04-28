@@ -58,7 +58,7 @@ Pointf ParamGrille::tr(entier ix, entier iy) const
 
 
 
-static vector<string> parse_liste_chaines(const string &str, char separateur)
+static vector<string> parse_liste_chaines(cstring str, char separateur)
 {
   vector<string> res;
   const char *s = str.c_str();
@@ -99,7 +99,7 @@ bouléen get_mode_impression()
   retourne mode_impression;
 }
 
-void Rendable::afficher(const string &titre, const Dim &dim) const
+void Rendable::afficher(cstring titre, const Dim &dim) const
 {
   stdo.affiche(shared_from_this(), titre, dim);
 }
@@ -125,7 +125,7 @@ Image Rendable::genere_image(const Dim &dim_, const Couleur &arp) const
 }
 
 /** @brief Enregistrement sous la forme d'un fichier image */
-void Rendable::enregistrer(const string &chemin_fichier, const Dim &dim) const
+void Rendable::enregistrer(cstring chemin_fichier, const Dim &dim) const
 {
   genere_image(dim).enregister(chemin_fichier);
 }
@@ -761,7 +761,20 @@ struct Figure::Impl: Rendable
           si((x(i+1) <= xmax) && (x(i) >= xmin) && (y(i) >= ymin) && (y(i+1) >= ymin)
               && (!isnan(y(i)))
               && (!isnan(y(i+1))))
+          {
+            si((ci.couleurs_points_rvb.rows() > 0) && (i < ci.couleurs_points_rvb.cols()))
+            {
+              soit couleur = Couleur{
+              ci.couleurs_points_rvb(2, i),
+              ci.couleurs_points_rvb(1, i),
+              ci.couleurs_points_rvb(0, i)};
+
+              canva.set_couleur(couleur);
+            }
+
+
             canva.ligne(x(i), y(i), x(i+1), y(i+1));
+          }
         }
         canva.set_dotted(non);
       }
@@ -816,7 +829,6 @@ struct Figure::Impl: Rendable
       si(ci.marqueur == Marqueur::AUCUN)
         continue;
 
-
       pour(auto i = 0; i < npts; i++)
       {
         si(ci.accu)
@@ -851,8 +863,8 @@ struct Figure::Impl: Rendable
     rendre1(canva_, canva);
   }
 
-  Figure::Courbe plot(const Vecf &x, const Vecf &y, const string &format,
-      const string &titre);
+  Figure::Courbe plot(const Vecf &x, const Vecf &y, cstring format,
+      cstring titre);
 };
 
 
@@ -880,7 +892,7 @@ void Figure::Courbe::def_σ(const Vecf &σ)
   impl->σ = σ;
 }
 
-void Figure::Courbe::def_légende(const string &titre)
+void Figure::Courbe::def_légende(cstring titre)
 {
   impl->nom = titre;
 }
@@ -891,7 +903,7 @@ void Figure::Courbe::def_dim_marqueur(entier dim)
 }
 
 // Définit la couleur de chacun des points de la courbe
-void Figure::Courbe::def_couleurs(const Vecf &c, const string cmap_nom)
+void Figure::Courbe::def_couleurs(const Vecf &c, cstring cmap_nom)
 {
   Tabf rvb(3, c.rows());
 
@@ -908,7 +920,7 @@ void Figure::Courbe::def_couleurs(const Vecf &c, const string cmap_nom)
   impl->couleurs_points_rvb = 255 * rvb;
 }
 
-Figure::Figure(const string &nom)
+Figure::Figure(cstring nom)
 {
   impl = make_shared<Impl>();
   impl->nom = nom;
@@ -1007,7 +1019,7 @@ sptr<const Rendable> Figures::rendable() const
 }
 
 
-void Figures::afficher(const string &titre, const Dim &dim) const
+void Figures::afficher(cstring titre, const Dim &dim) const
 {
   /*soit dim2 = dim;
   si(dim.l < 0)
@@ -1071,6 +1083,14 @@ Figure Figures::gcf()
   retourne impl->subplots.back();
 }
 
+vector<Figure> Figures::subplots(int n)
+{
+  vector<Figure> l;
+  pour(auto i = 0; i < n; i++)
+    l.push_back(subplot());
+  retourne l;
+}
+
 Figure Figures::subplot(entier i)
 {
   si(i < 0)
@@ -1081,9 +1101,9 @@ Figure Figures::subplot(entier i)
     retourne impl->subplots.back();
   }
 
-  soit n   = i / 100;
-  soit m   = (i - 100 * n) / 10;
-  soit pos = i % 10;
+  soit n   = i / 100,
+       m   = (i - 100 * n) / 10,
+       pos = i % 10;
 
   retourne subplot(n, m, pos);
 }
@@ -1099,7 +1119,6 @@ void Figure::def_rdi_min(const Rectf &rdi)
   tsd_assert(impl);
   impl->a_rdi_min = oui;
   impl->rm_rdi    = rdi;
-
 }
 
 // TODO : ordre pas cohérent
@@ -1116,8 +1135,8 @@ Rectf Figure::get_rdi() const
 
 Figure::Courbe Figure::plot_minmax(const Vecf &x, const Vecf &y1, const Vecf &y2)
 {
-  Figure::Courbe res;
-  res.impl = make_shared<Figure::Courbe::Impl>();
+  Courbe res;
+  res.impl = make_shared<Courbe::Impl>();
   res.impl->x     = x;
   res.impl->ymin  = y1;
   res.impl->ymax  = y2;
@@ -1128,43 +1147,39 @@ Figure::Courbe Figure::plot_minmax(const Vecf &x, const Vecf &y1, const Vecf &y2
   retourne res;
 }
 
-Figure::Courbe Figure::plot_iq_int(const Veccf &z, const string &format, const string &titre)
+Figure::Courbe Figure::plot_iq_int(const Veccf &z, cstring format, cstring titre)
 {
   axes().set_isoview(oui);
-  soit x = real(z);
-  soit y = imag(z);
-  soit res = impl->plot(x, y, format, titre);
-  retourne res;
+  soit x = real(z), y = imag(z);
+  retourne impl->plot(x, y, format, titre);
 }
 
 
-Figure::Courbe Figure::plot_img(const Rectf &rdi, const Tabf &Z, const string &format)
+Figure::Courbe Figure::plot_img(const Rectf &rdi, const Tabf &Z, cstring format)
 {
-  Figure::Courbe res;
-  res.impl = make_shared<Figure::Courbe::Impl>();
+  Courbe c;
+  c.impl = make_shared<Courbe::Impl>();
+  c.impl->Z       = Z;
+  c.impl->format  = format;
+  c.impl->rdi_z   = rdi;
+  impl->courbes.push_back(c);
 
-  res.impl->Z       = Z;
-  res.impl->format  = format;
-  res.impl->rdi_z   = rdi;
-
-  impl->courbes.push_back(res);
-
-  retourne res;
+  retourne c;
 }
 
-Figure::Courbe Figure::plot_img(const Tabf &Z, const string &format)
+Figure::Courbe Figure::plot_img(const Tabf &Z, cstring format)
 {
   retourne plot_img({0, 0, Z.rows() - 1, Z.cols() - 1}, Z, format);
 }
 
 
 
-Figure::Courbe Figure::plot(const float &x, const float &y, const string &format)
+Figure::Courbe Figure::plot(const float &x, const float &y, cstring format)
 {
   retourne plot(Vecf::valeurs({x}), Vecf::valeurs({y}), format);
 }
 
-Figure::Courbe Figure::plot_int(const Vecf &y, const string &format, const string &titre)
+Figure::Courbe Figure::plot_int(const Vecf &y, cstring format, cstring titre)
 {
   retourne impl->plot(Vecf{}, y, format, titre);
 }
@@ -1172,7 +1187,7 @@ Figure::Courbe Figure::plot_int(const Vecf &y, const string &format, const strin
 
 
 
-Figure::Courbe Figure::plot_psd_int(const Veccf &y, float fe, const string &format, const string &titre)
+Figure::Courbe Figure::plot_psd_int(const Veccf &y, float fe, cstring format, cstring titre)
 {
   soit n = y.rows();
 
@@ -1204,12 +1219,12 @@ Figure::Courbe Figure::plot_psd_int(const Veccf &y, float fe, const string &form
   retourne plot(freq, Y, format, titre);
 }
 
-Figure::Courbe Figure::plot_int(const Vecf &x, const Vecf &y, const string &format, const string &titre)
+Figure::Courbe Figure::plot_int(const Vecf &x, const Vecf &y, cstring format, cstring titre)
 {
   retourne impl->plot(x, y, format, titre);
 }
 
-Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, const string &format_, const string &titre)
+Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, cstring format_, cstring titre)
 {
   Figure::Courbe res;
   res.impl = make_shared<Figure::Courbe::Impl>();
@@ -1258,7 +1273,7 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, const string &f
   res.impl->y       = y;
   res.impl->format  = format;
 
-  soit present = [](const string &s, char c)
+  soit present = [](cstring s, char c)
   {
     retourne s.find(c) != string::npos;
   };
@@ -1326,19 +1341,19 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, const string &f
   retourne res;
 }
 
-void Figure::def_pos_legende(const string &code)
+void Figure::def_pos_legende(cstring code)
 {
   axes().get_config().legende.position = code;
 }
 
-void Figure::titre(const string &titre_global)
+void Figure::titre(cstring titre_global)
 {
   impl->titre = titre_global;
 }
 
-void Figure::titres(const string &titre_global,
-                    const string &axe_x,
-                    const string &axe_y)
+void Figure::titres(cstring titre_global,
+                    cstring axe_x,
+                    cstring axe_y)
 {
   soit &c = impl->axes.get_config();
   c.axe_horizontal.label  = axe_x;
@@ -1379,7 +1394,7 @@ tuple<entier, entier> Figures::Impl::get_nm() const
 
 
 
-void Figure::def_nom(const string &s)
+void Figure::def_nom(cstring s)
 {
   impl->nom = s;
 }

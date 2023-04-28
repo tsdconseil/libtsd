@@ -324,7 +324,7 @@ struct FFTFilterConfig: tsdF::FiltreFFTConfig
  *
  *  @sa filter_fir_fft(), filter_rfft(), ola_complexity(), ola_complexity_optimize()
  */
-inline std::tuple<sptr<Filter<cfloat, cfloat, tsdF::FiltreFFTConfig>>, int> filter_fft
+inline tuple<sptr<Filter<cfloat, cfloat, tsdF::FiltreFFTConfig>>, int> filter_fft
   (const FFTFilterConfig &config)
 {
   return tsdF::filtre_fft(config);
@@ -519,14 +519,14 @@ template<typename T = float>
 
 
 /** @brief Delay estimation between two vectors. */
-inline std::tuple<float, float> delay_estimation(const Veccf &x, const Veccf &y)
+inline tuple<float, float> delay_estimation(const Veccf &x, const Veccf &y)
 {
   return tsdF::estimation_délais(x, y);
 }
 
 /** @brief Alignement of two vectors */
 template<typename T>
-  std::tuple<Vector<T>, Vector<T>, int, float> align_int(const Vector<T> &x, const Vector<T> &y)
+  tuple<Vector<T>, Vector<T>, int, float> align_int(const Vector<T> &x, const Vector<T> &y)
 {
   return tsdF::aligne_entier(x, y);
 }
@@ -676,7 +676,7 @@ inline Vecf psd_freqs(int n, bool complexe = true)
  * @sa psd_welch(), psd_subspace()
  */
 template<typename T>
-std::tuple<Vecf, Vecf> psd(const Vector<T> &x)
+tuple<Vecf, Vecf> psd(const Vector<T> &x)
 {
   return tsdF::psd(x);
 }
@@ -700,7 +700,7 @@ std::tuple<Vecf, Vecf> psd(const Vector<T> &x)
  * @sa psd(), psd_subspace()
  *
  */
-inline std::tuple<Vecf, Vecf> psd_welch(const Veccf &x, int N, const std::string fen = "hn")
+inline tuple<Vecf, Vecf> psd_welch(const Veccf &x, int N, cstring fen = "hn")
 {
   return tsdF::psd_welch(x, N, fen);
 }
@@ -743,7 +743,7 @@ inline std::tuple<Vecf, Vecf> psd_welch(const Veccf &x, int N, const std::string
  *  le nombre de signaux à détecter (en effet, un cosinus ou sinus peut se représenter comme la somme de deux exponentielles complexes).
  *
  */
-inline std::tuple<Vecf, Vecf> psd_subspace(const Veccf &x, int Ns, int Nf = 1024, int m = 0)
+inline tuple<Vecf, Vecf> psd_subspace(const Veccf &x, int Ns, int Nf = 1024, int m = 0)
 {
   return tsdF::psd_sousesp(x, Ns, Nf, m);
 }

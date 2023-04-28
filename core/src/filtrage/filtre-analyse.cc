@@ -181,7 +181,7 @@ namespace tsd::filtrage {
      f.canva().set_couleur(Couleur::Bleu);
      f.canva().set_dim_fonte(0.6);
      f.canva().texte({0.1f, 0.9f},
-             fmt::format("Largeur lobe principal (-3 dB) : {:.5f} (={:.2f}/N)\nDébut bande atténuée : {:.3f}\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
+             sformat("Largeur lobe principal (-3 dB) : {:.5f} (={:.2f}/N)\nDébut bande atténuée : {:.3f}\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
              res.largeur_lp, res.largeur_lp * nc, res.freq_debut_ls, res.premier_ls.atten, res.pire_ls.atten),
              {0.4f, 0.2f});
 

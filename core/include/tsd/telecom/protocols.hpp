@@ -19,7 +19,7 @@ struct ADSBTrame
 {
   BitStream bs;
   float score;
-  std::string texte;
+  string texte;
 };
 
 struct POCSAGDecodeurConfig
@@ -37,7 +37,7 @@ struct POCSAGMessage
 {
   uint32_t ric;
   uint16_t function;
-  std::string texte;
+  string texte;
 };
 
 

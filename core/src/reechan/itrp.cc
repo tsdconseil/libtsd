@@ -106,7 +106,7 @@ struct InterpolateurLagrange: InterpolateurRIF<T>
   {
     // pour un polynome de degré d,
     // on peut passer par d+1 point
-    this->nom     = fmt::format("Lagrange degré {}", d);
+    this->nom     = sformat("Lagrange degré {}", d);
     this->K       = d + 1; // nécessite d+1 échantillons
     this->d = d;
     this->delais  = 0.5 * d;

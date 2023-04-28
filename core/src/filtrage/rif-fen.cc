@@ -77,7 +77,7 @@ static Vecf rif_fen_sb(entier n, float fl, float fh)
 }
 
 
-static Vecf design_rif_fen(const std::string &type, float fcut, const Vecf &f, float fcut2)
+static Vecf design_rif_fen(cstring type, float fcut, const Vecf &f, float fcut2)
 {
   Vecf h;
   entier n = f.rows();
@@ -100,19 +100,19 @@ static Vecf design_rif_fen(const std::string &type, float fcut, const Vecf &f, f
 }
 
 
-Vecf design_rif_fen(entier n, const std::string &type, float fcut, const std::string &fen, float fcut2)
+Vecf design_rif_fen(entier n, const std::string &type, float fcut, cstring fen, float fcut2)
 {
   soit f = fenetre(fen, n, oui);
   retourne design_rif_fen(type, fcut, f, fcut2);
 }
 
-Vecf design_rif_fen_kaiser(const std::string &type, float fcut, float atten_db, float df, float fcut2)
+Vecf design_rif_fen_kaiser(cstring type, float fcut, float atten_db, float df, float fcut2)
 {
   soit f = fenêtre_kaiser(atten_db, df);
   retourne design_rif_fen(type, fcut, f, fcut2);
 }
 
-Vecf design_rif_fen_chebychev(entier n, const std::string &type, float fcut, float atten_db, float fcut2)
+Vecf design_rif_fen_chebychev(entier n, cstring type, float fcut, float atten_db, float fcut2)
 {
   soit f = fenêtre_chebychev(n, atten_db, oui);
   retourne design_rif_fen(type, fcut, f, fcut2);

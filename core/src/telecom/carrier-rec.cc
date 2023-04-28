@@ -155,7 +155,7 @@ Ped ped_init(PedType type, sptr<FormeOnde> wf)
 }
 
 
-std::tuple<float,float> localise_pic_frequence(const Veccf &x)
+tuple<float,float> localise_pic_frequence(const Veccf &x)
 {
   SuiviPicFrequence suivi;
   suivi.configure(x.rows());

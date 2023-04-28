@@ -5,21 +5,21 @@ namespace tsd::vue::unites {
 
 
 
-std::string valeur_vers_chaine(double t, const std::string &unite, entier nb_chiffres)
+string valeur_vers_chaine(double t, cstring unite, entier nb_chiffres)
 {
   soit [expo, nc] = calc_expo_nb_chiffres(t, unite);
   retourne valeur_vers_chaine(t, unite, expo, nb_chiffres);
 }
 
-std::string valeur_vers_chaine(double t, const std::string &unite)
+string valeur_vers_chaine(double t, cstring unite)
 {
   soit [expo, nc] = calc_expo_nb_chiffres(t, unite);
   retourne valeur_vers_chaine(t, unite, expo, nc);
 }
 
-std::string valeur_vers_chaine(double t, const std::string &unite, entier expo, entier nb_chiffres)
+string valeur_vers_chaine(double t, cstring unite, entier expo, entier nb_chiffres)
 {
-  std::string un = unite;
+  string un = unite;
 
   si(!unite.empty())
   {
@@ -41,7 +41,7 @@ std::string valeur_vers_chaine(double t, const std::string &unite, entier expo, 
   sinon
   {
     si(expo != 0)
-      un = fmt::format("e{}", expo);
+      un = sformat("e{}", expo);
   }
 
   t *= pow(10, -expo);
@@ -50,12 +50,12 @@ std::string valeur_vers_chaine(double t, const std::string &unite, entier expo, 
     un = " " + un;
 
   si(nb_chiffres == 0)
-    retourne fmt::format("{}{}", (entier) round(t), un);
+    retourne sformat("{}{}", (entier) round(t), un);
   sinon
   {
     char buf[50];
     sprintf(buf, "{:.%df}{}", nb_chiffres);
-    retourne fmt::format(FMT_RUNTIME(std::string(buf)), t, un);
+    retourne sformat(FMT_RUNTIME(string(buf)), t, un);
   }
 }
 
@@ -74,7 +74,7 @@ static entier ndigits(double a)
 }
 
 
-entier ndigits(double t, entier expo, const std::string &unite)
+entier ndigits(double t, entier expo, cstring unite)
 {
   soit at = abs(t);
   retourne ndigits(at * pow(10.0, (double) -expo));
@@ -83,7 +83,7 @@ entier ndigits(double t, entier expo, const std::string &unite)
 // unité : unité de base,
 // t : valeur
 // retourne : {exposant, nb chiffres significatifs}
-std::tuple<entier,entier> calc_expo_nb_chiffres(double t, const std::string &unite)
+tuple<entier,entier> calc_expo_nb_chiffres(double t, cstring unite)
 {
   // TODO : ici ndigits calculé en doublon
   float at = abs(t);
@@ -122,7 +122,8 @@ std::tuple<entier,entier> calc_expo_nb_chiffres(double t, const std::string &uni
 }
 
 
-std::tuple<entier, entier> calc_expo_nb_chiffres_commun(const std::vector<double> &tics, const std::string &unite)
+tuple<entier, entier>
+  calc_expo_nb_chiffres_commun(const vector<double> &tics, cstring unite)
 {
   si(tics.empty())
     retourne {0, 0};

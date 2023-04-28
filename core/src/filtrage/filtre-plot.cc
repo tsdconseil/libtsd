@@ -112,7 +112,7 @@ void plot_plz(Figure &fig, const FRat<T> &h, bouléen cmap)
     Pointf p2 = p;
     p2.x *= 1.15;
     p2.y *= 1.15;
-    c.texte(p2, fmt::format("{}°", (int) θ));
+    c.texte(p2, sformat("{}°", (int) θ));
   }
 }
 

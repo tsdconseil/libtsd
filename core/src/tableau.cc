@@ -302,19 +302,19 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     si(ndims == 0)
       dim = "[]";
     //sinon si(ndims == 1)
-    //  dim = fmt::format("{}", t->dims(0));
+    //  dim = sformat("{}", t->dims(0));
     //sinon si(ndilms)
     sinon
     {
       pour(auto i = 0; i < ndims; i++)
       {
-        dim += fmt::format("{}", t->dims(i));
+        dim += sformat("{}", t->dims(i));
         si(i + 1 < ndims)
           dim += "x";
       }
     }
 
-    s = fmt::format("{} {}[{}] = ", dim, Tscalaire, nbits);
+    s = sformat("{} {}[{}] = ", dim, Tscalaire, nbits);
 
     si(ndims >= 2)
       s += "\n";
@@ -324,9 +324,9 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     {
       soit m1 = emap<T>(tmp);
       si(ndims == 1)
-        s += fmt::format("{}", m1.transpose());
+        s += sformat("{}", m1.transpose());
       sinon
-        s += fmt::format("{}", m1);
+        s += sformat("{}", m1);
     });
 
     retourne s;

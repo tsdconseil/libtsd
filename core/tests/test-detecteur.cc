@@ -4,7 +4,7 @@
 
 struct TestMotifConfig
 {
-  std::string nom;
+  string nom;
   Veccf motif;
   float σ = 0.5;
   entier ntests = 500;
@@ -193,7 +193,7 @@ void test_detecteur_unit(float σ, entier BS, DetecteurConfig::Mode mode)
   };
 
 
-  std::vector<Occurence> occurences = {
+  vector<Occurence> occurences = {
       {2.0f, 900.0f,   π_f/4},
       {4.0f, 2000.4f, -π_f/4},
       // pour tester les bords...
@@ -248,9 +248,8 @@ void test_detecteur_unit(float σ, entier BS, DetecteurConfig::Mode mode)
     f.afficher("Motif");
   }
 
-  std::vector<float> dets, scores;
-
-  std::vector<Occurence> occd;
+  vector<float> dets, scores;
+  vector<Occurence> occd;
 
   DetecteurConfig config;
   config.mode = mode;

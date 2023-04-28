@@ -1,11 +1,11 @@
 #include "tsd/tsd-all.hpp"
 #include "Eigen/Core"
 
-static void test_unites_unit(const std::vector<double> &tics, const std::string &unit = "")
+static void test_unites_unit(const vector<double> &tics, cstring unit = "")
 {
-  std::string s1 = "";
+  string s1;
   pour(auto t: tics)
-    s1 += fmt::format("{},", t);
+    s1 += sformat("{},", t);
 
 
 

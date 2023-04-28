@@ -49,7 +49,7 @@ struct HeureComposite
    *  @endcode
    *
    */
-  HeureComposite(const std::string &s);
+  HeureComposite(cstring s);
 
   /** @brief Vérifie si les heures, minutes et secondes sont dans un intervalle valide. */
   bouléen vérifie_validité() const;
@@ -147,7 +147,7 @@ struct Calendrier
   Calendrier(entier année, entier mois, entier jour);
 
   /** @brief Constructeur, à partir d'une chaîne de caractères de type "JJ/MM/AAAA". */
-  Calendrier(const std::string &s);
+  Calendrier(cstring s);
 
   /** @brief Nombre de jours entiers depuis le début de l'année en cours (= 0 pour le premier Janvier). */
   entier nb_jours_debut_année() const;
@@ -263,13 +263,13 @@ struct DateHeure
 
 
   /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. */
-  std::tuple<entier, entier> vers_GPS() const;
+  tuple<entier, entier> vers_GPS() const;
 
   /** @brief Constructeur, à partir de l'heure GPS. */
   static DateHeure de_GPS(entier semaine, entier secs);
 
   /** @brief Constructeur, à partir d'une chaîne de caractères de type "aaaa::mm::jj hh:mm:ss". */
-  static DateHeure lis_chaine(const std::string &s);
+  static DateHeure lis_chaine(cstring s);
 
   /** @brief Nombre de microsecondes depuis la dernière seconde entière, entre 0 et 1e6-1. */
   entier microsecondes() const;

@@ -8,7 +8,7 @@ struct ResultatPurete
   float max_spurius_db;
 };
 
-static ResultatPurete verifie_sinus(const std::string &s, const Vecf x, float f)
+static ResultatPurete verifie_sinus(cstring s, const Vecf x, float f)
 {
   tsd_assert((f >= 0) && (f <= 1));
 
@@ -54,7 +54,7 @@ static ResultatPurete verifie_sinus(const std::string &s, const Vecf x, float f)
   retourne res;
 }
 
-static void test_ra_unit(const std::string &nom, float ratio, sptr<FiltreGen<float>> ra, float max_spurius_dB = -50)
+static void test_ra_unit(cstring nom, float ratio, sptr<FiltreGen<float>> ra, float max_spurius_dB = -50)
 {
   msg("Test adaptation de rythme [{}] : ratio = {}", nom, ratio);
   soit fe = 100e3f,

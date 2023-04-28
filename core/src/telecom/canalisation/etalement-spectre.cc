@@ -14,7 +14,7 @@ struct FHSSModulation: Filtre<cfloat,cfloat,FHSSConfig>
 {
   sptr<FiltreGen<cfloat>> ra;
   entier index = 0, nfreqs = 0;
-  std::vector<sptr<SourceGen<cfloat>>> ol;
+  vector<sptr<SourceGen<cfloat>>> ol;
 
   FHSSModulation(const FHSSConfig &config)
   {

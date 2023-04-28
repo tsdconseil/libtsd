@@ -44,7 +44,7 @@ namespace tsd::apps::doa {
   {
     SubSpaceSpectrumConfig config;
     config.debug_actif = oui;
-    config.balayage = [&](entier i, entier n, entier m) -> std::tuple<Vecf, Veccf>
+    config.balayage = [&](entier i, entier n, entier m) -> tuple<Vecf, Veccf>
     {
       // Calcul du "vecteur de steering"
       // (ici simple exponentielle complexe, de fréquence dans l'intervalle [-0.5,0.5[,

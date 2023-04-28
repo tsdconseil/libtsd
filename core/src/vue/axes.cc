@@ -897,7 +897,7 @@ struct Axes::Impl
     {
       string s;
       si(av.config.echelle_logarithmique)
-        s = fmt::format("{:.1e}", t);
+        s = sformat("{:.1e}", t);
       sinon
         s = tsd::vue::unites::valeur_vers_chaine(t, cav.unité, expo, nbchiffres);
 
@@ -1467,12 +1467,12 @@ Axes::Axes()
 
 ConfigAxe::operator string() const
 {
-  retourne fmt::format("[afficher={}, label={}, unite={}, vmin={}, vmax={}]", afficher, label, unité, vmin, vmax);
+  retourne sformat("[afficher={}, label={}, unite={}, vmin={}, vmax={}]", afficher, label, unité, vmin, vmax);
 }
 
 ConfigAxes::operator string() const
 {
-  retourne fmt::format(
+  retourne sformat(
       "[axe vertical:{}, axe horizontal:{}, titre:{}, carp:{}, iso:{}, ar:{}, nbseries={}]",
       (string) axe_vertical, (string) axe_horizontal,
       titre, couleur_arriere_plan, mode_isoview, aspect_ratio, series.size());

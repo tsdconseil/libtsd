@@ -13,7 +13,7 @@ namespace tsd::vue
 
   struct CMapIlin: CMap
   {
-    std::vector<std::vector<float>> pts;
+    vector<vector<float>> pts;
 
     void calc(float t, float &r, float &v, float &b)
     {
@@ -202,7 +202,7 @@ namespace tsd::vue
     retourne std::make_shared<T>();
   }
 
-  static std::map<std::string, sptr<CMap>> cmaps
+  static std::map<string, sptr<CMap>> cmaps
     =
     {
         {"mono",      ms<CMapMono>()},
@@ -214,7 +214,7 @@ namespace tsd::vue
         {"pm",        ms<CMapPM>()}
     };
 
-  sptr<CMap> cmap_parse(const std::string &nom)
+  sptr<CMap> cmap_parse(cstring nom)
   {
     si(cmaps.count(nom) == 0)
     {
@@ -224,7 +224,7 @@ namespace tsd::vue
     retourne cmaps[nom];
   }
 
-  void cmap_affiche(const std::string &nom, sptr<CMap> cmap)
+  void cmap_affiche(cstring nom, sptr<CMap> cmap)
   {
     Figure f(nom);
 

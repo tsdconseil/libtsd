@@ -3,11 +3,8 @@
 
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
-#include <cstdarg>
-#include <vector>
 #include <numbers>
 #include <random>
-#include <cmath>
 #include <algorithm>
 
 #include "tsd/tableau.hpp"
@@ -280,7 +277,7 @@ using std::norm;
    *
    *  @sa trouve_premier()
    */
-  extern std::vector<entier> trouve(const Vecb &x);
+  extern vector<entier> trouve(const Vecb &x);
 
   /** @brief Recherche de l'indice du premier élément vrai dans un tableau de bouléens.
    *
@@ -491,7 +488,7 @@ using std::norm;
    *
    */
   template<typename T>
-    std::tuple<Vecteur<T>, Vecteur<T>> pad_zeros(
+    tuple<Vecteur<T>, Vecteur<T>> pad_zeros(
         const Vecteur<T> &x,
         const Vecteur<T> &y,
         bouléen p2 = non)
@@ -721,7 +718,7 @@ using std::norm;
 
   // En attendant que la fonction eigen src(index) soit dispo dans Eigen
   template<typename T>
-  T sousvec(const T &src, const std::vector<entier> &index)
+  T sousvec(const T &src, const vector<entier> &index)
   {
     soit n = (entier) index.size();
     T res(n);
@@ -1368,9 +1365,8 @@ using std::norm;
   {
     OLUT(entier resolution = 1024);
     cfloat step(float θ);
-  private:
-    struct Impl;
-    sptr<Impl> impl;
+
+    _PIMPL_
   };
 
   /** @} */

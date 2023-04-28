@@ -29,7 +29,7 @@ static void test_filtre_boucle_ordre_1()
 }
 
 
-static void verifie_delais(const Vecf &x, entier pos_attendue, const std::string &desc)
+static void verifie_delais(const Vecf &x, entier pos_attendue, cstring desc)
 {
   soit pos = x.index_max();
   msg("Vérification délais {} : pos attendue = {}, pos = {}", desc, pos_attendue, pos);
@@ -149,7 +149,7 @@ entier test_delais_filtres()
       f.plot(y, "|mo", "upsampling R = {}", R);
       f.afficher();
     }
-    verifie_delais(y,  filtre_rif_ups_délais(nc, R), fmt::format("upsampling R = {}", R));
+    verifie_delais(y,  filtre_rif_ups_délais(nc, R), sformat("upsampling R = {}", R));
   }
 
   retourne 0;
@@ -258,7 +258,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   si(config.avec_plot)
   {
     stdo.flush();
-    stdo.def_dossier_sortie(fmt::format("./build/test-log/recepteur-osf-{}-{}-{}", config.osf, *(config.fo), config.avec_delais ? "delais-frac" : "delais-entier"));
+    stdo.def_dossier_sortie(sformat("./build/test-log/recepteur-osf-{}-{}-{}", config.osf, *(config.fo), config.avec_delais ? "delais-frac" : "delais-entier"));
   }
 
 
@@ -270,7 +270,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     soit x = config.fo->constellation();
     Figure f;
     f.plot_iq(x, "oa");
-    f.afficher(fmt::format("Constellation {}", config.fo->desc_courte()));
+    f.afficher(sformat("Constellation {}", config.fo->desc_courte()));
   }
 
   entier nreg_mls = 7 + config.fo->infos.k;
@@ -384,7 +384,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
   si(config.premiere_trame_SNR_inf)
     SNR(0) = 200; // Test de référence, (presque) pas de bruit sur la première trame
-  std::vector<float> pos(nb_rep);
+  vector<float> pos(nb_rep);
 
   res.SNR = SNR;
   res.ber = res.ber_theo = res.EbN0 = Vecf::constant(nb_rep, 1);//;//-1);
@@ -537,7 +537,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
     f.subplot().plot(rc.format.entete.array(), "", "en-tête");
     f.subplot().plot(data.array(), "", "data");
     f.subplot().plot(x, "", "x");
-    f.afficher(fmt::format("Test récepteur, osf={}, mod={}", config.osf, *(config.fo)));
+    f.afficher(sformat("Test récepteur, osf={}, mod={}", config.osf, *(config.fo)));
   }
 
   soit trames = rec->step(x);
@@ -584,7 +584,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
       f.subplot().plot(t.bs.array(), "o|b", "Données reçues");
       f.subplot().plot(data.array(), "o|g", "Données envoyées");
       f.subplot().plot(data.array() - t.bs.array(), "o|r", "Erreurs");
-      f.afficher(fmt::format("Trame décodée vs envoyée (#{})", j));
+      f.afficher(sformat("Trame décodée vs envoyée (#{})", j));
     }
     si(data.lon() != t.bs.lon())
     {
@@ -782,30 +782,30 @@ entier bench_recepteur()
 
     si(first)
     {
-      std::string s = "Modulation ; SNR";
+      string s = "Modulation ; SNR";
       pour(auto i = 0; i < res.SNR.rows(); i++)
-        s += fmt::format(" ; {:.1f} dB", res.SNR(i));
+        s += sformat(" ; {:.1f} dB", res.SNR(i));
       fprintf(fo, "%s\n", s.c_str());
       first = non;
     }
 
-    std::string s = fmt::format("{}", *m);
+    soit s = sformat("{}", *m);
 
     s += " ; Eb/N0";
     pour(auto i = 0; i < res.ber.rows(); i++)
-      s += fmt::format(" ; {:.1f} dB", res.EbN0(i));
+      s += sformat(" ; {:.1f} dB", res.EbN0(i));
     s += "\n";
 
     s += " ; Ber théo";
     pour(auto i = 0; i < res.ber.rows(); i++)
-      s += fmt::format(" ; {:.4f} %", 100 * res.ber_theo(i));
+      s += sformat(" ; {:.4f} %", 100 * res.ber_theo(i));
     s += "\n";
 
     s += " ; Ber simulé";
     pour(auto i = 0; i < res.ber.rows(); i++)
     {
       si(res.ber(i) >= 0)
-        s += fmt::format(" ; {:.4f} %", 100 * res.ber(i));
+        s += sformat(" ; {:.4f} %", 100 * res.ber(i));
       sinon
         s += " ; n/d";
     }
@@ -1057,7 +1057,7 @@ entier test_demod()
   soit filtres = {SpecFiltreMiseEnForme::nrz(), SpecFiltreMiseEnForme::rcs(0.4)};
   soit Ms      = {2, 4, 8};
 
-  std::vector<sptr<FormeOnde>> wfs;
+  vector<sptr<FormeOnde>> wfs;
 
   // TODO : ne fonctionne plus !!!
   /*wfs.push_back(waveform_fsk(2, 0.5,  SpecFiltreMiseEnForme::nrz()));
@@ -1077,7 +1077,7 @@ entier test_demod()
   pour(auto wf: wfs)
   {
     msg_majeur("Test démodulation {}", *wf);
-    stdo.printf(fmt::format("<h2>Test démodulation {}</h2>", *wf));
+    stdo.printf(sformat("<h2>Test démodulation {}</h2>", *wf));
 
     ModConfig modcfg;
     DemodConfig cfg;

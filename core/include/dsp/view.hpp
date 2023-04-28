@@ -351,6 +351,15 @@ namespace dsp::view
        return f.subplot(p);
      }
 
+     vector<Figure> subplots(int n)
+     {
+       vector<Figure> res;
+       let l = f.subplots(n);
+       for(auto &s: l)
+         res.push_back(s);
+       return res;
+     }
+
      Figure gcf()
      {
        return f.gcf();

@@ -97,7 +97,7 @@ namespace tsd::telecom {
       f.subplot().plot(b2,              "hb", "Sequence de sortie ({} bits)", b2.rows());
       f.subplot().plot(res.b1,          "hb", "Sequence de sortie recalée");
       f.subplot().plot(res.b1 - res.b0, "hr", "Erreurs ({}, ber = {:.1e})", res.nerr, res.ber);
-      f.afficher(fmt::format("Comparaison bits (dec={}, s={})", dt,score));
+      f.afficher(sformat("Comparaison bits (dec={}, s={})", dt,score));
     }
 
 

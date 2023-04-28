@@ -22,14 +22,14 @@ struct Couleur
   int32_t vers_rgba() const;
   unsigned char lumi() const;
   Couleur(){}
-  Couleur(const std::string &s);
+  Couleur(const string &s);
   //Couleur(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha = 255);
   Couleur(float r, float g, float b, float alpha = 255);
 
   static Couleur mélange(const Couleur &a, const Couleur &b, float alpha);
   static Couleur rand();
 
-  std::string vers_chaine() const;
+  string vers_chaine() const;
 
   static const Couleur Blanc, Noir, Rouge, Vert, Bleu, Violet, Jaune, Orange, Cyan, Marron, Gris;
 
@@ -179,21 +179,21 @@ using Rectf = Rect_<float>;
 template<typename T>
   std::ostream& operator<<(std::ostream& s, const Rect_<T>& t)
 {
-  s << fmt::format("rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
+  s << sformat("rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
   return s;
 }
 
 template<typename T>
   std::ostream& operator<<(std::ostream& s, const Point_<T>& t)
 {
-  s << fmt::format("{}x{}", t.x, t.y);
+  s << sformat("{}x{}", t.x, t.y);
   return s;
 }
 
 template<typename T>
   std::ostream& operator<<(std::ostream& s, const Dim_<T>& t)
 {
-  s << fmt::format("{}x{}", t.l, t.h);
+  s << sformat("{}x{}", t.l, t.h);
   return s;
 }
 
@@ -208,10 +208,10 @@ struct CMap
 {
   virtual void calc(float t, float &r, float &v, float &b) = 0;
   Couleur couleur(float t);
-  std::string nom;
+  string nom;
 };
 
-extern sptr<CMap> cmap_parse(const std::string &nom);
+extern sptr<CMap> cmap_parse(const string &nom);
 
 // Classe générique pour le dessin
 struct Image
@@ -259,7 +259,7 @@ struct Image
   void ellipse_pleine(const Point &p0, const Point &p1);
   void cercle_plein(const Point &p0, entier r);
 
-  Dim texte_dim(const std::string &s, float dim);
+  Dim texte_dim(const string &s, float dim);
 
   enum Alignement
   {
@@ -268,7 +268,7 @@ struct Image
     FIN
   };
 
-  void puts(const Point &p0, const std::string &s, float dim, Alignement align_horizontal = Alignement::DEBUT, Alignement align_vertical = Alignement::DEBUT);
+  void puts(const Point &p0, const string &s, float dim, Alignement align_horizontal = Alignement::DEBUT, Alignement align_vertical = Alignement::DEBUT);
 
   void puti(const Point &pos, Image src, Rect rdi_source);
   void puti(const Rect &rdi, Image src);
@@ -283,8 +283,8 @@ struct Image
   void blend(Image src);
   Image blend_nv(Image src);
 
-  void enregister(const std::string &chemin) const;
-  void charger(const std::string &chemin);
+  void enregister(const string &chemin) const;
+  void charger(const string &chemin);
   Image sous_image(entier x0, entier y0, entier l, entier h);
 
   Dim get_dim() const;
@@ -293,9 +293,7 @@ struct Image
 
   inline bouléen empty() const{return sx() * sy() == 0;}
 
-private:
-  struct Impl;
-  sptr<Impl> impl;
+  _PIMPL_
 };
 
 struct Font
@@ -304,7 +302,7 @@ struct Font
   /** Sur l'image résultante, seul le gamma est significatif
    *  (toutes les valeurs RVB sont à zéro).
    */
-  virtual Image rendre(const std::string &s, float scale = 1.0f) = 0;
+  virtual Image rendre(const string &s, float scale = 1.0f) = 0;
 };
 
 
@@ -333,19 +331,19 @@ struct TexteConfiguration
 struct TexteProps
 {
   float scale_out;
-  std::vector<entier> xdim, ypos, ydim;
+  vector<entier> xdim, ypos, ydim;
 };
 
 // Affiche du texte, éventuellement sur plusieurs lignes
 // L'image de sortie est créée.
-extern Image texte_creation_image(const std::string &s,
+extern Image texte_creation_image(const string &s,
                                         const TexteConfiguration &config,
                                         TexteProps *props = nullptr);
 
 
 // Affiche du texte dans un cadre semi-transparent au dessus d'une image existante.
 extern void texte_ajoute(Image O, const TexteConfiguration &config,
-    const std::string &s, ...);
+    const string &s, ...);
 
 
 }
@@ -360,68 +358,68 @@ ostream_formater(tsd::vue::Dimf)
 ostream_formater(tsd::vue::Couleur)
 
 #if 0
-template <> struct fmt::formatter<tsd::vue::Point> {
+template <> struct sformatter<tsd::vue::Point> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::vue::Point& t, FormatContext& ctx) const -> decltype(ctx.out()) 
   {
-    return fmt::format_to(ctx.out(), "{}x{}", t.x, t.y);
+    return sformat_to(ctx.out(), "{}x{}", t.x, t.y);
   }
 };
 
-template <> struct fmt::formatter<tsd::vue::Pointf> {
+template <> struct sformatter<tsd::vue::Pointf> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::vue::Pointf& t, FormatContext& ctx) const -> decltype(ctx.out()) 
   {
-    return fmt::format_to(ctx.out(), "{}x{}", t.x, t.y);
+    return sformat_to(ctx.out(), "{}x{}", t.x, t.y);
   }
 };
 
 
-template <> struct fmt::formatter<tsd::vue::Rect> {
+template <> struct sformatter<tsd::vue::Rect> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::vue::Rect& t, FormatContext& ctx) const -> decltype(ctx.out()) 
   {
-    return fmt::format_to(ctx.out(), "rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
+    return sformat_to(ctx.out(), "rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
   }
 };
 
-template <> struct fmt::formatter<tsd::vue::Rectf> {
+template <> struct sformatter<tsd::vue::Rectf> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::vue::Rectf& t, FormatContext& ctx) const -> decltype(ctx.out()) 
   {
-    return fmt::format_to(ctx.out(), "rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
+    return sformat_to(ctx.out(), "rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
   }
 };
 
 
-template <> struct fmt::formatter<tsd::vue::Dim> {
+template <> struct sformatter<tsd::vue::Dim> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::vue::Dim& t, FormatContext& ctx) const -> decltype(ctx.out()) 
   {
-    return fmt::format_to(ctx.out(), "{}x{}", t.l, t.h);
+    return sformat_to(ctx.out(), "{}x{}", t.l, t.h);
   }
 };
 
-template <> struct fmt::formatter<tsd::vue::Dimf> {
+template <> struct sformatter<tsd::vue::Dimf> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::vue::Dimf& t, FormatContext& ctx) const -> decltype(ctx.out()) 
   {
-    return fmt::format_to(ctx.out(), "{}x{}", t.l, t.h);
+    return sformat_to(ctx.out(), "{}x{}", t.l, t.h);
   }
 };
 
-template <> struct fmt::formatter<tsd::vue::Couleur> {
+template <> struct sformatter<tsd::vue::Couleur> {
   constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
   template <typename FormatContext>
   auto format(const tsd::vue::Couleur& t, FormatContext& ctx) const -> decltype(ctx.out()) 
   {
-    return fmt::format_to(ctx.out(), "(r={},v={},b={},a={})", t.r, t.g, t.b, t.alpha);
+    return sformat_to(ctx.out(), "(r={},v={},b={},a={})", t.r, t.g, t.b, t.alpha);
   }
 };
 #endif

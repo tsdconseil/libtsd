@@ -10,7 +10,7 @@ namespace tsd::kalman {
 
 
   /** D'après https://en.wikipedia.org/wiki/Algebraic_Riccati_equation#Solution */
-  std::tuple<Tabf, float> dare(const Tabf &A,
+  tuple<Tabf, float> dare(const Tabf &A,
       const Tabf &C, const Tabf &Q,
       const Tabf &R,
       float tolerance,
@@ -78,20 +78,20 @@ Tabf jacobienne_num(std::function<Vecf(const Vecf &)> f, const Vecf &x)
   retourne J;
 }
 
-std::string SSM::lis_nom_etat(entier i) const
+string SSM::lis_nom_etat(entier i) const
 {
   si(i < (entier) noms_etats.size())
     retourne noms_etats[i];
   sinon
-    retourne fmt::format("Etat {}", i);
+    retourne sformat("Etat {}", i);
 }
 
-std::string SSM::lis_nom_obs(entier i) const
+string SSM::lis_nom_obs(entier i) const
 {
   si(i < (entier) noms_obs.size())
     retourne noms_obs[i];
   sinon
-    retourne fmt::format("Obs {}", i);
+    retourne sformat("Obs {}", i);
 }
 
 Tabf SSM::Jf(const Vecf &x) const
@@ -126,7 +126,7 @@ Tabf SSMLineaire::Jg(const Vecf &x) const
   retourne C;
 }
 
-std::tuple<Tabf, Tabf> SSM::steps(entier n, const Vecf &x0, const Tabf &vin_)
+tuple<Tabf, Tabf> SSM::steps(entier n, const Vecf &x0, const Tabf &vin_)
 {
   si(LQ.rows() == 0)
   {

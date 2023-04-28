@@ -318,7 +318,7 @@ struct DetecteurImpl: Detecteur
           s.plot(idx, y(idx), "ro");
       }
       f.subplot().plot(y2, "", "Corrélation norm (érosion).");
-      f.afficher(fmt::format("DBG Corr, itr {}", itr));
+      f.afficher(sformat("DBG Corr, itr {}", itr));
     }
 
 
@@ -489,7 +489,7 @@ struct DetecteurImpl: Detecteur
         f.subplot().plot(recu_theo,     "",   "recu_theo");
         f.subplot().plot(recu_vraiment, "",   "recu_vraiment");
         f.subplot().plot(bruit,         "r-", "bruit");
-        f.afficher(fmt::format("DBG Det, itr {}", itr));
+        f.afficher(sformat("DBG Det, itr {}", itr));
         msg("Détection : {}", det);
       }
 
@@ -520,7 +520,7 @@ struct DetecteurImpl: Detecteur
 
 ostream &operator <<(ostream &os, const Detection &det)
 {
-  os << fmt::format("Détection : score={:.3f}, pos={} ({:.3f}), gain={:.5e}, θ={:.1f}°, σ={:.2e}, SNR={:.1f} dB.",
+  os << sformat("Détection : score={:.3f}, pos={} ({:.3f}), gain={:.5e}, θ={:.1f}°, σ={:.2e}, SNR={:.1f} dB.",
       det.score, det.position, det.position_prec, det.gain, rad2deg(det.θ), det.σ_noise, det.SNR_dB);
   retourne os;
 }

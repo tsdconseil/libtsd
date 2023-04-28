@@ -187,16 +187,16 @@ bouléen Calendrier::est_valide() const
 }
 
 
-static std::vector<std::string> split(const std::string& str, const std::string& delim)
+static vector<string> split(cstring str, cstring delim)
 {
-  std::vector<std::string> tokens;
+  vector<string> tokens;
   size_t prev = 0, pos = 0;
   do
   {
     pos = str.find(delim, prev);
-    si(pos == std::string::npos)
+    si(pos == string::npos)
       pos = str.length();
-    std::string token = str.substr(prev, pos-prev);
+    soit token = str.substr(prev, pos-prev);
     si(!token.empty())
       tokens.push_back(token);
     prev = pos + delim.length();
@@ -212,7 +212,7 @@ Calendrier::Calendrier(entier année, entier mois, entier jour)
   this->jour  = jour;
 }
 
-Calendrier::Calendrier(const std::string &s)
+Calendrier::Calendrier(cstring s)
 {
   soit sp = split(s, "/");
   si(sp.size() != 3)
@@ -236,7 +236,7 @@ HeureComposite::HeureComposite(entier heure, entier minutes, entier secondes, en
   this->µs        = µs;
 }
 
-HeureComposite::HeureComposite(const std::string &s)
+HeureComposite::HeureComposite(cstring s)
 {
   soit sp = split(s, ":");
   si(sp.size() != 3)
@@ -386,7 +386,7 @@ DateComposite DateHeure::decomposition() const
   retourne {calendrier(), decomp_heure()};
 }
 
-DateHeure DateHeure::lis_chaine(const std::string &s_)
+DateHeure DateHeure::lis_chaine(cstring s_)
 {
   entier y,M,d,h,m,s;
   sscanf(s_.c_str(), "%d-%d-%d %d:%d:%d", &y,&M,&d,&h,&m,&s);
@@ -403,7 +403,7 @@ DateHeure DateHeure::de_GPS(entier semaine, entier secs)
   retourne r;
 }
 
-std::tuple<entier, entier> DateHeure::vers_GPS() const
+tuple<entier, entier> DateHeure::vers_GPS() const
 {
   // 5 Janvier 1980
   soit e0 = epoque_GPS();
@@ -518,14 +518,14 @@ bouléen mode_utc = non;
 
 std::ostream& operator<<(std::ostream& ss, const Calendrier &date)
 {
-  ss << fmt::format("{:0>4d}-{:0>2d}-{:0>2d}", date.année, date.mois, date.jour);
+  ss << sformat("{:0>4d}-{:0>2d}-{:0>2d}", date.année, date.mois, date.jour);
   retourne ss;
 }
 
 
 std::ostream& operator<<(std::ostream& ss, const HeureComposite &hc)
 {
-  ss << fmt::format("{:0>2d}:{:0>2d}:{:0>2d},{:0>3d}:{:0>3d}",
+  ss << sformat("{:0>2d}:{:0>2d}:{:0>2d},{:0>3d}:{:0>3d}",
       hc.heure, hc.minutes, hc.secondes, hc.ms, hc.µs);
   retourne ss;
 }
@@ -537,7 +537,7 @@ std::ostream& operator<<(std::ostream& ss, const DateHeure &t)
     dc = t.decomposition();
   sinon
     dc = t.decomposition_locale();
-  ss << fmt::format("{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}",
+  ss << sformat("{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}",
       dc.jour.année, dc.jour.mois, dc.jour.jour,
       dc.heure.heure, dc.heure.minutes, dc.heure.secondes);
   si(mode_utc)

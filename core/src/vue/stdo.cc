@@ -12,7 +12,7 @@ namespace tsd::vue {
 Stdo stdo;
 
 std::function<void ()> stdo_fin;
-std::function<void (sptr<const Rendable> fig, const std::string &titre)> stdo_ajoute_figure;
+std::function<void (sptr<const Rendable> fig, cstring titre)> stdo_ajoute_figure;
 
 struct Element
 {
@@ -21,16 +21,16 @@ struct Element
     CHAINE,
     FIGURE
   } type;
-  std::string chaine, fichier_image;
+  string chaine, fichier_image;
 };
 
 static struct StdoPrivA
 {
-  std::string dossier_sortie;
+  string dossier_sortie;
   bouléen mode_rt = oui;
   entier cnt_racine = 0;
   entier cnt_fig = 0;
-  std::vector<Element> elems;
+  vector<Element> elems;
   std::mutex mtx;
 } priv;
 
@@ -50,7 +50,7 @@ void Stdo::flush()
   si(!priv.dossier_sortie.empty() && !priv.elems.empty())
   {
     soit fn = priv.dossier_sortie + "/index.html";
-    std::string s;
+    string s;
 
     //msg("Flush stdo : {} elems...", priv.elems.size());
 
@@ -87,7 +87,7 @@ void Stdo::flush()
 }
 
 
-void Stdo::def_dossier_sortie(const std::string &chemin)
+void Stdo::def_dossier_sortie(cstring chemin)
 {
   flush();
 
@@ -102,7 +102,7 @@ void Stdo::def_dossier_sortie(const std::string &chemin)
   //msg("Stdo: dossier de sortie = {}", chemin);
 }
 
-void Stdo::affiche(sptr<const Rendable> s, const std::string &titre, const Dim &dim)
+void Stdo::affiche(sptr<const Rendable> s, cstring titre, const Dim &dim)
 {
   si(priv.mode_rt)
   {
@@ -113,7 +113,7 @@ void Stdo::affiche(sptr<const Rendable> s, const std::string &titre, const Dim &
   {
     Element elmt;
     elmt.type = Element::FIGURE;
-    soit nom_fichier = fmt::format("img-{}-{}.png", priv.cnt_racine, priv.cnt_fig++);
+    soit nom_fichier = sformat("img-{}-{}.png", priv.cnt_racine, priv.cnt_fig++);
     elmt.fichier_image = nom_fichier;
     elmt.chaine        = titre;
     s->enregistrer(priv.dossier_sortie + "/img/" + nom_fichier, dim);
@@ -121,7 +121,7 @@ void Stdo::affiche(sptr<const Rendable> s, const std::string &titre, const Dim &
   }
 }
 
-void Stdo::printf(const std::string &s)
+void Stdo::printf(cstring s)
 {
   priv.mtx.lock();
   Element elmt;

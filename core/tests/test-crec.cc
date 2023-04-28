@@ -2,7 +2,7 @@
 #include "tsd/tests.hpp"
 
 
-entier test_ped(const std::string &nom, Ped ped)
+entier test_ped(cstring nom, Ped ped)
 {
   msg("Vérification détecteur d'erreur de phase [{}]...", nom);
   //tsd::telecom::DEPQuadratique det;

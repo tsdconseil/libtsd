@@ -169,7 +169,7 @@ struct FormeOnde
     virtual void reset() = 0;
 
     /** Index = -1 si pas d'échantillon à sortir */
-    virtual std::tuple<entier, cfloat> step(cfloat x) = 0;
+    virtual tuple<entier, cfloat> step(cfloat x) = 0;
   };
 
   virtual sptr<Ctx> get_ctx(entier OSF = 1) const; // Par défaut, contexte sans mémoire
@@ -205,10 +205,10 @@ struct FormeOnde
   virtual float excursion() const;
 
   /** @brief Renvoie une description de la modulation (courte chaine de caractères). */
-  virtual std::string desc() const = 0;
+  virtual string desc() const = 0;
 
   /** @brief Renvoie une description de la modulation (courte chaine de caractères). */
-  virtual std::string desc_courte() const {return desc();}
+  virtual string desc_courte() const {return desc();}
 
 
   /** @brief Informations diverses sur cette forme d'onde. */
@@ -378,7 +378,7 @@ struct ProtocoleDemodulateur
 {
   virtual ~ProtocoleDemodulateur(){};
   virtual entier configure(const TC &config) = 0;
-  virtual std::vector<TR> step(const Veccf &x) = 0;
+  virtual vector<TR> step(const Veccf &x) = 0;
 };
 
 /** @} */
@@ -805,7 +805,7 @@ using Ped = std::function<float (cfloat x)>;
 /*struct Ped
 {
   virtual float calcule(const std::complex<float> &x) = 0;
-  std::string nom;
+  string nom;
   unsigned int M = 2;
   bouléen require_agc = non;
   float agc_tc = 3.0f;
@@ -1349,7 +1349,7 @@ struct Récepteur
   virtual entier configure(const RécepteurConfig &config) = 0;
 
   /** @brief Traitement d'un buffer de données. */
-  virtual std::vector<RécepteurTrame> step(const Veccf &x) = 0;
+  virtual vector<RécepteurTrame> step(const Veccf &x) = 0;
 
   /** @brief Lecture des moniteurs CPU. */
   virtual MoniteursStats moniteurs() = 0;
@@ -1607,7 +1607,7 @@ extern sptr<Filtre<cfloat, cfloat, ECPConfig>> ecp_création(const ECPConfig &co
  * @sa égaliseur_zfe()
  */
 extern sptr<FiltreGen<cfloat>> égaliseur_rif_création(sptr<FormeOnde> forme_onde,
-    const std::string &structure, const std::string &fonction_erreur,
+    const string &structure, const string &fonction_erreur,
     entier K, float α, entier N1, entier N2);
 
 /** @brief Calcul du filtre inverse par zéro-forçage.
@@ -2176,7 +2176,7 @@ struct Code
   /** @brief Nb bits utiles */
   entier k;
   /** @brief Nom du code */
-  std::string nom;
+  string nom;
 
   /** @brief Taux de transmission (nb bits utiles / nb bits transmis) */
   float taux() const{return (1.0f * k) / n;}

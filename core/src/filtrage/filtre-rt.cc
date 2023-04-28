@@ -744,7 +744,7 @@ struct FiltreDC: FiltreGen<T>
 
   FiltreDC(float fc)
   {
-    α = bloqueur_dc_coef(fc);
+    α = 1 - lexp_coef(Fréquence(fc));
     xp = yp = (T) 0;
   }
   void step(const Vecteur<T> &x, Vecteur<T> &y)
@@ -756,7 +756,7 @@ struct FiltreDC: FiltreGen<T>
 
     pour(auto i = 0; i < n; i++)
     {
-      y(i) = (T) (0.5 * (1 + α)) * (x(i) - xp) + α * yp;
+      y(i) = (T) (α * ((x(i) - xp) + yp));
       xp = x(i);
       yp = y(i);
     }
@@ -769,19 +769,18 @@ template<typename T = float, typename Tacc = float, typename Tinv = float>
 struct MoyenneGlissante: FiltreGen<T>
 {
   entier index = 0, K = 0;
-  Tacc accu;
+  Tacc accu = 0;
   Vecteur<T> fenetre;
-  // Inverse of length
+  // Inverse de la longueur
   Tinv K_inv;
 
-  MoyenneGlissante(entier n)
+  MoyenneGlissante(entier K)
   {
-    accu  = 0;
-    index = 0;
-    K     = n;
-    fenetre.setZero(n);
-    K_inv = (Tinv) (1.0 / ((double) n));
+    this->K = K;
+    fenetre.setZero(K);
+    K_inv = (Tinv) (1.0 / ((double) K));
   }
+
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
     soit n = x.rows();
@@ -803,6 +802,8 @@ struct MoyenneGlissante: FiltreGen<T>
 };
 
 
+// TODEL
+#if 0
 /** @brief First order exponential high-pass filter */
 template<typename T = float, typename Tacc = float, typename Tgamma = float>
 struct ExpHpFilter
@@ -850,6 +851,7 @@ struct ExpHpFilter
   }
 
 };
+#endif
 
 /** @brief First order exponential low-pass filter
  *  Canonical form:

@@ -90,9 +90,7 @@ public:
 
   void affiche_etat() const;
 
-private:
-  struct Impl;
-  sptr<Impl> impl;
+  _PIMPL_
 };
 
 /** @} */

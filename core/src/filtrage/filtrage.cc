@@ -107,35 +107,28 @@ float lexp_coef_vers_tc(float γ)
   retourne 1.0 / (2 * π * lexp_fcoupure(γ).value);
 }
 
-float bloqueur_dc_coef(float fc)
-{
-  soit c = cos(2 * π * fc);
-  retourne (1 - sqrt(1 - c * c)) / c;
-}
-
 FRat<float> design_notch(float f0, float fc)
 {
-  soit a  = bloqueur_dc_coef(fc);
+  soit γ = lexp_coef(Fréquence(fc)),
+       r = 1 - γ,
+       Ω0 = 2 * π_f * f0;
+
   soit z  = FRat<float>::z();
-  soit Ω0 = 2 * π_f * f0;
-  soit h = ((z*z - 2 * cos(Ω0) * z + 1) / (z*z - 2 * a * cos(Ω0) * z + a*a));
-  retourne h * (1 / h.horner(1.0f)); // Equilibre le gain dans la bande passante (du moins est exact en DC)
+
+  retourne r * ((z*z - 2 * cos(Ω0) * z + 1) / (z*z - 2 * r * cos(Ω0) * z + r*r));
 }
 
 FRat<float> design_bloqueur_dc(float fc)
 {
-  soit a = bloqueur_dc_coef(fc);
+  soit γ = lexp_coef(Fréquence(fc));
+  soit r = 1 - γ;
   soit z = FRat<float>::z();
-  retourne ((z - 1) / (z - a)) * ((1 + a) / 2);
-  //soit zi = (FRat<float>::z()).inv();
-  //retourne ((1 - zi) / (1 - a * zi)) * ((1 + a) / 2);
+  retourne r * ((z - 1) / (z - r));
 }
 
 FRat<float> design_lexp(Fréquence fc)
 {
   // yn = γ * xn + (1-γ) yn-1
-  // h = γ / (1-(1-γ)z^-1)
-  //   = γz / (z -(1-γ)
   float γ = lexp_coef(fc);
   soit z = FRat<float>::z();
   retourne (z * γ) / (z  - (1 - γ));

@@ -566,7 +566,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
         msg("RDS nerrs = {}", nerrs);
         uint16_t blk[4] = {0};
 
-        std::string station;
+        string station;
 
         //pour(auto k = 0u; k < 4; k++)
         //  blk[k] = mati_vers_binaire(dec.block(0, j * 26, 1, 16));
@@ -578,7 +578,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
           st[2] = blk[3] & 0xff;
           st[3] = (blk[3] >> 8) & 0xff;
           st[4] = 0;
-          station = std::string(st);
+          station = string(st);
         }
 
         msg("station = [{}]", station);

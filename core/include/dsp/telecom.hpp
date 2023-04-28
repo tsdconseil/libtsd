@@ -229,7 +229,7 @@ struct WaveForm
     virtual void reset() = 0;
 
     /** Index = -1 si pas d'échantillon à sortir */
-    virtual std::tuple<int, cfloat> step(cfloat x) = 0;
+    virtual tuple<int, cfloat> step(cfloat x) = 0;
   };
 
   virtual sptr<Ctx> get_ctx(int OSF = 1) const; // Par défaut, contexte sans mémoire
@@ -290,7 +290,7 @@ struct WaveForm
   }
 
   /** @brief A short description of this waveform. */
-  std::string desc() const
+  string desc() const
   {
     return fr->desc();
   }
@@ -1576,9 +1576,9 @@ struct PacketReceiver
   }
 
   /** @brief Traitement d'un buffer de données. */
-  virtual std::vector<RécepteurTrame> step(const Veccf &x)
+  virtual vector<RécepteurTrame> step(const Veccf &x)
   {
-    std::vector<RécepteurTrame> res;
+    vector<RécepteurTrame> res;
     auto r = fr->step(x);
     for(auto &t: r)
       res.push_back(t);
@@ -1863,7 +1863,7 @@ inline sptr<Filter<cfloat, cfloat, nfr::ECPConfig>> ecp_new(const CPEConfig &con
  *
  * @sa equalizer_zfe()
  */
-inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::string &structure, const std::string &errf,
+inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::string &structure, cstring errf,
     float osf, float gain, int N1, int N2)
 {
   return nfr::égaliseur_rif_création(wf->fr, structure, errf, osf, gain, N1, N2);
@@ -2490,7 +2490,7 @@ struct Code
   /** @brief Usefull data dimension (in bits) */
   int k;
   /** @brief Name of the code */
-  std::string nom;
+  string nom;
 
   /** @brief Transmission rate (ratio of number of usefull bits on total transmitted bits) */
   float taux() const{return (1.0f * k) / n;}

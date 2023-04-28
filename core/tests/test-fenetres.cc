@@ -2,7 +2,7 @@
 #include "tsd/tests.hpp"
 
 
-void verifie_fenetre(const std::string &nom, const Vecf &x, const FenInfos &ref)
+void verifie_fenetre(cstring nom, const Vecf &x, const FenInfos &ref)
 {
   si(tests_debug_actif)
   {

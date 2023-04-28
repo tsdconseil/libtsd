@@ -165,7 +165,7 @@ struct ClockRec: FiltreGen<cfloat>
     //    coarse_rssi = varargin(1);
     //end;
 
-    //std::vector<cfloat> res(n);
+    //vector<cfloat> res(n);
 
 
 
@@ -185,9 +185,8 @@ struct ClockRec: FiltreGen<cfloat>
 
     Veccf res(nout_max);
     Vecf vphase, verr, vphase0, vitrp, vdec;
-    std::vector<entier> idx, idx_inter;
-    std::vector<float> t_inter, v_inter;
-    std::vector<float> t_inter2, v_inter2;
+    vector<entier> idx, idx_inter;
+    vector<float> t_inter, v_inter, t_inter2, v_inter2;
 
     si(config.debug_actif)
     {
@@ -461,7 +460,7 @@ struct ClockRec2: FiltreGen<cfloat>
 
   void step(const Veccf &x, Veccf &y)
   {
-    std::vector<cfloat> res;
+    vector<cfloat> res;
 
     soit xf  = fa->step(x);
     soit xdf = fda->step(x);
@@ -473,10 +472,9 @@ struct ClockRec2: FiltreGen<cfloat>
 
     tsd_assert(n == xdf.rows());
 
-    Vecf vphase(n), verr = Vecf::zeros(n), vphase0(n), vitrp = Vecf::zeros(n), vdec = Vecf::zeros(n);
-    std::vector<entier> idx, idx_inter;
-
-    std::vector<float> t_inter, v_inter;
+    Vecf vphase(n), verr = vphase, vphase0(n), vitrp = vphase, vdec = vphase;
+    vector<entier> idx, idx_inter;
+    vector<float> t_inter, v_inter;
 
 
     float ph0 = 0;

@@ -217,7 +217,7 @@ struct CtxSansMemoire: FormeOnde::Ctx
   void reset(){}
 
 
-  std::tuple<entier, cfloat> step(cfloat x)
+  tuple<entier, cfloat> step(cfloat x)
   {
     entier i = fo->symbole_plus_proche(x);
     retourne {i, fo->lis_symbole(i)};
@@ -286,14 +286,14 @@ struct FormeOndeASK: FormeOnde
     retourne FormeOnde::symbole_plus_proche(x);
   }
 
-  std::string desc_courte() const
+  string desc_courte() const
   {
-    retourne fmt::format("{}-ASK({},{})", infos.M, K1, K2);
+    retourne sformat("{}-ASK({},{})", infos.M, K1, K2);
   }
 
-  std::string desc() const
+  string desc() const
   {
-    retourne fmt::format("{}-ASK({},{})", infos.M, K1, K2);
+    retourne sformat("{}-ASK({},{})", infos.M, K1, K2);
   }
 
 
@@ -342,19 +342,19 @@ struct FormeOndePSK: FormeOnde
     retourne FormeOnde::symbole_plus_proche(x);
   }
 
-  std::string desc_courte() const
+  string desc_courte() const
   {
     si(infos.M == 2)
       retourne "BPSK";
     sinon si(infos.M == 4)
       retourne "QPSK";
     sinon
-      retourne fmt::format("{}PSK", infos.M);
+      retourne sformat("{}PSK", infos.M);
   }
 
-  std::string desc() const
+  string desc() const
   {
-    retourne desc_courte() + fmt::format(", {}", filtre);
+    retourne desc_courte() + sformat(", {}", filtre);
   }
 
 
@@ -415,14 +415,14 @@ struct FormeOnde_π4QPSK: FormeOnde
     retourne FormeOnde::symbole_plus_proche(x);
   }
 
-  std::string desc_courte() const
+  string desc_courte() const
   {
     retourne "pi4-QPSK";
   }
 
-  std::string desc() const
+  string desc() const
   {
-    retourne fmt::format("pi4-QPSK, {}", filtre);
+    retourne sformat("pi4-QPSK, {}", filtre);
   }
 
   struct Ctxπ4QPSK: FormeOnde::Ctx
@@ -442,7 +442,7 @@ struct FormeOnde_π4QPSK: FormeOnde
     }
 
     /** Index = -1 si pas d'échantillon à sortir */
-    std::tuple<entier, cfloat> step(cfloat x)
+    tuple<entier, cfloat> step(cfloat x)
     {
       si(cnt++ & 1)
         x *= rot;
@@ -492,14 +492,14 @@ struct FormeOndeQAM: FormeOnde
 {
   Veccf symbs;
 
-  std::string desc_courte() const
+  string desc_courte() const
   {
-    retourne fmt::format("QAM{}", infos.M);
+    retourne sformat("QAM{}", infos.M);
   }
 
-  std::string desc() const
+  string desc() const
   {
-    retourne fmt::format("QAM{}, {}", infos.M, filtre);
+    retourne sformat("QAM{}, {}", infos.M, filtre);
   }
 
   FormeOndeQAM(unsigned int M, const SpecFiltreMiseEnForme &filtre)
@@ -509,7 +509,7 @@ struct FormeOndeQAM: FormeOnde
     infos.M             = M;
     infos.est_qam       = oui;
     infos.k             = log2(M);
-    //nom = fmt::format("QAM{}", M);
+    //nom = sformat("QAM{}", M);
 
     soit M2 = (entier) sqrt(M);
 
@@ -620,7 +620,7 @@ struct FormeOndeFSK: FormeOnde
       cands.setConstant(1.0f);
     }
 
-    std::tuple<entier, cfloat> step(cfloat x)
+    tuple<entier, cfloat> step(cfloat x)
     {
       // pour chaque symbole, on fait M hypothèses
       pour(auto i = 0; i < (entier) fo->infos.M; i++)
@@ -669,19 +669,19 @@ struct FormeOndeFSK: FormeOnde
     retourne std::make_shared<CtxFSK>(this, OSF);
   }*/
 
-  std::string desc_courte() const
+  string desc_courte() const
   {
-    std::string nom = format("{}{}SK",
+    string nom = format("{}{}SK",
         filtre.type == SpecFiltreMiseEnForme::Type::GAUSSIEN ? "G" : "",
             infos.index == 0.5 ? "M" : "F");
     si(infos.M != 2)
-      nom = fmt::format("{}{}", infos.M, nom);
+      nom = sformat("{}{}", infos.M, nom);
     retourne nom;
   }
 
-  std::string desc() const
+  string desc() const
   {
-    retourne desc_courte() + fmt::format(", index={}", infos.index);
+    retourne desc_courte() + sformat(", index={}", infos.index);
   }
 
   float excursion() const
@@ -911,9 +911,9 @@ std::ostream& operator<<(std::ostream &ss, const SpecFiltreMiseEnForme &t)
   sinon si(t.type == SpecFiltreMiseEnForme::AUCUN)
     ss << "AUCUN";
   sinon si(t.type == SpecFiltreMiseEnForme::RCS)
-    ss << fmt::format("RCS-dep={}", (entier) (t.β * 100.0f));
+    ss << sformat("RCS-dep={}", (entier) (t.β * 100.0f));
   sinon si(t.type == SpecFiltreMiseEnForme::GAUSSIEN)
-    ss << fmt::format("Gaussien-BT={}", t.BT);
+    ss << sformat("Gaussien-BT={}", t.BT);
   sinon
     ss << "?";
   retourne ss;
@@ -990,7 +990,7 @@ SpecFiltreMiseEnForme::Analyse SpecFiltreMiseEnForme::analyse(entier ncoefs, ent
   f.subplot();
   f.gcf().plot(t,  h,   "|bo", "Réel");
   f.gcf().plot(t2, ht * r, "-g",  "Théorique"); // ht * r : pour avoir la même amplitude
-  f.gcf().titres(fmt::format("{} - {} coefs, OSF={}", *this, ncoefs, osf), "Symboles");
+  f.gcf().titres(sformat("{} - {} coefs, OSF={}", *this, ncoefs, osf), "Symboles");
   f.subplot();
   soit [fr, mag]   = frmag(h);
   soit [fr2, mag2] = frmag(ht);

@@ -84,7 +84,7 @@ bouléen BitStream::operator [](unsigned int index) const
   retourne buffer[octet] & (1 << bit) ? oui : non;
 }
 
-BitStream::BitStream(const std::string &s)
+BitStream::BitStream(cstring s)
 {
   pour(auto i = 0u; i < s.size(); i++)
   {

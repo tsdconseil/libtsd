@@ -20,7 +20,7 @@ private:
 };
 
 
-extern std::tuple<float,float> localise_pic_frequence(const Veccf &x);
+extern tuple<float,float> localise_pic_frequence(const Veccf &x);
 
 
 /** Détecteur d'erreur de phase quadratique */

@@ -43,12 +43,12 @@ struct SSM
   /** @brief Square roots of R & Q */
   Tabf LR, LQ;
 
-  std::string nom;
+  string nom;
 
-  std::vector<std::string> noms_etats, noms_obs;
+  vector<string> noms_etats, noms_obs;
 
-  std::string lis_nom_etat(entier i) const;
-  std::string lis_nom_obs(entier i) const;
+  string lis_nom_etat(entier i) const;
+  string lis_nom_obs(entier i) const;
 
   /** @brief transition function (ns x 1 vector to ns x 1 vector) */
   virtual Vecf f(const Vecf &x) const = 0;
@@ -77,7 +77,7 @@ struct SSM
    * @param vin Vecteur d'entrée (contrôle) optionnel
    * @return {x,y} : state & observation vectors
    */
-  std::tuple<Tabf, Tabf> steps(entier n, const Vecf &x0 = Vecf(), const Tabf &vin = Tabf());
+  tuple<Tabf, Tabf> steps(entier n, const Vecf &x0 = Vecf(), const Tabf &vin = Tabf());
 
   // Checks the validity of the user supplied Jacobians for a EKF model
   //
@@ -378,7 +378,7 @@ extern sptr<SSM> modele_kitagawa();
  *
  * @sa kalman_ssg()
  */
-std::tuple<Tabf, float> dare(const Tabf &A,
+tuple<Tabf, float> dare(const Tabf &A,
           const Tabf &C, const Tabf &Q,
           const Tabf &R,
           float tolerance = 1e-7,

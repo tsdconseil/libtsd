@@ -4,7 +4,7 @@
 
 namespace tsd::filtrage {
 
- extern std::tuple<Vecf, Vecf> rifampn(const Vecf &h, entier L, bouléen symetrique);
+ extern tuple<Vecf, Vecf> rifampn(const Vecf &h, entier L, bouléen symetrique);
 }
 
 

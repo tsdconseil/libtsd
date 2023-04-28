@@ -61,7 +61,7 @@ struct HourComposite
    *  @endcode
    *
    */
-  HourComposite(const std::string &s)
+  HourComposite(cstring s)
   {
     *this = tsdt::HeureComposite(s);
   }
@@ -243,7 +243,7 @@ struct Calendar
   }
 
   /** @brief Constructeur, à partir d'une chaîne de caractères de type "JJ/MM/AAAA". */
-  Calendar(const std::string &s)
+  Calendar(cstring s)
   {
     *this = tsdt::Calendrier(s);
   }
@@ -445,7 +445,7 @@ struct DateTime
 
 
   /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. */
-  std::tuple<int, int> to_GPS() const
+  tuple<int, int> to_GPS() const
   {
     return dt().vers_GPS();
   }
@@ -457,7 +457,7 @@ struct DateTime
   }
 
   /** @brief Constructeur, à partir d'une chaîne de caractères de type "aaaa::mm::jj hh:mm:ss". */
-  static DateTime parse(const std::string &s)
+  static DateTime parse(cstring s)
   {
     return tsdt::DateHeure::lis_chaine(s);
   }

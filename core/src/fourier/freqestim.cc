@@ -4,7 +4,7 @@
 namespace tsd::fourier {
 
 
-std::tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, const std::string fen)
+tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, cstring fen)
 {
   soit freqs = psd_freqs(N);
   soit S = Vecf::zeros(N);

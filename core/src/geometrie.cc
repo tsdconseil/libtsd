@@ -15,13 +15,13 @@ namespace tsd::geo {
 
 ostream& operator<<(ostream& ss, const Cardan &t)
 {
-  ss << fmt::format("Cardan[φ={},θ={},ψ={}]", t.φ, t.θ, t.ψ);
+  ss << sformat("Cardan[φ={},θ={},ψ={}]", t.φ, t.θ, t.ψ);
   retourne ss;
 }
 
 ostream& operator<<(ostream& ss, const Quaternion &t)
 {
-  ss << fmt::format("Quaternion[{}]", t.q);
+  ss << sformat("Quaternion[{}]", t.q);
   retourne ss;
 }
 

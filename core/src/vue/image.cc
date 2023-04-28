@@ -70,13 +70,13 @@ Couleur::Couleur(float r, float g, float b, float alpha)
 
 ostream& operator<<(ostream& ss, const Couleur &t)
 {
-  ss << fmt::format("(r={},v={},b={},a={})", t.r, t.g, t.b, t.alpha);
+  ss << sformat("(r={},v={},b={},a={})", t.r, t.g, t.b, t.alpha);
   retourne ss;
 }
 
 string Couleur::vers_chaine() const
 {
-  retourne fmt::format("{}.{}.{}", r, g, b);
+  retourne sformat("{}.{}.{}", r, g, b);
 }
 
 Couleur::Couleur(const string &s)

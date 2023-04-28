@@ -82,6 +82,27 @@ Poly<float> Chebychev_U(entier n)
   retourne Chebychev_TU(n, 2);
 }
 
+/*
+// https://en.wikipedia.org/wiki/Bessel_polynomials
+Poly<float> BesselRev(entier n)
+{
+  soit z  = Poly<float>::z;
+  soit T0 = Poly<float>::one();
+  soit T1 = z + 1;
 
+  si(n == 0)
+    retourne T0;
+  sinon si(n == 1)
+    retourne T1;
+
+  pour(auto k = 2; k <= n; k++)
+  {
+    soit T2 = (2*n-1) * T1 + z * z * T0;
+    T0 = T1;
+    T1 = T2;
+  }
+
+  retourne T1;
+}*/
 
 }

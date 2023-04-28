@@ -16,7 +16,7 @@ template<typename T>
 struct Poly
 {
   VecT<T> coefs;
-  std::string vname = "z";
+  string vname = "z";
   // Par défaut, définit d'après ses coefficients
   bouléen mode_racines = non;
   T mlt = 1.0f; // multiplieur si mode racine (= coefficient du monome le plus grand)
@@ -68,7 +68,7 @@ struct Poly
     entier r;
     pour(r = 0; r < coefs.rows(); r++)
     {
-      si(coefs(r) != 0)
+      si(coefs(r) != (T) 0)
         break;
     }
     retourne r;
@@ -81,6 +81,12 @@ struct Poly
     mode_racines = src.mode_racines;
     retourne *this;
   }*/
+
+  // TODO template: cfloat ou double...
+  Poly<cfloat> factorise() const
+  {
+    retourne Poly<cfloat>::from_roots(roots());
+  }
 
   Poly vers_coefs() const
   {
@@ -185,7 +191,7 @@ struct Poly
         si(coefs(i) == (T) 0)
           out << vname;
         sinon
-          out << fmt::format("({} - {})", vname, coefs(i));
+          out << sformat("({} - {})", vname, coefs(i));
         si(i + 1 < n)
           out << " * ";
       }
@@ -193,7 +199,7 @@ struct Poly
     }
 
     // List des monomes non nuls;
-    std::vector<std::pair<T,unsigned int>> lst;
+    vector<std::pair<T,unsigned int>> lst;
     pour(auto i = 0; i < n; i++)
       si(coefs(i) != 0.0f)
         lst.push_back({coefs(i),i});
@@ -545,12 +551,12 @@ struct FRat
   }
 
 
-  std::tuple<Veccf,Veccf> roots() const
+  tuple<Veccf,Veccf> roots() const
   {
     retourne {numer.roots(), denom.roots()};
   }
 
-  std::tuple<entier,entier> degrés() const
+  tuple<entier,entier> degrés() const
   {
     retourne {numer.degré(), denom.degré()};
   }
@@ -561,6 +567,20 @@ struct FRat
     retourne {numer.vers_coefs(), denom.vers_coefs()};
   }
 
+  // TODO: cfloat ou cdouble...
+  FRat<cfloat> factorise() const
+  {
+    FRat<cfloat> f{numer.factorise(), denom.factorise()};
+    f.simplifier();
+    retourne f;
+  }
+
+
+  //FRat<T> simplifier() const
+  //{
+    // TODO : supprimer facteurs communs...
+    //retourne *this;
+  //}
 
   // (a/b).real = a.r * (1/b).r - a.i * (1/b).i
   // @todo : renommer, et utiliser une autre fonction pour la partie réelle de la fraction

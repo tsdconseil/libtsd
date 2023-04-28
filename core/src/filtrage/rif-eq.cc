@@ -100,14 +100,14 @@ Vecteur<T> rifamp_naif(const Vecteur<T> &h, entier L)
 }
 
 
-std::tuple<Vecf, Vecf> rifampn(const Vecf &h, entier L, bouléen symetrique)
+tuple<Vecf, Vecf> rifampn(const Vecf &h, entier L, bouléen symetrique)
 {
   soit fr = linspace(0, 0.5 - (0.5 / L), L);
   retourne {fr, rifamp_naif(h, L)};
 }
 
 // TODO : template
-std::tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L, bouléen symetrique)
+tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L, bouléen symetrique)
 {
   // si N (nb coefs) > 2 * L (nb points de sortie désirés) :
   //  comment faire ?
@@ -213,7 +213,7 @@ Eigen::Matrix<T, Eigen::Dynamic, 1> lsi(
       f.subplot().plot(evec2vec(Ax), "-g", "Ax");
       f.subplot().plot(evec2vec(Ea.template cast<float>()), "-r", "Erreur pondérée");
       f.subplot().plot(evec2vec(p.template cast<float>()), "-b", "Pondération L2");
-      f.afficher(fmt::format("LSI - ITR {}",  itr));
+      f.afficher(sformat("LSI - ITR {}",  itr));
     }
 
     si((emax - emin) / emax < 1e-5)

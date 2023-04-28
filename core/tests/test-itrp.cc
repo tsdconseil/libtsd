@@ -55,7 +55,7 @@ void test_itrp_retard()
       fs.subplot().plot(y2, "m-", "délais FFT");
       fs.subplot().plot(y2-y1, "r-", "Différence");
       fs.subplot().plot(y2-x, "r-", "Différence sans corr");
-      fs.afficher(fmt::format("Test retard = {}", delais(i)));
+      fs.afficher(sformat("Test retard = {}", delais(i)));
     }
   }
 }

@@ -1,5 +1,4 @@
-#include <tsd/telecom/lfsr.hpp>
-#include <cstdint>
+#include "tsd/telecom/lfsr.hpp"
 
 namespace tsd::telecom {
 
@@ -23,7 +22,7 @@ static const auto MAX_REGLEN = 16u;
 // d'après "On Pseudo-Random and Orthogonal Binary Spreading Sequences", Mitra, 2007
 // (bit de poids faible implicite = x^n,
 //  bit de poids fort implicite = x^0)
-const std::vector<uint32_t> pols_prim =
+const vector<uint32_t> pols_prim =
    {0,                                // n=0, n/a
     0,                                // n=1, 1 + x
     (1 << 1),                         // n=2, 1 + x + x^2

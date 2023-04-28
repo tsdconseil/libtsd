@@ -144,7 +144,7 @@ static void test_rcs(entier nc)
     f.gcf().plot(t2, h_p, "|go", "RCS*2");
     f.subplot().plot(t1, h_p2 - h_cs, "|or", "Erreur");
     //f.subplot().plot()
-    f.afficher(fmt::format("RCS : nc = {}", nc));
+    f.afficher(sformat("RCS : nc = {}", nc));
   }
 
   soit err = abs(h_p2 - h_cs).valeur_max();
@@ -181,7 +181,7 @@ static void test_gaussien_unit(entier n, float BT, entier osf)
     Figure f;
     f.plot(h1, "-bo", "RIF Gaussien");
     f.plot(h2, "-go", "RIF Gaussien - telecom");
-    f.afficher(fmt::format("RIF Gaussien - BT = {}", BT));
+    f.afficher(sformat("RIF Gaussien - BT = {}", BT));
   }
 
   msg("h1 = {}", h1);
@@ -272,11 +272,10 @@ void test_filtre_mg(entier R)
     yref(i) = x.segment(imin, nelem).somme() / R;
   }
 
-  // msg("yref : {}", yref.transpose());
-  // msg("y    : {}", y.transpose());
-  // msg("err  : {}", (y - yref).transpose());
-
   soit err = abs(y - yref).valeur_max();
+
+  msg("err = {}", err);
+
   tsd_assert_msg(err < 5e-7, "Echec filtre MG : err = {}.", err);
 }
 
@@ -284,7 +283,9 @@ void test_filtre_mg()
 {
   test_filtre_mg(4);
   test_filtre_mg(11);
+  test_filtre_mg(20);
 }
+
 
 
 
@@ -501,7 +502,7 @@ static void test_retard(entier d)
     f.subplot().plot(x,"b-o","x");
     f.subplot().plot(y,"b-o","y");
     f.subplot().plot(y2,"b-o","y2");
-    f.afficher(fmt::format("Test retard - filtre mg({}) - retard {}", d, (d-1)/2.0f));
+    f.afficher(sformat("Test retard - filtre mg({}) - retard {}", d, (d-1)/2.0f));
   }
 }
 

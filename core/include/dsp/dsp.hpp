@@ -233,7 +233,7 @@ inline Vector<T> phase_unwrap(const Vector<T> &x, float r = 2*π)
  *
  *  @sa find_first()
  */
-inline std::vector<int> find(const Vecb &x)
+inline vector<int> find(const Vecb &x)
 {
   return tsd::trouve(x.fr);
 }
@@ -395,7 +395,7 @@ inline int next_power_of_2(unsigned int i)
  *
  */
 template<typename T1, typename T2>
-  std::tuple<Vector<T1>, Vector<T2>>
+  tuple<Vector<T1>, Vector<T2>>
     pad_zeros(const Vector<T1> &x,
               const Vector<T2> &y,
               bool p2 = false)

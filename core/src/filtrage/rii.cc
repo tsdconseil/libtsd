@@ -1,5 +1,6 @@
 ﻿#include "tsd/filtrage.hpp"
 #include "tsd/vue.hpp"
+#include "tsd/divers.hpp"
 
 using namespace tsd::vue;
 using namespace std;
@@ -486,7 +487,7 @@ FRat<cfloat> design_riia(entier n, const string &type,
   retourne design_riia(n, parse_tf(type), parse_proto(prototype), fcut, δ_bp, δ_bc);
 }
 
-FRat<float> design_biquad(const std::string type, float f, float Q, float gain_dB)
+FRat<float> design_biquad(cstring type, float f, float Q, float gain_dB)
 {
   BiquadSpec spec{.f = f, .Q = Q, .gain_dB = gain_dB};
   si((type == "lp") || (type == "pb"))
@@ -511,29 +512,67 @@ std::ostream& operator<<(std::ostream &ss, const BiquadSpec &t)
   switch(t.type)
   {
   case BiquadSpec::PASSE_BAS:
-    ss << fmt::format("Passe-bas(fc={}, Q={})", t.f, t.Q);
+    ss << sformat("Passe-bas(fc={}, Q={})", t.f, t.Q);
     break;
   case BiquadSpec::PASSE_HAUT:
-    ss << fmt::format("Passe-haut(fc={}, Q={})", t.f, t.Q);
+    ss << sformat("Passe-haut(fc={}, Q={})", t.f, t.Q);
     break;
   case BiquadSpec::PASSE_BANDE:
-    ss << fmt::format("Passe-bande(fc={}, Q={})", t.f, t.Q);
+    ss << sformat("Passe-bande(fc={}, Q={})", t.f, t.Q);
     break;
   case BiquadSpec::COUPE_BANDE:
-    ss << fmt::format("Coupe-bande(fc={}, Q={})", t.f, t.Q);
+    ss << sformat("Coupe-bande(fc={}, Q={})", t.f, t.Q);
     break;
   case BiquadSpec::RESONATEUR:
-    ss << fmt::format("Résonateur(fc={}, Q={}, g={:.1f} dB)", t.f, t.Q, t.gain_dB);
+    ss << sformat("Résonateur(fc={}, Q={}, g={:.1f} dB)", t.f, t.Q, t.gain_dB);
     break;
   case BiquadSpec::PLATEAU_BF:
-    ss << fmt::format("plateau-bf(fc={}, g={:.1f} dB)", t.f, t.gain_dB);
+    ss << sformat("plateau-bf(fc={}, g={:.1f} dB)", t.f, t.gain_dB);
     break;
   case BiquadSpec::PLATEAU_HF:
-    ss << fmt::format("plateau-hf(fc={}, g={:.1f} dB)", t.f, t.gain_dB);
+    ss << sformat("plateau-hf(fc={}, g={:.1f} dB)", t.f, t.gain_dB);
     break;
   }
   retourne ss;
 }
+
+
+FRat<cfloat> design_biquad(float K, cfloat z0, cfloat p0)
+{
+  soit z = FRat<cfloat>::z();
+  z = z.factorise();
+  retourne K * (z - z0) * (z - conj(z0)) / ((z - p0) * (z - conj(p0)));
+}
+
+// Design directement avec zéros et pôles
+/*FRat<cfloat> design_biquad_alt(const BiquadSpec &spec)
+{
+  soit ω = 2 * π_f * spec.f;
+  soit rp = 1.0f, rz = 1.0f, ωz = ω, ωp = ω, K = 1.0f;
+  switch(spec.type)
+  {
+    case BiquadSpec::PASSE_BAS:
+      ωz = π;
+      rp = ;
+      ωp = ;
+      break;
+    case BiquadSpec::PASSE_HAUT:
+      break;
+    case BiquadSpec::PASSE_BANDE:
+      break;
+    case BiquadSpec::COUPE_BANDE:
+      break;
+    case BiquadSpec::RESONATEUR:
+      break;
+    case BiquadSpec::PLATEAU_BF:
+      break;
+    case BiquadSpec::PLATEAU_HF:
+      break;
+    default:
+      echec("Type de biquad invalide ({}).", (entier) spec.type);
+  }
+  retourne design_biquad(K, std::polar(rz, ωz), std::polar(rp, ωp));
+}*/
 
 // D'après https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html
 FRat<float> design_biquad(const BiquadSpec &spec)
@@ -554,6 +593,9 @@ FRat<float> design_biquad(const BiquadSpec &spec)
   soit β = sqrt(2 * A);
 
   float a0 = 1, a1 = 1, a2 = 1, b0 = 1, b1 = 1, b2 = 1;
+
+
+
 
   switch(spec.type)
   {
@@ -629,6 +671,62 @@ FRat<float> design_biquad(const BiquadSpec &spec)
   retourne (b0 + b1 * z + b2 * z.pow(2)) / (1 + a1 * z + a2 * z.pow(2));
 }
 
+
+#if 0
+Veccf Bessel_pôles(entier n)
+{
+  Veccf r(n);
+
+  entier offset = 0;
+  si(n & 1)
+  {
+    r(0) = {-1, 0};
+    offset = 1;
+  }
+
+  float h = 2.0/n;
+  entier offset = 1;
+
+  pour(auto i = 0; i < n/2; i++)
+  {
+    // n pair : 2*(n/2-1)+1 = n-1 ok
+    // n impair : 2*((n-1)/2-1 + 1)+ 1  = n + 2 * (-0.5)  +1 = n
+    r(2*i+offset)   = {h*h - 1,  h};
+    r(2*i+offset+1) = {h*h - 1, -h};
+  }
+
+  retourne r;
+}
+
+Vecf design_rif_inv_impulse(const FRat<cfloat> &H)//const Veccf &zeros, const Veccf &poles)
+{
+  // Suppose pas de zéros pour l'instant
+  tsd_assert(H.numer.mode_racines && H.denom.mode_racines);
+  entier n = H.denom.coefs.rows();
+  pour(auto i = 0; i < n; i++)
+  {
+    // Résidu pour le pôle i
+    soit pi = H.denom.coefs(i);
+    //soit ri = (H * (1 - pi * FRat<cfloat>::zinv())).simplifier().
+    soit H2 = H;
+    H2.denom.coefs = vconcat(H.denom.coefs.head(i), H.denom.coefs.tail(n-i-1));
+    soit ri = H2.horner(pi);
+  }
+
+
+}
+
+// Filtre de Bessel, par échantillonnage de la réponse impulsionnelle
+Vecf design_Bessel_rif(entier n)
+{
+  // soit p = BesselRev(n);
+
+  // soit H(s) = p.horner(0) / p.horner(s);
+
+
+
+}
+#endif
 
 
 

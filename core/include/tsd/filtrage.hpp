@@ -31,7 +31,7 @@ namespace tsd::filtrage {
    *
    * @sa echec(), msg_erreur()
    */
-  extern void verifie_frequence_normalisee(float f, const std::string &msg = "");
+  extern void verifie_frequence_normalisee(float f, const string &msg = "");
 
 
   /** @} */
@@ -55,7 +55,7 @@ namespace tsd::filtrage {
   extern std::ostream& operator<<(std::ostream& ss, const Fenetre &t);
 
 
-  extern std::string Fenetre2string(Fenetre f);
+  extern string Fenetre2string(Fenetre f);
 
   extern Vecf fenetre(Fenetre type, entier n, bouléen symetrique = oui);
   /** @endcond */
@@ -77,7 +77,7 @@ namespace tsd::filtrage {
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
    *  @image html filtrage-fenetre.png width=600px
    */
-  extern Vecf fenetre(const std::string &type, entier n, bouléen symetrique = oui);
+  extern Vecf fenetre(const string &type, entier n, bouléen symetrique = oui);
 
   /** @brief Création d'une fenêtre de Chebychev.
    *
@@ -135,7 +135,7 @@ namespace tsd::filtrage {
   };
 
   // TODO : DOC
-  extern FenInfos fenetre_analyse(const std::string &nom,
+  extern FenInfos fenetre_analyse(const string &nom,
                                   const Vecf &x,
                                   bouléen do_plot = oui);
 
@@ -168,7 +168,7 @@ namespace tsd::filtrage {
    *  soit [β, n] = kaiser_param(60, 0.1);
    *  @endcode
    */
-  extern std::tuple<float, entier> kaiser_param(float atten_db, float δf);
+  extern tuple<float, entier> kaiser_param(float atten_db, float δf);
 
   /** @brief Création d'une fenêtre de Kaiser.
    *
@@ -232,7 +232,7 @@ namespace tsd::filtrage {
  *
  *  @sa frgroup(), repfreq(), frphase()
  */
-template<typename T> std::tuple<Vecf, Vecf> frmag(const FRat<T> &h, entier npts = 1024);
+template<typename T> tuple<Vecf, Vecf> frmag(const FRat<T> &h, entier npts = 1024);
 
 
 
@@ -282,7 +282,7 @@ template<typename T>
  *  @param npts Résolution fréquentielle
  *  @return Un tuple de deux vecteurs : le vecteur de fréquences (normalisées, entre 0 et 0,5), et la phase de la réponse (en radians).
  */
-template<typename T> std::tuple<Vecf, Vecf> frphase(const FRat<T> &h, entier npts = 1024);
+template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, entier npts = 1024);
 
 /** @brief Calcul du temps de groupe (délais en fonction de la fréquence).
  *
@@ -303,7 +303,7 @@ template<typename T> std::tuple<Vecf, Vecf> frphase(const FRat<T> &h, entier npt
  *  @image html frgroup.png width=600px
  *
  */
-template<typename T> std::tuple<Vecf, Vecf> frgroup(const FRat<T> &h, entier npts = 1024);
+template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, entier npts = 1024);
 
 
 
@@ -338,9 +338,9 @@ extern FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag
 /** @cond undoc */
 template<typename T> Vecf repimp(const Vecteur<T> &h, entier npts = -1);
 extern Veccf repfreq(const Vecf &h, const Vecf &fr);
-template<typename T> std::tuple<Vecf, Vecf> frmag(const Vecteur<T> &h, entier npts = 1024);
-template<typename T> std::tuple<Vecf, Vecf> frphase(const Vecteur<T> &h, entier npts = 1024);
-template<typename T> std::tuple<Vecf, Vecf> frgroup(const Vecteur<T> &h, entier npts = 1024);
+template<typename T> tuple<Vecf, Vecf> frmag(const Vecteur<T> &h, entier npts = 1024);
+template<typename T> tuple<Vecf, Vecf> frphase(const Vecteur<T> &h, entier npts = 1024);
+template<typename T> tuple<Vecf, Vecf> frgroup(const Vecteur<T> &h, entier npts = 1024);
 extern tsd::vue::Figures plot_filtre(const Vecf &h, bouléen complet = non, float fe = 1.0f);
 
 
@@ -406,7 +406,7 @@ template<typename T>
  *
  *  @sa frmag(), frphase()
  */
-extern std::tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L = 1024, bouléen symetrique = oui);
+extern tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L = 1024, bouléen symetrique = oui);
 
 
 /** @brief Calcul du retard d'une filtre RIF à phase linéaire.
@@ -534,7 +534,7 @@ struct SpecFreqIntervalle
  *
  *  @sa hilbert(), hilbert_transformeur()
  */
-extern Vecf design_rif_hilbert(entier n, const std::string &fenetre = "hn");
+extern Vecf design_rif_hilbert(entier n, const string &fenetre = "hn");
 
 
 
@@ -625,7 +625,7 @@ extern FRat<float> design_biquad(const BiquadSpec &spec);
  *      https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html,
  * - <i>F0 and Q in filters, Mini tutorial,</i> Analog Devices,
  */
-extern FRat<float> design_biquad(const std::string type, float f, float Q, float gain_dB = 0);
+extern FRat<float> design_biquad(const string type, float f, float Q, float gain_dB = 0);
 
 /** @cond private
  */
@@ -675,8 +675,8 @@ extern FRat<cfloat> design_riia_laplace(entier n, TypeFiltre type, PrototypeAnal
  *
  * @sa trf_bilineaire(), @ref filtre_sois(), filtre_rii()
  */
-extern FRat<cfloat> design_riia(entier n, const std::string &type,
-    const std::string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60);
+extern FRat<cfloat> design_riia(entier n, const string &type,
+    const string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60);
 
 
 
@@ -746,7 +746,7 @@ extern tsd::vue::Figures design_rif_freq_analyse(entier n, const Vecf &d);
  */
 extern Vecf design_rif_eq(entier n, const Vecf &D, const Vecf &W);
 
-extern Vecf design_rif_eq(entier n, const std::vector<SpecFreqIntervalle> &spec);
+extern Vecf design_rif_eq(entier n, const vector<SpecFreqIntervalle> &spec);
 
 
 
@@ -801,7 +801,7 @@ extern Vecf design_rif_demi_bande(int n, float fc);
  *
  * @sa design_rif_eq(), design_rif_freq()
  */
-extern Vecf design_rif_fen(entier n, const std::string &type, float fc, const std::string &fen = "hn", float fc2 = 0);
+extern Vecf design_rif_fen(entier n, const string &type, float fc, const string &fen = "hn", float fc2 = 0);
 
 /** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Kaiser).
  *
@@ -818,7 +818,7 @@ extern Vecf design_rif_fen(entier n, const std::string &type, float fc, const st
  *
  * @sa design_rif_fen(), design_rif_fen_chebychev()
  */
-extern Vecf design_rif_fen_kaiser(const std::string &type, float fc, float atten_db,
+extern Vecf design_rif_fen_kaiser(const string &type, float fc, float atten_db,
     float df, float fc2 = 0);
 
 /** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Chebychev).
@@ -836,7 +836,7 @@ extern Vecf design_rif_fen_kaiser(const std::string &type, float fc, float atten
  *
  * @sa design_rif_fen(), design_rif_fen_kaiser()
  */
-extern Vecf design_rif_fen_chebychev(entier n, const std::string &type,
+extern Vecf design_rif_fen_chebychev(entier n, const string &type,
     float fc, float atten_db, float fc2 = 0);
 
 /** @brief Design d'un filtre en cosinus sur-élevé.
@@ -1052,12 +1052,13 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, entier R2, fl
  *
  *  Calcul de la fonction de transfert suivante :
  *  @f[
- *  H(z) = \frac{1 - z^{-1}}{1 - a \cdot z^{-1}} \cdot \frac{1+a}{2}
+ *  H(z) = r \cdot\frac{1 - z}{1 - r \cdot z}
  *  @f]
  *  Avec
  *  @f[
- *  a = \frac{1 \pm \sqrt{1-c^2}}{c},\quad c = \cos 2\pi f_c
+ *  r = 1 - \gamma
  *  @f]
+ *  Et @f$\gamma@f$ étant calculé de la même manière que pour un filtre exponentiel
  *
  *  @param fc Fréquence de coupure normalisée à -3 dB en magnitude (-6 dB en énergie)
  *
@@ -1071,8 +1072,6 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, entier R2, fl
  *  @sa filtre_dc()
  */
 extern FRat<float> design_bloqueur_dc(float fc);
-
-extern float bloqueur_dc_coef(float fc);
 
 
 extern FRat<float> design_notch(float f0, float fc);
@@ -1292,7 +1291,7 @@ template<typename T>
 struct HilbertTransformeurConfig
 {
   entier ntaps = 63;
-  std::string fenetre = "hn";
+  string fenetre = "hn";
 };
 
 /** @brief Définit un transformeur de Hilbert, qui convertit un signal réel en un signal analytique (complexe).
@@ -1311,7 +1310,7 @@ struct HilbertTransformeurConfig
  * @sa design_rif_hilbert(), hilbert(), hilbert_tfd()
  */
 extern sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
-  hilbert_transformeur(entier n = 31, const std::string &fenetre = "hn");
+  hilbert_transformeur(entier n = 31, const string &fenetre = "hn");
 
 
 
@@ -1767,7 +1766,7 @@ struct Interpolateur
   float delais = 0;
 
   /** @brief Description de l'interpolateur */
-  std::string nom;
+  string nom;
 
   virtual ~Interpolateur(){}
 
@@ -1890,7 +1889,7 @@ struct InterpolateurSincConfig
   float fcut = 0.5;
 
   /** @brief Type de fenêtre */
-  std::string fenetre = "hn";
+  string fenetre = "hn";
 };
 
 /** @brief %Interpolateur à sinus cardinal fenêtré.

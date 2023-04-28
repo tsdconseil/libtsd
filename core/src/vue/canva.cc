@@ -19,7 +19,7 @@ struct Canva::GroupeTextes
 {
   bool done = non;
   float echelle = 0;
-  std::vector</*Canva::Impl::CanvaElement*/void *> elements;
+  vector</*Canva::Impl::CanvaElement*/void *> elements;
 };
 
 struct Canva::PointIntermediaire
@@ -156,7 +156,7 @@ struct Canva::Impl
     {
       RECT, LIGNE, FLECHE, CHAINE, CERCLE, MARQUEUR, RVEC, ACCU, IMAGE, PTI, ELLIPSE
     } type = MARQUEUR;
-    std::string chaine;
+    string chaine;
     sptr<GroupeTextes> grp;
     Pointf p0, p1;
     Dimf dim;
@@ -504,7 +504,7 @@ struct Canva::Impl
 
 
 
-  void texte(const Pointf &p, const std::string &texte, const Dimf &dim_max, const Pinceau &pinceau, sptr<GroupeTextes> grp)
+  void texte(const Pointf &p, cstring texte, const Dimf &dim_max, const Pinceau &pinceau, sptr<GroupeTextes> grp)
   {
     Impl::CanvaElement d;
     d.p0      = p;
@@ -1194,13 +1194,13 @@ void Canva::def_image_fond(Image img)
 }*/
 
 void Canva::texte(const Pointf &p,
-    const std::string &texte,
+    cstring texte,
     const Dimf &dim_max, sptr<GroupeTextes> grp)
 {
   impl->texte(p, texte, dim_max, impl->pinceau, grp);
 }
 
-void Canva::texte(float x0, float y0, const std::string &texte, float dx_max, float dy_max, sptr<GroupeTextes> grp)
+void Canva::texte(float x0, float y0, cstring texte, float dx_max, float dy_max, sptr<GroupeTextes> grp)
 {
   this->texte(Pointf{x0, y0}, texte, Dimf{dx_max, dy_max}, grp);
 }

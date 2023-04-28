@@ -5,7 +5,7 @@ namespace tsd::filtrage {
 
 
 
-Vecf design_rif_hilbert(entier n, const std::string &fen)
+Vecf design_rif_hilbert(entier n, cstring fen)
 {
   // Attention, filtre de type IV (n impair)
   tsd_assert_msg((n & 1) == 1, "design_rif_hilbert: n doit être impair (ici, n = {})", n);
@@ -28,7 +28,7 @@ struct HilbertTransformeur: Filtre<float, cfloat, HilbertTransformeurConfig>
 {
   sptr<FiltreGen<float>> retard, hilbert;
 
-  HilbertTransformeur(entier ntaps, const std::string &fenetre)
+  HilbertTransformeur(entier ntaps, cstring fenetre)
   {
     configure({ntaps, fenetre});
   }
@@ -51,7 +51,7 @@ struct HilbertTransformeur: Filtre<float, cfloat, HilbertTransformeurConfig>
 };
 
 
-sptr<Filtre<float, cfloat, HilbertTransformeurConfig>> hilbert_transformeur(entier ntaps, const std::string &fenetre)
+sptr<Filtre<float, cfloat, HilbertTransformeurConfig>> hilbert_transformeur(entier ntaps, cstring fenetre)
 {
   retourne std::make_shared<HilbertTransformeur>(ntaps, fenetre);
 }

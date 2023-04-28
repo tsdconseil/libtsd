@@ -41,7 +41,7 @@ void vérifie_exception(std::function<void()> func)
 }
 
 
-entier verifie_erreur_relative(float v, float ref, float precision, const std::string &refname)
+entier verifie_erreur_relative(float v, float ref, float precision, cstring refname)
 {
   // TODO: not oui
   si((ref < 0.000001) && (v < 0.000001))
@@ -76,7 +76,7 @@ static uint64_t get_tick_count_us()
 }
 
 
-static entier teste(entier i, std::vector<Test> &tests)
+static entier teste(entier i, vector<Test> &tests)
 {
   soit &t = tests[i];
   fmt::print("\033[34;1mTest");
@@ -121,7 +121,7 @@ static entier teste(entier i, std::vector<Test> &tests)
 
 
 
-entier fait_tests(entier argc, const char *argv[], std::vector<Test> &tests)
+entier fait_tests(entier argc, const char *argv[], vector<Test> &tests)
 {
 # ifdef WIN
   // pour éviter la fenêtre Windows en cas d'échec d'assertion
@@ -136,7 +136,7 @@ entier fait_tests(entier argc, const char *argv[], std::vector<Test> &tests)
 
   tantque ((opt = getopt(argc, (char * const *) argv, "t:hald")) != -1)
   {
-    std::string nom;
+    string nom;
 
     si(optarg != nullptr)
       nom = optarg;
@@ -178,7 +178,6 @@ entier fait_tests(entier argc, const char *argv[], std::vector<Test> &tests)
     si(res)
       retourne res;
   }
-
 
   fmt::print("Fin des tests.\n");
 

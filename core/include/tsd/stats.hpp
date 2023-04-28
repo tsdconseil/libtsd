@@ -175,7 +175,7 @@ r_n\\
    * @param p Nombre de coefficients du modèle
    * @returns Les coefficients du filtre @f$a(z)@f$ et le vecteur d'erreur.
    */
-  extern std::tuple<Vecf, Vecf> lpc(const Vecf &x, entier p);
+  extern tuple<Vecf, Vecf> lpc(const Vecf &x, entier p);
 
   /** @brief %Filtre de Wiener (RIF)
    *
@@ -229,7 +229,7 @@ r_n\\
      *  - Paramètre i : index
      *  - Paramètre n : nombre de points
      *  - Paramètre m : dimension du vecteur à retourner (nombre de récepteurs en DOA) */
-    std::function<std::tuple<Vecf, Veccf> (entier i, entier n, entier m)> balayage = [](entier i, entier n, entier m) -> std::tuple<Vecf, Veccf>
+    std::function<tuple<Vecf, Veccf> (entier i, entier n, entier m)> balayage = [](entier i, entier n, entier m) -> tuple<Vecf, Veccf>
     {
       // Calcul du "vecteur de steering"
       Vecf f(1);

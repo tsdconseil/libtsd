@@ -1,14 +1,14 @@
 #ifndef TAB_H
 #define TAB_H
 
-#include <memory>
+#include "tsd/commun.hpp"
+
 #include <complex>
 #include <cmath>
 #include <ostream>
 #include <sstream>
 
 #include "tsd/logs.hpp"
-#include "tsd/fr.hpp"
 
 #define TSD_SAFE 1
 
@@ -41,10 +41,6 @@ struct est_complex_t<std::complex<T>> : public std::true_type {};
 template<typename T>
 constexpr bouléen est_complexe() { retourne est_complex_t<T>::value; }
 
-
-/** @brief Raccourci pour définir un pointeur partagé */
-template<typename T>
-  using sptr = std::shared_ptr<T>;
 
 #ifdef __CDT_PARSER__
 #define NOECLIPSE(AA)
@@ -242,7 +238,7 @@ template<typename T, entier ndims>
 
   //private:
     struct Impl;
-    std::shared_ptr<Impl> impl;
+    sptr<Impl> impl;
   };
 
 
@@ -250,7 +246,7 @@ template<typename T, entier ndims>
 
 
   template<typename T>
-    std::tuple<Scalaire,entier> T2S()
+    tuple<Scalaire,entier> T2S()
   {
     if constexpr(std::is_same<T, float>())
       retourne {Scalaire::ℝ, 32};
@@ -417,19 +413,19 @@ struct TabT: Tab
     retourne minCoeff();
   }
 
-  std::tuple<T, T> valeurs_minmax() const NOECLIPSE(requires(!est_complexe<T>()))
+  tuple<T, T> valeurs_minmax() const NOECLIPSE(requires(!est_complexe<T>()))
   {
     retourne {minCoeff(), maxCoeff()};
   }
 
-  std::tuple<entier, entier> index_max() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
+  tuple<entier, entier> index_max() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
   {
     entier i, j;
     maxCoeff(&i, &j);
     retourne {i, j};
   }
 
-  std::tuple<entier, entier> index_min() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
+  tuple<entier, entier> index_min() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
   {
     entier i, j;
     minCoeff(&i, &j);
@@ -437,28 +433,28 @@ struct TabT: Tab
   }
 
 
-  std::tuple<T, entier> max() const NOECLIPSE(requires((ndims == 1) && !est_complexe<T>()))
+  tuple<T, entier> max() const NOECLIPSE(requires((ndims == 1) && !est_complexe<T>()))
   {
     entier i;
     soit y = maxCoeff(&i);
     retourne {y, i};
   }
 
-  std::tuple<T, entier, entier> max() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
+  tuple<T, entier, entier> max() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
   {
     entier i, j;
     soit y = maxCoeff(&i, &j);
     retourne {y, i, j};
   }
 
-  std::tuple<T, entier> min() const NOECLIPSE(requires((ndims == 1) && !est_complexe<T>()))
+  tuple<T, entier> min() const NOECLIPSE(requires((ndims == 1) && !est_complexe<T>()))
   {
     entier i;
     soit y = minCoeff(&i);
     retourne {y, i};
   }
 
-  std::tuple<T, entier, entier> min() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
+  tuple<T, entier, entier> min() const NOECLIPSE(requires((ndims == 2) && !est_complexe<T>()))
   {
     entier i, j;
     soit y = minCoeff(&i, &j);
@@ -1041,7 +1037,7 @@ struct TabT: Tab
       retourne res;
     }
 
-    static TabT map(std::vector<T> &x)
+    static TabT map(vector<T> &x)
     {
       soit [K, nb]= T2S<T>();
       TabT res = TabT::fromTab(Tab(K, nb, x.size(), 1));

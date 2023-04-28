@@ -36,7 +36,7 @@ public:
   BitStream(entier n);
 
   /** @brief D'après une chaine de caractères de type "0100111001..." */
-  BitStream(const std::string &s);
+  BitStream(cstring s);
 
   entier dst_Hamming(const BitStream &bs) const;
 
@@ -112,7 +112,7 @@ public:
   void pad_mult(entier m);
 
 private:
-  std::vector<unsigned char> buffer;
+  vector<unsigned char> buffer;
   entier pos = 0, nbits = 0;
 };
 

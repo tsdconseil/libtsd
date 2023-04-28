@@ -84,6 +84,8 @@ extern Poly<float> Chebychev_T(entier n);
 /** @brief Polynôme de Chebychev du deuxième type : @f$U_n\left(\sin(\theta)\right) = \sin(n\theta)@f$ */
 extern Poly<float> Chebychev_U(entier n);
 
+extern Poly<float> BesselRev(entier n);
+
 /** @} */
 
 }

@@ -12,27 +12,26 @@ class MoniteurCpu
 public:
   struct Stats
   {
-    std::string nom;
+    string nom;
     float conso_cpu_pourcents = 0;
     entier   nb_appels = 0;
   };
 
-  MoniteurCpu(const std::string &nom = "");
-  std::string &nom();
+  MoniteurCpu(cstring nom = "");
+  string &nom();
   void commence_op();
   void fin_op();
   void reset();
   Stats stats() const;
-private:
-  struct Impl;
-  sptr<Impl> impl;
+
+  _PIMPL_
 };
 
 struct MoniteursStats
 {
-  std::vector<MoniteurCpu::Stats> lst;
+  vector<MoniteurCpu::Stats> lst;
   void ajoute(MoniteurCpu &m);
-  MoniteurCpu::Stats get(const std::string &nom) const;
+  MoniteurCpu::Stats get(cstring nom) const;
 };
 
 

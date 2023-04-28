@@ -166,7 +166,7 @@ uint64_t get_tick_count_µs()
 bouléen erreur_attendue = non;
 
 
-void log_default(const char *fn, const entier ligne, entier niveau, const char *fonction, const string &str)
+void log_default(const char *fn, const entier ligne, entier niveau, cstring str)
 {
   fmt::text_style drapeaux;
 
@@ -208,7 +208,7 @@ void log_default(const char *fn, const entier ligne, entier niveau, const char *
     unit = " s";
   }
 
-  soit s1 = fmt::format("[+{: >5.1f} {}]", diff, unit);
+  soit s1 = sformat("[+{: >5.1f} {}]", diff, unit);
 
   si(unit == " s")
     s1 = "\033[1;32m" + s1 + "\033[0m";
@@ -217,22 +217,23 @@ void log_default(const char *fn, const entier ligne, entier niveau, const char *
 
 
 
-  soit s_dt  = fmt::format("[{:03d},{:03d},{:03d}] {}", sec, ms, µs, s1);
-  soit s_msg = fmt::format(" {}\n", str);
+  soit s_dt  = sformat("[{:03d},{:03d},{:03d}] {}", sec, ms, µs, s1);
+  soit s_msg = sformat(" {}\n", str);
 
   last = tot;
 
   si(niveau >= 4)
   {
-    s_msg += fmt::format("(fichier : {}, ligne : {})\n", fn, ligne);
+    s_msg += sformat("(fichier : {}, ligne : {})\n", fn, ligne);
   }
 
   tsd::vue::stdo.printf(s_msg.c_str());
-  fmt::print(FMT_RUNTIME(s_dt));
+  fmt::print("{}", s_dt);
   fmt::print(drapeaux, "{}", s_msg);
 
   fflush(0);
-  flush(cout);
+  //flush(cout);
+  //printf("LOG LTSD: s_dt = .[%s].\n", s_msg.c_str());
 
   si(niveau >= 4)
   {
@@ -258,14 +259,14 @@ void set_logger(logger_t log_)
   the_log = log_;
 }
 
-void msg_impl2(const char *fn, const entier ligne, entier niveau, const char *fonction, const string &str)
+void msg_impl2(const char *fn, const entier ligne, entier niveau, const string &str)
 {
   si(the_log)
-    the_log(fn, ligne, niveau, fonction, str);
+    the_log(fn, ligne, niveau, str);
   sinon
     // Car l'affectation log=log_default n'est pas forcément déjà faite ici.
     // (par exemple, si appel depuis l'initialisation d'une variable statique)
-    log_default(fn, ligne, niveau, fonction, str);
+    log_default(fn, ligne, niveau, str);
 }
 
 /** @brief Cette classe tamponne les données d'entrée

@@ -111,7 +111,7 @@ struct RécepteurImpl: Récepteur
   // Ne fonctionne pas avec OSF=3, filtre SRRC
 
 
-  std::tuple<entier,float> calc_retard()
+  tuple<entier,float> calc_retard()
   {
     Vecf cf = config.format.modulation.forme_onde->filtre.get_coefs(
         config.format.modulation.ncoefs_filtre_mise_en_forme, osf);
@@ -339,7 +339,7 @@ struct RécepteurImpl: Récepteur
       f.gcf().titre("En-tête modulé (complet)");
       f.subplot().plot(config_detecteur.motif);
       f.gcf().titre("En-tête modulé (segment)");
-      f.afficher(fmt::format("Récepteur : en-tête détection (e = {}).", e));
+      f.afficher(sformat("Récepteur : en-tête détection (e = {}).", e));
     }
 
     si(config.debug_actif)

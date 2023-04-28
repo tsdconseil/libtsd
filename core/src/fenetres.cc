@@ -82,7 +82,7 @@ Vecf fenêtre_kaiser1(entier n, float β, bouléen symetrique)
   retourne x;
 }
 
-std::tuple<float, entier> kaiser_param(float atten_db, float df)
+tuple<float, entier> kaiser_param(float atten_db, float df)
 {
   soit dω = 2*π_f*df;
   soit n = (entier) ceil((atten_db - 7.95) / (2.285 * dω));
@@ -127,7 +127,7 @@ static Vecf Hamming_generalise(float a, entier n, bouléen sym)
   retourne a + (1-a) * cos(2 * π * fen_inter(n, sym));
 }
 
-std::string Fenetre2string(Fenetre f)
+string Fenetre2string(Fenetre f)
 {
   switch(f)
   {
@@ -175,11 +175,11 @@ std::ostream& operator<<(std::ostream& ss, const Fenetre &t)
   retourne ss;
 }
 
-static Fenetre parse_fenêtre(const std::string &nom)
+static Fenetre parse_fenêtre(cstring nom)
 {
   struct FenId
   {
-    std::string nom;
+    string nom;
     Fenetre type;
   };
   FenId lst[] =
@@ -204,7 +204,7 @@ static Fenetre parse_fenêtre(const std::string &nom)
   retourne Fenetre::AUCUNE;
 }
 
-Vecf fenetre(const std::string &type, entier n, bouléen symetrique)
+Vecf fenetre(cstring type, entier n, bouléen symetrique)
 {
   retourne fenetre(parse_fenêtre(type), n, symetrique);
 }
@@ -349,7 +349,7 @@ FenInfos filtre_pb_analyse(const Vecf &h)
 
 FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, bouléen do_plot)
 {
-  std::string nom = "";
+  string nom;
   FenInfos res;
 
   res.symetrique = res.periodique = non;
@@ -395,7 +395,7 @@ FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, boul�
       f.canva().set_couleur(Couleur::Bleu);
       f.canva().set_dim_fonte(0.6);
       f.canva().texte({0.1f, 0.9f},
-              fmt::format("Largeur lobe principal : {:.5f} (={:.2f}/N)\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
+              sformat("Largeur lobe principal : {:.5f} (={:.2f}/N)\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
               res.largeur_lp, res.largeur_lp * ncoefs, res.atten_pls, res.atten_ls),
               {0.4f, 0.2f});
 
@@ -419,7 +419,7 @@ FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, boul�
 
 
 
-FenInfos fenetre_analyse(const std::string &nom, const Vecf &x, bouléen do_plot)
+FenInfos fenetre_analyse(cstring nom, const Vecf &x, bouléen do_plot)
 {
   soit n = x.rows();
   FRat<float> frat(x / x.somme());

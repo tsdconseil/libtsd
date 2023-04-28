@@ -13,7 +13,7 @@ extern test_routine_t test_detecteur, test_unites, test_filtre_fft, test_crec, t
   test_filtrage_analyse, test_dsp, test_tab;
 
 
-static std::vector<Test> tests =
+static vector<Test> tests =
 {
   {"tab",               &test_tab},
   {"tsd",               &test_tsd},
