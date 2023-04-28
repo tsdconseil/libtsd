@@ -35,7 +35,7 @@ int main()
     f.plot(y, "r-", "Filtered signal");
     f.save("./filtering.png");
   }
-  
+  return 0;
 }
 
 ```
@@ -71,9 +71,8 @@ int main()
     f.plot(y, "r-", "Signal filtré");
     f.enregistrer("./filtrage.png");
   }
-  
+  return 0;
 }
-
 ```
 
 
