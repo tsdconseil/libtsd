@@ -3,6 +3,12 @@ Libtsd provides functions in C++ for digital signal processing, with the followi
   - Ease of use: introducing vector-type classes (Vecf, Veci, ...) for easy vector computing (Matlab / Numpy like),
   - A clear distinction between API (header files) and implementation (source files). 
   - A multilanguage API (english using dsp/dsp.hpp, french using tsd/tsd.hpp)
+  
+# Resources
+
+ - English documentation: https://tsdconseil.github.io/libtsd/en
+ - Documentation en français : https://tsdconseil.github.io/libtsd/fr
+ - Graphical demonstrator: (will soon be provided)
 
 # Simple example (english API)
 
@@ -74,13 +80,6 @@ int main()
   return 0;
 }
 ```
-
-
-# Resources
-
- - English documentation: https://tsdconseil.github.io/libtsd/en
- - Documentation en français : https://tsdconseil.github.io/libtsd/fr
- - Graphical demonstrator: (will soon be provided)
 
 # License
 Libtsd is available under two distinct licensing options:
