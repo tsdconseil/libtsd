@@ -1803,10 +1803,23 @@ $(document).ready(function(){initNavTree('tableau_8hpp_source.html',''); initRes
 <div class="line"><a name="l01691"></a><span class="lineno"> 1691</span>&#160; </div>
 <div class="line"><a name="l01692"></a><span class="lineno"> 1692</span>&#160;ostream_formater(tsd::Tab)</div>
 <div class="line"><a name="l01693"></a><span class="lineno"> 1693</span>&#160;ostream_formater(tsd::Scalaire)</div>
-<div class="line"><a name="l01694"></a><span class="lineno"> 1694</span>&#160; </div>
-<div class="line"><a name="l01695"></a><span class="lineno"> 1695</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01694"></a><span class="lineno"> 1694</span>&#160;ostream_formater(<a class="code" href="namespacetsd.html#a9da159320f29c3ccd16bb8b97e268ab2">tsd::cfloat</a>)</div>
+<div class="line"><a name="l01695"></a><span class="lineno"> 1695</span>&#160;ostream_formater(<a class="code" href="namespacetsd.html#a446297b61ea1bc647c3fc9c84dcc94ce">tsd::cdouble</a>)</div>
 <div class="line"><a name="l01696"></a><span class="lineno"> 1696</span>&#160; </div>
-<div class="line"><a name="l01697"></a><span class="lineno"> 1697</span>&#160; </div>
+<div class="line"><a name="l01697"></a><span class="lineno"> 1697</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, entier ndims&gt; <span class="keyword">struct </span>fmt::formatter&lt;<a class="code" href="namespacetsd.html">tsd</a>::TabT&lt;T,ndims&gt;&gt; { \</div>
+<div class="line"><a name="l01698"></a><span class="lineno"> 1698</span>&#160;  constexpr <span class="keyword">auto</span> parse(format_parse_context&amp; ctx) -&gt; decltype(ctx.begin()) {<span class="keywordflow">return</span> ctx.begin();} \</div>
+<div class="line"><a name="l01699"></a><span class="lineno"> 1699</span>&#160;  template &lt;typename FormatContext&gt; \</div>
+<div class="line"><a name="l01700"></a><span class="lineno"> 1700</span>&#160;  auto format(<span class="keyword">const</span> tsd::TabT&lt;T,ndims&gt;&amp; t, FormatContext&amp; ctx) <span class="keyword">const</span> -&gt; decltype(ctx.out())  \</div>
+<div class="line"><a name="l01701"></a><span class="lineno"> 1701</span>&#160;  { \</div>
+<div class="line"><a name="l01702"></a><span class="lineno"> 1702</span>&#160;    std::ostringstream ss; \</div>
+<div class="line"><a name="l01703"></a><span class="lineno"> 1703</span>&#160;    ss &lt;&lt; t; \</div>
+<div class="line"><a name="l01704"></a><span class="lineno"> 1704</span>&#160;    return fmt::format_to(ctx.out(), <span class="stringliteral">&quot;{}&quot;</span>, ss.str()); \</div>
+<div class="line"><a name="l01705"></a><span class="lineno"> 1705</span>&#160;  } \</div>
+<div class="line"><a name="l01706"></a><span class="lineno"> 1706</span>&#160;};</div>
+<div class="line"><a name="l01707"></a><span class="lineno"> 1707</span>&#160; </div>
+<div class="line"><a name="l01708"></a><span class="lineno"> 1708</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01709"></a><span class="lineno"> 1709</span>&#160; </div>
+<div class="line"><a name="l01710"></a><span class="lineno"> 1710</span>&#160; </div>
 <div class="ttc" id="agroup__tsd-temps_html_ga69acede233e611b399124d4f1032327c"><div class="ttname"><a href="group__tsd-temps.html#ga69acede233e611b399124d4f1032327c">tsd::temps::operator+=</a></div><div class="ttdeci">DateHeure operator+=(DateHeure &amp;dt1, const Durée &amp;dt2)</div><div class="ttdoc">Incrémente une heure d'une certaine durée.</div><div class="ttdef"><b>Definition:</b> temps.hpp:380</div></div>
 <div class="ttc" id="agroup__tsd_html_gaef67c581f6d1aced0e067eb32756975c"><div class="ttname"><a href="group__tsd.html#gaef67c581f6d1aced0e067eb32756975c">tsd::signe</a></div><div class="ttdeci">entier signe(T val)</div><div class="ttdoc">retourne -1, 1 ou 0.</div><div class="ttdef"><b>Definition:</b> tsd.hpp:76</div></div>
 <div class="ttc" id="anamespacetsd_html"><div class="ttname"><a href="namespacetsd.html">tsd</a></div><div class="ttdef"><b>Definition:</b> doa.hpp:7</div></div>
@@ -1818,7 +1831,7 @@ $(document).ready(function(){initNavTree('tableau_8hpp_source.html',''); initRes
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_761a2ca73a74301a2ece799a0de2d706.html">tsd</a></li><li class="navelem"><b>tableau.hpp</b></li>
-    <li class="footer">Généré le Vendredi 28 Avril 2023 10:45:11 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Généré le Mardi 2 Mai 2023 10:30:14 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>
