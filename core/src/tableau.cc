@@ -3,8 +3,6 @@
 #include <Eigen/Core>
 #include <Eigen/LU>
 #include <fmt/core.h>
-//#include <fmt/ostream.h>
-//#include <fmt/color.h>
 
 #include <vector>
 #include <cstdlib>
@@ -13,6 +11,21 @@
 
 using namespace std;
 using Eigen::ArrayXi;
+
+ostream_formater(Eigen::ArrayXi)
+ostream_formater(Eigen::ArrayXf)
+ostream_formater(Eigen::ArrayXd)
+ostream_formater(Eigen::ArrayXcf)
+ostream_formater(Eigen::ArrayXcd)
+ostream_formater(Eigen::ArrayXXi)
+ostream_formater(Eigen::ArrayXXf)
+ostream_formater(Eigen::ArrayXXd)
+ostream_formater(Eigen::ArrayXXcf)
+ostream_formater(Eigen::ArrayXXcd)
+
+
+
+
 
 namespace tsd {
 
@@ -323,10 +336,24 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     TG(tmp, [&]<typename T, entier ndims2>(TabT<T,ndims2> &)
     {
       soit m1 = emap<T>(tmp);
+      //Eigen::Array<T,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> m1 = emap<T>(tmp);
+
       si(ndims == 1)
-        s += sformat("{}", m1.transpose());
+      {
+        //s += sformat("{}", m1.transpose());
+        for(auto i = 0; i < t->dims(0); i++)
+          s += sformat("{} ", m1(i));
+      }
       sinon
-        s += sformat("{}", m1);
+      {
+        for(auto i = 0; i < t->dims(0); i++)
+        {
+          for(auto j = 0; j < t->dims(1); j++)
+            s += sformat("{} ", m1(i, j));
+          s += "\n";
+        }
+        //s += sformat("{}", m1);
+      }
     });
 
     retourne s;
@@ -925,7 +952,7 @@ void Tab::dump_infos() const
 {
   msg("Infos pour tab: type = {}, dims={}, tscal={}, nbits={}, a enfant={}",
       Impl::type2str(impl->type),
-      impl->dims.transpose(),
+      impl->dims,//.transpose(),
       impl->Tscalaire,
       impl->nbits,
       impl->enfant ? "oui" : "non");
@@ -1307,7 +1334,7 @@ DEF_OP_SCAL(TC, cdouble, /)
     }\
     si((!x.impl->dims.isApprox(impl->dims)))\
     {\
-      echec("Tab::Opérateur {} : dimensions incompatibles ({} et {})", #OP, x.impl->dims.transpose(), impl->dims.transpose());\
+      echec("Tab::Opérateur {} : dimensions incompatibles ({} et {})", #OP, x.impl->dims, impl->dims);\
     }\
     m3 = m1 OP m2;\
   });\

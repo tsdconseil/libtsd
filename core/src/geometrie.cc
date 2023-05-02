@@ -8,6 +8,9 @@
 using namespace std;
 using namespace tsd::temps;
 
+
+ostream_formater(Eigen::Array4f)
+
 namespace tsd::geo {
 
 

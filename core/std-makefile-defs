@@ -63,8 +63,9 @@ COPTADD  = -DLINUX -DLINUX_RUN -fPIC -isystem /usr/include/gtkmm-3.0
 
 GTKREV  = 3.0
 
-GTK_DIR= `pkg-config --cflags gtkmm-$(GTKREV)`
-GTK_LIB= `pkg-config --libs gtkmm-$(GTKREV)` -lpthread
+#GTK_DIR= `pkg-config --cflags gtkmm-$(GTKREV)`
+#GTK_LIB= `pkg-config --libs gtkmm-$(GTKREV)` -lpthread
+
 LOPTADD   := -lrt -L/lib/x86_64-linux-gnu
 else
 ########################################
@@ -76,8 +77,9 @@ EXESUF := .exe
 COPTADD= -DWIN  -D_USE_MATH_DEFINES
 # -isystem c:/GTK/include/gtkmm-2.4 -Ic:/GnuWin32/include 
 GTKREV  =3.0
-GTK_DIR= `pkg-config --cflags gtkmm-$(GTKREV)`
-GTK_LIB= `pkg-config --libs gtkmm-$(GTKREV)` -lgthread-2.0
+
+#GTK_DIR= `pkg-config --cflags gtkmm-$(GTKREV)`
+#GTK_LIB= `pkg-config --libs gtkmm-$(GTKREV)` -lgthread-2.0
 
 
 LOPTADD := -lws2_32 -lwinmm  -LC:/GnuWin32/lib

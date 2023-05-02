@@ -43,6 +43,9 @@ include build-options
 #	OPTIONS_LINK	 += -fopenmp 
 #endif
 
+
+OPTIONS_COMPIL += -I/mingw64/include/freetype2
+
 # Makefile standard
 include std-makefile-defs
 

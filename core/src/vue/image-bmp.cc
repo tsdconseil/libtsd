@@ -65,7 +65,7 @@ static void creation_dossier(const string &chemin)
 # ifdef WIN
   CreateDirectory(chemin.c_str(), nullptr);
 # else
-  entier res = mkdir(chemin.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+  entier res = mkdir(chemin.c_str());//, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
   si(!res)
     msg_avert("Echec création dossier {}.", chemin);
 # endif

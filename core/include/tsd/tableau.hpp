@@ -1691,6 +1691,19 @@ inline void TG(const Tab &v, auto f)
 
 ostream_formater(tsd::Tab)
 ostream_formater(tsd::Scalaire)
+ostream_formater(tsd::cfloat)
+ostream_formater(tsd::cdouble)
+
+template <typename T, entier ndims> struct fmt::formatter<tsd::TabT<T,ndims>> { \
+  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();} \
+  template <typename FormatContext> \
+  auto format(const tsd::TabT<T,ndims>& t, FormatContext& ctx) const -> decltype(ctx.out())  \
+  { \
+    std::ostringstream ss; \
+    ss << t; \
+    return fmt::format_to(ctx.out(), "{}", ss.str()); \
+  } \
+};
 
 #endif
 
