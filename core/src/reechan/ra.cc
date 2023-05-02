@@ -13,10 +13,11 @@ namespace tsd::filtrage {
 template<typename T>
 struct AdaptationRythmeSimple: FiltreGen<T>
 {
-  float phase = 0;
-  float ratio = 1;
+  float phase = 0,
+        ratio = 1,
   /** Inverse du ratio precedent */
-  float increment = 1;
+        increment = 1;
+
   Vecteur<T> fenetre;
   entier nfen = 0;
   sptr<Interpolateur<T>> interpolateur;
@@ -37,7 +38,9 @@ struct AdaptationRythmeSimple: FiltreGen<T>
 
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    soit n = x.rows();
+    soit n       = x.rows(),
+         j       = 0,
+         tmp_len = (entier) (ceil(ratio * n) + 10);
 
     si(n == 0)
     {
@@ -45,11 +48,8 @@ struct AdaptationRythmeSimple: FiltreGen<T>
       retourne;
     }
 
-    soit tmp_len = (entier) (ceil(ratio * n) + 10);
-
     Vecteur<T> temp(tmp_len);
 
-    soit j = 0;
     soit optr = temp.data();
     soit iptr = x.data();
 
@@ -89,7 +89,6 @@ struct AdaptationRythmeArbitraire: FiltreGen<T>
 
   /** Ratio d'interpolation / post-décimation */
   float facteur_post_interpolation;
-
 
   /** Decimation / interpolation ratio.
       e.g. d < 1.0 pour decimation, d > 1.0 pour interpolation */

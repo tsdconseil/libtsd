@@ -74,6 +74,7 @@ struct FreeTypeFont: Font
     vector<string> cds =
       {
           "./data/fonts",             // Installeur win32
+          "c:/msys64/usr/share/tsd",  // Installeur win32
           "/usr/share/tsd",           // Installeur linux
           "./build/debug/data/fonts",  // Mode dév
           "./build/debug-linux/data/fonts"  // Mode dév

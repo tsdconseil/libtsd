@@ -23,7 +23,7 @@ endif
 
 
 OPTIONS_LINK   +=  -lfmt
-OPTIONS_COMPIL += `pkg-config --cflags eigen3`
+OPTIONS_COMPIL += `pkg-config --cflags eigen3` `pkg-config freetype2 --cflags`
 
 
 ifeq ($(LIBTSD_USE_OMP),1)

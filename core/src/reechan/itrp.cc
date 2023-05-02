@@ -26,16 +26,13 @@ struct InterpolateurSinc: InterpolateurRIF<T>
     soit nc = config.ncoefs;
     soit h = Vecf::int_expr(nc, [&](entier i){retourne sinc(2 * config.fcut, i-nc/2-τ);});
 
-    // PB : il faut décaler la fenêtre de -tau !!
-    //ArrayXf fen = fenetre(type_fenetre, npts);
-
     // Fenêtre de Hann, décalée d'un retard fractionnaire -τ
     si(config.fenetre == "hn")
     {
-      soit a = 0.5f, b = 0.25f;
-      soit t = (linspace(-nc/2,(nc-1)/2,nc) - τ) * (2*π/nc);
-      soit r1 = cos(t);
-      soit r2 = a + 2 * b * r1;
+      soit a  = 0.5f, b = 0.25f;
+      soit t  = (linspace(-nc/2,(nc-1)/2,nc) - τ) * (2*π/nc),
+           r1 = cos(t),
+           r2 = a + 2 * b * r1;
       h *= r2;
     }
     retourne h;
@@ -46,12 +43,12 @@ struct InterpolateurSinc: InterpolateurRIF<T>
     this->nom           = format("sinc - ncoefs={}, nphases={}, fcut={}, fen={}",
         config.ncoefs, config.nphases, config.fcut, config.fenetre);
     this->config        = config;
-    this->delais        = 0.5 * config.ncoefs;
     this->K             = config.ncoefs;
+    this->delais        = 0.5 * this->K;
 
     verifie_frequence_normalisee(config.fcut, "interpolateur sinc");
 
-    lut.resize(config.ncoefs, config.nphases + 1);
+    lut.resize(this->K, config.nphases + 1);
     pour(auto i = 0; i <= config.nphases; i++)
       lut.col(i) = coefs_calcule((1.0 * i) / config.nphases);
   }

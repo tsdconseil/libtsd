@@ -16,17 +16,18 @@ namespace tsd::filtrage {
 template<typename T>
 TabT<T,2> forme_polyphase(const Vecteur<T> &x, unsigned int M)
 {
-  soit n = x.rows();
+  soit n = x.rows(),
+       r = n % M;
 
   si(n == 0)
     retourne {};
 
-  soit r = n % M;
   Vecteur<T> x2;
   si(r != 0)
     x2 = x | Vecteur<T>::zeros(M-r);
   sinon
     x2 = x.clone();
+
   n = x2.rows();
 
   // n / M = nb échantillons par canal
@@ -55,13 +56,13 @@ struct FiltreRIFDemiBande: FiltreGen<T>
 {
   Vecteur<T> fenêtre;
   Vecteur<Tc> coefs;
-  entier index = 0, K;
-  entier odd = 0, R = 2;
+  entier index = 0, K = 0,
+         odd = 0, R = 2;
 
   FiltreRIFDemiBande(const Vecteur<Tc> &c)
   {
-    coefs = c;
-    K     = coefs.rows();
+    coefs   = c;
+    K       = coefs.rows();
     fenêtre = Vecteur<T>::zeros(K);
   }
 
@@ -111,9 +112,9 @@ struct FiltreRIFDemiBande: FiltreGen<T>
       soit wptr = fenêtre.data() + index;
 
       // Nombre d'échantillons à la fin de la ligne à retard
-      soit K1 = K - index;
+      soit K1 = K - index,
       // Nombre d'échantillons au début de la ligne à retard
-      soit K2 = K - K1;
+           K2 = K - K1;
 
       entier i;
       pour(i = 0; i < K1; i += 2) // 1 coefficient sur 2 du filtre est nul
@@ -157,14 +158,14 @@ struct FiltreRIFDecim: FiltreGen<T>
 {
   Vecteur<T> fenêtre;
   Vecteur<Tc> coefs;
-  entier index = 0, K;
-  entier cnt = 0, R;
+  entier index = 0, K = 0,
+         cnt   = 0, R = 0;
 
   FiltreRIFDecim(const Vecteur<Tc> &c, entier R)
   {
     this->R = R;
-    coefs = c;
-    K = coefs.rows();
+    coefs   = c;
+    K       = coefs.rows();
     fenêtre = Vecteur<T>::zeros(K);
   }
 
@@ -215,9 +216,9 @@ struct FiltreRIFDecim: FiltreGen<T>
       soit wptr = fenêtre.data() + index;
 
       // Nombre d'échantillons à la fin de la ligne à retard
-      soit K1 = K - index;
+      soit K1 = K - index,
       // Nombre d'échantillons au début de la ligne à retard
-      soit K2 = K - K1;
+           K2 = K - K1;
 
       pour(auto i = 0; i < K1; i++)
         somme += *wptr++ * *cptr++;
@@ -246,19 +247,19 @@ template<typename T, typename Tc>
 struct FiltreRIFUps: FiltreGen<T>
 {
   Vecteur<T> fenêtre;
-  entier index, K;
+
   Vecteur<Tc> coefs;
-  entier odd = 0, R = 0;
+  entier index = 0, K = 0, odd = 0, R = 0;
 
 
   FiltreRIFUps(const Vecteur<Tc> &c, entier R)
   {
-    this->R     = R;
+    this->R   = R;
     // Afin de préserver l'amplitude du signal
-    this->coefs = c * R;
-    odd   = 0;
-    index = 0;
-    K     = coefs.rows();
+    coefs     = c * R;
+    odd       = 0;
+    index     = 0;
+    K         = coefs.rows();
 
     // Complète avec des zéros
     si((K % R) != 0)
@@ -276,9 +277,11 @@ struct FiltreRIFUps: FiltreGen<T>
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
     tsd_assert(K > 0);
+
     soit n    = x.rows();
     soit iptr = x.data();
     soit optr = y.data();
+
     si(iptr != optr)
     {
       y.resize(n*R);
@@ -314,9 +317,9 @@ struct FiltreRIFUps: FiltreGen<T>
         soit wptr = fenêtre.data() + index;
 
         // Number of samples at end of delay line
-        soit K1 = K/R - index;
+        soit K1 = K/R - index,
         // Number at begin of delay line
-        soit K2 = K/R - K1;
+             K2 = K/R - K1;
 
         pour(auto i = 0; i < K1; i++)
         {

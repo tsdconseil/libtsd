@@ -53,6 +53,13 @@ ADDITIONNAL_INC_DIRS += $(OPTIONS_COMPIL)
 
 CDEFS += -DVMAJ=$(VMAJ) -DVMIN=$(VMIN) -DVPATCH=$(VPATCH)
 
+ifeq ($(AVEC_GTK),1)
+GTKREV  = 3.0
+GTK_DIR= `pkg-config --cflags gtkmm-$(GTKREV)`
+GTK_LIB= `pkg-config --libs gtkmm-$(GTKREV)` -lpthread
+endif
+
+
 ########################################
 ###### LINUX/I386 TARGET
 ########################################
@@ -60,9 +67,6 @@ ifeq ($(TARGET),LINUX)
 ECHO=  echo
 EXESUF :=
 COPTADD  = -DLINUX -DLINUX_RUN -fPIC -isystem /usr/include/gtkmm-3.0
-
-GTKREV  = 3.0
-
 #GTK_DIR= `pkg-config --cflags gtkmm-$(GTKREV)`
 #GTK_LIB= `pkg-config --libs gtkmm-$(GTKREV)` -lpthread
 
@@ -76,8 +80,7 @@ TARGET= WIN
 EXESUF := .exe
 COPTADD= -DWIN  -D_USE_MATH_DEFINES
 # -isystem c:/GTK/include/gtkmm-2.4 -Ic:/GnuWin32/include 
-GTKREV  =3.0
-
+#GTKREV  =3.0
 #GTK_DIR= `pkg-config --cflags gtkmm-$(GTKREV)`
 #GTK_LIB= `pkg-config --libs gtkmm-$(GTKREV)` -lgthread-2.0
 

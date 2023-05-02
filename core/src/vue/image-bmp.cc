@@ -4,16 +4,12 @@
 #include "tsd/fourier.hpp"
 #include <cassert>
 #include <utility>
+#include <filesystem>
 
 #if LIBTSD_USE_PNG
 # include <png.h>
 #endif
 
-#ifdef WIN
-# include "windows.h"
-#else
-# include <sys/stat.h>
-#endif
 
 
 #define DBG_AXES(AA)
@@ -51,30 +47,11 @@ static tuple<string, string>  analyse_chemin(cstring chemin_complet)
   retourne {chemin_complet.substr(0, j), chemin_complet.substr(j+1)};
 }
 
-static bouléen fichier_existe(const string &nom)
-{
-  soit f = fopen(nom.c_str(), "r");
-  si(f == nullptr)
-    retourne non;
-  fclose(f);
-  retourne oui;
-}
 
-static void creation_dossier(const string &chemin)
+static void creation_dossier_si_inexistant(cstring chemin)
 {
-# ifdef WIN
-  CreateDirectory(chemin.c_str(), nullptr);
-# else
-  entier res = mkdir(chemin.c_str());//, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-  si(!res)
-    msg_avert("Echec création dossier {}.", chemin);
-# endif
-}
-
-static void creation_dossier_si_inexistant(const string &chemin)
-{
-  si(!fichier_existe(chemin))
-    creation_dossier(chemin);
+  si(!std::filesystem::exists(chemin))
+    std::filesystem::create_directory(chemin);
 }
 
 

@@ -3,7 +3,7 @@
 namespace tsd::filtrage
 {
 
-  Vecf design_rif_demi_bande(int n, float fc)
+  Vecf design_rif_demi_bande(entier n, float fc)
   {
     ////////////////////////////////////////////////////////
     // D'après :                                          //
@@ -42,7 +42,7 @@ namespace tsd::filtrage
 
     // fp=0.5 <=> L
 
-    soit idp = (int) ceil((2 * fc * L) / 0.5);
+    soit idp = (entier) ceil((2 * fc * L) / 0.5);
     idp = clamp(idp, 0, L-2);
 
     msg("design_hb: n={}, m={}, L={}, index pass={}", n, m, L, idp);
@@ -61,11 +61,6 @@ namespace tsd::filtrage
     soit g = design_rif_eq(m + 1, D, W);
 
     tsd_assert(g.rows() == m + 1);
-
-
-
-
-    //msg("g: {}", g);
 
     Vecf h(n);
     pour(auto k = 0; k < n; k++)
