@@ -29,7 +29,7 @@ struct Poly
   Poly(const Vecteur<T> &coefs)
   {
     mode_racines = non;
-    this->coefs = coefs.clone();
+    this->coefs = coefs;
     vname = "z";
   }
 
@@ -322,7 +322,7 @@ struct Poly
     sinon si(!s1.mode_racines && s2.mode_racines)
       s2 = s2.vers_coefs();
 
-    tsd_assert(s1.mode_racines == s2.mode_racines);
+    assertion(s1.mode_racines == s2.mode_racines);
 
     si(s1.mode_racines)
     {
@@ -340,7 +340,7 @@ struct Poly
         // Shift prod and multiply by coef
         prod.coefs.setZero(k + n1);
 
-        tsd_assert(prod.coefs.rows() == (k + n1));
+        assertion(prod.coefs.rows() == (k + n1));
 
         pour(auto i = 0; i < n1; i++)
           prod.coefs(i+k) = s1.coefs(i) * s2.coefs(k);
@@ -630,7 +630,7 @@ struct FRat
   VT coefs_rif() const
   {
     si(!est_rif())
-      echec("FRat::coefs_rif(): ce filtre n'est pas un filtre RIF.");
+      échec("FRat::coefs_rif(): ce filtre n'est pas un filtre RIF.");
     retourne numer.coefs.reverse();
   }
 

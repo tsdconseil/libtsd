@@ -66,7 +66,7 @@ struct FiltreRIF: FiltreGen<T>
 
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    tsd_assert(K > 0);
+    assertion(K > 0);
     soit n    = x.rows();
     soit iptr = x.data();
     soit optr = y.data();
@@ -143,14 +143,14 @@ struct Decimateur: FiltreGen<T, T>
     {
       si(j >= y.rows())
       {
-        echec("j={},y.rows()={},i={},n={},cnt={},R={}", j, y.rows(), i, n, cnt, R);
+        échec("j={},y.rows()={},i={},n={},cnt={},R={}", j, y.rows(), i, n, cnt, R);
       }
 
       y(j++) = x(i);
     }
 
     i -= R;
-    tsd_assert(j == y.rows());
+    assertion(j == y.rows());
 
     // si i = n-R : cnt = 0
     // si i = n-1 : cnt = R-1
@@ -321,7 +321,7 @@ struct AllpassUps: FiltreGen<T>
   }
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    tsd_assert(y.data() != x.data());
+    assertion(y.data() != x.data());
     y.resize(x.rows() * 2);
     process(y.data(), x.data(), x.rows());
   }
@@ -448,7 +448,7 @@ struct SOIS: Filtre<T, T, SOISConfig>
    */
   void configure(float b0, float b1, float b2, float a0, float a1, float a2)
   {
-    tsd_assert_msg(a0 != 0, "Section SOIS : a0 doit être non nul.");
+    assertion_msg(a0 != 0, "Section SOIS : a0 doit être non nul.");
 
     this->b0 = b0 / a0;
     this->b1 = b1 / a0;
@@ -458,20 +458,19 @@ struct SOIS: Filtre<T, T, SOISConfig>
     this->a2 = a2 / a0;
     premier_appel = oui;
   }
-  entier configure_impl(const SOISConfig &config)
+  void configure_impl(const SOISConfig &config)
   {
     soit coefs = config.coefs;
     structure = config.structure;
-    tsd_assert_msg(coefs.rows() == 6,
+    assertion_msg(coefs.rows() == 6,
               "Invalid number of coefficients pour SOIC initialization (6 required).");
     configure(coefs(0), coefs(1), coefs(2), coefs(3), coefs(4), coefs(5));
-    retourne 0;
   }
   void configure(const FRat<float> &h)
   {
-    tsd_assert_msg(h.numer.coefs.rows() == 3,
+    assertion_msg(h.numer.coefs.rows() == 3,
               "Invalid number of coefficients pour SOIC initialization (3 required).");
-    tsd_assert_msg(h.denom.coefs.rows() == 3,
+    assertion_msg(h.denom.coefs.rows() == 3,
               "Invalid number of coefficients pour SOIC initialization (3 required).");
     configure(h.numer.coefs(0), h.numer.coefs(1), h.numer.coefs(2),
           h.denom.coefs(0), h.denom.coefs(1), h.denom.coefs(2));
@@ -526,7 +525,7 @@ struct SOIS: Filtre<T, T, SOISConfig>
       }
     }
     sinon
-      echec("SOIS : structure non implémentée.");
+      échec("SOIS : structure non implémentée.");
   }
 
 
@@ -587,7 +586,7 @@ struct ChaineSOIS: FiltreGen<T>
     //msg("ChaineSOIS: nz={}, np={}", nz, np);
 
     // pour l'instant
-    tsd_assert_msg(nz == np,
+    assertion_msg(nz == np,
         "SOIS : numérateur et dénominateur doivent avoir la même dimension (nz={}, np={})",
         nz, np);
 
@@ -662,7 +661,7 @@ struct ChaineSOIS: FiltreGen<T>
     pour(; i < nz; i++)
     {
       //msg("Ordre impair : insertion d'une section du premier ordre");
-      tsd_assert(pool.size() == 1);
+      assertion(pool.size() == 1);
 
       soit id = *(pool.begin());
 
@@ -785,7 +784,7 @@ struct MoyenneGlissante: FiltreGen<T>
   {
     soit n = x.rows();
 
-    tsd_assert(K > 0);
+    assertion(K > 0);
 
     si(y.data() != x.data())
       y.resize(n);

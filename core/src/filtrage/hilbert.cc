@@ -8,7 +8,7 @@ namespace tsd::filtrage {
 Vecf design_rif_hilbert(entier n, cstring fen)
 {
   // Attention, filtre de type IV (n impair)
-  tsd_assert_msg((n & 1) == 1, "design_rif_hilbert: n doit être impair (ici, n = {})", n);
+  assertion_msg((n & 1) == 1, "design_rif_hilbert: n doit être impair (ici, n = {})", n);
 
   soit h = Vecf::int_expr(n, [&](int i) -> float
   {
@@ -32,12 +32,11 @@ struct HilbertTransformeur: Filtre<float, cfloat, HilbertTransformeurConfig>
   {
     configure({ntaps, fenetre});
   }
-  entier configure_impl(const HilbertTransformeurConfig &config)
+  void configure_impl(const HilbertTransformeurConfig &config)
   {
     soit h = design_rif_hilbert(config.ntaps, config.fenetre);
     hilbert   = filtre_rif<float>(h);
     retard    = ligne_a_retard<float>(config.ntaps/2);
-    retourne 0;
   }
   void step(const Vecf &x, Veccf &y)
   {

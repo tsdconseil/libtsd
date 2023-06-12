@@ -80,7 +80,7 @@ static Vecf rif_fen_sb(entier n, float fl, float fh)
 static Vecf design_rif_fen(cstring type, float fcut, const Vecf &f, float fcut2)
 {
   Vecf h;
-  entier n = f.rows();
+  soit n = f.rows();
   si((type == "lp") || (type == "pb"))
     h = rif_fen_pb(n, fcut);
   sinon si((type == "hp") || (type == "ph"))
@@ -90,9 +90,9 @@ static Vecf design_rif_fen(cstring type, float fcut, const Vecf &f, float fcut2)
   sinon si(type == "sb")
     h = rif_fen_sb(n, fcut, fcut2);
   sinon
-    echec("design_rif_fen : type invalide ({}). doit être parmi : \"lp\" ou \"pb\" (passe-bas), \"hp\" ou \"ph\" (passe-haut), \"bp\" ou \"pm\" (passe-bande), \"sb\" (stoppe-bande)", type);
-  tsd_assert(h.rows() == n);
-  Vecf h2 = h * f;
+    échec("design_rif_fen : type invalide ({}). doit être parmi : \"lp\" ou \"pb\" (passe-bas), \"hp\" ou \"ph\" (passe-haut), \"bp\" ou \"pm\" (passe-bande), \"sb\" (stoppe-bande)", type);
+  assertion(h.rows() == n);
+  soit h2 = h * f;
   si(type == "lp")
     h2 /= h2.somme();
   retourne h2;

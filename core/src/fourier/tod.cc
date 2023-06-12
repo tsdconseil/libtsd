@@ -34,16 +34,14 @@ namespace tsd::tf::tod {
   // a + b * c
   Laurent laurent_mac(const Laurent &a, const Laurent &b, const Laurent &c)
   {
-    Laurent bc;
+    Laurent bc, r;
     bc.polynome = b.polynome * c.polynome;
     bc.n0       = b.n0 + c.n0;
 
-    Laurent r;
-
     r.n0 = min(a.n0, bc.n0);
 
-    Poly<float> ashift  = a.polynome << (a.n0 - r.n0);
-    Poly<float> bcshift = bc.polynome << (bc.n0 - r.n0);
+    soit ashift  = a.polynome  << (a.n0 - r.n0),
+         bcshift = bc.polynome << (bc.n0 - r.n0);
 
     r.polynome = ashift + bcshift;
 
@@ -52,10 +50,8 @@ namespace tsd::tf::tod {
 
   FormePolyphase::FormePolyphase(const Lift &lift)
   {
-    H00.polynome = Poly<float>::one();
-    H11.polynome = Poly<float>::one();
-    H01.polynome = Poly<float>(0.0f);
-    H10.polynome = Poly<float>(0.0f);
+    H11.polynome = H00.polynome = Poly<float>::one();
+    H10.polynome = H01.polynome = Poly<float>(0.0f);
 
     pour(const LiftElem &etape: lift.etapes)
     {
@@ -84,7 +80,7 @@ namespace tsd::tf::tod {
 
     entier md = -min({fp.H00.n0, fp.H01.n0, fp.H10.n0, fp.H11.n0});
 
-    tsd_assert(md >= 0);
+    assertion(md >= 0);
 
     H00 = fp.H00.polynome << md;
     H01 = fp.H01.polynome << md;
@@ -508,8 +504,8 @@ struct OndeletteDb4: Ondelette<T>
 template<typename T>
 void dwt(sptr<Ondelette<T>> wavelet, Vecteur<T> &x, entier depth)
 {
-  entier N = x.rows();
-  entier last = N >> (depth - 1);
+  soit N    = x.rows(),
+       last = N >> (depth - 1);
 
   pour(auto n = N; n >= last; n = n >> 1)
     wavelet->lift_step(x, n);
@@ -524,8 +520,8 @@ void dwt(sptr<Ondelette<T>> wavelet, Vecteur<T> &x, entier depth)
 template<typename T>
 void iwt(sptr<Ondelette<T>> wavelet, Vecteur<T> &x, entier depth)
 {
-  entier N = x.rows();
-  entier start = N >> (depth - 1);
+  soit N      = x.rows(),
+       start  = N >> (depth - 1);
 
   pour(auto n = start; n <= N; n = n << 1)
     wavelet->ilift_step(x, n);

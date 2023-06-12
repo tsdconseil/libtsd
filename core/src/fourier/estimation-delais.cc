@@ -24,12 +24,11 @@ tuple<float,float> estimation_délais(const Veccf &x, const Veccf &y)
 
   soit N = xp.rows();
 
-  tsd_assert(xp.rows() == N);
-  tsd_assert(yp.rows() == N);
+  assertion((xp.rows() == N) && (yp.rows() == N));
 
   /*si(fenêtrage)
   {
-    ArrayXf f = tsd::filtrage::fenetre("hann", N, non);
+    soit f = tsd::filtrage::fenetre("hann", N, non);
     xp *= f;
     yp *= f;
   }*/
@@ -91,10 +90,7 @@ tuple<float,float> estimation_délais(const Veccf &x, const Veccf &y)
   }
 
   //msg("index = {}, lag = {}, dim = {}, lagf = {}", index, lags(index), xp.rows(), lags(index) + δ);
-
   retourne {lags(index) + δ, score};
-
-
 
   /*soit [xp, yp] = pad_zeros(x, y);
   EstimateurDelais est;
@@ -157,7 +153,7 @@ template<typename T>
     ya = ya.head(xa.rows());
   }
 
-  tsd_assert(xa.rows() == ya.rows());
+  assertion(xa.rows() == ya.rows());
 
   si constexpr(est_complexe<T>())
     retourne {xa, ya, d, score};

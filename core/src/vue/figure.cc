@@ -1,12 +1,8 @@
 #include "tsd/tsd.hpp"
 #include "tsd/vue.hpp"
 #include "tsd/fourier.hpp"
-#include <cstdarg>
 #include <deque>
-#include <iomanip>
 #include <ranges>
-#include <string_view>
-#include <iostream>
 
 
 using namespace std;
@@ -140,21 +136,27 @@ struct Figure::Courbe::Impl
   Vecf ymin, ymax; // pour fill ymin ymax
 
   Tabf Z; // pour dessin surface
-  Rectf rdi_z;
-
-  string nom, format;
-  Couleur couleur               = {0,0,0,180};
-  entier epaisseur              = 3;
-  bouléen remplissage           = non;
-  bouléen remplissage_vers_ymin = oui;
-  float remplissage_vmin        = 0;
-  bouléen accu = non;
 
   Tabf couleurs_points_rvb;
   Vecf σ;
 
+  Rectf rdi_z;
+
+  string nom, format;
+
+  Couleur couleur               = {0,0,0,180};
+
+  entier epaisseur              = 3,
+         dim_marqueur           = 5;
+
+  bouléen remplissage           = non,
+          remplissage_vers_ymin = oui,
+          accu                  = non;
+
+  float remplissage_vmin        = 0;
+
   Marqueur marqueur             = Marqueur::AUCUN;
-  entier dim_marqueur           = 5;
+
   Trait trait                   = Trait::AUCUN;
 
   Impl()
@@ -170,19 +172,25 @@ struct Figure::Courbe::Impl
 
 struct Figure::Impl: Rendable
 {
-  bouléen log_x = non, log_y = non;
+  bouléen log_x = non, log_y = non,
+          a_rdi_min = non, a_rdi = non;
+
   string nom, titre;
 
   // TODO : enlever ce mutable
   mutable Axes axes;
-  bouléen a_rdi_min = non, a_rdi = non;
+
   Rectf rm_rdi;
+
   vector<Figure::Courbe> courbes;
 
   // Canva utilisateur (affiché au dessus de la figure)
   Canva canva_utilisateur;
+
   // Canva utilisateur (affiché avant la figure)
   Canva canva_utilisateur_pre;
+
+  mutable float xmin = 0, xmax = 0, ymin = 0, ymax = 0;
 
   Dim dimensions_idéales() const
   {
@@ -212,6 +220,8 @@ struct Figure::Impl: Rendable
     sinon
     {
       cfg.titre_echelle = 0.8;
+      //cfg.axe_horizontal.valeurs_echelle      = 0.5;
+      //cfg.axe_vertical.valeurs_echelle        = 1.5;
     }
     canva_utilisateur.set_allocation({1,1});
     canva_utilisateur_pre.set_allocation({1,1});
@@ -238,8 +248,8 @@ struct Figure::Impl: Rendable
 
       si(ci.x.rows() > 0)
       {
-        float ci_ymin = 0, ci_ymax = 0;
-        bouléen first_min = oui, first_max = oui;
+        soit ci_ymin = 0.0f, ci_ymax = 0.0f;
+        soit first_min = oui, first_max = oui;
 
         pour(auto i = 0; i < ci.y.rows(); i++)
         {
@@ -377,14 +387,14 @@ struct Figure::Impl: Rendable
   void extension_rdi(float &xmin, float &ymin, float &xmax, float &ymax) const
   {
     const auto &config = axes.get_config();
-    float dx = xmax - xmin, dy = ymax - ymin;
+    soit dx = xmax - xmin, dy = ymax - ymin;
     si(dx <= 0)
       dx = 1;
     si(dy <= 0)
       dy = 1;
 
-    float delta_x = config.axe_horizontal.afficher ? 0.1 : 0.02,
-          delta_y = config.axe_vertical.afficher ? 0.1 : 0.02;
+    soit delta_x = config.axe_horizontal.afficher ? 0.1f : 0.02f,
+         delta_y = config.axe_vertical.afficher   ? 0.1f : 0.02f;
 
     si(config.axe_horizontal.echelle_logarithmique)
     {
@@ -429,7 +439,7 @@ struct Figure::Impl: Rendable
     }
   }
 
-  mutable float xmin = 0, xmax = 0, ymin = 0, ymax = 0;
+
 
   entier rendre00() const
   {
@@ -514,7 +524,7 @@ struct Figure::Impl: Rendable
       soit &y = ci.y;
 
       soit npts = x.rows();
-      tsd_assert(npts == y.rows());
+      assertion(npts == y.rows());
 
 
       DBG(msg("courbe : {} points.", npts));
@@ -641,7 +651,9 @@ struct Figure::Impl: Rendable
 
         Vecf xr1, yr1;
 
-        si(npts > 2000)
+        soit a_couleurs = ci.couleurs_points_rvb.rows() > 0;
+
+        si((npts > 2000) && !a_couleurs)
         {
           bouléen monotone = oui;
           entier idmin = -1, idmax = -1;
@@ -679,7 +691,7 @@ struct Figure::Impl: Rendable
         //msg("plot : npts={}", npts);
         Vecf xr, yrmin, yrmax, yrmoy;
         bouléen dessine_sigma = non;
-        si(npts >= 2000)
+        si((npts >= 2000) && !a_couleurs)
         {
           dessine_sigma = oui;
           entier R = floor(npts / 1000);
@@ -989,8 +1001,8 @@ struct Figures::Impl: Rendable
     si(nrows * ncols == 0)
       retourne;
 
-    tsd_assert((ncols >= 1) && (nrows >= 1));
-    tsd_assert_msg(nsubs <= (ncols * nrows), "nsubs = {}, m = {}, n = {}", nsubs, ncols, nrows);
+    assertion((ncols >= 1) && (nrows >= 1));
+    assertion_msg(nsubs <= (ncols * nrows), "nsubs = {}, m = {}, n = {}", nsubs, ncols, nrows);
 
     soit rdi = canva.get_rdi();
     entier mx = rdi.l / ncols, my = rdi.h / nrows;
@@ -1021,15 +1033,6 @@ sptr<const Rendable> Figures::rendable() const
 
 void Figures::afficher(cstring titre, const Dim &dim) const
 {
-  /*soit dim2 = dim;
-  si(dim.l < 0)
-  {
-    soit [nrows, ncols] = impl->get_nm();
-    dim2.l = ncols * (1200 * 1.5);
-    dim2.h = nrows * (400 * 1.5);
-    //msg("Affichage figures: dim par défaut : m={}, n={} => (l,h) = ({},{})",
-    //    impl->m, impl->n, dim2.l, dim2.h);
-  }*/
   ARendable::afficher(titre, dim);
 }
 
@@ -1046,7 +1049,7 @@ void Figures::clear()
 Figure Figures::gf(entier sel)
 {
   si(sel >= (entier) impl->subplots.size())
-    echec("Figures::gcf({}) : index invalide (n figures = {})", sel, impl->subplots.size());
+    échec("Figures::gcf({}) : index invalide (n figures = {})", sel, impl->subplots.size());
   retourne impl->subplots[sel];
 }
 
@@ -1116,7 +1119,7 @@ vector<Figure::Courbe> &Figure::courbes()
 
 void Figure::def_rdi_min(const Rectf &rdi)
 {
-  tsd_assert(impl);
+  assertion(impl);
   impl->a_rdi_min = oui;
   impl->rm_rdi    = rdi;
 }
@@ -1235,8 +1238,9 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, cstring format_
   si(format.empty())
   {
     entier nc = courbes.size();
-    static const vector<string> fdef = {"b-", "g-", "r-", "y-", "c-", "m-", "k-"};
-    format = fdef[nc % 7];
+    static const vector<string> fdef = {"b-", "g-", "r-", "y-", "c-", "m-", "a-", "f-",
+    "B-", "V-", "R-", "J-", "C-", "W-", "O-", "M-", "k-"};
+    format = fdef[nc % 17];
   }
 
   soit n = y_.rows();
@@ -1267,7 +1271,7 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, cstring format_
     msg_erreur("Figure::plot(x,y,...) : x.rows() = {}, y.rows() = {}, y_.rows() = {}", X.rows(), y.rows(), y_.rows());
     retourne res;
   }
-  tsd_assert(X.rows() == y.rows());
+  assertion(X.rows() == y.rows());
 
   res.impl->x       = X;
   res.impl->y       = y;
@@ -1285,18 +1289,31 @@ Figure::Courbe Figure::Impl::plot(const Vecf &x, const Vecf &y_, cstring format_
       {'b', Couleur::BleuSombre},
       {'g', Couleur::VertSombre},
       {'r', Couleur::RougeSombre},
-
       {'y', Couleur::JauneSombre},
       {'c', Couleur::CyanSombre},
       {'m', Couleur::VioletSombre},
       {'a', Couleur::OrangeSombre},
+      {'f', Couleur::MarronSombre},
+
+
+      {'B', Couleur::Bleu},
+      {'V', Couleur::Vert},
+      {'R', Couleur::Rouge},
+      {'J', Couleur::Jaune},
+      {'C', Couleur::Cyan},
+      {'W', Couleur::Violet},
+      {'O', Couleur::Orange},
+      {'M', Couleur::Marron},
+
+
+
       {'k', Couleur::Noir},
       {'w', Couleur::Blanc}
 
   };
 
   entier nc = courbes.size();
-  res.impl->couleur = codes[nc % 7].couleur;
+  res.impl->couleur = codes[nc % 16].couleur;
 
   pour(auto c: codes)
     si(present(format, c.code))

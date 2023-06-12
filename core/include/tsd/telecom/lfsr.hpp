@@ -51,9 +51,9 @@ public:
    *  @param reglen: length of the PRBS register
    *  @note Sequence length will be (2^reglen)-1
    *  Requires 2 <= reglen <= PRBS_MAX_REGLEN */
-  entier configure(unsigned int reglen);
+  void configure(unsigned int reglen);
 
-  entier configure(const LFSRConfig &config);
+  void configure(const LFSRConfig &config);
 
   /** @brief Generate PRBS data */
   void step(BitStream &bs, unsigned int nbits);

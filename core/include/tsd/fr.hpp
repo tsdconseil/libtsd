@@ -1,9 +1,9 @@
-#ifndef FR_HPP
+#if !defined(FR_HPP) || defined(__CDT_PARSER__)
 #define FR_HPP
 
 
 
-#ifndef soit
+
 #define soit      auto
 #define Soient    auto
 #define soient    auto
@@ -19,13 +19,16 @@
 #define ou        ||
 #define et        &&
 
+template<typename T>
+  using fonction = std::function<T>;
+
 static const auto
   non = false,
   oui = true;
 
 using bouléen = bool;
 using entier  = int;
-#endif
+
 
 #endif
 

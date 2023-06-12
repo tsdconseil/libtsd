@@ -8,7 +8,7 @@
 
 namespace tsd {
 
-typedef int (test_routine_t)();
+typedef void (test_routine_t)();
 
 struct Test
 {
@@ -22,9 +22,9 @@ extern bouléen tests_debug_actif;
 extern entier fait_tests(entier argc, const char *argv[], vector<Test> &tests);
 
 
-extern entier verifie_erreur_relative(float v, float ref, float precision, cstring refname);
+extern void verifie_erreur_relative(float v, float ref, float precision, cstring refname);
 
-extern void vérifie_exception(std::function<void()> func);
+extern void vérifie_exception(fonction<void()> func);
 
 }
 

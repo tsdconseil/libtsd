@@ -50,9 +50,8 @@ struct CanalDispersif: Filtre<cfloat, cfloat, CanalDispersifConfig>
   Veccf reste;
   bouléen premier_appel = oui;
 
-  entier configure_impl(const CanalDispersifConfig &config)
+  void configure_impl(const CanalDispersifConfig &config)
   {
-    retourne 0;
   }
 
   CanalDispersif(const CanalDispersifConfig &config)
@@ -112,7 +111,7 @@ struct CanalDispersif: Filtre<cfloat, cfloat, CanalDispersifConfig>
     si(nr > 0)
       y.head(nr) = x.head(nr) * reste;
 
-    tsd_assert(x2.rows() >= n - nr);
+    assertion(x2.rows() >= n - nr);
 
     y.tail(n - nr) = x.tail(n - nr) * x2.head(n - nr);
 

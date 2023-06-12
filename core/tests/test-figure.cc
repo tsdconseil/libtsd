@@ -7,8 +7,6 @@ static void test_unites_unit(const vector<double> &tics, cstring unit = "")
   pour(auto t: tics)
     s1 += sformat("{},", t);
 
-
-
   soit [expo, ndigits] = tsd::vue::unites::calc_expo_nb_chiffres_commun(tics, unit);
 
   msg("test_unites : vec = [{}], unit={}, expo={}, ndigits={}", s1, unit, expo, ndigits);
@@ -20,7 +18,7 @@ static void test_unites_unit(const vector<double> &tics, cstring unit = "")
   }
 }
 
-entier test_unites()
+void test_unites()
 {
   test_unites_unit({-0.02, 0.03});
   test_unites_unit({-0.02, 0.03, 0});
@@ -53,11 +51,9 @@ entier test_unites()
   test_unites_unit({-1e6, 1e6, 0.5e6, 0}, "Hz");
 
   test_unites_unit({0,1000000,-1000000,2000000,-2000000,3000000,-3000000,4000000,-4000000}, "Hz");
-
-  retourne 0;
 }
 
-entier test_figure()
+void test_figure()
 {
   // Test affichage long
   {
@@ -75,7 +71,6 @@ entier test_figure()
   // Test échelle
   {
     Figure f;
-
     soit vt = linspace(0, 179.0/60, 180);
     f.plot(vt, vt, "", "Temps (minutes)");
     f.afficher("Test échelle");
@@ -106,7 +101,7 @@ entier test_figure()
   {
     soit x = linspace(0,1,100);
     Figures figs;
-    Figure f = figs.subplot();
+    soit f = figs.subplot();
     f.plot(x, x);
     f.titres("Titre principal", "Axe x", "Axe y");
     figs.subplot().plot(x, -x);
@@ -131,8 +126,7 @@ entier test_figure()
 
   {
     msg("Test signal constant...");
-    soit x = Vecf::constant(100, -2.24e38f);
-    x += 1e30f * randn(100);
+    soit x = Vecf::constant(100, -2.24e38f) + 1e30f * randn(100);
     Figure f;
     f.plot(x);
     f.titre("Signal constant");
@@ -163,8 +157,8 @@ entier test_figure()
     //x << 2.0206, 3.0206, 4.0206, 5.0206;
     //y << 0.5371617, 0.0226223, 0.01, 0.005;
 
-    soit x = Vecf::valeurs({2.0206, 3.0206, 4.0206, 5.0206});
-    soit y = Vecf::valeurs({0.5371617, 0.0226223, 0.01, 0.005});
+    soit x = Vecf::valeurs({2.0206, 3.0206, 4.0206, 5.0206}),
+         y = Vecf::valeurs({0.5371617, 0.0226223, 0.01, 0.005});
 
     Figure f;
     f.axes().def_echelle("lin", "log");
@@ -174,8 +168,8 @@ entier test_figure()
 
   {
     msg_majeur("Test échel log 3");
-    soit x = Vecf::valeurs({2.0206, 3.0206, 4.0206, 5.0206});
-    soit y = Vecf::valeurs({0.5371617, 0.0226223, 0.01, 0.0});
+    soit x = Vecf::valeurs({2.0206, 3.0206, 4.0206, 5.0206}),
+         y = Vecf::valeurs({0.5371617, 0.0226223, 0.01, 0.0});
     Figure f;
     f.axes().def_echelle("lin", "log");
     f.plot(x, y, "-ob", "Test log 3");
@@ -184,8 +178,8 @@ entier test_figure()
 
   {
     msg_majeur("Test échel log 4");
-    soit x = Vecf::valeurs({2.0206, 3.0206, 4.0206, 5.0206});
-    soit y = Vecf::valeurs({0.5371617, 0.0226223, 6.84598e-37, 0});
+    soit x = Vecf::valeurs({2.0206, 3.0206, 4.0206, 5.0206}),
+         y = Vecf::valeurs({0.5371617, 0.0226223, 6.84598e-37, 0});
 
     msg("y = {}", y);
 
@@ -200,9 +194,9 @@ entier test_figure()
     msg("Test plot min / max...");
     Figures figs;
     soit n = 30;
-    soit t = linspace(0, n-1, n);
-    soit x = pow(Vecf::ones(n)*10,linspace(0,-4,n));
-    x.tail(2).setConstant(0);
+    soit t = linspace(0, n-1, n),
+         x = pow(Vecf::ones(n)*10,linspace(0,-4,n));
+    x.tail(2).setZero();
     soit f = figs.subplot(211);
     soit c = f.plot_minmax(t, x - 0.2 * x, x + 0.2 * x);
     c.def_couleur({128,128,255});
@@ -231,8 +225,8 @@ entier test_figure()
       msg("Test plot min / max (2)...");
       Figure f;
       soit n = 30;
-      soit t = linspace(0, n-1, n);
-      soit x = pow(Vecf::ones(n)*10,linspace(0,-4,n));
+      soit t = linspace(0, n-1, n),
+           x = pow(Vecf::ones(n)*10,linspace(0,-4,n));
       soit c = f.plot(t, x, "b-o", "x");
       c.def_σ(x * 0.1);
       c = f.plot(t, x + 0.4, "g-o", "y");
@@ -246,10 +240,10 @@ entier test_figure()
   {
     msg("test BER...");
     soit n = 10;
-    soit ber = Vecf::valeurs({0.452283,0.323602,0.189487,0.0862274,0.0218109,0.00124748,1.00604e-05,0,0,0});
-    soit σ   = Vecf::valeurs({0.0388947,0.0587929,0.00844648,0.00233075,0.0018141,0.000457055,3.01811e-05,0,0,0});
+    soit ber = Vecf::valeurs({0.452283,0.323602,0.189487,0.0862274,0.0218109,0.00124748,1.00604e-05,0,0,0}),
+         σ   = Vecf::valeurs({0.0388947,0.0587929,0.00844648,0.00233075,0.0018141,0.000457055,3.01811e-05,0,0,0}),
+         t = linspace(0, n-1, n);
     Figure f;
-    soit t = linspace(0, n-1, n);
     soit c = f.plot(t, ber, "b-o", "x");
     f.plot(t, ber/2, "m-s", "x/2");
     c.def_σ(σ);
@@ -272,18 +266,14 @@ entier test_figure()
     msg("Test img, ny = {}", ny);
     soit nx = 100;
     Tabf M(nx,ny);
-    soit x = linspace(0, 1, nx);
-    soit y = linspace(0, 1, ny);
+    soit x = linspace(0, 1, nx),
+         y = linspace(0, 1, ny);
     pour(auto ix = 0; ix < nx; ix++)
       pour(auto iy = 0; iy < ny; iy++)
         M(ix,iy) = sin(x(ix)*10) * cos(y(iy)*10);
-
 
     Figure f;
     f.plot_img(M);
     f.afficher();
   }
-
-
-  retourne 0;
 }

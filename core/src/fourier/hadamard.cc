@@ -16,8 +16,8 @@ namespace tsd::fourier
       {
         pour(auto j = i; j < i + h; j++)
         {
-          soit x1 = y(j);
-          soit y1 = y(j + h);
+          soit x1 = y(j),
+               y1 = y(j + h);
           y(j)     = x1 + y1;
           y(j + h) = x1 - y1;
         }
@@ -34,8 +34,8 @@ namespace tsd::fourier
     si(n == 1)
      retourne Tabf::ones(1,1);
 
-    soit M = Tabf::zeros(n, n);
-    soit Mp = hadamard_matrice(n/2);
+    soit M  = Tabf::zeros(n, n),
+         Mp = hadamard_matrice(n/2);
 
     M.block(0, n/2, 0, n/2)     = Mp;
     M.block(n/2, n/2, 0, n/2)   = Mp;

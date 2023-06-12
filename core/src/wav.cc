@@ -63,18 +63,16 @@ namespace tsd::audio {
   } __attribute__((__packed__)) wave_entete_t;
 
 
-tuple<Veccf, float> wav_charge_stereo(const string &chemin)
+tuple<Veccf, float> wav_charge_stereo(cstring chemin)
 {
   WavLecteur lecteur;
-  si(lecteur.charge(chemin))
-    abort();
-  WavConfig cfg;
-  lecteur.lis_config(cfg);
+  lecteur.charge(chemin);
+  soit cfg = lecteur.lis_config();
 
   soit n = lecteur.lis_nechantillons();
   soit x = lecteur.lis_flottant(2 * n);
 
-  tsd_assert(x.rows() == (entier) (2 *n));
+  assertion(x.rows() == 2 *n);
 
   Veccf y(n);
   memcpy(y.rawptr(), x.rawptr(), 2 * n * sizeof(float));
@@ -82,49 +80,34 @@ tuple<Veccf, float> wav_charge_stereo(const string &chemin)
   retourne {y, (float) cfg.freq_ech};
 }
 
-entier wav_enregistre(const string &chemin, float fech, const Vecf &x)
+void wav_enregistre(cstring chemin, float fech, const Vecf &x)
 {
   WavEcrivain wa;
   wa.init(chemin, {1, fech, WavConfig::PCM_FLOAT});
   wa.ecris(x);
-  retourne 0;
 }
 
-entier wav_enregistre_stereo(const string &chemin, float fech, const Veccf &x)
+void wav_enregistre_stereo(cstring chemin, float fech, const Veccf &x)
 {
   WavEcrivain wa;
   wa.init(chemin, {2, fech, WavConfig::PCM_FLOAT});
   wa.ecris(x);
-  retourne 0;
 }
 
-tuple<Vecf, float> wav_charge(const string &chemin)
+tuple<Vecf, float> wav_charge(cstring chemin)
 {
   WavLecteur lecteur;
-  si(lecteur.charge(chemin))
-    abort();
+  lecteur.charge(chemin);
 
-  soit n = lecteur.lis_nechantillons();
-  WavConfig cfg;
-  lecteur.lis_config(cfg);
+  soit n   = lecteur.lis_nechantillons();
+  soit cfg = lecteur.lis_config();
 
 
   soit buf = (int16_t *) malloc(n * sizeof(int16_t));
-  si(buf == nullptr)
-  {
-    msg_erreur("Erreur d'allocation ({} éléments).", n);
-    abort();
-  }
+  si(!buf)
+    échec("Erreur d'allocation ({} éléments).", n);
 
   soit x = lecteur.lis_flottant(n);
-
-  /*lecteur.lis_donnees(buf, n);
-
-  Vecf x(n);
-  pour(auto i = 0u; i < n; i++)
-    x(i) = buf[i];
-
-  free(buf);*/
 
   retourne {x, (float) cfg.freq_ech};
 }
@@ -133,8 +116,7 @@ struct WavLecteur::Impl
 {
   string chemin;
   FILE *fd = nullptr;
-  uint32_t pos = 0, nech = 0;
-
+  entier pos = 0, nech = 0;
   wave_entete_t entete;
 
   ~Impl()
@@ -142,7 +124,7 @@ struct WavLecteur::Impl
     ferme();
   }
 
-  entier charge(const string &chemin_)
+  void charge(cstring chemin_)
   {
     ferme();
 
@@ -158,25 +140,20 @@ struct WavLecteur::Impl
     }*/
 
     fd = fopen(chemin.c_str(), "rb");
-    si(fd == nullptr)
-    {
-      msg_erreur("Echec ouverture du fichier wav.");
-      retourne -1;
-    }
+    si(!fd)
+      échec("Echec ouverture du fichier wav.");
     si(fread(&entete, 1, sizeof(entete), fd) != sizeof(entete))
     {
-      msg_erreur("Read header failed.");
       ferme();
-      retourne -1;
+      échec("Read header failed.");
     }
 
     soit v32 = *((uint32_t *) entete.file_type_bloc_id);
 
     si(v32 != 0x46464952)
     {
-      msg_erreur("En-tête incorrect : {}", v32);
       ferme();
-      retourne -1;
+      échec("En-tête incorrect : {}", v32);
     }
     retry:
     v32 = *((uint32_t *) entete.data_bloc_id);
@@ -193,7 +170,7 @@ struct WavLecteur::Impl
       entier nskips = entete.data_size;
 
       // Alignemnt 16 bits
-      if(nskips & 1)
+      si(nskips & 1)
         nskips++;
 
       fseek(fd, nskips, SEEK_CUR);
@@ -204,15 +181,11 @@ struct WavLecteur::Impl
 
       si(feof(fd))
       {
-        msg_erreur("Champs data non trouvé.");
         ferme();
-        retourne -1;
+        échec("Champs data non trouvé.");
       }
       si(fread(&(entete.data_bloc_id), 8, 1, fd) != 1)
-      {
-        echec("Erreur lecture fichier WAV.");
-        retourne -1;
-      }
+        échec("Erreur lecture fichier WAV.");
 
       // Position après : début données
 
@@ -226,71 +199,53 @@ struct WavLecteur::Impl
     msg("Durée {:.2f} secondes ({} octets).",
         ((float) nech) / entete.frequency,
         (entier) entete.data_size);*/
-
-    retourne 0;
   }
 
-  entier ferme()
+  void ferme()
   {
-    si(fd != nullptr)
+    si(fd)
     {
       fclose(fd);
       fd = nullptr;
     }
-    retourne 0;
   }
 
-  Vecf lis_flottant(uint32_t n)
+  Vecf lis_flottant(entier n)
   {
-    si(fd == nullptr)
-    {
-      msg_erreur("non ouvert.");
-      retourne {};
-    }
+    assertion_msg(fd, "fichier wav non ouvert.");
+
     Vecf y(n);
 
     si(entete.audio_format == 1)
     {
       // Format 16 bits
-      int16_t *t16 = (int16_t *) malloc(2*n);
+      soit t16 = (int16_t *) malloc(2*n);
       lis_donnees(t16, n);
-      pour(auto i = 0u; i < n; i++)
+      pour(auto i = 0; i < n; i++)
         y(i) = t16[i];
       free(t16);
       retourne y;
     }
 
-
     entier nlus = fread(y.data(), 4, n, fd);
-    si(nlus != (entier) n)
-    {
+    si(nlus != n)
       msg_avert("fread: nlus = {}, ndemandés = {} (position initiale = {}).", nlus, n, pos);
-    }
 
     pos += nlus;
     retourne y;
   }
 
-  entier lis_donnees(int16_t *res, uint32_t n)
+  entier lis_donnees(int16_t *res, entier n)
   {
-    si(fd == nullptr)
-    {
-      msg_erreur("non ouvert.");
-      retourne -1;
-    }
+    assertion_msg(fd, "fichier wav non ouvert.");
 
-    //trace_verbeuse("n = %d, pos = %d / %d", n, pos, nech);
+    //msg_verb("n = {}, pos = {} / {}", n, pos, nech);
 
     entier nlus = fread(res, 2, n, fd);
-    si(nlus != (entier) n)
-    {
+    si(nlus != n)
       msg_avert("nlus = {}, n = {} (pos = {}).", nlus, n, pos);
-    }
 
     pos += nlus;
-
-    //infos("pos += %d -> %d", nlus, pos);
-
     retourne nlus;
   }
 };
@@ -301,35 +256,31 @@ WavLecteur::WavLecteur()
 }
 
 
-
-
-entier WavLecteur::ferme()
+void WavLecteur::ferme()
 {
-  retourne impl->ferme();
+  impl->ferme();
 }
 
-entier WavLecteur::charge(const string &chemin_)
+void WavLecteur::charge(cstring chemin_)
 {
-  retourne impl->charge(chemin_);
+  impl->charge(chemin_);
 }
 
 float WavLecteur::lis_duree() const
 {
-  si(impl->fd == nullptr)
+  si(!impl->fd)
     retourne 0;
   retourne ((float) impl->nech) / impl->entete.frequency;
 }
 
-entier WavLecteur::lis_config(WavConfig &res)
+WavConfig WavLecteur::lis_config() const
 {
-  res.freq_ech = impl->entete.frequency;
-  res.ncanaux  = impl->entete.nbr_canaux;
-  retourne 0;
+  retourne {impl->entete.nbr_canaux, (double) impl->entete.frequency};
 }
 
 string WavLecteur::lis_infos() const
 {
-  si(impl->fd == nullptr)
+  si(!impl->fd)
     retourne "(aucun fichier wav ouvert)";
   retourne format("{}, {} cana{}, {} Hz, {:.1f} sec.",
       impl->chemin,
@@ -339,19 +290,19 @@ string WavLecteur::lis_infos() const
           ((float) impl->nech) / impl->entete.frequency);
 }
 
-uint32_t WavLecteur::lis_nechantillons() const
+entier WavLecteur::lis_nechantillons() const
 {
-  si(impl->fd == nullptr)
+  si(!impl->fd)
     retourne 0;
   retourne impl->nech;
 }
 
 bouléen WavLecteur::eof() const
 {
-  retourne (impl->fd == nullptr) || (feof(impl->fd));
+  retourne (!impl->fd) || (feof(impl->fd));
 }
 
-uint32_t WavLecteur::lis_position() const
+entier WavLecteur::lis_position() const
 {
   retourne impl->pos;
 }
@@ -366,44 +317,35 @@ float WavLecteur::lis_position_secondes() const
   retourne impl->lis_cplx();
 }*/
 
-Vecf WavLecteur::lis_flottant(uint32_t n)
+Vecf WavLecteur::lis_flottant(entier n)
 {
   retourne impl->lis_flottant(n);
 }
 
-entier WavLecteur::lis_donnees(int16_t *res, uint32_t n)
+entier WavLecteur::lis_donnees(int16_t *res, entier n)
 {
   retourne impl->lis_donnees(res, n);
 }
 
-entier WavLecteur::redemarre()
+void WavLecteur::redemarre()
 {
-  si(impl->fd == nullptr)
-  {
-    msg_erreur("non ouvert.");
-    retourne -1;
-  }
+  si(!impl->fd)
+    échec("wav-lecteur/redemarre: non ouvert.");
   msg("Remise a zero lecteur wav.");
   fseek(impl->fd, sizeof(impl->entete), SEEK_SET);
   impl->pos = 0;
-  retourne 0;
 }
 
-entier WavLecteur::recherche(float temps)
+void WavLecteur::recherche(float temps)
 {
-  si(impl->fd == nullptr)
-  {
-    msg_erreur("non ouvert.");
-    retourne -1;
-  }
+  si(!impl->fd)
+    échec("non ouvert.");
 
   impl->pos = (entier) (temps * impl->entete.frequency);
 
   msg("Recherche, pos = {} secondes ({} echan / {} total) ({} %)", temps, impl->pos, impl->nech, ((float) impl->pos) / impl->nech);
 
   fseek(impl->fd, impl->pos * 2 + sizeof(impl->entete), SEEK_SET);
-
-  retourne 0;
 }
 
 struct WavEcrivain::Impl
@@ -418,7 +360,7 @@ struct WavEcrivain::Impl
     ferme();
   }
 
-  entier init(const string &chemin, const WavConfig &config)
+  void init(cstring chemin, const WavConfig &config)
   {
     wave_entete_t entete;
 
@@ -437,11 +379,8 @@ struct WavEcrivain::Impl
     }*/
 
     fd = fopen(chemin.c_str(), "wb");
-    si(fd == nullptr)
-    {
-      msg_erreur("Echec ouverture fichier wav en ecriture ({}). errno={} ({}).", chemin, errno, strerror(errno));
-      retourne ERREUR_WAV_FICHIER_INACCESSIBLE;
-    }
+    si(!fd)
+      échec("Echec ouverture fichier wav en ecriture ({}). errno={} ({}).", chemin, errno, strerror(errno));
     // génération d'un entete vide, à remplir à la fermeture du fichier
     memset(&entete, 0, sizeof(wave_entete_t));
     fwrite(&entete, sizeof(wave_entete_t), 1, fd);
@@ -450,12 +389,11 @@ struct WavEcrivain::Impl
     this->cfg = config;
 
     pos = 0;
-    retourne 0;
   }
 
-  entier ferme()
+  void ferme()
   {
-    si(fd != nullptr)
+    si(fd)
     {
       msg("Fermeture fichier wav, nech = {}...", pos);
 
@@ -493,23 +431,22 @@ struct WavEcrivain::Impl
       fclose(fd);
       fd = nullptr;
     }
-    retourne 0;
   }
 
-  entier ecris(const Veccf &x)
+  void ecris(const Veccf &x)
   {
     //ArrayXf x2 = Eigen::Map<ArrayXf>((float *) x.data(), x.rows() * 2);
     // TODO: no copy
     entier n = x.rows();
     Vecf x2(2*n);
     memcpy(x2.rawptr(), x.rawptr(), 2 * n * sizeof(float));
-    retourne ecris(x2);
+    ecris(x2);
   }
 
-  entier ecris(const Vecf &x)
+  void ecris(const Vecf &x)
   {
     //infos("Ecriture %d ech float...", x.rows());
-    si(fd != nullptr)
+    si(fd)
     {
       si(cfg.format == WavConfig::PCM_16)
       {
@@ -525,12 +462,11 @@ struct WavEcrivain::Impl
         pos += x.rows() / cfg.ncanaux;
       }
     }
-    retourne 0;
   }
 
-  entier ecris(int16_t *donnees, uint32_t n)
+  void ecris(int16_t *donnees, entier n)
   {
-    si(fd != nullptr)
+    si(fd)
     {
       si(cfg.format == WavConfig::PCM_16)
       {
@@ -540,12 +476,11 @@ struct WavEcrivain::Impl
       sinon
       {
         Vecf x(n);
-        pour(auto i = 0u; i < n; i++)
+        pour(auto i = 0; i < n; i++)
           x(i) = donnees[i];
         ecris(x);
       }
     }
-    retourne 0;
   }
 
 };
@@ -565,9 +500,9 @@ string WavEcrivain::lis_infos() const
           (float) (impl->cfg.freq_ech * 1e-3), duree);
 }
 
-entier WavEcrivain::init(const string &chemin, const WavConfig &config)
+void WavEcrivain::init(cstring chemin, const WavConfig &config)
 {
-  retourne impl->init(chemin, config);
+  impl->init(chemin, config);
 }
 
 float WavEcrivain::lis_position_secondes() const
@@ -575,24 +510,24 @@ float WavEcrivain::lis_position_secondes() const
   retourne ((float) impl->pos) / impl->cfg.freq_ech;
 }
 
-entier WavEcrivain::ecris(int16_t *donnees, uint32_t n)
+void WavEcrivain::ecris(int16_t *donnees, entier n)
 {
-  retourne impl->ecris(donnees, n);
+  impl->ecris(donnees, n);
 }
 
-entier WavEcrivain::ecris(const Vecf &x)
+void WavEcrivain::ecris(const Vecf &x)
 {
-  retourne impl->ecris(x);
+  impl->ecris(x);
 }
 
-entier WavEcrivain::ecris(const Veccf &x)
+void WavEcrivain::ecris(const Veccf &x)
 {
-  retourne impl->ecris(x);
+  impl->ecris(x);
 }
 
-entier WavEcrivain::ferme()
+void WavEcrivain::ferme()
 {
-  retourne impl->ferme();
+  impl->ferme();
 }
 
 

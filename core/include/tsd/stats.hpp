@@ -229,7 +229,7 @@ r_n\\
      *  - Paramètre i : index
      *  - Paramètre n : nombre de points
      *  - Paramètre m : dimension du vecteur à retourner (nombre de récepteurs en DOA) */
-    std::function<tuple<Vecf, Veccf> (entier i, entier n, entier m)> balayage = [](entier i, entier n, entier m) -> tuple<Vecf, Veccf>
+    fonction<tuple<Vecf, Veccf> (entier i, entier n, entier m)> balayage = [](entier i, entier n, entier m) -> tuple<Vecf, Veccf>
     {
       // Calcul du "vecteur de steering"
       Vecf f(1);

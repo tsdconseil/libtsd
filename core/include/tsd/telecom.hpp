@@ -800,7 +800,7 @@ extern sptr<Ted> ted_init(TedType type);
 
 
 /** @brief Interface pour un détecteur de phase */
-using Ped = std::function<float (cfloat x)>;
+using Ped = fonction<float (cfloat x)>;
 
 /*struct Ped
 {
@@ -1306,7 +1306,7 @@ struct RécepteurConfig
   bouléen correl_fft = non;
 
   /** @brief Callback optionnelle appelée avec le signal de corrélation normalisée (peut servir pour de la mise au point). */
-  std::function<void (const Vecf &c)> callback_corr;
+  fonction<void (const Vecf &c)> callback_corr;
 
   /** @brief Activation ou non des plots de mise au point */
   bouléen debug_actif = non;
@@ -1346,7 +1346,7 @@ struct RécepteurEtat
 struct Récepteur
 {
   /** @brief Fonction de configuration */
-  virtual entier configure(const RécepteurConfig &config) = 0;
+  virtual void configure(const RécepteurConfig &config) = 0;
 
   /** @brief Traitement d'un buffer de données. */
   virtual vector<RécepteurTrame> step(const Veccf &x) = 0;
@@ -1409,7 +1409,7 @@ struct ÉmetteurConfig
 struct Émetteur
 {
   /** @brief Fonction de configuration */
-  virtual entier configure(const ÉmetteurConfig &config) = 0;
+  virtual void configure(const ÉmetteurConfig &config) = 0;
 
   /** @brief Traitement d'un buffer de données. */
   virtual Veccf step(const BitStream &x) = 0;
@@ -1607,7 +1607,7 @@ extern sptr<Filtre<cfloat, cfloat, ECPConfig>> ecp_création(const ECPConfig &co
  * @sa égaliseur_zfe()
  */
 extern sptr<FiltreGen<cfloat>> égaliseur_rif_création(sptr<FormeOnde> forme_onde,
-    const string &structure, const string &fonction_erreur,
+    cstring structure, cstring fonction_erreur,
     entier K, float α, entier N1, entier N2);
 
 /** @brief Calcul du filtre inverse par zéro-forçage.

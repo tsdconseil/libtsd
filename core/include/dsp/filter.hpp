@@ -33,7 +33,7 @@ namespace dsp::filter {
    * @param f Fréquence normalisée.
    * @param msg Descriptif optionnel (affiché en cas d'échec).
    *
-   * @sa echec(), msg_erreur()
+   * @sa échec(), msg_erreur()
    */
   inline void verifie_frequence_normalisee(float f, cstring msg = "")
   {

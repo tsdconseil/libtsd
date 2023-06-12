@@ -211,7 +211,7 @@ Vecf fenetre(cstring type, entier n, bouléen symetrique)
 
 Vecf fenetre(Fenetre type, entier n, bouléen symétrique)
 {
-  Vecf x = Vecf::zeros(n);
+  soit x = Vecf::zeros(n);
 
   //si(((n & 1) == 0) && symétrique)
     //msg_avert("Demande de création d'une fenêtre symétrique avec un nombre pair de coefficients (n = {})", n);
@@ -246,10 +246,10 @@ Vecf fenetre(Fenetre type, entier n, bouléen symétrique)
   {
     // https://en.wikipedia.org/wiki/Window_function#Blackman_window
     soit t  = 2 * π * fen_inter(n, symétrique) + π;
-    soit α  = 0.16f;
-    soit a0 = (1 - α)/2;
-    soit a1 = 0.5f;
-    soit a2 = α/2;
+    soit α  = 0.16f,
+         a0 = (1 - α)/2,
+         a1 = 0.5f,
+         a2 = α/2;
     x = - a1 * cos(t) + a2 * cos(2 * t) + a0;
   }
   sinon si(type == Fenetre::CHEBYCHEV)
@@ -259,7 +259,7 @@ Vecf fenetre(Fenetre type, entier n, bouléen symétrique)
   }
   sinon
   {
-    echec("fenêtre non gérée ({}).", (entier) type);
+    échec("fenêtre non gérée ({}).", (entier) type);
   }
 
   retourne x;
@@ -283,8 +283,8 @@ Vecf fenêtre_chebychev(entier n, float atten_db, bouléen symetrique)
   si(n <= 1)
     retourne Vecf::ones(n);
 
-  soit Alin = pow(10.0, atten_db/20.0);
-  soit β = real(std::cosh(std::acosh((cdouble) Alin) * (1.0/(n-1))));
+  soit Alin = pow(10.0, atten_db/20.0),
+          β = real(std::cosh(std::acosh((cdouble) Alin) * (1.0/(n-1))));
 
   Vecf A(n-1), X(n-1);
 
@@ -292,7 +292,7 @@ Vecf fenêtre_chebychev(entier n, float atten_db, bouléen symetrique)
 
   pour(auto i = 0; i < n - 1; i++)
   {
-    double x = β * std::cos((π * i)/(n-1));
+    soit x = β * std::cos((π * i)/(n-1));
     A(i) = x;
     X(i) = ((i & 1) ? -1 : 1) * cheb_eval(x, n-1);
   }
@@ -359,7 +359,7 @@ FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, boul�
     // Recherche deuxième lobe
     soit i = trouve_premier_max_local(Hl);
     soit lst = trouve(Hl < -3);
-    soit j = -1;//mag.rows();
+    soit j = -1;
 
     si(!lst.empty())
       j = lst[0];

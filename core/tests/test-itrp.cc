@@ -2,14 +2,13 @@
 #include "tsd/tests.hpp"
 
 
-entier test_itrp_irreg()
+void test_itrp_irreg()
 {
-  soit x = Vecf::valeurs({0, 1});
-  soit y = x.clone();
-  soit x2 = linspace(0, 1, 100);
-
-  soit yi = interp(x, y, x2);
-  soit yj = interp(x, y, x2, InterpOption::CSPLINE);
+  soit x = Vecf::valeurs({0, 1}),
+       y = x.clone(),
+       x2 = linspace(0, 1, 100),
+       yi = interp(x, y, x2),
+       yj = interp(x, y, x2, InterpOption::CSPLINE);
 
   // TODO : automatiser
 
@@ -24,8 +23,6 @@ entier test_itrp_irreg()
     f.gcf().titre("Interpolation par splines naturelles");
     f.afficher();
   }
-  retourne 0;
-
 }
 
 
@@ -42,10 +39,8 @@ void test_itrp_retard()
     soit h = itrp->coefs(delais(i));
     soit filtre = filtre_rif<float,float>(h);
 
-    soit y1 = filtre->step(x);
-    y1 = délais(y1, -7);
-
-    soit y2 = délais(x, delais(i));
+    soit y1 = délais(filtre->step(x), -7),
+         y2 = délais(x, delais(i));
 
     si(tests_debug_actif)
     {
@@ -61,7 +56,7 @@ void test_itrp_retard()
 }
 
 
-entier test_itrp()
+void test_itrp()
 {
   msg_majeur("Test des interpolateurs...");
 
@@ -104,9 +99,7 @@ entier test_itrp()
       soit c  = f.plot(h, "b-o", "Délais = {:.1f}", δ);
       c.def_couleur(cl);
 
-      //msg("  frmag...");
       soit [fr,xm] = frmag(h);
-      //msg("  ok.");
       c = f2.plot(fr, xm, "g-", "Délais = {:.1f}", δ);
       c.def_couleur(cl);
     }
@@ -120,5 +113,4 @@ entier test_itrp()
   }
 
   test_itrp_retard();
-  retourne 0;
 }

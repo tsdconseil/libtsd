@@ -16,7 +16,7 @@ namespace tsd::audio {
 
 struct WavConfig
 {
-  unsigned int ncanaux = 1;
+  entier ncanaux = 1;
   double freq_ech = 48000;
   enum
   {
@@ -41,7 +41,7 @@ extern tuple<Veccf, float> wav_charge_stereo(cstring schemin);
  *  @param x Signal to be saved.
  *  @returns Non-zero value in case of error.
  */
-extern entier wav_enregistre(cstring chemin, float fech, const Vecf &x);
+extern void wav_enregistre(cstring chemin, float fech, const Vecf &x);
 
 /** @brief Save a complex signal as a two channels  (stereo) .wav file
  *  @param chemin Output file path,
@@ -49,7 +49,7 @@ extern entier wav_enregistre(cstring chemin, float fech, const Vecf &x);
  *  @param x Signal to be saved.
  *  @returns Non-zero value in case of error.
  */
-extern entier wav_enregistre_stereo(cstring chemin, float fech, const Veccf &x);
+extern void wav_enregistre_stereo(cstring chemin, float fech, const Veccf &x);
 
 /** @cond undoc */
 const auto wav_save = wav_enregistre;
@@ -60,9 +60,9 @@ const auto wav_save = wav_enregistre;
   *  @~english @param path Output file path,
   *  @~english @param fs Sampling frequency,
   *  @~english @param x Signal to be saved. */
-inline entier wave_save(cstring path, float fs, const Vecf &x)
+inline void wave_save(cstring path, float fs, const Vecf &x)
 {
-  return wav_enregistre(path, fs, x);
+  wav_enregistre(path, fs, x);
 }
 
 
@@ -72,27 +72,31 @@ struct WavLecteur
 {
   WavLecteur();
 
-  entier charge(cstring filename);
+  void charge(cstring filename);
 
   /** @brief Duration in samples */
-  uint32_t lis_nechantillons() const;
+  entier lis_nechantillons() const;
 
   /** @brief Duration in seconds */
   float lis_duree() const;
 
-  entier lis_config(WavConfig &res);
-  entier lis_donnees(int16_t *res, uint32_t n);
-  Vecf lis_flottant(uint32_t n);
+  WavConfig lis_config() const;
 
-  //ArrayXXcf lis_cplx();
+  /** @returns nb échantillons lus */
+  entier lis_donnees(int16_t *res, entier n);
 
-  entier redemarre();
-  entier ferme();
+  Vecf lis_flottant(entier n);
+
+  void redemarre();
+  void ferme();
+
   bouléen eof() const;
-  uint32_t lis_position() const;
+
+  entier lis_position() const;
+
   float lis_position_secondes() const;
 
-  entier recherche(float temps);
+  void recherche(float temps);
 
   string lis_infos() const;
   _PIMPL_
@@ -103,13 +107,13 @@ struct WavLecteur
 struct WavEcrivain
 {
   WavEcrivain();
-  entier init(cstring chemin, const WavConfig &config);
+  void init(cstring chemin, const WavConfig &config);
 
-  entier ecris(int16_t *donnees, uint32_t n);
-  entier ecris(const Veccf &x);
-  entier ecris(const Vecf &x);
+  void ecris(int16_t *donnees, entier n);
+  void ecris(const Veccf &x);
+  void ecris(const Vecf &x);
 
-  entier ferme();
+  void ferme();
   float lis_position_secondes() const;
   string lis_infos() const;
   _PIMPL_

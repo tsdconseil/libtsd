@@ -80,7 +80,7 @@ Veci symmap_binaire(const BitStream &x, entier k)
   entier n = x.lon();
 
   si(k <= 0)
-    echec("symmap_binaire : k <= 0.");
+    échec("symmap_binaire : k <= 0.");
 
   entier nsymbs = (n + k-1)/k;
   Veci y(nsymbs);
@@ -271,7 +271,7 @@ entier FormeOnde::symbole_plus_proche(const cfloat &point) const
       res = i;
     }
   }
-  tsd_assert((res >= 0) && (res < (entier) infos.M));
+  assertion((res >= 0) && (res < (entier) infos.M));
   retourne res;
 }
 
@@ -324,7 +324,7 @@ struct FormeOndeASK: FormeOnde
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((entier) index < infos.M);
+    assertion((entier) index < infos.M);
     retourne symbs(index);
   }
 };
@@ -400,7 +400,7 @@ struct FormeOndePSK: FormeOnde
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((entier) index < infos.M);
+    assertion((entier) index < infos.M);
     retourne symbs(index);
   }
 };
@@ -482,7 +482,7 @@ struct FormeOnde_π4QPSK: FormeOnde
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((entier) index < infos.M);
+    assertion((entier) index < infos.M);
     retourne symbs[cnt & 1](index);
   }
 };
@@ -556,7 +556,7 @@ struct FormeOndeQAM: FormeOnde
 
   cfloat lis_symbole(unsigned int index) const
   {
-    tsd_assert((entier) index < infos.M);
+    assertion((entier) index < infos.M);
     retourne symbs(index);
   }
   float ber(float EbN0)
@@ -601,7 +601,7 @@ struct FormeOndeFSK: FormeOnde
 
       symbs.resize(M);
       si(M != 2)
-        echec("TODO: CtxFSK : M != 2");
+        échec("TODO: CtxFSK : M != 2");
 
       // si index = 2, il faut un OSF > 1
       symbs(0) = std::polar(1.0, - 2 * π * fo->infos.index / (2 * OSF));
@@ -739,14 +739,14 @@ struct FormeOndeFSK: FormeOnde
   cfloat lis_symbole(unsigned int index) const
   {
     //retourne 0.0f;
-    tsd_assert((entier) index < infos.M);
+    assertion((entier) index < infos.M);
     retourne symbs(index);
   }
   float etat_phase = 0;
   cfloat lis_symbole(entier index) const
   {
     //retourne 0.0f;
-    tsd_assert(index < infos.M);
+    assertion(index < infos.M);
     retourne symbs(index);
   }
 };
@@ -803,7 +803,7 @@ sptr<FormeOnde> forme_onde_π4_qpsk(const SpecFiltreMiseEnForme &filtre)
 
 Vecf SpecFiltreMiseEnForme::get_coefs(entier ncoefs, entier osf) const
 {
-  tsd_assert_msg(osf > 0, "SpecFiltreMiseEnForme : osf invalide ({})", osf);
+  assertion_msg(osf > 0, "SpecFiltreMiseEnForme : osf invalide ({})", osf);
 
   soit coefs = Vecf::zeros(osf);
   coefs(0) = 1;
@@ -811,7 +811,7 @@ Vecf SpecFiltreMiseEnForme::get_coefs(entier ncoefs, entier osf) const
   si(osf == 1)
   {
     retourne coefs; // Filtre neutre
-    //echec("Spec filtre mise en forme::get_coefs() : osf = 1.");
+    //échec("Spec filtre mise en forme::get_coefs() : osf = 1.");
   }
 
   si(ncoefs == 0)
@@ -832,7 +832,7 @@ Vecf SpecFiltreMiseEnForme::get_coefs(entier ncoefs, entier osf) const
   }
   sinon si(type == GAUSSIEN)
   {
-    tsd_assert(ncoefs > 0);
+    assertion(ncoefs > 0);
     //msg("gaussien : bt = {}, osf = {}, ncoefs = {}", BT, osf, ntaps);
     // Porte de largeur osf + filtre gaussien
     coefs = design_rif_gaussien_telecom(ncoefs, BT, osf);
@@ -840,12 +840,12 @@ Vecf SpecFiltreMiseEnForme::get_coefs(entier ncoefs, entier osf) const
   sinon si(type == RCS)
   {
     // Ntaps = 3 * osf = 12
-    tsd_assert(ncoefs > 0);
+    assertion(ncoefs > 0);
     //msg("rcs : roff = {}, osf = {}, ncoefs = {}", α, osf, ncoefs);
     coefs = design_rif_rcs1(ncoefs, β, osf);
   }
   sinon
-    echec("Type de filtre de mise en forme inconnu ({})", (entier) type);
+    échec("Type de filtre de mise en forme inconnu ({})", (entier) type);
 
   /*{
     Figure fg("Filtre de mise en forme");
@@ -855,9 +855,9 @@ Vecf SpecFiltreMiseEnForme::get_coefs(entier ncoefs, entier osf) const
 
   //msg("Filtre de mise en forme : ncoefs = {} ({} prog, osf = {}).", coefs.rows(), ncoefs, osf);
 
-  tsd_assert(coefs.rows() > 0);
+  assertion(coefs.rows() > 0);
   si(coefs.hasNaN())
-    echec("{} : Valeurs NaN dans les coefficients.", *this);
+    échec("{} : Valeurs NaN dans les coefficients.", *this);
 
   retourne coefs;
 }
@@ -946,14 +946,14 @@ SpecFiltreMiseEnForme SpecFiltreMiseEnForme::rcs(float β)
 // Ajoute si besoin des zéros avant et après
 static Vecf sympad(const Vecf &v, entier nc)
 {
-  tsd_assert(v.rows() <= nc);
+  assertion(v.rows() <= nc);
   soit r = v.clone();
   si(v.rows() < nc)
   {
     soit d = (nc - v.rows()) / 2;
     r = Vecf::zeros(d) | v | Vecf::zeros(nc - d - v.rows());
   }
-  tsd_assert(r.rows() == nc);
+  assertion(r.rows() == nc);
   retourne r;
 }
 

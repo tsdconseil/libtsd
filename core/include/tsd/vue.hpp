@@ -316,7 +316,15 @@ struct Canva
 
   void cercle(float x0, float y0, float r);
   void cercle(const Pointf &p, float r);
-  void ellipse(const Pointf &p, float a, float b, float theta = 0);
+
+  /** @param p  Centre
+   *  @param a  Largeur
+   *  @param b  Hauteur
+   *  @param θ  Orientation de l'ellipse
+   *  @param α0 Angle initial
+   *  @param α1 Angle final
+   */
+  void ellipse(const Pointf &p, float a, float b, float θ = 0, float α0 = 0, float α1 = 2 * π);
   void remplissage_vertical(float x0, float y0, float x1, float y1, float y2, float y3);
   void dessine_accu(const Veccf &pts);
   void def_image_fond(Image img);
@@ -808,8 +816,8 @@ struct Figure: ARendable
 
   /** @} */
 
-  extern std::function<void ()> stdo_fin;
-  extern std::function<void (sptr<const Rendable> fig, cstring titre)> stdo_ajoute_figure;
+  extern fonction<void ()> stdo_fin;
+  extern fonction<void (sptr<const Rendable> fig, cstring titre)> stdo_ajoute_figure;
 
   // Active les réglages pour un mode impression par défaut
   extern void set_mode_impression(bool mode_impression = oui);

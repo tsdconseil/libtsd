@@ -15,7 +15,7 @@ struct ECP: Filtre<cfloat, cfloat, ECPConfig>
   {
     configure(config);
   }
-  entier configure_impl(const ECPConfig &config)
+  void configure_impl(const ECPConfig &config)
   {
     msg("ECP : fe = {} Hz, doppler = {} Hz (soit {:.3f} degrés / échantillon), Eb/N0 = {:.1f} dB, fsymb = {}, fbit = {}.",
         config.fe, config.décalage_fréquence, 360.0f * config.décalage_fréquence / config.fe,
@@ -23,8 +23,6 @@ struct ECP: Filtre<cfloat, cfloat, ECPConfig>
         config.fsymb, config.fbit);
 
     ol = source_ohc(config.décalage_fréquence / config.fe);
-
-    retourne 0;
   }
   void step(const Veccf &x, Veccf &y)
   {
@@ -90,7 +88,7 @@ struct ECP: Filtre<cfloat, cfloat, ECPConfig>
               "n = %d, clock_delay = %f.",
               n, (float) config.clock_delay);*/
 
-    //tsd_assert(n > config.clock_delay);
+    //assertion(n > config.clock_delay);
 
     //y.resize(n - config.clock_delay);
 

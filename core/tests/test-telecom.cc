@@ -23,7 +23,7 @@ static void test_filtre_boucle_ordre_1()
   msg("y(5) = {}", y(5));
 
   // Attendu : 63 % à τ
-  tsd_assert(abs(y(5) - 0.632) < 1e-3);
+  assertion(abs(y(5) - 0.632) < 1e-3);
 
   msg("ok.");
 }
@@ -33,43 +33,40 @@ static void verifie_delais(const Vecf &x, entier pos_attendue, cstring desc)
 {
   soit pos = x.index_max();
   msg("Vérification délais {} : pos attendue = {}, pos = {}", desc, pos_attendue, pos);
-  tsd_assert_msg(pos == pos_attendue, "vérification délais {} : erreur (pos attendue = {}, pos = {})", desc, pos_attendue, pos);
+  assertion_msg(pos == pos_attendue, "vérification délais {} : erreur (pos attendue = {}, pos = {})", desc, pos_attendue, pos);
 }
 
 
-entier test_bitstream()
+void test_bitstream()
 {
   BitStream bs = BitStream::zéros(5);
-  tsd_assert(bs.lon() == 5);
+  assertion(bs.lon() == 5);
   pour(auto i = 0; i < 5; i++)
   {
-    tsd_assert(!bs[i]);
+    assertion(!bs[i]);
   }
 
   bs = BitStream::uns(13);
-  tsd_assert(bs.lon() == 13);
+  assertion(bs.lon() == 13);
   pour(auto i = 0; i < 13; i++)
   {
-    tsd_assert(bs[i]);
+    assertion(bs[i]);
   }
 
   bs.set(4, non);
-  tsd_assert(!bs[4]);
+  assertion(!bs[4]);
 
   bs.set(4, oui);
   BitStream bs2 = bs + BitStream::zéros(7);
-  tsd_assert(bs2.lon() == 20);
+  assertion(bs2.lon() == 20);
   pour(auto i = 0; i < 13; i++)
   {
-    tsd_assert(bs2[i]);
+    assertion(bs2[i]);
   }
   pour(auto i = 14; i < 20; i++)
   {
-    tsd_assert(!bs2[i]);
+    assertion(!bs2[i]);
   }
-
-
-  retourne 0;
 }
 
 
@@ -97,26 +94,24 @@ void test_forme_onde(sptr<FormeOnde> fo)
     f.afficher();
   }
 
-  tsd_assert_msg(bs.dst_Hamming(bs2) == 0, "Echec test forme d'onde.");
+  assertion_msg(bs.dst_Hamming(bs2) == 0, "Echec test forme d'onde.");
 }
 
 
-entier test_formes_ondes()
+void test_formes_ondes()
 {
   msg_majeur("Test des formes d'ondes");
   soit lst = {forme_onde_bpsk(), forme_onde_qpsk(), forme_onde_π4_qpsk(), forme_onde_psk(8), forme_onde_qam(16)};
 
   pour(auto fo: lst)
     test_forme_onde(fo);
-
-  retourne 0;
 }
 
 
 
 
 
-entier test_delais_filtres()
+void test_delais_filtres()
 {
   msg_majeur("Test délais des filtres.");
 
@@ -151,8 +146,6 @@ entier test_delais_filtres()
     }
     verifie_delais(y,  filtre_rif_ups_délais(nc, R), sformat("upsampling R = {}", R));
   }
-
-  retourne 0;
 }
 
 
@@ -193,7 +186,7 @@ void test_discri_fm()
   soit emax = abs(err).valeur_max();
   msg("Erreur discri = {}", emax);
   si(emax > 1e-3)
-    echec("Disci fm : trop d'erreur.");
+    échec("Disci fm : trop d'erreur.");
 
 }
 
@@ -395,7 +388,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   {
 
 
-    tsd_assert(offset + nd <= x.rows());
+    assertion(offset + nd <= x.rows());
 
     //float σ = pow(10, - SNR(i) / 20) / sqrt(2.0f);
     // Pareil
@@ -473,7 +466,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
       entier nbits = nd * rc.format.modulation.fe / (rc.format.modulation.fsymb / 10) + 128;
       BitStream bs = BitStream::rand(nbits);
       soit y = mod->step(bs);
-      tsd_assert(y.rows() >= nd);
+      assertion(y.rows() >= nd);
 
       co = y.head(nd) / 2;
 
@@ -520,7 +513,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 
     si(abs(SNR_emp - SNR(i)) >= 0.5)
     {
-      echec("SNR empirique hors borne.");
+      échec("SNR empirique hors borne.");
     }
 
     offset += nd;
@@ -543,7 +536,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
   soit trames = rec->step(x);
 
   msg("Nb trames décodées : {}", trames.size());
-  //tsd_assert(!trames.empty());
+  //assertion(!trames.empty());
 
 
   si(config.avec_plot)
@@ -659,7 +652,7 @@ TestRecepteurRes test_recepteur_unit(const TestRecepteurConfig &config)
 }
 
 
-entier bench_recepteur_a()
+void bench_recepteur_a()
 {
   soit wf = forme_onde_qpsk();
   wf->filtre = SpecFiltreMiseEnForme::rcs(0.25);
@@ -731,16 +724,11 @@ entier bench_recepteur_a()
       f.afficher("BPSK - Erreurs détection");
     }
   }
-
-
-
-
-  retourne 0;
 }
 
 
 
-entier bench_recepteur()
+void bench_recepteur()
 {
   bench_recepteur_a();
   //retourne 0;
@@ -813,15 +801,13 @@ entier bench_recepteur()
   }
 
   fclose(fo);
-
-  retourne 0;
 }
 
 // Code = MLS 31 bits
 // BPSK
 // Signal 1.25 MHz
 // sous-échantilloné à 250 kHz après filtre adapté NRZ
-entier test_recepteur()
+void test_recepteur()
 {
   soit lst_m =
   {
@@ -889,13 +875,13 @@ entier test_recepteur()
 # endif
 
   // Ceci fonctionnne !!!!
-  //tsd_assert(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = non, .avec_plot = oui, .nb_rep = 1}).succès);
-  //tsd_assert(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = oui, .avec_plot = oui, .nb_rep = 1}).succès);
+  //assertion(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = non, .avec_plot = oui, .nb_rep = 1}).succès);
+  //assertion(test_recepteur_unit({.osf = 3, .fo = waveform_bpsk(), .SNR_min = 4, .avec_delais = oui, .avec_plot = oui, .nb_rep = 1}).succès);
 
   /*{
     soit m = waveform_bpsk();
     m->filtre = SpecFiltreMiseEnForme::srrc(0.5);
-    tsd_assert(test_recepteur_unit({.osf = 3, .fo = m, .SNR_min = 4, .avec_delais = non, .avec_plot = oui, .nb_rep = 1}).succès);
+    assertion(test_recepteur_unit({.osf = 3, .fo = m, .SNR_min = 4, .avec_delais = non, .avec_plot = oui, .nb_rep = 1}).succès);
   }*/
   /*{
     soit fo = waveform_fsk(4);
@@ -933,19 +919,15 @@ entier test_recepteur()
           si(!res.succès)
           {
             test_recepteur_unit({.osf = osf, .fo = m, .SNR_min = SNR_min, .avec_delais = avec_delais, .avec_plot = oui});
-            echec("Le test unitaire du récepteur a échoué : osf={}, fo={}", osf, *m);
-            retourne -1;
+            échec("Le test unitaire du récepteur a échoué : osf={}, fo={}", osf, *m);
           }
         }
     }
   }
-
-
-  retourne 0;
 }
 
 
-entier test_filtre_adapte()
+void test_filtre_adapte()
 {
 
   pour(auto i = 0; i < 2; i++)
@@ -1009,7 +991,6 @@ entier test_filtre_adapte()
       f.afficher();
     }
   }
-  retourne 0;
 }
 
 
@@ -1050,7 +1031,7 @@ void test_fsk()
   }
 }
 
-entier test_demod()
+void test_demod()
 {
   msg_majeur("Tests démodulation...");
 
@@ -1139,9 +1120,8 @@ entier test_demod()
 
     // Verification
     si(res.nerr != 0)
-      echec("Bits erronés non attendus !");
+      échec("Bits erronés non attendus !");
   }
-  retourne 0;
 }
 
 
@@ -1152,7 +1132,7 @@ void test_sah()
   soit y = sah(x, 3);
   soit yref = Vecf::valeurs({0, 0, 0, 1, 1, 1, 2, 2, 2});
   soit err = abs(y - yref).valeur_max();
-  tsd_assert_msg(err == 0, "Erreur SAH");
+  assertion_msg(err == 0, "Erreur SAH");
   msg("sah ok.");
 }
 
@@ -1190,13 +1170,13 @@ static void test_émetteur()
 
   msg("Reçu : {} trames.", tr.size());
 
-  tsd_assert(tr.size() == 1u);
-  tsd_assert(tr[0].bs == bs);
+  assertion(tr.size() == 1u);
+  assertion(tr[0].bs == bs);
 
   msg("ok.");
 }
 
-entier test_telecom()
+void test_telecom()
 {
   test_filtre_boucle_ordre_1();
   test_émetteur();
@@ -1205,5 +1185,4 @@ entier test_telecom()
   test_fsk();
   test_demod();
   test_sah();
-  retourne 0;
 }

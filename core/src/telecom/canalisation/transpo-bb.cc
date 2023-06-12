@@ -19,7 +19,7 @@ struct TranspoBB: Filtre<Te, cfloat, TranspoBBConfig>
   sptr<SourceGen<cfloat>> ol;
   sptr<FiltreGen<cfloat>> filtre_image;
 
-  entier configure_impl(const TranspoBBConfig &config)
+  void configure_impl(const TranspoBBConfig &config)
   {
     si(mode == 'r')
     {
@@ -34,7 +34,6 @@ struct TranspoBB: Filtre<Te, cfloat, TranspoBBConfig>
       filtre_image = tsd::filtrage::filtre_rif<float,cfloat>(h);
     }
     ol = source_ohc(-config.fi);
-    retourne 0;
   }
 
   TranspoBB(const TranspoBBConfig &config, char mode)

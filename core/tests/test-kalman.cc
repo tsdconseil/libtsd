@@ -83,14 +83,13 @@ static void test_kalman_ssg()
   //! [ex_kalman_ssg]
 }
 
-entier test_kalman()
+void test_kalman()
 {
   msg_majeur("Tests Kalman...");
   test_modele_constante();
   test_modele_ma();
   test_kalman_ssg();
   msg_majeur("Fin.");
-  retourne 0;
 }
 
 

@@ -35,13 +35,14 @@ void test_levinson()
   soit R = r_vers_R(r.head(p-1));
 
   soit ac = levinson_reel(r);
+  // TODO use tsd matrix inversion
   Eigen::VectorXf tmp = tab2etab(R).lu().solve(-vec2evec(r).tail(p-1));
   soit ar  = evec2vec(tmp);
   soit ac2 = levinson(r.head(p-1), r.head(p-1), -r.tail(p-1));
 
-  tsd_assert(ar.rows() == p - 1);
-  tsd_assert(ac.rows() == p);
-  tsd_assert(ac2.rows() == p - 1);
+  assertion(ar.rows() == p - 1);
+  assertion(ac.rows() == p);
+  assertion(ac2.rows() == p - 1);
 
 
   soit err     = abs(ac.tail(p-1) - ar).valeur_max(),
@@ -53,17 +54,16 @@ void test_levinson()
       err, erryref, erry, erry2);
 
   si((err > 5e-5) || (erry > 1e-5) || (erryref > 1e-5) || (erry2 > 1e-5))
-    echec("Echec levinson.");
+    échec("Echec levinson.");
 
 
   msg("ok.");
 }
 
-entier test_stats()
+void test_stats()
 {
   test_cov();
   test_levinson();
-  retourne 0;
 }
 
 

@@ -23,7 +23,7 @@ bouléen tests_debug_actif = non;
 
 extern bouléen erreur_attendue;
 
-void vérifie_exception(std::function<void()> func)
+void vérifie_exception(fonction<void()> func)
 {
   erreur_attendue = oui;
   bouléen erreur_détectée = non;
@@ -37,29 +37,24 @@ void vérifie_exception(std::function<void()> func)
     msg("Erreur bien détectée.");
   }
   erreur_attendue = non;
-  tsd_assert_msg(erreur_détectée, "Une exception était attendue, elle n'a pas été détectée.");
+  assertion_msg(erreur_détectée, "Une exception était attendue, elle n'a pas été détectée.");
 }
 
 
-entier verifie_erreur_relative(float v, float ref, float precision, cstring refname)
+void verifie_erreur_relative(float v, float ref, float precision, cstring refname)
 {
   // TODO: not oui
   si((ref < 0.000001) && (v < 0.000001))
-    retourne 0;
+    retourne;
 
   si(((ref == 0.0) || (ref == -0.0)) && (v == 0.0))
-    retourne 0;
+    retourne;
 
   float err = 100.0 * abs((v - ref) / ref);
 
   si(err > precision)
-  {
-    msg_erreur("{}: erreur trop grande. Valeur = {}, référence = {}, erreur relative = {} %, erreur relative max = {} %.",
+    échec("{}: erreur trop grande. Valeur = {}, référence = {}, erreur relative = {} %, erreur relative max = {} %.",
         refname.c_str(), v, ref, err, precision);
-    retourne -1;
-  }
-
-  retourne 0;
 }
 
 
@@ -92,11 +87,13 @@ static entier teste(entier i, vector<Test> &tests)
   entier res = -1;
   try
   {
-    res = t.fonction();
+    t.fonction();
+    res = 0;
   }
   catch(std::runtime_error &e)
   {
     msg("Exception : {}", e.what());
+    res = -1;
   }
 
   float t1 = get_tick_count_us();
@@ -138,7 +135,7 @@ entier fait_tests(entier argc, const char *argv[], vector<Test> &tests)
   {
     string nom;
 
-    si(optarg != nullptr)
+    si(optarg)
       nom = optarg;
 
     switch (opt)

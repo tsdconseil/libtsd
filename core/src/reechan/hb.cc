@@ -22,7 +22,7 @@ namespace tsd::filtrage
     //    exemple : n = 3, m = 1
     //      h = h(-2) z^-1 + 1/2 + h(2) z^1 [coefs d'ordre impair sont nul, sauf h_m]
 
-    tsd_assert_msg(est_impair(n), "design_rif_hb(n={}) : filtre de type I, n doit être impair.", n);
+    assertion_msg(est_impair(n), "design_rif_hb(n={}) : filtre de type I, n doit être impair.", n);
 
     soit m = (n-1) / 2;
 
@@ -60,7 +60,7 @@ namespace tsd::filtrage
 
     soit g = design_rif_eq(m + 1, D, W);
 
-    tsd_assert(g.rows() == m + 1);
+    assertion(g.rows() == m + 1);
 
     Vecf h(n);
     pour(auto k = 0; k < n; k++)

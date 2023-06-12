@@ -13,140 +13,16 @@
 using namespace std;
 
 
-
-
 namespace tsd {
 
 
-default_random_engine generateur_aleatoire;
 
-
-
-
-
-Vecf sigscie(entier p, entier n)
-{
-  retourne Vecf::int_expr(n, IMAP(
-      ((i % p) - ((p-1) * 0.5)) / (0.5 * (p-1))));
-}
-
-Vecf sigtri(entier p, entier n)
-{
-  Vecf x(n);
-  pour(auto i = 0; i < n; i++)
-  {
-    entier j = i % p;
-    si(j < p/2)
-      x(i) = j;
-    sinon
-      x(i) = p - j;
-    x(i) -= 0.5 * (p/2);
-    x(i) /= p;
-  }
-  retourne 4*x; // entre -1 et 1
-}
-
-Vecf sigcar(entier p, entier n)
-{
-  retourne Vecf::int_expr(n, IMAP(
-      2 * (((i / (p/2)) % 2) - 0.5)));
-}
-
-Vecf sigimp(entier n, entier p)
-{
-  Vecf x = Vecf::zeros(n);
-  tsd_assert_msg((p >= 0) && (p < n), "sigimp(n={},p={}) : p devrait être compris entre 0 et n-1.", n, p);
-  x(p) = 1;
-  retourne x;
-}
-
-
-
-Veccf sigexp(float f, entier n)
-{
-  Veccf x(n);
-  cdouble r = 1,
-          w0 = std::polar<double>(1.0, f*2*π);
-
-  entier i = 0;
-  tantque(i < n)
-  {
-    pour(auto j = 0; (j < 1000) && (i < n); j++)
-    {
-      x(i++) = r;
-      r *= w0;
-    }
-    // Tout les 1000 échantillons, corrige la phase
-    r /= abs(r);
-  }
-
-  retourne x;
-}
-
-Vecf sigsin(float f, entier n)
-{
-  retourne imag(sigexp(f, n));
-}
-
-Vecf sigcos(float f, entier n)
-{
-  retourne real(sigexp(f, n));
-}
-
-Vecf signyquist(entier n)
-{
-  entier i;
-  Vecf x(n);
-  pour(i = 0; i + 1 < n; i += 2)
-  {
-    x(i) = -1;
-    x(i+1) = 1;
-  }
-  si(i == n - 1)
-    x(i) = -1;
-  retourne x;
-}
-
-Vecf sigchirp(float f0, float f1, entier n, char mode)
-{
-  Vecf freq;
-  si(mode == 'l')
-   freq = linspace(f0, f1, n);
-  sinon si(mode == 'q')
-    freq  = f0 + (f1 - f0) * square(linspace(0, 1, n));
-  sinon
-  {
-    msg_erreur("sigchirp: mode invalide '{}' (devrait être 'l' ou 'q').", mode);
-    retourne {};
-  }
-  soit phase = (2 * π) * cumsum(freq);
-  retourne cos(phase);
-}
-
-Vecf siggauss(entier n, float a)
-{
-  soit t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
-  retourne exp(- a * t * t);
-}
-
-Vecf siggsin(float f, entier n, float a)
-{
-  soit x = sigsin(f, n);
-  soit t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
-  retourne x * exp(- a * t * t);
-}
-
-entier prochaine_puissance_de_2(unsigned int i)
-{
-  entier lg2 = (entier) ceil(log((float) i) / log(2.0f));
-  retourne 1l << lg2;
-}
 
 uint64_t get_tick_count_µs()
 {
 
 # if WIN32
-  echec("TODO: VSTUDIO / get_tick_count_µs");
+  échec("TODO: VSTUDIO / get_tick_count_µs");
   retourne 0;
 # else
   struct timespec ts;
@@ -159,18 +35,18 @@ uint64_t get_tick_count_µs()
 # endif
 }
 
-
-
-
 // En mode test
 bouléen erreur_attendue = non;
 
+}
 
-void log_default(const char *fn, const entier ligne, entier niveau, cstring str)
+
+
+void log_msg_default(const char *fn, entier ligne, entier niveau, cstring str)
 {
   fmt::text_style drapeaux;
 
-  si(!erreur_attendue)
+  si(!tsd::erreur_attendue)
   {
     si(niveau == 2)
       drapeaux = fmt::emphasis::bold;
@@ -180,7 +56,7 @@ void log_default(const char *fn, const entier ligne, entier niveau, cstring str)
       drapeaux = fg(fmt::color::crimson) | fmt::emphasis::bold;
   }
 
-  soit tot = get_tick_count_µs();
+  soit tot = tsd::get_tick_count_µs();
 
   static int64_t first = -1, last = -1;
   si(first == -1)
@@ -242,12 +118,9 @@ void log_default(const char *fn, const entier ligne, entier niveau, cstring str)
   }
 }
 
+namespace tsd {
 
-
-
-
-static logger_t the_log = log_default;
-
+/*static logger_t the_log = log_default;
 
 void reset_logger()
 {
@@ -257,17 +130,168 @@ void reset_logger()
 void set_logger(logger_t log_)
 {
   the_log = log_;
-}
+}*/
 
-void msg_impl2(const char *fn, const entier ligne, entier niveau, const string &str)
+
+#if 0
+void msg_impl2(const char *fn, const entier ligne, entier niveau, cstring str)
 {
-  si(the_log)
-    the_log(fn, ligne, niveau, str);
-  sinon
+  //si(the_log)
+  //  the_log(fn, ligne, niveau, str);
+  //sinon
     // Car l'affectation log=log_default n'est pas forcément déjà faite ici.
     // (par exemple, si appel depuis l'initialisation d'une variable statique)
     log_default(fn, ligne, niveau, str);
 }
+#endif
+
+#if 0
+}
+
+
+//__attribute__((weak))
+
+//__attribute__((weak)) void log_msg_impl(const char *fn, const entier ligne, entier niveau, cstring str);
+
+
+__attribute__((weak)) void log_msg_impl(const char *fn, const entier ligne, entier niveau, cstring str)
+{
+  /*tsd::msg_impl2*/tsd::log_default(fn, ligne, niveau, str);
+}
+
+
+namespace tsd {
+#endif
+
+default_random_engine generateur_aleatoire;
+
+
+
+
+
+Vecf sigscie(entier p, entier n)
+{
+  retourne Vecf::int_expr(n, IMAP(
+      ((i % p) - ((p-1) * 0.5)) / (0.5 * (p-1))));
+}
+
+Vecf sigtri(entier p, entier n)
+{
+  Vecf x(n);
+  pour(auto i = 0; i < n; i++)
+  {
+    soit j = i % p;
+    si(j < p/2)
+      x(i) = j;
+    sinon
+      x(i) = p - j;
+    x(i) -= 0.5 * (p/2);
+    x(i) /= p;
+  }
+  retourne 4*x; // entre -1 et 1
+}
+
+Vecf sigcar(entier p, entier n)
+{
+  retourne Vecf::int_expr(n, IMAP(
+      2 * (((i / (p/2)) % 2) - 0.5)));
+}
+
+Vecf sigimp(entier n, entier p)
+{
+  soit x = Vecf::zeros(n);
+  assertion_msg((p >= 0) && (p < n), "sigimp(n={},p={}) : p devrait être compris entre 0 et n-1.", n, p);
+  x(p) = 1;
+  retourne x;
+}
+
+
+
+Veccf sigexp(float f, entier n)
+{
+  Veccf x(n);
+  cdouble r = 1,
+          w0 = std::polar<double>(1.0, f*2*π);
+
+  soit i = 0;
+  tantque(i < n)
+  {
+    pour(auto j = 0; (j < 1000) && (i < n); j++)
+    {
+      x(i++) = r;
+      r *= w0;
+    }
+    // Tout les 1000 échantillons, corrige la phase
+    r /= abs(r);
+  }
+  retourne x;
+}
+
+Vecf sigsin(float f, entier n)
+{
+  retourne imag(sigexp(f, n));
+}
+
+Vecf sigcos(float f, entier n)
+{
+  retourne real(sigexp(f, n));
+}
+
+Vecf signyquist(entier n)
+{
+  entier i;
+  Vecf x(n);
+  pour(i = 0; i + 1 < n; i += 2)
+  {
+    x(i) = -1;
+    x(i+1) = 1;
+  }
+  si(i == n - 1)
+    x(i) = -1;
+  retourne x;
+}
+
+Vecf sigchirp(float f0, float f1, entier n, char mode)
+{
+  Vecf freq;
+  si(mode == 'l')
+    freq = linspace(f0, f1, n);
+  sinon si(mode == 'q')
+    freq  = f0 + (f1 - f0) * square(linspace(0, 1, n));
+  sinon
+    échec("sigchirp: mode invalide '{}' (devrait être 'l' ou 'q').", mode);
+  soit phase = (2 * π) * cumsum(freq);
+  retourne cos(phase);
+}
+
+Vecf siggauss(entier n, float a)
+{
+  soit t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
+  retourne exp(- a * t * t);
+}
+
+Vecf siggsin(float f, entier n, float a)
+{
+  soit x = sigsin(f, n),
+       t = (linspace(0, n-1, n) - n/2.0f) / (n/2.0f);
+  retourne x * exp(-a * t * t);
+}
+
+entier prochaine_puissance_de_2(entier i)
+{
+  soit lg2 = (entier) ceil(log((float) i) / log(2.0f));
+  retourne 1l << lg2;
+}
+
+
+
+
+
+
+
+
+
+
 
 /** @brief Cette classe tamponne les données d'entrée
  *  pour les sortir sous la forme de paquets de taille constante
@@ -286,12 +310,11 @@ struct TamponNv2: Sink<T, entier>
     Configurable<entier>::configure(N);
   }
 
-  entier configure_impl(const entier &N)
+  void configure_impl(const entier &N)
   {
     this->N = N;
     windex  = 0;
     // Allocation faite plus tard, afin d'éviter d'allouer de la mémoire si elle n'est pas utilisée...
-    retourne 0;
   }
 
   inline entier dim()
@@ -311,20 +334,19 @@ struct TamponNv2: Sink<T, entier>
     si((tampon.rows() == 0) && (N > 0))
       tampon.resize(N);
 
-    entier nb_ech_entree = x.rows();
-    entier i = 0;
+    entier nb_ech_entree = x.rows(), i = 0;
     tantque(i < nb_ech_entree)
     {
       /* Write index + number of bytes remaining in
        * the input datablock. */
-      entier new_windex = windex + nb_ech_entree - i;
+      soit new_windex = windex + nb_ech_entree - i;
 
       /* If too much data pour the FIFO */
       si(new_windex >= N)
         new_windex = N;
 
       /* Copy input data to the FIFO */
-      entier nech = new_windex - windex;
+      soit nech = new_windex - windex;
 
       tampon.segment(windex, nech) = x.segment(i, nech);
 
@@ -357,12 +379,13 @@ template sptr<Sink<float,entier>> tampon_création<float>(entier N,
 template sptr<Sink<cfloat,entier>> tampon_création<cfloat>(entier N,
     function<void (const Vecteur<cfloat> &)> callback);
 
+/*
 string vstrprintf( const char* format, va_list argv)
 {
   va_list argv2;
   va_copy(argv2, argv);
   entier length = vsnprintf(nullptr, 0, format, argv);
-  tsd_assert(length >= 0);
+  assertion(length >= 0);
 
   soit buf = new char[length + 1];
   vsnprintf(buf, length + 1, format, argv2);
@@ -374,7 +397,7 @@ string vstrprintf( const char* format, va_list argv)
   retourne str;
   //retourne move(str);
 }
-
+*/
 
 
 Vecf randu(entier n, float a, float b)
@@ -431,9 +454,6 @@ float randn()
 
 Vecf randn(entier n)
 {
-  //static /*default_random_engine*//*mt19937_64*/minstd_rand0 generateur;
-  //generateur.seed()
-
   normal_distribution<float> distribution(0.0f, 1.0f);
   //msg("      randn({})...", n);
   Vecf X(n);
@@ -458,9 +478,7 @@ Veccf randcn(entier n)
 
 Tabf randn_2d(unsigned int n, unsigned int m)
 {
-  //static default_random_engine generateur;
   normal_distribution<float> distribution(0.0f, 1.0f);
-
   Tabf X(n, m);
   soit ptr = X.raw_data;
   pour(auto i = 0u; i < m*n; i++)
@@ -523,6 +541,7 @@ struct OLUT::Impl
 {
   entier N;
   Veccf lut;
+
   Impl(entier N)
   {
     this->N = N;
@@ -534,11 +553,11 @@ struct OLUT::Impl
     soit θ = modulo_2π(θ0);
 
     // Interpolation linéaire
-    tsd_assert((θ >= 0) && (θ < 2 * π_f));
+    assertion((θ >= 0) && (θ < 2 * π_f));
     float idf = θ * N / (2 * π_f);
     entier idi = floor(idf);
     float f = idf - idi;
-    tsd_assert((idi >= 0) && (idi < N));
+    assertion((idi >= 0) && (idi < N));
     retourne lut(idi) * (1-f) + lut((idi+1)%N) * f;
   }
 };
@@ -568,11 +587,10 @@ struct OHC: Source<cfloat, OHConfig>
     configure({f});
   }
 
-  entier configure_impl(const OHConfig &cfg)
+  void configure_impl(const OHConfig &cfg)
   {
     freq      = cfg.freq;
     rotation  = std::polar(1.0, 2.0 * π * freq);
-    retourne 0;
   }
 
   Veccf step(entier n)
@@ -600,9 +618,9 @@ struct OHR: Source<float, OHConfig>
     configure({nu});
   }
 
-  entier configure_impl(const OHConfig &config)
+  void configure_impl(const OHConfig &config)
   {
-    retourne ohc.configure(config);
+    ohc.configure(config);
   }
 
   Vecf step(entier n)

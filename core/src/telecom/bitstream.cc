@@ -61,7 +61,7 @@ void BitStream::set(unsigned int index, bouléen valeur)
   soit bit   = index & 7;
 
   si(octet >= buffer.size())
-    echec("Ecriture bitstream : index invalide ({}, nb bits = {}).", index, buffer.size() * 8);
+    échec("Ecriture bitstream : index invalide ({}, nb bits = {}).", index, buffer.size() * 8);
 
   si(valeur)
     buffer[octet] |= (1 << bit);
@@ -93,7 +93,7 @@ BitStream::BitStream(cstring s)
     sinon si(s[i] == '0')
       push(non);
     sinon
-      echec("Construction bitstream : chaine invalide \"{}\"", s);
+      échec("Construction bitstream : chaine invalide \"{}\"", s);
   }
 }
 
@@ -101,7 +101,7 @@ entier BitStream::dst_Hamming(const BitStream &bs) const
 {
   soit n = lon();
   si(bs.lon() != n)
-    echec("Distance de Hamming entre bitstream : dimensions différentes ({} vs {} bits).", n, bs.lon());
+    échec("Distance de Hamming entre bitstream : dimensions différentes ({} vs {} bits).", n, bs.lon());
 
   soit cnt = 0;
   pour(auto i = 0; i < n; i++)

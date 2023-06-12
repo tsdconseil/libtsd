@@ -13,7 +13,7 @@ static Vecf bidon()
   retourne x;
 }
 
-entier test_tab()
+void test_tab()
 {
   //soit t = Tab::ones(ℝ, 32, 3,3);
   soit t = Tabf::ones(3,3);
@@ -23,7 +23,7 @@ entier test_tab()
   // Vérificatioon deep copy
   soit t2 = t.clone();
 
-  tsd_assert((t2.rows() == 3) && (t2.cols() == 3));
+  assertion((t2.rows() == 3) && (t2.cols() == 3));
 
   t2(0,1) = 7;
 
@@ -31,13 +31,13 @@ entier test_tab()
 
   pour(auto i = 0; i < 3; i++)
     pour(auto j = 0; j < 3; j++)
-      tsd_assert(t(i,j) == 1);
+      assertion(t(i,j) == 1);
 
   {
     msg("Vérif affectation colonne d'un tableau...");
     soit M = Tabf::zeros(5,10);
-    soit v1 = Vecf::ones(5);
-    soit v2 = 2 * v1;
+    soit v1 = Vecf::ones(5),
+         v2 = 2 * v1;
     M.col(0) = v1;
     M.col(1) = v2;
 
@@ -45,8 +45,8 @@ entier test_tab()
     msg("v1 = {}", v1);
     msg("v2 = {}", v2);
 
-    tsd_assert(M(0,0) == 1);
-    tsd_assert(M(0,1) == 2);
+    assertion(M(0,0) == 1);
+    assertion(M(0,1) == 2);
   }
 
 
@@ -61,25 +61,25 @@ entier test_tab()
     msg("zptr = {}", zptr);
 
 
-    tsd_assert(xptr == yptr);
-    tsd_assert(zptr != xptr);
-    tsd_assert(y.est_approx(Vecf::ones(5)));
+    assertion(xptr == yptr);
+    assertion(zptr != xptr);
+    assertion(y.est_approx(Vecf::ones(5)));
 
     // Maintenant, vérification que le move est désactivé si la destination
     // est une référence.
-    soit X = Vecf::zeros(10);
-    soit Xh = X.head(5);
+    soit X  = Vecf::zeros(10),
+         Xh = X.head(5);
 
-    tsd_assert(X.data() == Xh.data());
+    assertion(X.data() == Xh.data());
 
     Xh = y;
-    tsd_assert(X.data() == Xh.data());
+    assertion(X.data() == Xh.data());
 
     msg("Xh = {}", Xh);
     msg("X = {}", X);
 
-    tsd_assert(X.head(5).est_approx(Vecf::ones(5)));
-    tsd_assert(X.tail(5).est_approx(Vecf::zeros(5)));
+    assertion(X.head(5).est_approx(Vecf::ones(5)));
+    assertion(X.tail(5).est_approx(Vecf::zeros(5)));
   }
 
   t *= 2;
@@ -88,7 +88,7 @@ entier test_tab()
 
   pour(auto i = 0; i < 3; i++)
     pour(auto j = 0; j < 3; j++)
-      tsd_assert(t(i,j) == 2);
+      assertion(t(i,j) == 2);
 
   t += 1;
 
@@ -96,15 +96,15 @@ entier test_tab()
 
   pour(auto i = 0; i < 3; i++)
     pour(auto j = 0; j < 3; j++)
-      tsd_assert(t(i,j) == 3);
+      assertion(t(i,j) == 3);
 
 
 
   {
-    soit x  = Vecf::ones(10);
-    soit x2 = cumsum(x);
+    soit x  = Vecf::ones(10),
+         x2 = cumsum(x);
     msg("cumsum({}) = {}", x, x2);
-    tsd_assert(x2.est_approx(linspace(1,10,10)));
+    assertion(x2.est_approx(linspace(1,10,10)));
   }
 
   {
@@ -118,22 +118,22 @@ entier test_tab()
     {
       msg("x({}) = {}", i, x(i));
       msg("x({}) = {}", i+5, x(i+5));
-      tsd_assert(x(i) == 0);
-      tsd_assert(x(i+5) == 1);
+      assertion(x(i) == 0);
+      assertion(x(i+5) == 1);
     }
 
     x.segment(1, 2).setConstant(5);
-    tsd_assert(x(0) == 0);
-    tsd_assert(x(1) == 5);
-    tsd_assert(x(2) == 5);
-    tsd_assert(x(3) == 0);
+    assertion(x(0) == 0);
+    assertion(x(1) == 5);
+    assertion(x(2) == 5);
+    assertion(x(3) == 0);
 
 
 
     x = linspace(0, 19, 20);
     x.head(19) = x.tail(19);
-    tsd_assert(x.head(19).est_approx(linspace(1,19,19)));
-    tsd_assert(x(19) == 19);
+    assertion(x.head(19).est_approx(linspace(1,19,19)));
+    assertion(x(19) == 19);
   }
 
 
@@ -141,11 +141,11 @@ entier test_tab()
     msg("Test redim...");
     Vecf x;
     x.resize(10);
-    tsd_assert(x.dim() == 10);
+    assertion(x.dim() == 10);
     pour(auto i = 0; i < 10; i++)
       x(i) = i;
     pour(auto i = 0; i < 10; i++)
-      tsd_assert(x(i) == i);
+      assertion(x(i) == i);
 
   }
 
@@ -160,8 +160,8 @@ entier test_tab()
     msg("abs(x) = {}", abs(x));
     msg("abs(y) = {}", abs(y));
     msg("abs(y)-1 = {}", abs(y) - 1);
-    tsd_assert(abs(y).est_approx(Vecf::ones(5)))
-    tsd_assert((x + y).est_approx(Veccf::zeros(5)));
+    assertion(abs(y).est_approx(Vecf::ones(5)));
+    assertion((x + y).est_approx(Veccf::zeros(5)));
   }
 
   {
@@ -169,7 +169,7 @@ entier test_tab()
     soit x = linspace(0, 9, 10);
     soit y = x.reverse();
     msg("rlin = {}", y);
-    tsd_assert((x+y).est_approx(9*Vecf::ones(10)))
+    assertion((x+y).est_approx(9*Vecf::ones(10)));
   }
 
   {
@@ -180,12 +180,12 @@ entier test_tab()
 
 
     msg("x = {}", x);
-    tsd_assert((x(0) == cfloat{0,0}) && (x(2) == cfloat{1,0}));
+    assertion((x(0) == cfloat{0,0}) && (x(2) == cfloat{1,0}));
 
     x.tail(2) += x.segment(2, 2);
 
     msg("x2 = {}", x);
-    tsd_assert((x(8) == cfloat{1,0}));
+    assertion((x(8) == cfloat{1,0}));
 
   }
 
@@ -195,7 +195,7 @@ entier test_tab()
     soit x = tsd::polar(linspace(0, 2 * π, n));
     soit a = abs(x);
 
-    tsd_assert(a.est_approx(Vecf::ones(n)));
+    assertion(a.est_approx(Vecf::ones(n)));
   }
 
   {
@@ -207,7 +207,7 @@ entier test_tab()
 
     msg("x={}, y={}, x*y={}", x, y, z);
 
-    tsd_assert((z(0) == cfloat{5,20}));
+    assertion((z(0) == cfloat{5,20}));
   }
 
   {
@@ -217,7 +217,7 @@ entier test_tab()
     soit y = x * i;
     msg("x = {}, y = x * {} = {}", x, i, y);
     soit z = y * i;
-    tsd_assert(z.est_approx(-x));
+    assertion(z.est_approx(-x));
   }
 
   {
@@ -225,8 +225,8 @@ entier test_tab()
     soit x = Veccf::ones(2);
     x(0) = cfloat{0.5,2};
     x *= 1.5f;
-    tsd_assert((x(0) == cfloat{0.75,3}));
-    tsd_assert((x(1) == cfloat{1.5,0}));
+    assertion((x(0) == cfloat{0.75,3}));
+    assertion((x(1) == cfloat{1.5,0}));
   }
 
   {
@@ -241,7 +241,7 @@ entier test_tab()
     msg("x ={}", x);
     msg("y = {}", y);
 
-    tsd_assert(y.est_approx(Vecf::ones(3)));
+    assertion(y.est_approx(Vecf::ones(3)));
 
     msg("z = {}", z);
 
@@ -251,7 +251,7 @@ entier test_tab()
     msg("y2 = {}", y2);
     soit err = (y2 - Vecf::ones(3)/3).rms();
     msg("Erreur RMS = {}", err);
-    tsd_assert(y2.est_approx(Vecf::ones(3)/3, 1e-7));
+    assertion(y2.est_approx(Vecf::ones(3)/3, 1e-7));
 
 
     msg("x.ajoute_col(0,1,2) = {}", x.ajoute_colonnes(lsp));
@@ -262,9 +262,9 @@ entier test_tab()
     msg("Manips colonnes...");
     soit x = Tabf::eye(3);
     x.col(1) += linspace(0,2,3);
-    tsd_assert(x.col(0).est_approx(Vecf::valeurs({1,0,0})));
-    tsd_assert(x.col(1).est_approx(Vecf::valeurs({0,2,2})));
-    tsd_assert(x.col(2).est_approx(Vecf::valeurs({0,0,1})));
+    assertion(x.col(0).est_approx(Vecf::valeurs({1,0,0})));
+    assertion(x.col(1).est_approx(Vecf::valeurs({0,2,2})));
+    assertion(x.col(2).est_approx(Vecf::valeurs({0,0,1})));
   }
 
   {
@@ -276,8 +276,8 @@ entier test_tab()
     soit y  =  x1 + (x1.dot(x2)) * x2;
 
     msg("y={}", y);
-    tsd_assert(x1.dot(x2) == -1);
-    tsd_assert(y.est_approx(Vecf::valeurs({1,0,-3})));
+    assertion(x1.dot(x2) == -1);
+    assertion(y.est_approx(Vecf::valeurs({1,0,-3})));
   }
 
   {
@@ -294,7 +294,7 @@ entier test_tab()
     msg("affectation constante...");
     soit x = linspace(0, 9, 10);
     x.setConstant(5);
-    tsd_assert(x.est_approx(5*Vecf::ones(10)));
+    assertion(x.est_approx(5*Vecf::ones(10)));
   }
 
   {
@@ -302,7 +302,7 @@ entier test_tab()
     soit x = linspace(0, 9, 10);
     x = 5.0f;
     msg("Fait.");
-    tsd_assert(x.est_approx(5*Vecf::ones(10)));
+    assertion(x.est_approx(5*Vecf::ones(10)));
   }
 
 
@@ -311,7 +311,7 @@ entier test_tab()
     float f[9] = {0,1,2,3,4,5,6,7,8};
     soit A = Tabf::map(f, 3, 3);
     msg("map = {}", A);
-    tsd_assert((A(0,0) == 0) && (A(1,0) == 1));
+    assertion((A(0,0) == 0) && (A(1,0) == 1));
 
 
     /*soit eB = Eigen::Map<Eigen::Array<float,Eigen::Dynamic,Eigen::Dynamic>>(A.data(), 3, 3);
@@ -327,11 +327,9 @@ entier test_tab()
         {0, 1, 2,
          3, 4, 5});
     msg("A = {}", A);
-    tsd_assert((A.rows() == 2) && (A.cols() == 3)
+    assertion((A.rows() == 2) && (A.cols() == 3)
                && (A(0,0) == 0) && (A(1,0) == 3));
   }
-
-  retourne 0;
 }
 
 

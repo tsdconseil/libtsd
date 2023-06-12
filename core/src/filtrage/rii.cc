@@ -124,7 +124,7 @@ FRat<cfloat> trf_bilineaire_tustin(const FRat<cfloat> &ha, float K)
 // Passe-bas analogique normalisé vers passe-haut analogique
 FRat<cfloat> pban_vers_pha(const FRat<cfloat> &ha, float ωc)
 {
-  tsd_assert(ha.numer.mode_racines && ha.denom.mode_racines);
+  assertion(ha.numer.mode_racines && ha.denom.mode_racines);
   FRat<cfloat> res;
 
   soit [N,M] = ha.degrés();
@@ -149,7 +149,7 @@ FRat<cfloat> pban_vers_pbda(const FRat<cfloat> &ha, float ωc, float Q)
   // https://en.wikipedia.org/wiki/Prototype_filter
   // w -> Q (s/wc + wc/s)
 
-  tsd_assert(ha.numer.mode_racines && ha.denom.mode_racines);
+  assertion(ha.numer.mode_racines && ha.denom.mode_racines);
 
   FRat<cfloat> res;// = ha;
 
@@ -172,7 +172,7 @@ FRat<cfloat> pban_vers_pbda(const FRat<cfloat> &ha, float ωc, float Q)
 // Passe-bas analogique normalisé vers passe-bas analogique
 FRat<cfloat> pban_vers_pba(const FRat<cfloat> &ha, float ωc)
 {
-  tsd_assert(ha.numer.mode_racines && ha.denom.mode_racines);
+  assertion(ha.numer.mode_racines && ha.denom.mode_racines);
   FRat<cfloat> res;
 
   res.numer = Poly<cfloat>::from_roots(ha.numer.coefs * ωc);
@@ -197,7 +197,7 @@ FRat<cfloat> butterworth_analogique(entier n)
   // Pôles analogiques, wc = wcut
   /*ArrayXcf butterworth_poles(unsigned int n)
   {
-    dsp_assert(n > 0,        "Butterworh coef gen: order must > 0.");
+    assertion(n > 0,        "Butterworh coef gen: order must > 0.");
     // Formule d'après Wikipédia
     auto k = linspace(1, n, n);
     retourne polar(π*(2*k+n-1)/(2*n));
@@ -338,16 +338,15 @@ FRat<cfloat> elliptique_analogique(entier n, float rp, float rs)
 
 FRat<cfloat> tchebychev_I_analogique(entier n, float δ)
 {
-  soit m = linspace(1, n, n);
-  soit θ = (2*m - 1) * (π / (2*n));
+  soit m = linspace(1, n, n),
+       θ = (2*m - 1) * (π / (2*n));
 
   // Formule d'après Wikipédia
-  soit ε   = sqrt(db2pow(δ) - 1);
-  soit ash = asinh(1.0f/ε)/n;
-  soit s   = sinh(ash),
-       c   = cosh(ash);
-
-  soit sc = s * signe(s);
+  soit ε   = sqrt(db2pow(δ) - 1),
+       ash = asinh(1.0f/ε)/n,
+       s   = sinh(ash),
+       c   = cosh(ash),
+       sc  = s * signe(s);
 
   Veccf poles(n);
   pour(auto k = 0; k < n; k++)
@@ -374,17 +373,17 @@ FRat<cfloat> tchebychev_II_analogique(unsigned int n, float δ)
 {
   //soit pol = tchebychev_II_poles(n, δ);
 
-  soit m = linspace(1, n, n);
-  soit θ = (2.0f*m - 1.0f) * (π/(2*n));
+  soit m = linspace(1, n, n),
+       θ = (2.0f*m - 1.0f) * (π/(2*n));
 
   // Formule d'après Wikipédia
   soit ε = 1.0f / sqrt(db2pow(δ) - 1);
 
   msg("techbychev II : n={}, δ={:.2f} dB, ε={:e}", n, δ, ε);
 
-  soit ash = asinh(1.0f/ε)/n;
-  soit s   = sinh(ash);
-  soit c   = cosh(ash);
+  soit ash = asinh(1.0f/ε)/n,
+       s   = sinh(ash),
+       c   = cosh(ash);
 
   Veccf pôles(n);
 
@@ -452,7 +451,7 @@ FRat<cfloat> design_riia(entier n, TypeFiltre type, PrototypeAnalogique prototyp
   retourne trf_bilineaire(ha, 1.0f);
 }
 
-PrototypeAnalogique parse_proto(const string &s)
+PrototypeAnalogique parse_proto(cstring s)
 {
   si(s.substr(0, 1) == "b")
     retourne PrototypeAnalogique::BUTTERWORTH;
@@ -466,7 +465,7 @@ PrototypeAnalogique parse_proto(const string &s)
   retourne PrototypeAnalogique::BUTTERWORTH;
 }
 
-TypeFiltre parse_tf(const string &s)
+TypeFiltre parse_tf(cstring s)
 {
   si((s == "lp") || (s == "pb"))
     retourne TypeFiltre::PASSE_BAS;
@@ -481,8 +480,8 @@ TypeFiltre parse_tf(const string &s)
 }
 
 
-FRat<cfloat> design_riia(entier n, const string &type,
-    const string &prototype, float fcut, float δ_bp, float δ_bc)
+FRat<cfloat> design_riia(entier n, cstring type,
+    cstring prototype, float fcut, float δ_bp, float δ_bc)
 {
   retourne design_riia(n, parse_tf(type), parse_proto(prototype), fcut, δ_bp, δ_bc);
 }
@@ -569,7 +568,7 @@ FRat<cfloat> design_biquad(float K, cfloat z0, cfloat p0)
     case BiquadSpec::PLATEAU_HF:
       break;
     default:
-      echec("Type de biquad invalide ({}).", (entier) spec.type);
+      échec("Type de biquad invalide ({}).", (entier) spec.type);
   }
   retourne design_biquad(K, std::polar(rz, ωz), std::polar(rp, ωp));
 }*/
@@ -584,18 +583,14 @@ FRat<float> design_biquad(const BiquadSpec &spec)
   msg("design_biquad: gain = {} dB -> A = {}", spec.gain_dB, A);
 
   // Pulsation
-  soit ω = 2 * π * spec.f;
-  soit sn = sin(ω), cs = cos(ω);
-
-  // Facteur d'ammortissement
+  soit ω  = 2 * π * spec.f,
+       sn = sin(ω),
+       cs = cos(ω);
+       // Facteur d'ammortissement
   soit α = sn / (2 * spec.Q);
-  //float α = sn * sinh(0.5f * log(2.0f) * bw * omega);
   soit β = sqrt(2 * A);
 
   float a0 = 1, a1 = 1, a2 = 1, b0 = 1, b1 = 1, b2 = 1;
-
-
-
 
   switch(spec.type)
   {
@@ -656,7 +651,7 @@ FRat<float> design_biquad(const BiquadSpec &spec)
     a2 = (A + 1) - (A - 1) * cs - β * sn;
     break;
   default:
-    echec("Type de biquad invalide.");
+    échec("Type de biquad invalide.");
   }
 
   a1 /= a0;
@@ -701,7 +696,7 @@ Veccf Bessel_pôles(entier n)
 Vecf design_rif_inv_impulse(const FRat<cfloat> &H)//const Veccf &zeros, const Veccf &poles)
 {
   // Suppose pas de zéros pour l'instant
-  tsd_assert(H.numer.mode_racines && H.denom.mode_racines);
+  assertion(H.numer.mode_racines && H.denom.mode_racines);
   entier n = H.denom.coefs.rows();
   pour(auto i = 0; i < n; i++)
   {
@@ -716,16 +711,7 @@ Vecf design_rif_inv_impulse(const FRat<cfloat> &H)//const Veccf &zeros, const Ve
 
 }
 
-// Filtre de Bessel, par échantillonnage de la réponse impulsionnelle
-Vecf design_Bessel_rif(entier n)
-{
-  // soit p = BesselRev(n);
 
-  // soit H(s) = p.horner(0) / p.horner(s);
-
-
-
-}
 #endif
 
 

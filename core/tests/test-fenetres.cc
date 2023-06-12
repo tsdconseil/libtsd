@@ -11,61 +11,46 @@ void verifie_fenetre(cstring nom, const Vecf &x, const FenInfos &ref)
     f.afficher();
   }
 
-  si(x.hasNaN())
-  {
-    msg_erreur("Fenetre {} avec Nan.", nom);
-  }
-  //entier n = x.rows();
+  assertion(!x.hasNaN());
+
   soit mes = fenetre_analyse(nom, x, tests_debug_actif);
   si(tests_debug_actif)
     mes.fig.afficher();
-  //soit err1 = max(ref.atten_ls - mes.atten_pls, 0.0f);
+
   soit err1 = abs(ref.atten_ls - mes.atten_ls);
   msg("  erreur atten : {:.2f} dB", err1);
   soit err = abs(mes.largeur_lp - ref.largeur_lp) / ref.largeur_lp;
   msg("  erreur relative largeur lp : {:.2f} %", err*100);
   si((ref.atten_ls > 0) && (err1 > 1))
-  {
-    msg_erreur("Fenêtre {} : atténuation invalide ({:.1f} dB, {:.1f} dB attendu).", nom, mes.atten_ls, ref.atten_ls);
-  }
+    échec("Fenêtre {} : atténuation invalide ({:.1f} dB, {:.1f} dB attendu).", nom, mes.atten_ls, ref.atten_ls);
   si((ref.largeur_lp > 0) && (err > 0.1))
-  {
-    msg_erreur("Fenêtre {} : largeur lobe principal invalide ({}, {} attendu, erreur relative = {} %).", nom, mes.largeur_lp, ref.largeur_lp, err*100);
-  }
+    échec("Fenêtre {} : largeur lobe principal invalide ({}, {} attendu, erreur relative = {} %).", nom, mes.largeur_lp, ref.largeur_lp, err*100);
   si((ref.symetrique) && (!mes.symetrique))
-  {
-    msg_erreur("Fenêtre {} : symétrie attendue = {}, détectée = {}", nom, ref.symetrique, mes.symetrique);
-  }
+    échec("Fenêtre {} : symétrie attendue = {}, détectée = {}", nom, ref.symetrique, mes.symetrique);
 }
 
 void test_kaiser_param(float As, float β_attendu)
 {
   soit [β, n] = kaiser_param(As, 0.01);
-  float err = abs(β - β_attendu);
+  soit err = abs(β - β_attendu);
 
   msg("test_kaiser_param : As={:.1f} dB, β attentu = {}, β calculé = {}, err={}.",
       As, β_attendu, β, err);
   //msg("  n calculé = {}", n);
 
   si(err > 0.1)
-  {
-    msg_erreur("Test kaiser param : erreur trop importante.");
-    //throw;
-  }
+    échec("Test kaiser param : erreur trop importante.");
 }
 
-entier test_fenetres()
+void test_fenetres()
 {
   msg_majeur("Test des fenêtres...");
 
-
+  // Vérification petites fenêtres
+  pour(auto n: {1, 2, 3, 4, 5})
   {
-    // Vérification petites fenêtres
-    pour(auto n: {1, 2, 3, 4, 5})
-    {
-      verifie_fenetre("hn", fenetre("hn", n, oui), {0, 0, oui});
-      verifie_fenetre("hn", fenetre("hn", n, non), {0, 0, non});
-    }
+    verifie_fenetre("hn", fenetre("hn", n, oui), {0, 0, oui});
+    verifie_fenetre("hn", fenetre("hn", n, non), {0, 0, non});
   }
 
 
@@ -112,8 +97,8 @@ entier test_fenetres()
   {
     soit N = 128*1024;
     soit f = fenêtre_chebychev(N, 60, oui);
-    soit x1 = Veccf::ones(N) + randu(N);
-    soit x2 = x1 * f;
+    soit x1 = Veccf::ones(N) + randu(N),
+         x2 = x1 * f;
     Figures fig;
     fig.subplot().plot_psd(x1, 1.0, "", "psd x1");
     fig.subplot().plot_psd(x2, 1.0, "", "psd x2");
@@ -149,8 +134,6 @@ entier test_fenetres()
   verifie_fenetre("kaiser", fenetre_kaiser(50, 0.05),  {50, -1});
   verifie_fenetre("kaiser", fenetre_kaiser(80, 0.05),  {80, -1});
   verifie_fenetre("kaiser", fenetre_kaiser(100, 0.05), {100, -1});*/
-
-  retourne 0;
 }
 
 

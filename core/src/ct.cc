@@ -57,7 +57,7 @@ T intégrale_trap(const FonctionAbstraite<T> &f, float tmin, float tmax, int n)
 
   si(std::isnan(real(f0)))
   {
-    echec("intégrale trap: f0=nan, t(0) = {}.", t(0));
+    échec("intégrale trap: f0=nan, t(0) = {}.", t(0));
   }
 
   pour(auto i = 0; i + 1 < n; i++)
@@ -66,12 +66,12 @@ T intégrale_trap(const FonctionAbstraite<T> &f, float tmin, float tmax, int n)
 
     si(std::isnan(real(f1)))
     {
-      echec("intégrale trap: f1={}:{}, t = {}, i ={}.", real(f1), imag(f1), t(i+1), i);
+      échec("intégrale trap: f1={}:{}, t = {}, i ={}.", real(f1), imag(f1), t(i+1), i);
     }
 
     si(std::isnan(imag(f1)))
     {
-      echec("intégrale trap: f1={}:{}, t = {}, i ={}.", real(f1), imag(f1), t(i+1), i);
+      échec("intégrale trap: f1={}:{}, t = {}, i ={}.", real(f1), imag(f1), t(i+1), i);
     }
 
 
@@ -82,7 +82,7 @@ T intégrale_trap(const FonctionAbstraite<T> &f, float tmin, float tmax, int n)
 
   si(std::isnan(real(y)))
   {
-    echec("intégrale trap: nan.");
+    échec("intégrale trap: nan.");
   }
 
   retourne (T) y;
@@ -145,7 +145,7 @@ FonctionEchantillonnée<cfloat> tfc(const FonctionAbstraite<T> &fct, float δT, 
      {
       si(std::isnan(real(v)))
       {
-        echec("tfc: nan @ x = {}", x);
+        échec("tfc: nan @ x = {}", x);
       }
      }
       retourne v * std::polar(1.0f, -2*π_f*x*f(i));

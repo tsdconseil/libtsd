@@ -8,7 +8,7 @@
 namespace tsd {
 
 template<typename T>
-  using FonctionAbstraite = std::function<T(float)>;
+  using FonctionAbstraite = fonction<T(float)>;
 
 using FonctionRéelle = FonctionAbstraite<float>;
 

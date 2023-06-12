@@ -11,13 +11,8 @@ using namespace dsp::time;
 
 
 
-entier test_dsp()
+void test_dsp()
 {
-  /*En en;
-  en.en_field = 5;
-  msg("en field = {}, fr = {}", en.en_field, en.champs_fr);*/
-
-
   {
     msg("Vérif affectation colonne d'un tableau...");
     let M  = Tabf::zeros(5,10);
@@ -37,8 +32,8 @@ entier test_dsp()
     msg("v1 = {}", v1);
     msg("v2 = {}", v2);
 
-    dsp_assert(M(0,0) == 1);
-    dsp_assert(M(0,1) == 2);
+    assertion(M(0,0) == 1);
+    assertion(M(0,1) == 2);
   }
 
 
@@ -84,10 +79,8 @@ entier test_dsp()
 
   // dsp::stats
   {
-    let x = randn(10);
-    let y = dsp::stats::levinson_real(x);
+    let x = randn(10),
+        y = dsp::stats::levinson_real(x);
   }
-
-  retourne 0;
 }
 

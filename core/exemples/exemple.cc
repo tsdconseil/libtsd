@@ -1,16 +1,13 @@
-#include "tsd/tsd.hpp"
-
-#include <tsd/tsd-all.hpp>
-
+#include "tsd/tsd-all.hpp"
 
 entier main()
 {
   msg("Exemple simple libtsd.");
 
-  soit n     = 1000;
-  soit t = linspace(0, 1, n);
-  soit x = 2 * t - t * t;
-  soit y = x + 0.1 * randn(n);
+  soit n = 1000;
+  soit t = linspace(0, 1, n),
+       x = 2 * t - t * t,
+       y = x + 0.1 * randn(n);
 
   soit h = design_rif_fen(31, "lp", 0.05);
   soit filtre = filtre_rif<float>(h);

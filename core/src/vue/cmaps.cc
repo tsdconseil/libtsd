@@ -3,23 +3,17 @@
 #include "tsd/vue.hpp"
 #include <map>
 
-
-
-
 namespace tsd::vue
 {
-  //template<typename T>
-    //using std::make_shared<T>;
-
   struct CMapIlin: CMap
   {
     vector<vector<float>> pts;
 
     void calc(float t, float &r, float &v, float &b)
     {
-      entier i = 0;
+      soit i = 0;
 
-      tsd_assert_msg(pts.size() > 1, "Carte de couleur linéaire : au moins deux éléments attendu.");
+      assertion_msg(pts.size() > 1, "Carte de couleur linéaire : au moins deux éléments attendu.");
 
       si(t <= pts[0][0])
       {
@@ -79,18 +73,10 @@ namespace tsd::vue
           {0.50, 1.0,   1.0,  1.0},
           {0.75, 1.0,   0.0,  0.0},
           {1.00, 0.5,   0.0,  0.0}
-
-
-          /*{0.0, 0.0,   0.0,  1.0},
-          {0.5, 1.0,   1.0,  1.0},
-          {1.0, 1.0,   0.0,  0.0}*/
       };
     }
   };
 
-//                              [0, 0, 0, 1, 1, 1, 0],
-//                      'green':[0, 1, 1, 1, 0, 0, 0],
-//                      'red':  [1, 1, 0, 0, 0, 1, 1]}
   struct CMapHSV: CMapIlin
   {
     CMapHSV()
@@ -199,7 +185,7 @@ namespace tsd::vue
   template<typename T>
   sptr<T> ms()
   {
-    retourne std::make_shared<T>();
+    retourne make_shared<T>();
   }
 
   static std::map<string, sptr<CMap>> cmaps
@@ -228,11 +214,11 @@ namespace tsd::vue
   {
     Figure f(nom);
 
-    soit n = 100u;
+    soit n = 100;
     soit x = linspace(0, 1, n);
     Vecf r(n), v(n), b(n);
 
-    pour(auto i = 0u; i < n; i++)
+    pour(auto i = 0; i < n; i++)
     {
       float R, V, B;
       cmap->calc(x(i), R, V, B);

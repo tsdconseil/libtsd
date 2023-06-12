@@ -9,9 +9,7 @@ using namespace tsd::fourier;
 namespace tsd::filtrage
 {
 
-  bool debug_design = false;
-
-  //static auto z = FRat<float>::z();
+  bouléen debug_design = non;
 
   Vecf design_rif_prod(const Vecf &h1, const Vecf &h2)
   {
@@ -23,7 +21,7 @@ namespace tsd::filtrage
   Vecf design_rif_pb2ph_rs(const Vecf &h)
   {
     // Attention, nécessite que h soit de type I
-    tsd_assert_msg(type_rif(h) == 1, "design_rif_pb2ph_rs: h doit être un filtre de type I.");
+    assertion_msg(type_rif(h) == 1, "design_rif_pb2ph_rs: h doit être un filtre de type I.");
     soit n = h.rows();
     soit g = h.clone();
     //soit m = (n-1) / 2;
@@ -47,7 +45,7 @@ namespace tsd::filtrage
   Vecf design_rif_pb2ph_is(const Vecf &h)
   {
     // Attention, nécessite que h soit de type I
-    tsd_assert_msg(type_rif(h) == 1, "design_rif_pb2ph_is: h doit être un filtre de type I.");
+    assertion_msg(type_rif(h) == 1, "design_rif_pb2ph_is: h doit être un filtre de type I.");
     soit n = h.rows();
     soit g = -h;
     g((n-1)/2)++;
@@ -56,7 +54,7 @@ namespace tsd::filtrage
 
   Vecf design_rif_pb2pb(const Vecf &h)
   {
-    /*tsd_assert_msg(type_rif(h) == 1, "design_rif_pb2ph: h doit être un filtre de type I.");
+    /*assertion_msg(type_rif(h) == 1, "design_rif_pb2ph: h doit être un filtre de type I.");
     soit n = h.rows();
     soit g = -h;
     g((n-1)/2)++;
@@ -67,7 +65,7 @@ namespace tsd::filtrage
   Vecf design_rif_pb2pm(const Vecf &h)
   {
 
-    /*tsd_assert_msg(type_rif(h) == 1, "design_rif_pb2ph: h doit être un filtre de type I.");
+    /*assertion_msg(type_rif(h) == 1, "design_rif_pb2ph: h doit être un filtre de type I.");
     soit n = h.rows();
     soit g = -h;
     g((n-1)/2)++;
@@ -76,13 +74,13 @@ namespace tsd::filtrage
   }
 
 
-  void verifie_frequence_normalisee(float f, const string &msg)
+  void verifie_frequence_normalisee(float f, cstring msg)
   {
     string s = "F";
     si(!msg.empty())
       s = msg + " : f";
     si((f < 0) || (f > 0.5))
-      echec("{}réquence normalisée attendue, f = {} (devrait être comprise entre 0 et 0.5).", s, f);
+      échec("{}réquence normalisée attendue, f = {} (devrait être comprise entre 0 et 0.5).", s, f);
   }
 
 

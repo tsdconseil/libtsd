@@ -163,7 +163,7 @@ extern sptr<SSMLineaire> ssm_lineaire(
  * plus précise.
  *
  */
-extern Tabf jacobienne_num(std::function<Vecf(const Vecf &)> f, const Vecf &x);
+extern Tabf jacobienne_num(fonction<Vecf(const Vecf &)> f, const Vecf &x);
 
 
 

@@ -47,7 +47,8 @@ struct ModGen : Modulateur
 
   ModGen(const ModConfig &config)
   {
-    valide = (configure(config) == 0);
+    configure(config);
+    valide = oui;
   }
 
   float delais() const
@@ -55,7 +56,7 @@ struct ModGen : Modulateur
     retourne latence;
   }
 
-  entier configure(const ModConfig &config)
+  void configure(const ModConfig &config)
   {
     latence = 0;
     this->config = config;
@@ -63,7 +64,7 @@ struct ModGen : Modulateur
     forme_onde = config.forme_onde;
 
     si(!forme_onde)
-      echec("Création modulateur : forme d'onde non spécifiée.");
+      échec("Création modulateur : forme d'onde non spécifiée.");
 
     msg("<h3>Configuration modulateur</h3>");
     msg("Configuration : fe={} Hz, fi={} Hz, fsymb={} Hz.",
@@ -109,7 +110,7 @@ struct ModGen : Modulateur
     {
       soit h = config.forme_onde->filtre.get_coefs(ncoefs, osf);
 
-      //tsd_assert(h.rows() == ncoefs);
+      //assertion(h.rows() == ncoefs);
 
       // Temps vers le milieu du premier bit transmis
       // Filtre = filtre_rif_ups, R = osf
@@ -126,8 +127,6 @@ struct ModGen : Modulateur
     }
 
     this->config.forme_onde->cnt = 0;
-
-    retourne 0;
   }
 
   Veccf flush(entier nech)

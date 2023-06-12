@@ -49,7 +49,7 @@ static void test_frmag()
 
   soit [fr, mag] = frmag(x, m);
   soit [f2, ph]  = frphase(x, m);
-  tsd_assert((fr.rows() == m) && (f2.rows() == m) && (mag.rows() == m));
+  assertion((fr.rows() == m) && (f2.rows() == m) && (mag.rows() == m));
 
 
   Vecf vmag(m), vphase(m);
@@ -89,19 +89,18 @@ static void test_frmag()
   }
   soit err = abs(vmag - mag).valeur_max();
   msg("Erreur max frmag = {}", err);
-  tsd_assert(err < 1e-3);
+  assertion(err < 1e-3);
 
 
   soit err2 = abs(dh).valeur_max();
   msg("Erreur max frphase = {}", err2);
-  tsd_assert(err2 < 1e-2);
+  assertion(err2 < 1e-2);
 }
 
-entier test_filtrage_analyse()
+void test_filtrage_analyse()
 {
   test_plotfiltre();
   test_rifamp();
   test_frmag();
-  retourne 0;
 }
 

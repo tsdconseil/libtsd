@@ -1,7 +1,4 @@
-#include "tsd/tsd.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/vue.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/moniteur-cpu.hpp"
 
 
@@ -13,13 +10,11 @@ using namespace std;
 
 const auto FOURIER_MODE_SAFE = non;
 
-
-
 template<typename T>
-void checkNaN(const tsd::Vecteur<T> &x, const string &s)
+void checkNaN(const Vecteur<T> &x, cstring s)
 {
   si(x.hasNaN())
-    echec("{} : has NaN.", s);
+    échec("{} : has NaN.", s);
 }
 
 namespace tsd::fourier
@@ -75,7 +70,7 @@ void tfr_radix2(Vecteur<complex<T>> &X,
 
   scratch.resize(N);
   X.resize(N);
-  tsd_assert_safe(rotations.rows() == N, "La matrice de twiddles n'est pas initialisée.");
+  assertion_safe(rotations.rows() == N, "La matrice de twiddles n'est pas initialisée.");
 
   si(N == 1)
   {
@@ -194,7 +189,7 @@ Vecteur<T> irtfr_calcule(const Vecteur<complex<T>> &X) // Size n/2
 
   soit n = 2 * X.rows();
 
-  //tsd_assert(x.rows() == (entier) n, "Output IFFT size must be n (= 2 size of complex FFT)");
+  //assertion(x.rows() == (entier) n, "Output IFFT size must be n (= 2 size of complex FFT)");
 
   Vecteur<T> x(n);
   Vecteur<cT> X2(n/2);
@@ -289,14 +284,13 @@ struct RTFRPlan: FiltreGen<T, complex<T>>
 
   entier n;
   sptr<FFTPlan> cplan;
-
   Veccf rotations;
 
   RTFRPlan(entier n)
   {
     configure(n);
   }
-  entier configure(entier n)
+  void configure(entier n)
   {
     this->n = n;
 
@@ -313,7 +307,6 @@ struct RTFRPlan: FiltreGen<T, complex<T>>
         cplan = tfrplan_création(n);
       }
     }
-    retourne 0;
   }
   void step(const Vecteur<T> &x, Vecteur<cT> &y)
   {
@@ -376,13 +369,13 @@ struct TFRPlanDefaut: FiltreGen<cfloat>, FFTPlan
     configure(n, avant, normalize);
   }
 
-  entier configure(entier n, bouléen avant, bouléen normalize)
+  void configure(entier n, bouléen avant, bouléen normalize)
   {
     this->n = n;
     this->avant = avant;
 
     si(n == -1)
-      retourne 0;
+      retourne;
 
     n2 = n;
 
@@ -409,7 +402,6 @@ struct TFRPlanDefaut: FiltreGen<cfloat>, FFTPlan
     //msg("plan fft : n = {}, n2 = {}", n, n2);
     scratch.resize(n2);
     rotations = tfr_rotation<float>(n2);
-    retourne 0;
   }
 
   void step(const Veccf &x, Veccf &y)
@@ -419,7 +411,7 @@ struct TFRPlanDefaut: FiltreGen<cfloat>, FFTPlan
 
   void step(const Veccf &x, Veccf &y, bouléen avant)
   {
-    tsd_assert(x.rows() > 0);
+    assertion(x.rows() > 0);
 
     si((entier) n != x.rows())
       configure(x.rows(), this->avant, this->normaliser);
@@ -474,7 +466,7 @@ struct TFRPlanDefaut: FiltreGen<cfloat>, FFTPlan
 
 };
 
-function<sptr<FFTPlan>()> fftplan_defaut = []()
+fonction<sptr<FFTPlan>()> fftplan_defaut = []()
 {
     retourne make_shared<TFRPlanDefaut>();
 };
@@ -499,7 +491,7 @@ template<typename T>
 Vecteur<T> correlation_freq(const Vecteur<T> &X0, const Vecteur<T> &X1)
 {
   soit n = X0.rows();
-  tsd_assert(n == X1.rows());
+  assertion(n == X1.rows());
   Vecteur<T> Y(n);
 
   Y(0) = X0(0) * conj(X1(0));
@@ -528,7 +520,7 @@ struct TFRCorrelateurBloc
   {
     soit &x1p = (x1.rows() == 0) ? x0 : x1;
 
-    tsd_assert_msg(x0.rows() == x1p.rows(),
+    assertion_msg(x0.rows() == x1p.rows(),
         "the two input vectors should have the dimension {} != {}.",
         x0.rows(), x1p.rows());
 
@@ -566,10 +558,10 @@ tuple<Vecf, Veccf> xcorrb(const Veccf &x, const Veccf &y, entier m)
   si(m < 0)
     m = n;
 
-  soit yp = y.rows() == 0 ? x : y;
+  soit yp = (y.rows() == 0) ? x : y;
 
-  soit x2 = Veccf::zeros(m + n + m);
-  soit y2 = Veccf::zeros(m + n + m);
+  soit x2 = Veccf::zeros(m + n + m),
+       y2 = x2;
 
   x2.segment(m, n) = x;
   y2.segment(m, n) = yp;
@@ -594,7 +586,6 @@ tuple<Vecf, Veccf> xcorr(const Veccf &x, const Veccf &y, entier m)
 
   // Corrélation biaisée
   soit [lags, zb] = xcorrb(x, y, m);
-
 
   si(m > 1)
   {
@@ -750,13 +741,13 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
   Vecf fenêtre;
 
   /** Nb ech. TFD */
-  entier N = 0;
+  entier N = 0,
 
   /** Nb zéros insérés */
-  entier N_zeros = 0;
+         N_zeros = 0,
 
   /** Nb ech. d'entrée / sortie */
-  entier Ne = 0;
+         Ne = 0;
 
   /** Nombre d'échantillons en cours */
   int64_t cnt_ech = 0;
@@ -766,15 +757,12 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
 
   vector<Veccf> bo;
 
-  entier configure_impl(const FiltreFFTConfig &config)
+  void configure_impl(const FiltreFFTConfig &config)
   {
     Ne      = config.dim_blocs_temporel;
 
     si(!config.traitement_freq)
-    {
-      msg_erreur("configuration OLA : traitement fréquentiel non précisé.");
-      retourne -1;
-    }
+      échec("configuration OLA : traitement fréquentiel non précisé.");
 
     si(Ne <= 0)
       Ne = 512;
@@ -803,7 +791,7 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
     si(config.avec_fenetrage)
     {
       fenêtre = tsd::filtrage::fenetre("hn", Ne, non);
-      tsd_assert(fenêtre.rows() == Ne);
+      assertion(fenêtre.rows() == Ne);
     }
 
     //plan  = creation_fft_plan(N, oui);
@@ -818,8 +806,6 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
           step_interne(x, y);
           bo.push_back(y);
         });
-
-    retourne 0;
   }
 
   void step(const Veccf &x, Veccf &y)
@@ -850,7 +836,7 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
   {
     soit &config = Configurable<FiltreFFTConfig>::config;
 
-    tsd_assert(x.rows() == Ne);
+    assertion(x.rows() == Ne);
 
     si(!config.avec_fenetrage)
     {
@@ -917,7 +903,7 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
         last.head(Ne/2) = svg.tail(Ne/2) / 2.0f;
         last.tail(Ne/2).setZero();
       }
-      tsd_assert(x2.rows() == N);
+      assertion(x2.rows() == N);
       svg = x2.tail(Ne).clone();
 
       cnt_ech += Ne / 2;
@@ -1022,7 +1008,7 @@ struct AlignementSignal::Impl
   {
     configure(1);
   }
-  entier configure(entier N)
+  void configure(entier N)
   {
     this->N = N;
     delais_en_cours = 0;
@@ -1036,14 +1022,13 @@ struct AlignementSignal::Impl
             });
     residu[0].resize(0);
     residu[1].resize(0);
-    retourne 0;
   }
   void step(const Veccf &x, const Veccf &y, entier delais)
   {
     // Principe : on a un grand tampon de sortie synchronisé
     // Deux nouveaux blocs en entrée + un résidu sur une des entrées
     entier n0 = x.rows();
-    tsd_assert(y.rows() == n0);
+    assertion(y.rows() == n0);
 
     // si pas de changement de délais,
     // copie du résidu + nv données vers buffer de sortie + stockage résidu
@@ -1149,9 +1134,9 @@ AlignementSignal::AlignementSignal()
   impl = make_shared<Impl>();
 }
 
-entier AlignementSignal::configure(entier N)
+void AlignementSignal::configure(entier N)
 {
-  retourne impl->configure(N);
+  impl->configure(N);
 }
 
 void AlignementSignal::step(const Tabcf &x, const Tabcf &y, entier delais)
@@ -1176,18 +1161,15 @@ struct Spectrum: Filtre<cfloat,float,SpectrumConfig>
 {
   sptr<FFTPlan> plan;
   // Fenêtre
-  Vecf f;
-  Vecf mag_moy, mag_cnt;
-  Vecf masque;
-  entier cntmag = 0;
-
+  Vecf f, mag_moy, mag_cnt, masque;
+  entier cntmag = 0,
   // Dim FFT
-  entier Nf;
+         Nf = 0,
   // Dim spectre total
-  entier Ns;
+         Ns = 0;
 
 
-  entier configure_impl(const SpectrumConfig &config)
+  void configure_impl(const SpectrumConfig &config)
   {
     cntmag  = 0;
     Nf      = config.BS / config.nsubs;
@@ -1240,7 +1222,6 @@ struct Spectrum: Filtre<cfloat,float,SpectrumConfig>
     //msg("Fenêtre spectre: {}", (entier) config.fenetre);
     plan = config.plan ? config.plan : fftplan_defaut();
     plan->configure(Nf, oui, non);
-    retourne 0;
   }
 
   Veccf yt;
@@ -1248,7 +1229,7 @@ struct Spectrum: Filtre<cfloat,float,SpectrumConfig>
   {
     soit &config = Configurable<SpectrumConfig>::config;
     // TODO (optionally): overlap 1/2
-    tsd_assert_msg(x.rows() == config.BS, "Spectrum : dimension invalide.");
+    assertion_msg(x.rows() == config.BS, "Spectrum : dimension invalide.");
 
     moniteur_spectrum.commence_op();
     //msg("spec : début.");
@@ -1363,8 +1344,8 @@ sptr<Filtre<cfloat,float,SpectrumConfig>> rt_spectrum(const SpectrumConfig &conf
 // Adapté depuis le script Scilab czt.sci
 Veccf czt(const Veccf &x, entier m, cfloat W, cfloat z0)
 {
-   soit n = x.rows();
-   soit nm = max(n,m);
+   soit n  = x.rows(),
+        nm = max(n,m);
 
    // create sequence h(n)=[w*exp(-j*ϕ)]**(-n*n/2)
    Veccf h(2*nm-1);
@@ -1374,17 +1355,17 @@ Veccf czt(const Veccf &x, entier m, cfloat W, cfloat z0)
    pour(auto i = nm; i < 2*nm-1; i++)
      h(i) = h(nm - 1 - (i - nm));
 
-   tsd_assert(!x.hasNaN());
+   assertion(!x.hasNaN());
 
    Veccf g(n);
    pour(auto i = 0; i < n; i++)
    {
-     tsd_assert(abs(h(nm + i - 1)) != 0);
+     assertion(abs(h(nm + i - 1)) != 0);
      g(i) = x(i) * pow(z0, -i) / h(nm + i - 1);
    }
 
 
-   tsd_assert(!g.hasNaN());
+   assertion(!g.hasNaN());
 
    // convolve h(n) and g(n)
    Veccf hc(m + n - 1);
@@ -1394,15 +1375,15 @@ Veccf czt(const Veccf &x, entier m, cfloat W, cfloat z0)
    soit gc = Veccf::zeros(m + m - 1);
    gc.head(n) = g;
 
-   tsd_assert(!hc.hasNaN());
-   tsd_assert(!gc.hasNaN());
+   assertion(!hc.hasNaN());
+   assertion(!gc.hasNaN());
 
    soit hcg = ifft(fft(hc) * fft(gc));
 
-   tsd_assert(!hcg.hasNaN());
+   assertion(!hcg.hasNaN());
 
    // preserve m points and divide by h(n)
-   retourne hcg.head(m) / h.segment(nm-1,m);
+   retourne hcg.head(m) / h.segment(nm-1, m);
 }
 
 template<typename T>
@@ -1411,8 +1392,9 @@ template<typename T>
   si(lom == 1)
     retourne x;
 
-  soit n  = x.rows();
-  soit n2 = (entier) round(n * lom);
+  soit n  = x.rows(),
+       n2 = (entier) round(n * lom);
+
   soit X = fft(x);
 
   si(lom > 1)
@@ -1478,7 +1460,7 @@ Tabf periodogramme_tfd(const Veccf &x, entier N)
   tsd::fourier::FiltreFFTConfig ola_config;
   ola_config.avec_fenetrage     = oui;
   ola_config.dim_blocs_temporel = N;
-  ola_config.nb_zeros_min           = 0;
+  ola_config.nb_zeros_min       = 0;
   ola_config.traitement_freq    = [&](Veccf &X)
   {
     soit xa = 10 * (log10(abs2(X) + 1e-20f)).head(X.rows()/2);

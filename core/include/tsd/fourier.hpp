@@ -23,7 +23,7 @@ namespace tsd::fourier
      *  @param avant      Si faux, FFT inverse
      *  @param normalize  Si vrai, facteur de normalisation @f$1/\sqrt{N}@f$
      */
-    virtual entier configure(entier n, bouléen avant, bouléen normalize = oui) = 0;
+    virtual void configure(entier n, bouléen avant, bouléen normalize = oui) = 0;
 
     /** @brief Calcul de la FFT ou IFFT. */
     virtual void step(const Veccf &x, Veccf &y, bouléen avant = oui) = 0;
@@ -32,7 +32,7 @@ namespace tsd::fourier
   };
 
   /** @cond undoc */
-  extern std::function<sptr<FFTPlan>()> fftplan_defaut;
+  extern fonction<sptr<FFTPlan>()> fftplan_defaut;
   /** @endcond */
 
 /** @brief Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT).
@@ -281,12 +281,12 @@ template<typename T>
     return;
   else
   {
-    entier n = X.rows();
+    soit n = X.rows();
     X(0).imag(0);
 
-    if((n & 1) == 0)
+    si((n & 1) == 0)
       X(n/2).imag(0);
-    else
+    sinon
       X(n/2+1) = conj(X(n/2));
 
     X.tail(n/2-1) = X.segment(1,n/2-1).reverse().conjugate();
@@ -330,7 +330,7 @@ struct FiltreFFTConfig
 
   /** @brief Callback appelée pour le traitement dans le domaine fréquentiel
    *  (à réaliser par l'utilisateur). */
-  std::function<void (Veccf &)> traitement_freq;
+  fonction<void (Veccf &)> traitement_freq;
 };
 
 /** @brief Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add).
@@ -625,7 +625,7 @@ struct DetecteurConfig
   } mode = MODE_OLA;
 
   /** @brief Callback utilisateur appellée à chaque fois que le motif est détecté. */
-  std::function<void (const Detection &det)> gere_detection;
+  fonction<void (const Detection &det)> gere_detection;
 
   bouléen calculer_signal_correlation = non;
 };
@@ -716,10 +716,9 @@ extern sptr<Detecteur>
 // ?
 struct AlignementSignal
 {
-public:
   AlignementSignal();
 
-  entier configure(entier N);
+  void configure(entier N);
   void step(const Tabcf &x, const Tabcf &y, entier delais);
 
   _PIMPL_

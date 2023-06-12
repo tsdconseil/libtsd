@@ -30,7 +30,7 @@ struct ÉmetteurImpl: Émetteur
     configure(config);
   }
 
-  entier configure(const ÉmetteurConfig &config)
+  void configure(const ÉmetteurConfig &config)
   {
     this->config = config;
     mod = modulateur_création(config.format.modulation);
@@ -40,8 +40,6 @@ struct ÉmetteurImpl: Émetteur
       msg_majeur("Émetteur: fo entete = {}", *config.format.fo_entete);
       msg_majeur("Émetteur: fo données = {}", *config.format.modulation.forme_onde);
     }
-
-    retourne 0;
   }
 
   Veccf step(const BitStream &bs)

@@ -4,18 +4,18 @@
 
 struct ResultatPurete
 {
-  float freq_spurius;
-  float max_spurius_db;
+  float freq_spurius,
+        max_spurius_db;
 };
 
 static ResultatPurete verifie_sinus(cstring s, const Vecf x, float f)
 {
-  tsd_assert((f >= 0) && (f <= 1));
+  assertion((f >= 0) && (f <= 1));
 
   soit n = x.rows();
 
-  soit fen  = fenetre("hn", x.rows(), non);
-  soit X    = abs2(fft(x * fen).head(x.rows()/2));
+  soit fen  = fenetre("hn", x.rows(), non),
+       X    = abs2(fft(x * fen).head(x.rows()/2));
 
   soit [freqs, X_psd] = psd(x);
 
@@ -50,7 +50,7 @@ static ResultatPurete verifie_sinus(cstring s, const Vecf x, float f)
   msg("{} : check fréq = {}, ratio énergie = {}, max spurius = {:.1f} dB (@ f = {} * fe)",
       s, f, score, res.max_spurius_db, res.freq_spurius);
   si(std::isnan(score) || (score < 0.8))
-    echec(" Signal invalide (une sinusoide pure est attendue).");
+    échec(" Signal invalide (une sinusoide pure est attendue).");
   retourne res;
 }
 
@@ -64,13 +64,11 @@ static void test_ra_unit(cstring nom, float ratio, sptr<FiltreGen<float>> ra, fl
   msg("Fe = {} Hz, f1 = {} Hz, f2 = {} Hz.", fe, f1, f2);
   msg("Ratio = {} --> fe' = {}", ratio, fe * ratio);
 
-  soit t = intervalle_temporel(1000, fe);
-  soit x = sin(t*2*π*f2);
+  soit t = intervalle_temporel(1000, fe),
+       x = sin(t*2*π*f2),
+       y = ra->step(x);
 
   verifie_sinus(nom + " - signal d'entrée", x, f2/fe);
-
-  soit y = ra->step(x);
-
   soit spy = verifie_sinus(nom + " - signal de sortie", y, f2/(ratio*fe));
 
   si(tests_debug_actif)
@@ -129,28 +127,20 @@ static void test_ra_unit(cstring nom, float ratio, sptr<FiltreGen<float>> ra, fl
   // TODO : test resample
   //resample(x, lom)
 
-  tsd_assert_msg(err < 1, "ra : nombre d'échantillons invalide.");
+  assertion_msg(err < 1, "ra : nombre d'échantillons invalide.");
 
-  soit amp1 = x.valeur_max() - x.valeur_min();
-  soit amp2 = y.valeur_max() - y.valeur_min();
-  soit erra = 100 * (amp1 - amp2) / amp1;
-
-
-  soit rms1 = sqrt(square(x).moyenne());
-  soit rms2 = sqrt(square(y).moyenne());
-  soit errr = 100 * (rms1 - rms2) / rms1;
+  soit amp1 = x.valeur_max() - x.valeur_min(),
+       amp2 = y.valeur_max() - y.valeur_min(),
+       erra = 100 * (amp1 - amp2) / amp1,
+       rms1 = sqrt(square(x).moyenne()),
+       rms2 = sqrt(square(y).moyenne()),
+       errr = 100 * (rms1 - rms2) / rms1;
 
   msg("amp1 = {}, amp2 = {}, err = {} %", amp1, amp2, erra);
   msg("rms1 = {}, rms2 = {}, err = {} %", rms1, rms2, errr);
 
-  tsd_assert_msg(erra < /*0.1*/10, "ra [{}] : problème d'amplitude.", nom);
-
-
-  tsd_assert_msg(spy.max_spurius_db <= max_spurius_dB, "ra [{}] : trops de spurius ({:.1f} dB)", nom, spy.max_spurius_db);
-
-
-  //soit ra2 = filtre_reechan<float>(1.0/ratio);
-  //ArrayXf z =
+  assertion_msg(erra < /*0.1*/10, "ra [{}] : problème d'amplitude.", nom);
+  assertion_msg(spy.max_spurius_db <= max_spurius_dB, "ra [{}] : trops de spurius ({:.1f} dB)", nom, spy.max_spurius_db);
 
   msg_majeur("Tests RA ok.");
 }
@@ -159,9 +149,6 @@ static void test_ra_unit(cstring nom, float ratio, sptr<FiltreGen<float>> ra, fl
 
 static void test_ra_unit(float ratio)
 {
-  //soit itrp = itrp_sinc<float>(15, 0.25, "hn");
-  //soit itrp = itrp_sinc<float>(127, 0.25, "hn");
-
   msg_majeur("Test ratio = {}, filtre_itrp (cspline)", ratio);
   soit itrp = itrp_cspline<float>();
   soit ra = filtre_itrp<float>(ratio, itrp);
@@ -208,7 +195,7 @@ static void test_filtre_rif_decim()
 void test_filtre_rif_ups()
 {
   msg_majeur("Test filtre_rif_ups");
-  soit h = design_rif_fen(15, "lp", 0.25, "hn");
+  soit h  = design_rif_fen(15, "lp", 0.25, "hn");
   soit ra = filtre_rif_ups<float,float>(h, 2);
   test_ra_unit("rif ups", 2.0, ra);
 }
@@ -217,14 +204,8 @@ void test_filtre_rif_ups()
 
 
 
-entier test_ra()
+void test_ra()
 {
-
-
-
-
-
-
   test_filtre_rif_decim();
   test_filtre_rif_ups();
 
@@ -233,8 +214,6 @@ entier test_ra()
   //soit ratios = ;
   pour(auto ratio: {1.f, 1.5f, 0.5f, 2.f, 1.2f, π_f})
     test_ra_unit(ratio);
-
-  retourne 0;
 }
 
 

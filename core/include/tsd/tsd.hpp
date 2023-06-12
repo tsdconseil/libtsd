@@ -133,11 +133,11 @@ using std::norm;
     auto vconcat(const Vecteur<T> &a, const Vecteur<T> &b)
   {
     Vecteur<T> c(a.rows()+b.rows());
-    if(a.rows() > 0)
+    si(a.rows() > 0)
       c.head(a.rows()) = a;
-    if(b.rows() > 0)
+    si(b.rows() > 0)
       c.tail(b.rows()) = b;
-    return c;
+    retourne c;
   }
 
   template<typename T>
@@ -146,12 +146,36 @@ using std::norm;
     return vconcat(a, b);
   }
 
+  template<typename T>
+    auto vconcat(const Tableau<T> &a, const Tableau<T> &b)
+  {
+    assertion_msg(a.cols() == b.cols(), "Concaténation verticale : le nombre de colonnes devrait être identique.");
+    Tableau<T> c(a.cols(), a.rows()+b.rows());
+    si(a.rows() > 0)
+      c.block(0, 0, a.rows(), a.cols()) = a;
+    si(b.rows() > 0)
+      c.block(a.rows(), 0, b.rows(), a.cols()) = b;
+    retourne c;
+  }
+
+  template<typename T>
+    auto hconcat(const Tableau<T> &a, const Tableau<T> &b)
+  {
+    assertion_msg(a.rows() == b.rows(), "Concaténation horizontale : le nombre de lignes devrait être identique.");
+    Tableau<T> c(a.cols() + b.cols(), a.rows());
+    si(a.cols() > 0)
+      c.block(0, 0, a.rows(), a.cols()) = a;
+    si(b.cols() > 0)
+      c.block(0, a.cols(), b.rows(), b.cols()) = b;
+    retourne c;
+  }
+
   /** @cond undoc */
   /* Calcule la longueur d'un vecteur colonne */
   template<typename T>
     auto length(const Vecteur<T> &x)
   {
-    return x.rows();
+    retourne x.rows();
   }
   /** @endcond */
 
@@ -173,7 +197,7 @@ using std::norm;
    *  ArrayXf y = rotation_vec(x, 2);
    *  ArrayXf yref(6);
    *  yref << 2, 3, 4, 5, 0, 1;
-   *  tsd_assert(y.isApprox(yref));
+   *  assertion(y.isApprox(yref));
    *  @endcode
    */
   template<typename T>
@@ -198,7 +222,7 @@ using std::norm;
    *  ArrayXf x = randn(10);
    *  ArrayXf y = diff(x);
    *  ArrayXf yref = x.tail(9) - x.head(9);
-   *  tsd_assert(y.isApprox(yref));
+   *  assertion(y.isApprox(yref));
    *  @endcode
    *
    *  @sa cumsum()
@@ -224,7 +248,7 @@ using std::norm;
    *  ArrayXf x     = linspace(0, 99, 100);
    *  ArrayXf y     = cumsum(x);
    *  ArrayXf yref  = x * (x + 1) / 2;
-   *  tsd_assert(y.isApprox(yref));
+   *  assertion(y.isApprox(yref));
    *  @endcode
    *
    *  @sa diff()
@@ -317,7 +341,7 @@ using std::norm;
   template<typename T>
     auto polar(const Vecteur<T> &ρ, const Vecteur<T> &θ)
   {
-    tsd_assert(ρ.dim() == θ.dim());
+    assertion(ρ.dim() == θ.dim());
     retourne Vecteur<std::complex<T>>::int_expr(θ.dim(),
         IMAP(std::polar(ρ(i), θ(i))));
   }
@@ -453,11 +477,11 @@ using std::norm;
    *
    * @par Exemple
    * @code
-   * tsd_assert(prochaine_puissance_de_2(3) == 4);
+   * assertion(prochaine_puissance_de_2(3) == 4);
    * @endcode
    *
    */
-  extern entier prochaine_puissance_de_2(unsigned int i);
+  extern entier prochaine_puissance_de_2(entier i);
 
 
 
@@ -525,13 +549,12 @@ using std::norm;
     /** @brief Configuration de la structure
      *  @param c Valeur de la configuration à appliquer
      *  @returns entier non nul en cas d'erreur. */
-    entier configure(const C &c)
+    void configure(const C &c)
     {
       if(callback_modif)
         callback_modif(c);
-      entier res = configure_impl(c);
+      configure_impl(c);
       config = c;
-      retourne res;
     }
 
     // retourne 0 si supporté et rend "configure_impl" inutile
@@ -543,13 +566,13 @@ using std::norm;
     }
 
     /** @brief Méthode abstraite à implémenter par la classe dérivée */
-    virtual entier configure_impl(const C &c) = 0;
+    virtual void configure_impl(const C &c) = 0;
 
     /** @brief Lecture de la configuration actuelle. */
     const C &lis_config() const {return config;}
 
     /** @brief Callback optionnelle qui sera appelée à chaque changement de la configuration. */
-    std::function<void (const C &nv_config)> callback_modif;
+    fonction<void (const C &nv_config)> callback_modif;
 
   protected:
     C config;
@@ -648,7 +671,7 @@ using std::norm;
   namespace filtrage
   {
   template<typename T>
-    sptr<FiltreGen<T>> filtre_reechan(float ratio);
+    sptr<Filtre<T,T,float>> filtre_reechan(float ratio);
   }
   /** @endcond */
 
@@ -709,7 +732,7 @@ using std::norm;
    *
    */
   template<typename T>
-    sptr<Sink<T, entier>> tampon_création(entier N, std::function<void (const Vecteur<T> &)> callback);
+    sptr<Sink<T, entier>> tampon_création(entier N, fonction<void (const Vecteur<T> &)> callback);
 
 
 
@@ -725,7 +748,7 @@ using std::norm;
     pour(auto i = 0; i < n; i++)
     {
       soit idx = index[i];
-      tsd_assert((idx >= 0) && (idx < src.rows()));
+      assertion((idx >= 0) && (idx < src.rows()));
       res(i) = src(idx);
     }
     retourne res;
@@ -776,7 +799,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  tsd_assert(modulo_2π(2*π+1e-5) == 1e-5);
+   *  assertion(modulo_2π(2*π+1e-5) == 1e-5);
    *  @endcode
    *
    *  @sa modulo_pm_π(), déplie_phase(), modulo()
@@ -798,7 +821,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  tsd_assert(modulo_pm_π(2*π-1e-5) == -1e-5);
+   *  assertion(modulo_pm_π(2*π-1e-5) == -1e-5);
    *  @endcode
    *
    *  @sa modulo_2π(), déplie_phase(), modulo()
@@ -834,7 +857,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  tsd_assert(abs(deg2rad(45) - π/4) < 1e-15);
+   *  assertion(abs(deg2rad(45) - π/4) < 1e-15);
    *  @endcode
    *
    *  @sa rad2deg()
@@ -858,7 +881,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  tsd_assert(abs(rad2deg(π/4) - 45) < 1e-15);
+   *  assertion(abs(rad2deg(π/4) - 45) < 1e-15);
    *  @endcode
    *
    *  @sa deg2rad()

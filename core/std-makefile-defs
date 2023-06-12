@@ -163,7 +163,9 @@ COPT += -g -DDEBUG_MODE -DMODE_DEBUG=1 -DMODE_RELEASE=0 -O3
 # -O1
 #-g1 
 #-O3
-COPT += -march=native
+
+# COPT += -march=native
+
 # -O2
 # -O2 
 else

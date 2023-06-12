@@ -17,7 +17,7 @@ static bouléen est_deci(char c)
 }
 
 // D'après libcutil
-vector<entier> parse_liste_entiers(const string &str)
+vector<entier> parse_liste_entiers(cstring str)
 {
   soit n = (entier) str.size();
   vector<entier> res;
@@ -79,7 +79,7 @@ string Couleur::vers_chaine() const
   retourne sformat("{}.{}.{}", r, g, b);
 }
 
-Couleur::Couleur(const string &s)
+Couleur::Couleur(cstring s)
 {
   alpha = 255;
   si(!s.empty())
@@ -113,18 +113,18 @@ unsigned char Couleur::lumi() const
 }
 
 const Couleur
-  Couleur::Blanc  {255,255,255,255},
-  Couleur::Noir   {0,0,0,255},
-  Couleur::Rouge  {255,0,0,255},
-  Couleur::Vert   {0,255,0,255},
-  Couleur::Bleu   {0,0,255,255},
-  Couleur::Violet {128,0,128,255},
-  Couleur::Orange {255,165,0,255},
-  Couleur::Jaune  {255,255,0,255},
-  Couleur::Cyan   {0,255,255,255},
-  Couleur::Marron {139,69,19,255},
-  Couleur::Gris   {128,128,128,255},
-  Couleur::BleuSombre   {0,0,180,255},
+  Couleur::Blanc        {255,255,255},
+  Couleur::Noir         {0,0,0},
+  Couleur::Rouge        {255,0,0},
+  Couleur::Vert         {0,255,0},
+  Couleur::Bleu         {0,0,255},
+  Couleur::Violet       {128,0,128},
+  Couleur::Orange       {255,165,0},
+  Couleur::Jaune        {255,255,0},
+  Couleur::Cyan         {0,255,255},
+  Couleur::Marron       {139,69,19},
+  Couleur::Gris         {128,128,128},
+  Couleur::BleuSombre   {0,0,180},
   Couleur::VertSombre   {0,100,0},
   Couleur::RougeSombre  {210,0,0},
   Couleur::CyanSombre   {0,192,192},
@@ -167,14 +167,14 @@ Image affiche_texte(
 
   // On applique d'abord les paramètres demandés, et on regarde si tout rentre
   // Sinon, on diminue le scale, et on recommence, jusqu'à ce que tout rentre.
-  float scale = config.scale;
+  soit échelle = config.échelle;
   entier nl = lignes.size();
 
   vector<entier> ypos(nl), xdim(nl), ydim(nl);
 
-  si(props != nullptr)
+  si(props)
   {
-    props->scale_out = 0;
+    props->échelle_appliquée = 0;
     props->xdim.clear();
     props->ypos.clear();
   }
@@ -182,10 +182,7 @@ Image affiche_texte(
   Dim dim_max = config.dim_max;
 
   si(dim_max.l == -1)
-  {
-    dim_max.l = 1000;
-    dim_max.h = 800;
-  }
+    dim_max = {1000, 800};
 
   si((dim_max.l < 1) || (dim_max.h < 1))
   {
@@ -193,10 +190,8 @@ Image affiche_texte(
     retourne O;
   }
 
-
-  //msg("affiche texte : start.");
   Dim dim_totale;
-  entier nitr = 0;
+  soit nitr = 0;
   pour(;;)
   {
     nitr++;
@@ -204,7 +199,8 @@ Image affiche_texte(
     pour(auto i = 0u; i < lignes.size(); i++)
     {
       ypos[i] = dim_totale.h;
-      Dim dim = O.texte_dim(lignes[i], scale);
+
+      soit dim = O.texte_dim(lignes[i], échelle);
 
       si(i + 1 < lignes.size())
         dim.h += 5; // Ajoute un peu d'espace entre les lignes
@@ -219,23 +215,23 @@ Image affiche_texte(
       break;
     si((dim_totale.l <= dim_max.l) && (dim_totale.h <= dim_max.h))
       break;
-    si(scale < 1e-3)
+    si(échelle < 1e-3)
     {
-      msg_avert("Image::affiche_texte({} lignes, [{}]). Echec placement @scale = {}. Dim max = {}.", lignes.size(), lignes[0], scale, dim_max);
+      //msg_avert("Image::affiche_texte({} lignes, [{}]). Echec placement @scale = {}. Dim max = {}.", lignes.size(), lignes[0], échelle, dim_max);
       retourne O;
     }
-    scale *= 0.9;
+    // Essai en plus petit
+    échelle *= 0.9;
   }
-  //msg("affiche texte : {} itr.", nitr);
-  //infos("dim_totale = %d, %d", dim_totale.width, dim_totale.height);
-  //dim_out = dim_totale;
 
-  si(props != nullptr)
+  //msg("affiche_texte(): {} itr, échelle réelle appliquée: {}, dim out={}", nitr, échelle, dim_totale);
+
+  si(props)
   {
-    props->scale_out = scale;
-    props->xdim = xdim;
-    props->ydim = ydim;
-    props->ypos = ypos;
+    props->échelle_appliquée = échelle;
+    props->xdim              = xdim;
+    props->ydim              = ydim;
+    props->ypos              = ypos;
   }
 
   O.resize(dim_totale);
@@ -243,71 +239,33 @@ Image affiche_texte(
   O.def_couleur_dessin(config.couleur);
   pour(auto i = 0u; i < lignes.size(); i++)
   {
-    //msg("ypos[{}] = {}, dessin {}", i, ypos[i], lignes[i]);
-    soit x = 0;//config.org.x;
+    soit x = 0;
     si(config.alignement == TexteConfiguration::ALIGN_CENTRE)
-    {
       x = dim_totale.l/2 - xdim[i]/2;
-    }
 
-    Dim d = O.texte_dim(lignes[i], scale);
+    Dim d = O.texte_dim(lignes[i], échelle);
     si((d.l + x > O.sx()) || (d.h + ypos[i] > O.sy()))
     {
+      msg("dim texte : {}, dim O : {}, x={}, ypos[{}] = {}", d, O.get_dim(), x, i, ypos[i]);
       msg_erreur("Dépassement texte.");
-      msg("dim texte : {}, dim O : {}, x={}, ypos[{}] = {}",
-          d, O.get_dim(), x, i, ypos[i]);
       break;
     }
-    //infos("dim texte : %d x %d", d.l, d.h);
+    //msg("dim texte : {}", d);
 
-    O.puts({x, ypos[i]}, lignes[i], scale);
+    O.puts({x, ypos[i]}, lignes[i], échelle);
   }
   //msg("affiche texte : end.");
   retourne O;
 }
 
-#if 0
 
-void texte_ajoute(Image O, const TexteConfiguration &config, const string &s, ...)
-{
-  va_list ap;
-  va_start(ap, s);
-  char buf[5000];
-  vsnprintf(buf, 5000, s.c_str(), ap);
-  va_end(ap);
-
-  TexteConfiguration tc = config;
-  si(tc.dim_max.l == -1)
-    tc.dim_max.l = O.sx() - tc.org.x;
-  tc.dim_max.l = min(tc.dim_max.l, O.sx() - tc.org.x);
-  si(tc.dim_max.h == -1)
-    tc.dim_max.h = O.sy() - tc.org.y;
-  tc.dim_max.h = min(tc.dim_max.h, O.sy() - tc.org.y);
-
-  soit T = texte_creation_image(buf, tc, nullptr);
-
-  //infos("O.cols = %d, tc.org = %d, T.cols = %d", O.cols, tc.org.x, T.cols);
-  tsd_assert(T.sx() + tc.org.x <= O.sx());
-  tsd_assert(T.sy() + tc.org.y <= O.sy());
-
-  O.puti(Point{tc.org.x, tc.org.y}, T);
-  //rdi_cible = tc.transparence * rdi_cible + (1.0 - tc.transparence) * T;
-}
-#endif
-
-
-Image texte_creation_image(const string &s,
+Image texte_creation_image(cstring s,
                            const TexteConfiguration &config,
                            TexteProps *props)
 {
-
-  //infos("Text creation image[%s] : scale = %f", s.c_str(), config.scale);
-
   // Séparation des différentes lignes du texte
   vector<string> lignes;
-  soit i = 0u;
-
-  //infos("affiche texte [%s]", s.c_str());
+  soit i = 0;
 
   pour(;;)
   {
@@ -322,8 +280,6 @@ Image texte_creation_image(const string &s,
     lignes.push_back(l);
     i = pos_rl + 1;
   }
-  //pour(soit i = 0u; i < lignes.size(); i++)
-    //infos("Ligne[%d] : [%s]", i, lignes[i].c_str());
 
   retourne affiche_texte(lignes, config, props);
 }

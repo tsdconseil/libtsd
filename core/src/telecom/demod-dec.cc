@@ -82,7 +82,7 @@ struct RecHorloge
 
   void configure(const RecHorlogeConfig &config)
   {
-    tsd_assert_msg(config.osf > 0, "Clock rec : OSF invalide ({})", config.osf);
+    assertion_msg(config.osf > 0, "Clock rec : OSF invalide ({})", config.osf);
 
     this->config = config;
 
@@ -101,7 +101,7 @@ struct RecHorloge
       itrp = itrp_lagrange<cfloat>(config.itrp_lagrange_degré);
     sinon
     {
-      echec("clock rec: itrp inconnu.");
+      échec("clock rec: itrp inconnu.");
     }
 
     fa = config.forme_onde->filtre.filtre_adapté(config.ncoefs_filtre_mise_en_forme, config.osf);
@@ -233,7 +233,7 @@ struct DemodGen2: Démodulateur
 
   float delais()
   {
-    echec("TODO : DemodGen2::delais()");
+    échec("TODO : DemodGen2::delais()");
     retourne 0;
   }
 
@@ -253,7 +253,7 @@ struct DemodGen2: Démodulateur
 
 
 
-  entier configure(const ModConfig &modconfig, const DemodConfig &config)
+  void configure(const ModConfig &modconfig, const DemodConfig &config)
   {
     this->config    = config;
     this->modconfig = modconfig;
@@ -264,7 +264,7 @@ struct DemodGen2: Démodulateur
     osf   = fe / fsymb;
     cnt1  = osf - 1;
 
-    tsd_assert_msg(modconfig.forme_onde, "Démodulateur : la forme d'onde doit être renseignée.");
+    assertion_msg(modconfig.forme_onde, "Démodulateur : la forme d'onde doit être renseignée.");
 
     msg("Configuration démod: fe={}, fsymb={} (OSF={}), excursion={}",
         fe, fsymb, osf, modconfig.forme_onde->excursion());
@@ -308,10 +308,6 @@ struct DemodGen2: Démodulateur
     ctx_fo = this->modconfig.forme_onde->get_ctx(osf);
 
     reset(0);
-
-
-
-    retourne 0;
   }
 
 

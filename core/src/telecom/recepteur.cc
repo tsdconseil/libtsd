@@ -137,7 +137,7 @@ struct RécepteurImpl: Récepteur
 
     VERB(msg("Régle délais : δ={}", δ);)
 
-    tsd_assert(itrp);
+    assertion(itrp);
 
     δ = std::clamp(δ, 0.0f, 1.0f);
 
@@ -173,7 +173,7 @@ struct RécepteurImpl: Récepteur
 
 
 
-  entier configure(const RécepteurConfig &rc)
+  void configure(const RécepteurConfig &rc)
   {
     config = rc;
 
@@ -195,7 +195,7 @@ struct RécepteurImpl: Récepteur
     si((fe <= 0)
         || (fsymb <= 0)
         || (modulo(fe, fsymb) != 0))
-      echec("Récepteur : fréquences invalides (fe={} Hz, fsymb={} Hz).", fe, fsymb);
+      échec("Récepteur : fréquences invalides (fe={} Hz, fsymb={} Hz).", fe, fsymb);
 
     si(wf->infos.est_fsk)
     {
@@ -278,7 +278,7 @@ struct RécepteurImpl: Récepteur
       df++;
     }
 
-    tsd_assert(di >= 0);
+    assertion(di >= 0);
 
     si(wf->infos.est_fsk)
     {
@@ -319,14 +319,14 @@ struct RécepteurImpl: Récepteur
 
 
     // si(config_mod.wf->M != 2)
-      // echec("TODO : récepteur / gestion délais M != 2");
+      // échec("TODO : récepteur / gestion délais M != 2");
 
     msg("Latence modulateur : {} (floor: {}), osf : {}", df, di, osf);
     msg("Longueur d'en-tête avec flush : {} échans.", motif.rows());
     msg("Longueur à extraire : {} échans @ {}.", M, di);
     msg("Découpage en blocs de {} échan.", Ne);
 
-    tsd_assert_msg(di + M <= motif.rows(),
+    assertion_msg(di + M <= motif.rows(),
         "Latence modulateur : di = {}, nb échantillons théo en-tête : M = {}, nb échan générés : {}", di, M, motif.rows());
 
     config_detecteur.motif  = motif.segment(di, M);
@@ -373,7 +373,6 @@ struct RécepteurImpl: Récepteur
         });
 
     last = Veccf::zeros(Ne);
-    retourne 0;
   }
 
 
@@ -404,7 +403,7 @@ struct RécepteurImpl: Récepteur
   // A voir si on peut pas s'en passer (du fait que la dimension doive être Ne)
   void step_Ne(const Veccf &x_)
   {
-    tsd_assert(x_.rows() == Ne);
+    assertion(x_.rows() == Ne);
 
     VERB(msg("Récepteur : step Ne={}, cnt_x = {}", Ne, cnt_x));
 
@@ -495,7 +494,7 @@ struct RécepteurImpl: Récepteur
         fa->step(z);
       }
 
-      tsd_assert(abs(finger.position_prec - finger.position) < 1);
+      assertion(abs(finger.position_prec - finger.position) < 1);
 
       // Idem regle_delais()
       std::tie(delais_interpolateur, δt_interpolateur) = calc_retard();
@@ -549,7 +548,7 @@ struct RécepteurImpl: Récepteur
         si(nspl > Ne - (idx - Ne))
           nspl = Ne - (idx - Ne);
 
-        tsd_assert((idx - Ne >= 0) && (idx - Ne + nspl <= Ne));
+        assertion((idx - Ne >= 0) && (idx - Ne + nspl <= Ne));
 
         y = x.segment(idx - Ne, nspl);
       }
@@ -561,7 +560,7 @@ struct RécepteurImpl: Récepteur
         // Tous les échantillons peuvent être pris du tampon précédent
         si(nspl1 == nspl)
         {
-          tsd_assert((idx >= 0) && (idx + nspl <= Ne));
+          assertion((idx >= 0) && (idx + nspl <= Ne));
           y = last.segment(idx, nspl);
         }
         sinon
@@ -570,10 +569,10 @@ struct RécepteurImpl: Récepteur
           si(nspl - nspl1 > Ne)
             nspl = Ne + nspl1;
 
-          tsd_assert(nspl > 0);
-          tsd_assert(nspl1 > 0);
-          tsd_assert(nspl1 <= Ne);
-          tsd_assert((nspl >= nspl1) && (nspl - nspl1 <= Ne));
+          assertion(nspl > 0);
+          assertion(nspl1 > 0);
+          assertion(nspl1 <= Ne);
+          assertion((nspl >= nspl1) && (nspl - nspl1 <= Ne));
 
           y.resize(nspl);
           y.head(nspl1) = last.tail(nspl1);
@@ -582,7 +581,7 @@ struct RécepteurImpl: Récepteur
       }
 
       // entier demod_start = finger.position_prec + dim_motif + x.rows();
-      // tsd_assert(demod_start >= 0);
+      // assertion(demod_start >= 0);
       // ArrayXcf y = last.tail(last.rows() - demod_start);
       // y = tsd::vconcat(y, x);
       // TODO : ajouter la suite à partir de x

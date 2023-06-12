@@ -50,7 +50,7 @@ struct EgaliseurRIF: FiltreGen<cfloat>
 
 
   EgaliseurRIF(sptr<FormeOnde> fo,
-      const string &s_structure, const string &s_errf,
+      cstring s_structure, cstring s_errf,
       entier K, float α, entier N1, entier N2)
   {
     init_ok  = non;
@@ -60,7 +60,7 @@ struct EgaliseurRIF: FiltreGen<cfloat>
     this->N2 = N2;
     this->fo  = fo;
 
-    tsd_assert_msg(fo, "Egaliseur RIF : la forme d'onde doit être spécifiée.");
+    assertion_msg(fo, "Egaliseur RIF : la forme d'onde doit être spécifiée.");
 
 
     string s_errf2 = s_errf;
@@ -72,13 +72,13 @@ struct EgaliseurRIF: FiltreGen<cfloat>
 
     si((s_errf2 != "CMA") && (s_errf2 != "DEC"))
     {
-      echec("Init égaliseur: la fonction d'erreur doit être \"DEC\" ou \"CMA\" (démandé : \"{}\").", s_errf);
+      échec("Init égaliseur: la fonction d'erreur doit être \"DEC\" ou \"CMA\" (démandé : \"{}\").", s_errf);
       retourne;
     }
 
     si((s_structure2 != "FFE") && (s_structure2 != "DFE"))
     {
-      echec("Init égaliseur: la struture doit être \"FFE\" ou \"DFE\" (démandé : \"{}\").", s_structure);
+      échec("Init égaliseur: la struture doit être \"FFE\" ou \"DFE\" (démandé : \"{}\").", s_structure);
       retourne;
     }
 
@@ -177,7 +177,7 @@ struct EgaliseurRIF: FiltreGen<cfloat>
 
 
 sptr<FiltreGen<cfloat>> égaliseur_rif_création(
-    sptr<FormeOnde> forme_onde, const string &structure, const string &errf,
+    sptr<FormeOnde> forme_onde, cstring structure, cstring errf,
     entier K, float α, entier N1, entier N2)
 {
   retourne make_shared<EgaliseurRIF>(forme_onde, structure, errf, K, α, N1, N2);

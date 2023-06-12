@@ -29,9 +29,9 @@ namespace tsd::filtrage {
    * @param f Fréquence normalisée.
    * @param msg Descriptif optionnel (affiché en cas d'échec).
    *
-   * @sa echec(), msg_erreur()
+   * @sa échec(), msg_erreur()
    */
-  extern void verifie_frequence_normalisee(float f, const string &msg = "");
+  extern void verifie_frequence_normalisee(float f, cstring msg = "");
 
 
   /** @} */
@@ -77,7 +77,7 @@ namespace tsd::filtrage {
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
    *  @image html filtrage-fenetre.png width=600px
    */
-  extern Vecf fenetre(const string &type, entier n, bouléen symetrique = oui);
+  extern Vecf fenetre(cstring type, entier n, bouléen symetrique = oui);
 
   /** @brief Création d'une fenêtre de Chebychev.
    *
@@ -135,7 +135,7 @@ namespace tsd::filtrage {
   };
 
   // TODO : DOC
-  extern FenInfos fenetre_analyse(const string &nom,
+  extern FenInfos fenetre_analyse(cstring nom,
                                   const Vecf &x,
                                   bouléen do_plot = oui);
 
@@ -534,7 +534,7 @@ struct SpecFreqIntervalle
  *
  *  @sa hilbert(), hilbert_transformeur()
  */
-extern Vecf design_rif_hilbert(entier n, const string &fenetre = "hn");
+extern Vecf design_rif_hilbert(entier n, cstring fenetre = "hn");
 
 
 
@@ -625,7 +625,7 @@ extern FRat<float> design_biquad(const BiquadSpec &spec);
  *      https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html,
  * - <i>F0 and Q in filters, Mini tutorial,</i> Analog Devices,
  */
-extern FRat<float> design_biquad(const string type, float f, float Q, float gain_dB = 0);
+extern FRat<float> design_biquad(cstring type, float f, float Q, float gain_dB = 0);
 
 /** @cond private
  */
@@ -675,8 +675,8 @@ extern FRat<cfloat> design_riia_laplace(entier n, TypeFiltre type, PrototypeAnal
  *
  * @sa trf_bilineaire(), @ref filtre_sois(), filtre_rii()
  */
-extern FRat<cfloat> design_riia(entier n, const string &type,
-    const string &prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60);
+extern FRat<cfloat> design_riia(entier n, cstring type,
+    cstring prototype, float fc, float δ_bp = 0.1f, float δ_bc = 60);
 
 
 
@@ -685,8 +685,9 @@ extern FRat<cfloat> design_riia(entier n, const string &type,
  *  <h3>Design par échantillonnage fréquentiel</h3>
  *
  * Cette technique permet d'approximer avec un filtre RIF de @f$n@f$ coefficients (@f$n@f$ étant impair)
- * une réponse fréquentielle arbitraire, passée en paramètre.
- * La réponse fréquentielle doit être donnée sous la forme d'un tableau @f$d@f$ de @f$m=\frac{n+1}{2}@f$ éléments réels,
+ * une réponse fréquentielle arbitraire (mais discrète), passée en paramètre.
+ * La réponse fréquentielle doit être donnée sous la forme d'un tableau @f$d@f$
+ * de @f$m=\frac{n+1}{2}@f$ éléments réels,
  * de type :
  * @f[
  * d_k = H(f_k),\ f_k = k \cdot \frac{1}{2m-1},\ k = 0,\dots, m-1
@@ -801,7 +802,7 @@ extern Vecf design_rif_demi_bande(int n, float fc);
  *
  * @sa design_rif_eq(), design_rif_freq()
  */
-extern Vecf design_rif_fen(entier n, const string &type, float fc, const string &fen = "hn", float fc2 = 0);
+extern Vecf design_rif_fen(entier n, cstring type, float fc, cstring fen = "hn", float fc2 = 0);
 
 /** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Kaiser).
  *
@@ -818,7 +819,7 @@ extern Vecf design_rif_fen(entier n, const string &type, float fc, const string 
  *
  * @sa design_rif_fen(), design_rif_fen_chebychev()
  */
-extern Vecf design_rif_fen_kaiser(const string &type, float fc, float atten_db,
+extern Vecf design_rif_fen_kaiser(cstring type, float fc, float atten_db,
     float df, float fc2 = 0);
 
 /** @brief Design RIF par sinus-cardinal fenêtré (fenêtre de Chebychev).
@@ -836,7 +837,7 @@ extern Vecf design_rif_fen_kaiser(const string &type, float fc, float atten_db,
  *
  * @sa design_rif_fen(), design_rif_fen_kaiser()
  */
-extern Vecf design_rif_fen_chebychev(entier n, const string &type,
+extern Vecf design_rif_fen_chebychev(entier n, cstring type,
     float fc, float atten_db, float fc2 = 0);
 
 /** @brief Design d'un filtre en cosinus sur-élevé.
@@ -1310,7 +1311,7 @@ struct HilbertTransformeurConfig
  * @sa design_rif_hilbert(), hilbert(), hilbert_tfd()
  */
 extern sptr<Filtre<float, cfloat, HilbertTransformeurConfig>>
-  hilbert_transformeur(entier n = 31, const string &fenetre = "hn");
+  hilbert_transformeur(entier n = 31, cstring fenetre = "hn");
 
 
 
@@ -1677,7 +1678,7 @@ Vecteur<T> filtrer(const FRat<Tc> &h, const Vecteur<T> &x)
       retourne f->step(x);
     }
   }
-  tsd_assert_msg(!h.est_rif(), "Fonction 'filtrer()': filtre RIF à coefficients complexes, et vecteur d'entrée réel!.");
+  assertion_msg(!h.est_rif(), "Fonction 'filtrer()': filtre RIF à coefficients complexes, et vecteur d'entrée réel!.");
   soit f = filtre_sois<T>(h);
   retourne f->step(x);
 }
@@ -1824,7 +1825,7 @@ struct InterpolateurRIF: Interpolateur<T>
   T step(const Vecteur<T> &x, entier k, float τ)
   {
     soit h = coefs(τ);
-    tsd_assert(h.rows() == this->K);
+    assertion(h.rows() == this->K);
     T res = 0;
     Pour(auto i = 0; i < this->K; i++)
       res += h(i) * x((i + k) % this->K);
@@ -2003,7 +2004,7 @@ extern float filtre_rif_ups_délais(entier nc, entier R);
  *  @sa resample(), filtre_rif_ups(), filtre_rif_decim()
  **/
 template<typename T>
-  sptr<FiltreGen<T>> filtre_reechan(float ratio);
+  sptr<Filtre<T,T,float>> filtre_reechan(float ratio);
 
 /** @brief Interpolation d'un ratio arbitraire (calcul au fil de l'eau)
  *

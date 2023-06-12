@@ -1,7 +1,7 @@
 #include "tsd/tsd-all.hpp"
 #include "tsd/tests.hpp"
 
-entier test_filtre_fft()
+void test_filtre_fft()
 {
   msg("Test filtre FFT...");
 
@@ -50,8 +50,6 @@ entier test_filtre_fft()
     f.subplot().plot(y, "", "y");
     f.afficher();
   }
-
-  retourne 0;
 }
 
 

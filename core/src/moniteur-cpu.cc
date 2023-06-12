@@ -29,7 +29,7 @@ int64_t tic_μs(bouléen monotonique = oui)
   {
     si(!QueryPerformanceFrequency(&frequency))
     {
-      echec("Failed to initialize 64 bits counter.");
+      échec("Failed to initialize 64 bits counter.");
       frequency.QuadPart = 1000 * 1000;
     }
     QueryPerformanceCounter(&base_tick);
@@ -185,7 +185,7 @@ string &MoniteurCpu::nom()
   retourne impl->nom;
 }
 
-MoniteurCpu::MoniteurCpu(const string &nom)
+MoniteurCpu::MoniteurCpu(cstring nom)
 {
   impl = make_shared<Impl>();
   impl->nom = nom;
@@ -221,7 +221,7 @@ void MoniteursStats::ajoute(MoniteurCpu &m)
   lst.push_back(m.stats());
 }
 
-MoniteurCpu::Stats MoniteursStats::get(const string &nom) const
+MoniteurCpu::Stats MoniteursStats::get(cstring nom) const
 {
   pour(auto &s: lst)
   {

@@ -68,7 +68,7 @@ struct FiltreRIFDemiBande: FiltreGen<T>
 
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    tsd_assert(K > 0);
+    assertion(K > 0);
     soit n    = x.rows();
     soit iptr = x.data();
     soit optr = y.data();
@@ -171,7 +171,7 @@ struct FiltreRIFDecim: FiltreGen<T>
 
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    tsd_assert(K > 0);
+    assertion(K > 0);
     soit n = x.rows();
     soit iptr = x.data();
     soit optr = y.data();
@@ -268,7 +268,7 @@ struct FiltreRIFUps: FiltreGen<T>
       K = coefs.rows();
     }
 
-    tsd_assert((K % R) == 0);
+    assertion((K % R) == 0);
 
     fenêtre = Vecteur<T>::zeros(K/R);
 
@@ -276,7 +276,7 @@ struct FiltreRIFUps: FiltreGen<T>
 
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
-    tsd_assert(K > 0);
+    assertion(K > 0);
 
     soit n    = x.rows();
     soit iptr = x.data();
@@ -437,7 +437,7 @@ template
 
     void step(const Eigen::Ref<const Vecteur<T>> x, Vecteur<T> &y)
     {
-      tsd_assert(K > 0);
+      assertion(K > 0);
       entier n = x.rows();
       auto iptr = x.data();
       auto optr = y.data();

@@ -15,9 +15,9 @@ struct InterpolateurSinc: InterpolateurRIF<T>
 
   Vecf coefs(float τ)
   {
-    tsd_assert_msg((τ >= 0) && (τ <= 1), "InterpolateurSinc::coefs(τ={}) : délais invalide.", τ);
+    assertion_msg((τ >= 0) && (τ <= 1), "InterpolateurSinc::coefs(τ={}) : délais invalide.", τ);
     entier lut_index = τ * config.nphases;
-    tsd_assert((lut_index >= 0) && (lut_index <= config.nphases));
+    assertion((lut_index >= 0) && (lut_index <= config.nphases));
     retourne lut.col(lut_index);
   }
 
@@ -63,7 +63,7 @@ struct InterpolateurCSpline: InterpolateurRIF<T>
   Vecf coefs(float τ)
   {
     soit lut_index = (entier) (τ * 256);
-    tsd_assert((lut_index >= 0) && (lut_index <= 256));
+    assertion((lut_index >= 0) && (lut_index <= 256));
     retourne lut.col(lut_index);
   }
 
@@ -258,7 +258,7 @@ Vecteur<T> interp_cspline(const Vecf &x, const Vecteur<T> &y, const Vecf &x2)
 template<typename T>
 Vecteur<T> interp(const Vecf &x, const Vecteur<T> &y, const Vecf &x2, InterpOption mode)
 {
-  tsd_assert_msg(x.rows() == y.rows(),
+  assertion_msg(x.rows() == y.rows(),
       "interp: x et y doivent avoir le même nombre d'éléments (ici {} et {}).", x.rows(), y.rows());
 
   si(mode == InterpOption::LINEAIRE)

@@ -4,9 +4,8 @@
 using namespace tsd;
 using namespace tsd::vue;
 
-entier test_image()
+void test_image()
 {
-
   Image image(550, 350);
 
   //image->remplir(Couleur::Rouge);
@@ -72,6 +71,4 @@ entier test_image()
 
   //f.afficher();
   //Figure::attente_ihm();
-
-  retourne 0;
 }

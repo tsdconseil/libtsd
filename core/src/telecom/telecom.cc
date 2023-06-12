@@ -28,7 +28,7 @@ namespace tsd::telecom {
     case 13:
       retourne BitStream("1111100110101");
     default:
-      echec("Code Barker (n = {}) : non supporté.", n);
+      échec("Code Barker (n = {}) : non supporté.", n);
       retourne BitStream(); // non atteint
     }
   }

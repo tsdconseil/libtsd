@@ -23,9 +23,9 @@ struct FiltreCIC: FiltreGen<T>
     this->mode    = mode;
 
     si((mode != 'd') && (mode != 'u') && (mode != 'i'))
-      echec("cic_init: le mode doit être 'd' ou 'i'.");
+      échec("cic_init: le mode doit être 'd' ou 'i'.");
     si(config.M != 1)
-      echec("cic_init: seulement M = 1 est supporté pour l'instant.");
+      échec("cic_init: seulement M = 1 est supporté pour l'instant.");
     mem_diff.setZero(config.N);
     soit RM = config.R*config.M, N = config.N;
     si(mode == 'd')
@@ -107,7 +107,7 @@ sptr<FiltreGen<T>> filtre_cic(const CICConfig &config, char mode)
 
 FRat<float> design_cic(const CICConfig &config)
 {
-  tsd_assert_msg((config.R > 0) && (config.N >= 0) && (config.M > 0),
+  assertion_msg((config.R > 0) && (config.N >= 0) && (config.M > 0),
       "Design CIC: paramètres invalides (R={}, N={}, M={})", config.R, config.N, config.M);
 
   soit RM = config.R * config.M;
@@ -140,7 +140,7 @@ CICAnalyse cic_analyse(const CICConfig &config, float fe, float f1)
   // Trace entre 0 et f1
   soit idf1 = trouve_premier(fr > f1),
        idfs = trouve_premier(fr > fs/2);
-  tsd_assert((idf1 >= 0) && (idfs >= 0));
+  assertion((idf1 >= 0) && (idfs >= 0));
 
   msg("CIC analyse : R={}, fe={} Hz, fs={} Hz, f1={} Hz, idfs={}, idf1={}",
       R, fe, fs, f1, idfs, idf1);
@@ -255,7 +255,7 @@ CICComp design_cic_comp(const CICConfig &config, float fe, entier R2, float fc, 
   // Et, aussi, coupe @ fc Hz
   soit id = 1 + trouve_premier(analyse.fr > fc);
 
-  tsd_assert((id > 1) && (id + 1 < analyse.fr.rows()));
+  assertion((id > 1) && (id + 1 < analyse.fr.rows()));
 
   // Reduce the steepness of required frequency profile
   idealc(id-1)  = idealc(id-2) / 2;

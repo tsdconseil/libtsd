@@ -11,8 +11,8 @@ namespace tsd::vue {
 
 Stdo stdo;
 
-std::function<void ()> stdo_fin;
-std::function<void (sptr<const Rendable> fig, cstring titre)> stdo_ajoute_figure;
+fonction<void ()> stdo_fin;
+fonction<void (sptr<const Rendable> fig, cstring titre)> stdo_ajoute_figure;
 
 struct Element
 {
@@ -69,7 +69,7 @@ void Stdo::flush()
     }
 
     soit f = fopen(fn.c_str(), "wt");
-    si(f == nullptr)
+    si(!f)
     {
       msg_erreur("Erreur lors de l'ouverture du fichier [{}].\n", fn);
       retourne;

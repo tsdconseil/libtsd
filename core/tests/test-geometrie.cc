@@ -1,12 +1,9 @@
-#include "tsd/tsd.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/geometrie.hpp"
-#include "tsd/vue.hpp"
 #include "tsd/tests.hpp"
 
 
-using namespace tsd;
 using namespace tsd::geo;
-using namespace tsd::vue;
 using namespace tsd::temps;
 
 using Eigen::Matrix3f;
@@ -19,19 +16,15 @@ template<typename T1, typename T2>
   retourne abs(a - b) < 1e-7;
 }
 
-
-
-
-
 void test_quaternions()
 {
   msg("Test quaternions...");
 
   {
-    Quaternion q = Quaternion::identite();
+    soit q = Quaternion::identite();
     soit m = q.rot_mat();
-    tsd_assert((m - Eigen::Matrix3f::Identity()).norm() < 1e-6);
-    tsd_assert((q.inv().rot_mat() - Eigen::Matrix3f::Identity()).norm() < 1e-6);
+    assertion((m - Eigen::Matrix3f::Identity()).norm() < 1e-6);
+    assertion((q.inv().rot_mat() - Eigen::Matrix3f::Identity()).norm() < 1e-6);
   }
 
   {
@@ -43,7 +36,7 @@ void test_quaternions()
     {
       soit n = R.col(k).norm();
       msg("R: norme colonne {} = {}", k, n);
-      tsd_assert_msg(n - 1 < 1e-5, "Matrice de rotation invalide.");
+      assertion_msg(n - 1 < 1e-5, "Matrice de rotation invalide.");
     }
 
     Quaternion q2(R);
@@ -52,7 +45,7 @@ void test_quaternions()
     msg("q1.norm() = {}, q2.norm() = {}", q1.q.abs2().sum(), q2.q.abs2().sum());
     soit err = sqrt((q1.q - q2.q).abs2().mean());
     err = min(err, sqrt((q1.q + q2.q).abs2().mean()));
-    tsd_assert_msg(err < 1e-5, "Erreur trop importante ({})", err);
+    assertion_msg(err < 1e-5, "Erreur trop importante ({})", err);
 
 
     Eigen::Vector3f x  = Eigen::Vector3f::Random();
@@ -65,7 +58,7 @@ void test_quaternions()
     msg("y2 = {}", y2);
     msg("y3 = {}", y3);
 
-    tsd_assert_msg(y1.isApprox(y2, 1e-5) && y1.isApprox(y3, 1e-5), "Pb rotation quat.");
+    assertion_msg(y1.isApprox(y2, 1e-5) && y1.isApprox(y3, 1e-5), "Pb rotation quat.");
   }
 
   msg("ok");
@@ -73,8 +66,7 @@ void test_quaternions()
 
 
 
-entier test_geometrie()
+void test_geometrie()
 {
   test_quaternions();
-  retourne 0;
 }

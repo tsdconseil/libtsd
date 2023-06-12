@@ -38,7 +38,7 @@ namespace tsd::telecom {
     h2 = vconcat(h2, ArrayXf::Zero(m-reste));
     ntaps = h2.rows();
   }
-  tsd_assert((ntaps % m) == 0);
+  assertion((ntaps % m) == 0);
   // en ligne : les filtres
   // en colonne : les canaux
   retourne Eigen::Map<ArrayXXf>(h2.data(), m, ntaps/m);

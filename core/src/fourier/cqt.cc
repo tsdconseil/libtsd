@@ -1,16 +1,7 @@
-#include "tsd/tsd.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/vue.hpp"
+#include "tsd/tsd-all.hpp"
 #include "tsd/fourier/cqt.hpp"
 
 #include <cmath>
-
-
-
-using namespace tsd;
-using namespace tsd::fourier;
-using namespace tsd::vue;
 
 namespace tsd::tf::cqt {
 
@@ -59,65 +50,59 @@ struct CQTNoyaux
   //  J.A., full documentation available on <ulink url="http://www.tsdconseil.fr/log/scriptscilab/cqt">http://www.tsdconseil.fr/log/scriptscilab/cqt</ulink>
 
   string id;
-  float fs, fmin, fmax, γ;
-  float Q;
-  entier nfreqs, N;
-  float précision_noyau;
+
+  CQTConfig config;
+
+  entier nfreqs = 0,
+         N      = 0;
+
   Vecf freqs;
   Veci ktime, kimin, ksize;
   Tabcf noyaux;
 
-  void configure(const CQTConfig &config)//float fs, float fmin, float fmax, float gamm, float Q = 34, float kernel_precision = 0.99)
+  void configure(const CQTConfig &config)
   {
     this->id      = "CQT kernel structure";
-    this->fs      = config.fs;
-    this->fmin    = config.fmin;
-    this->fmax    = config.fmax;
-    this->γ       = config.γ;
-    this->Q       = config.Q;
+
+    this->config = config;
 
     // fmin * γ^nfreqs = fmax
     // => log(fmax/fmin) = nfreqs * log(γ)
-    nfreqs = (entier) ceil(log(fmax / fmin) / log(γ));
+    nfreqs = (entier) ceil(log(config.fmax / config.fmin) / log(config.γ));
 
-    this->précision_noyau = 0.99;
+    si((config.précision_noyau <= 0) || (config.précision_noyau >= 1))
+      échec("CQT: kernel_precision must be in ]0,1[ (typical : 0.98). Argument : {}.", config.précision_noyau);
 
-    si((précision_noyau <= 0) || (précision_noyau >= 1))
-      echec("CQT: kernel_precision must be in ]0,1[ (typical : 0.98). Argument : {}.", précision_noyau);
+    si(config.γ <= 1)
+      échec("CQT: γ (ratio of 2 successive frequencies) must be > 1 (γ = {}).", config.γ);
 
-    si(γ <= 1)
-      echec("CQT: γ (ratio of 2 successive frequencies) must be > 1 (γ = {}).", γ);
+    si(config.Q <= 0)
+      échec("CQT: Quality factor (Q) must be > 0 (Q = {}).", config.Q);
 
-    si(Q <= 0)
-      echec("CQT: Quality factor (Q) must be > 0 (Q = {}).", Q);
+    si(config.fs <= 0)
+      échec("CQT: fs must be > 0 (fs = {}).", config.fs);
 
-    si(fs <= 0)
-      echec("CQT: fs must be > 0 (fs = {}).", fs);
-
-    si((fmin <= 0) || (fmin > fs / 2))
-      echec("CQT: fmin must be strictly > 0 Hz and <= fs/2 (fmin = {}).", fmin);
+    si((config.fmin <= 0) || (config.fmin > config.fs / 2))
+      échec("CQT: fmin must be strictly > 0 Hz and <= fs/2 (fmin = {}).", config.fmin);
 
     // (1) Compute FFT minimal size
-    entier ideal_N = (entier) ceil((fs * Q) / fmin);
+    soit ideal_N = (entier) ceil((config.fs * config.Q) / config.fmin);
     N = 1;
     tantque(N < ideal_N)
       N *= 2;
 
-    fmax = fmin * pow(γ, (float) nfreqs);
+    this->config.fmax = config.fmin * pow(config.γ, (float) nfreqs);
     msg("CQT: fs = {:.0f} Hz, fmin = {:.2f} Hz, fmax = {:.2f} Hz, γ = {:.3f}, nfreqs = {}, Q = {:.2f}.",
-        fs, fmin, fmax, γ, nfreqs, Q);
+        config.fs, config.fmin, this->config.fmax, config.γ, nfreqs, config.Q);
     msg("Ideal FFT window size = {}, practical = {}.", ideal_N, N);
-    //printf("Freq. interval: %.1f Hz - %.1f Hz.\n", fmin, fmin * gamm^nfreqs);
-
 
     freqs = Vecf::zeros(nfreqs);
     ksize = kimin = ktime = Veci::zeros(nfreqs);
 
-    freqs(0) = fmin;
+    freqs(0) = config.fmin;
     pour(auto i = 1; i < nfreqs; i++)
-      freqs(i) = freqs(i-1) * γ;
+      freqs(i) = freqs(i-1) * config.γ;
 
-    //entier lp = 0;
     // (2) Initialize kernels
     msg("initialisation des noyaux...");
     pour(auto i = nfreqs-1; i >= 0; i--)
@@ -129,11 +114,11 @@ struct CQTNoyaux
   void init_noyau(entier i)
   {
     soit frequence = freqs(i);
-    soit kernel_time = (entier) ceil((fs * Q) / frequence);
-    si(kernel_time > N-1)
+    soit kernel_time = (entier) ceil((config.fs * config.Q) / frequence);
+    si(kernel_time > N - 1)
     {
       msg_avert("Attention, i = {}, ktime = {}, N = {}.", i, kernel_time, N);
-      kernel_time = N-1;
+      kernel_time = N - 1;
     }
     si((kernel_time % 2) == 0)
       kernel_time++;
@@ -141,16 +126,12 @@ struct CQTNoyaux
     ktime(i) = kernel_time;
 
     // Compute spatial response, centered
-    soit ol = cos(2*π*(frequence/fs)*linspace(1,N,N));
+    soit ol = cos(2*π*(frequence/config.fs)*linspace(1,N,N));
 
     // Fenêtre de Hamming
-    soit fen = tsd::filtrage::fenetre("hm", kernel_time, non);
-    //float α = 0.5;
-    //ArrayXf wnd = alpha - (1.0 - alpha) * cos((2 * π * linspace(1,kernel_time,kernel_time))/kernel_time);
-    soit tmp = Vecf::zeros(N);
-
+    soit fen = fenetre("hm", kernel_time, non),
+         tmp = Vecf::zeros(N);
     soit k2 = kernel_time / 2;
-
     tmp.segment(N/2-k2, kernel_time) = ol.segment(N/2-k2,kernel_time) * fen;
 
     // FFT du noyau
@@ -176,13 +157,14 @@ struct CQTNoyaux
     sinon
       pv = Sp(jmax-1);
 
-    entier j2;
-    entier lc = trouve_premier(Sp.segment(jmax,N/2-jmax) > (Xa.segment(jmax,N/2-jmax)).somme() * précision_noyau + pv);
+    entier j1, j2,
+           lc = trouve_premier(Sp.segment(jmax,N/2-jmax) > (Xa.segment(jmax,N/2-jmax)).somme() * config.précision_noyau + pv);
     si(lc == -1)
       j2 = N/2;
     sinon
       j2 = (jmax-1) + lc;
-    entier j1 = trouve_premier(Sp.head(jmax) > (Xa.head(jmax)).somme() * (1-précision_noyau));
+
+    j1 = trouve_premier(Sp.head(jmax) > (Xa.head(jmax)).somme() * (1-config.précision_noyau));
     si(j1 == -1)
       j1 = 1;
 
@@ -191,14 +173,14 @@ struct CQTNoyaux
     si(j2 - j1 < 4)
       j2 = j1 + 4;
 
-    entier kernel_index_min  = j1;//jmax - j;
+    soit kernel_index_min  = j1;//jmax - j;
 
     //si(kernel_index_min < 1) then
       //  kernel_index_min = 1;
     //end;
     kimin(i) = kernel_index_min;
 
-    entier kernel_size = j2 - j1 + 1;//2 * j + 1;
+    soit kernel_size = j2 - j1 + 1;//2 * j + 1;
     //    si(kernel_index_min + kernel_size >= N + 1) then
     //        kernel_size = N - kernel_index_min;
     //    end;
@@ -246,19 +228,19 @@ struct CQTNoyaux
 
     pour(auto i = 0; i < nfreqs; i++)
     {
-      soit tmp1 = abs(noyaux.col(i).head(ksize(i)));
-      soit tmp  = rééchan(tmp1,1.0f/d);
+      soit tmp1 = abs(noyaux.col(i).head(ksize(i))),
+           tmp  = rééchan(tmp1,1.0f/d);
       soit ns = (entier) floor(ksize(i)/d),
            nm = (entier) floor(kimin(i)/d);
       si(nm < 1)
         nm = 1;
 
       si((ns > 0) && (tmp.rows() > 0))
-      nymap.col(i).segment(nm,/*ns*/tmp.rows()) = tmp;
+        nymap.col(i).segment(nm,/*ns*/tmp.rows()) = tmp;
     }
 
     Figure f;
-    f.plot_img({{0, 1}, Dimf{fs/2, nfreqs}}, nymap);
+    f.plot_img({{0, 1}, Dimf{config.fs/2, nfreqs}}, nymap);
     f.afficher("Noyaux CQT");
   }
 };
@@ -271,7 +253,7 @@ struct CQT::Impl
   entier abs_position = 0, nb_data_attendu = 0;
   Veci kposition, kaposition;
   Vecf cirbuffer;
-  sptr<tsd::fourier::FFTPlan> plan_fft;
+  sptr<FFTPlan> plan_fft;
 
   struct Sortie
   {
@@ -298,8 +280,8 @@ struct CQT::Impl
 
   void step(const Vecf &x)
   {
-    soit lon      = x.rows();
-    soit décalage = 1;
+    soit lon      = x.rows(),
+         décalage = 1;
 
     tantque(lon >= nb_data_attendu)
     {
@@ -317,7 +299,7 @@ struct CQT::Impl
   {
     soit N = cqtk.N;
 
-    tsd_assert(x.rows() == nb_data_attendu);
+    assertion(x.rows() == nb_data_attendu);
 
     // (1) Data rotation
     //      to remove      to keep
@@ -388,7 +370,7 @@ struct CQT::Impl
     // Nombre total d'échantillons (irréguliers)
     soit ns = (entier) sortie.size();
     // Nombre d'échantillons d'entrée / échantillon de sortie
-    soit oprd = cqtk.fs / ofs;
+    soit oprd = cqtk.config.fs / ofs;
 
     msg("interpolation : ofs = {} Hz, nptr = {}.", ofs, sortie.size());
 
@@ -399,7 +381,7 @@ struct CQT::Impl
     soit décalages = Veci::zeros(cqtk.nfreqs);
 
     // Durée totale de l'analyse (en secondes)
-    soit duree = sortie[ns-1].temps / cqtk.fs;
+    soit duree = sortie[ns-1].temps / cqtk.config.fs;
 
     // Nombre d'échantillons à sortie (par fréquence)
     soit onmax = (entier) ceil(duree * ofs);
@@ -414,7 +396,7 @@ struct CQT::Impl
       soit &spl = sortie[i];
       soit fr = spl.id_freq;
       si(fr >= cqtk.nfreqs)
-        echec("ofreq invalid.");
+        échec("ofreq invalid.");
 
       // Temps échantillon précédent (pour cette fréquence), et échantillon courant
       // (en nombre d'échantillons d'entrée)

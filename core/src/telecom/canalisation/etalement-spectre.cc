@@ -21,7 +21,7 @@ struct FHSSModulation: Filtre<cfloat,cfloat,FHSSConfig>
     configure(config);
   }
 
-  entier configure_impl(const FHSSConfig &c)
+  void configure_impl(const FHSSConfig &c)
   {
     soit &config = Configurable<FHSSConfig>::config;
     config = c;
@@ -41,8 +41,6 @@ struct FHSSModulation: Filtre<cfloat,cfloat,FHSSConfig>
       ol[i] = source_ohc(((float) i) / nfreqs);
 
     index = 0;
-
-    retourne 0;
   }
   void step(const Veccf &x, Veccf &y)
   {
@@ -106,7 +104,7 @@ struct DSSSModulation: Filtre<cfloat,cfloat,DSSSConfig>
     configure(c);
   }
 
-  entier configure_impl(const DSSSConfig &c)
+  void configure_impl(const DSSSConfig &c)
   {
     soit &config = Configurable<DSSSConfig>::config;
     index   = 0;
@@ -114,13 +112,8 @@ struct DSSSModulation: Filtre<cfloat,cfloat,DSSSConfig>
     nbits   = c.chips.rows();
     osf     = nbits / c.osf_in;
     si((nbits % c.osf_in) != 0)
-    {
-      msg_erreur("DSSS : nbits doit être un multiple de osf in.");
-      retourne -1;
-    }
+      échec("DSSS : nbits doit être un multiple de osf in.");
     ra = tsd::filtrage::filtre_reechan<cfloat>(((float) nbits) / c.osf_in);
-
-    retourne 0;
   }
 
   void step(const Veccf &x, Veccf &y)
@@ -128,7 +121,7 @@ struct DSSSModulation: Filtre<cfloat,cfloat,DSSSConfig>
     soit &config = Configurable<DSSSConfig>::config;
     // pour chaque symbole d'entrée, consomme un bit de la séquence
     // Mais, un symbole d'entrée = plusieurs échantillons
-    tsd_assert((x.rows() % config.osf_in) == 0);
+    assertion((x.rows() % config.osf_in) == 0);
     //soit nsymb = x.rows() / config.osf_in;
 
     y = ra->step(x);

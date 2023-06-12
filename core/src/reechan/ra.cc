@@ -65,7 +65,7 @@ struct AdaptationRythmeSimple: FiltreGen<T>
       {
         // phase = index entre deux échantillons
         soit valeur_interpolée = interpolateur->step(fenetre, 0, phase);
-        tsd_assert(j < tmp_len);
+        assertion(j < tmp_len);
         *optr++ = valeur_interpolée;
         j++;
         phase += increment;
@@ -82,7 +82,7 @@ struct AdaptationRythmeSimple: FiltreGen<T>
 
 // Adaptation de rythme, ratio arbitraire
 template<typename T>
-struct AdaptationRythmeArbitraire: FiltreGen<T>
+struct AdaptationRythmeArbitraire: Filtre<T,T,float>
 {
   sptr<FiltreGen<T>> interpolateur;
   vector<sptr<FiltreGen<T>>> décimateurs, suréchantilloneurs;
@@ -97,11 +97,11 @@ struct AdaptationRythmeArbitraire: FiltreGen<T>
 
   AdaptationRythmeArbitraire(float ratio)
   {
-    configure(ratio);
+    Configurable<float>::configure(ratio);
   }
 
   /** Setup the rate adaptation */
-  entier configure(const float &ratio_)
+  void configure_impl(const float &ratio_) override
   {
     ratio = ratio_;
 
@@ -153,11 +153,9 @@ struct AdaptationRythmeArbitraire: FiltreGen<T>
 
     VERB(msg(" nb décimateurs = {}, nb suréchantilloneurs = {}, post-interpolation = {:.4f}.",
               nb_décimateurs, nb_suréchantilloneurs, facteur_post_interpolation););
-
-    retourne 0;
   }
 
-  void step(const Vecteur<T> &x, Vecteur<T> &y)
+  void step(const Vecteur<T> &x, Vecteur<T> &y) override
   {
     y = x;
 
@@ -179,7 +177,7 @@ struct AdaptationRythmeArbitraire: FiltreGen<T>
   }
 };
 
-template<typename T> sptr<FiltreGen<T>> filtre_reechan(float ratio)
+template<typename T> sptr<Filtre<T,T,float>> filtre_reechan(float ratio)
 {
   retourne make_shared<AdaptationRythmeArbitraire<T>>(ratio);
 }

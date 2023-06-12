@@ -59,15 +59,12 @@ struct FreeTypeFont: Font
     init();
   }
 
-  entier init()
+  void init()
   {
     const lock_guard<mutex> lock(mut);
     init_ok = non;
     si(FT_Init_FreeType(&library))
-    {
-      msg_erreur("FT_Init_FreeType");
-      retourne -1;
-    }
+      échec("FT_Init_FreeType");
 
     string nom = "OpenSans-Regular.ttf";
 
@@ -91,16 +88,10 @@ struct FreeTypeFont: Font
     }
 
     si(fn.empty())
-    {
-      msg_erreur("Fichier de fonte non trouvé ({})", nom);
-      retourne -1;
-    }
+      échec("Fichier de fonte non trouvé ({})", nom);
 
     si(FT_New_Face(library, fn.c_str(), 0, &face))
-    {
-      msg_erreur("FT_New_Face (fichier non trouvé : [{}]).", fn);
-      retourne -1;
-    }
+      échec("FT_New_Face (fichier non trouvé : [{}]).", fn);
 
     FT_Select_Charmap(face , ft_encoding_unicode);
 
@@ -109,13 +100,9 @@ struct FreeTypeFont: Font
      *  width, heigth */
     entier res = FT_Set_Char_Size(face, 50 * 64, 0, 50, 0);
     si(res)
-    {
-      msg_erreur("FT_Set_Char_Size : {:x}", res);
-      retourne -1;
-    }
+      échec("FT_Set_Char_Size : {:x}", res);
     echelle = 1;
     init_ok = oui;
-    retourne 0;
   }
 
   CarRendu rendre_car_cache(const CarSpec &sp)
@@ -174,7 +161,7 @@ struct FreeTypeFont: Font
     retourne res;
   }
 
-  Image rendre(const string &s, float echelle)
+  Image rendre(cstring s, float echelle)
   {
     const lock_guard<mutex> lock(mut);
 
@@ -199,7 +186,7 @@ struct FreeTypeFont: Font
     vector<Point> poss;
     Point pos{0,0};
     Dim dim{0,0};
-    entier top_max = 0;
+    soit top_max = 0;
 
     //msg("Rendu freetype : [{}]...", s);
 
@@ -313,8 +300,8 @@ struct FreeTypeFont: Font
 
     pour(auto i = 0u; i < imgs.size(); i++)
     {
-      tsd_assert(poss[i].x + imgs[i].sx() <= dim.l);
-      tsd_assert(poss[i].y + imgs[i].sy() <= dim.h);
+      assertion(poss[i].x + imgs[i].sx() <= dim.l);
+      assertion(poss[i].y + imgs[i].sy() <= dim.h);
       img.puti(poss[i], imgs[i]);
     }
     VERBOSE(msg("ok.");)

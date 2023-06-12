@@ -42,16 +42,17 @@ struct DemodGen: Démodulateur
 
   float delais()
   {
-    echec("TODO : DemodGen::delais()");
+    échec("TODO : DemodGen::delais()");
     retourne 0;
   }
 
   DemodGen(const ModConfig &modconfig, const DemodConfig &config)
   {
-    valide = (configure(modconfig, config) == 0);
+    configure(modconfig, config);
+    valide = oui;
   }
 
-  entier configure(const ModConfig &modconfig, const DemodConfig &config)
+  void configure(const ModConfig &modconfig, const DemodConfig &config)
   {
     this->config = config;
     this->modconfig = modconfig;
@@ -61,10 +62,7 @@ struct DemodGen: Démodulateur
     discri = discriminateur_fm();
 
     si(!fo)
-    {
-      msg_erreur("Démodulateur : la forme d'onde doit être renseignée.");
-      retourne -1;
-    }
+      échec("Démodulateur : la forme d'onde doit être renseignée.");
 
     si(fmod(modconfig.fe,modconfig.fsymb) != 0)
     {
@@ -106,7 +104,7 @@ struct DemodGen: Démodulateur
 
     soit ted  = ted_init(config.ndec.clock_rec.ted);
 
-    tsd_assert(ted);
+    assertion(ted);
 
     sptr<Interpolateur<cfloat>> itrp;
     si(config.ndec.clock_rec.itrp == ItrpType::CSPLINE)
@@ -116,10 +114,7 @@ struct DemodGen: Démodulateur
     sinon si(config.ndec.clock_rec.itrp == ItrpType::LAGRANGE)
       itrp = itrp_lagrange<cfloat>(config.ndec.clock_rec.itrp_lagrange_degre);
     sinon
-    {
-      msg_erreur("itrp inconnu.");
-      retourne -1;
-    }
+      échec("itrp inconnu.");
 
 
 
@@ -162,8 +157,6 @@ struct DemodGen: Démodulateur
     }
 
     valide = oui;
-
-    retourne 0;
   }
 
   /*template<typename T, typename T1> auto operator()(const std::shared_ptr<T> p)
@@ -265,13 +258,13 @@ struct DemodGen: Démodulateur
       //coarse_rssi = coarse_rssi.head(n-1).eval();
       //assert(coarse_rssi.rows() == x_dn2.rows());
 
-      tsd_assert(!x_dn.hasNaN());
+      assertion(!x_dn.hasNaN());
       si(ra_dp)
       {
         x_dn = ra_dp->step(x_dn);
       }
 
-      tsd_assert(!x_dn.hasNaN());
+      assertion(!x_dn.hasNaN());
     }
 
     //msg(" demod: coarse rssi...");

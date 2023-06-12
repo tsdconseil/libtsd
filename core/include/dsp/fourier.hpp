@@ -24,7 +24,7 @@ namespace dsp::fourier
   using tsdF::fftplan_defaut;
 
   /** @cond undoc */
-  //extern std::function<sptr<FFTPlan>()> fftplan_defaut;
+  //extern fonction<sptr<FFTPlan>()> fftplan_defaut;
   /** @endcond */
 
 /** @brief Creation of a FFT computing plan (to compute efficiently several FFT).
@@ -274,7 +274,7 @@ struct FFTFilterConfig: tsdF::FiltreFFTConfig
 
   /** @brief Callback appelée pour le traitement dans le domaine fréquentiel
    *  (à réaliser par l'utilisateur). */
-  std::function<void (tsd::Veccf &)> &freq_domain_processing = traitement_freq;
+  fonction<void (tsd::Veccf &)> &freq_domain_processing = traitement_freq;
 };
 
 /** @brief Creation of frequency domain filter (OLA / OverLap-and-Add technique).
@@ -586,8 +586,8 @@ struct DetectorConfig: tsdF::DetecteurConfig
   tsdF::DetecteurConfig::Mode &mode = mode;
 
   /** @brief User callback called each time the pattern is detected. */
-  std::function<void (const Detection &det)> &on_detection
-      = *((std::function<void (const Detection &det)> *) &gere_detection);
+  fonction<void (const Detection &det)> &on_detection
+      = *((fonction<void (const Detection &det)> *) &gere_detection);
 
   bool &compute_correlation_signal = calculer_signal_correlation;
 };

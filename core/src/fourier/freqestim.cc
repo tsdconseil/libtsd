@@ -6,9 +6,9 @@ namespace tsd::fourier {
 
 tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, cstring fen)
 {
-  soit freqs = psd_freqs(N);
-  soit S = Vecf::zeros(N);
-  soit f = tsd::filtrage::fenetre(fen, N, non);
+  soit freqs = psd_freqs(N),
+       S     = Vecf::zeros(N),
+       f     = tsd::filtrage::fenetre(fen, N, non);
 
   pour(auto i = 0; i + N < x.rows(); i += N/2)
   {

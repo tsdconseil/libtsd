@@ -131,11 +131,8 @@ Durée::Durée(const HeureComposite &hc)
 }
 
 Durée::Durée(
-    entier jours,
-    entier heures,
-    entier minutes,
-    entier secondes,
-    entier microsecondes)
+    entier jours, entier heures, entier minutes,
+    entier secondes, entier microsecondes)
 {
   tics = jours * TICS_JOUR +
       (heures * 3600 + minutes * 60 + secondes) * TICS_SECONDE
@@ -174,7 +171,7 @@ bouléen année_mois_valide(entier année, entier mois)
 entier mois_nb_jours(entier année, entier mois)
 {
   si(!année_mois_valide(année, mois))
-    echec("mois_nb_jours: année ({}) ou mois ({}) invalide.", année, mois);
+    échec("mois_nb_jours: année ({}) ou mois ({}) invalide.", année, mois);
 
   soit ptr = est_bissextile(année) ? nb_jours_par_mois[1] : nb_jours_par_mois[0];
   retourne ptr[mois-1];
@@ -216,7 +213,7 @@ Calendrier::Calendrier(cstring s)
 {
   soit sp = split(s, "/");
   si(sp.size() != 3)
-    echec("Date invalide : {}", s);
+    msg_erreur("Date invalide : {}", s);
   sinon
   {
     jour  = stoi(sp[0]);
@@ -224,10 +221,11 @@ Calendrier::Calendrier(cstring s)
     année = stoi(sp[2]);
   }
   si(!est_valide())
-    echec("Date invalide : {}", s);
+    msg_erreur("Date invalide : {}", s);
 }
 
-HeureComposite::HeureComposite(entier heure, entier minutes, entier secondes, entier ms, entier µs)
+HeureComposite::HeureComposite(entier heure, entier minutes, entier secondes,
+                               entier ms, entier µs)
 {
   this->heure     = heure;
   this->minutes   = minutes;
@@ -240,7 +238,7 @@ HeureComposite::HeureComposite(cstring s)
 {
   soit sp = split(s, ":");
   si(sp.size() != 3)
-    echec("HeureComposite : chaine invalide : {}", s);
+    échec("HeureComposite : chaine invalide : {}", s);
   sinon
   {
     heure    = stoi(sp[0]);
@@ -248,7 +246,7 @@ HeureComposite::HeureComposite(cstring s)
     secondes = stoi(sp[2]);
   }
   si(!vérifie_validité())
-    echec("Heure composite invalide.");
+    échec("Heure composite invalide.");
 }
 
 
@@ -413,9 +411,9 @@ tuple<entier, entier> DateHeure::vers_GPS() const
   // 06/2017 : 18 leap seconds ahead of UTC
   nsecs += 18;
 
-  entier sps         = nbsecs_par_jour * 7;
-  entier nb_semaines = nsecs / sps;
-  entier nb_secs     = nsecs - nb_semaines * sps;
+  entier sps         = nbsecs_par_jour * 7,
+         nb_semaines = nsecs / sps,
+         nb_secs     = nsecs - nb_semaines * sps;
 
   retourne {nb_semaines, nb_secs};
 }

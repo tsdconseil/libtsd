@@ -17,7 +17,7 @@ struct TestMotifResult
 
 static TestMotifResult test_motif(const TestMotifConfig &config)
 {
-  entier cnt_ech = 0;
+  soit cnt_ech = 0;
   TestMotifResult res;
   soit m =  config.motif / sqrt(abs2(config.motif).moyenne());
 
@@ -35,12 +35,12 @@ static TestMotifResult test_motif(const TestMotifConfig &config)
     f2.afficher();
   }
 
-  entier M = m.rows();
-  entier N = 40 * M;
+  soit M    = m.rows(),
+       N    = 40 * M,
+       ndet = 0,
+       BS   = 1024;
 
   float egain = 0, ephase = 0, etemps = 0;
-
-  entier ndet = 0;
 
   DetecteurConfig dconfig;
   dconfig.debug_actif    = non;
@@ -53,7 +53,6 @@ static TestMotifResult test_motif(const TestMotifConfig &config)
   };
 
 
-  entier BS = 1024;
   dconfig.Ne    = BS;
   dconfig.motif = m;
   dconfig.seuil = 0.8;
@@ -61,23 +60,16 @@ static TestMotifResult test_motif(const TestMotifConfig &config)
 
   pour(auto idt = 0; idt < config.ntests; idt++)
   {
-    ndet = 0;
+    ndet    = 0;
     cnt_ech = 0;
-    soit x = Veccf::zeros(N);
-    //ArrayXcf x = config.σ * randn(N);
+    soit x  = Veccf::zeros(N);
     x.segment(10 * M, M) += m;
-    //x = bruit_awgn(x, config.σ);
 
-
-
-    Veccf bruit(N);
-    bruit.set_real(randn(N));
-    bruit.set_imag(randn(N));
+    soit bruit = randcn(N);
 
     bruit *= (config.σ / sqrt(2.0f));
     x += bruit;
 
-    //det->step(x);
     pour(auto i = 0; i < N / BS; i++)
     {
       det->step(x.segment(i * BS, BS));
@@ -85,7 +77,7 @@ static TestMotifResult test_motif(const TestMotifConfig &config)
     }
     si(ndet != 1)
     {
-      echec("Motif non détecté (ndet = {}).", ndet);
+      échec("Motif non détecté (ndet = {}).", ndet);
     }
   }
 
@@ -100,30 +92,17 @@ static TestMotifResult test_motif(const TestMotifConfig &config)
 }
 
 
-
-/*static BitStream pad_bs(const BitStream &bs, entier nb_bits_par_symb)
-{
-  BitStream bs2 = bs;
-  entier nbits = bs.lon();
-  entier nzeros = nb_bits_par_symb - (nbits % nb_bits_par_symb);
-  pour(auto i = 0; i < nzeros; i++)
-    bs2.push(0);
-  retourne bs2;
-}*/
-
-
-entier test_motifs()
+void test_motifs()
 {
   {
     ModConfig mconfig;
-    mconfig.forme_onde = forme_onde_bpsk();
-    mconfig.fe    = 4;
-    mconfig.fsymb = 1;
+    mconfig.forme_onde         = forme_onde_bpsk();
+    mconfig.fe                 = 4;
+    mconfig.fsymb              = 1;
     mconfig.forme_onde->filtre = SpecFiltreMiseEnForme::rcs(0.5);
     soit mod = modulateur_création(mconfig);
-    soit bs = code_mls(4);//BitStream::rand(15);
+    soit bs = code_mls(4); //randstream(15);
 
-    //ArrayXcf x = mod->step(pad_bs(bs, mconfig.wf->infos.k));
     bs.pad_mult(mconfig.forme_onde->infos.k);
     soit x = mod->step(bs);
     test_motif({"bpsk-15bits", x});
@@ -164,7 +143,6 @@ entier test_motifs()
 
 
   //test_motif({"essai", siggauss(100) * sigchirp2(0.001, 0.2, 100)});
-  retourne 0;
 }
 
 
@@ -173,19 +151,18 @@ entier test_motifs()
 
 void test_detecteur_unit(float σ, entier BS, DetecteurConfig::Mode mode)
 {
-  entier err = 0;
+  soit err      = 0,
+       cnt_ech  = 0,
+       N        = 8 * BS,
+       M        = 400; // Dim motif
+
   msg_majeur("Test détecteur de motif: σ={}, BS={}, mode={}...",
               σ, BS, mode == DetecteurConfig::Mode::MODE_OLA ? "OLA" : "RIF");
 
-  entier cnt_ech = 0;
-  entier N = 8 * BS;
-
-  // Dim motif
-  entier M = 400;
   soit motif = siggauss(M) * sigchirp(0.001, 0.2, M, 'q');
 
-  //ArrayXcf motif = tsd::telecom::code_Barker(13).vers_array();
-  //entier M = motif.rows();
+  //soit motif = tsd::telecom::code_Barker(13).vers_array();
+  //soit M = motif.rows();
 
   struct Occurence
   {
@@ -226,16 +203,13 @@ void test_detecteur_unit(float σ, entier BS, DetecteurConfig::Mode mode)
     x.segment(floor(o.position), M)  = motif2 * std::polar(o.gain, o.phase);
   }
 
-  Veccf bruit(N);
-  bruit.set_real(randn(N));
-  bruit.set_imag(randn(N));
-  bruit *= (σ / sqrt(2.0f));
+  soit bruit = randcn(N) * (σ / sqrt(2.0f));
 
   float σ_emp = sqrt(abs2(bruit).moyenne());
 
   msg("σ = {}, σ_emp = {}.", σ, σ_emp);
 
-  tsd_assert(abs(σ - σ_emp) / σ  < 1e-2);
+  assertion(abs(σ - σ_emp) / σ  < 1e-2);
 
   x += bruit;
 
@@ -252,8 +226,8 @@ void test_detecteur_unit(float σ, entier BS, DetecteurConfig::Mode mode)
   vector<Occurence> occd;
 
   DetecteurConfig config;
-  config.mode = mode;
-  config.debug_actif = oui;
+  config.mode           = mode;
+  config.debug_actif    = oui;
   config.gere_detection = [&](const Detection &det)
   {
     msg("Detection : {}.", det);
@@ -345,21 +319,18 @@ void test_detecteur_unit(float σ, entier BS, DetecteurConfig::Mode mode)
     f.afficher();
   }
 
-  tsd_assert(dets.size() == occurences.size());
+  assertion(dets.size() == occurences.size());
   //pour(auto &s: scores)
-    //tsd_assert(abs(s - 1) < 0.02);
+    //assertion(abs(s - 1) < 0.02);
   si(err)
-    echec("Erreur trop importante.");
+    échec("Erreur trop importante.");
   msg("Fin.");
 }
 
-entier test_detecteur()
+void test_detecteur()
 {
-
   test_detecteur_unit(0.01, 4*1024, DetecteurConfig::MODE_OLA);
   test_detecteur_unit(0.01, 4*1024, DetecteurConfig::MODE_RIF);
-
-  retourne 0;
 }
 
 

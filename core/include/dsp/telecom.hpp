@@ -1491,7 +1491,7 @@ struct PacketReceiverConfig
   bool correl_fft = false;
 
   /** @brief Callback optionnelle appelée avec le signal de corrélation normalisée (peut servir pour de la mise au point). */
-  std::function<void (const Vecf &c)> callback_corr;
+  fonction<void (const Vecf &c)> callback_corr;
 
   /** @brief Activation ou non des plots de mise au point */
   bool debug_actif = false;
@@ -1570,9 +1570,9 @@ struct PacketReceiver
   }
 
   /** @brief Fonction de configuration */
-  virtual int configure(const PacketReceiverConfig &config)
+  virtual void configure(const PacketReceiverConfig &config)
   {
-    return fr->configure(config.fr());
+    fr->configure(config.fr());
   }
 
   /** @brief Traitement d'un buffer de données. */
@@ -1667,9 +1667,9 @@ struct PacketEmitter
   }
 
   /** @brief Fonction de configuration */
-  virtual int configure(const PacketEmitterConfig &config)
+  virtual void configure(const PacketEmitterConfig &config)
   {
-    return fr->configure(config.fr());
+    fr->configure(config.fr());
   }
 
   /** @brief Traitement d'un buffer de données. */

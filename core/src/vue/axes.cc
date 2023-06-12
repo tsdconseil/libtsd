@@ -19,10 +19,9 @@ namespace tsd::vue
   // Constantes à supprimer !!!
   // Définit les dimensions
   static const auto HAUTEUR_X_LABEL   = 25;
-
   static const auto FONTE_X_LABEL  = 0.6;
 
-  void ConfigGrille::from_style(const string &style)
+  void ConfigGrille::from_style(cstring style)
   {
     si(style == ".")
     {
@@ -60,8 +59,8 @@ namespace tsd::vue
 
   bouléen ConfigAxes::est_mat_sur_clair() const
   {
-    entier score_grid  = grille_majeure.couleur.lumi();
-    entier score_back = couleur_arriere_plan.lumi(); // 255
+    entier score_grid  = grille_majeure.couleur.lumi(),
+           score_back  = couleur_arriere_plan.lumi(); // 255
 
     si(grille_majeure.couleur.vers_rgba() == 0) // Par défaut
       score_grid = 255 - score_back;
@@ -69,7 +68,7 @@ namespace tsd::vue
     retourne score_back > score_grid;
   }
 
-  ConfigAxes::Legende::Position::Position(const string &id)
+  ConfigAxes::Legende::Position::Position(cstring id)
   {
     struct PosCart {string code; Type pos;};
     static const PosCart codes[] =
@@ -108,7 +107,7 @@ namespace tsd::vue
     DBG(msg("Configure axe : vmin={}, vmax={}", config.vmin, config.vmax);)
 
     si(config.vmin > config.vmax)
-      echec("Configuration axe : vmin ({}) > vmax ({})", config.vmin, config.vmax);
+      échec("Configuration axe : vmin ({}) > vmax ({})", config.vmin, config.vmax);
 
     this->config = config;
     this->dim    = dim;
@@ -185,10 +184,10 @@ namespace tsd::vue
 // et "simple" en terme d'écriture décimale
 static double calcule_tic(float tic_min)
 {
-  double res = 1;
-  double pnorm = pow(10.0, (double) floor(log10(tic_min)));
+  soit res   = 1.0,
+       pnorm = pow(10.0, (double) floor(log10(tic_min))),
+       v     = tic_min / pnorm;
 
-  float v = tic_min / pnorm;
   // 0.15  -> 1.5  -> tic = 0.2
   // 23.15 -> 2.31 -> tic = 25
 
@@ -216,21 +215,33 @@ struct Axes::Impl
   // TODO: regrouper les mutable
   mutable ConfigAxes config;
 
-  // Position horizontale de l'axe vertical
-  mutable entier x_grad_vert = 0, y_grad_hor = 0;
+  mutable double
+        tic_majeur = 0,
+        tic_mineur = 0;
 
-  mutable double tic_majeur = 0, tic_mineur = 0;
-  mutable unsigned int tic_majeur_pixels = 0, tic_mineur_pixels = 0;
   mutable Axe axe_horizontal, axe_vertical;
+
+  // Position horizontale de l'axe vertical
+  mutable entier
+          x_grad_vert       = 0,
+          y_grad_hor        = 0,
   /** Dimension de la vue, en pixels */
-  mutable entier sx = 1, sy = 1;
+          sx                = 1,
+          sy                = 1,
   /** Dimension allouée pour les courbes */
-  mutable entier sx_graphique = 1, sy_graphique = 1;
-  mutable entier marge_gauche = 0, marge_droite = 0;
-  mutable entier marge_basse = 0, marge_haute = 0;
-  mutable   bouléen    mat_sur_clair = non;
-  mutable Couleur couleur_avant_plan = {255,255,255};
-  mutable Couleur fond_grille;
+          sx_graphique      = 1,
+          sy_graphique      = 1,
+          marge_gauche      = 0,
+          marge_droite      = 0,
+          marge_basse       = 0,
+          marge_haute       = 0,
+          tic_majeur_pixels = 0,
+          tic_mineur_pixels = 0,
+          marge_valeurs     = 60;
+
+  mutable bouléen  mat_sur_clair = non;
+  mutable Couleur couleur_avant_plan = {255,255,255},
+                  fond_grille;
   mutable Canva canva_pixels, canva_res;
 
   void post_rendu(Canva canva_) const
@@ -254,8 +265,6 @@ struct Axes::Impl
     maj_dimensions(dim_totale);
     retourne {sx_graphique, sy_graphique};
   }
-
-  mutable int marge_valeurs = 60;
 
   // dim = allocation
   void maj_dimensions(const Dim &dim) const
@@ -310,18 +319,12 @@ struct Axes::Impl
 
     y_grad_hor = sy - marge_basse;
 
-
-
-
-
-
-
-    if(get_mode_impression())
+    si(get_mode_impression())
     {
       set_def(cM.pixels_par_tic_min_x, sx / 8);
       set_def(cM.pixels_par_tic_min_y, sx / 12);
     }
-    else
+    sinon
     {
       set_def(cM.pixels_par_tic_min_x, sx / 12);
       set_def(cM.pixels_par_tic_min_y, sy / 12);
@@ -349,7 +352,6 @@ struct Axes::Impl
 
     // Vue en pixels
     canva_pixels = canva_.vue({0, 0, sx, sy});
-
 
     si(isinf(xmin) || isinf(xmax) || isinf(ymin) || isinf(ymax))
     {
@@ -380,12 +382,14 @@ struct Axes::Impl
     {
       // Il faut se débrouiller pour que la résolution soit identique
       // en x et en y. soit LSB / pixel identique.
-      soit dh = cah.vmax - cah.vmin, dv = cav.vmax - cav.vmin;
-      soit cth = (cah.vmax + cah.vmin) / 2, ctv = (cav.vmax + cav.vmin) / 2;
+      soit dh  = cah.vmax - cah.vmin, dv = cav.vmax - cav.vmin,
+           cth = (cah.vmax + cah.vmin) / 2, ctv = (cav.vmax + cav.vmin) / 2;
 
       // Résolution = nb lsb / pixel, en horizontal et en vertical
-      soit reso_x = dh / sx_graphique, reso_y = dv / sy_graphique;
-      soit ratio = (reso_x + 1e-200) / (reso_y + 1e-200);
+      soit reso_x = dh / sx_graphique,
+           reso_y = dv / sy_graphique;
+
+      soit ratio  = (reso_x + 1e-200) / (reso_y + 1e-200);
 
       // Comment forcer les résolutions à être identique ?
       // On augmente l'intervalle pour la résolution la plus haute
@@ -446,8 +450,6 @@ struct Axes::Impl
     DBG(msg("raxes: cfg axes..."));
     axe_horizontal.configure(cah, sx_graphique);
     axe_vertical.configure(cav, sy_graphique);
-
-
 
     DBG(msg("raxes: cpt tics..."));
     calcule_tics(axe_vertical);
@@ -535,7 +537,7 @@ struct Axes::Impl
       retourne;
     }
 
-    bouléen mode_log = axe.config.echelle_logarithmique;
+    soit mode_log = axe.config.echelle_logarithmique;
 
     si(axe.config.ecart_pixel != -1)
     {
@@ -892,7 +894,7 @@ struct Axes::Impl
     si(av.tics_majeurs_pos.empty())
       msg_avert("Axes : aucun tic vertical !");
 
-    int idx = 0;
+    soit idx = 0;
     pour(auto t: av.tics_majeurs_pos)
     {
       string s;
@@ -904,7 +906,9 @@ struct Axes::Impl
       si(cav.tic_manuels && (idx < (entier) cav.tics.size()))
         s = cav.tics[idx].second;
 
-      affiche_tic_majeur(O, t, 5, x0, s, grp);
+      soit dymax = av.ecart_tics_majeurs_pixels * 0.8;
+
+      affiche_tic_majeur(O, t, 5, x0, s, dymax, grp);
       idx++;
     }
     soit lg = 1;
@@ -975,7 +979,7 @@ struct Axes::Impl
     }
 
     DBG(msg(" raxes/affiche_grille : axes"));
-    auto grp = canva.groupe_textes();
+    soit grp = canva.groupe_textes();
     affiche_axe_vertical(canva, grp);
     affiche_axe_horizontal(canva, grp);
     DBG(msg(" raxes/affiche_grille : fait"));
@@ -1055,7 +1059,10 @@ struct Axes::Impl
     }
   }
 
-  void affiche_tic_majeur(Canva &O, float v, entier lg, entier x0, const string &val, sptr<Canva::GroupeTextes> grp) const
+  void affiche_tic_majeur(Canva &O, float v, entier lg,
+                          entier x0, cstring val,
+                          entier dymax_,
+                          sptr<Canva::GroupeTextes> grp) const
   {
     soit y = y_vers_pixel(v);
 
@@ -1069,7 +1076,8 @@ struct Axes::Impl
     //soit s = valeur_vers_chaine(v, config.axe_vertical.unite);
 
     entier pos = x0 + 6;
-    Align align = Align::DEBUT;
+    Align align = Align::DEBUT;//Align::FIN;//DEBUT;
+    //pos += marge_valeurs - 6 - 1;
     si(x0 < sx/2)
     {
       pos = 20;
@@ -1079,7 +1087,7 @@ struct Axes::Impl
     O.set_align(align, Align::CENTRE);
 
     soit dxmax = marge_valeurs - 6,
-         dymax = config.axe_vertical.valeurs_hauteur_max;
+         dymax = min(dymax_, config.axe_vertical.valeurs_hauteur_max);
 
     si(y - dymax / 2 >= 0)
       O.texte(pos, y, val, dxmax, dymax, grp);
@@ -1312,7 +1320,7 @@ struct Axes::Impl
 
 
 
-void Axes::def_echelle(const string &x, const string &y)
+void Axes::def_echelle(cstring x, cstring y)
 {
   impl->config.axe_horizontal.echelle_logarithmique = x == "log";
   impl->config.axe_vertical.echelle_logarithmique   = y == "log";
@@ -1412,7 +1420,7 @@ void ConfigAxes::def_rdi_visible(float xmin, float xmax, float ymin, float ymax)
     retourne;
   }
 
-  //tsd_assert(xmax >= xmin);
+  //assertion(xmax >= xmin);
 
   soit dx = xmax - xmin;
   soit dy = ymax - ymin;
@@ -1422,7 +1430,7 @@ void ConfigAxes::def_rdi_visible(float xmin, float xmax, float ymin, float ymax)
 
   si(axe_horizontal.echelle_logarithmique)
   {
-    float r = xmax / xmin;
+    soit r = xmax / xmin;
     axe_horizontal.vmin = xmin / pow(r, 0.1);
     axe_horizontal.vmax = xmax * pow(r, 0.1);
   }

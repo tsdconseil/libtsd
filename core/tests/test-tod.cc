@@ -87,7 +87,7 @@ void analyse_lift(const Lift &lift)
 }
 
 
-entier test_tod()
+void test_tod()
 {
   //infos_ondelette(ondelette_db4<float>());
   //infos_ondelette(ondelette_haar<float>());
@@ -97,6 +97,4 @@ entier test_tod()
 
   msg("Lift db2...");
   analyse_lift(lift_db2());
-
-  retourne 0;
 }

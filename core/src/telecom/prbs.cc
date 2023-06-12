@@ -45,7 +45,7 @@ const vector<uint32_t> pols_prim =
 uint32_t polynome_primitif_binaire(entier n)
 {
   si((n <= 0) || (n >= (entier) pols_prim.size()))
-    echec("polynome_primitif : degré = {}, pas possible.", n);
+    échec("polynome_primitif : degré = {}, pas possible.", n);
   retourne pols_prim[n] | 1; // Ajoute X^n, implicite
 }
 
@@ -84,23 +84,20 @@ LFSRGenerateur::LFSRGenerateur(unsigned int reglen)
   configure(reglen);
 }
 
-entier LFSRGenerateur::configure(unsigned int reglen)
+void LFSRGenerateur::configure(unsigned int reglen)
 {
-  tsd_assert_msg(reglen <= MAX_REGLEN, "Invalid PRBS reg len: {}.", reglen);
+  assertion_msg(reglen <= MAX_REGLEN, "Invalid PRBS reg len: {}.", reglen);
 
   config.reglen = reglen;
   config.pol    = polynome_primitif_binaire(reglen);//best_pols[reglen] | 1;
   //pol    = (best_pols[reglen]<<1) | 1;
   reg    = 0xfa17;//0x0001;
-
-  retourne 0;
 }
 
-entier LFSRGenerateur::configure(const LFSRConfig &config)
+void LFSRGenerateur::configure(const LFSRConfig &config)
 {
   this->config = config;
   reg = config.p0;
-  retourne 0;
 }
 
 
@@ -231,7 +228,7 @@ LFSRRecepteur::LFSRRecepteur()
 
 entier LFSRRecepteur::configure(uint16_t reglen, entier nb_bits_to_ignore)
 {
-  tsd_assert_msg(reglen <= MAX_REGLEN, "Invalid PRBS reg len: {}.", reglen);
+  assertion_msg(reglen <= MAX_REGLEN, "Invalid PRBS reg len: {}.", reglen);
 
   impl->nb_bits_a_ignorer = nb_bits_to_ignore;
   impl->reglen            = reglen;

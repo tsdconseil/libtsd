@@ -76,7 +76,7 @@ Vecteur<T> rifamp_naif(const Vecteur<T> &h, entier L)
 # if 0
   soit n = h.rows();
   soit M = (n - 1) / 2;
-  //tsd_assert_msg((n & 1) == 1, "rifamp_naif : nombre de coefficients impair attendu (n = {})", n);
+  //assertion_msg((n & 1) == 1, "rifamp_naif : nombre de coefficients impair attendu (n = {})", n);
 
 
   auto eval = &amp_type_II;
@@ -133,7 +133,7 @@ tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L, bouléen symetrique)
   si(!symetrique)
     H *= -complex<float>(0,1);
 
-  tsd_assert(H.rows() == L);
+  assertion(H.rows() == L);
 
   soit fr = linspace(0, 0.5 - (0.5 / L), L);
 
@@ -173,7 +173,7 @@ Eigen::Matrix<T, Eigen::Dynamic, 1> lsi(
 {
   entier n = A.rows();
 
-  tsd_assert(n == b.rows());
+  assertion(n == b.rows());
 
   using M = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
   using V = Eigen::Matrix<T, Eigen::Dynamic, 1>;
@@ -266,7 +266,7 @@ Vecf design_rif_eq(entier nc, const Vecf &D, const Vecf &W)
   //msg("D = {}", D);
   //msg("W = {}", W);
 
-  tsd_assert(W.rows() == n);
+  assertion(W.rows() == n);
 
   Eigen::MatrixXf A(n, m);
 

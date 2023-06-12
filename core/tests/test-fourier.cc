@@ -14,18 +14,14 @@ static void test_fftplan(entier n)
        err2 = abs(y2 - ifft(x)).valeur_max();
 
   msg("Test fft plan[n={}] : erreur fft = {}, erreur ifft = {}", n, err1, err2);
-  tsd_assert(err1 < 1e-6);
-  tsd_assert(err2 < 1e-6);
+  assertion((err1 < 1e-6) && (err2 < 1e-6));
 }
 
 
 static void test_fftplan()
 {
-  test_fftplan(8);
-  test_fftplan(16);
-  test_fftplan(18);
-  test_fftplan(19);
-  test_fftplan(101);
+  for(auto i : {8, 16, 18, 19, 101})
+    test_fftplan(i);
 }
 
 static void test_rfftplan()
@@ -37,24 +33,24 @@ static void test_rfftplan()
 
   msg("Test rfftplan: erreur = {}", err);
 
-  tsd_assert(err < 1e-6);
+  assertion(err < 1e-6);
 }
 
 static void test_fftshift(entier n)
 {
-  soit x = linspace(0,n-1,n);
-  soit y = fftshift(x);
+  soit x = linspace(0,n-1,n),
+       y = fftshift(x);
 
-  tsd_assert(y.rows() == n);
+  assertion(y.rows() == n);
 
   Vecf yref(n);
 
-  entier m = n/2; // n = 2 * m + 1
+  soit m = n/2; // n = 2 * m + 1
 
   si(n & 1)
   {
     // n = 2 * m + 1
-    yref.head(m) = linspace(m+1, n-1, m);
+    yref.head(m)   = linspace(m+1, n-1, m);
     yref.tail(m+1) = linspace(0, m, m+1);
   }
   sinon
@@ -64,7 +60,7 @@ static void test_fftshift(entier n)
     yref.tail(m) = linspace(0, m-1, m);
   }
 
-  tsd_assert(y.est_approx(yref));
+  assertion(y.est_approx(yref));
 }
 
 
@@ -78,7 +74,7 @@ static void test_fftshift()
 static void test_goertzel()
 {
   {
-    entier n = 100;
+    soit n = 100;
     soit x = randn(n);
 
     msg_majeur("Test Goertzel (sur un buffer)...");
@@ -91,33 +87,33 @@ static void test_goertzel()
       soit s2   = 2 * std::norm(X(i)) / square(x).somme();
       soit err  = abs(s2 - s1);
       si(err > 1.5e-5)
-        echec("Echec test Goertzel, i = {}, s1 = {}, s2 = {}, err = {:e}.", i, s1, s2, err);
+        échec("Echec test Goertzel, i = {}, s1 = {}, s2 = {}, err = {:e}.", i, s1, s2, err);
     }
   }
 
   {
     msg_majeur("Test Goertzel (au fil de l'eau)...");
-    soit N = 8;
-    soit n = N * 8;
-    soit x = randn(n);
+    soit N = 8,
+         n = N * 8;
     soit freq = 5.0f/N;
     soit f = filtre_goertzel(freq, N);
-    soit y = f->step(x);
-    tsd_assert_msg(y.rows() == x.rows() / N, "Filtre Goertzel : pb décimation.");
+    soit x = randn(n),
+         y = f->step(x);
+    assertion_msg(y.rows() == x.rows() / N, "Filtre Goertzel : pb décimation.");
 
     //msg("y = {}", y.transpose());
 
     soit errmax = 0.0f;
     pour(auto i = 0; i + N <= n; i += N)
     {
-      soit s0  = y(i / N);
-      soit s1  = goertzel(x.segment(i, N), freq);
-      soit err = abs(s1 - s0);
+      soit s0  = y(i / N),
+           s1  = goertzel(x.segment(i, N), freq),
+           err = abs(s1 - s0);
 
       //msg("theo(i = {} ... {}) = {}, calc = {}, err = {:e}", i, i+N-1, s1, s0, err);
       errmax = max(errmax, err);
       si(err > 5e-7)
-        echec("Echec test Goertzel fil de l'eau, i = {}, s0 = {}, s1 = {}, err = {:e}", i, s0, s1, err);
+        échec("Echec test Goertzel fil de l'eau, i = {}, s0 = {}, s1 = {}, err = {:e}", i, s0, s1, err);
     }
     msg("errmax = {}", errmax);
   }
@@ -128,21 +124,17 @@ static void test_reechan()
   soit n = 16;
 
   msg_majeur("Test resample...");
-  soit x = linspace(0, 1 - 1.0f/n, n);
-  msg("  fourier...");
-  soit x1 = tsd::fourier::rééchan_freq(x, 2);
 
-  tsd_assert(x1.rows() == 2 * n);
+  soit x  = linspace(0, 1 - 1.0f/n, n),
+       x1 = tsd::fourier::rééchan_freq(x, 2),
+       x2 = tsd::rééchan(x, 2);
 
-  msg("  rif...");
-  soit x2 = tsd::rééchan(x, 2);
+  assertion(x1.rows() == 2 * n);
+  assertion(!x1.hasNaN());
 
-
-  tsd_assert(!x1.hasNaN());
-
-  soit t  = x.clone();
-  soit t1 = linspace(0, 1 - 1.0f/(2*n), x1.rows());
-  soit t2 = linspace(0, 1, x2.rows());
+  soit t  = x.clone(),
+       t1 = linspace(0, 1 - 1.0f/(2*n), x1.rows()),
+       t2 = linspace(0, 1, x2.rows());
 
   si(tests_debug_actif)
   {
@@ -153,15 +145,15 @@ static void test_reechan()
     f.afficher("Resample");
   }
 
-  tsd_assert_msg(x1.rows() == 2 * n, "Resample de facteur 2 : nombre d'échantillons invalide");
+  assertion_msg(x1.rows() == 2 * n, "Resample de facteur 2 : nombre d'échantillons invalide");
   soit x1b = sousech(x1, 2);
-  tsd_assert_msg(x1b.rows() == n, "sousech : nombre d'échantillons invalide");
+  assertion_msg(x1b.rows() == n, "sousech : nombre d'échantillons invalide");
 
   soit err = abs(x1b - x).valeur_max();
 
   msg("Erreur max resample : {}", err);
 
-  tsd_assert_msg(err < 1e-5, "Resample : erreur trop importante ({})", err);
+  assertion_msg(err < 1e-5, "Resample : erreur trop importante ({})", err);
 
   msg("ok.");
 }
@@ -216,7 +208,7 @@ static void test_fft_valide(entier n, bouléen alea, bouléen inv)
     X = rfft(x);
   }
 
-  tsd_assert(X.rows() == n);
+  assertion(X.rows() == n);
 
 
   // TODO : utiliser TFD
@@ -232,7 +224,23 @@ static void test_fft_valide(entier n, bouléen alea, bouléen inv)
     Y(i) = s;
   }
 
+  msg("Dim(X) = {}, dim(Y) = {}", X.rows(), Y.rows());
+  msg("X = {}", X);
+  msg("Y = {}", Y);
+  msg("X-Y = {}", X-Y);
 
+  soit T = Veccf::valeurs({1.0f});
+  msg("T = {}", T);
+  msg("sq(T) = {}", square(T));
+
+  soit V = Vecf::valeurs({1.0f});
+  msg("V = {}", V);
+  msg("abs(V) = {}", abs(V));
+
+  msg("abs(T) = {}", abs(T));
+
+  // Plante
+  msg("abs(X-Y) = {}", abs(X-Y));
   soit err = abs(X - Y).valeur_max();
 
   //fmt::print("FFT = \n{}\n, DFT = \n{}\n", X, Y);
@@ -245,7 +253,7 @@ static void test_fft_valide(entier n, bouléen alea, bouléen inv)
     msg("TFD = {}", Y);
   }
 
-  tsd_assert_msg(err < 1e-2, "Erreur FFT");
+  assertion_msg(err < 1e-2, "Erreur FFT");
 }
 
 static void test_fft()
@@ -301,7 +309,7 @@ static void test_fft()
   msg("erreur rfft + ifft = {}", err);
 
   si(err > 5e-6)
-    echec("Test fft : erreur trop importante.");
+    échec("Test fft : erreur trop importante.");
 }
 
 static Vecf test_signal(entier n = 15*1024)
@@ -310,10 +318,10 @@ static Vecf test_signal(entier n = 15*1024)
   soit fen = fenetre("hn", n / 2);
 
   /** Ratio between signal freq and sampling freq, between 0 and 0.5 */
-  soit fe = 60e6f;
-  soit fs = 100e3f;
-  soit fs_normalisée = fs / fe;
-  soit periode = 1 / fs_normalisée;
+  soit fe             = 60e6f,
+       fs             = 100e3f,
+       fs_normalisée  = fs / fe,
+       periode        = 1 / fs_normalisée;
 
   pour(auto i = 0; i < n; i++)
   {
@@ -328,7 +336,7 @@ static Vecf test_signal(entier n = 15*1024)
 
 // Test de delais
 template<typename T>
-static entier test_delais_fractionnaire(float d)
+static void test_delais_fractionnaire(float d)
 {
   soit x0 = test_signal().as<cfloat>();
 
@@ -339,7 +347,7 @@ static entier test_delais_fractionnaire(float d)
 
   soit x1 = tsd::fourier::délais(x0, d);
   soit n  = x0.rows();
-  tsd_assert(x0.rows() == x1.rows());
+  assertion(x0.rows() == x1.rows());
 
   Vecf err;
 
@@ -390,16 +398,9 @@ static entier test_delais_fractionnaire(float d)
   msg("Délais fractionnaire - {} = {}, erreur max = {}.", tps, d, em);
 
   si(floor(d) == d)
-  {
-    tsd_assert(em < 1e-2);
-  }
+    assertion(em < 1e-2);
   sinon
-  {
-    tsd_assert(em < 1e-1);
-  }
-
-
-  retourne 0;
+    assertion(em < 1e-1);
 }
 
 
@@ -415,9 +416,7 @@ static void test_delais_unitaire(float délais_vrai, float snr_db, entier type_s
   si(type_signal == 0)
     x0 = test_signal(N).as<cfloat>();
   sinon
-  {
     x0 = randn(N);
-  }
 
 
   si(floor(délais_vrai) == délais_vrai)
@@ -460,16 +459,17 @@ static void test_delais_unitaire(float délais_vrai, float snr_db, entier type_s
     }
   }
 
-  soit err_pos    = abs(d - délais_vrai);
-  soit err_score  = abs(score - 1);
+  soit err_pos    = abs(d - délais_vrai),
+       err_score  = abs(score - 1),
+       tol_pos = (N == 32) ? 0.1f : 0.02f,
+       tol_score = 0.4f;
 
   msg("Délais vrai = {}, estimé = {} (erreur = \033[33m{}\033[0m), score = \033[33m{}\033[0m", délais_vrai, d, err_pos, score);
 
-  soit tol_pos = (N == 32) ? 0.1f : 0.02f;
-  soit tol_score = 0.4f;
 
-  tsd_assert_msg(err_pos < tol_pos/*0.02*/, "test_delais_unitaire : erreur délais trop importante : {}.", err_pos);
-  tsd_assert_msg(err_score < tol_score/*1e-4*/, "test_delais_unitaire : le score devrait être proche de 1 (il vaut {}).", score);
+
+  assertion_msg(err_pos < tol_pos/*0.02*/, "test_delais_unitaire : erreur délais trop importante : {}.", err_pos);
+  assertion_msg(err_score < tol_score/*1e-4*/, "test_delais_unitaire : le score devrait être proche de 1 (il vaut {}).", score);
 }
 
 
@@ -479,7 +479,8 @@ static tuple<Vecf, Veccf> xcorr_ref(const Veccf &x, const Veccf &y, entier m = -
   soit n = x.rows();
   si(m == -1)
     m = n;
-  tsd_assert(x.rows() == y.rows());
+  assertion(x.rows() == y.rows());
+
   soit lags = linspace(-(m-1), m-1, 2*m-1);
   Veccf c(2*m-1);
 
@@ -551,11 +552,11 @@ static void test_xcorr(bouléen biaisé)
 
     //msg("n = {}, lags =\n {}", n, lags.transpose());
 
-    tsd_assert_msg(lags.rows() == 2*n-1, "test xcorr : dim lags invalide.");
+    assertion_msg(lags.rows() == 2*n-1, "test xcorr : dim lags invalide.");
 
     msg("lags     = {}", lags);
     msg("lags ref = {}", lags_ref);
-    tsd_assert_msg((lags_ref - lags).valeur_max() == 0, "test xcorr : lags invalides.");
+    assertion_msg((lags_ref - lags).valeur_max() == 0, "test xcorr : lags invalides.");
 
     soit err = abs(cref - c).valeur_max();
     msg("Erreur = {:g}", err);
@@ -566,7 +567,7 @@ static void test_xcorr(bouléen biaisé)
       msg("xcorr_ref = {}", cref);
       msg("xcorr     = {}", c);
     }
-    tsd_assert_msg(err < 1e-5, "Erreur xcorr");
+    assertion_msg(err < 1e-5, "Erreur xcorr");
     msg("ok.");
   }
 }
@@ -577,8 +578,8 @@ static void test_ccorr()
   pour(entier n : {1, 2, 3, 10, 15, 16, 21, 32})
   {
     msg("Test ccorr..., n = {}", n);
-    soit a1 = Veccf::random(n);
-    soit a2 = Veccf::random(n);
+    soit a1 = Veccf::random(n),
+         a2 = Veccf::random(n);
     soit [lags, c] = ccorr(a1, a2);
     Veccf cref(n);
 
@@ -599,7 +600,7 @@ static void test_ccorr()
     msg("cref = {}, c = {}", cref, c);
 
     msg("Erreur ccorr = {}", err);
-    tsd_assert_msg(err < 1e-5, "Erreur ccorr");
+    assertion_msg(err < 1e-5, "Erreur ccorr");
 
     msg("ok.");
   }
@@ -622,14 +623,14 @@ static void test_align_entier()
       y.head(n+dref) = x.tail(n+dref);
 
     soit [x2, y2, d, s] = aligne_entier(x, y);
-    tsd_assert_msg(x2.rows() == y2.rows(), "");
+    assertion_msg(x2.rows() == y2.rows(), "");
     soit err = abs(x2 - y2).valeur_max();
 
     msg("  aligne_entier : d={}, s={}, err={}", d, s, err);
 
-    tsd_assert_msg(d == dref, "aligne_entier : délais invalide.");
-    tsd_assert_msg(abs(s - 1) < 1e-3, "aligne_entier : score invalide.");
-    tsd_assert_msg(err < 1e-3, "aligne_entier : vecteur invalide.");
+    assertion_msg(d == dref, "aligne_entier : délais invalide.");
+    assertion_msg(abs(s - 1) < 1e-3, "aligne_entier : score invalide.");
+    assertion_msg(err < 1e-3, "aligne_entier : vecteur invalide.");
   }
 }
 
@@ -637,7 +638,7 @@ static void test_align_entier()
 // TODO: à utiliser ou supprimer
 static float csym_erreur(const Veccf &X)
 {
-  entier n = X.rows();
+  soit n = X.rows();
 
   Vecf verr;
   si((n % 2) == 0)
@@ -669,24 +670,24 @@ static void test_csym(entier n)
 
   msg("test csym(n={:04d}) : err max partie imaginaire : avec FFT: {}, avec TFD: {}", n, err1, err2);
 
-  tsd_assert_msg(err1 < 1e-3, "Erreur csym trop importante");
-  tsd_assert_msg(err2 < 1e-7, "Erreur csym trop importante");
+  assertion_msg(err1 < 1e-3, "Erreur csym trop importante");
+  assertion_msg(err2 < 1e-7, "Erreur csym trop importante");
 }
 
-entier test_fourier()
+void test_fourier()
 {
 
 
   test_fftshift();
 
   {
-    soit n = 16*1024*2;
+    soit n     = 16*1024*2;
     soit Omega = - 250.0f * 2 * π_f / n;
 
-    soit f1 = polar(1.0f, 54 * Omega);
-    soit f2 = polar(1.0f, (n-54) * Omega);
+    soit f1 = polar(1.0f, 54 * Omega),
+         f2 = polar(1.0f, (n-54) * Omega);
 
-    float err = abs(f1 - conj(f2));
+    soit err = abs(f1 - conj(f2));
 
     fmt::print("f1 = {}, f2 = {}\n", f1, f2);
     fmt::print("Erreur = {}\n", err);
@@ -728,8 +729,6 @@ entier test_fourier()
       }
 
   test_align_entier();
-
-  retourne 0;
 }
 
 

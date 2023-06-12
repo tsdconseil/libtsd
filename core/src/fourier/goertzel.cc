@@ -63,7 +63,7 @@ struct Goertzel: FiltreGen<float>
         // Dernière étape, avec x_N = 0
         soit [w0p, w1p] = std::pair(2 * c * w0 - w1, w0);
 
-        tsd_assert(idx < y.rows());
+        assertion(idx < y.rows());
         // Normalisation par rapport à l'énergie du signal
         y(idx++) = 2 * (w0p * w0p - 2 * c * w0p * w1p + w1p * w1p) / (R * en(i) * R);
 
@@ -72,13 +72,13 @@ struct Goertzel: FiltreGen<float>
         w0 = w1 = 0;
       }
     }
-    tsd_assert(idx == y.rows());
+    assertion(idx == y.rows());
   }
 };
 
 sptr<FiltreGen<float>> filtre_goertzel(float frequence, entier N)
 {
-  retourne std::make_shared<Goertzel>(frequence, N);
+  retourne make_shared<Goertzel>(frequence, N);
 }
 
 }

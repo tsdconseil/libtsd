@@ -1,6 +1,7 @@
 #include "tsd/tsd.hpp"
 #include "tsd/tableau.hpp"
 #include <Eigen/Core>
+#include <Eigen/Dense>
 #include <Eigen/LU>
 #include <fmt/core.h>
 
@@ -97,7 +98,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 
   ~Impl()
   {
-    si((vals != nullptr) && (type == VALEUR))
+    si((vals) && (type == VALEUR))
     {
       free(vals);
     }
@@ -106,16 +107,22 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 
   bouléen est_de_même_dimensions(const Tab &t) const
   {
-    //si(dims.size() != t.impl->dims.size())
-    //  retourne non;
-    pour(auto i = 0; i < max(dims.size(), t.impl->dims.size()); i++)
+    entier n1 = dims.size(),
+           n2 = t.impl->dims.size();
+
+    si((n1 == 0) && (n2 >= 1) && (t.impl->dims(0) != 0))
+      retourne non;
+    si((n2 == 0) && (n1 >= 1) && (dims(0) != 0))
+      retourne non;
+
+    pour(auto i = 0; i < max(n1, n2); i++)
     {
-      si(i >= t.impl->dims.size())
+      si(i >= n2)
       {
         si(dims(i) != 1)
           retourne non;
       }
-      sinon si (i >= dims.size())
+      sinon si (i >= n1)
       {
         si(t.impl->dims(i) != 1)
           retourne non;
@@ -155,7 +162,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     res->nbits       = nbits;
     res->dims        = dims;
 
-    si(vals != nullptr)
+    si(vals)
     {
       soit ne = nb_éléments() * dim_scalaire();
       si(type != BLOCK)
@@ -165,10 +172,10 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
       }
       sinon
       {
-        soit nre = dims(0) * dim_scalaire();
-        soit nc = dims(1);
+        soit nre = dims(0) * dim_scalaire(),
+             nc = dims(1);
         res->vals = malloc(ne);
-        for(auto col = 0; col < nc; col++)
+        pour(auto col = 0; col < nc; col++)
           memcpy(res->get_ptr_at(0, col), get_ptr_at(0, col), nre);
       }
     }
@@ -177,6 +184,8 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 
   entier nb_éléments() const
   {
+    si(dims.rows() == 0)
+        retourne 0;
     retourne dims.prod();
   }
 
@@ -186,10 +195,6 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
   {
     retourne nbits / 8;
   }
-
-
-
-
 
   sptr<Impl> eval() const
   {
@@ -202,8 +207,8 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     res->Tscalaire  = Tscalaire;
     res->nbits      = nbits;
 
-    soit ds = dim_scalaire();
-    soit ne = nb_éléments();
+    soit ds = dim_scalaire(),
+         ne = nb_éléments();
 
     switch(type)
     {
@@ -233,10 +238,8 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
       soit optr = (char *) res->vals;
 
       pour(auto c = 0; c < dims(1); c++)
-      {
         memcpy(optr + c * ds * dims(0),
               iptr + c * nre * ds, dims(0) * ds);
-      }
       break;
     }
 
@@ -258,7 +261,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     }
     case MULT_INT:
     {
-      tsd_assert(enfants2.size() == 1);
+      assertion(enfants2.size() == 1);
 
       *res = *(enfants2[0]);
       //res = enfants2[0]; // PB ICI, pas de copie, et modification
@@ -272,7 +275,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     }
     case ADD_INT:
     {
-      tsd_assert(enfants2.size() == 1);
+      assertion(enfants2.size() == 1);
 
       res = enfants2[0];
 
@@ -286,7 +289,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 #   endif
     default:
     {
-      msg_erreur("Evaluation expression type invalide : {} ({})", (entier) type, type2str(type));
+      échec("Evaluation expression de type invalide : {} ({})", (entier) type, type2str(type));
     }
     }
     retourne res;
@@ -307,11 +310,9 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 
   string chaine() const
   {
-    soit t = eval();
-    string s;
-
-    string dim;
-    entier ndims = t->dims.rows();
+    string s, dim;
+    soit t     = eval();
+    soit ndims = t->dims.rows();
     si(ndims == 0)
       dim = "[]";
     //sinon si(ndims == 1)
@@ -336,23 +337,20 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     TG(tmp, [&]<typename T, entier ndims2>(TabT<T,ndims2> &)
     {
       soit m1 = emap<T>(tmp);
-      //Eigen::Array<T,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> m1 = emap<T>(tmp);
 
       si(ndims == 1)
       {
-        //s += sformat("{}", m1.transpose());
-        for(auto i = 0; i < t->dims(0); i++)
+        pour(auto i = 0; i < t->dims(0); i++)
           s += sformat("{} ", m1(i));
       }
       sinon
       {
-        for(auto i = 0; i < t->dims(0); i++)
+        pour(auto i = 0; i < t->dims(0); i++)
         {
-          for(auto j = 0; j < t->dims(1); j++)
+          pour(auto j = 0; j < t->dims(1); j++)
             s += sformat("{} ", m1(i, j));
           s += "\n";
         }
-        //s += sformat("{}", m1);
       }
     });
 
@@ -365,31 +363,11 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 
 void *Tab::rawptr()
 {
-  /*si(impl->type == Tab::Impl::Type::SEGMENT)
-  {
-    impl->enfants[0]->evalue();
-    retourne ((char *) impl->enfants[0]->vals) + impl->seg_i0 * impl->dim_scalaire();
-  }*/
-
-  /*si(impl->type != Tab::Impl::Type::VALEUR)
-  {
-    echec("rawptr(): le tableau est une expression.");
-  }*/
   retourne impl->vals;
 }
 
 const void *Tab::rawptr() const
 {
-  /*si(impl->type == Tab::Impl::Type::SEGMENT)
-  {
-    impl->enfants[0]->evalue();
-    retourne ((char *) impl->enfants[0]->vals) + impl->seg_i0 * impl->dim_scalaire();
-  }
-
-  si(impl->type != Tab::Impl::Type::VALEUR)
-  {
-    echec("rawptr(): le tableau est une expression.");
-  }*/
   retourne impl->vals;
 }
 
@@ -411,14 +389,14 @@ Tab format_as(const Tab &x)
 
 entier Tab::nelems()     const
 {
-  retourne impl->dims.prod();
+  retourne impl->nb_éléments();
 }
 
 
-bool Tab::est_reference() const
+bouléen Tab::est_reference() const
 {
-  if(!impl)
-    return false;
+  si(!impl)
+    retourne non;
   retourne impl->type != Impl::Type::VALEUR;
 }
 
@@ -440,7 +418,7 @@ Tab Tab::col(entier num) const
 
   //msg("Tab::col() -> reference.");
 
-  tsd_assert_msg(num <= cols(), "Tab::col({}): dépassement ({} colonnes).", num, cols());
+  assertion_msg(num <= cols(), "Tab::col({}): dépassement ({} colonnes).", num, cols());
 
   res.impl->type        = Impl::Type::SEGMENT;
   res.impl->Tscalaire   = impl->Tscalaire;
@@ -449,7 +427,7 @@ Tab Tab::col(entier num) const
   res.impl->dims.resize(1);
   res.impl->dims(0)     = rows();
   res.impl->vals        = impl->get_ptr_at(0, num);
-  res.impl->enfant     = impl;
+  res.impl->enfant      = impl;
   retourne res;
 }
 
@@ -458,7 +436,7 @@ Tab Tab::segment(entier i0, entier n) const
   Tab res;
   res.impl = make_shared<Impl>();
 
-  tsd_assert_msg(i0 + n <= rows(), "Tab::segment({},{}): dépassement ({} éléments).", i0, n, rows());
+  assertion_msg(i0 + n <= rows(), "Tab::segment({},{}): dépassement ({} éléments).", i0, n, rows());
 
   res.impl->type        = Impl::Type::SEGMENT;
   res.impl->Tscalaire   = impl->Tscalaire;
@@ -475,7 +453,7 @@ Tab Tab::segment(entier i0, entier n) const
 
 Tab Tab::reshape(entier m, entier n) const
 {
-  tsd_assert_msg(m * n == nelems(), "Tab::reshape : la dim totale doit être identique.");
+  assertion_msg(m * n == nelems(), "Tab::reshape : la dim totale doit être identique.");
   Tab x = Tab(impl->Tscalaire, impl->nbits, m, n);
   memcpy(x.rawptr(), this->rawptr(), m * n * impl->dim_scalaire());
   retourne x;
@@ -547,13 +525,13 @@ void Tab::reverseInPlace()
 double Tab::minCoeff(entier *i, entier *j) const
 {
   double res = 0;
-  entier i1 = 0, j1 = 0;
+  soit i1 = 0, j1 = 0;
 
-  if(nelems() == 0)
+  si(nelems() == 0)
   {
     msg_avert("Tab::minCoeff(): tableau vide.");
   }
-  else
+  sinon
   {
     TRZ(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
     {
@@ -562,9 +540,9 @@ double Tab::minCoeff(entier *i, entier *j) const
     });
   }
 
-  si(i != nullptr)
+  si(i)
     *i = i1;
-  si(j != nullptr)
+  si(j)
     *j = j1;
 
   retourne res;
@@ -573,7 +551,7 @@ double Tab::minCoeff(entier *i, entier *j) const
 double Tab::maxCoeff(entier *i, entier *j) const
 {
   double res = 0;
-  entier i1 = 0, j1 = 0;
+  soit i1 = 0, j1 = 0;
 
   if(nelems() == 0)
   {
@@ -588,9 +566,9 @@ double Tab::maxCoeff(entier *i, entier *j) const
     });
   }
 
-  si(i != nullptr)
+  si(i)
     *i = i1;
-  si(j != nullptr)
+  si(j)
     *j = j1;
 
   retourne res;
@@ -653,9 +631,8 @@ void Tab::resize(entier n, entier m)
 {
   si((rows() == n) && (cols() == m))
     retourne;
-  //*this = Tab(impl->Tscalaire, impl->nbits, n, m);
 
-  si((impl->vals != nullptr) && (impl->type == Impl::VALEUR))
+  si((impl->vals) && (impl->type == Impl::VALEUR))
     free(impl->vals);
 
   setup(*impl, n, m);
@@ -693,7 +670,7 @@ Tab Tab::map(Scalaire s, entier reso, entier n, entier m, void *data)
 
   res.impl->vals = data;
 
-  return res;
+  retourne res;
 }
 
 entier Tab::rows() const
@@ -744,10 +721,10 @@ void Tab::set_ones(entier n, entier m)
 
 void Tab::conservativeResize(entier n, entier m)
 {
-  tsd_assert(impl->type == Impl::VALEUR);
+  assertion(impl->type == Impl::VALEUR);
 
-  soit l1 = n * m * impl->dim_scalaire();
-  soit l2 = nelems() * impl->dim_scalaire();
+  soit l1 = n * m * impl->dim_scalaire(),
+       l2 = nelems() * impl->dim_scalaire();
   soit optr = impl->vals;
 
   setup(*impl, n, m);
@@ -820,8 +797,6 @@ Tab Tab::eye(Scalaire s, entier reso, entier n)
       xt(i,i) = (T) 1;
   });
 
-  //pour(auto i = 0; i < n; i++)
-    //x(i,i).set(1);
   retourne x;
 }
 
@@ -842,7 +817,7 @@ Tab Tab::eval() const
   /*Tab res;
   res.impl = impl->eval();
   retourne res;*/
-  return clone();
+  retourne clone();
 }
 
 
@@ -877,7 +852,7 @@ Tab Tab::matprod(const Tab &t) const
 {
   Tab y(impl->Tscalaire, impl->nbits, rows(), t.cols());
 
-  tsd_assert_msg(impl->Tscalaire == t.impl->Tscalaire, "Tab::Produit matriciel : types incompatibles ({} et {})", impl->Tscalaire, t.impl->Tscalaire);
+  assertion_msg(impl->Tscalaire == t.impl->Tscalaire, "Tab::Produit matriciel : types incompatibles ({} et {})", impl->Tscalaire, t.impl->Tscalaire);
 
   TG(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
   {
@@ -895,7 +870,7 @@ Tab arg_i(const Tab &x)
 {
   si(x.impl->Tscalaire != ℂ)
   {
-    echec("arg(): type complexe attendu.");
+    échec("arg(): type complexe attendu.");
     retourne {};
   }
 
@@ -905,7 +880,6 @@ Tab arg_i(const Tab &x)
   {
     soit m1 = emap<T>(x);
     soit m2 = emap<typename T::value_type>(y);
-
     m2 = m1.arg();
   });
   retourne y;
@@ -952,7 +926,7 @@ void Tab::dump_infos() const
 {
   msg("Infos pour tab: type = {}, dims={}, tscal={}, nbits={}, a enfant={}",
       Impl::type2str(impl->type),
-      impl->dims,//.transpose(),
+      impl->dims,
       impl->Tscalaire,
       impl->nbits,
       impl->enfant ? "oui" : "non");
@@ -966,15 +940,17 @@ void Tab::copie(const Tab &source)
   si(i1.est_de_même_format(source))
   {
     //msg("Tab::copie -> même format.");
-    soit ds = i1.dim_scalaire();
+    soit ds = i1.dim_scalaire(),
     // Attention : la source comme la destination peuvent être des segments !
-    soit ne = i1.nb_éléments();
-    tsd_assert(ne == i2.nb_éléments());
+         ne = i1.nb_éléments();
+    assertion(ne == i2.nb_éléments());
 
     si((i1.type != Impl::BLOCK) && ((i2.type != Impl::BLOCK)))
     {
-      //msg("  -> copie non bloc.");
+      //msg("  -> copie non bloc, i1:{}, i2:{}, ne={}, ds={}.",
+      //    (int64_t) i1.vals, (int64_t) i2.vals, ne, ds);
       memcpy(i1.vals, i2.vals, ne * ds);
+      //msg("ok");
     }
     // BLOC <- CONT
     // CONT <- BLOC
@@ -986,7 +962,7 @@ void Tab::copie(const Tab &source)
 
       for(auto col = 0; col < nc; col++)
         memcpy(i1.get_ptr_at(0, col), i2.get_ptr_at(0, col), nr * ds);
-      //echec("TODO: operator = pour block.");
+      //échec("TODO: operator = pour block.");
     }
   }
   sinon si(i1.est_de_même_dimensions(source))
@@ -1018,7 +994,7 @@ void Tab::copie(const Tab &source)
   sinon
   {
     msg("Dim self = {}, source = {}", impl->dims, source.impl->dims);
-    echec("Tab::copie : source et destination non compatibles.");
+    échec("Tab::copie : source et destination non compatibles.");
   }
 }
 
@@ -1043,21 +1019,13 @@ Tab &Tab::operator =(const Tab &source)
   retourne *this;
 }
 
-void essai()
-{
-  Eigen::Array<float,Eigen::Dynamic,Eigen::Dynamic> a1(5,4);
-  Eigen::Array<entier,Eigen::Dynamic,Eigen::Dynamic> a2(5,4);
-  a1 = a2.cast<float>();
-  a2 = a1.cast<entier>();
-}
-
 bouléen Tab::est_approx(const Tab &x, double tol) const
 {
-  bouléen res = non;
+  soit res = non;
 
   si(x.tscalaire() != this->tscalaire())
   {
-    echec("est_approx(): types scalaires différents ({} vs {}).", x.tscalaire(), tscalaire());
+    échec("est_approx(): types scalaires différents ({} vs {}).", x.tscalaire(), tscalaire());
     retourne non;
   }
 
@@ -1077,7 +1045,7 @@ bouléen Tab::est_nul() const
 
 bouléen Tab::est_approx(double x, double tol) const
 {
-  bouléen res = non;
+  soit res = non;
   TG(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
   {
     soit m1 = cemap<T>(*this);
@@ -1085,19 +1053,6 @@ bouléen Tab::est_approx(double x, double tol) const
   });
   retourne res;
 }
-
-
-
-/*void myessai(void)
-{
-  Eigen::ArrayXf m1;
-  Eigen::Array<char, Eigen::Dynamic, 1> m2;
-
-  //soit tmp = (m1 == 1.0f);
-  soit tmp = (m1 == Eigen::ArrayXf::Ones(4));
-
-  m2 = tmp;
-}*/
 
 
 #define OPERATEUR_COMP(XX)\
@@ -1330,11 +1285,11 @@ DEF_OP_SCAL(TC, cdouble, /)
     soit m3 = emap<T>(y);\
     si((x.impl->Tscalaire != impl->Tscalaire))\
     {\
-      echec("Tab::Opérateur {} : types incompatibles ({} et {})", #OP, x.impl->Tscalaire, impl->Tscalaire);\
+      échec("Tab::Opérateur {} : types incompatibles ({} et {})", #OP, x.impl->Tscalaire, impl->Tscalaire);\
     }\
     si((!x.impl->dims.isApprox(impl->dims)))\
     {\
-      echec("Tab::Opérateur {} : dimensions incompatibles ({} et {})", #OP, x.impl->dims, impl->dims);\
+      échec("Tab::Opérateur {} : dimensions incompatibles ({} et {})", #OP, x.impl->dims, impl->dims);\
     }\
     m3 = m1 OP m2;\
   });\
@@ -1351,7 +1306,7 @@ DEF_OP_SCAL(TC, cdouble, /)
     soit m3 = emap<T>(y);\
     si((x.impl->Tscalaire != impl->Tscalaire))\
     {\
-      echec("Tab::Opérateur {} : types incompatibles ({} et {})", #OP, x.impl->Tscalaire, impl->Tscalaire);\
+      échec("Tab::Opérateur {} : types incompatibles ({} et {})", #OP, x.impl->Tscalaire, impl->Tscalaire);\
     }\
     m3 = m1 OP m2;\
   });\
@@ -1435,6 +1390,33 @@ Tab Tab::inverse_matricielle() const
     soit m1 = emap_mat<T>(*this);
     soit m2 = emap_mat<T>(y);
     m2 = m1.inverse();
+  });
+
+  retourne y;
+}
+
+Tab Tab::lsq(const Tab &b) const
+{
+  soit n = b.rows(), // Nb équations
+       m = cols();   // Nb inconnues
+
+  assertion_msg(rows() == n, "Tab::lsq: nombre de lignes incohérent.");
+
+  Tab y;
+  y.impl              = make_shared<Tab::Impl>();
+  y.impl->Tscalaire   = b.impl->Tscalaire;
+  y.impl->nbits       = b.impl->nbits;
+  y.impl->dims.resize(1);
+  y.impl->dims(0)     = m;
+  y.impl->vals        = malloc(y.impl->nb_éléments() * y.impl->dim_scalaire());
+
+  TR(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
+  {
+    soit m1 = emap_mat<T>(*this);
+    soit m2 = emap_mat<T>(b);
+    soit m3 = emap_mat<T>(y);
+
+    m3 = m1.colPivHouseholderQr().solve(m2);
   });
 
   retourne y;

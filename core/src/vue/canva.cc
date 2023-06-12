@@ -10,14 +10,9 @@ using namespace std;
 namespace tsd::vue
 {
 
-
-
-
-//struct Canva::Impl::CanvaElement;
-
 struct Canva::GroupeTextes
 {
-  bool done = non;
+  bouléen traité = non;
   float echelle = 0;
   vector</*Canva::Impl::CanvaElement*/void *> elements;
 };
@@ -30,27 +25,30 @@ struct Canva::PointIntermediaire
 struct Canva::Impl
 {
 
-  vector<sptr<GroupeTextes>> grp;
+  vector<sptr<GroupeTextes>> liste_groupes;
 
   struct Pinceau
   {
     Align alignement_vertical   = Align::DEBUT,
           alignement_horizontal = Align::DEBUT;
-    Couleur couleur_trait{0, 0, 0},
-            couleur_remplissage{255,255,255};
+
     entier epaisseur = 1;
-    bouléen remplir  = non;
-    bouléen dessiner_contours = oui;
+
     Orientation orient = Orientation::HORIZONTALE;
+
     // Une chaine de caractère : fonte précisée, ou bien,
     // un rectangle englobant
-    float dim_fonte         = -1;
-    bouléen dotted             = non;
-    float alpha             = 1;
+    float dim_fonte         = -1,
+          alpha             = 1;
 
+    bouléen dotted                    = non,
+            remplir                   = non,
+            dessiner_contours         = oui,
+            texte_arrière_plan_actif  = non;
 
-    bouléen texte_arrière_plan_actif = non;
-    Couleur texte_arrière_couleur = Couleur::Blanc;
+    Couleur couleur_trait         = Couleur::Noir,
+            couleur_remplissage   = Couleur::Blanc,
+            texte_arrière_couleur = Couleur::Blanc;
   };
 
 
@@ -59,6 +57,7 @@ struct Canva::Impl
   {
     // Position dans le canva parent
     Rectf target{0,0,0,0};
+
     // RDI = système de coordonnée virtuel
     Rectf rdi{0,0,1,1};
 
@@ -156,20 +155,32 @@ struct Canva::Impl
     {
       RECT, LIGNE, FLECHE, CHAINE, CERCLE, MARQUEUR, RVEC, ACCU, IMAGE, PTI, ELLIPSE
     } type = MARQUEUR;
+
     string chaine;
+
     sptr<GroupeTextes> grp;
+
     Pointf p0, p1;
+
     Dimf dim;
+
+    // y2, y2 : trapèze (RVECT)
+    // Ou, pour ellipse, angle 0 et angle 1
     float r = 3, y2 = 0, y3 = 0;
-    float a, b;
-    //entier dim_pixels = 3;
+
+    // Axes pour ellipse
+    float a = 0, b = 0;
+
     entier dim_pixels = 5;
 
-
     Marqueur marqueur = Marqueur::CARRE;
+
     Pinceau pinceau;
+
     Veccf accu_points;
+
     Image img;
+
     sptr<PointIntermediaire> pti;
 
 
@@ -195,7 +206,14 @@ struct Canva::Impl
       }
       case CHAINE:
       {
-        retourne Rectf(p0, Dimf{1.0f,1.0f}); // TODO
+        soit ctr = p0;
+
+        si(pinceau.alignement_horizontal == Align::CENTRE)
+          ctr.x -= dim.l/2;
+        si(pinceau.alignement_vertical == Align::CENTRE)
+          ctr.y -= dim.h/2;
+
+        retourne Rectf(ctr, dim);
       }
       case MARQUEUR:
         retourne Rectf(p0, Dimf{0.0f,0.0f}); // TODO
@@ -321,26 +339,26 @@ struct Canva::Impl
 
   static Rectf union_rdi(const Rectf &r1, const Rectf &r2)
   {
-    Rectf r;
-    r.x = min(r1.x, r2.x);
-    r.y = min(r1.y, r2.y);
-    r.l = max(r1.x + r1.l, r2.x + r2.l) - r.x;
-    r.h = max(r1.y + r1.h, r2.y + r2.h) - r.y;
-    retourne r;
+    soit x0 = min(r1.x, r2.x),
+         y0 = min(r1.y, r2.y);
+
+    retourne
+    {
+      x0, y0,
+      max(r1.x + r1.l, r2.x + r2.l) - x0,
+      max(r1.y + r1.h, r2.y + r2.h) - y0
+    };
   }
 
   Rectf calc_rdi_englobante() const
   {
     Rectf rdi;
-    pour(auto &d: elements)
+    pour(soit &d: elements)
     {
-      Rectf r = d.get_rdi();
-
+      soit r = d.get_rdi();
 
       si(std::isinf(r.l) || (std::isinf(r.h)))
-      {
-        echec("calc_rdi_englobante(): r={}, type={}, p0={}, p1={}", r, (entier) d.type, d.p0, d.p1);
-      }
+        échec("calc_rdi_englobante(): r={}, type={}, p0={}, p1={}", r, (entier) d.type, d.p0, d.p1);
 
       si(&d == &(elements.front()))
         rdi = r;
@@ -390,32 +408,47 @@ struct Canva::Impl
       retourne;
     }
     elements.push_back(elt);
-    if(elt.grp)
+    si(elt.grp)
     {
       elt.grp->elements.push_back(&(elements.back()));
-      grp.push_back(elt.grp);
+      // TODO: Should be a set
+      soit déjà_présent = non;
+      pour(auto &g: liste_groupes)
+      {
+        si(g == elt.grp)
+        {
+          déjà_présent = oui;
+          break;
+        }
+      }
+      si(!déjà_présent)
+        liste_groupes.push_back(elt.grp);
     }
   }
 
-  void ellipse(const Pointf &p, float a, float b, float theta, const Pinceau &pinceau)
+  void ellipse(const Pointf &p, float a, float b, float θ, float α0, float α1, const Pinceau &pinceau)
   {
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0      = p;
     d.a       = a;
     d.b       = b;
-    d.type    = Impl::CanvaElement::ELLIPSE;
+    d.y2      = α0;
+    d.y3      = α1;
+    d.type    = CanvaElement::ELLIPSE;
     d.pinceau = pinceau;
     ajoute_element(d);
   }
 
   void cercle(const Pointf &p, float r, const Pinceau &pinceau)
   {
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0 = p;
     d.r  = r;
-    //d.type = Impl::CanvaElement::CERCLE;
     d.a  = d.b = r;
-    d.type = Impl::CanvaElement::ELLIPSE;
+    d.y2 = 0;
+    d.y3 = 2 * π;
+    //d.type = CanvaElement::CERCLE;
+    d.type = CanvaElement::ELLIPSE;
     d.pinceau = pinceau;
     ajoute_element(d);
   }
@@ -424,10 +457,10 @@ struct Canva::Impl
   {
     si(std::isinf(p0.y) || std::isinf(p1.y))
       retourne;
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0      = p0;
     d.p1      = p1;
-    d.type    = Impl::CanvaElement::LIGNE;
+    d.type    = CanvaElement::LIGNE;
     d.pinceau = pinceau;
     ajoute_element(d);
   }
@@ -436,10 +469,10 @@ struct Canva::Impl
   {
     si(std::isinf(p0.y) || std::isinf(p1.y))
       retourne;
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0          = p0;
     d.p1          = p1;
-    d.type        = Impl::CanvaElement::FLECHE;
+    d.type        = CanvaElement::FLECHE;
     d.pinceau     = pinceau;
     d.dim_pixels  = dim_pixel;
     ajoute_element(d);
@@ -447,8 +480,8 @@ struct Canva::Impl
 
   void dessine_accu(const Veccf &x, const Pinceau &pinceau)
   {
-    Impl::CanvaElement d;
-    d.type        = Impl::CanvaElement::ACCU;
+    CanvaElement d;
+    d.type        = CanvaElement::ACCU;
     d.accu_points = x;
     d.pinceau     = pinceau;
     ajoute_element(d);
@@ -456,10 +489,10 @@ struct Canva::Impl
 
   void dessine_img(const Pointf &p0, const Pointf &p1, Image img, const Pinceau &pinceau)
   {
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0 = p0;
     d.p1 = p1;
-    d.type = Impl::CanvaElement::IMAGE;
+    d.type = CanvaElement::IMAGE;
     d.img = img;
     d.pinceau = pinceau;
     ajoute_element(d);
@@ -467,10 +500,10 @@ struct Canva::Impl
 
   void rectangle(const Pointf &p0, const Pointf &p1, const Pinceau &pinceau)
   {
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0 = p0;
     d.p1 = p1;
-    d.type = Impl::CanvaElement::RECT;
+    d.type = CanvaElement::RECT;
     d.pinceau = pinceau;
     ajoute_element(d);
   }
@@ -480,12 +513,12 @@ struct Canva::Impl
     si(std::isinf(p1.y) || std::isinf(y2) || std::isinf(y3))
       retourne;
 
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0 = p0;
     d.p1 = p1;
     d.y2 = y2;
     d.y3 = y3;
-    d.type = Impl::CanvaElement::RVEC;
+    d.type = CanvaElement::RVEC;
     d.pinceau = pinceau;
     ajoute_element(d);
   }
@@ -493,11 +526,11 @@ struct Canva::Impl
 
   void marqueur(const Pointf &p, Marqueur m, float dim_pixels, const Pinceau &pinceau)
   {
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0          = p;
     d.dim_pixels  = dim_pixels;
     d.marqueur    = m;
-    d.type        = Impl::CanvaElement::MARQUEUR;
+    d.type        = CanvaElement::MARQUEUR;
     d.pinceau     = pinceau;
     ajoute_element(d);
   }
@@ -506,10 +539,10 @@ struct Canva::Impl
 
   void texte(const Pointf &p, cstring texte, const Dimf &dim_max, const Pinceau &pinceau, sptr<GroupeTextes> grp)
   {
-    Impl::CanvaElement d;
+    CanvaElement d;
     d.p0      = p;
     d.dim     = dim_max;
-    d.type    = Impl::CanvaElement::CHAINE;
+    d.type    = CanvaElement::CHAINE;
     d.pinceau = pinceau;
     d.chaine  = texte;
     d.grp     = grp;
@@ -518,9 +551,8 @@ struct Canva::Impl
 
   Image rendre(const Dim &dim_, const Rectf &rdi_, const Couleur &arp_)
   {
-    for(auto &g: grp)
-      g->done = non;
-
+    pour(auto &g: liste_groupes)
+      g->traité = non;
 
     Dim dim = dim_;
 
@@ -580,11 +612,10 @@ struct Canva::Impl
 
     pour(auto &d: elements)
     {
-
       soit ep = d.pinceau.epaisseur;
 
-      soit pos0 = pos(d.p0);
-      soit pos1 = pos(d.p1);
+      soit pos0 = pos(d.p0),
+           pos1 = pos(d.p1);
 
       O1.def_epaisseur(ep);
       O1.def_couleur_dessin(d.pinceau.couleur_trait);
@@ -597,28 +628,27 @@ struct Canva::Impl
       {
         // Point intermédiaire
         // il faut sauvegarder l'état du dessin à ce moment là
-        tsd_assert(d.pti);
+        assertion(d.pti);
         d.pti->img = O1.clone();
       }
       sinon si(d.type == Impl::CanvaElement::ACCU)
       {
         //msg("Rendu accu : (1)");
         DBG(msg("accu...");)
-        soit c = d.pinceau.couleur_trait;
-        soit n = d.accu_points.rows();
-        soit dim = get_allocation();
+        soit c    = d.pinceau.couleur_trait;
+        soit n    = d.accu_points.rows();
+        soit dim  = get_allocation();
         DBG(msg("axes2: rendu accu, allocation = {}, npts = {}", dim, n));
         soit a = Tabf::zeros(dim.l, dim.h);
         pour(auto i = 0; i < n; i++)
         {
           Point p = pos({d.accu_points(i).real(), d.accu_points(i).imag()});
-          entier r = 1;
+          soit r = 1;
           si((p.x >= r) && (p.y >= r) && (p.x < dim.l-r) && (p.y < dim.h-r))
             a.block(p.x-r, p.y-r, 2*r+1, 2*r+1) += 1;
         }
 
         //msg("Rendu accu : (2)");
-
         soit mc = a.valeur_max();
         DBG(msg("axes2: rendu accu, max = {}", mc));
         a *= 1.0f / (mc + 1e-20);
@@ -703,14 +733,8 @@ struct Canva::Impl
         cnt_rec++;
         DBG(msg("rect...");)
         soit r = Rect::englobant(pos0, pos1);
-        soit p0 = r.tl();
-        soit p1 = r.br();
-
-        /*static int cnt = 0;
-        if(cnt++ < 100)
-        {
-          msg("p0 = {}, p1 = {}", p0, p1);
-        }*/
+        soit p0 = r.tl(),
+             p1 = r.br();
 
         O1.def_epaisseur(1);
 
@@ -733,18 +757,19 @@ struct Canva::Impl
       }
       sinon si(d.type == Impl::CanvaElement::RVEC)
       {
+        // Trapèze plein, entre (p0.x,p0.y), (p0.x,y2), (p1.x,p1.y), (p1.x,y3)
         DBG(msg("rvec...");)
         cnt_rvec++;
-        soit pos2 = pos({d.p0.x, d.y2});
-        soit pos3 = pos({d.p1.x, d.y3});
+        soit pos2 = pos({d.p0.x, d.y2}),
+             pos3 = pos({d.p1.x, d.y3});
 
         si((pos2.y != -1) && (pos3.y != -1))
         {
           pour(auto x = pos0.x; x <= pos1.x; x++)
           {
             // Interpolation linéaire entre les points
-            entier yh = pos0.y + ((pos1.y - pos0.y) * (x - pos0.x) * 1.0f) / (pos1.x - pos0.x);
-            entier yb = pos2.y + ((pos3.y - pos2.y) * (x - pos0.x) * 1.0f) / (pos1.x - pos0.x);
+            entier yh = pos0.y + ((pos1.y - pos0.y) * (x - pos0.x) * 1.0f) / (pos1.x - pos0.x),
+                   yb = pos2.y + ((pos3.y - pos2.y) * (x - pos0.x) * 1.0f) / (pos1.x - pos0.x);
             O1.ligne({x, yh}, {x, yb});
           }
         }
@@ -756,9 +781,9 @@ struct Canva::Impl
         cnt_ligne++;
         soit [x0,y0] = posf(d.p0);
         soit [x1,y1] = posf(d.p1);
-        DBG(msg("ligne ({},{}) - ({},{})...", x0, y0, x1, y1);)
+        DBG(msg_verb("ligne ({},{}) - ({},{})...", x0, y0, x1, y1);)
         O1.ligne_aa(x0, y0, x1, y1, d.pinceau.dotted ? Image::POINTILLEE : Image::PLEINE);
-        DBG(msg("ligne ok.");)
+        DBG(msg_verb("ligne ok.");)
       }
       sinon si(d.type == Impl::CanvaElement::FLECHE)
       {
@@ -766,73 +791,85 @@ struct Canva::Impl
       }
       sinon si(d.type == Impl::CanvaElement::CHAINE)
       {
-        if(d.chaine.empty())
+        si(d.chaine.empty())
           continue;
 
         cnt_chaine++;
         DBG(msg("chaine '{}'...", d.chaine););
 
-        float fonte = 1;
-
-        si(d.pinceau.dim_fonte != -1)
-          fonte = d.pinceau.dim_fonte;
-
-        tsd::vue::TexteConfiguration config;
-
-        si(d.pinceau.texte_arrière_plan_actif)
-          config.couleur_fond = d.pinceau.texte_arrière_couleur;
-        config.couleur    = d.pinceau.couleur_trait;
-        config.scale      = fonte;
-        config.thickness  = d.pinceau.epaisseur;
-
-
-        entier m = 0;
-
-        si(d.pinceau.texte_arrière_plan_actif)
-          m = 2;
-
-        config.dim_max    = Dim{O1.sx() - pos0.x - 2*m, O1.sy() - pos0.y - 2*m};
-
-
-        si(d.dim.l > 0)
-          config.dim_max.l = min((entier) clip.v2c_lx(d.dim.l), config.dim_max.l);
-        si(d.dim.h > 0)
-          config.dim_max.h = min((entier) clip.v2c_ly(d.dim.h), config.dim_max.h);
-
-        si(d.pinceau.orient == Orientation::VERTICALE)
+        soit calc_config_texte = [&O1, this](const auto &d, entier &m) -> TexteConfiguration
         {
-          std::swap(config.dim_max.l, config.dim_max.h);
-        }
+          TexteConfiguration config;
 
-        DBG(msg("  creation image, echelle = {}, dmax = {}, dimax_in = {}...", fonte, config.dim_max, d.dim););
+          soit fonte = 1.0f;
+
+          soit pos0 = pos(d.p0);
+
+          si(d.pinceau.dim_fonte != -1)
+            fonte = d.pinceau.dim_fonte;
+
+          si(d.pinceau.texte_arrière_plan_actif)
+            config.couleur_fond = d.pinceau.texte_arrière_couleur;
+          config.couleur    = d.pinceau.couleur_trait;
+          config.échelle    = fonte;
+          config.épaisseur  = d.pinceau.epaisseur;
+
+          m = 0;
+
+          si(d.pinceau.texte_arrière_plan_actif)
+            m = 2;
+
+          config.dim_max = {O1.sx() - pos0.x - 2*m, O1.sy() - pos0.y - 2*m};
+
+          si(d.dim.l > 0)
+            config.dim_max.l = min((entier) clip.v2c_lx(d.dim.l), config.dim_max.l);
+          si(d.dim.h > 0)
+            config.dim_max.h = min((entier) clip.v2c_ly(d.dim.h), config.dim_max.h);
+
+          si(d.pinceau.orient == Orientation::VERTICALE)
+            std::swap(config.dim_max.l, config.dim_max.h);
+
+          retourne config;
+        };
+
+        entier m;
+        soit config = calc_config_texte(d, m);
+
+        DBG(msg("  canva/texte, echelle = {}, dmax = {}, dimax_in = {}...",
+            config.échelle, config.dim_max, d.dim););
 
         // Si appartient à un groupe
         si(d.grp)
         {
-          si(!d.grp->done)
+          si(!d.grp->traité)
           {
-            DBG(msg("Canva: groupe de texte commun détecté.");)
-            float s = 0;
-            for(auto elptr: d.grp->elements)
+            DBG(msg("Canva: groupe de texte commun détecté (première occurence).");)
+            soit s = 0.0f;
+
+            string infos;
+
+            pour(auto elptr: d.grp->elements)
             {
-              auto el = (CanvaElement *) elptr;
+              soit el = (CanvaElement *) elptr;
               TexteProps props;
-              soit i = tsd::vue::texte_creation_image(el->chaine, config, &props);
-              if(s == 0)
-                s = props.scale_out;
-              else
-                s = min(s, props.scale_out);
+              entier nonut;
+              soit i = texte_creation_image(el->chaine, calc_config_texte(*el, nonut), &props);
+
+              infos += "[" + el->chaine + "]";
+
+              s = (s == 0) ? props.échelle_appliquée :  min(s, props.échelle_appliquée);
             }
-            d.grp->done = oui;
+            d.grp->traité  = oui;
             d.grp->echelle = s;
-            DBG(msg("Canva/groupe de texte: échelle : {} -> {}", config.scale, s);)
+            DBG(msg("Canva/groupe de texte: <{}> échelle : {} -> {}", infos, config.échelle, s);)
           }
 
-          config.scale = d.grp->echelle;
+          DBG(msg("Avec groupe texte inclu. échelle : {} -> {}", config.échelle, d.grp->echelle);)
+
+          config.échelle = d.grp->echelle;
         }
 
-
-        soit i = tsd::vue::texte_creation_image(d.chaine, config);
+        soit i = texte_creation_image(d.chaine, config);
 
         DBG(msg("  ok : {}...", i.get_dim()););
         si(i.empty())
@@ -840,8 +877,6 @@ struct Canva::Impl
           DBG(msg("  (empty)"));
           continue;
         }
-
-
 
         si(d.pinceau.texte_arrière_plan_actif)
         {
@@ -887,7 +922,7 @@ struct Canva::Impl
         //O1.puti(Point{px, py}, i);
         try
         {
-          O1.puti_avec_gamma(Point{px, py}, i);
+          O1.puti_avec_gamma({px, py}, i);
         }
         catch(...)
         {
@@ -900,7 +935,7 @@ struct Canva::Impl
         cnt_cercle++;
         DBG(msg("cercle r={}...", d.r);)
         entier dx = d.r * pixels_par_lsb_x(),
-            dy = d.r * pixels_par_lsb_y();
+               dy = d.r * pixels_par_lsb_y();
         DBG(msg("  -> dx={} pixels, dy = {} pixels", dx, dy);)
 
         Point tl{pos0.x-dx,pos0.y-dy}, br{pos0.x+dx,pos0.y+dy};
@@ -924,9 +959,8 @@ struct Canva::Impl
                dy = d.b * pixels_par_lsb_y();
         DBG(msg("  -> dx={} pixels, dy = {} pixels", dx, dy);)
 
-        Point tl{pos0.x-dx,pos0.y-dy}, br{pos0.x+dx,pos0.y+dy};
-
-
+        Point tl{pos0.x-dx,pos0.y-dy},
+              br{pos0.x+dx,pos0.y+dy};
 
         si(d.pinceau.remplir)
         {
@@ -940,10 +974,10 @@ struct Canva::Impl
 
         si(d.pinceau.dessiner_contours)
         {
-          si(abs(dx) == abs(dy))
+          si((abs(dx) == abs(dy)) && (d.y2 == 0) && (d.y3 == 2 * π))
             O1.cercle(pos0, dx);
           sinon
-            O1.ellipse(tl, br);
+            O1.ellipse(tl, br, d.y2, d.y3);
         }
 
         DBG(msg("ellipse ok.");)
@@ -973,7 +1007,7 @@ Rectf Canva::calc_rdi_englobante() const
 
 sptr<Canva::PointIntermediaire> Canva::enregistre_pti()
 {
-  soit res = std::make_shared<Canva::PointIntermediaire>();
+  soit res = make_shared<PointIntermediaire>();
   Impl::CanvaElement dess;
   dess.type = Impl::CanvaElement::PTI;
   dess.pti  = res;
@@ -983,13 +1017,13 @@ sptr<Canva::PointIntermediaire> Canva::enregistre_pti()
 
 sptr<Canva::GroupeTextes> Canva::groupe_textes()
 {
-  soit res = std::make_shared<Canva::GroupeTextes>();
+  soit res = make_shared<Canva::GroupeTextes>();
   retourne res;
 }
 
 void Canva::restaure_pti(sptr<Canva::PointIntermediaire> pti)
 {
-  tsd_assert(pti);
+  assertion(pti);
   // Efface tous les éléments actuels
   clear();
   // TODO : c'est du bricolage
@@ -1045,8 +1079,8 @@ void Canva::set_rdi(const Rectf &rdi)
 
 void Canva::set_allocation(const Dim &dim)
 {
-  impl->clip.target = Rect{0, 0, dim.l, dim.h};
-  impl->clip.rdi    = Rect{0, 0, dim.l, dim.h};
+  impl->clip.target = {0, 0, dim.l, dim.h};
+  impl->clip.rdi    = {0, 0, dim.l, dim.h};
 }
 
 Rectf Canva::get_rdi() const
@@ -1103,7 +1137,7 @@ void Canva::active_remplissage(bouléen remplissage_actif)
 
 Canva::Canva()
 {
-  impl = std::make_shared<Impl>();
+  impl = make_shared<Impl>();
 }
 
 void Canva::forward(Canva dest) const
@@ -1188,14 +1222,8 @@ void Canva::def_image_fond(Image img)
   impl->img_fond = img;
 }
 
-/*void Canva::set_coord_mode_pixels(bouléen pixels)
-{
-  impl->pinceau.coord_mode_pixels = pixels;
-}*/
-
-void Canva::texte(const Pointf &p,
-    cstring texte,
-    const Dimf &dim_max, sptr<GroupeTextes> grp)
+void Canva::texte(const Pointf &p, cstring texte,
+                  const Dimf &dim_max, sptr<GroupeTextes> grp)
 {
   impl->texte(p, texte, dim_max, impl->pinceau, grp);
 }
@@ -1205,10 +1233,9 @@ void Canva::texte(float x0, float y0, cstring texte, float dx_max, float dy_max,
   this->texte(Pointf{x0, y0}, texte, Dimf{dx_max, dy_max}, grp);
 }
 
-
-void Canva::ellipse(const Pointf &p, float a, float b, float theta)
+void Canva::ellipse(const Pointf &p, float a, float b, float θ, float α0, float α1)
 {
-  impl->ellipse(p, a, b, theta, impl->pinceau);
+  impl->ellipse(p, a, b, θ, α0, α1, impl->pinceau);
 }
 
 void Canva::cercle(const Pointf &p, float r)

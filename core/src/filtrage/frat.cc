@@ -36,7 +36,7 @@ Veccf Poly<T>::roots() const
   }
   si constexpr(est_complexe<T>())
   {
-    echec("Pas possible de calculer les racines d'un polynôme complexe avec cette version de Eigen.");
+    échec("Pas possible de calculer les racines d'un polynôme complexe avec cette version de Eigen.");
     retourne Veccf();
   }
   sinon

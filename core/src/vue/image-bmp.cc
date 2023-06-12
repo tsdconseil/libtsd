@@ -78,7 +78,7 @@ struct Image::Impl
     retourne {sx, sy};
   }
 
-  void charger(const string &chemin)
+  void charger(cstring chemin)
   {
 
 #   if LIBTSD_USE_PNG
@@ -92,14 +92,14 @@ struct Image::Impl
 
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     si(!png)
-      echec("png_create_read_struct");
+      échec("png_create_read_struct");
 
     png_infop info = png_create_info_struct(png);
     si(!info)
-      echec("png_create_info_struct");
+      échec("png_create_info_struct");
 
     si(setjmp(png_jmpbuf(png)))
-      echec("png_jmpbuf(png)");
+      échec("png_jmpbuf(png)");
 
     png_init_io(png, fp);
 
@@ -185,7 +185,7 @@ struct Image::Impl
   }
 
 
-  void enregister(const string &chemin) const
+  void enregister(cstring chemin) const
   {
 #   if LIBTSD_USE_PNG
 
@@ -593,7 +593,7 @@ struct Image::Impl
 
   ~Impl()
   {
-    si(bitmap != nullptr)
+    si(bitmap)
       free(bitmap);
     bitmap = nullptr;
     sx = sy = 0;
@@ -607,10 +607,10 @@ struct Image::Impl
     {
       bitmap = (bgra *) malloc(4*((size_t)sx)*((size_t)sy));
 
-      si(bitmap == nullptr)
-        echec("Echec allocation image : {} x {} ({:.1f} Mo)", sx, sy, 4.0f*sx*sy*1e-6);
+      si(!bitmap)
+        échec("Echec allocation image : {} x {} ({:.1f} Mo)", sx, sy, 4.0f*sx*sy*1e-6);
 
-      si(data != nullptr)
+      si(data)
         memcpy(bitmap, data, sx * sy * 4);
       //sinon
         //memset(bitmap, 255, sx * sy * 4);
@@ -733,10 +733,10 @@ struct Image::Impl
 
         si(!(((x + pos.x >= 0) && (y + pos.y >= 0) && (x + pos.x < sx) && (y + pos.y < sy))))
         {
-          echec("x={},y={},isx={},isy={},sx={},sy={},p.x={},p.y={},isy + pos.y={}",x,y,isx,isy,sx,sy,pos.x,pos.y,isy + pos.y);
+          échec("x={},y={},isx={},isy={},sx={},sy={},p.x={},p.y={},isy + pos.y={}",x,y,isx,isy,sx,sy,pos.x,pos.y,isy + pos.y);
         }
 
-        tsd_assert((x + pos.x >= 0) && (y + pos.y >= 0) && (x + pos.x < sx) && (y + pos.y < sy));
+        assertion((x + pos.x >= 0) && (y + pos.y >= 0) && (x + pos.x < sx) && (y + pos.y < sy));
 
         soit iv  = src.impl->pixel(x, y);
         soit a   = iv.bgra[3] / 255.0f;
@@ -841,7 +841,7 @@ struct Image::Impl
   {
     soit s1 = this;
     soit s2 = src.impl;
-    tsd_assert(s2);
+    assertion(s2);
     si((s1->sx != s2->sx) || (s1->sy != s2->sy))
     {
       msg_erreur("ImageBmp::blend() : image source de dim différente : ({}) != ({})", s1->dim(), src.get_dim());
@@ -904,14 +904,14 @@ struct Image::Impl
   {
     this->sx = sx;
     this->sy = sy;
-    si(bitmap != nullptr)
+    si(bitmap)
       free(bitmap);
     bitmap = nullptr;
     si(sx * sy)
     {
       bitmap = (bgra *) malloc(((size_t) sx)*((size_t) sy)*((size_t) 4));
-      si(bitmap == nullptr)
-        echec("Image resize({}x{} = {:.1f} Mo) : malloc error", sx, sy, 4.0f*sx*(sy*1e-6f));
+      si(!bitmap)
+        échec("Image resize({}x{} = {:.1f} Mo) : malloc error", sx, sy, 4.0f*sx*(sy*1e-6f));
     }
   }
 
@@ -1160,49 +1160,50 @@ struct Image::Impl
     }
   }
 
-  struct Courbe2
+  using TF = tuple<float,float>;
+
+  struct CourbeAA
   {
-    float x, y;
     // xy = f(t)
-    virtual tuple<float,float> xy(float t) = 0;
-    // xy = f(t)
-    virtual tuple<float,float> der(float t) = 0;
+    virtual TF xy(float t) const = 0;
+    // xy = f'(t)
+    virtual TF der(float t) const = 0;
   };
 
-  struct Ellipse2: Courbe2
+  // Ellipse avec axes horizontal et vertical.
+  struct Ellipse2: CourbeAA
   {
-    entier xc, yc, rx, ry;
-    Ellipse2(entier xc, entier yc, entier rx, entier ry)
+    // Point central, dim x, y
+    float xc, yc, rx, ry;
+    Ellipse2(float xc, float yc, float rx, float ry)
     {
       this->xc = xc;
       this->yc = yc;
       this->rx = rx;
       this->ry = ry;
-      x = rx;
-      y = 0;
     }
-    tuple<float,float> xy(float t)
+    TF xy(float t) const override
     {
       retourne {xc + rx * cos(2*π*t), yc + ry * sin(2*π*t)};
     }
-    tuple<float,float> der(float t)
+    TF der(float t) const override
     {
       retourne {-2*π*rx * sin(2*π*t), 2*π*ry * cos(2*π*t)};
     }
   };
 
-  void dessine_courbe_aa(Courbe2 *courbe, bgra cd)
+  void dessine_courbe_aa(CourbeAA *courbe, bgra cd, float t0 = 0, float t1 = 1)
   {
     soit nbitr = 0;
-    soit t = 0.0f;
-    tantque(t < 1)
+    soit t = t0;
+    tantque(t < t1)
     {
       si(nbitr++ > 100000)
       {
         msg_avert("Dessine courbe AA : trop d'itérations.");
         retourne;
       }
-      soit [x, y]   = courbe->xy(t);
+      soit [x,   y] = courbe->xy(t);
       soit [dx, dy] = courbe->der(t);
       //msg("t = {}, pos={}x{}, der={}x{}", t, x, y, dx, dy);
 
@@ -1211,13 +1212,13 @@ struct Image::Impl
       {
         // Utilise deux pixels verticaux
         // cherche x entier
-        entier xi   = floor(x);
-        float dt = (xi - x) / dx;
-        float yf = y + dt * dy;
-        entier yi   = floor(yf);
-        float α = yf - yi;
+        soit xi = (entier) floor(x);
+        soit dt = (xi - x) / dx,
+             yf = y + dt * dy;
+        soit yi = (entier) floor(yf);
+        soit α  = yf - yi;
 
-        point({xi, yi}, cd, 1-α);
+        point({xi, yi}, cd, 1 - α);
         point({xi, yi+1}, cd, α);
         t += abs(0.5f / dx);
       }
@@ -1226,33 +1227,35 @@ struct Image::Impl
       {
         // Utilise deux pixels horizontaux
         // cherche x entier
-        entier yi   = floor(y);
-        float dt = (yi - y) / dy; // dt pour aller de y à floor(y)
-        float xf = x + dt * dx;   // xf = point correspondant à floor(y)
-        entier xi   = floor(xf);     // xi = point précédent
-        float α = xf - xi;
+        soit yi = (entier) floor(y);
+        soit dt = (yi - y) / dy,    // dt pour aller de y à floor(y)
+             xf = x + dt * dx;      // xf = point correspondant à floor(y)
+        soit xi = (entier) floor(xf);     // xi = point précédent
+        soit α  = xf - xi;
 
-        point({xi, yi}, cd, 1-α);
+        point({xi, yi}, cd, 1 - α);
         point({xi+1, yi}, cd, α);
         t += abs(0.5f / dy);
       }
     }
   }
 
-  void ellipse(const Point &p_0, const Point &p_1, bgra cd, bouléen avec_alpha)
+  void ellipse(const Point &p_0, const Point &p_1, bgra cd, bouléen avec_alpha, float α0 = 0, float α1 = 2 * π)
   {
-    Point p0{(p_0.x+p_1.x)/2, (p_0.y+p_1.y)/2};
+    soit p0 = (p_0 + p_1) / 2;
     soit rx = (p_1.x - p_0.x) / 2.0f,
          ry = (p_1.y - p_0.y) / 2.0f;
 
-    Ellipse2 el2(p0.x, p0.y, rx, ry);
+    Ellipse2 el2{(float) p0.x, (float) p0.y, rx, ry};
 
-    dessine_courbe_aa(&el2, cd);
+    //msg("Ellipse : α0={}, α1={}", α0, α1);
+
+    dessine_courbe_aa(&el2, cd, α0 / (2 * π), α1 / (2 * π));
   }
 
-  void ellipse(const Point &p0, const Point &p1)
+  void ellipse(const Point &p0, const Point &p1, float α0 = 0, float α1 = 2 * π)
   {
-    ellipse(p0, p1, cd, oui);
+    ellipse(p0, p1, cd, oui, α0, α1);
   }
 
   // D'après An Efficient Antialiasing Technique, Xiaolin Wu, 1991
@@ -1311,7 +1314,7 @@ struct Image::Impl
     pour(auto r2 = r; r2 >= 0; r2--)
       cercle(p0, r2, cf, r2 == r);
   }
-  Dim texte_dim(const string &s, float dim)
+  Dim texte_dim(cstring s, float dim)
   {
     retourne ftfonte->rendre(s, dim).get_dim();
   }
@@ -1326,7 +1329,7 @@ struct Image::Impl
     retourne p0 - dim / 2;
   }
 
-  void puts(const Point &p0, const string &s, float dim, Alignement align_horizontal, Alignement align_vertical)
+  void puts(const Point &p0, cstring s, float dim, Alignement align_horizontal, Alignement align_vertical)
   {
     si(s.empty())
       retourne;
@@ -1384,13 +1387,13 @@ void Image::point(const Point &p0, const Couleur &c, float α){impl->point(p0, c
 void Image::point(const Point &p0, const Couleur &c){impl->point(p0, c);}
 void Image::rectangle(const Point &p0, const Point &p1){impl->rectangle(p0, p1);}
 void Image::rectangle(const Rect &r){impl->rectangle(r);}
-void Image::ellipse(const Point &p0, const Point &p1){impl->ellipse(p0, p1);}
+void Image::ellipse(const Point &p0, const Point &p1, float α0, float α1){impl->ellipse(p0, p1, α0, α1);}
 void Image::cercle(const Point &p0, entier r){impl->cercle(p0, r);}
 void Image::rectangle_plein(const Point &p0, const Point &p1){impl->rectangle_plein(p0, p1);}
 void Image::ellipse_pleine(const Point &p0, const Point &p1){impl->ellipse_pleine(p0, p1);}
 void Image::cercle_plein(const Point &p0, entier r){impl->cercle_plein(p0, r);}
-Dim Image::texte_dim(const string &s, float dim){retourne impl->texte_dim(s, dim);}
-void Image::puts(const Point &p0, const string &s, float dim, Alignement align_horizontal, Alignement align_vertical){impl->puts(p0, s, dim, align_horizontal, align_vertical);}
+Dim Image::texte_dim(cstring s, float dim){retourne impl->texte_dim(s, dim);}
+void Image::puts(const Point &p0, cstring s, float dim, Alignement align_horizontal, Alignement align_vertical){impl->puts(p0, s, dim, align_horizontal, align_vertical);}
 void Image::puti(const Point &pos, Image src, Rect rdi_source){impl->puti(pos, src, rdi_source);}
 void Image::puti(const Rect &rdi, Image src){impl->puti(rdi, src);}
 void Image::puti(const Point &pos, Image src){impl->puti(pos, src);}
@@ -1399,8 +1402,8 @@ void Image::puti(const Point &pos, Image src, float γ){impl->puti(pos, src, γ)
 Image Image::rotation_90() const{retourne impl->rotation_90();}
 void Image::blend(Image src){impl->blend(src);}
 Image Image::blend_nv(Image src){retourne impl->blend_nv(src);}
-void Image::enregister(const string &chemin) const {impl->enregister(chemin);}
-void Image::charger(const string &chemin){impl->charger(chemin);}
+void Image::enregister(cstring chemin) const {impl->enregister(chemin);}
+void Image::charger(cstring chemin){impl->charger(chemin);}
 Image Image::sous_image(entier x0, entier y0, entier l, entier h){retourne impl->sous_image(x0, y0, l, h);}
 Dim Image::get_dim() const {retourne impl->dim();}
 void Image::put_gamma(const Point &pos, Image src){impl->put_gamma(pos, src);}

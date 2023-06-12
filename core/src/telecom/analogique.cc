@@ -21,11 +21,10 @@ struct FMDiscri: FiltreGen<cfloat, float>
   cfloat x0 = 0.0f, x1 = 0.0f, x2 = 0.0f;
   cfloat last = 0.0f;
 
-  /*entier configure_impl(const FMDiscriConfig &c)
+  /*void configure_impl(const FMDiscriConfig &c)
   {
     //config = c;
     x0 = x1 = x2 = 0.0f;
-    retourne 0;
   }*/
   void step(const Vecteur<cfloat> &x, Vecteur<float> &y)
   {
@@ -86,7 +85,7 @@ struct ModulateurAM: Filtre<float, float, AMConfig>
   {
     configure(config);
   }
-  entier configure_impl(const AMConfig &c)
+  void configure_impl(const AMConfig &c)
   {
     ra = filtre_reechan<float>(c.fe_rf / c.fe_sortie);
     ol = source_ohc(c.f_rf / c.fe_rf);
@@ -96,7 +95,6 @@ struct ModulateurAM: Filtre<float, float, AMConfig>
       hilbert = hilbert_transformeur();
       hilbert->configure({255, "hn"});
     }
-    retourne 0;
   }
   void step(const Vecteur<float> &x1, Vecteur<float> &y)
   {
@@ -157,7 +155,7 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
   {
     configure(Configurable<AMConfig>::config);
   }
-  entier configure_impl(const AMConfig &c)
+  void configure_impl(const AMConfig &c)
   {
     soit &config = Configurable<AMConfig>::config;
     config = c;
@@ -189,7 +187,6 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
     }
 
     //fech_sortie = config.fe_rf;
-    retourne 0;
   }
   void step(const Veccf &x, Vecf &y)
   {
@@ -321,7 +318,7 @@ struct DemodulateurAM: Filtre<cfloat, float, AMConfig>
 
     soit y_hp = filtre_hp->step(y1);
 
-    tsd_assert(y_lp.rows() == y_hp.rows());
+    assertion(y_lp.rows() == y_hp.rows());
 
     soit y_bp = y_lp - y_hp;
 
@@ -403,7 +400,7 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
   Veci offsets[4];
   Veci rdec;
 
-  entier configure_impl(const FMDemodConfig &cfg)
+  void configure_impl(const FMDemodConfig &cfg)
   {
     soit &config = Configurable<FMDemodConfig>::config;
     config = cfg;
@@ -512,8 +509,6 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
       f.subplot().plot(coefs3, "b-", "Filtre audio");
       f.afficher("fm-demod-coefs.png");
     }
-
-    retourne 0;
   }
 
 

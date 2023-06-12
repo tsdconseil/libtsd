@@ -22,7 +22,7 @@ struct Couleur
   int32_t vers_rgba() const;
   unsigned char lumi() const;
   Couleur(){}
-  Couleur(const string &s);
+  Couleur(cstring s);
   //Couleur(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha = 255);
   Couleur(float r, float g, float b, float alpha = 255);
 
@@ -56,6 +56,42 @@ struct Point_
       x = r.x;
       y = r.y;
     }
+
+  Point_ operator +(const Point_ &p) const
+  {
+    retourne {x + p.x, y + p.y};
+  }
+  Point_ operator -(const Point_ &p) const
+  {
+    retourne {x - p.x, y - p.y};
+  }
+  Point_ operator +(T a) const
+  {
+    retourne {x + a, y + a};
+  }
+  Point_ operator -(T a) const
+  {
+    retourne {x - a, y - a};
+  }
+  Point_ operator /(T a) const
+  {
+    retourne {x / a, y / a};
+  }
+  Point_ operator *(T a) const
+  {
+    retourne {x * a, y * a};
+  }
+
+  double abs() const
+  {
+    retourne sqrt((double) (x * x + y * y));
+  }
+
+  T dot(const Point_ &p)
+  {
+    retourne x * p.x + y * p.y;
+  }
+
 
   std::strong_ordering operator<=>(const Point_<T>&) const = default;
 };
@@ -211,7 +247,7 @@ struct CMap
   string nom;
 };
 
-extern sptr<CMap> cmap_parse(const string &nom);
+extern sptr<CMap> cmap_parse(cstring nom);
 
 // Classe générique pour le dessin
 struct Image
@@ -252,14 +288,14 @@ struct Image
   void point(const Point &p0, const Couleur &c, float alpha);
   void rectangle(const Point &p0, const Point &p1);
   void rectangle(const Rect &r);
-  void ellipse(const Point &p0, const Point &p1);
+  void ellipse(const Point &p0, const Point &p1, float α0 = 0, float α1 = 2 * π);
   void cercle(const Point &p0, entier r);
 
   void rectangle_plein(const Point &p0, const Point &p1);
   void ellipse_pleine(const Point &p0, const Point &p1);
   void cercle_plein(const Point &p0, entier r);
 
-  Dim texte_dim(const string &s, float dim);
+  Dim texte_dim(cstring s, float dim);
 
   enum Alignement
   {
@@ -268,7 +304,7 @@ struct Image
     FIN
   };
 
-  void puts(const Point &p0, const string &s, float dim, Alignement align_horizontal = Alignement::DEBUT, Alignement align_vertical = Alignement::DEBUT);
+  void puts(const Point &p0, cstring s, float dim, Alignement align_horizontal = Alignement::DEBUT, Alignement align_vertical = Alignement::DEBUT);
 
   void puti(const Point &pos, Image src, Rect rdi_source);
   void puti(const Rect &rdi, Image src);
@@ -283,8 +319,8 @@ struct Image
   void blend(Image src);
   Image blend_nv(Image src);
 
-  void enregister(const string &chemin) const;
-  void charger(const string &chemin);
+  void enregister(cstring chemin) const;
+  void charger(cstring chemin);
   Image sous_image(entier x0, entier y0, entier l, entier h);
 
   Dim get_dim() const;
@@ -302,7 +338,7 @@ struct Font
   /** Sur l'image résultante, seul le gamma est significatif
    *  (toutes les valeurs RVB sont à zéro).
    */
-  virtual Image rendre(const string &s, float scale = 1.0f) = 0;
+  virtual Image rendre(cstring s, float scale = 1.0f) = 0;
 };
 
 
@@ -312,38 +348,37 @@ extern sptr<Font> fonte_ft_creation();
 
 struct TexteConfiguration
 {
-  Couleur couleur      = Couleur{0,0,0};
-  Couleur couleur_fond = Couleur{255,255,255,0};
-  float scale             = 0.5;
-  entier thickness           = 1;
-  entier fontface            = 1;
-  Dim dim_max             = {-1,-1};
-  Point org               = {0,0};
-  float transparence      = 0.3;
+  Couleur couleur      = {0,0,0};
+  Couleur couleur_fond = {255,255,255,0};
+  float échelle        = 0.5;
+  entier épaisseur     = 1;
+  Dim dim_max          = {-1,-1};
+  Point org            = {0,0};
+  float transparence   = 0.3;
   enum
   {
     ALIGN_GAUCHE = 0,
     ALIGN_CENTRE,
     ALIGN_DROIT
-  } alignement = ALIGN_GAUCHE;
+  } alignement         = ALIGN_GAUCHE;
 };
 
 struct TexteProps
 {
-  float scale_out;
+  float échelle_appliquée;
   vector<entier> xdim, ypos, ydim;
 };
 
 // Affiche du texte, éventuellement sur plusieurs lignes
 // L'image de sortie est créée.
-extern Image texte_creation_image(const string &s,
+extern Image texte_creation_image(cstring s,
                                         const TexteConfiguration &config,
                                         TexteProps *props = nullptr);
 
 
 // Affiche du texte dans un cadre semi-transparent au dessus d'une image existante.
 extern void texte_ajoute(Image O, const TexteConfiguration &config,
-    const string &s, ...);
+    cstring s, ...);
 
 
 }

@@ -15,9 +15,6 @@ namespace dsp {
  *  @{ */
 
 
-#define dsp_assert      tsd_assert
-#define dsp_assert_msg  tsd_assert_msg
-
 /** @brief @f$\pi@f$ value, with 64 bits floating point accuracy. */
 static const auto π  = tsd::π;
 
@@ -134,7 +131,7 @@ template<typename T1, typename T2>
  *  ArrayXf y = rotation_vec(x, 2);
  *  ArrayXf yref(6);
  *  yref << 2, 3, 4, 5, 0, 1;
- *  tsd_assert(y.isApprox(yref));
+ *  assertion(y.isApprox(yref));
  *  @endcode
  */
 template<typename T>
@@ -158,7 +155,7 @@ Vector<T> rotation_vec(const Vector<T> &x, int d)
  *  ArrayXf x = randn(10);
  *  ArrayXf y = diff(x);
  *  ArrayXf yref = x.tail(9) - x.head(9);
- *  tsd_assert(y.isApprox(yref));
+ *  assertion(y.isApprox(yref));
  *  @endcode
  *
  *  @sa cumsum()
@@ -184,7 +181,7 @@ template<typename T>
  *  ArrayXf x     = linspace(0, 99, 100);
  *  ArrayXf y     = cumsum(x);
  *  ArrayXf yref  = x * (x + 1) / 2;
- *  tsd_assert(y.isApprox(yref));
+ *  assertion(y.isApprox(yref));
  *  @endcode
  *
  *  @sa diff()
@@ -360,7 +357,7 @@ auto mag2db(const auto &x)
  *
  * @par Example
  * @code
- * tsd_assert(next_power_of_2(3) == 4);
+ * assertion(next_power_of_2(3) == 4);
  * @endcode
  *
  */
@@ -513,7 +510,7 @@ template<typename T>
  */
 template<typename T>
   sptr<Sink<T,int>> buffer_new(int N,
-      std::function<void (const Vector<T> &)> callback)
+      fonction<void (const Vector<T> &)> callback)
 {
   return tsd::tampon_création(N, callback);
 }
@@ -558,7 +555,7 @@ T modulo(T x, T m)
  *
  *  @par Example
  *  @code
- *  tsd_assert(modulo_2π(2*π+1e-5) == 1e-5);
+ *  assertion(modulo_2π(2*π+1e-5) == 1e-5);
  *  @endcode
  *
  *  @sa modulo_pm_π(), phase_unwrap(), modulo()
@@ -580,7 +577,7 @@ inline T modulo_2π(T x)
  *
  *  @par Example
  *  @code
- *  tsd_assert(modulo_pm_π(2*π-1e-5) == -1e-5);
+ *  assertion(modulo_pm_π(2*π-1e-5) == -1e-5);
  *  @endcode
  *
  *  @sa modulo_2π(), phase_unwrap(), modulo()
@@ -615,7 +612,7 @@ template<typename T>
  *
  *  @par Example
  *  @code
- *  tsd_assert(abs(deg2rad(45) - π/4) < 1e-15);
+ *  assertion(abs(deg2rad(45) - π/4) < 1e-15);
  *  @endcode
  *
  *  @sa rad2deg()
@@ -636,7 +633,7 @@ auto deg2rad(T degrees)
  *
  *  @par Example
  *  @code
- *  tsd_assert(abs(rad2deg(π/4) - 45) < 1e-15);
+ *  assertion(abs(rad2deg(π/4) - 45) < 1e-15);
  *  @endcode
  *
  *  @sa deg2rad()

@@ -14,16 +14,21 @@ struct CQTConfig
 {
   /** @brief Fréquence d'échantillonnage (Hz) */
   float fs    = 1;
+
   /** @brief Fréquence d'analyse mini (Hz). */
   float fmin  = 0.01;
+
   /** @brief Fréquence d'analyse maxi (Hz). */
   float fmax  = 0.5;
+
   /** @brief Rapport entre deux fréquences d'analyse successives */
   float γ     = pow(2.0f, 1.0f/12);
+
   /** @brief Facteur de qualité */
   float Q     = 34;
+
   /** @brief Précision dans la représentation du noyau */
-  float kernel_precision = 0.99;
+  float précision_noyau = 0.99;
 };
 
 

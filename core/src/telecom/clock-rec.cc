@@ -115,13 +115,13 @@ struct ClockRec: FiltreGen<cfloat>
     K1   = config.osf;
 
     si(!config.itrp)
-      echec("clock rec : intepolateur non spécifié.");
+      échec("clock rec : intepolateur non spécifié.");
 
     si(!config.ted)
-      echec("clock rec : ted non spécifié.");
+      échec("clock rec : ted non spécifié.");
 
     K2   = config.ted->osf;
-    tsd_assert(K2 > 0);
+    assertion(K2 > 0);
 
     cnt  = 0;
     // Sliding window pour the interpolator
@@ -261,7 +261,7 @@ struct ClockRec: FiltreGen<cfloat>
 
       si(cnt == K2 - 1)
       {
-        tsd_assert(oindex < nout_max);
+        assertion(oindex < nout_max);
         res(oindex++) = interpol;
 
         // N'appelle pas la TED à chaque fois
@@ -417,7 +417,7 @@ struct ClockRec2: FiltreGen<cfloat>
     this->K1   = config.osf;
 
     si(!config.itrp)
-      echec("clock rec : intepolateur non spécifié.");
+      échec("clock rec : intepolateur non spécifié.");
 
     // Sliding window pour the interpolator
     fenetre_x  = Veccf::zeros(config.itrp->K);
@@ -470,7 +470,7 @@ struct ClockRec2: FiltreGen<cfloat>
 
     soit n = xf.rows();
 
-    tsd_assert(n == xdf.rows());
+    assertion(n == xdf.rows());
 
     Vecf vphase(n), verr = vphase, vphase0(n), vitrp = vphase, vdec = vphase;
     vector<entier> idx, idx_inter;

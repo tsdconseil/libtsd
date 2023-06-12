@@ -8,8 +8,6 @@
 #include <ostream>
 #include <sstream>
 
-#include "tsd/logs.hpp"
-
 #define TSD_SAFE 1
 
 
@@ -52,27 +50,17 @@ constexpr bouléen est_complexe() { retourne est_complex_t<T>::value; }
 template<typename T, entier ndims>
   struct TabT;
 
-
-
-
-  // Idem ArrayXXf, mais appels cachés
-  // Voir comme cv::Mat, polytype
-  // Idée pour alléger les calculs : avoir des expressions comme sous Eigen,
-  // mais ne les évaluer que dynamiquement
-
-  typedef enum scalaire_enum
-  {
-    ℝ, ℂ, ℕ, ℤ, B//, 𝔹, 𝔹
-  } Scalaire;
+typedef enum scalaire_enum
+{
+  ℝ, ℂ, ℕ, ℤ, B//, 𝔹
+} Scalaire;
 
 
   struct Tab
   {
 
     template<typename T, entier ndims>
-//#   ifndef __CDT_PARSER__
     Tab(const TabT<T, ndims> &t);
-//#   endif
     Tab();
     Tab(Scalaire s, entier reso, entier n, entier m = 1);
 
@@ -91,7 +79,7 @@ template<typename T, entier ndims>
     Tab segment(entier i0, entier n) const;
 
 
-    bool est_reference() const;
+    bouléen est_reference() const;
 
     Tab block(entier r0, entier nr, entier c0, entier nc) const;
 
@@ -153,16 +141,12 @@ template<typename T, entier ndims>
 
     Tab reshape(entier m, entier n = 1) const;
 
-//#   ifndef __CDT_PARSER__
     template<typename T, entier ndims = 1>
       TabT<T, ndims> as() const;
 
 
     template<typename T, entier ndims = 1>
       TabT<T, ndims> as_no_conv() const;
-//#   endif
-
-    Tab matmul(const Tab &t) const;
 
     Tab reverse() const;
     void reverseInPlace();
@@ -170,14 +154,6 @@ template<typename T, entier ndims>
     Tab reverse_rows() const;
 
     Tab &operator =(const Tab &t);
-
-
-
-
-    /*{
-      impl = t.impl;
-      retourne *this;
-    }*/
 
     void copie(const Tab &source);
 
@@ -191,11 +167,13 @@ template<typename T, entier ndims>
 
     Tab operator-( ) const;
     Tab inv() const;
+    Tab lsq(const Tab &x) const;
 
     Tab inverse_matricielle() const;
 
 
-    Tab operator >(const Tab &t) const;
+
+    /*Tab operator >(const Tab &t) const;
     Tab operator <(const Tab &t) const;
     Tab operator ==(const Tab &t) const;
     Tab operator >=(const Tab &t) const;
@@ -206,7 +184,17 @@ template<typename T, entier ndims>
     Tab operator <(double x) const;
     Tab operator ==(double x) const;
     Tab operator >=(double x) const;
-    Tab operator <=(double x) const;
+    Tab operator <=(double x) const;*/
+
+#   define DEC_COMP(AA) \
+    Tab operator AA(const Tab &t) const;\
+    Tab operator AA(double x) const;
+
+    DEC_COMP(>);
+    DEC_COMP(<);
+    DEC_COMP(==);
+    DEC_COMP(>=);
+    DEC_COMP(<=);
 
 #   define DEC_OP(TYPE_SCAL)\
     Tab operator *(const TYPE_SCAL &x)   const;\
@@ -478,11 +466,11 @@ struct TabT: Tab
 
       if((t.nbits() != nb) || (t.tscalaire() != K))
       {
-        echec("Conversion Tab[{},{}] -> TabT[{},{}]: type non compatible", t.tscalaire(), t.nbits(), K, nb);
+        échec("Conversion Tab[{},{}] -> TabT[{},{}]: type non compatible", t.tscalaire(), t.nbits(), K, nb);
       }
       if((ndims == 1) && (t.cols() > 1))
       {
-        echec("Conversion Tab[ndims=2] -> TabT[ndims=1]: nombres de dimensions non compatibles");
+        échec("Conversion Tab[ndims=2] -> TabT[ndims=1]: nombres de dimensions non compatibles");
       }
       impl = t.impl;
       raw_data  = (T *) rawptr();
@@ -736,7 +724,7 @@ struct TabT: Tab
     TabT<T, ndims> ajoute_lignes(const TabT<T, 1> &x) const NOECLIPSE(requires(ndims == 2))
     {
       soit n = cols();
-      tsd_assert_msg(n == x.rows(),
+      assertion_msg(n == x.rows(),
           "ajoute_lignes(): le nombre de colonnes ({}) doit être égale à la dimension du vecteur ({}).",
           cols(), n);
 
@@ -751,7 +739,7 @@ struct TabT: Tab
     TabT<T, ndims> produit_lignes(const TabT<T, 1> &x) const NOECLIPSE(requires(ndims == 2))
     {
       soit n = cols();
-      tsd_assert_msg(n == x.rows(),
+      assertion_msg(n == x.rows(),
           "produit_lignes(): le nombre de colonnes ({}) doit être égale à la dimension du vecteur ({}).",
           n, x.rows());
 
@@ -766,7 +754,7 @@ struct TabT: Tab
     TabT<T, ndims> ajoute_colonnes(const TabT<T, 1> &x) const NOECLIPSE(requires(ndims == 2))
     {
       soit n = rows(), m = cols();
-      tsd_assert_msg(n == x.rows(),
+      assertion_msg(n == x.rows(),
           "ajoute_colonnes(): le nombre de lignes ({}) doit être égale à la dimension du vecteur ({}).",
           rows(), n);
 
@@ -783,7 +771,7 @@ struct TabT: Tab
     TabT<T, ndims> produit_colonnes(const TabT<T, 1> &x) const NOECLIPSE(requires(ndims == 2))
     {
       soit n = rows(), m = cols();
-      tsd_assert_msg(n == x.rows(),
+      assertion_msg(n == x.rows(),
           "produit_colonnes(): le nombre de lignes ({}) doit être égale à la dimension du vecteur ({}).",
           rows(), n);
 
@@ -826,7 +814,7 @@ struct TabT: Tab
     {
       if(m * n != nelems())
       {
-        echec("Tab::reshape : la dim totale doit être identique.");
+        échec("Tab::reshape : la dim totale doit être identique.");
         retourne {};
       }
       TabT<T,2> x(m, n);
@@ -838,7 +826,7 @@ struct TabT: Tab
     {
       if(m != nelems())
       {
-        echec("Tab::reshape : la dim totale doit être identique.");
+        échec("Tab::reshape : la dim totale doit être identique.");
         retourne {};
       }
       TabT<T,1> x(m);
@@ -888,7 +876,7 @@ struct TabT: Tab
         y(i) = (*this)(num, i);
 
       retourne y;
-      //echec("TODO: row(...)");
+      //échec("TODO: row(...)");
       //retourne TabT<T,1>::zeros(cols());
     }
 
@@ -903,7 +891,7 @@ struct TabT: Tab
     {
       T res = (T) 0;
       entier n = dim();
-      tsd_assert_msg(x.dim() == n, "Vec::dot(): les dimensions devraient être identiques ({} vs {})", n, x.dim());
+      assertion_msg(x.dim() == n, "Vec::dot(): les dimensions devraient être identiques ({} vs {})", n, x.dim());
       Pour(auto i = 0; i < n; i++)
         res += (*this)(i) * x(i);
       retourne res;
@@ -945,11 +933,6 @@ struct TabT: Tab
     {
       retourne nelems() == 0;
     }
-
-    /*static TabT vide()
-    {
-      retourne TabT();
-    }*/
 
     inline static TabT fromTab(const Tab &t)
     {
@@ -997,8 +980,6 @@ struct TabT: Tab
       TabT<T, ndims> x(n, m);
       x.setConstant(valeur);
       retourne x;
-      //soit [K, nb]= T2S<T>();
-      //retourne TabT::fromTab(Tab::constant(K, nb, n, m, valeur));
     }
 
     static TabT constant(entier n, T valeur) NOECLIPSE(requires(ndims == 1))
@@ -1006,15 +987,13 @@ struct TabT: Tab
       TabT<T, ndims> x(n);
       x.setConstant(valeur);
       retourne x;
-      //soit [K, nb]= T2S<T>();
-      //retourne TabT::fromTab(Tab::constant(K, nb, n, 1, valeur));
     }
 
     static TabT valeurs(std::initializer_list<T> vals) NOECLIPSE(requires(ndims == 1))
     {
       soit [K, nb]= T2S<T>();
-      TabT res = TabT::fromTab(Tab(K, nb, vals.size(), 1));
-      entier i = 0;
+      soit res = TabT::fromTab(Tab(K, nb, vals.size(), 1));
+      soit i = 0;
       pour(auto itr = vals.begin(); itr != vals.end(); itr++, i++)
         res(i) = *itr;
       retourne res;
@@ -1024,13 +1003,10 @@ struct TabT: Tab
     {
       soit [K, nb]= T2S<T>();
 
-      tsd_assert_msg(nrows * ncols == (int) vals.size(),
+      assertion_msg(nrows * ncols == (int) vals.size(),
           "TabT::valeurs(rows={},cols={},...): le nombre d'élément doit être égal à rows*cols.", nrows, ncols);
 
-      TabT res = TabT::fromTab(Tab(K, nb, nrows, ncols));
-      //entier i = 0;
-      //pour(auto itr = vals.begin(); itr != vals.end(); itr++, i++)
-      //res.raw_data[i] = *itr;
+      soit res = TabT::fromTab(Tab(K, nb, nrows, ncols));
       pour(auto i = 0; i < ncols; i++)
         pour(auto j = 0; j < nrows; j++)
           res(j,i) = *(vals.begin() + i+j*ncols);
@@ -1040,7 +1016,7 @@ struct TabT: Tab
     static TabT map(vector<T> &x)
     {
       soit [K, nb]= T2S<T>();
-      TabT res = TabT::fromTab(Tab(K, nb, x.size(), 1));
+      soit res = TabT::fromTab(Tab(K, nb, x.size(), 1));
       memcpy(res.raw_data, x.data(), x.size() * sizeof(T));
       retourne res;
     }
@@ -1084,11 +1060,9 @@ struct TabT: Tab
     TabT unaryExpr(auto f) const
     {
       TabT y = même_format();
-
-      entier ne = nelems();
-      Pour(auto i = 0; i < ne; i++)
+      soit ne = nelems();
+      pour(auto i = 0; i < ne; i++)
         y(i) = f(raw_data[i]);
-
       retourne y;
     }
 
@@ -1124,8 +1098,8 @@ struct TabT: Tab
 #     if TSD_SAFE
       Si((i < 0) || (i >= rows()))
       {
-        echec("Tab::operator()(i = {}) : hors borne (dim = {})", i, rows());
-        retourne raw_data[0];
+        échec("Tab::operator()(i = {}) : hors borne (dim = {})", i, rows());
+        //retourne raw_data[0];
       }
 #     endif
       retourne raw_data[i];
@@ -1136,8 +1110,8 @@ struct TabT: Tab
 #     if TSD_SAFE
       Si((i < 0) || (i >= rows()) || (j < 0) || (j >= cols()))
       {
-        echec("Tab::operator()(i={}, j={}) : hors borne (dim = {}x{})", i, j, rows(), cols());
-        retourne raw_data[0];
+        échec("Tab::operator()(i={}, j={}) : hors borne (dim = {}x{})", i, j, rows(), cols());
+        //retourne raw_data[0];
       }
 #     endif
       retourne raw_data[i + j * rows()];
@@ -1148,8 +1122,8 @@ struct TabT: Tab
 #     if TSD_SAFE
       Si((i < 0) || (i >= rows()))
       {
-        echec("Tab::operator()(i = {}) : hors borne (dim = {})", i, rows());
-        retourne raw_data[0];
+        échec("Tab::operator()(i = {}) : hors borne (dim = {})", i, rows());
+        //retourne raw_data[0];
       }
 #     endif
       retourne raw_data[i];
@@ -1174,6 +1148,11 @@ struct TabT: Tab
     TabT<T,ndims> inv() const
     {
       retourne Tab(*this).inv();
+    }
+
+    TabT<T,1> lsq(const TabT<T, 1> &x)
+    {
+      retourne Tab(*this).lsq(x);
     }
 
     TabT<T, 1> matprod(const TabT<T, 1> &x) const
@@ -1231,13 +1210,11 @@ struct TabT: Tab
     TabT<T,ndims> operator &&(const TabT<T,ndims> &x) const NOECLIPSE(requires(std::same_as<T,char>))
     {
       soit [K, nb]= T2S<T>();
-      TabT y = TabT::fromTab(Tab(K, nb, x.rows(), x.cols()));
+      soit y = TabT::fromTab(Tab(K, nb, x.rows(), x.cols()));
       soit n = nelems();
 
       pour(auto i = 0; i < n; i++)
-      {
         y(i) = x(i) && (*this)(i);
-      }
 
       retourne y;
     }
@@ -1245,13 +1222,11 @@ struct TabT: Tab
     TabT<T,ndims> operator ||(const TabT<T,ndims> &x) const NOECLIPSE(requires(std::same_as<T,char>))
     {
       soit [K, nb]= T2S<T>();
-      TabT y = TabT::fromTab(Tab(K, nb, x.rows(), x.cols()));
+      soit y = TabT::fromTab(Tab(K, nb, x.rows(), x.cols()));
       soit n = nelems();
 
       pour(auto i = 0; i < n; i++)
-      {
         y(i) = x(i) || (*this)(i);
-      }
 
       retourne y;
     }
@@ -1592,16 +1567,16 @@ inline bouléen TCI(const Tab &v, auto f)
   soit K     = v.tscalaire();
   soit nbits = v.nbits();
 
-  if(K == ℂ)
+  si(K == ℂ)
   {
-    if(nbits == 64)
+    si(nbits == 64)
     {
       using T = cfloat;
       soit t = v.as_no_conv<T>();
       f(t);
       retourne oui;
     }
-    else if(nbits == 128)
+    sinon si(nbits == 128)
     {
       using T = cdouble;
       soit t = v.as_no_conv<T>();
@@ -1617,9 +1592,9 @@ inline bouléen TZI(const Tab &v, auto f)
   soit K     = v.tscalaire();
   soit nbits = v.nbits();
 
-  if(K == ℤ)
+  si(K == ℤ)
   {
-    if(nbits == 32)
+    si(nbits == 32)
     {
       using T = int32_t;
       soit t = v.as_no_conv<T>();
@@ -1634,7 +1609,7 @@ inline bouléen TBI(const Tab &v, auto f)
 {
   soit K     = v.tscalaire();
 
-  if(K == B)
+  si(K == B)
   {
     using T = char;
     soit t = v.as_no_conv<T>();
@@ -1647,39 +1622,39 @@ inline bouléen TBI(const Tab &v, auto f)
 
 inline void TR(const Tab &v, auto f)
 {
-  if(!TRI(v, f))
-    echec("Type réel attendu.");
+  si(!TRI(v, f))
+    échec("Type réel attendu.");
 }
 
 inline void TC(const Tab &v, auto f)
 {
-  if(!TCI(v, f))
-    echec("Type complexe attendu.");
+  si(!TCI(v, f))
+    échec("Type complexe attendu.");
 }
 
 inline void TB(const Tab &v, auto f)
 {
-  if(!TBI(v, f))
-    echec("Type bouléen attendu.");
+  si(!TBI(v, f))
+    échec("Type bouléen attendu.");
 }
 
 
 inline void TRZ(const Tab &v, auto f)
 {
-  if(!TRI(v, f) && !TZI(v, f))
-    echec("Type réel ou entier attendu.");
+  si(!TRI(v, f) && !TZI(v, f))
+    échec("Type réel ou entier attendu.");
 }
 
 inline void TRC(const Tab &v, auto f)
 {
-  if(!TRI(v, f) && !TCI(v, f))
-    echec("Type réel ou complexe attendu.");
+  si(!TRI(v, f) && !TCI(v, f))
+    échec("Type réel ou complexe attendu.");
 }
 
 inline void TG(const Tab &v, auto f)
 {
-  if(!TRI(v, f) && !TCI(v, f) && !TZI(v, f) && !TBI(v, f))
-    echec("Type invalide.");
+  si(!TRI(v, f) && !TCI(v, f) && !TZI(v, f) && !TBI(v, f))
+    échec("Type invalide.");
 }
 
 

@@ -46,9 +46,9 @@ namespace tsd::stats {
   {
     soit n = l1.rows();
 
-    tsd_assert_msg(n == c1.rows(), "Levinson : ligne et colonne doivent être de dimensions identiques.");
-    tsd_assert_msg(n == y.rows(),  "Levinson : dimensions invalides.");
-    tsd_assert_msg(l1(0) == c1(0), "Levinson : vecteurs invalides.");
+    assertion_msg(n == c1.rows(), "Levinson : ligne et colonne doivent être de dimensions identiques.");
+    assertion_msg(n == y.rows(),  "Levinson : dimensions invalides.");
+    assertion_msg(l1(0) == c1(0), "Levinson : vecteurs invalides.");
 
     // t(n-1), t(n-2), ... , t(1)    (t(0) exclu)
     soit c1r = c1.tail(n-1).reverse();
@@ -61,7 +61,7 @@ namespace tsd::stats {
     f(0) = 1 / l1(0);
     b(0) = 1 / c1(0);
 
-    Vecf x = Vecf::zeros(n);
+    soit x = Vecf::zeros(n);
     x(0) = y(0) / l1(0);
 
     // i = dimension nouveau vecteur
@@ -74,8 +74,8 @@ namespace tsd::stats {
       bb(0)         = 0;
       bb.tail(i-1)  = b.head(i-1);
 
-      soit ef = c1r.tail(i-1).dot(f.head(i-1));
-      soit eb = l1r.head(i-1).dot(b.head(i-1));
+      soit ef = c1r.tail(i-1).dot(f.head(i-1)),
+           eb = l1r.head(i-1).dot(b.head(i-1));
       soit fr = 1/(1 - eb * ef);
 
       // Mise à jour forward / backward
@@ -185,7 +185,7 @@ namespace tsd::stats {
       }
     }
 
-    tsd_assert_msg(Ns < m,
+    assertion_msg(Ns < m,
         "Le nombre de sources doit être inférieur à la dimension de la matrice de covariance (ici Ns={}, m={}).",
         Ns, m);
 

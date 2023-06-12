@@ -44,8 +44,8 @@ static float rcs(float t, float β)
 
 Vecf design_rif_gaussien_gen(entier n, float σ, float dt = 0)
 {
-  soit t = linspace(-(n-1)/2.0f, (n-1)/2.0f, n) + dt;
-  soit h = exp(-carré(t)/(2*σ*σ));
+  soit t = linspace(-(n-1)/2.0f, (n-1)/2.0f, n) + dt,
+       h = exp(-carré(t)/(2*σ*σ));
   si(h.somme() > 0)
     h /= h.somme();
   retourne h;
@@ -107,11 +107,8 @@ Vecf design_rif_gaussien_telecom(entier n, float BT, entier osf)
     h1 = tsd::fourier::délais(h1, -dec_nrz);
   }
 
-  soit h0 = Vecf::ones(osf) / osf;
-
-  //h1 = h1 | ArrayXf::Zero(5 * osf);
-
-  soit h2 = convol<float, float>(h0, h1);
+  soit h0 = Vecf::ones(osf) / osf,
+       h2 = convol<float, float>(h0, h1);
 
   // Corrige le retard du au filtre
   //h2 = h2.tail(h2.rows() - (osf-1)/2).eval();
@@ -133,7 +130,7 @@ Vecf design_rif_rcs(entier n, float β, float fcoupure)
 
 Vecf design_rif_rcs1(entier n, float β, float osf, char nrm)
 {
-  tsd_assert(n > 0);
+  assertion(n > 0);
   // n odd
   // ex n = 3 --> -1 0 1
   // n even

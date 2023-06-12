@@ -1,6 +1,5 @@
-﻿#include "tsd/tsd.hpp"
+﻿#include "tsd/tsd-all.hpp"
 #include "tsd/apps/kalman.hpp"
-#include "tsd/vue.hpp"
 #include "tsd/eig-util.hpp"
 #include <Eigen/Dense>
 
@@ -9,37 +8,35 @@
 namespace tsd::kalman {
 
 
-  /** D'après https://en.wikipedia.org/wiki/Algebraic_Riccati_equation#Solution */
-  tuple<Tabf, float> dare(const Tabf &A,
-      const Tabf &C, const Tabf &Q,
-      const Tabf &R,
-      float tolerance,
-      entier iter_max)
+/** D'après https://en.wikipedia.org/wiki/Algebraic_Riccati_equation#Solution */
+tuple<Tabf, float> dare(const Tabf &A,
+    const Tabf &C, const Tabf &Q,
+    const Tabf &R,
+    float tolerance,
+    entier iter_max)
+{
+  Tabf P    = Q,
+       At   = A.transpose(),
+       Ct   = C.transpose(),
+       Rinv = R.inverse_matricielle();
+  float diff = 0;
+  pour(auto i = 0; i < iter_max; ++i)
   {
-    Tabf P = Q,
-        At    = A.transpose(),
-        Ct    = C.transpose(),
-        Rinv  = R.inverse_matricielle();
-    float diff = 0;
-    pour(auto i = 0; i < iter_max; ++i)
-    {
-      soit P2 = At * P * A - At * P * C * (R + Ct * P * C).inverse_matricielle() * Ct * P * A + Q;
-      diff = (abs(P2 - P)).maxCoeff();
-      P = P2;
-      si(diff < tolerance)
-        break;
-    }
-    retourne {P, diff};
+    soit P2 = At * P * A - At * P * C * (R + Ct * P * C).inverse_matricielle() * Ct * P * A + Q;
+    diff = (abs(P2 - P)).maxCoeff();
+    P = P2;
+    si(diff < tolerance)
+      break;
   }
+  retourne {P, diff};
+}
 
 
 sptr<SSMLineaire> ssm_lineaire(
-    const Tabf &A,
-    const Tabf &C,
-    const Tabf &B,
-    const Tabf &D)
+    const Tabf &A, const Tabf &C,
+    const Tabf &B, const Tabf &D)
 {
-  soit res = std::make_shared<SSMLineaire>();
+  soit res = make_shared<SSMLineaire>();
   res->A = A;
   res->C = C;
   res->B = B;
@@ -48,18 +45,16 @@ sptr<SSMLineaire> ssm_lineaire(
   res->ni = B.cols();
   res->no = C.rows();
 
-  tsd_assert_msg(A.cols() == A.rows(), "SSM linéaire : la matrice A devrait être carrée.");
-  tsd_assert_msg(A.cols() == C.cols(), "SSM linéaire / matrice C : nombre de colonnes invalide.");
+  assertion_msg(A.cols() == A.rows(), "SSM linéaire : la matrice A devrait être carrée.");
+  assertion_msg(A.cols() == C.cols(), "SSM linéaire / matrice C : nombre de colonnes invalide.");
 
-  if(!(B.est_vide()))
-  {
-    tsd_assert_msg(C.rows() == D.rows(), "SSM linéaire : les matrices C et D devraientt avoir le même nombre de lignes.");
-  }
+  si(!(B.est_vide()))
+    assertion_msg(C.rows() == D.rows(), "SSM linéaire : les matrices C et D devraientt avoir le même nombre de lignes.");
 
   retourne res;
 }
 
-Tabf jacobienne_num(std::function<Vecf(const Vecf &)> f, const Vecf &x)
+Tabf jacobienne_num(fonction<Vecf(const Vecf &)> f, const Vecf &x)
 {
   soit y = f(x);
   soit ne = x.rows(), ns = y.rows();
@@ -70,8 +65,8 @@ Tabf jacobienne_num(std::function<Vecf(const Vecf &)> f, const Vecf &x)
   {
     soit x2 = x.clone();
     x2(i) += ε;
-    soit y2 = f(x2);
-    soit d = (y2 - y) / ε;
+    soit y2 = f(x2),
+          d = (y2 - y) / ε;
     J.col(i) = d;
   }
 
@@ -145,7 +140,7 @@ tuple<Tabf, Tabf> SSM::steps(entier n, const Vecf &x0, const Tabf &vin_)
   si(x0.rows() > 0)
   {
     si(x0.rows() != ns)
-      echec("ssm_simu: nb states = {}, but got x0 of size {}.", ns, x0.rows());
+      échec("ssm_simu: nb states = {}, but got x0 of size {}.", ns, x0.rows());
     etat = x0;
   }
   si(etat.rows() == 0)
@@ -156,13 +151,12 @@ tuple<Tabf, Tabf> SSM::steps(entier n, const Vecf &x0, const Tabf &vin_)
   si(vin_.rows() > 0)
   {
     si((vin_.rows() != ni) || (vin_.cols() != n))
-      echec("ssm_simu: nb input = {}, nb spl = {}, but got vin of size {}*{}",
+      échec("ssm_simu: nb input = {}, nb spl = {}, but got vin of size {}*{}",
           ni, n, vin.rows(), vin.cols());
     vin = vin_;
   }
 
   soit lmodele = dynamic_cast<SSMLineaire *>(this);
-
 
   si(lmodele)
   {
@@ -233,9 +227,9 @@ void SSM::verifications() const
     soit MJg = Jg(x);
 
     si(MJg.rows() != no)
-      echec("Dimension Jg incohérente ({} != {}).", MJg.rows(), no);
+      échec("Dimension Jg incohérente ({} != {}).", MJg.rows(), no);
     si(MJg.cols() != ns)
-      echec("Dimension Jg incohérente ({} != {}).", MJg.cols(), ns);
+      échec("Dimension Jg incohérente ({} != {}).", MJg.cols(), ns);
 
 
     soit Jgnum = jacobienne_num(std::bind(&SSM::g, this, std::placeholders::_1), x);
@@ -254,9 +248,9 @@ void SSM::verifications() const
     soit MJf = Jf(x);
 
     si(MJf.rows() != ns)
-      echec("Dimension Jf incohérente.");
+      échec("Dimension Jf incohérente.");
     si(MJf.cols() != ns)
-      echec("Dimension Jf incohérente.");
+      échec("Dimension Jf incohérente.");
 
     soit Jfnum = jacobienne_num(std::bind(&SSM::f, this, std::placeholders::_1), x);
 
@@ -477,9 +471,9 @@ struct FiltreKalman : FiltreSSM
       P = Tabf::eye(ssm->ns);
     sinon
       P = p0;
-    tsd_assert_msg(etat.rows() == ssm->ns,
+    assertion_msg(etat.rows() == ssm->ns,
         "Filtre de Kalman : nombre de lignes incorrect pour le vecteur état initial ({}, alors que ns={}).", etat.rows(), ssm->ns);
-    tsd_assert_msg((P.rows() == ssm->ns) && (P.cols() == ssm->ns),
+    assertion_msg((P.rows() == ssm->ns) && (P.cols() == ssm->ns),
         "Filtre de Kalman : la matrice de covariance sur l'état initial devrait être de dimension {}x{}.", ssm->ns, ssm->ns);
   }
 
@@ -491,7 +485,7 @@ struct FiltreKalman : FiltreSSM
   // retourne x : Current estimate of the state (column vector or matrix with one column pour each time step)
   Vecf step(const Vecf &y, const Vecf &u)
   {
-    soit sl = std::dynamic_pointer_cast<SSMLineaire>(ssm);
+    soit sl = dyncast<SSMLineaire>(ssm);
 
     // Estimation a priori de l'état suivant
     soit xm = sl->A.matprod(etat);
@@ -642,8 +636,6 @@ sptr<SSM> modele_kitagawa()
 
 Tabf kalman_ssg(sptr<const SSMLineaire> modele)
 {
-
-
     // Bruit de process null
     // => Gain asymptotique nul
     si(modele->Q.est_nul())
@@ -661,10 +653,10 @@ Tabf kalman_ssg(sptr<const SSMLineaire> modele)
 
 
 
-tsd::vue::Figures plot_etats(sptr<const SSM> ssm, const Tabf &x, const Tabf &xe)
+Figures plot_etats(sptr<const SSM> ssm, const Tabf &x, const Tabf &xe)
 {
-  tsd::vue::Figures res;
-  bouléen has_xe = xe.rows() > 0;
+  Figures res;
+  soit has_xe = xe.rows() > 0;
 
   pour(auto i = 0; i < ssm->ns; i++)
   {
@@ -687,9 +679,9 @@ tsd::vue::Figures plot_etats(sptr<const SSM> ssm, const Tabf &x, const Tabf &xe)
 }
 
 
-tsd::vue::Figures plot_obs(sptr<const SSM> sys, const Tabf &y)
+Figures plot_obs(sptr<const SSM> sys, const Tabf &y)
 {
-  tsd::vue::Figures res;
+  Figures res;
   //f.titre("Observations");
   pour(auto i = 0; i < sys->no; i++)
   {

@@ -57,7 +57,7 @@ struct HourComposite
    *  @par Exemple
    *  @code
    *  HeureComposite hc("23:10:02");
-   *  tsd_assert((hc.heure == 23) && (hc.minutes == 10) && (hc.secondes == 2) && (hc.ms == 0) && (hc.µs == 0));
+   *  assertion((hc.heure == 23) && (hc.minutes == 10) && (hc.secondes == 2) && (hc.ms == 0) && (hc.µs == 0));
    *  @endcode
    *
    */

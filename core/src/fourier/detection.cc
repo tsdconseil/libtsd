@@ -58,7 +58,7 @@ struct LigneARetardExt
   Vecteur<T> get(entier delais, entier n) const
   {
     si((delais >= K) || (n >= delais))
-      echec("Ligne à retard ext : dépassement, K={}, delais={}, n={}", K, delais, n);
+      échec("Ligne à retard ext : dépassement, K={}, delais={}, n={}", K, delais, n);
     retourne mem.segment(K - delais - 1, n);
   }
 };
@@ -82,7 +82,7 @@ struct DetecteurImpl: Detecteur
   /** Filtre à moyenne glissante pour l'énergie du signal sur les M derniers échantillons */
   sptr<FiltreGen<float>> filtre_energie;
 
-  entier itr = 0;
+  entier itr = 0, dernier_n = 0;
 
   /** Ne = paquets d'entrée
    *  N  = dimension FFT (Ne + Nz), valable seulement en mode OLA
@@ -100,8 +100,8 @@ struct DetecteurImpl: Detecteur
   Veccf motif;
 
   bouléen pic_final_a_traiter = non;
+
   Detection pic_final;
-  entier dernier_n;
 
   MoniteursStats moniteurs()
   {
@@ -117,7 +117,7 @@ struct DetecteurImpl: Detecteur
     configure_impl(config);
   }
 
-  entier configure_impl(const DetecteurConfig &config)
+  void configure_impl(const DetecteurConfig &config)
   {
     pic_final_a_traiter = non;
     itr                 = 0;
@@ -138,7 +138,7 @@ struct DetecteurImpl: Detecteur
       float C;
       entier Nf, Nz;
       // TODO: retour multiples
-      tsd::fourier::ola_complexité_optimise(M, C, Nf, Nz, Ne);
+      ola_complexité_optimise(M, C, Nf, Nz, Ne);
       msg("FFT corrélateur : calcul auto Ne optimal : M={} --> Ne={},Nz={},Nf=Ne+Nz={},C={} FLOPS/ech",
           M, Ne, Nz, Nf, C);
     }
@@ -151,8 +151,8 @@ struct DetecteurImpl: Detecteur
       ola_config.traitement_freq =
           [&](Veccf &X)
           {
-            tsd_assert(X.rows() == T_motif.rows());
-            tsd_assert(X.rows() == N);
+            assertion(X.rows() == T_motif.rows());
+            assertion(X.rows() == N);
             X *= T_motif.conjugate();
           };
 
@@ -160,7 +160,7 @@ struct DetecteurImpl: Detecteur
 
       Veccf tmp;
       tmp.setZero(N);
-      tsd_assert(M * 2 <= N);
+      assertion(M * 2 <= N);
 
       tmp.head(M) = motif;
 
@@ -194,7 +194,6 @@ struct DetecteurImpl: Detecteur
 
     msg("Corrélateur FFT: Ne (dim blocs) = {}, M (dim motif) = {}, N (dim fft) = {}.", Ne, M, N);
     msg("  norme motif = {}", norme_motif);
-    retourne 0;
   }
 
 
@@ -225,22 +224,22 @@ struct DetecteurImpl: Detecteur
 
 
     // Pb : rien ne garantit que corr.rows() == n.
-    tsd_assert_msg(corr.rows() == n, "Sortie OLA (corr) devrait faire {} échantillons, mais {}.", n, corr.rows());
-    tsd_assert(en.rows() == n);
+    assertion_msg(corr.rows() == n, "Sortie OLA (corr) devrait faire {} échantillons, mais {}.", n, corr.rows());
+    assertion(en.rows() == n);
 
     mon[2].commence_op();
 
-    float ratio = sqrt(1.0f * N) / sqrt(1.0f * M);
+    soit ratio = sqrt(1.0f * N) / sqrt(1.0f * M);
 
     //si(config.mode == DetecteurConfig::MODE_RIF)
       //ratio /= sqrt(1.0f * M);
 
 
     // Supprime les valeurs trop faibles
-    float seuil = 1e-12f;
+    soit seuil = 1e-12f;
 
     //corr = (seuil < abs2(corr)).select(corr, 0.0f).eval();
-    entier n2 = corr.dim();
+    soit n2 = corr.dim();
     pour(auto i = 0; i < n2; i++)
       si(abs(corr(i)) <= sqrt(seuil))
         corr(i) = 0;
@@ -283,7 +282,7 @@ struct DetecteurImpl: Detecteur
     pour(auto idx: lst)
     {
       //msg("Cand : {} ({})", idx, y(idx));
-      bouléen ok = oui;
+      soit ok = oui;
       pour(auto idx2: lst)
       {
         si((y(idx2) > y(idx)) && (abs(idx - idx2) < M))
@@ -305,9 +304,7 @@ struct DetecteurImpl: Detecteur
       f.subplot().plot(abs(corr), "", "Corrélation");
 
       si((lst2.size() > 0) && (lst2[0] > 10) && (lst2[0] + 10 < n))
-      {
         f.subplot().plot(y.segment(lst2[0]-10, 20), "", "Corrélation (zoom)");
-      }
 
 
       soit s = f.subplot();
@@ -321,15 +318,12 @@ struct DetecteurImpl: Detecteur
       f.afficher(sformat("DBG Corr, itr {}", itr));
     }
 
-
-
     pour(auto idx: lst2)
     {
+      assertion(idx <= (entier) (n-1));
+      assertion(idx >= -1);
 
-      tsd_assert(idx <= (entier) (n-1));
-      tsd_assert(idx >= -1);
-
-      //infos("Detection motif ok, score = %.2f, seuil = %.2f (energie = %f, row = %d).", score_max, config.seuil, en(maxRow), maxRow);
+      //msg("Detection motif ok, score = %.2f, seuil = %.2f (energie = %f, row = %d).", score_max, config.seuil, en(maxRow), maxRow);
       Detection det;
 
       // Position fractionnaire
@@ -457,7 +451,7 @@ struct DetecteurImpl: Detecteur
       // Note : on suppose delais_corr >= M (pas besoin d'échantillon dans le futur)
 
       // Nb échantillons dispo dans le x en cours
-      entier nspl_in_current = M;
+      soit nspl_in_current = M;
       si(id >= 0)
         nspl_in_current = M;
       sinon si((id < 0) && (id > -M))
@@ -465,7 +459,7 @@ struct DetecteurImpl: Detecteur
       sinon
         nspl_in_current = 0;
       // Nb échantillons à prendre dans la ligne à retard
-      entier nspl_avant = M - nspl_in_current;
+      soit nspl_avant = M - nspl_in_current;
 
       //msg("nspl_in_curr={}, nspl_avant={}, M={}, lar.K={}, id={}", nspl_in_current, nspl_avant, M, lar.K, id);
 
@@ -475,12 +469,11 @@ struct DetecteurImpl: Detecteur
       sinon
         recu_vraiment.head(nspl_avant)      = lar.mem.segment(id + lar.K, nspl_avant); // Erreur ici
 
-      soit bruit     = recu_vraiment - recu_theo;
+      soit bruit      = recu_vraiment - recu_theo;
       soit var_bruit  = abs2(bruit.segment(1, M-2)).moyenne();
       soit var_signal = pow(det.gain * norme_motif, 2.0f) / M;
       det.σ_noise = sqrt(var_bruit);
       det.SNR_dB  = pow2db(var_signal / var_bruit);
-
 
       si(config.debug_actif)
       {
@@ -493,13 +486,11 @@ struct DetecteurImpl: Detecteur
         msg("Détection : {}", det);
       }
 
-
       si(config.gere_detection)
         config.gere_detection(det);
     }
 
     suite:
-
     lar.step(x);
 
     mon[2].fin_op();
@@ -513,8 +504,6 @@ struct DetecteurImpl: Detecteur
 
     dernier_n = n;
   }
-
-
 };
 
 

@@ -89,7 +89,7 @@ Ped ped_costa(entier M)
       retourne x.real() * x.imag();
     };
 
-  tsd_assert(M == 4);
+  assertion(M == 4);
 
   // QPSK costa loop locks to square constellation
   // And we expect a "losange" constellation.
@@ -150,7 +150,7 @@ Ped ped_init(PedType type, sptr<FormeOnde> wf)
     retourne ped_tloop(M);
   sinon si(type == PedType::DEC_LOOP)
     retourne ped_decision(wf);
-  echec("PED : type inconnu ({}).", (entier) type);
+  échec("PED : type inconnu ({}).", (entier) type);
   retourne {};
 }
 
@@ -191,11 +191,11 @@ void SuiviPicFrequence::step(const Veccf &x, float &freq_detectee, float &snr)
     i2 = i2 - N; // 0.6 => -0.4
 
   freq_detectee = ((float) i2) / N;
-  tsd_assert(abs(freq_detectee) <= 0.5);
+  assertion(abs(freq_detectee) <= 0.5);
 
   soit d = (y3 - y1) / (y1 + y2 + y3 + 1e-30f);
 
-  tsd_assert(abs(d) <= 1);
+  assertion(abs(d) <= 1);
 
   freq_detectee += d / N;
 }
@@ -219,7 +219,7 @@ struct RPLL: Filtre<T, T, RPLLConfig>
   // On peut faire un suivi à l'ordre :
   // - Ordre 1 : erreur de phase uniquement
   // - Ordre 2 : erreur de fréquence
-  entier configure_impl(const RPLLConfig &c)
+  void configure_impl(const RPLLConfig &c)
   {
     cpll = cpll_création(c.pll_interne);
 
@@ -235,8 +235,6 @@ struct RPLL: Filtre<T, T, RPLLConfig>
 
     soit coefs = tsd::filtrage::design_rif_cs(c.ncoefs_bb, 0.1, c.bp / 2);
     rif = tsd::filtrage::filtre_rif<float, cfloat>(coefs);
-
-    retourne 0;
   }
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
@@ -347,7 +345,7 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
   // Suivi à l'ordre :
   // - 1 : erreur de phase uniquement
   // - 2 : erreur de fréquence
-  entier configure_impl(const PLLConfig &c)
+  void configure_impl(const PLLConfig &c)
   {
     soit &config = Configurable<PLLConfig>::config;
     config = c;
@@ -366,8 +364,6 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
       lf = filtre_boucle_ordre_1(config.tc);
     sinon
       lf = filtre_boucle_ordre_2(c.bp/* BL */, 1.0f/* η */);
-
-    retourne 0;
   }
 
   void step(const Vecteur<T> &x, Vecteur<T> &y)
@@ -383,7 +379,7 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
       vθ.resize(n);
     }
 
-    tsd_assert(ped);
+    assertion(ped);
 
     pour(auto i = 0; i < n; i++)
     {
