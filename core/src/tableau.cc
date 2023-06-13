@@ -25,12 +25,7 @@ ostream_formater(Eigen::ArrayXXcf)
 ostream_formater(Eigen::ArrayXXcd)
 
 
-
-
-
 namespace tsd {
-
-
 
 
 template<typename t>
@@ -63,6 +58,74 @@ static const string types[] =
     "VALEUR", "SEGMENT", "BLOCK", "EXPR", "MAP"
 };
 
+
+std::ostream& operator<<(std::ostream& strm, const NTenseurDim &t)
+{
+  pour(auto i = 0; i < t.ndims(); i++)
+  {
+    strm << t(i);
+    si(i + 1 < t.ndims())
+      strm << "x";
+  }
+  retourne strm;
+}
+
+NTenseurDim NTenseurDim::dim1(entier n)
+{
+  NTenseurDim res;
+  res.dims.resize(1);
+  res(0) = n;
+  retourne res;
+}
+
+NTenseurDim NTenseurDim::dim2(entier n, entier m)
+{
+  NTenseurDim res;
+  res.dims.resize(2);
+  res(0) = n;
+  res(1) = m;
+  retourne res;
+}
+
+entier NTenseurDim::total() const
+{
+  si(dims.empty())
+    retourne 0;
+  soit res = 1;
+  pour(auto &d: dims)
+    res *= d;
+  retourne res;
+}
+
+bouléen NTenseurDim::operator ==(const NTenseurDim &d2) const
+{
+  soit n1 = ndims(),
+       n2 = d2.ndims();
+
+  si((n1 == 0) && (n2 >= 1) && (d2[0] != 0))
+    retourne non;
+  si((n2 == 0) && (n1 >= 1) && (dims[0] != 0))
+    retourne non;
+
+  pour(auto i = 0; i < max(n1, n2); i++)
+  {
+    si(i >= n2)
+    {
+      si(dims[i] != 1)
+        retourne non;
+    }
+    sinon si (i >= n1)
+    {
+      si(d2[i] != 1)
+        retourne non;
+    }
+    sinon si(dims[i] != d2[i])
+      retourne non;
+  }
+
+  retourne oui;
+}
+
 struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 {
   // Pas forcément contenu peut être une expression !
@@ -80,20 +143,21 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     retourne ((entier) t < 5) ? types[(entier) t] : string("?");
   }
 
-
   Type type       = VALEUR;
-  entier seg_i0 = 0;
-  entier blk_r0 = 0, blk_c0 = 0;
-  Scalaire Tscalaire = ℝ;
-  entier nbits       = 32;
-  void *vals         = nullptr;
-  ArrayXi dims;
-  sptr<Impl> enfant;
 
+  entier seg_i0 = 0,
+         blk_r0 = 0,
+         blk_c0 = 0,
+         nbits  = 32;
+
+  Scalaire Tscalaire = ℝ;
+  void *vals         = nullptr;
+  //ArrayXi dims;
+  NTenseurDim dims;
+  sptr<Impl> enfant;
 
   Impl()
   {
-
   }
 
   ~Impl()
@@ -105,9 +169,15 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
     vals = nullptr;
   }
 
+  const NTenseurDim &get_dims() const
+  {
+    retourne dims;
+  }
+
   bouléen est_de_même_dimensions(const Tab &t) const
   {
-    entier n1 = dims.size(),
+    retourne dims == t.impl->dims;
+    /*entier n1 = dims.size(),
            n2 = t.impl->dims.size();
 
     si((n1 == 0) && (n2 >= 1) && (t.impl->dims(0) != 0))
@@ -131,7 +201,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
         retourne non;
     }
 
-    retourne oui;
+    retourne oui;*/
   }
 
   bouléen est_de_même_format(const Tab &t) const
@@ -184,9 +254,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
 
   entier nb_éléments() const
   {
-    si(dims.rows() == 0)
-        retourne 0;
-    retourne dims.prod();
+    retourne dims.total();
   }
 
 
@@ -312,7 +380,7 @@ struct Tab::Impl: enable_shared_from_this<Tab::Impl>
   {
     string s, dim;
     soit t     = eval();
-    soit ndims = t->dims.rows();
+    soit ndims = t->dims.ndims();
     si(ndims == 0)
       dim = "[]";
     //sinon si(ndims == 1)
@@ -424,8 +492,7 @@ Tab Tab::col(entier num) const
   res.impl->Tscalaire   = impl->Tscalaire;
   res.impl->nbits       = impl->nbits;
   res.impl->seg_i0      = num * rows();
-  res.impl->dims.resize(1);
-  res.impl->dims(0)     = rows();
+  res.impl->dims        = NTenseurDim::dim1(rows());
   res.impl->vals        = impl->get_ptr_at(0, num);
   res.impl->enfant      = impl;
   retourne res;
@@ -442,8 +509,7 @@ Tab Tab::segment(entier i0, entier n) const
   res.impl->Tscalaire   = impl->Tscalaire;
   res.impl->nbits       = impl->nbits;
   res.impl->seg_i0      = i0;
-  res.impl->dims.resize(1);
-  res.impl->dims(0)     = n;
+  res.impl->dims        = NTenseurDim::dim1(n);
   res.impl->vals        = impl->get_ptr_at(i0);
   res.impl->enfant      = impl;
   retourne res;
@@ -467,9 +533,7 @@ Tab Tab::block(entier r0, entier nr, entier c0, entier nc) const
   res.impl->type = Impl::Type::BLOCK;
   res.impl->blk_r0 = r0;
   res.impl->blk_c0 = c0;
-  res.impl->dims.resize(2);
-  res.impl->dims(0) = nr;
-  res.impl->dims(1) = nc;
+  res.impl->dims = NTenseurDim::dim2(nr, nc);
   res.impl->enfant = impl;
   res.impl->vals = impl->get_ptr_at(r0, c0);
   retourne res;
@@ -610,16 +674,10 @@ Tab::Tab()
 void setup(Tab::Impl &impl, entier n, entier m)
 {
   si(m > 1)
-  {
-    impl.dims.resize(2);
-    impl.dims(0) = n;
-    impl.dims(1) = m;
-  }
+    impl.dims = NTenseurDim::dim2(n, m);
   sinon
-  {
-    impl.dims.resize(1);
-    impl.dims(0) = n;
-  }
+    impl.dims = NTenseurDim::dim1(n);
+
   si(impl.nb_éléments() > 0)
     impl.vals = malloc(impl.nb_éléments() * impl.dim_scalaire());
   sinon
@@ -657,16 +715,9 @@ Tab Tab::map(Scalaire s, entier reso, entier n, entier m, void *data)
   res.impl->nbits     = reso;
 
   si(m > 1)
-  {
-    res.impl->dims.resize(2);
-    res.impl->dims(0) = n;
-    res.impl->dims(1) = m;
-  }
+    res.impl->dims = NTenseurDim::dim2(n, m);
   sinon
-  {
-    res.impl->dims.resize(1);
-    res.impl->dims(0) = n;
-  }
+    res.impl->dims = NTenseurDim::dim1(n);
 
   res.impl->vals = data;
 
@@ -675,14 +726,14 @@ Tab Tab::map(Scalaire s, entier reso, entier n, entier m, void *data)
 
 entier Tab::rows() const
 {
-  si(impl->dims.size() == 0)
+  si(impl->dims.ndims() == 0)
     retourne 0;
   retourne impl->dims(0);
 }
 
 entier Tab::cols() const
 {
-  si(impl->dims.size() < 2)
+  si(impl->dims.ndims() < 2)
     retourne (rows() == 0) ? 0 : 1;
   retourne impl->dims(1);
 }
@@ -704,14 +755,14 @@ Tab Tab::ones(Scalaire s, entier reso, entier n, entier m)
 
 void Tab::setZero(entier n, entier m)
 {
-  si((n >= 0) || (impl->dims.rows() == 0))
+  si((n >= 0) || (impl->dims.ndims() == 0))
     resize(n, m);
   memset(rawptr(), 0, nelems() * impl->dim_scalaire());
 }
 
 void Tab::set_ones(entier n, entier m)
 {
-  si((n >= 0) || (impl->dims.rows() == 0))
+  si((n >= 0) || (impl->dims.ndims() == 0))
     resize(n, m);
   TG(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
   {
@@ -741,7 +792,7 @@ Tab Tab::transpose_int() const
   y.impl->nbits       = impl->nbits;
 
 
-  si(impl->dims.size() == 1)
+  si(impl->dims.ndims() == 1)
     setup(*(y.impl), 1, impl->dims(0));
   sinon
     setup(*(y.impl), impl->dims(1), impl->dims(0));
@@ -1287,7 +1338,7 @@ DEF_OP_SCAL(TC, cdouble, /)
     {\
       échec("Tab::Opérateur {} : types incompatibles ({} et {})", #OP, x.impl->Tscalaire, impl->Tscalaire);\
     }\
-    si((!x.impl->dims.isApprox(impl->dims)))\
+    si((!(x.impl->dims == impl->dims)))\
     {\
       échec("Tab::Opérateur {} : dimensions incompatibles ({} et {})", #OP, x.impl->dims, impl->dims);\
     }\
@@ -1406,8 +1457,7 @@ Tab Tab::lsq(const Tab &b) const
   y.impl              = make_shared<Tab::Impl>();
   y.impl->Tscalaire   = b.impl->Tscalaire;
   y.impl->nbits       = b.impl->nbits;
-  y.impl->dims.resize(1);
-  y.impl->dims(0)     = m;
+  y.impl->dims        = NTenseurDim::dim1(m);
   y.impl->vals        = malloc(y.impl->nb_éléments() * y.impl->dim_scalaire());
 
   TR(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)

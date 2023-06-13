@@ -717,11 +717,13 @@ void ola_complexité_optimise(entier M, float &C_, entier &Nf_, entier &Nz_, ent
   // Nf doit être au minimum égal à M
   soit kmin = (entier) ceil(log(M) / log(2));
 
-  pour(auto k = kmin; k < kmin + 20; k++)
+  pour(auto k = kmin; (k < kmin + 20) && (k < 31); k++)
   {
     entier Nf, Nz, Ne = (1 << k) - (M - 1);
+
     float C;
     ola_complexité(M, Ne, C, Nf, Nz);
+    //msg("k = {} -> Ne = {}, C = {}", k, Ne, C);
     si((k == kmin) || (C < C_))
     {
       Nf_   = Nf;

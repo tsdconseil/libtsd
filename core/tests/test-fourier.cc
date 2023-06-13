@@ -729,6 +729,16 @@ void test_fourier()
       }
 
   test_align_entier();
+
+
+  msg("test ola complexité...");
+
+  float C;
+  entier Nf, Nz, Ne;
+  soit M = 2560;
+  ola_complexité_optimise(M, C, Nf, Nz, Ne);
+  msg("M={} -> Nf={}, Nz={}, Ne={}", M, Nf, Nz, Ne);
+  assertion(Ne < 100000);
 }
 
 

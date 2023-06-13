@@ -55,6 +55,23 @@ typedef enum scalaire_enum
   ℝ, ℂ, ℕ, ℤ, B//, 𝔹
 } Scalaire;
 
+struct NTenseurDim
+{
+  vector<entier> dims;
+
+  static NTenseurDim dim1(entier n);
+  static NTenseurDim dim2(entier n, entier m);
+
+  inline const entier &operator[](entier i) const{retourne dims[i];}
+  inline entier &operator[](entier i){retourne dims[i];}
+  inline const entier &operator()(entier i) const{retourne dims[i];}
+  inline entier &operator()(entier i){retourne dims[i];}
+  inline entier ndims() const{retourne dims.size();}
+
+  entier total() const;
+
+  bouléen operator ==(const NTenseurDim &d2) const;
+};
 
   struct Tab
   {
@@ -63,6 +80,8 @@ typedef enum scalaire_enum
     Tab(const TabT<T, ndims> &t);
     Tab();
     Tab(Scalaire s, entier reso, entier n, entier m = 1);
+
+    const NTenseurDim &get_dims() const;
 
     static Tab ones(Scalaire s, entier reso, entier n, entier m = 1);
     static Tab zeros(Scalaire s, entier reso, entier n, entier m = 1);
@@ -111,20 +130,16 @@ typedef enum scalaire_enum
     Tab transpose_int() const;
     Tab conjugate() const;
 
-    //void operator =(const Tab &t);
-
     entier rows()       const;
     entier cols()       const;
-
     entier nelems()     const;
 
+    // ASUPPRIMER
     void evaluer() const;
+    // ASUPPRIMER
     Tab eval()   const;
 
     bouléen hasNaN() const;
-
-
-
 
     Tab col(entier num) const;
     Tab row(entier num) const;
@@ -159,6 +174,7 @@ typedef enum scalaire_enum
 
 
     Tab operator +(const Tab &t) const;
+    Tab operator -(const Tab &t) const{retourne operator_minus(t);}
     Tab operator_minus(const Tab &t) const;
     Tab operator *(const Tab &t) const;
     Tab operator /(const Tab &t) const;
@@ -170,21 +186,6 @@ typedef enum scalaire_enum
     Tab lsq(const Tab &x) const;
 
     Tab inverse_matricielle() const;
-
-
-
-    /*Tab operator >(const Tab &t) const;
-    Tab operator <(const Tab &t) const;
-    Tab operator ==(const Tab &t) const;
-    Tab operator >=(const Tab &t) const;
-    Tab operator <=(const Tab &t) const;
-
-
-    Tab operator >(double x) const;
-    Tab operator <(double x) const;
-    Tab operator ==(double x) const;
-    Tab operator >=(double x) const;
-    Tab operator <=(double x) const;*/
 
 #   define DEC_COMP(AA) \
     Tab operator AA(const Tab &t) const;\
@@ -232,7 +233,7 @@ typedef enum scalaire_enum
 
 
 
-
+  /** Retourne le type et la dimension sous forme dynamique à partir du type */
   template<typename T>
     tuple<Scalaire,entier> T2S()
   {
@@ -256,6 +257,8 @@ typedef enum scalaire_enum
     concept base_float = (std::same_as<T,float> || std::same_as<T,std::complex<float>>);
 
 
+
+  using NTenseur = Tab;
 
 // Tableau de données évaluées, avec type spécifique, et nombre de dimensions spécifique
 template<typename T, entier ndims>
@@ -665,7 +668,7 @@ struct TabT: Tab
     {
       retourne somme_impl<double>();
     }
-# if 1
+
     T somme() const NOECLIPSE(requires(std::same_as<T,std::complex<float>>))
     {
       retourne somme_impl<std::complex<double>>();
@@ -1339,10 +1342,6 @@ struct TabT: Tab
     }
 
 
-
-#   endif
-
-
     T *raw_data = nullptr;
   };
 
@@ -1442,6 +1441,7 @@ template <> struct fmt::formatter<T> { \
 #endif
 
 
+extern std::ostream& operator<<(std::ostream& strm, const NTenseurDim &t);
 extern std::ostream& operator<<(std::ostream& strm, const Tab &t);
 extern std::ostream& operator<<(std::ostream& strm, const Scalaire &s);
 
@@ -1502,9 +1502,7 @@ DOP1C2R(arg)
 
 DOP2(pow)
 
-//evaluer();
-//res.impl = this->impl;
-//res.raw_data = (T *) rawptr();
+
 
 template<typename T, entier ndims>
   TabT<T, ndims> Tab::as() const
@@ -1664,6 +1662,7 @@ inline void TG(const Tab &v, auto f)
 }
 
 
+ostream_formater(tsd::NTenseurDim)
 ostream_formater(tsd::Tab)
 ostream_formater(tsd::Scalaire)
 ostream_formater(tsd::cfloat)
