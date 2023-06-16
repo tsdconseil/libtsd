@@ -192,7 +192,7 @@ struct DemodGen: Démodulateur
     }
     sinon
     {
-      //infos("Downconcersion : fi = 0.");
+      //msg("Downconcersion : fi = 0.");
       x_dn = x_;//x_.eval();
     }
 
@@ -216,8 +216,8 @@ struct DemodGen: Démodulateur
     ///////////////////////////////////////////////
 
     // (1') Coarse RSSI estimation
-    //infos("CRSSI : %d rows.", coarse_rssi.rows());
-    //infos("CRSSI : %d rows, min = %f, max = %f", coarse_rssi.rows(), coarse_rssi.minCoeff(), coarse_rssi.maxCoeff());
+    //msg("CRSSI : %d rows.", coarse_rssi.rows());
+    //msg("CRSSI : %d rows, min = %f, max = %f", coarse_rssi.rows(), coarse_rssi.minCoeff(), coarse_rssi.maxCoeff());
 
 
     // PB SI PED = basé sur la décision :

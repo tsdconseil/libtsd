@@ -136,7 +136,7 @@ namespace tsd::telecom {
         br           = r[l];
         br.dec_phase = l;
       }
-      //infos("Essai dec phase = %d : corr = %.2f, nerr = %d", k, r[k].score, r[k].nerr);
+      //msg("Essai dec phase = %d : corr = %.2f, nerr = %d", k, r[k].score, r[k].nerr);
     }
     //br.b0 = b0;
     retourne br;

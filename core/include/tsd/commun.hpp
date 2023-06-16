@@ -51,16 +51,30 @@ sptr<T> dyncast(const sptr<U> &r) noexcept
 #endif
 #endif
 
+#if OLD_GCC
+template<typename ... Ts>
+  string sformat(string fmt, Ts &&... args)
+{
+  return fmt::format(fmt, std::forward<Ts>(args)...);
+}
+#else
 template<typename ... Ts>
   string sformat(fmt::format_string<Ts...> fmt, Ts &&... args)
 {
   return fmt::format(fmt, std::forward<Ts>(args)...);
 }
+#endif
 
 #include "fr.hpp"
 
 
 typedef fonction<void(const char *fn, entier ligne, entier niveau, cstring str)> logger_t;
+
+
+// Peut-être implémenté :
+//  - Dans libcutil
+//  - Dans libtsd
+//  - Dans libcutil+libtsd
 
 inline logger_t &get_logger()
 {
@@ -79,12 +93,21 @@ inline void log_msg_impl(const char *fn, entier ligne, entier niveau, cstring st
     log_msg_default(fn, ligne, niveau, str);
 }
 
+#if OLD_GCC
+template<typename ... Ts>
+  void log_msg(const char *fn, const entier ligne, entier niveau, string fmt, Ts &&... args)
+{
+  string s = fmt::format(fmt, args...);
+  log_msg_impl(fn, ligne, niveau, s);
+}
+#else
 template<typename ... Ts>
   void log_msg(const char *fn, const entier ligne, entier niveau, fmt::format_string<Ts...> fmt, Ts &&... args)
 {
   string s = fmt::format(fmt, std::forward<Ts>(args)...);
   log_msg_impl(fn, ligne, niveau, s);
 }
+#endif
 
 #ifndef msg
 #define msg_verb(...)     log_msg(__FILE__, __LINE__, 0, __VA_ARGS__)
@@ -96,13 +119,28 @@ template<typename ... Ts>
 
 
 /** Génération d'une exception */
+#if OLD_GCC
 template<typename ... Ts>
-  [[noreturn]] void échec(fmt::format_string<Ts...> fmt, Ts &&... args)
+  [[noreturn]] void failure(string fmt, Ts &&... args)
 {
   soit s = sformat(fmt, std::forward<Ts>(args)...);
   msg_erreur("{}", s);
   throw s;
 }
+#else
+template<typename ... Ts>
+  [[noreturn]] void failure(fmt::format_string<Ts...> fmt, Ts &&... args)
+{
+  soit s = sformat(fmt, std::forward<Ts>(args)...);
+  msg_erreur("{}", s);
+  throw s;
+}
+#endif
+
+#if !OLD_GCC
+#define échec failure
+#endif
+
 
 /** @brief Display an error message in the log before asserting */
 #define assertion_msg(AA, ...)  do{si(!(AA)) {log_msg(__FILE__, __LINE__, 5, __VA_ARGS__);}} while(0)

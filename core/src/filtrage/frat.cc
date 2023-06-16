@@ -66,7 +66,7 @@ Veccf Poly<T>::roots() const
     retourne evec2vec(r);
 
 #   else
-    erreur("TODO : FRat::roots()");
+    msg_erreur("TODO : FRat::roots()");
     retourne ArrayXcf(0);
 #   endif
   }

@@ -274,7 +274,7 @@ struct RPLL: Filtre<T, T, RPLLConfig>
       sinon
       {
         y = mem_cor.real();
-        //erreur("PLL : freq attendue nulle : le signal résultant est forcément complexe.");
+        //msg_erreur("PLL : freq attendue nulle : le signal résultant est forcément complexe.");
       }
     }*/
 

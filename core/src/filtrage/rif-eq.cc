@@ -1,22 +1,6 @@
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/vue.hpp"
-#include "tsd/eig-util.hpp"
-#include <Eigen/QR>
-#include <Eigen/SVD>
-#include <set>
-
-using namespace Eigen;
-using namespace std;
-using namespace tsd::vue;
-using namespace tsd::fourier;
+#include "tsd/tsd-all.hpp"
 
 namespace tsd::filtrage {
-
-
-
-
 
 float rifamp_impl(const Vecf &h, float ω, int type)
 {
@@ -131,7 +115,7 @@ tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L, bouléen symetrique)
 
   // type III ou IV
   si(!symetrique)
-    H *= -complex<float>(0,1);
+    H *= -std::complex<float>(0,1);
 
   assertion(H.rows() == L);
 
@@ -142,77 +126,46 @@ tuple<Vecf, Vecf> rifamp(const Vecf &h, entier L, bouléen symetrique)
 
 
 
-/*template<typename D1, typename D2>
-auto lsq(const Eigen::MatrixBase<D1> &A, const Eigen::MatrixBase<D2> &b)
+
+
+
+Vecf lsi(const Tabf &A, const Vecf &b, const Vecf &w, bouléen debug = non)
 {
-  //Eigen::VectorXf x = A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b);
-  //Eigen::VectorXf x = A.colPivHouseholderQr().solve(b);
-  //retourne x;
-  retourne A.colPivHouseholderQr().solve(b);
-}*/
+  soit n = A.rows();
+  assertion_msg(n == b.rows(), "lsi: ");
 
-
-template<typename T>
-Eigen::Matrix<T, Eigen::Dynamic, 1> lsq(
-    const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> &A,
-    const Eigen::Matrix<T, Eigen::Dynamic, 1> &b)
-{
-  //Eigen::VectorXf x = A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b);
-  //Eigen::VectorXf x = A.colPivHouseholderQr().solve(b);
-  //retourne x;
-  retourne A.colPivHouseholderQr().solve(b);
-}
-
-
-template<typename T>
-Eigen::Matrix<T, Eigen::Dynamic, 1> lsi(
-    const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> &A,
-    const Eigen::Matrix<T, Eigen::Dynamic, 1> &b,
-    const Eigen::Matrix<T, Eigen::Dynamic, 1> &w,
-    bouléen debug = non)
-{
-  entier n = A.rows();
-
-  assertion(n == b.rows());
-
-  using M = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
-  using V = Eigen::Matrix<T, Eigen::Dynamic, 1>;
-
-  M Ai = A;
-  V bi = b;
-  V x = lsq(A, b);
-
-  V p = V::Ones(n);
+  soit Ai = A;
+  soit bi = b,
+       x  = A.lsq(b),
+       p = Vecf::ones(n);
 
   si(debug)
   {
     Figures f;
-    f.subplot().plot(evec2vec(b.template cast<float>()), "g-", "Vecteur cible");
-    f.subplot().plot(evec2vec(w.template cast<float>()), "a-", "Pondération");
+    f.subplot().plot(b, "g-", "Vecteur cible");
+    f.subplot().plot(w, "a-", "Pondération");
     f.afficher("LSI - Vecteur cible");
   }
 
+
+
   pour(auto itr = 0; itr < 100; itr++)
   {
-    V e = A * x - b;
-    float e2 = e.norm();
-
-    V Ea = (e.cwiseAbs().array() * w.array()).matrix();
-
-    soit emax = Ea.maxCoeff();
-    soit emin = Ea.minCoeff();
+    soit e    = A.matprod(x) - b,
+         Ea   = abs(e) * w;
+    soit rms  = e.rms(),
+         emax = (float) Ea.maxCoeff(),
+         emin = (float) Ea.minCoeff();
 
     //msg("Vecteur d'errreur : {}", e);
 
-    si(debug)// && ((itr % 4) == 0))
+    si(debug && ((itr % 10) == 0))
     {
-      msg("Itération {} : norme 2 = {}, norme inf = {}, emin = {}", itr, e2, emax, emin);
-      //ArrayXf tmp = Ea;//e.array().abs();
+      msg("Itération {} : rms = {}, norme inf = {}, emin = {}", itr, rms, emax, emin);
       Figures f;
-      VectorXf Ax = (A * x).template cast<float>();
-      f.subplot().plot(evec2vec(Ax), "-g", "Ax");
-      f.subplot().plot(evec2vec(Ea.template cast<float>()), "-r", "Erreur pondérée");
-      f.subplot().plot(evec2vec(p.template cast<float>()), "-b", "Pondération L2");
+      f.subplot().plot(A.matprod(x), "-g", "Ax");
+      f.subplot().plot(Ea, "-r", "Erreur");
+      f.subplot().plot(p, "-b", "Pondération L2");
       f.afficher(sformat("LSI - ITR {}",  itr));
     }
 
@@ -222,34 +175,15 @@ Eigen::Matrix<T, Eigen::Dynamic, 1> lsi(
       break;
     }
 
-    double α = 0.5;
-    p = (p.array() * (1 + (α / (emax - emin)) * (Ea.array() - emin))).matrix().eval();
+    soit α = 0.5;
+    p = (p * (1 + (α / (emax - emin)) * (Ea - emin)));
+    p /= p.somme();
 
-    /*pour(auto i = 0; i < n; i++)
-    {
-      float l;
-      float eai = Ea(i);//abs(e(i));
+    // TODO : faire plus efficace !!!
+    Ai = Tabf::diagonal(p).matprod(A);
+    bi = b * p;
 
-      float alpha = 10;//0.4;
-      //l = 1 + alpha * (eai - emin) / (emax - emin);
-
-      //p(i) += alpha * (eai - emin) / (emax - emin);
-
-      p(i) *= 1 + alpha * (eai - emin) / (emax - emin);
-    }*/
-
-    p /= p.sum();
-
-    Ai = p.asDiagonal() * A;
-    bi = (b.array() * p.array()).matrix();
-
-    /*pour(auto i = 0; i < n; i++)
-    {
-      Ai.row(i) = A.row(i) * p(i);
-      bi(i)     = b(i) * p(i);
-    }*/
-
-    x = lsq(Ai, bi);
+    x = Ai.lsq(bi);
   }
   msg("Fin lsi.");
   retourne x;
@@ -257,22 +191,22 @@ Eigen::Matrix<T, Eigen::Dynamic, 1> lsi(
 
 
 
+
+
 Vecf design_rif_eq(entier nc, const Vecf &D, const Vecf &W)
 {
-  entier n = D.rows();
-  entier m = (nc+1) / 2;
+  soit n = D.rows(),
+       m = (nc+1) / 2;
 
-  msg("Design rif eq2 : nc = {}, n = {}, m = {}", nc, n, m);
-  //msg("D = {}", D);
-  //msg("W = {}", W);
+  msg("Design rif eq : nc = {}, n = {}, m = {}", nc, n, m);
 
   assertion(W.rows() == n);
 
-  Eigen::MatrixXf A(n, m);
+  Tabf A(n, m);
 
   pour(auto i = 0; i < n; i++)
   {
-    double Omega = (i * π) / n;
+    soit Ω = (i * π) / n;
 
     // TODO: utiliser rifamp
 
@@ -283,7 +217,7 @@ Vecf design_rif_eq(entier nc, const Vecf &D, const Vecf &W)
       sinon
       // Type I (nc impair)
       //si((nc % 2))
-        A(i, k) = 2 * std::cos(Omega * (k - (nc-1)/2.0));
+        A(i, k) = 2 * cos(Ω * (k - (nc-1)/2.0));
       //sinon
         // Type II (nc pair)
         //A(i, k) = 2 * cos(Omega * (k - (nc-1)/2.0f));
@@ -291,10 +225,7 @@ Vecf design_rif_eq(entier nc, const Vecf &D, const Vecf &W)
   }
 
 
-  Eigen::VectorXf Dd = vec2evec(D);
-  Eigen::VectorXf Wd = vec2evec(W);
-
-  soit x = evec2vec(lsi(A, Dd, Wd, debug_design));
+  soit x = lsi(A, D, W, debug_design);
 
   Vecf h(nc);
   h.head(nc/2) = x.head(nc/2);
@@ -321,11 +252,8 @@ Vecf design_rif_eq(entier nc, const vector<SpecFreqIntervalle> &spec)
   pour(auto i = 0u; i < spec.size(); i++)
   {
     soit &s = spec[i];
-    soit ib = (entier) round(2 * s.fb * l);
-    soit ih = (entier) round(2 * s.fh * l);
-
-    ib = min(ib, l-1);
-    ih = min(ih, l-1);
+    soit ib = min((entier) round(2 * s.fb * l), l-1),
+         ih = min((entier) round(2 * s.fh * l), l-1);
 
     msg("Intervalle : [{} ({}) - {} ({})], atten = {}, poids = {}", s.fb, ib, s.fh, ih, s.atten, s.poids);
 
@@ -334,8 +262,8 @@ Vecf design_rif_eq(entier nc, const vector<SpecFreqIntervalle> &spec)
 
     si(i + 1 < spec.size())
     {
-      auto ib2 = (unsigned int) round(2 * spec[i+1].fb * l);
-      auto cnt = (ib2 - ih) + 1;
+      soit ib2 = (entier) round(2 * spec[i+1].fb * l);
+      soit cnt = (ib2 - ih) + 1;
       D.segment(ih, cnt) = linspace(s.atten, spec[i+1].atten, cnt);
     }
   }

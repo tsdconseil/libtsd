@@ -641,7 +641,7 @@ struct ChaineSOIS: FiltreGen<T>
       }
 
       pool.erase(bj);
-      //infos("Section %d : err = %e", i, berr);
+      //msg("Section %d : err = %e", i, berr);
 
       si(berr > 1e-5)
       {

@@ -171,7 +171,7 @@ struct ClockRec: FiltreGen<cfloat>
 
     /*si(coarse_rssi.rows() != x.rows())
     {
-      erreur("clock_rec_process: x and coarse_rssi must be of the same length.");
+      msg_erreur("clock_rec_process: x and coarse_rssi must be of the same length.");
       retourne;
     }*/
 
@@ -284,12 +284,12 @@ struct ClockRec: FiltreGen<cfloat>
         // e : en multiple de la période symbole
         soit dec = gain * e;
 
-        //infos("e = %f, dec = %f", e, dec);
+        //msg("e = %f, dec = %f", e, dec);
 
         // Décalage maximum = 0.25 symboles
         dec = std::clamp(dec, -K1/4.0f, K1/4.0f);
 
-        //infos("clamp = %f", dec);
+        //msg("clamp = %f", dec);
         si(config.debug_actif)
         {
           t_inter2.push_back(i + phase - config.itrp->delais * ((float) K1) / K2);
@@ -311,7 +311,7 @@ struct ClockRec: FiltreGen<cfloat>
     //y = Eigen::Map<ArrayXcf>(res.data(), res.size());
     y = res.head(oindex);
 
-    //infos("clock rec : %d in --> %d out", x.rows(), y.rows());
+    //msg("clock rec : %d in --> %d out", x.rows(), y.rows());
 
     si(config.debug_actif)
     {
@@ -352,7 +352,7 @@ struct ClockRec: FiltreGen<cfloat>
         a.ligne(i, -1, i, 1.0);
       }
 
-      //infos("Infos GCA clk rec :");
+      //msg("Infos GCA clk rec :");
       //a.dump_infos();
 
       f = figs.subplot();
@@ -549,12 +549,12 @@ struct ClockRec2: FiltreGen<cfloat>
 
       verr(i) = 100 * e;
 
-      //infos("e = %f, dec = %f", e, dec);
+      //msg("e = %f, dec = %f", e, dec);
 
       // Décalage maximum = 0.25 symboles
       dec = std::clamp(dec, -K1/4.0f, K1/4.0f);
 
-      //infos("clamp = %f", dec);
+      //msg("clamp = %f", dec);
 
       vdec(i) = 100 * dec;
 
@@ -567,7 +567,7 @@ struct ClockRec2: FiltreGen<cfloat>
 
     //y = Eigen::Map<ArrayXcf>(res.data(), res.size());
 
-    //infos("clock rec : %d in --> %d out", x.rows(), y.rows());
+    //msg("clock rec : %d in --> %d out", x.rows(), y.rows());
 
     si(config.debug_actif)
     {
@@ -592,7 +592,7 @@ struct ClockRec2: FiltreGen<cfloat>
       pour(auto i : t_inter)
         a.ligne(i, -1, i, 1.0);
 
-      //infos("Infos GCA clk rec :");
+      //msg("Infos GCA clk rec :");
       //a.dump_infos();
 
       f = figs.subplot();

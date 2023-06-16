@@ -120,7 +120,7 @@ template<typename T>
   // Zéro-padding pour avoir la même dimension et qu'elle soit une puissance de 2
   soit [xp, yp] = pad_zeros(x, y, oui);
 
-  //infos("aligne entier : #x=%d, #y=%d, #xp=%d, #yp=%d.", (entier) x.rows(), (entier) y.rows(), (entier) xp.rows(), (entier) yp.rows());
+  //msg("aligne entier : #x=%d, #y=%d, #xp=%d, #yp=%d.", (entier) x.rows(), (entier) y.rows(), (entier) xp.rows(), (entier) yp.rows());
 
   soit d = estimation_délais_entier(xp, yp, score);
 

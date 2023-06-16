@@ -26,6 +26,8 @@ static const auto
   non = false,
   oui = true;
 
+using bouleen = bool;
+
 using bouléen = bool;
 using entier  = int;
 

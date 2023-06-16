@@ -74,7 +74,7 @@ NTenseurDim NTenseurDim::dim1(entier n)
 {
   NTenseurDim res;
   res.dims.resize(1);
-  res(0) = n;
+  res[0] = n;
   retourne res;
 }
 
@@ -82,8 +82,22 @@ NTenseurDim NTenseurDim::dim2(entier n, entier m)
 {
   NTenseurDim res;
   res.dims.resize(2);
-  res(0) = n;
-  res(1) = m;
+  res[0] = n;
+  res[1] = m;
+  retourne res;
+}
+
+NTenseurDim NTenseurDim::operator *(const NTenseurDim &d2) const
+{
+  si(ndims() == 0)
+    retourne d2;
+
+  NTenseurDim res;
+  res.dims.resize(ndims() + d2.ndims());
+  pour(auto i = 0; i < ndims(); i++)
+    res[i] = (*this)(i);
+  pour(auto i = 0; i < d2.ndims(); i++)
+    res[i+ndims()] = d2(i);
   retourne res;
 }
 
@@ -739,7 +753,27 @@ entier Tab::cols() const
 }
 
 
+Tab Tab::ones(Scalaire s, entier reso, const NTenseurDim &dim)
+{
+  //Tab t{s, reso, dim};
+  //rawptr()
+  échec("TODO: Tab::ones");
+}
 
+Tab Tab::diag(const Tab &src, entier ndims)
+{
+  échec("TODO: Tab::diag");
+}
+
+Tab Tab::zeros(Scalaire s, entier reso, const NTenseurDim &dim)
+{
+  échec("TODO: Tab::zeros");
+}
+
+Tab::Tab(Scalaire s, entier reso, const NTenseurDim &dim)
+{
+  échec("TODO: Tab()");
+}
 
 Tab Tab::ones(Scalaire s, entier reso, entier n, entier m)
 {
@@ -971,6 +1005,34 @@ template<typename T1, typename T2>
     // Aucun des deux n'est complexe, simple cast
     retourne (T1) t2;
   }
+}
+
+Tab Tab::select(const Tab &x1, const Tab &x2) const
+{
+  soit y = x1.clone();
+  soit n = nelems();
+
+  assertion_msg(x1.impl->est_de_même_format(x2), "select: les deux paramètres doivent être de même format.");
+  assertion_msg(this->tscalaire() == Scalaire::B, "select: matrice bouléene attendue.");
+
+  // Bouléen attendu
+  TB(*this, [&]<typename T0, entier ndims0>(TabT<T0,ndims0> &)
+  {
+    TG(x1, [&]<typename T1, entier ndims1>(TabT<T1,ndims1> &)
+    {
+      // T0 = bool, T1 == T2
+
+      soit yptr  = (T1 *) y.rawptr();
+      soit x1ptr = (T1 *) x1.rawptr(),
+           x2ptr = (T1 *) x2.rawptr();
+      soit bptr  = (char *) rawptr();
+
+      pour(auto i = 0; i < n; i++)
+        yptr[i] = bptr[i] ? x1ptr[i] : x2ptr[i];
+    });
+  });
+
+  retourne y;
 }
 
 void Tab::dump_infos() const

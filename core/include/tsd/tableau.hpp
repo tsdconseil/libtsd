@@ -64,13 +64,14 @@ struct NTenseurDim
 
   inline const entier &operator[](entier i) const{retourne dims[i];}
   inline entier &operator[](entier i){retourne dims[i];}
-  inline const entier &operator()(entier i) const{retourne dims[i];}
-  inline entier &operator()(entier i){retourne dims[i];}
+  inline entier operator()(entier i) const{si(i >= ndims()) retourne 1; retourne dims[i];}
   inline entier ndims() const{retourne dims.size();}
 
   entier total() const;
 
   bouléen operator ==(const NTenseurDim &d2) const;
+
+  NTenseurDim operator *(const NTenseurDim &d2) const;
 };
 
   struct Tab
@@ -79,9 +80,14 @@ struct NTenseurDim
     template<typename T, entier ndims>
     Tab(const TabT<T, ndims> &t);
     Tab();
+    Tab(Scalaire s, entier reso, const NTenseurDim &dim);
     Tab(Scalaire s, entier reso, entier n, entier m = 1);
 
     const NTenseurDim &get_dims() const;
+
+    static Tab ones (Scalaire s, entier reso, const NTenseurDim &dim);
+    static Tab zeros(Scalaire s, entier reso, const NTenseurDim &dim);
+    static Tab diag (const Tab &src, entier ndims);
 
     static Tab ones(Scalaire s, entier reso, entier n, entier m = 1);
     static Tab zeros(Scalaire s, entier reso, entier n, entier m = 1);
@@ -130,6 +136,7 @@ struct NTenseurDim
     Tab transpose_int() const;
     Tab conjugate() const;
 
+    inline entier get_ndims()      const{retourne get_dims().ndims();}
     entier rows()       const;
     entier cols()       const;
     entier nelems()     const;
@@ -224,6 +231,8 @@ struct NTenseurDim
 
 
     void dump_infos() const;
+
+    Tab select(const Tab &x1, const Tab &x2) const;
 
   //private:
     struct Impl;
@@ -1153,7 +1162,7 @@ struct TabT: Tab
       retourne Tab(*this).inv();
     }
 
-    TabT<T,1> lsq(const TabT<T, 1> &x)
+    TabT<T,1> lsq(const TabT<T, 1> &x) const
     {
       retourne Tab(*this).lsq(x);
     }
@@ -1538,16 +1547,16 @@ inline bouléen TRI(const Tab &v, auto f)
   soit K     = v.tscalaire();
   soit nbits = v.nbits();
 
-  if(K == ℝ)
+  si(K == ℝ)
   {
-    if(nbits == 32)
+    si(nbits == 32)
     {
       using T = float;
       soit t = v.as_no_conv<T>();
       f(t);
       retourne oui;
     }
-    else if(nbits == 64)
+    sinon si(nbits == 64)
     {
       using T = double;
       soit t = v.as_no_conv<T>();

@@ -390,7 +390,7 @@ struct TFRPlanDefaut: FiltreGen<cfloat>, FFTPlan
       }
       sinon
       {
-        //infos("Avertissement : FFT sur n != 2^k (n = %d)", n);
+        //msg("Avertissement : FFT sur n != 2^k (n = %d)", n);
         n2 = prochaine_puissance_de_2(2*n-1);
         // CZT
         soit t = square(linspace(-(n-1), n-1, 2*n-1)) / 2;
@@ -786,7 +786,7 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
 
     /*si((config.facteur_recouvrement != 1) && (config.facteur_recouvrement != 2))
     {
-      erreur("OLA::configure : facteur de recouvrement : doit etre 2.");
+      msg_erreur("OLA::configure : facteur de recouvrement : doit etre 2.");
       retourne -1;
     }*/
 

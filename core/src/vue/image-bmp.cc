@@ -490,7 +490,7 @@ struct Image::Impl
 
   void ligne_aa_int(float x0, float y0, float x1, float y1, StyleLigne style = PLEINE)
   {
-    //infos("Ligne aa : (%dx%d) -> (%dx%d)", x0, y0, x1, y1);
+    //msg("Ligne aa : (%dx%d) -> (%dx%d)", x0, y0, x1, y1);
 
 
 

@@ -135,7 +135,7 @@ struct WavLecteur::Impl
 
     /*si(!cutils::fichiers::fichier_existe(chemin))
     {
-      erreur("Fichier non trouve : [%s].", chemin);
+      msg_erreur("Fichier non trouve : [%s].", chemin);
       retourne -1;
     }*/
 
@@ -374,7 +374,7 @@ struct WavEcrivain::Impl
     /*auto ext = cutils::fichiers::extrait_extension(chemin);
     si(ext != "wav")
     {
-      avertissement("Ceci n'est pas un fichier WAV (extension = %s).", ext);
+      msg_avert("Ceci n'est pas un fichier WAV (extension = %s).", ext);
       retourne ERREUR_WAV_EXTENSION;
     }*/
 
@@ -445,7 +445,7 @@ struct WavEcrivain::Impl
 
   void ecris(const Vecf &x)
   {
-    //infos("Ecriture %d ech float...", x.rows());
+    //msg("Ecriture %d ech float...", x.rows());
     si(fd)
     {
       si(cfg.format == WavConfig::PCM_16)

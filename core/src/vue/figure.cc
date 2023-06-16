@@ -333,7 +333,7 @@ struct Figure::Impl: Rendable
 
     si(a_rdi_min)
     {
-      //infos("a rdi min : xmin = %f", s.rm_xmin);
+      //msg("a rdi min : xmin = %f", s.rm_xmin);
       xmin = min(xmin, rm_rdi.x);
       xmax = max(xmax, rm_rdi.x + rm_rdi.l);
       ymin = min(ymin, rm_rdi.y);
@@ -380,7 +380,7 @@ struct Figure::Impl: Rendable
         ymax = ymax + 0.1 * abs(ymax);
       }
     }
-    //infos("xmin=%f,xmax=%f,ymin=%f,ymax=%f",xmin,xmax,ymin,ymax);
+    //msg("xmin=%f,xmax=%f,ymin=%f,ymax=%f",xmin,xmax,ymin,ymax);
     retourne 0;
   }
 

@@ -98,7 +98,7 @@ struct ModGen : Modulateur
 
     //si(fmod(config.fe,config.fsymb) != 0)
     //{
-      //erreur("mod_init: sample frequency must be a multiple of symbol frequency.");
+      //msg_erreur("mod_init: sample frequency must be a multiple of symbol frequency.");
       //retourne -1;
     //}
 
