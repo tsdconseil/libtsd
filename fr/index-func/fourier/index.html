@@ -1,0 +1,89 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../..//highlight/styles/default.css">
+    <script src="../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Transformée de Fourier</title>
+<meta name="description" content="Transformée de Fourier"/>
+<!--[if lt IE 9]>
+      <script src="../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../js/custom.js"></script>
+<script src="../../js/tabs.js"></script><script src="../../js/masonry.min.js" ></script>
+<script src="../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../css/superfish.css" /> 
+<script  src="../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../css/flexslider.css" >
+<script src="../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../css/lessgrid.css"/>
+<script src="../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../index/index.html" id="logo"><table><tr><td><img  src="../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Transformée de Fourier</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../index-func/index.html">Documentation</a></li><li> / Transformée de Fourier</li></ul>
+        </div>
+<div id="page-content"><p><img src="cs-04.png" style="height: 100%; width: 100%; object-fit: contain"></img></p><p>Ce module regroupe un ensemble de fonctions basées sur la Tranformée de Fourier Discrète (TFD).</p><p><pre><code class="C++"><highlight class="preprocessor">#include "tsd/fourier.hpp"</highlight>
+</code></pre></p><br/><h2><a name="2"></a>Sous-groupes</h2><p><a href="fourier-corr/index.html">Corrélation et délais temporels</a><br/>Corrélation et délais temporels. </p><p><a href="fourier-freq/index.html">Estimation spectrale</a><br/>Estimation spectrale. </p><h2><a name="3"></a>Structures</h2><p><code>struct <a href="FFTPlan/index.html">FFTPlan</a></code><br/>Classe abstraite pour un algorithme de calcul de FFT. </p><p><code>struct <a href="FiltreFFTConfig/index.html">FiltreFFTConfig</a></code><br/>Structure de configuration pour un filtre FFT (voir <a href="../../index-func/fourier/filtre_fft/index.html">filtre_fft()</a>). </p><h2><a name="4"></a>Fonctions</h2><p><code>sptr&lt;FFTPlan&gt; <a href="tfrplan_creation/index.html">tfrplan_création</a>(entier n=-1, bouléen avant=oui, bouléen normaliser=oui)</code><br/>Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT). </p><p><code>sptr&lt;FiltreGen&lt;float, cfloat&gt;&gt; <a href="rtfrplan_creation/index.html">rtfrplan_création</a>(entier n=-1)</code><br/>Création d'un plan de calcul FFT pour des signaux réels (pour calculer efficacement plusieurs FFT). </p><p><code>Veccf <a href="rfft/index.html">rfft</a>(const Vecteur&lt;T&gt; &x)</code><br/>TFD d'un vecteur réel. </p><p><code>Vecteur&lt;T&gt; <a href="reechan_freq/index.html">rééchan_freq</a>(const Vecteur&lt;T&gt; &x, float ratio)</code><br/>Ré-échantillonage zéro phase à partir de la TFD. </p><p><code>auto <a href="fft/index.html">fft</a>(const Vecteur&lt;T&gt; &x)</code><br/>Transformée de Fourier Discrète (TFD) rapide. </p><p><code>Vecf <a href="tfd_freqs/index.html">tfd_freqs</a>(entier n, bouléen avec_shift=non)</code><br/>Fréquences normalisées associées à chaque bin d'une TFD / FFT. </p><p><code>auto <a href="ifft/index.html">ifft</a>(const Vecteur&lt;T&gt; &X)</code><br/>Transformée de Fourier Discrète Inverse. </p><p><code>Vecteur&lt;T&gt; <a href="fftshift/index.html">fftshift</a>(const Vecteur&lt;T&gt; &X)</code><br/>Décalage du spectre de manière à centrer les basses fréquences au milieu. </p><p><code>void <a href="107/index.html">csym_forçage</a>(Vecteur&lt;T&gt; &X)</code><br/>Modifie un vecteur de manière à ce qu'il soit conjugé symétrique. </p><p><code>tuple&lt;sptr&lt;Filtre&lt;cfloat, cfloat, FiltreFFTConfig&gt;&gt;, entier&gt; <a href="filtre_fft/index.html">filtre_fft</a>(const FiltreFFTConfig &config)</code><br/>Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add). </p><p><code>void <a href="ola_complexite/index.html">ola_complexité</a>(entier M, entier Ne, float &C, entier &Nf, entier &Nz)</code><br/>Calcul de la complexité d'un filtre OLA, par échantillon d'entrée, en FLOPS. </p><p><code>void <a href="ola_complexite_optimise/index.html">ola_complexité_optimise</a>(entier M, float &C, entier &Nf, entier &Nz, entier &Ne)</code><br/>Calcul des paramètres optimaux pour un filtre par OLA. </p><p><code>Veccf <a href="czt/index.html">czt</a>(const Veccf &x, entier m, cfloat W, cfloat z0=1.0f)</code><br/>Transformée en z-chirp. </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../index-func/fourier/fourier-corr/index.html">Corrélation et délais temporels</a></li><li><a href="../../index-func/fourier/fourier-freq/index.html">Estimation spectrale</a></li><li><a href="../../index-func/fourier/FFTPlan/index.html">Structure FFTPlan</a></li><li><a href="../../index-func/fourier/FiltreFFTConfig/index.html">Structure FiltreFFTConfig</a></li><li><a href="../../index-func/fourier/tfrplan_creation/index.html">tfrplan_création</a></li><li><a href="../../index-func/fourier/rtfrplan_creation/index.html">rtfrplan_création</a></li><li><a href="../../index-func/fourier/rfft/index.html">rfft</a></li><li><a href="../../index-func/fourier/reechan_freq/index.html">rééchan_freq</a></li><li><a href="../../index-func/fourier/fft/index.html">fft</a></li><li><a href="../../index-func/fourier/tfd_freqs/index.html">tfd_freqs</a></li><li><a href="../../index-func/fourier/ifft/index.html">ifft</a></li><li><a href="../../index-func/fourier/fftshift/index.html">fftshift</a></li><li><a href="../../index-func/fourier/107/index.html">csym_forçage</a></li><li><a href="../../index-func/fourier/filtre_fft/index.html">filtre_fft</a></li><li><a href="../../index-func/fourier/ola_complexite/index.html">ola_complexité</a></li><li><a href="../../index-func/fourier/ola_complexite_optimise/index.html">ola_complexité_optimise</a></li><li><a href="../../index-func/fourier/czt/index.html">czt</a></li></ul><ul></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

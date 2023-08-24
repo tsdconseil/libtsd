@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Analyse des filtres linéaires</title>
+<meta name="description" content="Analyse des filtres linéaires"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Analyse des filtres linéaires</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / Analyse des filtres linéaires</li></ul>
+        </div>
+<div id="page-content"><p>Ces fonctions ont pour but d'analyser les filtres linéaires (LTI). Voici par exemple quelques courbes qu'il est possible de tracer :</p><p><img src="filtrage-analyse.png" style="height: 100%; width: 100%; object-fit: contain"></img></p><br/><h2><a name="2"></a>Enumérations</h2><p><p><code><b>TypeFiltre</b> : PASSE_BAS | PASSE_HAUT | PASSE_BANDE | COUPE_BANDE | AUTRE;</code></p><p/></p><h2><a name="3"></a>Structures</h2><p><code>struct <a href="AnalyseLIT/index.html">AnalyseLIT</a></code><br/>Résultat de l'analyse d'un filtre linéaire. </p><h2><a name="4"></a>Fonctions</h2><p><code>void <a href="verifie_frequence_normalisee/index.html">verifie_frequence_normalisee</a>(float f, cstring msg="")</code><br/>Vérification de la validité d'une fréquence normalisée. </p><p><code>tuple&lt;Vecf, Vecf&gt; <a href="frmag/index.html">frmag</a>(const FRat&lt;T&gt; &h, entier npts=1024)</code><br/>Magnitude d'une filtre RIF ou RII. </p><p><code>Veccf <a href="repfreq/index.html">repfreq</a>(const FRat&lt;T&gt; &h, const Vecf &fr)</code><br/>Réponse fréquentielle d'un filtre RIF ou RII. </p><p><code>cfloat <a href="repfreq-2/index.html">repfreq</a>(const FRat&lt;T&gt; &h, float fr)</code><br/>Idem (en un seul point) </p><p><code>Vecf <a href="repimp/index.html">repimp</a>(const FRat&lt;T&gt; &h, entier npts=-1)</code><br/>Réponse impulsionnelle. </p><p><code>tuple&lt;Vecf, Vecf&gt; <a href="frphase/index.html">frphase</a>(const FRat&lt;T&gt; &h, entier npts=1024)</code><br/>Phase d'un filtre RIF ou RII. </p><p><code>tuple&lt;Vecf, Vecf&gt; <a href="frgroup/index.html">frgroup</a>(const FRat&lt;T&gt; &h, entier npts=1024)</code><br/>Calcul du temps de groupe (délais en fonction de la fréquence). </p><p><code>tsd::vue::Figures tsd::filtrage::<a href="plot_filtre/index.html">plot_filtre</a>(const FRat&lt;T&gt; &h, bouléen complet=non, float fe=1.0f)</code><br/>Analyse d'un filtre linéaire (tracé des différentes réponses). </p><p><code>FenInfos <a href="filtre_pb_analyse/index.html">filtre_pb_analyse</a>(const Vecf &h)</code><br/></p><p><code>FenInfos <a href="filtre_pb_analyse-2/index.html">filtre_pb_analyse</a>(entier ncoefs, const Vecf &fr, const Vecf &mag, bouléen do_plot=oui)</code><br/></p><p><code>void <a href="plot_plz/index.html">plot_plz</a>(Figure &fig, const FRat&lt;T&gt; &h, bouléen cmap=non)</code><br/>Tracé des pôles et zéros. </p><p><code>void <a href="plot_plz-2/index.html">plot_plz</a>(Figure &fig, const Vecteur&lt;T&gt; &h, bouléen cmap=non)</code><br/>Idem (d'après les coefficients - filtre RIF) </p><p><code>tuple&lt;Vecf, Vecf&gt; <a href="rifamp/index.html">rifamp</a>(const Vecf &h, entier L=1024, bouléen symetrique=oui)</code><br/>Réponse en amplitude d'un filtre RIF symétrique ou anti-symétrique (phase linéaire). </p><p><code>float <a href="rif_delais/index.html">rif_delais</a>(entier N)</code><br/>Calcul du retard d'une filtre RIF à phase linéaire. </p><p><code>AnalyseLIT <a href="analyse_LIT/index.html">analyse_LIT</a>(const FRat&lt;T&gt; &h, bouléen avec_plots)</code><br/>Analyse d'un filtre linéaire invariant dans le temps (d'après la fonction de transfert). </p><p><code>AnalyseLIT <a href="analyse_LIT-2/index.html">analyse_LIT</a>(const Vecteur&lt;T&gt; &h, bouléen avec_plots)</code><br/>Idem (d'après les coefficients - filtre RIF). </p><p><code>entier <a href="type_rif/index.html">type_rif</a>(const Vecf &h)</code><br/>Calcule le type (I, II, III ou IV) d'un filtre RIF à phase linéaire. Si les coefficients ne sont pas symétriques ni anti-symétriques, retourne -1. </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../../index-func/filtrage/filtrage-analyse/AnalyseLIT/index.html">Structure AnalyseLIT</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index.html">verifie_frequence_normalisee</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/frmag/index.html">frmag</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/repfreq/index.html">repfreq (1)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/repfreq-2/index.html">repfreq (2)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/repimp/index.html">repimp</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/frphase/index.html">frphase</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/frgroup/index.html">frgroup</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/plot_filtre/index.html">plot_filtre</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/filtre_pb_analyse/index.html">filtre_pb_analyse (1)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/filtre_pb_analyse-2/index.html">filtre_pb_analyse (2)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/plot_plz/index.html">plot_plz (1)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/plot_plz-2/index.html">plot_plz (2)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/rifamp/index.html">rifamp</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/rif_delais/index.html">rif_delais</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/analyse_LIT/index.html">analyse_LIT (1)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/analyse_LIT-2/index.html">analyse_LIT (2)</a></li><li><a href="../../../index-func/filtrage/filtrage-analyse/type_rif/index.html">type_rif</a></li></ul><ul></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

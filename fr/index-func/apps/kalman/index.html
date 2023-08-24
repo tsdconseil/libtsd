@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Filtrage de Kalman</title>
+<meta name="description" content="Filtrage de Kalman"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/apps/kalman/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/apps/kalman/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/apps/kalman/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Filtrage de Kalman</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/apps/index.html">Applications</a></li><li> / Filtrage de Kalman</li></ul>
+        </div>
+<div id="page-content"><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Module au stade expérimental (fonctions très limitées, tests incomplets, API non stabilisée). </dd></dl><br/></p><br/><h2><a name="2"></a>Structures</h2><p><code>struct <a href="SSM/index.html">SSM</a></code><br/>Modèle abtrait pour une représentation d'état. </p><p><code>struct <a href="SSMLineaire/index.html">SSMLineaire</a></code><br/>Modèle linéaire. </p><p><code>struct <a href="FiltreSSM/index.html">FiltreSSM</a></code><br/>Filtre abstrait pour retrouver la séquence d'états cachés d'un modèle <a href="../../../index-func/apps/kalman/SSM/index.html">SSM</a>. </p><p><code>struct <a href="IMUConfig/index.html">IMUConfig</a></code><br/>Configuration pour le modèle IMU. </p><h2><a name="3"></a>Fonctions</h2><p><code>sptr&lt;SSMLineaire&gt; <a href="ssm_lineaire/index.html">ssm_lineaire</a>(const Tabf &A, const Tabf &C, const Tabf &B=Tabf(), const Tabf &D=Tabf())</code><br/></p><p><code>Tabf <a href="jacobienne_num/index.html">jacobienne_num</a>(fonction&lt;Vecf(const Vecf &)&gt; f, const Vecf &x)</code><br/>Dérivation numérique. </p><p><code>sptr&lt;FiltreSSM&gt; <a href="filtre_kalman/index.html">filtre_kalman</a>(sptr&lt;SSMLineaire&gt; ssm, const Vecf &x0=Vecf(), const Tabf &p0=Tabf())</code><br/>Construction d'un filtre de Kalman. </p><p><code>sptr&lt;FiltreSSM&gt; <a href="filtre_ekf/index.html">filtre_ekf</a>(sptr&lt;SSM&gt; ssm)</code><br/>Construction d'un filtre de Kalman étendu (EKF / Extended Kalman Filter). </p><p><code>sptr&lt;SSMLineaire&gt; <a href="modele_marche_aleatoire/index.html">modele_marche_aleatoire</a>(entier ndim=1, const Tabf &Q=Tabf(), const Tabf &R=Tabf())</code><br/>Marche aléatoire. </p><p><code>sptr&lt;SSMLineaire&gt; <a href="modele_constante/index.html">modele_constante</a>(float R=0.1)</code><br/>Le système en représentation d'état le plus simple : une valeur constante. </p><p><code>sptr&lt;SSM&gt; <a href="modele_kitagawa/index.html">modele_kitagawa</a>()</code><br/>Modèle non linéaire de Kitagawa. </p><p><code>tuple&lt;Tabf, float&gt; <a href="dare/index.html">dare</a>(const Tabf &A, const Tabf &C, const Tabf &Q, const Tabf &R, float tolerance=1e-7, entier iter_max=1000)</code><br/>Résolution de l'équation de Riccati discrète (DARE). </p><p><code>Tabf <a href="kalman_ssg/index.html">kalman_ssg</a>(sptr&lt;const SSMLineaire&gt; modele)</code><br/>Calcul le gain de Kalman en régime établi. </p><p><code>tsd::vue::Figures tsd::kalman::<a href="plot_etats/index.html">plot_etats</a>(sptr&lt;const SSM&gt; ssm, const Tabf &x, const Tabf &xe=Tabf())</code><br/>Affichage d'une séquence d'états. </p><p><code>tsd::vue::Figures tsd::kalman::<a href="plot_obs/index.html">plot_obs</a>(sptr&lt;const SSM&gt; sys, const Tabf &y)</code><br/>Affichage d'une séquence d'observations. </p><p><code>sptr&lt;SSM&gt; <a href="modele_imu/index.html">modele_imu</a>(const IMUConfig &cfg)</code><br/>Modèle générique IMU (Inertial Measuring Unit). </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../../index-func/apps/kalman/SSM/index.html">Structure SSM</a></li><li><a href="../../../index-func/apps/kalman/SSMLineaire/index.html">Structure SSMLineaire</a></li><li><a href="../../../index-func/apps/kalman/FiltreSSM/index.html">Structure FiltreSSM</a></li><li><a href="../../../index-func/apps/kalman/IMUConfig/index.html">Structure IMUConfig</a></li><li><a href="../../../index-func/apps/kalman/ssm_lineaire/index.html">ssm_lineaire</a></li><li><a href="../../../index-func/apps/kalman/jacobienne_num/index.html">jacobienne_num</a></li><li><a href="../../../index-func/apps/kalman/filtre_kalman/index.html">filtre_kalman</a></li><li><a href="../../../index-func/apps/kalman/filtre_ekf/index.html">filtre_ekf</a></li><li><a href="../../../index-func/apps/kalman/modele_marche_aleatoire/index.html">modele_marche_aleatoire</a></li><li><a href="../../../index-func/apps/kalman/modele_constante/index.html">modele_constante</a></li><li><a href="../../../index-func/apps/kalman/modele_kitagawa/index.html">modele_kitagawa</a></li><li><a href="../../../index-func/apps/kalman/dare/index.html">dare</a></li><li><a href="../../../index-func/apps/kalman/kalman_ssg/index.html">kalman_ssg</a></li><li><a href="../../../index-func/apps/kalman/plot_etats/index.html">plot_etats</a></li><li><a href="../../../index-func/apps/kalman/plot_obs/index.html">plot_obs</a></li><li><a href="../../../index-func/apps/kalman/modele_imu/index.html">modele_imu</a></li></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

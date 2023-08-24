@@ -1,0 +1,106 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>plot (3)</title>
+<meta name="description" content="plot (3)"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/vue/Figure/plot-3/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/vue/Figure/plot-3/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/vue/Figure/plot-3/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index-en.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index-en.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index-en.html">General functions</a></li><li><a href="../../../../index-func/vue/index-en.html">Visualizations</a></li><li><a href="../../../../index-func/geometrie/index-en.html">Geometry</a></li><li><a href="../../../../index-func/ct/index-en.html">Continuous time signals</a></li><li><a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../../index-func/fourier/index-en.html">Fourier transform</a></li><li><a href="../../../../index-func/temps-frequence/index-en.html">Time-frequency representations</a></li><li><a href="../../../../index-func/stats/index-en.html">Statistical signal processing</a></li><li><a href="../../../../index-func/telecom/index-en.html">Telecommunications</a></li><li><a href="../../../../index-func/apps/index-en.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index-en.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index-en.html">Sampling</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../../tab-tutos/ex-fourier/index-en.html">Fourier transform</a></li><li><a href="../../../../tab-tutos/ex-telecom/index-en.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index-en.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index-en.html">License<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index-en.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">C++ signal processing</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index-en.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index-en.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index-en.html">General functions</a></li><li><a href="../../../../index-func/vue/index-en.html">Visualizations</a></li><li><a href="../../../../index-func/geometrie/index-en.html">Geometry</a></li><li><a href="../../../../index-func/ct/index-en.html">Continuous time signals</a></li><li><a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../../index-func/fourier/index-en.html">Fourier transform</a></li><li><a href="../../../../index-func/temps-frequence/index-en.html">Time-frequency representations</a></li><li><a href="../../../../index-func/stats/index-en.html">Statistical signal processing</a></li><li><a href="../../../../index-func/telecom/index-en.html">Telecommunications</a></li><li><a href="../../../../index-func/apps/index-en.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index-en.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index-en.html">Sampling</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../../tab-tutos/ex-fourier/index-en.html">Fourier transform</a></li><li><a href="../../../../tab-tutos/ex-telecom/index-en.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index-en.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index-en.html">License<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">plot (3)</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/vue/index-en.html">Visualizations</a></li><li> / <a href="../../../../index-func/vue/Figure/index-en.html">Structure Figure</a></li><li> / plot (3)</li></ul>
+        </div>
+<div id="page-content-full"><p>Affiche une courbe. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Curve <b>plot</b>(const Vecf &x, const Vecf &y, const string &format="", const string &label="", Ts &&... args)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur des valeurs en abcisse. </td></tr><tr><td>y</td><td>Vecteur des valeurs en ordonnée. </td></tr><tr><td>format</td><td>Chaine de caractère optionnelle pour modifier le format. </td></tr><tr><td>label</td><td>Argument optionnel indiquant le nom de la courbe </td></tr><tr><td>args</td><td>Argument optionnel pour générer le nom de la courbe (format librairie fmt).</td></tr></table></p><h2><a name="5"></a>Description</h2><p>
+Le format est une chaine de caractère qui permet de choisir la couleur, le type de trait, et le type de curseur :</p><ul><li>Couleurs : "b" (black), "g" (green), "r" (red), "m" (magenta), "c" (cyan), etc.</li><li>Traits : "-" (lignes), "$|$" (barres), "" (aucun)</li><li>Curseurs : "s" (carré), "d" (diamant), "*" (étoile), "." (point), "o" (rond), "" (aucun)</li></ul><p><h2>Exemple, avec différentes couleurs et différents marqueurs :</h2><p en="Exemple, avec différentes couleurs et différents marqueurs :"><description lang="en"><p><pre><code class="C++"><highlight class="normal">  soit t = <a href="../../../../../index-func/tsd/tsd-gen/linspace/index-en.html">linspace</a>(-1, 1, 21);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  soit x1 = t,</highlight>
+<highlight class="normal">       x2 = t*t,</highlight>
+<highlight class="normal">       x3 = pow(t,Vecf::ones(21)*3),</highlight>
+<highlight class="normal">       x4 = abs(t);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Figure f;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Bleu, lignes, marqueurs = ronds</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  f.plot(t, x1, </highlight><highlight class="stringliteral">"b-o"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"x1 (b-o)"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Vert (g pour green), lignes, marqueurs = étoiles</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  f.plot(t, x2, </highlight><highlight class="stringliteral">"g-*"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"x2 (g-*)"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Magenta, pas de lignes, marqueurs = carré (s pour square)</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  f.plot(t, x3, </highlight><highlight class="stringliteral">"ms"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"x3 (ms)"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Orange, lignes, pas de marqueurs</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  f.plot(t, x4, </highlight><highlight class="stringliteral">"a-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"x4 (a-)"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  f.axes().get_config().legende.position = </highlight><highlight class="stringliteral">"se"</highlight><highlight class="normal">;</highlight>
+<highlight class="normal"></highlight>
+</code></pre></p><img src="figure.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p><h2><a name="6"></a>See also</h2><p>lien non trouvé : [structdsp_1_1view_1_1_figure_a51af6d711f52e05d8559ab52a4d9cf9d_1a51af6d711f52e05d8559ab52a4d9cf9d]Figure::plot_psd(), lien non trouvé : [structdsp_1_1view_1_1_figure_aa5e381d31278af7627c26214c49b72aa_1aa5e381d31278af7627c26214c49b72aa]Figure::plot_img()</p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

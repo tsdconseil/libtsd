@@ -1,0 +1,89 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Génération de signaux</title>
+<meta name="description" content="Génération de signaux"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Génération de signaux</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / Génération de signaux</li></ul>
+        </div>
+<div id="page-content"><p><img src="siggen.png" style="height: 100%; width: 100%; object-fit: contain"></img></p><p><pre><code class="C++"><highlight class="preprocessor">#include "tsd/tsd.hpp"</highlight>
+</code></pre></p><p>Sont regroupées ici quelques fonctions pour générer des signaux (signaux périodiques, aléatoires, ou intervalles). </p><br/><h2><a name="2"></a>Structures</h2><p><code>struct <a href="OHConfig/index.html">OHConfig</a></code><br/>Configuration oscillateur harmonique. </p><p><code>struct <a href="OLUT/index.html">OLUT</a></code><br/></p><h2><a name="3"></a>Fonctions</h2><p><code>static auto <a href="linspace/index.html">linspace</a>(float a, float b, entier n)</code><br/>Intervalle de points équidistants. </p><p><code>static auto <a href="logspace/index.html">logspace</a>(float a, float b, entier n)</code><br/>Intervalle de points logarithmiquement équidistants (suite géométrique). </p><p><code>static Veci <a href="intervalle_entier/index.html">intervalle_entier</a>(entier a, entier b)</code><br/>Intervalle entier. </p><p><code>static Vecf <a href="intervalle_temporel/index.html">intervalle_temporel</a>(entier n, float fe)</code><br/>Intervalle temporel de \(n\) échantillons, en fonction de la fréquence d'échantillonnage. </p><p><code>static Vecf <a href="intervalle_temporel-2/index.html">intervalle_temporel</a>(float T, float fe)</code><br/>Intervalle temporel de durée \(T\), en fonction de la fréquence d'échantillonnage. </p><p><code>Vecf <a href="randn/index.html">randn</a>(entier n)</code><br/>Loi normale (vecteur colonne). </p><p><code>Veccf <a href="randcn/index.html">randcn</a>(entier n)</code><br/>Loi normale complexe (vecteur colonne) </p><p><code>Vecf <a href="randu/index.html">randu</a>(entier n, float a=-1, float b=1)</code><br/>Loi uniforme (vecteur colonne). </p><p><code>Vecb <a href="randb/index.html">randb</a>(entier n)</code><br/>Loi aléatoire binaire. </p><p><code>Veci <a href="randi/index.html">randi</a>(entier M, entier n)</code><br/>Loi aléatoire catégorielle. </p><p><code>entier <a href="randi-2/index.html">randi</a>(entier M)</code><br/></p><p><code>float <a href="randu-2/index.html">randu</a>()</code><br/>Loi uniforme (calcul d'un seul élément) </p><p><code>float <a href="randn-2/index.html">randn</a>()</code><br/>Loi normale (calcul d'un seul élément) </p><p><code>Veccf <a href="sigexp/index.html">sigexp</a>(float f, entier n)</code><br/>Calcul efficace d'une exponentielle complexe. </p><p><code>Vecf <a href="sigsin/index.html">sigsin</a>(float f, entier n)</code><br/>Calcul efficace d'une sinusoide. </p><p><code>Vecf <a href="sigcos/index.html">sigcos</a>(float f, entier n)</code><br/>Calcul efficace d'un cosinus. </p><p><code>Vecf <a href="sigtri/index.html">sigtri</a>(entier p, entier n)</code><br/>Signal triangulaire (périodique). </p><p><code>Vecf <a href="sigcar/index.html">sigcar</a>(entier p, entier n)</code><br/>Signal carré (périodique) </p><p><code>Vecf <a href="sigimp/index.html">sigimp</a>(entier n, entier p=0)</code><br/>Impulsion discrète. </p><p><code>Vecf <a href="sigscie/index.html">sigscie</a>(entier p, entier n)</code><br/>Signal en dent de scie. </p><p><code>Vecf <a href="siggsin/index.html">siggsin</a>(float f, entier n, float a=10)</code><br/>Sinusoïde modulée par une Gaussienne. </p><p><code>Vecf <a href="siggauss/index.html">siggauss</a>(entier n, float a=10)</code><br/>Impulsion filtrée par une Gaussienne. </p><p><code>Vecf <a href="sigchirp/index.html">sigchirp</a>(float f0, float f1, entier n, char mode='l')</code><br/>Chirp linéaire ou quadratique. </p><p><code>Vecf <a href="signyquist/index.html">signyquist</a>(entier n)</code><br/>Signal à la fréquence de Nyquist (-1,1,-1,1,etc.). </p><p><code>sptr&lt;Source&lt;cfloat, OHConfig&gt;&gt; <a href="source_ohc/index.html">source_ohc</a>(float freq)</code><br/>Génération d'un signal exponentiel via un oscillateur harmonique. </p><p><code>sptr&lt;Source&lt;float, OHConfig&gt;&gt; <a href="source_ohr/index.html">source_ohr</a>(float freq)</code><br/>Génération d'un signal sinusoïdal via un oscillateur harmonique. </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../../index-func/tsd/tsd-gen/OHConfig/index.html">Structure OHConfig</a></li><li><a href="../../../index-func/tsd/tsd-gen/OLUT/index.html">Structure OLUT</a></li><li><a href="../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a></li><li><a href="../../../index-func/tsd/tsd-gen/logspace/index.html">logspace</a></li><li><a href="../../../index-func/tsd/tsd-gen/intervalle_entier/index.html">intervalle_entier</a></li><li><a href="../../../index-func/tsd/tsd-gen/intervalle_temporel/index.html">intervalle_temporel (1)</a></li><li><a href="../../../index-func/tsd/tsd-gen/intervalle_temporel-2/index.html">intervalle_temporel (2)</a></li><li><a href="../../../index-func/tsd/tsd-gen/randn/index.html">randn (1)</a></li><li><a href="../../../index-func/tsd/tsd-gen/randcn/index.html">randcn</a></li><li><a href="../../../index-func/tsd/tsd-gen/randu/index.html">randu (1)</a></li><li><a href="../../../index-func/tsd/tsd-gen/randb/index.html">randb</a></li><li><a href="../../../index-func/tsd/tsd-gen/randi/index.html">randi (1)</a></li><li><a href="../../../index-func/tsd/tsd-gen/randi-2/index.html">randi (2)</a></li><li><a href="../../../index-func/tsd/tsd-gen/randu-2/index.html">randu (2)</a></li><li><a href="../../../index-func/tsd/tsd-gen/randn-2/index.html">randn (2)</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigexp/index.html">sigexp</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigsin/index.html">sigsin</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigcos/index.html">sigcos</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigtri/index.html">sigtri</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigcar/index.html">sigcar</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigimp/index.html">sigimp</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigscie/index.html">sigscie</a></li><li><a href="../../../index-func/tsd/tsd-gen/siggsin/index.html">siggsin</a></li><li><a href="../../../index-func/tsd/tsd-gen/siggauss/index.html">siggauss</a></li><li><a href="../../../index-func/tsd/tsd-gen/sigchirp/index.html">sigchirp</a></li><li><a href="../../../index-func/tsd/tsd-gen/signyquist/index.html">signyquist</a></li><li><a href="../../../index-func/tsd/tsd-gen/source_ohc/index.html">source_ohc</a></li><li><a href="../../../index-func/tsd/tsd-gen/source_ohr/index.html">source_ohr</a></li></ul><ul></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

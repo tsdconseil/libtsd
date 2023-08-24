@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Structure BitStream</title>
+<meta name="description" content="Structure BitStream"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/BitStream/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/BitStream/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/BitStream/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Structure BitStream</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li> / Structure BitStream</li></ul>
+        </div>
+<div id="page-content"><p>Chaine binaire. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Liste des méthodes</h2><p><p><code>tsd::telecom::<a href="BitStream/index.html">BitStream</a>::BitStream()</code><br/>Construction d'une chaine vide. </p><p><code>tsd::telecom::<a href="BitStream-2/index.html">BitStream</a>::BitStream(const Vecf &x)</code><br/>Constructeur, à partir d'un vecteur de flottants. </p><p><code>tsd::telecom::<a href="BitStream-3/index.html">BitStream</a>::BitStream(entier n)</code><br/>Constructeur, d'après la dimension (nombre de bits) </p><p><code>tsd::telecom::<a href="BitStream-4/index.html">BitStream</a>::BitStream(cstring s)</code><br/>Constructeur, d'après une chaine de caractères de type "0100111001...". </p><p><code>entier <a href="dst_Hamming/index.html">dst_Hamming</a>(const BitStream &bs) const</code><br/></p><p><code>Vecf <a href="array/index.html">array</a>() const</code><br/>Conversion vers vecteur de flottants (valeurs = 0 ou 1). </p><p><code>Veci <a href="iarray/index.html">iarray</a>() const</code><br/>Conversion vers vecteur d'entiers. </p><p><code>bouléen <a href="108/index.html">operator[]</a>(unsigned int index) const</code><br/>Lecture d'un bit d'index donné </p><p><code>void <a href="set/index.html">set</a>(unsigned int index, bouléen valeur)</code><br/>Ecriture d'un bit d'index donné </p><p><code>void <a href="restart/index.html">restart</a>()</code><br/></p><p><code>void <a href="resize/index.html">resize</a>(entier nbits)</code><br/>Ré-allocation de la dimension. </p><p><code>void <a href="push/index.html">push</a>(bouléen b)</code><br/>Insertion d'un nouveau bit en fin de séquence. </p><p><code>void <a href="push_u32/index.html">push_u32</a>(uint32_t i)</code><br/>Insertion d'un entier 32 bits en fin de séquence. </p><p><code>uint32_t <a href="pop_u32/index.html">pop_u32</a>()</code><br/>Retire un entier 32 bits du début de la séquence. </p><p><code>bouléen <a href="pop/index.html">pop</a>()</code><br/>Lecture et dépilement d'un bit en début de séquence. </p><p><code>bouléen <a href="eof/index.html">eof</a>()</code><br/>Fin de séquence atteinte (en lecture) ? </p><p><code>entier <a href="lon/index.html">lon</a>() const</code><br/>Nombre de bits. </p><p><code>void <a href="clear/index.html">clear</a>()</code><br/>Suppression de tous les bits. </p><p><code>void <a href="109/index.html">operator+=</a>(const BitStream &t)</code><br/>Concaténation avec une autre chaîne binaire. </p><p><code>bouléen <a href="110/index.html">operator==</a>(const BitStream &t2)</code><br/>Comparaison. </p><p><code>void <a href="pad/index.html">pad</a>(entier nzeros)</code><br/>Ajoute des zéros à la fin. </p><p><code>void <a href="pad_mult/index.html">pad_mult</a>(entier m)</code><br/>Ajoute (si besoin) des zéros de manière à ce que le nombre de bits soit un multiple de m. </p></p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <h4>Sommaire :</h4><ul><li><a href="#3">Liste des méthodes</a></li></ul><ul><li><a href="../../../index-func/telecom/BitStream/BitStream/index.html">BitStream (1)</a></li><li><a href="../../../index-func/telecom/BitStream/BitStream-2/index.html">BitStream (2)</a></li><li><a href="../../../index-func/telecom/BitStream/BitStream-3/index.html">BitStream (3)</a></li><li><a href="../../../index-func/telecom/BitStream/BitStream-4/index.html">BitStream (4)</a></li><li><a href="../../../index-func/telecom/BitStream/dst_Hamming/index.html">dst_Hamming</a></li><li><a href="../../../index-func/telecom/BitStream/array/index.html">array</a></li><li><a href="../../../index-func/telecom/BitStream/iarray/index.html">iarray</a></li><li><a href="../../../index-func/telecom/BitStream/108/index.html">operator[]</a></li><li><a href="../../../index-func/telecom/BitStream/set/index.html">set</a></li><li><a href="../../../index-func/telecom/BitStream/restart/index.html">restart</a></li><li><a href="../../../index-func/telecom/BitStream/resize/index.html">resize</a></li><li><a href="../../../index-func/telecom/BitStream/push/index.html">push</a></li><li><a href="../../../index-func/telecom/BitStream/push_u32/index.html">push_u32</a></li><li><a href="../../../index-func/telecom/BitStream/pop_u32/index.html">pop_u32</a></li><li><a href="../../../index-func/telecom/BitStream/pop/index.html">pop</a></li><li><a href="../../../index-func/telecom/BitStream/eof/index.html">eof</a></li><li><a href="../../../index-func/telecom/BitStream/lon/index.html">lon</a></li><li><a href="../../../index-func/telecom/BitStream/clear/index.html">clear</a></li><li><a href="../../../index-func/telecom/BitStream/109/index.html">operator+=</a></li><li><a href="../../../index-func/telecom/BitStream/110/index.html">operator==</a></li><li><a href="../../../index-func/telecom/BitStream/pad/index.html">pad</a></li><li><a href="../../../index-func/telecom/BitStream/pad_mult/index.html">pad_mult</a></li></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

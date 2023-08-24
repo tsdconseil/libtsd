@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Spectral estimation</title>
+<meta name="description" content="Spectral estimation"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index-en.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index-en.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index-en.html">General functions</a></li><li><a href="../../../index-func/vue/index-en.html">Visualizations</a></li><li><a href="../../../index-func/geometrie/index-en.html">Geometry</a></li><li><a href="../../../index-func/ct/index-en.html">Continuous time signals</a></li><li><a href="../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../index-func/fourier/index-en.html">Fourier transform</a></li><li><a href="../../../index-func/temps-frequence/index-en.html">Time-frequency representations</a></li><li><a href="../../../index-func/stats/index-en.html">Statistical signal processing</a></li><li><a href="../../../index-func/telecom/index-en.html">Telecommunications</a></li><li><a href="../../../index-func/apps/index-en.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index-en.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index-en.html">Sampling</a></li><li><a href="../../../tab-tutos/ex-filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../tab-tutos/ex-fourier/index-en.html">Fourier transform</a></li><li><a href="../../../tab-tutos/ex-telecom/index-en.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index-en.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index-en.html">License<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index-en.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">C++ signal processing</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index-en.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index-en.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index-en.html">General functions</a></li><li><a href="../../../index-func/vue/index-en.html">Visualizations</a></li><li><a href="../../../index-func/geometrie/index-en.html">Geometry</a></li><li><a href="../../../index-func/ct/index-en.html">Continuous time signals</a></li><li><a href="../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../index-func/fourier/index-en.html">Fourier transform</a></li><li><a href="../../../index-func/temps-frequence/index-en.html">Time-frequency representations</a></li><li><a href="../../../index-func/stats/index-en.html">Statistical signal processing</a></li><li><a href="../../../index-func/telecom/index-en.html">Telecommunications</a></li><li><a href="../../../index-func/apps/index-en.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index-en.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index-en.html">Sampling</a></li><li><a href="../../../tab-tutos/ex-filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../tab-tutos/ex-fourier/index-en.html">Fourier transform</a></li><li><a href="../../../tab-tutos/ex-telecom/index-en.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index-en.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index-en.html">License<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Spectral estimation</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../index-func/fourier/index-en.html">Fourier transform</a></li><li> / Spectral estimation</li></ul>
+        </div>
+<div id="page-content"><p>These are functions related to Power Spectral Density (PSD) estimation:</p><ul><li><p>Complete estimation of the PSD:</p><ul><li><b>Non parametric methods</b> (without doing any assumptions on the nature of the signal): periodogram (<a href="../../../index-func/fourier/fourier-freq/psd/index-en.html">psd()</a>), Welch method (<a href="../../../index-func/fourier/fourier-freq/psd_welch/index-en.html">psd_welch()</a>),</li><li><b>Parametric methods</b>: MUSIC (MUltiple SIgnal Classification) (<a href="../../../index-func/fourier/fourier-freq/psd_subspace/index-en.html">psd_subspace()</a>)</li></ul></li><li>PSD estimation for a specific frequency (<a href="../../../index-func/fourier/fourier-freq/goertzel/index-en.html">goertzel()</a>, <a href="../../../index-func/fourier/fourier-freq/filter_goertzel/index-en.html">filter_goertzel()</a>).</li><li>Frequency estimation for a single tone signal (<a href="../../../index-func/fourier/fourier-freq/freqestim/index-en.html">freqestim()</a>). </li></ul><br/><h2><a name="2"></a>Enumerations</h2><p><p><code><b>FreqEstimMethode</b> : FFT | CANDAN2 | QUADRATIC;</code></p><p>Choix d'un algorithme pour l'estimation de fréquence. </p></p><h2><a name="3"></a>Functions</h2><p><code>Vecf <a href="psd_freqs/index-en.html">psd_freqs</a>(int n, bool complexe=true)</code><br/></p><p><code>tuple&lt;Vecf, Vecf&gt; <a href="psd/index-en.html">psd</a>(const Vector&lt;T&gt; &x)</code><br/>PSD (correlogram). </p><p><code>tuple&lt;Vecf, Vecf&gt; <a href="psd_welch/index-en.html">psd_welch</a>(const Veccf &x, int N, cstring fen="hn")</code><br/>PSD (Welch method - spectrum averaging). </p><p><code>tuple&lt;Vecf, Vecf&gt; <a href="psd_subspace/index-en.html">psd_subspace</a>(const Veccf &x, int Ns, int Nf=1024, int m=0)</code><br/>Calcul d'un spectre par la méthode des sous-espaces. </p><p><code>float <a href="freqestim/index-en.html">freqestim</a>(const Veccf &x, FreqEstimMethode m=CANDAN2)</code><br/>Estimation de fréquence d'un signal périodique. </p><p><code>float <a href="goertzel/index-en.html">goertzel</a>(const Vecf &x, float frequence)</code><br/>Filtre de Goertzel (calcul sur un buffer). </p><p><code>sptr&lt;FilterGen&lt;float&gt;&gt; <a href="filter_goertzel/index-en.html">filter_goertzel</a>(float frequence, int N)</code><br/>Filtre de Goertzel (calcul au fil de l'eau) </p><p><code>sptr&lt;Filter&lt;cfloat, float, SpectrumConfig&gt;&gt; <a href="rt_spectrum/index-en.html">rt_spectrum</a>(const SpectrumConfig &config)</code><br/>Calcul de spectre en temps réel. </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../../index-func/fourier/fourier-freq/psd_freqs/index-en.html">psd_freqs</a></li><li><a href="../../../index-func/fourier/fourier-freq/psd/index-en.html">psd</a></li><li><a href="../../../index-func/fourier/fourier-freq/psd_welch/index-en.html">psd_welch</a></li><li><a href="../../../index-func/fourier/fourier-freq/psd_subspace/index-en.html">psd_subspace</a></li><li><a href="../../../index-func/fourier/fourier-freq/freqestim/index-en.html">freqestim</a></li><li><a href="../../../index-func/fourier/fourier-freq/goertzel/index-en.html">goertzel</a></li><li><a href="../../../index-func/fourier/fourier-freq/filter_goertzel/index-en.html">filter_goertzel</a></li><li><a href="../../../index-func/fourier/fourier-freq/rt_spectrum/index-en.html">rt_spectrum</a></li></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Modulations numériques</title>
+<meta name="description" content="Modulations numériques"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Modulations numériques</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li> / Modulations numériques</li></ul>
+        </div>
+<div id="page-content"><p><img src="8psk.png" max-width=""200px""></img></p><p>Ce module permet de :</p><ul><li>Moduler un signal binaire suivant une forme d'onde quelconque (cela comprenant les étape d'encodage, le filtrage de mise en forme, et éventuellement la transposition en fréquence) : <a href="../../../index-func/telecom/telecom-mods/modulateur_creation/index.html">modulateur_création()</a>.</li><li>Démoduler un signal RF (y compris toutes les étapes classiques : conversion en bande de base, recouvrement de porteuse et d'horloge, filtre adapté, décodage) : <a href="../../../index-func/telecom/telecom-mods/demodulateur_creation/index.html">démodulateur_création()</a>.</li><li>Générer et décoder des trames avec un formatage simple (en-tête de synchronisation + données utiles + éventuel CRC), avec les fonctions <a href="../../../index-func/telecom/telecom-mods/emetteur_creation/index.html">émetteur_création()</a> et <a href="../../../index-func/telecom/telecom-mods/recepteur_creation/index.html">récepteur_création()</a>. </li></ul><br/><h2><a name="2"></a>Sous-groupes</h2><p><a href="telecom-mods-wf/index.html">Formes d'ondes</a><br/>Définition des formes d'ondes classiques (FSK, PSK, etc.). </p><h2><a name="3"></a>Enumérations</h2><p><p><code><b>ItrpType</b> : CSPLINE | LINEAIRE | LAGRANGE;</code></p><p/></p><h2><a name="4"></a>Structures</h2><p><code>struct <a href="ProtocoleDemodulateur/index.html">ProtocoleDemodulateur</a></code><br/></p><p><code>struct <a href="ModConfig/index.html">ModConfig</a></code><br/>Paramétrage d'un modulateur numérique. </p><p><code>struct <a href="Modulateur/index.html">Modulateur</a></code><br/>Interface abstraite vers un modulateur. </p><p><code>struct <a href="Demodulateur/index.html">Démodulateur</a></code><br/>Interface abstraite vers un démodulateur. </p><p><code>struct <a href="DemodConfig/index.html">DemodConfig</a></code><br/>Paramétrage d'un démodulateur numérique. </p><p><code>struct <a href="TrameFormat/index.html">TrameFormat</a></code><br/>Définition du format d'une trame. </p><p><code>struct <a href="RecepteurConfig/index.html">RécepteurConfig</a></code><br/>Structure de configuration d'un récepteur générique. </p><p><code>struct <a href="RecepteurTrame/index.html">RécepteurTrame</a></code><br/>Trame décodée par un récepteur. </p><p><code>struct <a href="RecepteurEtat/index.html">RécepteurEtat</a></code><br/></p><p><code>struct <a href="Recepteur/index.html">Récepteur</a></code><br/>Interface abstraite vers un récepteur de trames. </p><p><code>struct <a href="113/index.html">ÉmetteurConfig</a></code><br/>Structure de configuration d'un récepteur_création générique. </p><p><code>struct <a href="114/index.html">Émetteur</a></code><br/>Interface abstraite vers un générateur de trames. </p><h2><a name="5"></a>Fonctions</h2><p><code>sptr&lt;Modulateur&gt; <a href="modulateur_creation/index.html">modulateur_création</a>(const ModConfig &config)</code><br/>Création d'un modulateur numérique. </p><p><code>sptr&lt;Démodulateur&gt; <a href="demodulateur_creation/index.html">démodulateur_création</a>(const ModConfig &modconfig, const DemodConfig &demodconfig=DemodConfig())</code><br/>Création d'un démodulateur numérique. </p><p><code>sptr&lt;Récepteur&gt; <a href="recepteur_creation/index.html">récepteur_création</a>(const RécepteurConfig &rc)</code><br/>Création d'un récepteur de trame. </p><p><code>sptr&lt;Émetteur&gt; <a href="emetteur_creation/index.html">émetteur_création</a>(const ÉmetteurConfig &ec)</code><br/>Création d'un générateur de trames. </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../../index-func/telecom/telecom-mods/telecom-mods-wf/index.html">Formes d'ondes</a></li><li><a href="../../../index-func/telecom/telecom-mods/ProtocoleDemodulateur/index.html">Structure ProtocoleDemodulateur</a></li><li><a href="../../../index-func/telecom/telecom-mods/ModConfig/index.html">Structure ModConfig</a></li><li><a href="../../../index-func/telecom/telecom-mods/Modulateur/index.html">Structure Modulateur</a></li><li><a href="../../../index-func/telecom/telecom-mods/Demodulateur/index.html">Structure Démodulateur</a></li><li><a href="../../../index-func/telecom/telecom-mods/DemodConfig/index.html">Structure DemodConfig</a></li><li><a href="../../../index-func/telecom/telecom-mods/TrameFormat/index.html">Structure TrameFormat</a></li><li><a href="../../../index-func/telecom/telecom-mods/RecepteurConfig/index.html">Structure RécepteurConfig</a></li><li><a href="../../../index-func/telecom/telecom-mods/RecepteurTrame/index.html">Structure RécepteurTrame</a></li><li><a href="../../../index-func/telecom/telecom-mods/RecepteurEtat/index.html">Structure RécepteurEtat</a></li><li><a href="../../../index-func/telecom/telecom-mods/Recepteur/index.html">Structure Récepteur</a></li><li><a href="../../../index-func/telecom/telecom-mods/113/index.html">Structure ÉmetteurConfig</a></li><li><a href="../../../index-func/telecom/telecom-mods/114/index.html">Structure Émetteur</a></li><li><a href="../../../index-func/telecom/telecom-mods/modulateur_creation/index.html">modulateur_création</a></li><li><a href="../../../index-func/telecom/telecom-mods/demodulateur_creation/index.html">démodulateur_création</a></li><li><a href="../../../index-func/telecom/telecom-mods/recepteur_creation/index.html">récepteur_création</a></li><li><a href="../../../index-func/telecom/telecom-mods/emetteur_creation/index.html">émetteur_création</a></li></ul><ul></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>filtre_cic</title>
+<meta name="description" content="filtre_cic"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_cic/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_cic/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_cic/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">filtre_cic</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / filtre_cic</li></ul>
+        </div>
+<div id="page-content-full"><p>Création d'un filtre CIC, opérant sur des vecteurs de type T, et travaillant en interne avec le type Ti. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;T&gt;&gt; <b>filtre_cic</b>(const CICConfig &config, char mode='d')</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>config</td><td>Paramètres principaux (voir <a href="../../../../index-func/filtrage/filtrage-design/CICConfig/index.html">CICConfig</a>) </td></tr><tr><td>mode</td><td>'d' for decimation or 'u' for upsampling. </td></tr></table></p><h2><a name="5"></a>Description</h2><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Pour le type interne, il faut absolument choisir un type entier, car la façon dont le filtre est implémenté fait que les calculs ne fonctionneront pas avec un type flottant.</dd></dl><br/><para fr="Exemple pour l'interpolation"><description lang="fr"><p><pre><code class="C++">
+<highlight class="normal">  </highlight><highlight class="comment">// Upsample by 16</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit R = 16, N = 4;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Input sampling frequency = 10 MHz / 16</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit fe = (10e6f) / R;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Test signal frequency</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit f = 50e3;</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Creation of the CIC filter:</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">//  - input / output type = float</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">//  - internal registers = entier</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit cic = filtre_cic&lt;float,entier&gt;({R, N, 1}, </highlight><highlight class="charliteral">'u'</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Build a signal pure sine wave at 50 KHz</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit t = <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, 1e-4, fe*1e-4); </highlight><highlight class="comment">// 0.1 ms time slot</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit x = sin(2*<a href="../../../../index-func/tsd/47/../index.html">π</a>*f*t);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Scale the signal by 2^15, because internal computing inside</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// CIC filter will be done in integer format.</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  x *= 32768;</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Use the CIC filter to upsample by a ratio of R</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit xu = cic-&gt;step(x);</highlight>
+<highlight class="normal"></highlight>
+</code></pre></p><img src="filtrage-cic-interpolation.png" style="height: 100%; width: 100%; object-fit: contain"></img>
+ Notez les repliements du signal utile sur le spectre. <linebreak/></description></para><para fr="Exemple pour la décimation"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Input sampling frequency = 10 MHz</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit fe = 10e6f;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Decimate by 16 (e.g. output sample frequency = 625 KHz)</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit R = 16, N = 4;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Creation of the CIC filter</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit cic = filtre_cic&lt;float,entier&gt;({R, N});</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Build a signal which is the superposition of 2 pure sine wave:</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">//  - one at 2 MHz</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">//  - one at 20 KHz</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit f1 = 2e6f/2, f2 = 20e3f/2;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// 1 ms time slot</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit t = <a href="../../../../index-func/tsd/tsd-gen/intervalle_temporel/index.html">intervalle_temporel</a>(</highlight><highlight class="comment">/*10000*/</highlight><highlight class="normal">2000, fe);</highlight>
+<highlight class="normal">  soit x = sin(t*2*<a href="../../../../index-func/tsd/48/../index.html">π_f</a>*f1) + sin(t*2*<a href="../../../../index-func/tsd/48/../index.html">π_f</a>*f2);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Scale the data to 16 bit precision</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  x *= 32768;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Decimation by ratio 1/R</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit xd = cic-&gt;step(x);</highlight>
+<highlight class="normal"></highlight>
+</code></pre></p><img src="filtrage-cic-decimation.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

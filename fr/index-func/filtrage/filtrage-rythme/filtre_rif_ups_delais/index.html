@@ -1,0 +1,90 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>filtre_rif_ups_délais</title>
+<meta name="description" content="filtre_rif_ups_délais"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtre_rif_ups_delais/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtre_rif_ups_delais/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtre_rif_ups_delais/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">filtre_rif_ups_délais</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-rythme/index.html">Rééchantillonnage</a></li><li> / filtre_rif_ups_délais</li></ul>
+        </div>
+<div id="page-content-full"><p>Calcul du retard d'une filtre RIF interpolateur. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">float <b>filtre_rif_ups_délais</b>(entier nc, entier R)</pre></p><h2><a name="4"></a>Description</h2><p>Si le nombre de coefficients, \(K\) est un multiple de \(R\) :  <formula id="246">\[
+ \tau = \frac{K - 1}{2}
+\]</formula></p><p>Sinon :  <formula id="247">\[
+ \tau = \frac{K - 1}{2} + R - (K [R])
+\]</formula></p><p/><h2><a name="5"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-rythme/filtre_rif_ups/index.html">filtre_rif_ups()</a></p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

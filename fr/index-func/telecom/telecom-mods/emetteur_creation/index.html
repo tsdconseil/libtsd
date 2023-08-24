@@ -1,0 +1,113 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>émetteur_création</title>
+<meta name="description" content="émetteur_création"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/emetteur_creation/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/emetteur_creation/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/emetteur_creation/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">émetteur_création</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-mods/index.html">Modulations numériques</a></li><li> / émetteur_création</li></ul>
+        </div>
+<div id="page-content-full"><p>Création d'un générateur de trames. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;Émetteur&gt; <b>émetteur_création</b>(const ÉmetteurConfig &ec)</pre></p><h2><a name="4"></a>Description</h2><p>La structure de configuration (<a href="../../../../index-func/telecom/telecom-mods/113/index.html">ÉmetteurConfig</a>) indique le format de la trame, c'est-à-dire :</p><ul><li>L'en-tête de synchronisation,</li><li>Le nombre de bits utiles,</li><li>Les paramètres de la modulation.</li></ul><p>Ce bloc va concaténer l'en-tête avec les bits utiles de manière à générer des échantillons I/Q à partir des bits utiles, en s'occupant des éventuels problème de padding (si plusieurs bits / symbole). Par exemple, avec une modulation QPSK (2 bits / symboles), si l'en-tête fait 127 bits, alors un zéro est inséré de manière à former un en-tête de 128 bits.</p><p>En fin de trame, le filtre de mise en forme est appliqué un peu plus loin que nécessaire, afin que le signal I/Q revienne proprement à zéro sans discontinuité (voir exemple ci-dessous, dernière courbe).</p><p>Notez que la forme d'onde n'est pas forcément identique pour l'en-tête et pour les données utiles, si le champs ÉmetteurConfig::format.fo_entete est renseigné.</p><p><h2>Schéma-bloc</h2><p fr="Schéma-bloc"><description lang="fr"><img src="emetteur.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>L'application d'un code correcteur n'est pas encore implémentée.</dd></dl><br/><para fr="Exemple"><description lang="fr"><p><pre><code class="C++">
+<highlight class="normal">  </highlight><highlight class="comment">// Configuration de l'émetteur</highlight>
+<highlight class="comment"></highlight><highlight class="normal">  <a href="../../../../index-func/telecom/telecom-mods/113/index.html">ÉmetteurConfig</a> ec;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// En-tête de synchonisation (13 bits)</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  ec.lien non trouvé : [structtsd_1_1telecom_1_1_xC3_x89metteur_config_1ae100290dc28b30ce1876de55c758d0bc]format.lien non trouvé : [structtsd_1_1telecom_1_1_trame_format_1a81d8500fe602da6b9589a1d5f7701fa2]entete = <a href="../../../../index-func/telecom/telecom-codes-synchro/code_Barker/index.html">code_Barker</a>(13);</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Nombre de bits utiles</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  ec.lien non trouvé : [structtsd_1_1telecom_1_1_xC3_x89metteur_config_1ae100290dc28b30ce1876de55c758d0bc]format.lien non trouvé : [structtsd_1_1telecom_1_1_trame_format_1aab240a66c4b5d7f3fa38c726a0f810fe]nbits  = 16;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Facteur de sur-échantillonnage = 8</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  ec.lien non trouvé : [structtsd_1_1telecom_1_1_xC3_x89metteur_config_1ae100290dc28b30ce1876de55c758d0bc]format.lien non trouvé : [structtsd_1_1telecom_1_1_trame_format_ac7880c92728eeee06e3448dbab3a8381_1ac7880c92728eeee06e3448dbab3a8381]modulation.lien non trouvé : [structtsd_1_1telecom_1_1_mod_config_1a70eb9291612719b24f2ac92996cb9fa4]fsymb  = 1;</highlight>
+<highlight class="normal">  ec.lien non trouvé : [structtsd_1_1telecom_1_1_xC3_x89metteur_config_1ae100290dc28b30ce1876de55c758d0bc]format.lien non trouvé : [structtsd_1_1telecom_1_1_trame_format_ac7880c92728eeee06e3448dbab3a8381_1ac7880c92728eeee06e3448dbab3a8381]modulation.lien non trouvé : [structtsd_1_1telecom_1_1_mod_config_1a27ee82b08ade399e2cb8cd05241e7c11]fe     = 8;</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// BPSK, avec filtre SRRC (60 % de dépassement)</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  ec.lien non trouvé : [structtsd_1_1telecom_1_1_xC3_x89metteur_config_1ae100290dc28b30ce1876de55c758d0bc]format.lien non trouvé : [structtsd_1_1telecom_1_1_trame_format_ac7880c92728eeee06e3448dbab3a8381_1ac7880c92728eeee06e3448dbab3a8381]modulation.lien non trouvé : [structtsd_1_1telecom_1_1_mod_config_1a7ab39be2bea9353c45ef8bc657fce175]forme_onde = <a href="../../../../index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_bpsk/index.html">forme_onde_bpsk</a>(lien non trouvé : [structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_1ade0567b3c8300e63cb0a477dba0a60a1]SpecFiltreMiseEnForme::rcs(0.6));</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Instanciation de l'émetteur</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit tx = <a href="../../../../index-func/telecom/telecom-mods/emetteur_creation/index.html">émetteur_création</a>(ec);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// 16 bits alternés (101010...)</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit data = lien non trouvé : [classtsd_1_1telecom_1_1_bit_stream_1adc6e6a9b8faa01e1017be415ad5368be]BitStream::altern(16);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Emission d'une trame</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit iq = tx-&gt;step(data);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Figures f;</highlight>
+<highlight class="normal">  f.subplot().plot(ec.lien non trouvé : [structtsd_1_1telecom_1_1_xC3_x89metteur_config_1ae100290dc28b30ce1876de55c758d0bc]format.lien non trouvé : [structtsd_1_1telecom_1_1_trame_format_1a81d8500fe602da6b9589a1d5f7701fa2]entete.lien non trouvé : [classtsd_1_1telecom_1_1_bit_stream_1ac495fc01f7eddc3294118d570558e541]array(), </highlight><highlight class="stringliteral">"|bo"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"En-tête de synchronisation"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot(data.array(), </highlight><highlight class="stringliteral">"|go"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Données"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot(iq, </highlight><highlight class="stringliteral">"-m"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.gcf().titre(</highlight><highlight class="stringliteral">"Trame modulée (en-tête + données)"</highlight><highlight class="normal">);</highlight>
+</code></pre></p><img src="ex-emetteur.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p></p><h2><a name="5"></a>Voir aussi</h2><p><a href="../../../../index-func/telecom/telecom-mods/recepteur_creation/index.html">récepteur_création()</a>, <a href="../../../../index-func/telecom/telecom-mods/modulateur_creation/index.html">modulateur_création()</a>, <a href="../../../../index-func/telecom/telecom-mods/demodulateur_creation/index.html">démodulateur_création()</a></p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

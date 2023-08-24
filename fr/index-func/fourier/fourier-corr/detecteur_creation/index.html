@@ -1,0 +1,129 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>détecteur_création</title>
+<meta name="description" content="détecteur_création"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/detecteur_creation/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/detecteur_creation/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/detecteur_creation/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">détecteur_création</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / <a href="../../../../index-func/fourier/fourier-corr/index.html">Corrélation et délais temporels</a></li><li> / détecteur_création</li></ul>
+        </div>
+<div id="page-content-full"><p>Détecteur par corrélation. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;Detecteur&gt; <b>détecteur_création</b>(const DetecteurConfig &config=DetecteurConfig())</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>config</td><td>Structure de configuration </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p><a href="../../../../index-func/tsd/Filtre/index.html">Filtre</a> cfloat \(\to\) float, qui prend en entrée des échantillons, et sort, au fil de l'eau, la corrélation normalisée avec le motif.</p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule, au fil de l'eau, la corrélation normalisée entre un signal \((x_k)\) reçu en continu et un motif fixe \((h_k)\) de dimension \(M\) :  <formula id="133">\[
+c_n = \frac{\left|\displaystyle{\sum_{k=0}^{M-1} x_{n+k} \cdot h_{k}^\star}\right|}{\displaystyle{ \sqrt{\left(\sum_{k=0}^{M-1}\left|x_{n+k}\right|^2\right) \left(\sum_{k=0}^{M-1}\left|h_k\right|^2\right)}}}
+\]</formula></p><p>Les \(c_n\) sont donc compris entre 0 et 1, et seront égaux à 1 uniquement si le signal est exactement égal au motif (à un facteur d'échelle constant près) sur l'intervalle \([n\dots n + M[\).</p><p>Le calcul pouvant être fait soit grâce à un filtre RIF (avec une complexité de l'ordre de \(M\) opérations / échantillon), soit de manière efficace dans le domaine fréquentiel via la technique <i>Overlap-And-Add</i> (bloc <a href="../../../../index-func/fourier/filtre_fft/index.html">filtre_fft()</a>), la complexité étant alors de l'ordre de \(\log_2(M)\) opérations par échantillon (si \(M\) est une puissance de 2).</p><p>Ensuite, les pics isolés correspondant à des positions possibles de motif sont détectés. Les deux critères suivants sont vérifiés~:</p><ul><li>Score \(c_n\) supérieur à un seuil paramétrable,</li><li>Absence de pic de score supérieur dans un voisinage de \(\pm\) la moitié de la durée du motif de synchronisation.</li></ul><p>Pour chaque position possible, les paramètres suivants sont alors estimés : <b>Gain complexe du signal</b> (rapport complexe entre le signal reçu et le motif théorique attendu) :  <formula id="137">\[
+     g \sim \frac{\displaystyle{\sum_{k=0}^{M-1} x_{n+k} \cdot h_k^\star}}{\displaystyle{\sum_{k=0}^{M-1} |h_k|^2}}
+    \]</formula> De cette valeur complexe, on en déduit le gain en amplitude et le déphasage :  <formula id="138">\[
+    A = \left|g\right|,\quad \phi = \arg g
+    \]</formula><b>Ecart-type du bruit et SNR :</b> Pour estimer le niveau de bruit, on note simplement que \(x_n - g^\star h_n \sim x_n - g h_n = b_n\), ainsi il suffit de mesurer l'énergie du signal \(x_n - g h_n\) pour avoir le niveau du bruit :  <formula id="141">\[
+      \epsilon_b \sim \mathbb{E}\left[\left|x_n - g h_n\right|^2\right]
+      \]</formula> Cependant, le signal reçu sera en général affecté d'un retard non entier qui, si il ne posera pas de problème pour l'estimation de gain (puisque le signal est suréchantillonné), pourrait conduire sur-estimer le bruit. C'est pourquoi avant estimation de celui-ci, le signal est décalé d'un pas fractionnaire afin de minimiser l'erreur.</p><p>Pour chaque motif détecté, une callback utilisateur est appelée, avec l'ensemble des paramètres estimés ainsi que le score de corrélation normalisé.</p><p><h2>Schéma-bloc</h2><p fr="Schéma-bloc"><description lang="fr"><img src="detecteur.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><para fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit M = 512;  </highlight><highlight class="comment">// Dimension du motif</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit N = 16*M; </highlight><highlight class="comment">// Dimension du signal</highlight><highlight class="normal"></highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Motif de synchronisation</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit motif = <a href="../../../../index-func/tsd/tsd-gen/sigchirp/index.html">sigchirp</a>(0.001, 0.2, M, </highlight><highlight class="charliteral">'q'</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Signal = bruit</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit x = (0.1 * <a href="../../../../index-func/tsd/tsd-gen/randn-2/index.html">randn</a>(N)).as&lt;cfloat&gt;();</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// + motif à détecter au milieu</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  x.segment(900, M) = motif;</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  soit pos_detection = 0;</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  <a href="../../../../index-func/fourier/fourier-corr/DetecteurConfig/index.html">DetecteurConfig</a> config;</highlight>
+<highlight class="normal">  config.motif  = motif;</highlight>
+<highlight class="normal">  config.Ne     = M;</highlight>
+<highlight class="normal">  config.lien non trouvé : [structtsd_1_1fourier_1_1_detecteur_config_1ac6388199c133574b9aa9061ced1f407f]gere_detection = [&](</highlight><highlight class="keyword">const</highlight><highlight class="normal"> <a href="../../../../index-func/fourier/fourier-corr/Detection/index.html">Detection</a> &det)</highlight>
+<highlight class="normal">  {</highlight>
+<highlight class="normal">    msg(</highlight><highlight class="stringliteral">"Detection : {}."</highlight><highlight class="normal">, det);</highlight>
+<highlight class="normal">    pos_detection = det.position;</highlight>
+<highlight class="normal">  };</highlight>
+<highlight class="normal">  soit det = <a href="../../../../index-func/fourier/fourier-corr/detecteur_creation/index.html">détecteur_création</a>(config);</highlight>
+<highlight class="normal">  soit y = det-&gt;step(x);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Figures f;</highlight>
+<highlight class="normal">  f.subplot().plot(real(motif), </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Motif à détecter"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot(real(x), </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"x"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.gcf().def_rdi({0, -1, 8000, 2});</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  f.gcf().canva().set_couleur(tsd::vue::Couleur::Vert);</highlight>
+<highlight class="normal">  f.gcf().canva().set_epaisseur(3);</highlight>
+<highlight class="normal">  f.gcf().canva().set_remplissage(non);</highlight>
+<highlight class="normal">  f.gcf().canva().rectangle(pos_detection, 1, pos_detection + M - 1, -1);</highlight>
+<highlight class="normal"></highlight>
+</code></pre></p><img src="fft_correlateur.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p></p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

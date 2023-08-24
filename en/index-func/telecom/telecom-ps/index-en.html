@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Shaping filter</title>
+<meta name="description" content="Shaping filter"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index-en.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index-en.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index-en.html">General functions</a></li><li><a href="../../../index-func/vue/index-en.html">Visualizations</a></li><li><a href="../../../index-func/geometrie/index-en.html">Geometry</a></li><li><a href="../../../index-func/ct/index-en.html">Continuous time signals</a></li><li><a href="../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../index-func/fourier/index-en.html">Fourier transform</a></li><li><a href="../../../index-func/temps-frequence/index-en.html">Time-frequency representations</a></li><li><a href="../../../index-func/stats/index-en.html">Statistical signal processing</a></li><li><a href="../../../index-func/telecom/index-en.html">Telecommunications</a></li><li><a href="../../../index-func/apps/index-en.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index-en.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index-en.html">Sampling</a></li><li><a href="../../../tab-tutos/ex-filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../tab-tutos/ex-fourier/index-en.html">Fourier transform</a></li><li><a href="../../../tab-tutos/ex-telecom/index-en.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index-en.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index-en.html">License<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index-en.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">C++ signal processing</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index-en.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index-en.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index-en.html">General functions</a></li><li><a href="../../../index-func/vue/index-en.html">Visualizations</a></li><li><a href="../../../index-func/geometrie/index-en.html">Geometry</a></li><li><a href="../../../index-func/ct/index-en.html">Continuous time signals</a></li><li><a href="../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../index-func/fourier/index-en.html">Fourier transform</a></li><li><a href="../../../index-func/temps-frequence/index-en.html">Time-frequency representations</a></li><li><a href="../../../index-func/stats/index-en.html">Statistical signal processing</a></li><li><a href="../../../index-func/telecom/index-en.html">Telecommunications</a></li><li><a href="../../../index-func/apps/index-en.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index-en.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index-en.html">Sampling</a></li><li><a href="../../../tab-tutos/ex-filtrage/index-en.html">Linear filtering</a></li><li><a href="../../../tab-tutos/ex-fourier/index-en.html">Fourier transform</a></li><li><a href="../../../tab-tutos/ex-telecom/index-en.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index-en.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index-en.html">License<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Shaping filter</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../index-func/telecom/index-en.html">Telecommunications</a></li><li> / Shaping filter</li></ul>
+        </div>
+<div id="page-content"><p>Ce module contient quelques fonctions pour transformer une séquence binaire en un signal continu (ou pseudo-continu, puisque l'on travaille dans le domaine numérique, où les signaux sont discrétisés et échantillonnés avec une fréquence d'échantillonnage finie).</p><p>Les étapes classiques pour cette mise en forme sont les suivantes (voir figure ci-dessous) : création des symboles (constellation) à partir de la séquence binaire (chaque symbole permettant de coder un ou plusieurs bits), sur-échantillonnage (suivant le rapport de sur-échantillonnage souhaité), puis filtrage de mise en forme (Gaussien, RC, moyenne mobile, etc.).</p><p>Les fonctions suivantes sont proposées :</p><ul><li>Encodage (resp. décodage) des symboles : permet de passer d'une chaîne binaire à un ensemble de symboles (réels ou complexes), ou réciproquement. Les fonctions correspondantes sont symmap (codage symbole) et symdemap (décodage symbole).</li><li>Changement de fréquence d'échantillonnage : permet de passer d'une fréquence d'échantillonnage de 1 échantillon / symbole, à n échantillons / symbole, ce qui est nécessaire avant l'étape suivante de filtrage (upsample et downsample pour l'opération inverse)</li><li>Filtrage de mise en forme : différents gabarits de filtres sont possibles : SRRC, RC, Gaussien, NRZ, etc. (psfilter_init et psfilter_process).</li><li><p>Quelques autres fonctions pour réaliser ces trois étapes simultanément dans des cas spécifiques :</p><ul><li>Génération d'un signal NRZ (Non Return to Zero) à partir d'un train binaire (nrz),</li><li>Génération d'un signal NRZ à plusieurs niveaux (PAM / Pulse Amplitude Modulation) à partir d'un train binaire (pam). </li></ul></li></ul><br/><h2><a name="2"></a>Structures</h2><p><code>struct <a href="ShapingFilterSpec/index-en.html">ShapingFilterSpec</a></code><br/>Specification of a shaping filter. </p><h2><a name="3"></a>Functions</h2><p><code>std::ostream & dsp::telecom::<a href="28/index-en.html">operator&lt;&lt;</a>(std::ostream &ss, const ShapingFilterSpec &t)</code><br/></p><p><code>Vector&lt;T&gt; <a href="sah/index-en.html">sah</a>(const Vector&lt;T&gt; &x, int R)</code><br/>Sample and hold oversampling. </p><p><code>Veci <a href="symmap_binary/index-en.html">symmap_binary</a>(const BitStream &x, int k)</code><br/>Conversion from binary sequence \(\to\) symbol index sequence. </p><p><code>void <a href="symunmap_binary/index-en.html">symunmap_binary</a>(BitStream &bs, const Veci &x, int k)</code><br/>Conversion index \(\to\) train binaire. </p><p><code>void <a href="diff_encode/index-en.html">diff_encode</a>(BitStream &y, const BitStream &x)</code><br/>Differential encoder (polynomial = \(1/(1+X)\)), MSB first. </p><p><code>void <a href="diff_decode/index-en.html">diff_decode</a>(BitStream &y, const BitStream &x)</code><br/>Differential decoder (polynomial = 1+X), MSB first. </p><p><code>void <a href="decode_hard/index-en.html">decode_hard</a>(BitStream &y, const Vecf &llr)</code><br/>Hard decoding of LLR data. </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../../index-func/telecom/telecom-ps/ShapingFilterSpec/index-en.html">Structure ShapingFilterSpec</a></li><li><a href="../../../index-func/telecom/telecom-ps/28/index-en.html">operator&lt;&lt;</a></li><li><a href="../../../index-func/telecom/telecom-ps/sah/index-en.html">sah</a></li><li><a href="../../../index-func/telecom/telecom-ps/symmap_binary/index-en.html">symmap_binary</a></li><li><a href="../../../index-func/telecom/telecom-ps/symunmap_binary/index-en.html">symunmap_binary</a></li><li><a href="../../../index-func/telecom/telecom-ps/diff_encode/index-en.html">diff_encode</a></li><li><a href="../../../index-func/telecom/telecom-ps/diff_decode/index-en.html">diff_decode</a></li><li><a href="../../../index-func/telecom/telecom-ps/decode_hard/index-en.html">decode_hard</a></li></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

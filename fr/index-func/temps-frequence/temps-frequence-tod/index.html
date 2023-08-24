@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Transformées en ondelette</title>
+<meta name="description" content="Transformées en ondelette"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/temps-frequence/temps-frequence-tod/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/temps-frequence/temps-frequence-tod/index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/temps-frequence/temps-frequence-tod/index-de.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Transformées en ondelette</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li> / Transformées en ondelette</li></ul>
+        </div>
+<div id="page-content"><br/><h2><a name="2"></a>Structures</h2><p><code>struct <a href="Laurent/index.html">Laurent</a></code><br/>Polynôme de Laurent (puissance positives et négatives de z) </p><p><code>struct <a href="LiftElem/index.html">LiftElem</a></code><br/>Décrit un étage de lifting. </p><p><code>struct <a href="Lift/index.html">Lift</a></code><br/>Spécification d'une ondelette sous forme d'étapes de lifting. </p><p><code>struct <a href="FormePolyphase/index.html">FormePolyphase</a></code><br/>Spécification d'une ondelette sous la forme d'un filtre polyphase (matrice 2x2 de polynômes de <a href="../../../index-func/temps-frequence/temps-frequence-tod/Laurent/index.html">Laurent</a>) </p><p><code>struct <a href="QMF/index.html">QMF</a></code><br/>Spécification d'une ondelette sous forme de deux filtres fonctionnnant en quadrature. </p><p><code>struct <a href="Ondelette/index.html">Ondelette</a></code><br/>Ondelette générique </p><h2><a name="3"></a>Fonctions</h2><p><code>Lift <a href="lift_haar/index.html">lift_haar</a>()</code><br/>Spécification de l'ondelette de Haar (sous forme de schéma de lifting) </p><p><code>Lift <a href="lift_db2/index.html">lift_db2</a>()</code><br/>Spécification de l'ondelette Daubechie d'ordre 2 (sous forme de schéma de lifting) </p><p><code>sptr&lt;Ondelette&lt;T&gt;&gt; <a href="ondelette_gen/index.html">ondelette_gen</a>(const Lift &lift)</code><br/>Implémentation d'une ondelette à partir du schèma de lifting. </p><p><code>void <a href="dwt/index.html">dwt</a>(sptr&lt;Ondelette&lt;T&gt;&gt; ondelette, Vecteur&lt;T&gt; &x, entier profondeur)</code><br/>Transformée en ondelette. </p><p><code>void <a href="iwt/index.html">iwt</a>(sptr&lt;Ondelette&lt;T&gt;&gt; ondelette, Vecteur&lt;T&gt; &x, entier profondeur)</code><br/>Transformée en ondelette inverse. </p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <ul><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/Laurent/index.html">Structure Laurent</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/LiftElem/index.html">Structure LiftElem</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/Lift/index.html">Structure Lift</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/FormePolyphase/index.html">Structure FormePolyphase</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/QMF/index.html">Structure QMF</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/Ondelette/index.html">Structure Ondelette</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/lift_haar/index.html">lift_haar</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/lift_db2/index.html">lift_db2</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/ondelette_gen/index.html">ondelette_gen</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/dwt/index.html">dwt</a></li><li><a href="../../../index-func/temps-frequence/temps-frequence-tod/iwt/index.html">iwt</a></li></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

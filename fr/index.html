@@ -1,157 +1,114 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.9.1"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libtsd: Page principale</title>
-<link href="tabs.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<link href="search/search.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="search/searchdata.js"></script>
-<script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(function() { init_search(); });
-/* @license-end */
-</script>
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="/highlight/styles/default.css">
+    <script src="/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="js/jquery-1.7.min.js" type="text/javascript"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
 </script>
-<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
-<link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>LibTSD</title>
+<meta name="description" content="Libtsd"/>
+<!--[if lt IE 9]>
+      <script src="js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="css/style.css"/>
+    <link rel="stylesheet" media="all" href="css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="js/custom.js"></script>
+<script src="js/tabs.js"></script><script src="js/masonry.min.js" ></script>
+<script src="js/imagesloaded.js" ></script><link rel="stylesheet" href="css/jquery.tweet.css" media="all"  /> 
+<script src="js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="css/superfish.css" /> 
+<script  src="js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="css/flexslider.css" >
+<script src="js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="css/lessgrid.css"/>
+<script src="js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr//index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr//index-en.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr//index-de.html"/>
 </head>
-<body>
-<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-<div id="titlearea">
-<table cellspacing="0" cellpadding="0">
- <tbody>
- <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">libtsd
-   &#160;<span id="projectnumber">0.1</span>
-   </div>
-   <div id="projectbrief">Librairie C++ pour le traitement du signal</div>
-  </td>
- </tr>
- </tbody>
-</table>
-</div>
-<!-- end header part -->
-<!-- Généré par Doxygen 1.9.1 -->
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
-/* @license-end */
-</script>
-  <div id="navrow1" class="tabs">
-    <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Page&#160;principale</span></a></li>
-      <li><a href="modules.html"><span>Modules</span></a></li>
-      <li><a href="pageinstall.html"><span>Installation</span></a></li>
-      <li><a href="pagelicence.html"><span>Licence</span></a></li>
-      <li>
-        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <img id="MSearchSelect" src="search/mag_sel.svg"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li class="current-menu-item"><a href="index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li><a href="index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="index-func/tsd/index.html">Fonctions générales</a></li><li><a href="index-func/vue/index.html">Visualisations</a></li><li><a href="index-func/geometrie/index.html">Géométrie</a></li><li><a href="index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="index-func/telecom/index.html">Télécommunications</a></li><li><a href="index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
     </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('index.html',''); initResizable(); });
-/* @license-end */
-</script>
-<div id="doc-content">
-<!-- window showing the filter options -->
-<div id="MSearchSelectWindow"
-     onmouseover="return searchBox.OnSearchSelectShow()"
-     onmouseout="return searchBox.OnSearchSelectHide()"
-     onkeydown="return searchBox.OnSearchSelectKey(event)">
-</div>
-
-<!-- iframe showing the search results (closed by default) -->
-<div id="MSearchResultsWindow">
-<iframe src="javascript:void(0)" frameborder="0" 
-        name="MSearchResults" id="MSearchResults">
-</iframe>
-</div>
-
-<div class="PageDoc"><div class="header">
-  <div class="headertitle">
-<div class="title">libtsd Documentation</div>  </div>
-</div><!--header-->
-<div class="contents">
-<div class="textblock"><p><b>Libtsd</b> est une librairie pour le traitement du signal en C++ fondée sur la librairie <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, laquelle permet d'effectuer des calculs vectorisés de manière simple et intuitive. La librairie Libtsd vous apporte les facilités du traitement du signal à haut niveau (code lisible et intuitif), du type que l'on trouve habituellement avec Matlab ou Python, mais avec les avantages du C++, notamment en terme de fonctionnement possible pour des traitement en temps réels.</p>
-<p>Elle est constituée des modules de base suivants, ne nécessitant aucune dépendance autre que Eigen (en version 3) :</p><ul>
-<li><a class="el" href="group__tsd.html">tsd</a> : fonctions générales pour le traitement du signal (définition des structures abstraites pour les filtres / sources / puits de traitement)</li>
-<li><a class="el" href="group__filtrage.html">tsd::filtrage</a> : design, analyse et implémentation des filtres linéaires (LTI)</li>
-<li><a class="el" href="group__fourier.html">tsd::fourier</a> : traitements dans le domaine fréquentiel.</li>
-<li><a class="el" href="group__temps-frequence.html">tsd::tf</a> : traitements temps / fréquences (STFT, CQT, ondelettes, ...).</li>
-<li><a class="el" href="group__telecom.html">tsd::telecom</a> : modulations / démodulations numériques et analogiques.</li>
-<li><a class="el" href="group__stats.html">tsd::stats</a> : traitements basés sur les statistiques du signal (prédiction linéaire, méthode des sous-espaces, ...)</li>
-<li><a class="el" href="group__tsd-temps.html">tsd::temps</a> : fonctions et structures utiles pour la gestion des dates et heures, calendriers, etc.</li>
-</ul>
-<p>Les modules optionnels suivants peuvent par ailleurs être utilisés :</p><ul>
-<li><a class="el" href="group__vue.html">tsd::vue</a> : Tracés de courbes et la visualisation des données (dépendances : <a href="http://www.libpng.org">libpng</a> et <a href="https://www.freetype.org/">freetype</a>).</li>
-</ul>
-<p>Des modules plus applicatifs sont par ailleurs en cours de mise au point :</p><ul>
-<li><a class="el" href="group__kalman.html">tsd::kalman</a> : Filtrage de Kalman (linéaire et non linéaire),</li>
-<li><a class="el" href="group__apps-doa.html">tsd::apps::doa</a> : Calculs relatifs aux réseaux d'antennes</li>
-</ul>
-<h2>Style de code</h2>
-<p>La règle directrice qui a été choisie est de <b>simplifier au maximum les API</b>, afin qu'elles soient le plus lisibles et claires possibles, et de manière à miniser le risque d'erreur ou de confusion pour l'utilisateur. Cela implique notamment les choix suivants :</p><ul>
-<li>Le nombre de classes C++ exposées est minimisé, soit en exposant dans la mesure du possible de simples fonctions, soit en exposant des classes abstraites, de manière à masquer les détails d'implémentations.</li>
-<li>Quitte à limiter la flexibilité, les templates ne sont pas systématiquement utilisés, et quand un type (par exemple flottant simple ou double précision) paraît adéquat, il est utilisé directement. Cela permet de bien séparer l'API (fichiers d'en-tête) de l'implémentation, et aussi de réduire les temps de compilation.</li>
-</ul>
-<h2>Conventions de nommage</h2>
-<ul>
-<li>Les fonctions, variables et méthodes sont écrites en minuscules, les mots sont séparés avec le tiret du bas (_) : <code>une_fonction</code>,</li>
-<li>Les classes et structures sont écrites en "casse de chameau" (<em>camelcase</em>) : <code>UneClasse</code>,</li>
-<li>Les constantes en majuscules, les mots séparés par le tiret du bas : <code>UNE_CONSTANTE</code>.</li>
-</ul>
-<h2>Classes abstraites</h2>
-<p>Les classes abstraites sont instanciées par une méthode de type <code>nom_module_crée()</code>, qui renvoie un pointeur intelligent vers une instance de la classe (<code>std::shared_ptr&lt;T&gt;</code>, abbrégé en <code>tsd::sptr&lt;T&gt;</code>). </p>
-</div></div><!-- PageDoc -->
-</div><!-- contents -->
-</div><!-- doc-content -->
-<!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="footer">Généré le Mardi 2 Mai 2023 10:30:15 pour libtsd par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
-  </ul>
-</div>
-</body>
-</html>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="index/index.html" id="logo"><table><tr><td><img  src="img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li class="current-menu-item"><a href="index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li><a href="index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="index-func/tsd/index.html">Fonctions générales</a></li><li><a href="index-func/vue/index.html">Visualisations</a></li><li><a href="index-func/geometrie/index.html">Géométrie</a></li><li><a href="index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="index-func/telecom/index.html">Télécommunications</a></li><li><a href="index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="page-content-full"><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>This is the french API documentation. For english language API, please refer to the following page: <a url="https://tsdconseil.github.io/libtsd/en" href="https://tsdconseil.github.io/libtsd/en">https://tsdconseil.github.io/libtsd/en</a></dd></dl><br/><linebreak/><linebreak/></p><p>Libtsd est une collection de fonctions en C++ pour le traitement du signal. Voici les choix qui ont été faits pour le design de cette librarie :</p><p/><ul><li>Facilité d'utilisation : notamment grâce à des structures pour manipuler les vecteurs et les tableaux (Vecf, Veci, ...), ce qui permet un codage concis et lisible (de manière similaire à Matlab / Numpy),</li><li>Une distinction la plus claire possible entre les API (fichiers d'en-tête) et les implémentation (fichiers sources). De ce fait, les templates sont seulement utilisés avec parcimonie.</li><li>Une API multi-langues (du moins, en anglais avec le fichier d'interface <preformatted>dsp/dsp.hpp</preformatted>, en français grâce à <preformatted>tsd/tsd.hpp</preformatted>)</li></ul><p><h2 level="3">Exemple simple (API fr)</h2></p><p><pre><code class="C++"><highlight class="preprocessor">#include "tsd/tsd-all.hpp"</highlight><highlight class="normal"></highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"> main()</highlight>
+<highlight class="normal">{</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Exemple 1 : tracé simple</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  {</highlight>
+<highlight class="normal">    Figure f;</highlight>
+<highlight class="normal">    soit x = linspace(0, 8 * π, 100);</highlight>
+<highlight class="normal">    f.plot(x, cos(x));</highlight>
+<highlight class="normal">    f.enregistrer(</highlight><highlight class="stringliteral">"./cosinus.png"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  }</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Exemple 2 : conception de filtre</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  {</highlight>
+<highlight class="normal">    </highlight><highlight class="comment">// Passe-bas, 31 coefficients, coupant à fe/4</highlight><highlight class="normal"></highlight>
+<highlight class="normal">    soit h = <a href=".index-func/filtrage/filtrage-design/design_rif_fen/index.html">design_rif_fen</a>(31, </highlight><highlight class="stringliteral">"pb"</highlight><highlight class="normal">, 0.25);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">    Figure f;</highlight>
+<highlight class="normal">    f.plot(h, </highlight><highlight class="stringliteral">"|o"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"réponse impulsionnelle"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">    f.enregistrer(</highlight><highlight class="stringliteral">"./filtre.png"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">    soit n = 500;</highlight>
+<highlight class="normal">    soit x = <a href=".index-func/tsd/tsd-gen/sigcos/index.html">sigcos</a>(0.01, n) + 0.1 * <a href=".index-func/tsd/tsd-gen/randn/index.html">randn</a>(n),</highlight>
+<highlight class="normal">         y = <a href=".index-func/filtrage/filtrage-fini/filtrer/index.html">filtrer</a>(h, x);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">    f.clear();</highlight>
+<highlight class="normal">    f.plot(x, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal bruité"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">    f.plot(y, </highlight><highlight class="stringliteral">"r-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal filtré"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">    f.enregistrer(</highlight><highlight class="stringliteral">"./filtrage.png"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  }</highlight>
+<highlight class="normal">  </highlight><highlight class="keywordflow">return</highlight><highlight class="normal"> 0;</highlight>
+<highlight class="normal">}</highlight>
+</code></pre></p><p>Notez que certains mots clés ont été redéfinis en français afin de permettre une lecture plus fluide. Voici la liste des équivalences :</p><p><table class="formtable3"><tr><th>Mot clé en français</th><th>Mot clé C++ équivalent </th></tr><tr><td><code>soit</code></td><td><code>auto</code></td></tr><tr><td><code>pour</code></td><td><code>for</code></td></tr><tr><td><code>tantque</code></td><td><code>while</code></td></tr><tr><td><code>entier</code></td><td><code>int</code></td></tr></table></p><p>Bien-sûr, si vous préférez, vous pouvez continuer à utiliser les mots clés en anglais. Ceci-dit, les exemples de cette documentation utilisent les équivalents français. </p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>
