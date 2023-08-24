@@ -17,8 +17,6 @@ namespace dsp::stats {
 
   /** @brief Résolution de l'équation @f$Ra = -r@f$
    *
-   * <h3>Algorithme de Levinson - Durbin</h3>
-   *
    * Résolution du système de Toeplitz
    * @f[
 \left(\begin{array}{cccc}
@@ -59,8 +57,6 @@ r_n\\
 
   /** @brief Récursion de Levinson - Durbin (cas général)
    *
-   *  <h3>Récursion de Levinson - Durbin</h3>
-   *
    *  Résolution du système de Toeplitz général
    * @f[
       \left(\begin{array}{cccc}
@@ -98,8 +94,6 @@ r_n\\
   }
 
   /** @brief Calcul d'une matrice d'auto-corrélation à partir d'un vecteur de corrélations
-   *
-   * <h3>Calcul de la matrice d'auto-corrélation</h3>
    *
    * Cette fonction construit une matrice d'auto-corrélation (matrice de Toeplitz pour un signal stationnaire) à partir du vecteur
    * d'auto-corrélation :
@@ -141,8 +135,6 @@ r_n\\
 
   /** @brief Analyse LPC (prédiction linéaire)
    *
-   * <h3>Analyse LPC (prédiction linéaire)</h3>
-   *
    * Cette fonction calcul les coefficients @f$a_k@f$ du modèle AR :
    * @f[
    *  x_n = \sum_{k=1}^{n} a_k x_{n-k} + e_n
@@ -158,8 +150,6 @@ r_n\\
   }
 
   /** @brief %Filtre de Wiener (RIF)
-   *
-   *  <h3>%Filtre de Wiener (RIF)</h3>
    *
    *  Modèle :
    *  @f[
@@ -261,8 +251,6 @@ r_n\\
 
 
   /** @brief Calcul d'une réponse générale par la méthode des sous-espaces
-   *
-   *  <h3>Méthode des sous-espaces</h3>
    *
    *  Calcul d'une réponse suivant l'algorithme MUSIC :
    *  @f[

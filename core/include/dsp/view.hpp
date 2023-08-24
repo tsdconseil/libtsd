@@ -21,11 +21,9 @@ namespace dsp::view
 
   /** @brief %Figure with Matlab / Scilab type API.
    *
-   *  <h3>%%Figure with Matlab / Scilab type API</h3>
-   *
    *  @par Example:
    *  @snippet exemples/src/ex-vue.cc ex_figure
-   *  @image html figure.png width=800px
+   *  @image html figure.png
    */
   struct Figure: tsd::vue::ARendable
   {
@@ -99,7 +97,6 @@ namespace dsp::view
 
     /** @brief Affiche une courbe
      *
-     *  <h3>Affichage d'une courbe</h3>
      *  @param x      Vecteur des valeurs en abcisse.
      *  @param y      Vecteur des valeurs en ordonnée.
      *  @param format Chaine de caractère optionnelle pour modifier le format.
@@ -114,7 +111,7 @@ namespace dsp::view
      *
      *  @par Exemple, avec différentes couleurs et différents marqueurs :
      *  @snippet exemples/src/ex-vue.cc ex_figure
-     *  @image html figure.png width=800px
+     *  @image html figure.png
      *
      *  @sa Figure::plot_psd(), Figure::plot_img()
      *
@@ -127,7 +124,6 @@ namespace dsp::view
 
     /** @brief Affiche le spectre d'un signal
      *
-     *  <h3>Affichage du spectre d'un signal</h3>
      *
      *  @param y      Signal à analyser (domaine temporel)
      *  @param fe     Fréquence d'échantillonnage
@@ -145,7 +141,6 @@ namespace dsp::view
 
     /** @brief Dessine une surface 2d avec des niveaux de couleur.
      *
-     *  <h3>Surface 2d</h3>
      *
      *  Cette méthode dessine une surface 2d grâce à des niveaux de couleurs (par défaut, carte "jet").
      *
@@ -194,7 +189,6 @@ namespace dsp::view
 
     /** @brief Définition du titre de la figure (ou de la sous-figure en cours).
      *
-     * <h3>Définition du titre</h3>
      *
      * Cette fonction permet de changer le titre de la figure (ou de la sous-figure en cours).
      *
@@ -208,8 +202,6 @@ namespace dsp::view
     }
 
     /** @brief Définition des titres.
-     *
-     * <h3>Définition des titres</h3>
      *
      * @param titre_global Texte affiché en haut de la figure
      * @param axe_x Label de l'axe horizontal
@@ -244,8 +236,6 @@ namespace dsp::view
     }
 
     /** @brief  Affichage à l'écran dans une fenêtre à part.
-     *
-     * <h3>Affichage d'une figure</h3>
      *
      * @warning Cette fonction n'aura aucun effet si la dépendance optionnelle GTKMM n'est pas présente
      * au moment de la compilation de la librairie.
@@ -316,7 +306,6 @@ namespace dsp::view
 
     /** @brief Partitionne la figure en sous-plots.
       *
-      *  <h3>Partition de la figure en sous-plots</h3>
       *  @param rows   Nombre de lignes
       *  @param cols   Nombre de colonnes
       *  @param sel    Sélection du subplot en cours (numéro entre 1 et rows*cols). Ou -1 pour automatique (nouveau subplot). */
@@ -326,8 +315,6 @@ namespace dsp::view
      }
 
      /** @brief Partitionne la figure en sous-plots.
-      *
-      *  <h3>Partition de la figure en sous-plots</h3>
       *
       *  Cette surcharge est juste une manière plus compacte de spécifier un sous-plot.
       *

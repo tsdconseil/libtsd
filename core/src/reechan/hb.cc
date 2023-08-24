@@ -79,11 +79,10 @@ namespace tsd::filtrage
 
     si(debug_design)
     {
-      plot_filtre(g).afficher("Filtre g");
-      plot_filtre(h).afficher("Filtre h");
+      plot_filtre(g).afficher("Filtre demi-bande : g");
+      plot_filtre(h).afficher("Filtre demi-bande : h");
     }
 
-    //msg("h: {}", h);
     retourne h;
   }
 

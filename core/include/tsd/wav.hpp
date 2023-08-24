@@ -25,7 +25,7 @@ struct WavConfig
   } format = PCM_16;
 };
 
-/** @~french  @brief Chargement d'un fichier audio monovoie (format .wav)
+/** @brief Chargement d'un fichier audio monovoie (format .wav)
  *  @returns Données, et fréquence d'échantillonnage
  *  @~english @brief Loading of a single channel .wav audio file*/
 extern tuple<Vecf, float> wav_charge(cstring chemin);

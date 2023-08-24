@@ -187,7 +187,7 @@ sptr<FiltreGen<cfloat>> égaliseur_rif_création(
 Tabf égaliseur_zfe_matrice(const Vecf &h, entier n)
 {
   soit m = h.rows();
-  // (2) Construit la matrice de filtrage : n + m - 1 lignes, n colonnes
+  // Construit la matrice de filtrage : n + m - 1 lignes, n colonnes
   soit F = Tabf::zeros(n + m -1, n);
 
   // Ligne 0 à m-1

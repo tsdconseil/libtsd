@@ -77,6 +77,7 @@ static entier teste(entier i, vector<Test> &tests)
   fmt::print("\033[34;1mTest");
   fmt::print(" [{}/{}]", (i+1), tests.size());
 
+
   tsd::vue::stdo.def_dossier_sortie("./build/test-log/" + t.nom);
 
   fmt::print(" \033[34;1m{}\033[0m...", t.nom);

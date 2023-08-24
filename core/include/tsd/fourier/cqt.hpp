@@ -37,10 +37,8 @@ struct CQTConfig
  * todo : exemple d'utilisation ici
  *
  *  */
-class CQT
+struct CQT
 {
-public:
-
   CQT();
   void configure(const CQTConfig &config);
 

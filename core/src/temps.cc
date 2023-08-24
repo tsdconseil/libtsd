@@ -346,10 +346,12 @@ double DateHeure::temps_sidéral_Greenwich() const
 {
   // https://lweb.cfa.harvard.edu/~jzhao/times.html
 
+  soit nj = nb_jours_Julien();
+
   // Nb jours Juliens du minuit précédent
-  soit jd0 = floor(nb_jours_Julien() + 0.5) - 0.5;
+  soit jd0 = floor(nj + 0.5) - 0.5;
   soit t   = (jd0 - 2451545.0) / 36525.0;
-  soit jdf = nb_jours_Julien() - jd0;
+  soit jdf = nj - jd0;
   soit gt  = 24110.54841 + t * (8640184.812866 + t * (0.093104 - t * 6.2E-6));
   gt  += jdf * 1.00273790935 * 86400.0;
   retourne modulo_2π(deg2rad(gt * 360.0 / nbsecs_par_jour));
@@ -535,9 +537,13 @@ std::ostream& operator<<(std::ostream& ss, const DateHeure &t)
     dc = t.decomposition();
   sinon
     dc = t.decomposition_locale();
+
   ss << sformat("{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}",
       dc.jour.année, dc.jour.mois, dc.jour.jour,
       dc.heure.heure, dc.heure.minutes, dc.heure.secondes);
+
+  ss << sformat(":{:0>3d}", dc.heure.ms);
+
   si(mode_utc)
     ss << " (UTC)";
   sinon

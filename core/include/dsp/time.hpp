@@ -50,8 +50,6 @@ struct HourComposite
 
   /** @brief Constructeur, à partir d'une chaine de caractères de type HH::MM::SS
    *
-   *  <h3>Constructeur, à partir d'une chaine de caractères de type HH::MM::SS</h3>
-   *
    *  Lève une exception si la chaîne est mal formatée.
    *
    *  @par Exemple
@@ -75,8 +73,6 @@ struct HourComposite
 
 
 /** @brief Intervalle temporel, en nombre de micro-secondes.
- *
- *  <h3>Intervalle temporel</h3>
  *
  *  Cette structure représente un intervalle de temps, exprimé en nombre
  *  de micro-secondes (champs tics).
@@ -281,6 +277,8 @@ struct DateComposite
   /** @brief Heure dans la journée */
   HourComposite hour;
 
+  DateComposite(){}
+
   DateComposite(const Calendar &day, const HourComposite &hour)
   {
     this->day  = day;
@@ -325,8 +323,6 @@ struct DateTime
 
   /** @brief Conctructeur (d'après calendrier Grégorien).
    *
-   *  <h3>Conctructeur (d'après calendrier Grégorien)</h3>
-   *
    * @par Exemple
    * @code
    * // 8 Février 2021, 12h00
@@ -355,7 +351,6 @@ struct DateTime
 
   /** @brief Calcul le temps sidéral de Greenwich.
    *
-   *  <h3>Temps sidéral Greenwich</h3>
    *  Le temps sidéral de Greenwich (GST),
    *
    *  @return Temps sidéral, en radians (entre 0 et @f$2\pi@f$).
@@ -367,7 +362,6 @@ struct DateTime
 
   /** @brief Calcul le temps sidéral local (exprimé en radians).
    *
-   *  <h3>Temps sidéral local</h3>
    *  Le temps sidéral local est le temps sidéral de Greenwich, auquel on ajoute
    *  la longitude locale.
    *
@@ -489,7 +483,6 @@ inline double gregorian2days(int année, double jour_année)
 
 /** @brief Nombre de jours pour un mois et une année donnée.
  *
- * <h3>Nombre de jours pour un mois et une année donnée</h3>
  *
  * @param year Numéro d'année suivant l'ère usuelle.
  * @param month Numéro de mois (entre 1 et 12).
@@ -502,7 +495,6 @@ inline int month_nb_days(int year, int month)
 
 /** @brief Vérifie si l'année est bissextile ou non.
  *
- *  <h3>Test année bissextile</h3>
  *
  *  Cette fonction vérifie si l'année passée en paramètre est bissextile (c'est-à-dire une année à 366 jours au lieu de 365) ou non.
  *
@@ -551,7 +543,6 @@ inline Duration operator-(const DateTime& dt1, const DateTime& dt2)
 
 /** @brief Ajout à un instant donné d'une certaine durée
  *
- *  <h3>Ajout à un instant donné d'une certaine durée</h3>
  *
  *  @par Example
  *  @code

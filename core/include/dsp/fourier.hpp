@@ -29,8 +29,6 @@ namespace dsp::fourier
 
 /** @brief Creation of a FFT computing plan (to compute efficiently several FFT).
  *
- * <h3>Creation of a FFT computing plan</h3>
- *
  * This function will create a structure which will be efficient to compute sereral FFT
  * with the same data length (the twiddle factors are only computed once).
  *
@@ -67,8 +65,6 @@ inline sptr<FFTPlan> fftplan_new(int n = -1, bool forward = true, bool normalize
 
 /** @brief Creation of a FFT computing plan for real signals (to compute efficiently several FFT).
  *
- * <h3>Creation of a FFT computing plan (real signals)</h3>
- *
  * This function will create a structure which will be efficient to compute sereral FFT
  * <b>on real signals</b> with the same data length (the twiddle factors are only computed once).
  *
@@ -103,8 +99,6 @@ inline sptr<FilterGen<float, cfloat>> rfftplan_new(int n = -1)
 
 /** @brief FFT of a real vector.
  *
- *  <h3>FFT of a real vector</h3>
- *
  *  This function computes efficiently the FFT of a real vector <b>with even number of samples</b>
  *  (if the provided vector has an odd number of elements, then the standard fft routine is called).
  *
@@ -117,8 +111,6 @@ Veccf rfft(const Vector<T> &x)
 }
 
 /** @brief DFT based zero-phase resampling.
- *
- * <h3>DFT based zero-phase resampling</h3>
  *
  * This function will resample a signal, without introducing any delay,
  * by working in the frequency domain.
@@ -135,7 +127,7 @@ Veccf rfft(const Vector<T> &x)
  *
  * @par Example showing the spurius artefacts
  * @snippet exemples/src/fourier/ex-fourier.cc exemple_resample_freq
- * @image html fourier-resample.png width=1000px
+ * @image html fourier-resample.png
  *
  * @sa resample()
  */
@@ -146,8 +138,6 @@ template<typename T>
 }
 
 /** @brief Fast discrete Fourier Transform (FFT).
- *
- *  <h3>Fast discrete Fourier Transform (FFT)</h3>
  *
  *  This function will compute the <b>normalized</b> DFT of a real or complex vector:
  *  @f[
@@ -173,8 +163,6 @@ auto fft(const Vector<T> &x)
 }
 
 /** @brief Inverse Fast discrete Fourier Transform
- *
- *  <h3>Inverse Fast discrete Fourier Transform</h3>
  *
  *  This function will compute the <b>normalized</b> DFT inverse of a real or complex vector:
  *  @f[
@@ -202,8 +190,6 @@ auto ifft(const Vector<T> &X)
 
 /** @brief Spectrum shift so as to be centered on the low frequencies.
  *
- *  <h3>Spectrum shift</h3>
- *
  *  This function shift the input spectrum so as the 0 Hz bin is at the center.
  *  If the number of samples is even:
  *  @f[
@@ -225,7 +211,7 @@ auto ifft(const Vector<T> &X)
  *
  *  @par Example
  *  @snippet exemples/src/fourier/ex-fourier.cc exemple_fftshift
- *  @image html fftshift.png width=800px
+ *  @image html fftshift.png
  *
  */
 template<typename T>
@@ -235,8 +221,6 @@ Vector<T> fftshift(const Vector<T> &X)
 }
 
 /** @brief Change a vector so as it has the conjugate symetry proporty.
- *
- *  <h3>Forcing conjugate symetry</h3>
  *
  *  @param X Complex vector (input and output parameter)
  *
@@ -279,8 +263,6 @@ struct FFTFilterConfig: tsdF::FiltreFFTConfig
 
 /** @brief Creation of frequency domain filter (OLA / OverLap-and-Add technique).
  *
- *  <h3>Creation of frequency domain filter</h3>
- *
  *  For different purposes, it can be convenient to apply filtering in the frequency domain rather
  *  than in the time domain, for instante to reduce the computing load.
  *  (time domain convolutions become simple term by term product in the frequency domain).
@@ -319,7 +301,7 @@ struct FFTFilterConfig: tsdF::FiltreFFTConfig
  *  @par Example: Low-pass filter
  *  In this example, we low-pass filter a signal by simply zeroing half the spectrum.
  *  @snippet exemples/src/fourier/ex-ola.cc ex_ola_pb
- *  @image html ex-ola-pb.png width=800px
+ *  @image html ex-ola-pb.png
  *
  *
  *  @sa filter_fir_fft(), filter_rfft(), ola_complexity(), ola_complexity_optimize()
@@ -333,8 +315,6 @@ inline tuple<sptr<Filter<cfloat, cfloat, tsdF::FiltreFFTConfig>>, int> filter_ff
 
 
 /** @brief Compute the complexity of an OLA filter, in FLOPS by input sample.
- *
- * <h3>Complexity of an OLA filter</h3>
  *
  *  @param M    Time-domain filter length (in samples),
  *  @param Ne   Input block length,
@@ -350,8 +330,6 @@ inline void ola_complexity(int M, int Ne, float &C, int &Nf, int &Nz)
 }
 
 /** @brief Compute optimal parameters for an OLA filter.
- *
- * <h3>Optimal parameters for an OLA filter</h3>
  *
  * This function computes the optimal input block length for an OLA process (see @ref filter_fft()).
  * The optimum is found for @f$N_e = 2^k - (M-1)@f$, @f$k@f$
@@ -373,8 +351,6 @@ inline void ola_complexity_optimize(int M, float &C, int &Nf, int &Nz, int &Ne)
 
 
 /** @brief Z-chirp transform.
- *
- *  <h3>Z-chirp transform</h3>
  *
  *  Evaluate the z transform on the following points:
  *    @f$z_0 \cdot W^n@f$, pour @f$n=0,1,...,m-1@f$
@@ -401,8 +377,6 @@ inline Veccf czt(const Veccf &x, int m, cfloat W, cfloat z0 = 1.0f)
 
 /** @brief Circular correlation (normalized) between two complex vectors.
  *
- *  <h3>Circular correlation product</h3>
- *
  *  FFT-based computing of:
  * @f[
  * c_n = \frac{1}{N} \cdot \sum_{k=0}^{N-1} x_k y^{\star}_{k+n[N]},\ \ n=0\dots N-1
@@ -422,8 +396,6 @@ inline auto ccorr(const Veccf &x, const Veccf &y = Veccf())
 
 
 /** @brief Unbiased correlation between two complex vectors
- *
- *  <h3>Correlation product (with bias correction)</h3>
  *
  *  Compute the correlation between 2 complex vectors (through FFT),
  *  that is, for negative lags (@f$\tau=-(m-1)\dots -1@f$) :
@@ -450,7 +422,7 @@ inline auto ccorr(const Veccf &x, const Veccf &y = Veccf())
  *
  * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_xcorr
- * @image html xcorr.png width=800px
+ * @image html xcorr.png
  *
  * @sa xcorrb(), ccorr(), detector_new()
  */
@@ -461,8 +433,6 @@ inline auto xcorr(const Veccf &x, const Veccf &y = Veccf(), int m = -1)
 
 
 /** @brief Correlation (biased) between two complex vectors.
- *
- *  <h3>Correlation product (without bias correction)</h3>
  *
  *  Computes (through FFT):
  *  @f[
@@ -482,8 +452,6 @@ inline auto xcorrb(const Veccf &x, const Veccf &y = Veccf(), int m = -1)
 }
 
 /** @brief FFT-based delaying of a vector.
- *
- *  <h3>FFT-based delaying of a vector</h3>
  *
  *  Apply a fractionnal delay to the input signal:
  *  @f[
@@ -508,7 +476,7 @@ inline auto xcorrb(const Veccf &x, const Veccf &y = Veccf(), int m = -1)
  *
  * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_delais
- * @image html ex-delais.png width=800px
+ * @image html ex-delais.png
  *
  **/
 template<typename T = float>
@@ -598,8 +566,6 @@ using tsdF::Detecteur;
 
 /** @brief Correlation-based pattern detector.
  *
- * <h3>Correlation-based pattern detector</h3>
- *
  * This block will compute the normalized correlation between a streaming signal @f$(x_k)@f$
  * and a fixed pattern @f$(h_k)@f$ of dimension @f$M@f$ :
  * @f[
@@ -630,7 +596,7 @@ using tsdF::Detecteur;
  *
  * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_fft_correlateur
- * @image html fft_correlateur.png width=800px
+ * @image html fft_correlateur.png
  */
 inline sptr<Detecteur>
   detector_new(const DetectorConfig &config = DetectorConfig())
@@ -656,8 +622,6 @@ inline Vecf psd_freqs(int n, bool complexe = true)
 
 /** @brief PSD (correlogram).
  *
- * <h3>PSD (correlogram)</h3>
- *
  * Computes the correlogram using a Hann window:
  *
  * @f[
@@ -671,7 +635,7 @@ inline Vecf psd_freqs(int n, bool complexe = true)
  *
  * @par Example
  * @snippet exemples/src/fourier/ex-fourier.cc ex_psd2
- * @image html ex-psd2.png "PSD signal triangulaire" width=800px
+ * @image html ex-psd2.png "PSD signal triangulaire"
  *
  * @sa psd_welch(), psd_subspace()
  */
@@ -683,8 +647,6 @@ tuple<Vecf, Vecf> psd(const Vector<T> &x)
 
 /** @brief PSD (Welch method - spectrum averaging).
  *
- * <h3> PSD using Welch method</h3>
- *
  * This function estimates the PSD using the spectrum averaging method:
  * several PSD are computed using windowed parts of the signal (optionnaly with some overlap), then averaged.
  *
@@ -695,7 +657,7 @@ tuple<Vecf, Vecf> psd(const Vector<T> &x)
  *
  * @par Exemple
  * @snippet exemples/src/fourier/ex-fourier.cc ex_psd3
- * @image html ex-psd3.png "PSD et moyennage" width=800px
+ * @image html ex-psd3.png "PSD and averaging"
  *
  * @sa psd(), psd_subspace()
  *
@@ -707,8 +669,6 @@ inline tuple<Vecf, Vecf> psd_welch(const Veccf &x, int N, cstring fen = "hn")
 
 
 /** @brief Calcul d'un spectre par la méthode des sous-espaces
- *
- *  <h3>Spectre (méthode des sous-espace / MUSIC)</h3>
  *
  *  Cette technique d'estimation spectrale est une méthode paramétrique, qui suppose que le signal est constitué
  *  de la somme d'un nombre fini et <b>connu</b> d'exponentielles pures.
@@ -733,7 +693,7 @@ inline tuple<Vecf, Vecf> psd_welch(const Veccf &x, int N, cstring fen = "hn")
  *
  *  @par Exemple : détection de 3 exponentielles pures
  *  @snippet exemples/src/fourier/ex-fourier.cc ex_psd_subspace
- *  @image html ex-subspace-freq-spectrum.png "Spectre PSD vs MUSIC" width=800px
+ *  @image html ex-subspace-freq-spectrum.png "PSD vs MUSIC spectrum"
  *  Notez comme le spectre MUSIC est plus propre ; il ne faut cependant pas oublier
  *  que cette technique suppose connu le nombre de signaux (ici 3).
  *
@@ -764,8 +724,6 @@ enum FreqEstimMethode
 
 /** @brief Estimation de fréquence d'un signal périodique
  *
- *  <h3>Estimation de fréquence</h3>
- *
  *  Cette fonction essaye d'estimer la fréquence d'un signal périodique (exponotielle pure).
  *
  *  @note Si le signal d'entrée est réel (sinusoide pure de fréquence @f$f@f$),
@@ -787,8 +745,6 @@ inline float freqestim(const Veccf &x, FreqEstimMethode m = FreqEstimMethode::CA
 
 
 /** @brief %Filtre de Goertzel (calcul sur un buffer).
- *
- *  <h3>%Filtre de Goertzel (calcul sur un buffer)</h3>
  *
  *  Calcul de la densité spectrale, normalisée par rapport à l'énergie totale du signal, à la fréquence @f$f@f$ :
  *  @f[
@@ -817,8 +773,6 @@ inline float goertzel(const Vecf &x, float frequence)
 
 /** @brief %Filtre de Goertzel (calcul au fil de l'eau)
  *
- *  <h3>%Filtre de Goertzel (calcul au fil de l'eau)</h3>
- *
  *  Ce filtre calcule au fil de l'eau la densité de puissance (normalisée à la puissance totale du signal)
  *  à une fréquence donnée (voir @ref goertzel()).
  *
@@ -840,7 +794,7 @@ inline float goertzel(const Vecf &x, float frequence)
  *
  *  @par Exemple : détection d'une sinusoïde pure
  *  @snippet exemples/src/fourier/ex-fourier.cc exemple_goertzel
- *  @image html goertzel.png width=600px
+ *  @image html goertzel.png
  *
  *  @sa goertzel()
  */
@@ -874,8 +828,6 @@ namespace tsd::tf {
 
 /** @brief Calcul d'une matrice temps / fréquence par FFT glissante
  *
- *  <h3>Spectrogramme par FFT glissante</h3>
- *
  *  @param x Signal à analyser
  *  @param N Dimension des blocs d'analyse */
 inline Tabf periodogram_dft(const Veccf &x, int N)
@@ -884,8 +836,6 @@ inline Tabf periodogram_dft(const Veccf &x, int N)
 }
 
 /** @brief Calcul d'un spectrogramme à partir de la CQT
- *
- *  <h3>Spectrogramme CQT (Constant Quality Transform)</h3>
  *
  *  @param x Signal à analyser
  *  @param fe Fréquence d'échantillonnage (Hz)

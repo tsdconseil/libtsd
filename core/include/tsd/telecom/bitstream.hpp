@@ -24,18 +24,16 @@ public:
   /** @brief Construction d'une chaine vide */
   BitStream(){}
 
-  /** @brief Construction d'une chaine binaire à partir d'un vecteur de flottants.
-   *
-   *  <h3>Construction d'une chaine binaire à partir d'un vecteur de flottants</h3>
+  /** @brief Constructeur, à partir d'un vecteur de flottants.
    *
    *  Les éléments non nuls de x sont interprétés comme des 1.
    */
   BitStream(const Vecf &x);
 
-  /** @brief D'après la dimension (nombre de bits) */
+  /** @brief Constructeur, d'après la dimension (nombre de bits) */
   BitStream(entier n);
 
-  /** @brief D'après une chaine de caractères de type "0100111001..." */
+  /** @brief Constructeur, d'après une chaine de caractères de type "0100111001..." */
   BitStream(cstring s);
 
   entier dst_Hamming(const BitStream &bs) const;
@@ -68,16 +66,16 @@ public:
 
   /** @brief Ré-allocation de la dimension.
    *
-   *  <h3>Remise à zéro</h3>
-   *
    * @warning Remet à zéro tous les bits. */
   void resize(entier nbits);
 
   /** @brief Insertion d'un nouveau bit en fin de séquence. */
   void push(bouléen b);
 
+  /** @brief Insertion d'un entier 32 bits en fin de séquence. */
   void push_u32(uint32_t i);
 
+  /** @brief Retire un entier 32 bits du début de la séquence. */
   uint32_t pop_u32();
 
   /** @brief Lecture et dépilement d'un bit en début de séquence. */
@@ -91,19 +89,19 @@ public:
 
   /** @brief Suppression de tous les bits.
    *
-   * <h3>Suppression de tous les bits.</h3>
-   *
    * La séquence est vide après l'appel à cette méthode.
    */
   void clear();
 
+  /** @brief Concaténation avec une autre chaîne binaire */
   void operator +=(const BitStream &t);
 
-
+  /** @brief Comparaison */
   bouléen operator ==(const BitStream &t2);
 
-
+  /** @cond undoc */
   unsigned char *get_ptr();
+  /** @endcond */
 
   /** @brief Ajoute des zéros à la fin */
   void pad(entier nzeros);
@@ -117,14 +115,16 @@ private:
 };
 
 
-extern std::ostream& operator<<(std::ostream &ss, const BitStream &t);
 
+/** @cond undoc */
+extern std::ostream& operator<<(std::ostream &ss, const BitStream &t);
+/** @endcond */
+
+/** @brief Concaténation de deux chaines binaires. */
 extern BitStream operator +(const BitStream &t1, const BitStream &t2);
 
 
-
-
-
+/** @brief Chaîne binaire pseudo-aléatoire */
 extern BitStream randstream(entier n);
 
 /** @} */

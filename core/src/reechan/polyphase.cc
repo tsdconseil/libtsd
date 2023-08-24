@@ -14,7 +14,7 @@ namespace tsd::filtrage {
 
 
 template<typename T>
-TabT<T,2> forme_polyphase(const Vecteur<T> &x, unsigned int M)
+TabT<T,2> forme_polyphase(const Vecteur<T> &x, entier M)
 {
   soit n = x.rows(),
        r = n % M;

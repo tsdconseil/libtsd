@@ -20,8 +20,6 @@ namespace dsp::geo {
 
 /** @brief %Quaternion unitaire pour la représentation d'une rotation 3d.
  *
- * <h3>%Quaternion unitaire</h3>
- *
  * @f[
  * q = \left(\begin{array}{c}\cos\theta\\ \sin\theta\cdot \hat e\end{array}\right)
  * @f]

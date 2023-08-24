@@ -21,7 +21,15 @@ template<typename T, entier ndims>
 namespace tsd
 {
 
+/** @addtogroup tsd
+ *  @{ */
+
+/** @cond undoc */
+
+/** @brief Bouléen */
 using bool_t = char;
+
+/** @endcond */
 
 /** @brief Raccourci pour nombre complexe flottant 32 bits */
 typedef std::complex<float> cfloat;
@@ -29,6 +37,9 @@ typedef std::complex<float> cfloat;
 /** @brief Raccourci pour nombre complexe flottant 64 bits */
 typedef std::complex<double> cdouble;
 
+
+
+/** @cond undoc */
 
 template<typename T>
 struct est_complex_t : public std::false_type {};
@@ -47,8 +58,10 @@ constexpr bouléen est_complexe() { retourne est_complex_t<T>::value; }
 #endif
 
 
+
 template<typename T, entier ndims>
   struct TabT;
+
 
 typedef enum scalaire_enum
 {
@@ -73,6 +86,8 @@ struct NTenseurDim
 
   NTenseurDim operator *(const NTenseurDim &d2) const;
 };
+
+
 
   struct Tab
   {
@@ -269,7 +284,9 @@ struct NTenseurDim
 
   using NTenseur = Tab;
 
-// Tableau de données évaluées, avec type spécifique, et nombre de dimensions spécifique
+  /** @endcond */
+
+/** @brief Tableau de données évaluées, avec type spécifique, et nombre de dimensions spécifique */
 template<typename T, entier ndims>
 struct TabT: Tab
 {
@@ -1098,6 +1115,7 @@ struct TabT: Tab
     }
 
 #   define IMAP(BB) [&](entier i) {retourne BB;}
+#   define LAMBDA(XX,YY) [&](auto &XX) {retourne YY;}
 
 
     inline T &operator()(entier i, entier j)
@@ -1354,6 +1372,48 @@ struct TabT: Tab
     T *raw_data = nullptr;
   };
 
+/** @cond undoc */
+
+template<typename T>
+using VecT = TabT<T, 1>;
+
+/** @endcond */
+
+/** @brief Vecteur de flottants (simple précision) */
+using Vecf = VecT<float>;
+
+/** @brief Vecteur de flottants (double précision) */
+using Vecd  = VecT<double>;
+
+/** @brief Vecteur de flottants complexe (simple précision) */
+using Veccf = VecT<cfloat>;
+
+/** @brief Vecteur de flottants complexe (double précision) */
+using Veccd = VecT<cdouble>;
+
+/** @brief Vecteur de bouléens */
+using Vecb  = VecT<char>;
+
+/** @brief Vecteur d'entier */
+using Veci  = VecT<int32_t>;
+
+/** @brief Tableau (2d) d'entiers */
+using Tabi   = TabT<int32_t, 2>;
+
+/** @brief Tableau (2d) de flottants (simple précision) */
+using Tabf   = TabT<float, 2>;
+
+/** @brief Tableau (2d) de flottants (double précision) */
+using Tabd   = TabT<double, 2>;
+
+/** @brief Tableau (2d) de complexes (simple précision) */
+using Tabcf  = TabT<cfloat, 2>;
+
+/** @brief Tableau (2d) de complexes (double précision) */
+using Tabcd  = TabT<cdouble, 2>;
+
+/** @} */
+
   template<typename T, entier ndims, typename T2>
     TabT<T,ndims> operator *(const T2 &x, const TabT<T,ndims> &x1) NOECLIPSE(requires(std::is_scalar_v<T2>))
   {
@@ -1417,23 +1477,10 @@ TabT<T,ndims> imag(const TabT<std::complex<T>, ndims> &x)
 
 
 
-  template<typename T>
-  using VecT = TabT<T, 1>;
-
-  using Vecf = VecT<float>;
-  using Vecd = VecT<double>;
-  using Veccf = VecT<cfloat>;
-  using Veccd = VecT<cdouble>;
-  using Vecb  = VecT<char>;
-  using Veci  = VecT<int32_t>;
 
 
-  using Tabi  = TabT<int32_t, 2>;
-  using Tabf  = TabT<float, 2>;
-  using Tabd  = TabT<double, 2>;
-  using Tabcf  = TabT<cfloat, 2>;
-  using Tabcd  = TabT<cdouble, 2>;
 
+  /** @cond undoc */
 
 #ifndef ostream_formater
 #define ostream_formater(T) \
@@ -1665,11 +1712,12 @@ inline void TG(const Tab &v, auto f)
 }
 
 
-
+  /** @endcond */
 
 
 }
 
+/** @cond undoc */
 
 ostream_formater(tsd::NTenseurDim)
 ostream_formater(tsd::Tab)
@@ -1687,6 +1735,8 @@ template <typename T, entier ndims> struct fmt::formatter<tsd::TabT<T,ndims>> { 
     return fmt::format_to(ctx.out(), "{}", ss.str()); \
   } \
 };
+
+/** @endcond */
 
 #endif
 

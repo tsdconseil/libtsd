@@ -25,9 +25,7 @@ namespace tsd::stats {
    *  @{
    */
 
-  /** @brief Résolution de l'équation @f$Ra = -r@f$
-   *
-   * <h3>Algorithme de Levinson - Durbin</h3>
+  /** @brief Résolution de l'équation @f$Ra = -r@f$ par l'algorithme de Levinson - Durbin
    *
    * Résolution du système de Toeplitz
    * @f[
@@ -66,8 +64,6 @@ r_n\\
 
   /** @brief Récursion de Levinson - Durbin (cas général)
    *
-   *  <h3>Récursion de Levinson - Durbin</h3>
-   *
    *  Résolution du système de Toeplitz général
    * @f[
       \left(\begin{array}{cccc}
@@ -102,8 +98,6 @@ r_n\\
   extern Vecf levinson(const Vecf &l1, const Vecf &c1, const Vecf &y);
 
   /** @brief Calcul d'une matrice d'auto-corrélation à partir d'un vecteur de corrélations
-   *
-   * <h3>Calcul de la matrice d'auto-corrélation</h3>
    *
    * Cette fonction construit une matrice d'auto-corrélation (matrice de Toeplitz pour un signal stationnaire) à partir du vecteur
    * d'auto-corrélation :
@@ -164,8 +158,6 @@ r_n\\
 
   /** @brief Analyse LPC (prédiction linéaire)
    *
-   * <h3>Analyse LPC (prédiction linéaire)</h3>
-   *
    * Cette fonction calcul les coefficients @f$a_k@f$ du modèle AR :
    * @f[
    *  x_n = \sum_{k=1}^{n} a_k x_{n-k} + e_n
@@ -178,8 +170,6 @@ r_n\\
   extern tuple<Vecf, Vecf> lpc(const Vecf &x, entier p);
 
   /** @brief %Filtre de Wiener (RIF)
-   *
-   *  <h3>%Filtre de Wiener (RIF)</h3>
    *
    *  Modèle :
    *  @f[
@@ -257,8 +247,6 @@ r_n\\
 
   /** @brief Calcul d'une réponse générale par la méthode des sous-espaces
    *
-   *  <h3>Méthode des sous-espaces</h3>
-   *
    *  Calcul d'une réponse suivant l'algorithme MUSIC :
    *  @f[
    *  S_i = \frac{1}{\sum_{k=p+1}^N \left|v_k^H \cdot e_i \right|}
@@ -270,8 +258,8 @@ r_n\\
    *  de signaux périodiques).
    *
    *  @param R  Matrice d'auto-corrélation
-   *  @param config Configuration
-   *  @returns La réponse générale
+   *  @param config Configuration (voir @ref SubSpaceSpectrumConfig)
+   *  @returns La réponse générale (voir structure @ref SubSpaceSpectrum)
    *
    *  @par Bibliographie
    *  <i>Statistical signal processing and modelling</i>, M.H. Hayes, 1996

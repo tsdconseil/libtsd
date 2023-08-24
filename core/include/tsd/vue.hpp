@@ -454,11 +454,9 @@ struct ParamGrille
 
 /** @brief %Figure avec API de type Matlab / Scilab.
  *
- *  <h3>%Figure avec API de type Matlab / Scilab</h3>
- *
  *  @par Exemple, avec différentes couleurs et différents marqueurs :
  *  @snippet exemples/src/ex-vue.cc ex_figure
- *  @image html figure.png width=800px
+ *  @image html figure.png
  */
 struct Figure: ARendable
 {
@@ -505,52 +503,37 @@ struct Figure: ARendable
 
 
 
-  Courbe plot(const float &x, const float &y, cstring format = "");
 
+
+  /** @cond undoc */
   Courbe plot_int(const Vecf &x, const Vecf &y, cstring format = "", cstring titre = "");
 
   Courbe plot_int(const Vecf &y, cstring format = "", cstring titre = "");
+  /** @endcond */
 
-  template<typename T, typename ... Ts>
-  Courbe plot(const VecT<T> &y, cstring format = "", cstring label = "", Ts &&... args)
-  {
-    if constexpr(est_complexe<T>())
-    {
-      if(abs2(imag(y)).somme() < abs2(real(y)).somme() * 1e-5)
-      {
-        return plot_int(real(y), format, sformat(FMT_RUNTIME(label), args...));
-      }
-      else
-      {
-        plot_int(real(y), format, sformat(FMT_RUNTIME(label), args...) + " (re)");
-        return plot_int(imag(y), format, sformat(FMT_RUNTIME(label), args...) + " (im)");
-      }
-    }
-    else
-    {
-      return plot_int(y, format, sformat(FMT_RUNTIME(label), args...));
-    }
-  }
+
+
+
+
 
 
   /** @brief Affiche une courbe
    *
-   *  <h3>Affichage d'une courbe</h3>
    *  @param x      Vecteur des valeurs en abcisse.
    *  @param y      Vecteur des valeurs en ordonnée.
    *  @param format Chaine de caractère optionnelle pour modifier le format.
    *  @param label  Argument optionnel indiquant le nom de la courbe
    *  @param args   Argument optionnel pour générer le nom de la courbe (format librairie fmt).
    *
-   *  Le format est une chaine de caractère qui permet de choisir la couleur, le type de trait,
+   *  Le format est  une chaine de caractère qui permet de choisir la couleur, le type de trait,
    *  et le type de curseur :
-   *    - Couleurs : "b" (black), "g" (green), "r" (red), "m" (magenta), "c" (cyan), etc.
-   *    - Traits : "-" (lignes), "$|$" (barres), "" (aucun)
+   *    - Couleurs : `"b"` (black), @xmlonly <span style="color:green;">@endxmlonly `"g"`@xmlonly </span>@endxmlonly  (green), "r" (red), "m" (magenta), "c" (cyan), etc.
+   *    - Traits : "-" (lignes), "|" (barres), "" (aucun)
    *    - Curseurs : "s" (carré), "d" (diamant), "*" (étoile), "." (point), "o" (rond), "" (aucun)
    *
-   *  @par Exemple, avec différentes couleurs et différents marqueurs :
+   *  @par Quelques exemples :
    *  @snippet exemples/src/ex-vue.cc ex_figure
-   *  @image html figure.png width=800px
+   *  @image html figure.png
    *
    *  @sa Figure::plot_psd(), Figure::plot_img()
    *
@@ -577,6 +560,36 @@ struct Figure: ARendable
     }
   }
 
+  /** @brief Affiche une courbe (axe des abcisse implicite).
+   *
+   *  @sa @ref plot(const Vecf &x, const VecT<T> &y, cstring format = "", cstring label = "", Ts &&... args)
+   */
+  template<typename T, typename ... Ts>
+  Courbe plot(const VecT<T> &y, cstring format = "", cstring label = "", Ts &&... args)
+  {
+    if constexpr(est_complexe<T>())
+    {
+      if(abs2(imag(y)).somme() < abs2(real(y)).somme() * 1e-5)
+      {
+        return plot_int(real(y), format, sformat(FMT_RUNTIME(label), args...));
+      }
+      else
+      {
+        plot_int(real(y), format, sformat(FMT_RUNTIME(label), args...) + " (re)");
+        return plot_int(imag(y), format, sformat(FMT_RUNTIME(label), args...) + " (im)");
+      }
+    }
+    else
+    {
+      return plot_int(y, format, sformat(FMT_RUNTIME(label), args...));
+    }
+  }
+
+
+  /** @brief Affiche une courbe constituée d'un seul point (un marqueur)
+   *  @sa @ref plot() */
+  Courbe plot(const float &x, const float &y, cstring format = "");
+
   template<typename T, typename ... Ts>
   Courbe plot(const tuple<Vecf, VecT<T>> &xy, cstring format = "", cstring label = "", Ts &&... args)
   {
@@ -584,11 +597,11 @@ struct Figure: ARendable
     retourne plot(x, y, format, sformat(FMT_RUNTIME(label), args...));
   }
 
+  /** @cond undoc */
   Courbe plot_psd_int(const Veccf &y, float fe, cstring format, cstring label);
+  /** @endcond */
 
   /** @brief Affiche le spectre d'un signal
-   *
-   *  <h3>Affichage du spectre d'un signal</h3>
    *
    *  @param y      Signal à analyser (domaine temporel)
    *  @param fe     Fréquence d'échantillonnage
@@ -608,8 +621,6 @@ struct Figure: ARendable
 
   /** @brief Dessine une surface 2d avec des niveaux de couleur.
    *
-   *  <h3>Surface 2d</h3>
-   *
    *  Cette méthode dessine une surface 2d grâce à des niveaux de couleurs (par défaut, carte "jet").
    *
    *  @param Z      Tableau 2d à afficher.
@@ -617,7 +628,7 @@ struct Figure: ARendable
    *  @param rdi    Rectangle où placer l'image.
    *
    *
-   *  @image html plot-img.png width=600px
+   *  @image html plot-img.png
    *
    *
    *  @sa Figure::plot(), Figure::plot_psd()
@@ -630,7 +641,9 @@ struct Figure: ARendable
 
   Courbe plot_minmax(const Vecf &x, const Vecf &y1, const Vecf &y2);
 
+  /** @cond undoc */
   Courbe plot_iq_int(const Veccf &z, cstring format, cstring label);
+  /** @endcond */
 
   template<typename ... Ts>
     Courbe plot_iq(const Veccf &z, cstring format = "", cstring label = "", Ts &&... args)
@@ -649,8 +662,6 @@ struct Figure: ARendable
 
   /** @brief Définition du titre de la figure (ou de la sous-figure en cours).
    *
-   * <h3>Définition du titre</h3>
-   *
    * Cette fonction permet de changer le titre de la figure (ou de la sous-figure en cours).
    *
    * @param titre_global Texte affiché en haut de la figure.
@@ -659,9 +670,11 @@ struct Figure: ARendable
    */
   void titre(cstring titre_global);
 
+  /** @cond undoc */
+  string get_titre() const;
+  /** @endcond */
+
   /** @brief Définition des titres.
-   *
-   * <h3>Définition des titres</h3>
    *
    * @param titre_global Texte affiché en haut de la figure
    * @param axe_x Label de l'axe horizontal
@@ -674,8 +687,6 @@ struct Figure: ARendable
   void def_pos_legende(cstring code);
 
   /** @brief  Affichage à l'écran dans une fenêtre à part.
-   *
-   * <h3>Affichage d'une figure</h3>
    *
    * @warning Cette fonction n'aura aucun effet si la dépendance optionnelle GTKMM n'est pas présente
    * au moment de la compilation de la librairie.
@@ -691,10 +702,11 @@ struct Figure: ARendable
    *
    * @sa Figure::enregistrer()
    */
-  //void afficher(cstring nom_fenetre = "");
+  void afficher(cstring titre = "", const Dim &dim = {-1, -1}) const;
 
-  /** @brief Rendu vers une image bitmap */
-  //Image rendre(uint32_t sx = 1200, uint32_t sy = 800, const Rectf &rdi, const Couleur &arp = Couleur::Blanc) const;
+
+  /** @brief Enregistrement de la figure sous forme d'une image bitmap (png) */
+  void enregistrer(cstring chemin_fichier, const Dim &dim = {-1, -1}) const;
 
   Canva canva();
   Canva canva_pre();
@@ -707,13 +719,11 @@ struct Figure: ARendable
   //void rendre(Canva canva) const;
 
 
+  /** @cond undoc */
   entier rendre00() const;
   Canva rendre0(Canva canva_) const;
   void rendre1(Canva canva_, Canva canva) const;
-
-
-  /** @brief Enregistrement sous la forme d'un fichier image */
-  //void enregistrer(cstring chemin_fichier, entier sx = -1, entier sy = -1) const;
+  /** @endcond */
 
   string lis_nom() const;
   void def_nom(cstring s);
@@ -741,15 +751,12 @@ struct Figure: ARendable
 
     /** @brief Partitionne la figure en sous-plots.
       *
-      *  <h3>Partition de la figure en sous-plots</h3>
       *  @param rows   Nombre de lignes
       *  @param cols   Nombre de colonnes
       *  @param sel    Sélection du subplot en cours (numéro entre 1 et rows*cols). Ou -1 pour automatique (nouveau subplot). */
      Figure subplot(entier rows, entier cols, entier sel = -1);
 
      /** @brief Partitionne la figure en sous-plots.
-      *
-      *  <h3>Partition de la figure en sous-plots</h3>
       *
       *  Cette surcharge est juste une manière plus compacte de spécifier un sous-plot.
       *
@@ -776,17 +783,13 @@ struct Figure: ARendable
 
      Figure gf(entier sel);
 
-
-     /** @brief Enregistrement sous la forme d'un fichier image */
-     //void enregistrer(cstring chemin_fichier, entier sx = -1, entier sy = -1) const;
-     //void rendre(Canva canva) const;
-
-
      sptr<const Rendable> rendable() const;
 
 
+     /** @cond undoc */
      // Sur-charge
      void afficher(cstring titre = "", const Dim &dim = {-1, -1}) const;
+     /** @endcond */
 
      _PIMPL_
   };
@@ -816,6 +819,7 @@ struct Figure: ARendable
 
   /** @} */
 
+  /** @cond undoc */
   extern fonction<void ()> stdo_fin;
   extern fonction<void (sptr<const Rendable> fig, cstring titre)> stdo_ajoute_figure;
 
@@ -823,7 +827,7 @@ struct Figure: ARendable
   extern void set_mode_impression(bool mode_impression = oui);
 
   extern bouléen get_mode_impression();
-
+  /** @endcond */
 }
 
 namespace tsd::ihm {

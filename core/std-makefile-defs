@@ -90,7 +90,10 @@ LOPTADD := -lws2_32 -lwinmm  -LC:/GnuWin32/lib
 
 ifeq ($(RMODE),debug)
 else
+ifeq ($(NO_MWINDOWS),1)
+else
 LOPTADD := $(LOPTADD) -mwindows
+endif
 endif
 endif
 

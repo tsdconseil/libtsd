@@ -65,8 +65,6 @@ struct SSM
 
   /** @brief  Simulation of a state / space model
    *
-   * <h3>Simulation of a state / space model</h3>
-   *
    * Simulate a state / space model state evolution sequence, injecting noise
    * in the state evolution rule  and in the
    * observations vectors (using the Q and R covariance matrix,
@@ -89,8 +87,6 @@ struct SSM
   //  Jacobians functions results do not match with numerically computed Jacobians.
   //
   /** @brief Vérifie la validité des Jacobienne fournies.
-   *
-   *  <h3>Vérification de la validité des Jacobienne fournies</h3>
    *
    *  Cette fonction vérifie les Jacobiennes fournies pour la fonction d'évaluation d'état (Jf) et la
    *  fonction d'observation (Jg) sont cohérentes avec des Jacobiennes calculées numériquement à partir
@@ -152,8 +148,6 @@ extern sptr<SSMLineaire> ssm_lineaire(
 
 /** @brief Dérivation numérique.
  *
- * <h3>Dérivation numérique</h3>
- *
  * Calcul numérique des dérivées partielles (matrice Jacobienne) en un point donné :
  * @f[
  * J_{ij} = \frac{df_j}{dx_i} \sim \frac{f_j(x_i + \epsilon) - f(x_i)}{\epsilon}
@@ -191,8 +185,6 @@ struct FiltreSSM
 
 /** @brief Construction d'un filtre de Kalman.
  *
- * <h3>%Filtre de Kalman (modèle linéaire)</h3>
- *
  * Cette fonction renvoie un filtre de Kalman standard, fonctionnant sur un modèle linéaire.
  *
  * @param ssm Modèle à inverser
@@ -205,9 +197,7 @@ extern sptr<FiltreSSM> filtre_kalman(sptr<SSMLineaire> ssm,
                                      const Vecf &x0 = Vecf(),
                                      const Tabf &p0 = Tabf());
 
-/** @brief Construction d'un filtre de Kalman étendu (EKF).
- *
- *  <h3>%Filtre de Kalman étendu (EKF / Extended Kalman Filter)</h3>
+/** @brief Construction d'un filtre de Kalman étendu (EKF / Extended Kalman Filter).
  *
  *
  * @param ssm Modèle à inverser
@@ -239,8 +229,6 @@ extern sptr<FiltreSSM> filtre_ekf(sptr<SSM> ssm);
 
 /** @brief Marche aléatoire.
  *
- *  <h3>Marche aléatoire</h3>
- *
  *  @param ndim Nombre de dimensions (1 = modèle scalaire)
  *  @param Q Covariance du bruit de process
  *  @param R Covariance du bruit d'observation
@@ -253,7 +241,7 @@ extern sptr<FiltreSSM> filtre_ekf(sptr<SSM> ssm);
  *
  *  @par Exemple en dimension 2 :
  *  @snippet exemples/src/ex-kalman.cc ex_modele_ma
- *  @image html ex-modele-ma.png width=800px
+ *  @image html ex-modele-ma.png
  *
  *  @sa ssm_simu(), model_kitagawa(), model_imu(), model_constant()
  *
@@ -277,8 +265,6 @@ extern sptr<SSMLineaire> modele_marche_aleatoire(entier ndim = 1, const Tabf &Q 
 //
 /** @brief Le système en représentation d'état le plus simple : une valeur constante.
  *
- *  <h3>Valeur constante</h3>
- *
  *  Cette fonction renvoie le système en représentation d'état le plus simple : une valeur constante,
  *  observée à travers un canal bruité, c'est-à-dire :
  *  @f[
@@ -291,7 +277,7 @@ extern sptr<SSMLineaire> modele_marche_aleatoire(entier ndim = 1, const Tabf &Q 
  *
  *  @par Exemple :
  *  @snippet exemples/src/ex-kalman.cc ex_modele_constante
- *  @image html ex-modele-constante.png width=800px
+ *  @image html ex-modele-constante.png
  *
  *  @sa modele_marche_aleatoire(), modele_kitagawa(), modele_imu()
  */
@@ -332,8 +318,7 @@ extern sptr<SSMLineaire> modele_constante(float R = 0.1);
 //
 
 /** @brief Modèle non linéaire de Kitagawa.
- *
- * <h3>Modèle de Kitagawa</h3>
+
  * Ce modèle scalaire, non linéaire, est souvent utilisé pour comparer différentes méthodes d'estimation.
  *
  * @f[
@@ -346,8 +331,8 @@ extern sptr<SSMLineaire> modele_constante(float R = 0.1);
  *
  *  @par Exemple :
  *  @snippet exemples/src/ex-kalman.cc ex_modele_kitagawa
- *  @image html modele-kitagawa-obs.png width=800px
- *  @image html modele-kitagawa-etat.png width=800px
+ *  @image html modele-kitagawa-obs.png
+ *  @image html modele-kitagawa-etat.png
  *
  *
  * @sa modele_marche_aleatoire(), modele_constante(), modele_imu()
@@ -404,9 +389,7 @@ tuple<Tabf, float> dare(const Tabf &A,
 // Kalman gain as a function of process noise (with observation noise kept constant).
 
 //
-/** @brief Calcul le gain de Kalman en régime établi
- *
- * <h3>Gain de Kalman en régime établi</h3>
+/** @brief Calcul le gain de Kalman en régime établi.
  *
  * Calcule du gain en régime établi pour un système linéaire (matrices fixes), à l'aide de l'équation de Riccati discrète (DARE).
  * Ce gain peut être utilisé pour simplifié l'implémentation d'un filtre de Kalman
@@ -419,7 +402,10 @@ tuple<Tabf, float> dare(const Tabf &A,
  * à savoir une marche aléatoire scalaire. Différentes valeurs de bruit de process sont testées,
  * en gardant le bruit d'observation constant.
  * @snippet exemples/src/ex-kalman.cc ex_kalman_ssg
- * @image html ex-kalman-ssg.png "Steady-state Kalman gain vs process noise deviation" width=800px
+ *
+ * Steady-state Kalman gain vs process noise deviation:
+ *
+ * @image html ex-kalman-ssg.png
  *
  * @sa dare()
  */
@@ -435,8 +421,6 @@ extern Tabf kalman_ssg(sptr<const SSMLineaire> modele);
 // This function can also plot the true state agains the estimated state on the same graph.
 /** @brief Affichage d'une séquence d'états
  *
- * <h3>Affichage d'une séquence d'états</h3>
- *
  * @param ssm Système
  * @param x Séquence d'états (en colonne : les différents états, en ligne : les différents instants)
  * @param xe Séquence d'états estimés
@@ -450,9 +434,7 @@ extern tsd::vue::Figures  plot_etats(sptr<const SSM> ssm, const Tabf &x, const T
 //  ssm: State / space model
 //  y: Observation sequence (a matrix for which each column is an observation vector)
 //
-/** @brief Affichage d'une séquence d'observations
- *
- * <h3>Affichage d'une séquence d'observations</h3>
+/** @brief Affichage d'une séquence d'observations.
  *
  * @param sys Système
  * @param y   Séquence d'observations
@@ -530,8 +512,6 @@ struct IMUConfig
 };
 
 /** @brief Modèle générique IMU (Inertial Measuring Unit).
- *
- *  <h3>Modèle générique IMU (Inertial Measuring Unit)</h3>
  *
  * Generic IMU model with Euler angles parametrization, and with the following
  * (optionnal) sensors:

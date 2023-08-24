@@ -75,8 +75,16 @@ Veccf Poly<T>::roots() const
 
 template
 Veccf Poly<float>::roots() const;
+
 template
 Veccf Poly<cfloat>::roots() const;
 
+
+void un_essai()
+{
+  Poly<cfloat> pc;
+  soit r = pc.roots();
+  msg("r = {}", real(r));
+}
 
 }

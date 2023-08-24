@@ -94,10 +94,17 @@ void Stdo::def_dossier_sortie(cstring chemin)
   priv.mode_rt        = non;
   priv.dossier_sortie = chemin;
 
+  try
+  {
   si(!std::filesystem::exists(chemin))
     std::filesystem::create_directory(chemin);
   si(!std::filesystem::exists(chemin + "/img"))
     std::filesystem::create_directory(chemin + "/img");
+  }
+  catch(...)
+  {
+
+  }
 
   //msg("Stdo: dossier de sortie = {}", chemin);
 }

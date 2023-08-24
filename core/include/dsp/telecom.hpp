@@ -91,8 +91,6 @@ struct ShapingFilterSpec
 
   /** @brief Computes the coefficient of FIR shaping filter.
    *
-   *  <h3>Coefficient of FIR shaping filter</h3>
-   *
    *  @param ncoefs Desired number of taps.
    *  @param osf    Oversampling factor (e.g. numbers of samples per symbol).
    *  @returns      Coefficient vector.
@@ -104,8 +102,6 @@ struct ShapingFilterSpec
 
 
   /** @brief Creation of a shaping filter with integrated over-sampling.
-   *
-   *  <h3>Shaping filter</h3>
    *
    *  Creation of a shaping filter with integrated over-sampling.
    *  This filter block accepts as input symbols,
@@ -131,8 +127,6 @@ struct ShapingFilterSpec
 
   /** @brief Same as @ref shaping_filter() method,  but without upsampling.
    *
-   *  <h3>Matched filter</h3>
-   *
    *  @param ncoefs Number of taps for RIF filter.
    *  @param osf    Oversampling ratio.
    *
@@ -144,8 +138,6 @@ struct ShapingFilterSpec
   }
 
   /** @brief Matched filter and downsampling at symbol rate.
-   *
-   *  <h3>Matched filter and downsampling at symbol rate</h3>
    *
    *  @param ncoefs Number of taps for RIF filter.
    *  @param osf    Input oversampling ratio.
@@ -199,8 +191,6 @@ struct WaveForm
   }
 
   /** @brief Generation of I/Q samples from a binary stream (including upsampling and shaping filter).
-   *
-   * <h3>Generation of I/Q samples from a binary stream</h3>
    *
    * This function will create, from a binary sequence, I/Q samples.
    * The following steps are done:
@@ -351,8 +341,6 @@ inline std::ostream& operator<<(std::ostream &ss, const WaveForm &t)
 
 /** @brief Phase modulation.
  *
- * <h3>Phase modulation</h3>
- *
  * Creation of M-PSK waveform.
  *
  * @param   M         Number of bits / symbol.
@@ -363,11 +351,11 @@ inline std::ostream& operator<<(std::ostream &ss, const WaveForm &t)
  *
  * @par Example 1: Some PSK modulations
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_psk
- * @image html waveform-psk.png "Waveforms examples: BPSK, QPSK, 8PSK, 16PSK" width=800px
+ * @image html waveform-psk.png "Waveforms examples: BPSK, QPSK, 8PSK, 16PSK"
  *
  * @par Example 2: Theoretical bit error rates
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_psk2
- * @image html waveform-psk2.png "BER" width=800px
+ * @image html waveform-psk2.png "BER"
  *
  * @sa waveform_qam(), waveform_qpsk()
  */
@@ -377,8 +365,6 @@ inline sptr<WaveForm> waveform_psk(unsigned int M, const ShapingFilterSpec &filt
 }
 
 /** @brief Creation of a BPSK waveform.
- *
- * <h3>Creation of a BPSK waveform</h3>
  *
  * Same as @ref waveform_psk() for @f$M = 2@f$.
  *
@@ -390,8 +376,6 @@ inline sptr<WaveForm> waveform_bpsk(const ShapingFilterSpec &filtre = ShapingFil
 }
 
 /** @brief Creation of a M-ASK waveform.
- *
- * <h3>Creation of a M-ASK waveform</h3>
  *
  * @f[
  * x_n = K_1 + \frac{s_n}{M-1}\cdot K_2
@@ -407,8 +391,6 @@ inline sptr<WaveForm> waveform_ask(int M = 2, float K1 = -1, float K2 = 2, const
 
 /** @brief Creation of a QPSK waveform.
  *
- * <h3>Creation of a QPSK waveform</h3>
- *
  * Same as @ref waveform_psk() for @f$M = 4@f$.
  *
  * @sa waveform_psk(), waveform_qam(), waveform_fsk()
@@ -419,8 +401,6 @@ inline sptr<WaveForm> waveform_qpsk(const ShapingFilterSpec &filter = ShapingFil
 }
 
 /** @brief Creation of a π/4 - QPSK waveform.
- *
- * <h3>Creation of a π/4 - QPSK waveform</h3>
  *
  * Alternate between two QPSK constellations rotated by @f$\pi/4@f$.
  *
@@ -433,13 +413,11 @@ inline sptr<WaveForm> waveform_π4_qpsk(const ShapingFilterSpec &filter = Shapin
 
 /** @brief Creation of a QAM waveform.
  *
- * <h3>Creation of a QAM waveform</h3>
- *
  * Constellation points are put on a regular grid.
  *
  * @par Example: QAM constellations plotting
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_qam
- * @image html waveform-qam.png "QAM16, QAM64, QAM256 constellations" width=800px
+ * @image html waveform-qam.png "QAM16, QAM64, QAM256 constellations"
  *
  * @sa waveform_psk(), waveform_fsk()
  */
@@ -449,8 +427,6 @@ inline sptr<WaveForm> waveform_qam(unsigned int M, const ShapingFilterSpec &filt
 }
 
 /** @brief Creation of a FSK waveform.
- *
- * <h3>Creation of a FSK waveform</h3>
  *
  * FSK is for Frequency Shift Keying.
  * The main parameter of this modulation is the <b>modulation index</b>,
@@ -467,7 +443,7 @@ inline sptr<WaveForm> waveform_qam(unsigned int M, const ShapingFilterSpec &filt
  *
  * @par Example
  * @snippet exemples/src/sdr/ex-sdr.cc ex_waveform_fsk
- * @image html waveform-fsk.png width=800px
+ * @image html waveform-fsk.png
  *
  * @sa waveform_psk(), waveform_qam()
  */
@@ -506,8 +482,6 @@ template<typename TC, typename TR>
 
 /** @brief Sample and hold oversampling
  *
- *  <h3>Sample and hold oversampling</h3>
- *
  *  Each sample of the input signal is repeated @f$R@f$ times.
  *  For instance, if @f$R = 2@f$, and @f$x = x_0, x_1, \dots@f$,
  *  then @f$y = x_0, x_0, x_1, x_1, \dots@f$
@@ -543,8 +517,6 @@ Vector<T> sah(const Vector<T> &x, int R)
 
 /** @brief Conversion from binary sequence @f$\to@f$ symbol index sequence.
  *
- * <h3>Conversion from binary sequence @f$\to@f$ symbol index sequence</h3>
- *
  * This function convert a binary vector (0 and 1),
  * to symbols indexes, using @f$k@f$ bits / symbol,
  * according to the following binary encoding:
@@ -568,8 +540,6 @@ inline Veci symmap_binary(const BitStream &x, int k)
 
 /** @brief Conversion index @f$\to@f$ train binaire
  *
- * <h3>Conversion index @f$\to@f$ train binaire</h3>
- *
  * Cette fonction réalise l'inverse de @ref symmap_binaire(), c'est-à-dire qu'à partir d'une suite de symboles
  * entiers compris entre 0 et @f$2^{k}-1@f$, elle produit une chaine de symboles binaires (0 ou 1).
  *
@@ -586,8 +556,6 @@ inline void symunmap_binary(BitStream &bs, const Veci &x, int k)
 }
 
 /** @brief Differential encoder (polynomial = @f$1/(1+X)@f$), MSB first.
- *
- * <h3>Differential encoder</h3>
  *
  * This function build a differentially encoded binary sequence:
  * @f[
@@ -616,8 +584,6 @@ inline void diff_encode(BitStream &y, const BitStream &x)
 
 /** @brief Differential decoder (polynomial = 1+X), MSB first.
  *
- * <h3>Differential decoder</h3>
- *
  * Restauration du signal original à partir d'un signal encodé en différentiel :
  * @f[
  * y_n = x_n \oplus x_{n-1}
@@ -638,8 +604,6 @@ inline void diff_decode(BitStream &y, const BitStream &x)
 }
 
 /** @brief Hard decoding of LLR data.
- *
- *  <h3>Hard decoding of LLR data</h3>
  *
  *  @f[
  *  y_k = 1\textrm{ si }L_k \leq 0, 0\textrm{ sinon.}
@@ -684,8 +648,6 @@ inline void decode_hard(BitStream &y, const Vecf &llr)
 
 /** @brief Add (complex) Gaussian white noise.
  *
- * <h3>Simulation of a complex AWGN channel (Additive White Gaussian Noise)</h3>
- *
  * @f[
  * y_k = x_k + b_k^{(r)} + \mathbf{i}\cdot b_k^{(i)}, \quad b^{(r)}, b^{(i)} : \mathcal{N}\left(0,\sigma^2\right)
  * @f]
@@ -702,23 +664,6 @@ inline Veccf awgn_noise(const Veccf &x, float σ)
   return nfr::bruit_awgn(x, σ);
 }
 
-/** @brief Add Gaussian white noise.
- *
- * <h3>Simulation of a real AWGN channel (Additive White Gaussian Noise)</h3>
- *
- * @f[
- * y_k = x_k + b_k , \quad b_k : \mathcal{N}\left(0,\sigma^2\right)
- * @f]
- *
- * @param x Input vector (real)
- * @param σ Noise standard deviation
- * @sa thermal_noise()
- *
- */
-inline Vecf bruit_awgn(const Vecf &x, float σ)
-{
-  return nfr::bruit_awgn(x, σ);
-}
 
 
 /** @brief Dispersive channel type (with or without dominant path) */
@@ -751,8 +696,6 @@ struct DispersiveChannelConfig : nfr::CanalDispersifConfig
 
 /** @brief Creation of a (baseband) dispersive channel simulator.
  *
- * <h3>Dispersive channel simulator (baseband)</h3>
- *
  * This function enable to simulate a Rayleigh (without dominant path)
  * or Rice (with dominant path) channel, in baseband.
  *
@@ -762,7 +705,7 @@ struct DispersiveChannelConfig : nfr::CanalDispersifConfig
  *
  * @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_canal_dispersif
- *  @image html canal-dispersif.png width=800px
+ *  @image html canal-dispersif.png
  */
 inline sptr<Filter<cfloat, cfloat, nfr::CanalDispersifConfig>> dispersive_channel(const DispersiveChannelConfig &config)
 {
@@ -798,8 +741,6 @@ struct FHSSConfig: nfr::FHSSConfig
 
 /** @brief Instanciation of a FHSS (Frequency Hopping Spread Sequence) spreader
  *
- *  <h3>FHSS (Frequency Hopping Spread Sequence)</h3>
- *
  *  @param config  Configuration structure
  *  @return Filtre cfloat @f$\to@f$ cfloat
  */
@@ -819,8 +760,6 @@ struct DSSSConfig: nfr::DSSSConfig
 
 
 /** @brief Instanciation of a DSSS (Direct Sequence Spread Sequence) spreader
- *
- *  <h3>DSSS (Direct Sequence Spread Sequence)</h3>
  *
  *  @param config  Configuration structure
  *  @return Filtre cfloat @f$\to@f$ cfloat
@@ -843,8 +782,6 @@ struct TranspoBBConfig: nfr::TranspoBBConfig
 
 
 /** @brief Baseband downconversion.
- *
- * <h3>Baseband downconversion</h3>
  *
  * Ce bloc permet de convertir un signal radio reçu avec une certaine fréquence intermédiaire, vers un signal
  * bande de base (centré à 0 Hz).
@@ -1014,8 +951,6 @@ struct LoopFilter
 
 /** @brief First order loop filter
  *
- *  <h3>First order loop filter</h3>
- *
  *   This filter is simply a first order RII filter (that is, an exponential filter):
  *   @f[
  *     \theta_k = \theta_{k-1} + \alpha \cdot e_k
@@ -1033,8 +968,6 @@ inline sptr<LoopFilter> filter_loop_first_order(float τ)
 }
 
 /** @brief Second order filter loop
- *
- *  <h3>%Second order filter loop</h3>
  *
  *   @f[
  *     \theta_k = \theta_{k-1} + \mu_{k-1}\\
@@ -1069,8 +1002,6 @@ inline sptr<LoopFilter> filter_loop_second_order(float BL, float η)
  */
 
 /** @brief Digital modulation configuration structure.
- *
- *  <h3>Digital modulation configuration structure</h3>
  *
  *  @warning If real_output is true, a non null (and sufficiently high) intermediate frequency should be specified, otherwise aliasing can occur!
  *
@@ -1128,8 +1059,6 @@ struct Modulator
 
   /** @brief Modulation.
    *
-   *  <h3>Modulation</h3>
-   *
    *  @param       bs  Train binaire
    *  @return      x   Flot d'échantillons I/Q
    */
@@ -1147,8 +1076,6 @@ struct Modulator
 
   /** @brief Delay, in number of samples.
    *
-   * <h3>Delay, in number of samples</h3>
-   *
    * Number of samples between the first transmitted sample and the beginning of the first transmitted symbol.
    * The delay is typically due to the shaping filter.
    */
@@ -1159,8 +1086,6 @@ struct Modulator
 
 
   /** @brief Run-time modification of the waveform.
-   *
-   *  <h3>Run-time modification of the waveform</h3>
    *
    *  This can be usefull is the waveform is different in two parts of a frame (for instance header as BPSK and data payload as QPSK).
    */
@@ -1181,8 +1106,6 @@ struct Demodulator
 
   /** @brief Démodulation.
    *
-   *  <h3>Démodulation</h3>
-   *
    *  @param      x   Flot I/Q à démoduler
    *  @param[out] bs  Train binaire (hard decision)
    */
@@ -1192,8 +1115,6 @@ struct Demodulator
   }
 
   /** @brief Démodulation, avec calcul des LLR.
-   *
-   *  <h3>Démodulation (avec LLR)</h3>
    *
    *  @param      x   Flot I/Q à démoduler
    *  @param[out] bs  Train binaire (hard decision)
@@ -1206,8 +1127,6 @@ struct Demodulator
 
 
   /** @brief Délais, en nombre d'échantillons.
-   *
-   * <h3>Délais, en nombre d'échantillons</h3>
    *
    * Nombre d'échantillons entre le premier sorti et le début du premier symbole transmis.
    */
@@ -1231,7 +1150,6 @@ struct Demodulator
 
 
 /** @brief Création d'un modulateur numérique.
- *  <h3>Création d'un modulateur numérique</h3>
  *
  * Un modulateur consiste ici à convertir un train binaire en un signal bande de
  * base (ou déjà transposé à une fréquence intermédiaire), mis en forme et sur-échantilloné
@@ -1239,11 +1157,11 @@ struct Demodulator
  *
  * @par Exemple 1 : modulation BPSK (avec filtre NRZ)
  * @snippet exemples/src/sdr/ex-sdr.cc ex_modulateur
- * @image html ex-modulateur.png "Exemples de modulation BPSK" width=800px
+ * @image html ex-modulateur.png "Exemples de modulation BPSK"
  *
  * @par Exemple 2 : modulation QPSK (avec filtre SRRC)
  * @snippet exemples/src/sdr/ex-sdr.cc ex_modulateur2
- * @image html ex-modulateur2.png "Exemples de modulation QPSK" width=800px
+ * @image html ex-modulateur2.png "Exemples de modulation QPSK"
  *
  * @sa démodulateur_création()
  */
@@ -1345,7 +1263,6 @@ struct DemodConfig
 
 
 /** @brief Création d'un démodulateur numérique.
- *  <h3>Création d'un démodulateur numérique</h3>
  *
  * Un démodulateur consiste ici à convertir un signal en bande de
  * base (ou transposé à une fréquence intermédiaire) vers un train binaire (ou un train de LLR symboles,
@@ -1425,7 +1342,7 @@ struct DemodConfig
  *
  * @par Exemple : démodulation QPSK
  * @snippet exemples/src/sdr/ex-sdr.cc ex_demodulateur
- * @image html ex-demodulateur.png "Exemples de démodulation QPSK" width=800px
+ * @image html ex-demodulateur.png "Exemples de démodulation QPSK"
  * Notez que le train binaire démodulé est décalé dans le temps, ceci est du aux filtres utilisés en réception (ainsi qu'à l'interpolation utilisée pour le recouvrement d'horloge).
  *
  *
@@ -1599,8 +1516,6 @@ struct PacketReceiver
 
 /** @brief Création d'un récepteur de trame.
  *
- * <h3>Création d'un récepteur de trames</h3>
- *
  * Un récepteur est constitué de trois sous-blocs suivant :
  *  -# Une détecteur d'en-tête de synchronisation.
  *  -# Un interpolateur, permettant de passer au rythme symbole et dont le retard est réglé d'après celui mesuré par le détecteur.
@@ -1625,7 +1540,7 @@ struct PacketReceiver
  *
  * @par Exemple
  * @snippet exemples/src/sdr/ex-sdr.cc ex_récepteur
- * @image html ex-recepteur.png width=1000px
+ * @image html ex-recepteur.png
  *
  *
  *  @sa émetteur_création(), détecteur_création()
@@ -1693,8 +1608,6 @@ struct PacketEmitter
 
 /** @brief Création d'un générateur de trames.
  *
- * <h3>Création d'un générateur de trames.</h3>
- *
  * La structure de configuration (@ref ÉmetteurConfig) indique le format de la trame, c'est-à-dire :
  *   - L'en-tête de synchronisation,
  *   - Le nombre de bits utiles,
@@ -1712,7 +1625,7 @@ struct PacketEmitter
  *
  * @par Exemple
  * @snippet exemples/src/sdr/ex-sdr.cc ex_émetteur
- * @image html ex-emetteur.png width=1000px
+ * @image html ex-emetteur.png
  *
  *  @sa récepteur_création(), modulateur_création(), démodulateur_création()
  */
@@ -1735,8 +1648,6 @@ inline sptr<PacketEmitter> packet_emitter_new(const PacketEmitterConfig &ec)
 //  A partir de <i>"A MATLAB-based Object-Oriented Approach to Multipath Fading Channel Simulation"</i>, équation 10
 
 /** @brief Densité spectrale due au Doppler (modèle statistique).
- *
- * <h3>Densité spectrale due au Doppler</h3>
  *
  * Pour un canal avec multiples trajets et un objet mobile, les fréquences reçues pour chaque trajet possible sont décalées
  * suivant le Doppler @f$f_d^{max} \cos \theta@f$, @f$\theta@f$ étant l'angle d'incidence du trajet,
@@ -1761,7 +1672,7 @@ inline sptr<PacketEmitter> packet_emitter_new(const PacketEmitterConfig &ec)
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_doppler_psd
- *  @image html doppler_psd.png width=600px
+ *  @image html doppler_psd.png
  *
  */
 inline Vecf doppler_distri(const Vecd &f, float fd, double fc)
@@ -1771,8 +1682,6 @@ inline Vecf doppler_distri(const Vecd &f, float fd, double fc)
 
 
 /** @brief Compute thermal noise power.
- *
- * <h3>Thermal noise power</h3>
  *
  * According to https://fr.wikipedia.org/wiki/Bruit_thermique :
  * @f[
@@ -1834,8 +1743,6 @@ struct CPEConfig
 
 /** @brief Création d'un émulateur de canal de propagation
  *
- *  <h3>Emulateur de Canal de Propagation (ECP)</h3>
- *
  *  @param config Paramétrage
  *  @return Un Filtre cfloat @f$\to@f$ cfloat
  */
@@ -1856,8 +1763,6 @@ inline sptr<Filter<cfloat, cfloat, nfr::ECPConfig>> ecp_new(const CPEConfig &con
 
 /** @brief Creation of a FIR equalizer
  *
- * <h3>Creation of a FIR equalizer</h3>
- *
  *
  *
  *
@@ -1870,8 +1775,6 @@ inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::s
 }
 
 /** @brief Compute an inverse filter by zero-forcing.
- *
- * <h3>Compute an inverse filter by zero-forcing</h3>
  *
  * Given the channel impulse response @f$h@f$, this function computes the coefficients
  * of a FIR filter @f$g@f$, trying to approximate:
@@ -1894,11 +1797,11 @@ inline sptr<FilterGen<cfloat>> equalizer_fir_new(sptr<WaveForm> wf, const std::s
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_eg_zfe
- *  @image html zfe-0.png "Impulse responses (channel and equalization filter)" width=800px
+ *  @image html zfe-0.png "Impulse responses (channel and equalization filter)"
  *  <br/>
- *  @image html zfe-1.png "Frequency responses (channel and equalization filter)" width=800px
+ *  @image html zfe-1.png "Frequency responses (channel and equalization filter)"
  *  <br/>
- *  @image html zfe-2.png "Equalization example on a NRZ signal" width=800px
+ *  @image html zfe-2.png "Equalization example on a NRZ signal"
  *
  *
  * @sa égaliseur_création()
@@ -1921,8 +1824,6 @@ inline Vecf equalizer_zfe(const Vecf &h, int n)
 /**
  *  @brief AWGN channel capacity.
  *
- * <h3>AWGN channel capacity</h3>
- *
  * Computes the ideal AWGN channel capacity, in bits/s:
  * @f[
  *   c = B\cdot \log_2(1+\textrm{SNR})
@@ -1934,7 +1835,7 @@ inline Vecf equalizer_zfe(const Vecf &h, int n)
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_capa
- *  @image html capa.png width=800px
+ *  @image html capa.png
  *
  */
 inline float awgn_channel_capacity(float snr, float B = 1)
@@ -2060,8 +1961,6 @@ struct RPLLConfig
 
 /** @brief Creation of a PLL (Phase Locked Loop) with real output
  *
- *  <h3>PLL (real output)</h3>
- *
  *  @param config Configuration structure
  *  @returns Generic filter with real (float) input / output
  *
@@ -2077,8 +1976,6 @@ inline sptr<Filter<float, float, nfr::RPLLConfig>> rpll_new(const RPLLConfig &co
 }
 
 /** @brief Création d'une PLL (boucle à vérouillage de phase) à sortie complexe
- *
- *  <h3>PLL (complexe)</h3>
  *
  *  @param config Structure de configuration
  *  @returns Filtre générique à entrées / sorties complexes
@@ -2137,8 +2034,6 @@ struct CmpBitsRes
 
 /** @brief Comparaison de chaines binaires et calcul de taux d'erreur binaire
  *
- * <h3>Comparaison de chaines binaires</h3>
- *
  *  Try to find the best correlation between the 2 bit vectors and
  *  count the number of errors (ignoring the 2 first bits and 2 last bits).
  *
@@ -2157,8 +2052,6 @@ struct CmpBitsRes
 inline CmpBitsRes cmp_bits(const BitStream &b0, const BitStream &b1);
 
 /** @brief Idem @ref cmp_bits(), avec gestion des ambiguité de phase M-PSK
- *
- *  <h3>Comparaison de chaines binaires (PSK)</h3>
  *
  */
 extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, int k);
@@ -2196,8 +2089,6 @@ extern CmpBitsRes cmp_bits_psk(const BitStream &b0, const BitStream &b1, int k);
 //
 
 /** @brief Diagramme de l'oeil.
- *
- * <h3>Diagramme de l'oeil</h3>
  *
  * Plot the eye diagram of a synchronous data signal, which is a scatter plot of the signal
  * where the time domain is considered modulo the symbol period (actually using a trigger
@@ -2244,8 +2135,6 @@ struct SNREstimator
 // Matzner algorithm for S and @f$N_0@f$ estimation.
 
 /** @brief Algorithm de Matzner pour l'estimation du niveau de signal et de bruit.
- *
- *  <h3>Algorithm de Matzner pour l'estimation du niveau de signal et de bruit.</h3>
  *
  *
  *  Cette estimateur est basé sur le calcul des moments d'ordres 2 et 4 du signal :
@@ -2341,13 +2230,11 @@ struct FMDemodConfig
 
 /** @brief Amplitude modulation (analogic).
  *
- * <h3>Amplitude modulation (analogic)</h3>
- *
  *
  *
  * @par Example
  * @snippet exemples/src/sdr/ex-sdr.cc ex_modulateur_AM
- * @image html ex-modulateur-am.png width=800px
+ * @image html ex-modulateur-am.png
  *
  * @sa demodulateurAM(), modulateurFM()
  *
@@ -2358,8 +2245,6 @@ extern sptr<Filter<float, float, AMConfig>> modulateurAM();
 extern sptr<Filter<cfloat, float, AMConfig>> demodulateurAM();
 
 /** @brief Polar discrimination for FM demodulation.
- *
- * <h3>Polar discrimination for FM demodulation</h3>
  *
  * Implement a polar discriminator (computes the instantaneous frequency for a baseband signal),
  * which can serve as a building block for a FM demodulator:
@@ -2385,7 +2270,7 @@ extern sptr<Filter<cfloat, float, AMConfig>> demodulateurAM();
  *
  * @par Example
  * @snippet exemples/src/sdr/ex-sdr.cc ex_discriminateur_fm
- * @image html ex-discriminateur-fm.png width=800px
+ * @image html ex-discriminateur-fm.png
  */
 extern sptr<FilterGen<cfloat,float>> discriminateur_fm();
 
@@ -2402,8 +2287,6 @@ extern sptr<Filter<cfloat, cfloat, FMDemodConfig>> demodulateurFM();
 
 /** @brief Maximal length sequence generation.
  *
- *  <h3>Maximal length sequence generation</h3>
- *
  *  @param n Generating polynomial degree (must be between 1 and 16).
  *
  *  This function generate a binary code of length @f$m=2^n-1@f$, using a shift register
@@ -2412,7 +2295,7 @@ extern sptr<Filter<cfloat, cfloat, FMDemodConfig>> demodulateurFM();
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_code_mls
- *  @image html ex-code-mls.png width=800px
+ *  @image html ex-code-mls.png
  *
  *  @sa code_Barker()
  */
@@ -2420,13 +2303,11 @@ extern BitStream code_mls(int n);
 
 /** @brief Barker code generation.
  *
- *  <h3>Barker code</h3>
- *
  *  @param n Code length (2, 3, 4, 5, 7, 11 ou r3)
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_code_Barker
- *  @image html ex-code-barker.png width=800px
+ *  @image html ex-code-barker.png
  *
  *  @sa code_mls()
  */
@@ -2446,8 +2327,6 @@ inline uint32_t primitive_polynom_binary(int reglen)
 /** @endcond */
 
 /** @brief Computes a primitive polynomial.
- *
- *  <h3>Primitive polynomial</h3>
  *
  *  This function can be used for the generation of maximal length sequence.
  *  A primitive polynomial @f$p(x)@f$ of degree @f$n@f$ is:

@@ -38,8 +38,6 @@ struct HeureComposite
 
   /** @brief Constructeur, à partir d'une chaine de caractères de type HH::MM::SS
    *
-   *  <h3>Constructeur, à partir d'une chaine de caractères de type HH::MM::SS</h3>
-   *
    *  Lève une exception si la chaîne est mal formatée.
    *
    *  @par Exemple
@@ -57,8 +55,6 @@ struct HeureComposite
 
 
 /** @brief Intervalle temporel, en nombre de micro-secondes.
- *
- *  <h3>Intervalle temporel</h3>
  *
  *  Cette structure représente un intervalle de temps, exprimé en nombre
  *  de micro-secondes (champs tics).
@@ -118,6 +114,7 @@ struct Durée
   /** @brief %Durée totale, exprimés en nombre fractionnaire de microsecondes. */
   double nb_microsecondes() const;
 };
+
 
 /** @brief Affichage d'un intervalle de temps. */
 extern std::ostream& operator<<(std::ostream& strm, const Durée& t);
@@ -188,8 +185,6 @@ struct DateHeure
 
   /** @brief Conctructeur (d'après calendrier Grégorien).
    *
-   *  <h3>Conctructeur (d'après calendrier Grégorien)</h3>
-   *
    * @par Exemple
    * @code
    * // 8 Février 2021, 12h00
@@ -207,10 +202,7 @@ struct DateHeure
    */
   DateHeure(entier année, double jour);
 
-  /** @brief Calcul le temps sidéral de Greenwich.
-   *
-   *  <h3>Temps sidéral Greenwich</h3>
-   *  Le temps sidéral de Greenwich (GST),
+  /** @brief Calcul le temps sidéral de Greenwich (GST).
    *
    *  @return Temps sidéral, en radians (entre 0 et @f$2\pi@f$).
    */
@@ -218,7 +210,6 @@ struct DateHeure
 
   /** @brief Calcul le temps sidéral local (exprimé en radians).
    *
-   *  <h3>Temps sidéral local</h3>
    *  Le temps sidéral local est le temps sidéral de Greenwich, auquel on ajoute
    *  la longitude locale.
    *
@@ -271,7 +262,7 @@ struct DateHeure
   /** @brief Constructeur, à partir d'une chaîne de caractères de type "aaaa::mm::jj hh:mm:ss". */
   static DateHeure lis_chaine(cstring s);
 
-  /** @brief Nombre de microsecondes depuis la dernière seconde entière, entre 0 et 1e6-1. */
+  /** @brief Nombre de microsecondes depuis la dernière seconde entière, entre 0 et @f$10^6-1@f$. */
   entier microsecondes() const;
 
 
@@ -298,8 +289,6 @@ extern bouléen année_mois_valide(entier année, entier mois);
 
 /** @brief Nombre de jours pour un mois et une année donnée.
  *
- * <h3>Nombre de jours pour un mois et une année donnée</h3>
- *
  * @param année Numéro d'année suivant l'ère usuelle.
  * @param mois Numéro de mois (entre 1 et 12).
  * @returns Nombre de jours, entre 28 et 31.
@@ -307,8 +296,6 @@ extern bouléen année_mois_valide(entier année, entier mois);
 extern entier mois_nb_jours(entier année, entier mois);
 
 /** @brief Vérifie si l'année est bissextile ou non.
- *
- *  <h3>Test année bissextile</h3>
  *
  *  Cette fonction vérifie si l'année passée en paramètre est bissextile (c'est-à-dire une année à 366 jours au lieu de 365) ou non.
  *
@@ -332,6 +319,7 @@ extern std::ostream& operator<<(std::ostream& strm, const DateHeure &t);
 /** @brief Affichage d'une date. */
 extern std::ostream& operator<<(std::ostream& strm, const Calendrier &date);
 
+/** @brief Affichage d'un heure. */
 extern std::ostream& operator<<(std::ostream& strm, const HeureComposite &date);
 
 
@@ -346,8 +334,6 @@ inline Durée operator-(const DateHeure& dt1, const DateHeure& dt2)
 }
 
 /** @brief Ajout à un instant donné d'une certaine durée
- *
- *  <h3>Ajout à un instant donné d'une certaine durée</h3>
  *
  *  @par Example
  *  @code

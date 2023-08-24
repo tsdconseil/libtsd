@@ -34,14 +34,6 @@ namespace tsd::telecom {
   }
 
 
-/*ArrayXf pam_modulate(const BitStream &x)
-{
-  entier n = x.lon();
-  ArrayXf y(n);
-  pour(auto i = 0; i < n; i++)
-    y(i) = x[i] ? 1.0f : -1.0f;
-  retourne y;
-}*/
 
 
 

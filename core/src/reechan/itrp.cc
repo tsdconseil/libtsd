@@ -145,9 +145,9 @@ sptr<InterpolateurRIF<T>> itrp_lineaire()
 }
 
 template<typename T>
-sptr<InterpolateurRIF<T>> itrp_lagrange(unsigned int degre)
+sptr<InterpolateurRIF<T>> itrp_lagrange(entier degré)
 {
-  retourne make_shared<InterpolateurLagrange<T>>(degre);
+  retourne make_shared<InterpolateurLagrange<T>>(degré);
 }
 
 template<typename T>

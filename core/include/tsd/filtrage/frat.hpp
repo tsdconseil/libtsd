@@ -7,7 +7,7 @@
 
 namespace tsd {
 
-/** @addtogroup filtrage
+/** @addtogroup filtrage-poly
  *  @{
  */
 
@@ -51,7 +51,7 @@ struct Poly
     coefs(0) = val;
   }
 
-  /** @brief retourne les coefficients du polynôme */
+  /** @brief Retourne les coefficients du polynôme */
   Vecteur<T> get_coefs() const
   {
     retourne vers_coefs().coefs;
@@ -141,6 +141,14 @@ struct Poly
   }*/
 
   static const Poly<T> z;
+
+
+  /** @brief Evaluation sur un ensemble de points */
+  Vecf éval(const Vecf &x)
+  {
+    retourne x.unaryExpr([&](float xf){return horner(xf);});
+  }
+
 
   /** @brief Evaluation du polynôme */
   template<typename Trep>
@@ -429,12 +437,13 @@ struct Poly
     retourne coefs.square().somme();
   }
 
-  /** @brief retourne les racines du polynôme */
+  /** @brief Retourne les racines du polynôme */
 
   Veccf roots() const;
 };
 
 
+/** @cond private  */
 template<typename T>
   Poly<T> operator *(const T &s, const Poly<T> &p)
 {
@@ -475,7 +484,7 @@ Poly<T> real(const Poly<std::complex<T>> &p)
     res.coefs(i) = p.coefs(i).real();
   retourne res;
 }
-
+/** @endcond  */
 
 /** @brief Fraction rationnelle polynomiale, avec coefficients réels ou complexes.
  *
@@ -860,7 +869,9 @@ struct FRat
 
 };
 
+/** @} */
 
+/** @cond private  */
 // Quand le scalaire vient en premier
 template<typename T1, typename T2>
   FRat<T2> operator /(const T1 &v, const FRat<T2> &s)
@@ -886,12 +897,9 @@ template<typename T1, typename T2>
   return -s + v;
 }
 
-/** @} */
-
-
 std::ostream& operator<<(std::ostream& os, const Poly<float> &p);
 std::ostream& operator<<(std::ostream& os, const FRat<float> &f);
-
+/** @endcond */
 
 
 

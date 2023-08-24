@@ -1,9 +1,9 @@
-#if !defined(FR_HPP) || defined(__CDT_PARSER__)
+#ifndef FR_HPP
 #define FR_HPP
 
 
-
-
+#ifndef soit
+#define let       auto
 #define soit      auto
 #define Soient    auto
 #define soient    auto
@@ -28,9 +28,12 @@ static const auto
 
 using bouleen = bool;
 
+#if !OLD_GCC
 using bouléen = bool;
-using entier  = int;
+#endif
 
+using entier  = int;
+#endif
 
 #endif
 

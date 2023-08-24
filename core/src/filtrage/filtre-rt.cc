@@ -290,139 +290,7 @@ template<typename Tc, typename T>
 
 
 
-// TODO : remove (exp)
-template<typename T = float, entier order = 2>
-struct AllpassUps: FiltreGen<T>
-{
-  AllpassUps()
-  {
-    reset();
-  }
-  void reset()
-  {
-    xe_acc = xo_acc = xe_old = 0;
-  }
-  void process(T *y, const T *x, unsigned int n)
-  {
-    pour(auto i = 0u; i < n; i++)
-    {
-      T xe = *x++;
 
-      /* alpha =  1/2 */
-      xe_acc = xe_old + ((xe - xe_acc) / 4.0f);
-      /* alpha =  3/2 */
-      xo_acc = xe_old + ((3.0f * (xe - xo_acc)) / 4.0f);
-
-      *y++   = xe_acc;
-      *y++ = xo_acc;
-
-      xe_old = xe;
-    }
-  }
-  void step(const Vecteur<T> &x, Vecteur<T> &y)
-  {
-    assertion(y.data() != x.data());
-    y.resize(x.rows() * 2);
-    process(y.data(), x.data(), x.rows());
-  }
-private:
-  T xe_old, xe_acc, xo_acc;
-};
-
-template<typename T>
-sptr<FiltreGen<T>> filtre_allpass_ups()
-{
-  retourne make_shared<AllpassUps<T>>();
-}
-
-template<typename T>
-inline T decim_etape(const T &xe, const T &xo, T &xe_old, T &xo_old, T &xe_acc, T &xo_acc)
-{
-  /* α =  1/2 */
-  xe_acc = xe_old + ((xe - xe_acc) / 4.0f);
-  /* α =  3/2 */
-  xo_acc = xo_old + ((3.0f * (xo - xo_acc)) / 4.0f);
-
-  xe_old = xe;
-  xo_old = xo;
-
-  retourne (xe_acc + xo_acc) / 2.0f;
-}
-
-/** @brief Décimateur réalisé à partir de deux passe-tout
- *         fonctionnant en parallèle. **/
-template<typename T = float, entier order = 2>
-struct AllpassDecim : FiltreGen<T>
-{
-  AllpassDecim()
-  {
-    reset();
-  }
-  void reset()
-  {
-    a_residu  = non;
-    residu    = 0;
-    xe_acc    = xo_acc = xe_old = xo_old = 0;
-  }
-  void step(const Vecteur<T> &x, Vecteur<T> &y)
-  {
-    si(y.data() != x.data())
-      y.resize((x.rows() + 1) / 2);
-    process(y.data(), x.data(), x.rows());
-    si(y.data() == x.data())
-      y = y.head((x.rows() + 1) / 2);
-  }
-  entier process(T *y, const T *x, unsigned int n)
-  {
-    entier res = 0;
-    uint32_t i;
-    T xe, xo;
-
-    si(n == 0)
-      retourne 0;
-
-    // Premier calcul avec le résidu
-    si(a_residu)
-    {
-      a_residu = non;
-      xe = residu;
-      xo = *x++;
-
-      *y++ = decim_etape<T>(xe, xo, xe_old, xo_old, xe_acc, xo_acc);
-      res++;
-      n--;
-    }
-
-    pour(i = 0; i < n / 2; i++)
-    {
-      xe = *x++;
-      xo = *x++;
-
-      *y++ = decim_etape<T>(xe, xo, xe_old, xo_old, xe_acc, xo_acc);
-    }
-    res += n / 2;
-
-    si(n & 1)
-    {
-      a_residu = oui;
-      residu = *x++;
-      //assert(!(isnan(residu)));
-    }
-
-    retourne res;
-  }
-private:
-  T xe_old, xe_acc, xo_old, xo_acc;
-  T residu; // pour stocker le résidu si nombre d'échantillons impairs
-  bouléen a_residu;
-};
-
-
-template<typename T>
-sptr<FiltreGen<T>> filtre_allpass_decim()
-{
-  retourne make_shared<AllpassDecim<T>>();
-}
 
 struct SOISConfig
 {
@@ -928,6 +796,7 @@ template sptr<FiltreGen<cfloat>> filtre_dc(float fc);
 template sptr<FiltreGen<float>> filtre_rii(const FRat<float> &h);
 template sptr<FiltreGen<cfloat>> filtre_rii(const FRat<cfloat> &h);
 template sptr<FiltreGen<float>> ligne_a_retard<float>(entier retard);
+template sptr<FiltreGen<cfloat>> ligne_a_retard<cfloat>(entier retard);
 template sptr<FiltreGen<float>> filtre_mg<float,double>(entier n);
 template sptr<FiltreGen<cfloat>> filtre_mg<cfloat,cdouble>(entier n);
 
@@ -950,10 +819,7 @@ soit filtre_rif1 = filtre_rif<float, float>;
 soit filtre_rif2 = filtre_rif<float, cfloat>;
 soit filtre_rif4 = filtre_rif<cfloat, cfloat>;
 
-soit filtre_ad1 = filtre_allpass_decim<float>;
-soit filtre_ad2 = filtre_allpass_decim<cfloat>;
-soit filtre_up1 = filtre_allpass_ups<float>;
-soit filtre_up2 = filtre_allpass_ups<cfloat>;
+
 
 
 }

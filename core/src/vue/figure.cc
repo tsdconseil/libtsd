@@ -147,7 +147,7 @@ struct Figure::Courbe::Impl
   Couleur couleur               = {0,0,0,180};
 
   entier epaisseur              = 3,
-         dim_marqueur           = 5;
+         dim_marqueur           = 7;//5;
 
   bouléen remplissage           = non,
           remplissage_vers_ymin = oui,
@@ -1368,6 +1368,11 @@ void Figure::titre(cstring titre_global)
   impl->titre = titre_global;
 }
 
+string Figure::get_titre() const
+{
+  retourne impl->titre;
+}
+
 void Figure::titres(cstring titre_global,
                     cstring axe_x,
                     cstring axe_y)
@@ -1435,6 +1440,16 @@ Canva Figure::canva_pixel(const Dim &allocation)
   soit a = canva();
   Rectf r = get_rdi();
   retourne impl->canva_utilisateur.clip(r, Rect{0, sz.h, sz.l, -sz.h});
+}
+
+void Figure::afficher(cstring titre, const Dim &dim) const
+{
+  ARendable::afficher(titre.empty() ? impl->titre : titre, dim);
+}
+
+void Figure::enregistrer(cstring chemin_fichier, const Dim &dim) const
+{
+  ARendable::enregistrer(chemin_fichier, dim);
 }
 
 Canva Figure::canva()

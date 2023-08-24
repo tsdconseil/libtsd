@@ -5,9 +5,6 @@
 #include "dsp/tab.hpp"
 
 
-#define Let auto
-#define let auto
-
 namespace dsp {
 
 
@@ -67,8 +64,6 @@ using tsd::Tabi;*/
 
 /** @brief Vertical concatenation of 2 vectors.
  *
- * <h3>Vertical concatenation</h3>
- *
  * This function merges 2 column vectors:
  * @f[
  * c = \left(
@@ -115,8 +110,6 @@ template<typename T1, typename T2>
 
 /** @brief Vector rotation.
  *
- *  <h3>Vector rotation</h3>
- *
  *  @param x Input column vector
  *  @param d Integer number of steps (positive or negative)
  *  @returns Data vector with rtation of @f$d@f$ steps (modulo the vector dimension):
@@ -143,8 +136,6 @@ Vector<T> rotation_vec(const Vector<T> &x, int d)
 
 /** @brief Difference between 2 successive elements of a vector.
  *
- *  <h3>Difference between 2 successive elements of a vector</h3>
- *
  *  @returns A column vector of length @f$n-1@f$:
  *  @f[
  *  y_k = x_{k+1} - x_k,\quad k = 0,\dots, n-2
@@ -168,7 +159,6 @@ template<typename T>
 
 
 /** @brief Accumulated sum of a vector.
- *  <h3>Accumulated sum of a vector</h3>
  *
  *  Compute a vector of identical dimension as the input one and
  *  equal to the progressive accumulation of input values:
@@ -195,15 +185,13 @@ template<typename T>
 
 /** @brief Fix phase jumps.
  *
- *  <h3>Fix phase jumps</h3>
- *
  *  @param x Vector (typically with angle values).
  *  @param r Defines the equivalence class on @f$x@f$
  *  @returns A vector @f$y@f$ such as @f$y_k = x_k + k \cdot r @f$, and with the less possible number of discontinuities (no discontinuity greater than @f$r/2@f$ in absolute value).
  *
  *  @par Example:
  *  @snippet exemples/src/ex-tsd.cc exemple_unwrap
- *  @image html unwrap.png width=800px
+ *  @image html unwrap.png
  *
  *  @sa modulo_pm_π(), modulo_2π()
  *
@@ -216,8 +204,6 @@ inline Vector<T> phase_unwrap(const Vector<T> &x, float r = 2*π)
 
 
 /** @brief Find true values indexes in a boolean vector.
- *
- *  <h3>Find true values indexes in a boolean vector</h3>
  *
  *  @param x Boolean vector
  *  @returns Vector containing the indexes for which the input vector elements are true.
@@ -236,8 +222,6 @@ inline vector<int> find(const Vecb &x)
 }
 
 /** @brief Find the first true element index from a boolean vector.
- *
- *  <h3>Find the first true element index from a boolean vector.</h3>
  *
  *
  *  @par Example
@@ -258,8 +242,6 @@ inline int find_first(const Vecb &x)
 // Equivalent de : y = x(1:pas:$)
 /** @brief Decimation of a column vector
  *
- *  <h3>Decimation of a column vector</h3>
- *
  *  From a vector @f$(x_k), k=0\dots n-1@f$, returns
  *  a subset of it, decimated by a factor of @f$R@f$:
  *  @f[
@@ -268,7 +250,7 @@ inline int find_first(const Vecb &x)
  *
  *  @par Example:
  *  @snippet exemples/src/ex-tsd.cc ex_sousech
- *  @image html sousech.png width=800px
+ *  @image html sousech.png
  *
  *  @sa upsample()
  *
@@ -281,8 +263,6 @@ template<typename T>
 
 /** @brief Oversampling of a column vector.
  *
- *  <h3>Oversampling of a column vector</h3>
- *
  *  From a vector  @f$(x_k), k=0\dots n-1@f$, returns
  *  a upsampled vector of size @f$Rn@f$, by inserting zeroes:
  *  @f[
@@ -292,7 +272,7 @@ template<typename T>
  *
  *  @par Example:
  *  @snippet exemples/src/ex-tsd.cc ex_surech
- *  @image html surech.png width=800px
+ *  @image html surech.png
  *
  *  @sa downsample()
  *
@@ -304,8 +284,6 @@ template<typename T>
  }
 
 /** @brief Linear to decibel conversion.
- *
- *  <h3>Linear to decibel conversion</h3>
  *
  *  @param x Value in linear units
  *  @returns Valeur en dB:
@@ -322,8 +300,6 @@ template<typename T>
 }
 
 /** @brief Decibels to linear conversion.
- *
- *  <h3>Decibels to linear conversion</h3>
  *
  *  @param x Value in dB
  *  @returns Value in linear units:
@@ -348,8 +324,6 @@ auto mag2db(const auto &x)
 
 /** @brief Returns the smallest power of 2 greater or equal to i.
  *
- * <h3>Smallest power of 2 greater or equal to some integer</h3>
- *
  * Computes the smallest power of 2 greater or equal to @f$i@f$:
  * @f[
  *  y = \min_{j\geq i,\ j = 2^k} j
@@ -368,8 +342,6 @@ inline int next_power_of_2(unsigned int i)
 
 
 /** @brief Add zeros at the end of one of two vectors such as they have the same length.
- *
- *  <h3>Zero padding of vectors</h3>
  *
  *  One of the two vectors is padded with zeros such as the two vectors have the same length.
  *
@@ -454,8 +426,6 @@ using Filter = tsd::Filtre<Te, Ts, Tc>;
 
 /** @brief  Finite signal resampling, with arbitrary ratio.
  *
- *  <h3>Finite signal resampling</h3>
- *
  *  This function resample a signal with a decimation (@f$r < 1@f$)
  *  or interpolation (@f$r > 1@f$) ratio.
  *
@@ -470,7 +440,7 @@ using Filter = tsd::Filtre<Te, Ts, Tc>;
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_resample
- *  @image html resample.png width=800px
+ *  @image html resample.png
  *
  *  @note Because of the anti-aliasing filters, the output signal will be delayed compared to the input one.
  *  To resample without intruducing delay, one can use @ref resample_freq().
@@ -487,12 +457,10 @@ template<typename T>
 /** @brief From an input data stream, formatted in arbitrary packet sizes,
  *  produce a data stream with a <b>fixed packet length</b>.
  *
- *  <h3>Preparation of a fixed packet length data stream</h3>
- *
  *  From an input data stream, formatted in arbitrary packet sizes,
  *  produce a data stream with a <b>fixed packet length</b>.
  *
- *  @image html tampon.png width=800px
+ *  @image html tampon.png
  *
  *  @param N        Output packets length
  *  @param callback User function which will be called for each output packet of size @f$N@f$
@@ -520,8 +488,6 @@ template<typename T>
 
 /** @brief Modulo with result in @f$[0,m[@f$ interval.
  *
- * <h3>Modulo with result in @f$[0,m[@f$ interval</h3>
- *
  * Contrary to the standard function <code>fmod(x, m)</code>, which returns
  * a value between @f$-m@f$ and @f$m@f$, this function
  * returns a value between @f$0@f$ and @f$m@f$:
@@ -546,8 +512,6 @@ T modulo(T x, T m)
 
 /** @brief Computes @f$a@f$ modulo @f$2\pi@f$, the result being in the @f$\left[0,2\pi\right[@f$ interval.
  *
- *
- *  <h3>Modulo @f$2\pi@f$</h3>
  *  The result is in the @f$\left[0,2\pi\right[@f$ interval:
  *  @f[
  *  y = x + k\cdot 2\pi,\quad k\in\mathbb{Z},\ y\in \left[0,2\pi\right[
@@ -569,7 +533,6 @@ inline T modulo_2π(T x)
 
 /** @brief Computes @f$a@f$ modulo @f$2\pi@f$, the result being in the @f$\left[-\pi,\pi\right[@f$ interval.
  *
- *  <h3>Modulo @f$2\pi@f$</h3>
  *  The result is in the @f$\left[-\pi,\pi\right[@f$ interval:
  *  @f[
  *  y = x + k\cdot 2\pi,\quad k\in\mathbb{Z},\ y\in \left[-\pi,\pi\right[
@@ -604,8 +567,6 @@ template<typename T>
 
 /** @brief Degrees to radians conversion.
  *
- *  <h3>Degrees to radians conversion</h3>
- *
  *  @f[
  *  y = \frac{\pi\cdot x}{180}
  *  @f]
@@ -624,8 +585,6 @@ auto deg2rad(T degrees)
 }
 
 /** @brief Radians to degrees conversion.
- *
- *  <h3>Radians to degrees conversion</h3>
  *
  *  @f[
  *  y = \frac{180\cdot x}{\pi}
@@ -653,8 +612,6 @@ T rad2deg(T radians)
 ///////////////////////
 
 /** @brief Equidistant point interval.
- *
- *  <h3>Equidistant point interval</h3>
  *
  *
  *  Compute @f$n@f$ equidistant points between @f$a@f$ and @f$b@f$.
@@ -687,8 +644,6 @@ static inline Vecf linspace(float a, float b, unsigned int n)
 
 /** @brief Interval of logarithmicly equidistant points (geometric serie).
  *
- *  <h3>Interval of logarithmicly equidistant points</h3>
- *
  *  Computes @f$n@f$ points logarithmicly equidistants between @f$a@f$ and @f$b@f$,
  *  that is, the following geometric serie:
  *
@@ -704,7 +659,7 @@ static inline Vecf linspace(float a, float b, unsigned int n)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_logspace
- *  @image html logspace.png width=600px
+ *  @image html logspace.png
  *
  *  @sa linspace()
  */
@@ -715,8 +670,6 @@ static inline Vecf logspace(float a, float b, int n)
 
 
 /** @brief Integer interval
- *
- *  <h3>Integer interval</h3>
  *
  *  @return Vector of the  @f$b-a+1@f$ integers between @f$a@f$ and @f$b@f$:
  *  @f[
@@ -732,8 +685,6 @@ static inline Veci irange(int a, int b)
 
 /** @brief Time interval, with sampling frequency specified.
  *
- *  <h3>Time interval, with sampling frequency specified</h3>
- *
  *  @param n Number of points
  *  @param fs Sampling frequency
  *  @return Set of equidistant points :
@@ -743,7 +694,7 @@ static inline Veci irange(int a, int b)
  *
  *  @sa linspace(), irange()
  */
-static inline Vecf trange(unsigned int n, float fs)
+static inline Vecf trange(int n, float fs)
 {
   return tsd::intervalle_temporel(n, fs);
 }
@@ -752,7 +703,6 @@ static inline Vecf trange(unsigned int n, float fs)
 
 /** @brief Normal law (column vector).
  *
- *  <h3>Normal law</h3>
  *  Generation of a samples vector for a normal law (@f$\mathcal{N}(0,1)@f$).
  *
  *  @param n Number of points to generate.
@@ -767,7 +717,7 @@ static inline Vecf trange(unsigned int n, float fs)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_randn
- *  @image html randn.png width=600px
+ *  @image html randn.png
  *
  *  @sa randu(), randb()
  */
@@ -792,8 +742,6 @@ static inline Vecf randn(unsigned int n)
 
 /** @brief Uniform law (column vector).
  *
- *  <h3>Uniform law</h3>
- *
  *  @param n Number of points to generate.
  *  @param a Minimal value.
  *  @param b Maximal value.
@@ -801,15 +749,13 @@ static inline Vecf randn(unsigned int n)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_randu
- *  @image html randu.png width=600px
+ *  @image html randu.png
  *
  *  @sa randn(), randi(), randb()
  */
 static inline Vecf randu(int n, float a = -1, float b = 1){return tsd::randu(n, a, b);}
 
 /** @brief Random binary vector.
- *
- *  <h3>Random binary vector</h3>
  *
  *  @param n Number of points to generate.
  *  @returns A vector of random values, 0 or 1.
@@ -818,7 +764,7 @@ static inline Vecf randu(int n, float a = -1, float b = 1){return tsd::randu(n, 
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_randb
- *  @image html randb.png width=600px
+ *  @image html randb.png
  *
  *
  *  @sa randn(), randu(), randi()
@@ -830,15 +776,13 @@ static inline Vecb randb(int n)
 
 /** @brief Categorial random vector
  *
- *  <h3>Categorial random vector</h3>
- *
  *  @param M Number of categories.
  *  @param n Number of points to generate.
  *  @returns A vector of @f$n@f$ integers between @f$0@f$ et @f$M-1@f$.
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_randi
- *  @image html randi.png width=600px
+ *  @image html randi.png
  *
  *  @sa randn(), randu(), randb()
  */
@@ -849,8 +793,6 @@ static inline Veci randi(int M, int n)
 
 
 /** @brief Efficient computing of a complex exponential.
- *
- *  <h3>Generation of a complex exponential</h3>
  *
  *  This function generates a complex exponential signal,
  *  based on an harmonic oscillator
@@ -866,7 +808,7 @@ static inline Veci randi(int M, int n)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigexp
- *  @image html sigexp.png width=600px
+ *  @image html sigexp.png
  *
  *  @sa sigcos(), sigsin(), sigcar(), sigtri()
  */
@@ -876,8 +818,6 @@ static inline Veccf sigexp(float f, int n)
 }
 
 /** @brief Efficient computing of a sinusoid.
- *
- *  <h3>Generation of a sinusoid</h3>
  *
  *  This function generates a real sinusoidal signal,
  *  based on an harmonic oscillator
@@ -893,7 +833,7 @@ static inline Veccf sigexp(float f, int n)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigsin
- *  @image html sigsin.png width=600px
+ *  @image html sigsin.png
  *
  *  @sa sigcos(), sigexp(), sigcar(), sigtri()
  */
@@ -903,8 +843,6 @@ static inline Vecf sigsin(float f, int n)
 }
 
 /** @brief Efficient computing of a cosinusoid.
- *
- *  <h3>Generation of a cosinusoid</h3>
  *
  *  This function generates a real cosinusoidal signal,
  *  based on an harmonic oscillator
@@ -920,7 +858,7 @@ static inline Vecf sigsin(float f, int n)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigcos
- *  @image html sigcos.png width=600px
+ *  @image html sigcos.png
  *
  *  @sa sigsin(), sigexp(), sigcar(), sigtri()
  */
@@ -931,14 +869,12 @@ static inline Vecf sigcos(float f, int n)
 
 /** @brief Generation of a triangular, periodic signal.
  *
- *  <h3>Triangular, periodic signal</h3>
- *
  *  @param p Period, in number of samples.
  *  @param n Number of points to generate.
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigtri
- *  @image html sigtri.png width=600px
+ *  @image html sigtri.png
  *
  *  @sa sigcar(), sigsin(), sigcos(), sigexp()
  */
@@ -950,14 +886,12 @@ static inline Vecf sigtri(int p, int n)
 
 /** @brief Generation of a square, periodic signal.
  *
- *  <h3>Square, periodic signal</h3>
- *
  *  @param p Period, in number of samples.
  *  @param n Number of points to generate.
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigcar
- *  @image html sigcar.png width=600px
+ *  @image html sigcar.png
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
@@ -969,14 +903,12 @@ static inline Vecf sigsquare(int p, int n)
 
 /** @brief Discret impulsion.
  *
- *  <h3>Discret impulsion</h3>
- *
  *  @param n Number of points to generate.
  *  @param p Impulsion position (in samples).
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigimp
- *  @image html sigimp.png width=600px
+ *  @image html sigimp.png
  *
  */
 static inline Vecf sigimp(int n, int p = 0)
@@ -986,14 +918,12 @@ static inline Vecf sigimp(int n, int p = 0)
 
 /** @brief Sawtooth signal.
  *
- *  <h3>Sawtooth signal</h3>
- *
  *  @param p Period, in number of samples.
  *  @param n Number of points to generate.
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigscie
- *  @image html sigscie.png width=600px
+ *  @image html sigscie.png
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
@@ -1004,8 +934,6 @@ static inline Vecf sigsawtooth(int p, int n)
 
 
 /** @brief Sinusoïd modulated by a Gaussian
- *
- *  <h3>Sinusoïd modulated by a Gaussian</h3>
  *
  *  @f[
  *  x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2} \cdot \sin \left(2\pi fk\right)
@@ -1018,7 +946,7 @@ static inline Vecf sigsawtooth(int p, int n)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_siggsin
- *  @image html siggsin.png width=600px
+ *  @image html siggsin.png
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
@@ -1030,8 +958,6 @@ static inline Vecf siggsin(float f, int n, float a = 10)
 
 /** @brief Gaussian filtered impulse.
    *
-   *  <h3>Gaussian filtered impulse</h3>
-   *
    *  @f[
    *  x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2}
    *  @f]
@@ -1042,7 +968,7 @@ static inline Vecf siggsin(float f, int n, float a = 10)
    *
    *  @par Example
    *  @snippet exemples/src/ex-tsd.cc ex_siggaus
-   *  @image html sigsiggaus.png width=600px
+   *  @image html sigsiggaus.png
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp(), siggsin()
    */
@@ -1054,8 +980,6 @@ static inline Vecf siggauss(int n, float a = 10)
 
 /** @brief Nyquist frequency signal generation (-1,1,-1,1,etc.).
  *
- *  <h3>Signal at Nyquist frequency</h3>
- *
  *  Build a sinusoïd sampled at frequency @f$f_e/2@f$, that an alternating sequence
  *  -1,1,-1,1,etc.
  *
@@ -1063,7 +987,7 @@ static inline Vecf siggauss(int n, float a = 10)
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_signyquist
- *  @image html signyquist.png width=600px
+ *  @image html signyquist.png
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp()
  */
@@ -1071,8 +995,6 @@ extern Vecf signyquist(int n);
 
 
 /** @brief Linear or quadratic chirp.
- *
- *  <h3>Linear or quadratic chirp</h3>
  *
  *  @f[
  *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
@@ -1098,7 +1020,7 @@ extern Vecf signyquist(int n);
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sigchirp
- *  @image html sigchirp.png width=600px
+ *  @image html sigchirp.png
  *
  *  @sa sigtri(), sigsin(), sigcos(), sigexp()
  */
@@ -1115,8 +1037,6 @@ using OHConfig = tsd::OHConfig;
 
 
 /** @brief Generation of an exponential signal through a harmonic oscillator.
- *
- *  <h3>Harmonic oscillator (complex output)</h3>
  *
  *  This function returns a data source, which can be called several times (generation of a continuous flow of samples, contrary to @ref sigexp(), which can only generate a fixed number of samples).
  *
@@ -1137,15 +1057,13 @@ using OHConfig = tsd::OHConfig;
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohc
- *  @image html ohc.png width=600px
+ *  @image html ohc.png
  *
  *  @sa source_ohr(), sigexp()
  */
 extern sptr<Source<cfloat, OHConfig>> source_ohc(float freq);
 
 /** @brief Generation of a sinusoidal signal through a harmonic oscillator.
- *
- *  <h3>Harmonic oscillator (real output)</h3>
  *
  *  This function returns a data source, which can be called several times (generation of a continuous flow of samples, contrary to @ref sigsin(), which can only generate a fixed number of samples).
  *
@@ -1158,7 +1076,7 @@ extern sptr<Source<cfloat, OHConfig>> source_ohc(float freq);
  *
  *  @par Example
  *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohr
- *  @image html ohr.png width=600px
+ *  @image html ohr.png
  *
  *  @sa source_ohc(), sigcos()
  */

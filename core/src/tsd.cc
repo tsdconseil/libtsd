@@ -42,7 +42,7 @@ bouléen erreur_attendue = non;
 
 
 
-void log_msg_default(const char *fn, entier ligne, entier niveau, cstring str)
+void tsd_log_msg(const char *fn, entier ligne, entier niveau, cstring str)
 {
   fmt::text_style drapeaux;
 
@@ -116,6 +116,13 @@ void log_msg_default(const char *fn, entier ligne, entier niveau, cstring str)
     printf("Throw...\n"); fflush(0);
     throw runtime_error(str);
   }
+}
+
+void __attribute__ ((constructor)) tsd_premain()
+{
+  // Pas prioritaire (juste log par défaut)
+  si(!get_logger())
+    get_logger() = tsd_log_msg;
 }
 
 namespace tsd {

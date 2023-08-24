@@ -72,7 +72,7 @@ using std::norm;
   using namespace std::complex_literals;
 
 
-  /** @brief retourne -1, 1 ou 0. */
+  /** @brief Retourne -1, 1 ou 0 (en cas d'égalité). */
   template <typename T> entier signe(T val) {
       retourne (T(0) < val) - (val < T(0));
   }
@@ -95,8 +95,6 @@ using std::norm;
 
 
   /** @brief Concaténation verticale de deux vecteurs.
-   *
-   * <h3>Concaténation verticale</h3>
    *
    * Cette fonction réalise l'assemblage de deux vecteurs colonnes :
    * @f[
@@ -121,11 +119,11 @@ using std::norm;
    * @param b Deuxième vecteur
    * @returns Concaténation verticale
    *
-   * @par Example
+   * @par Exemple
    * @code
-   *  ArrayXf a = ArrayXf::Ones(1);
-   *  ArrayXf b = ArrayXf::Zero(5);
-   *  ArrayXf c = vconcat(a, b); // (ou ArrayXf c = a | b)
+   *  soit a = Vecf::ones(1),
+   *       b = Vecf::zeros(5),
+   *       c = vconcat(a, b); // (ou c = a | b)
    * @endcode
    *
    */
@@ -140,12 +138,15 @@ using std::norm;
     retourne c;
   }
 
+  /** @brief Concaténation verticale de deux vecteurs (raccourci).
+   *  @sa vconcat() */
   template<typename T>
     auto operator |(const Vecteur<T> &a, const Vecteur<T> &b)
   {
     return vconcat(a, b);
   }
 
+  /** @brief Concaténation verticale de deux tableaux. */
   template<typename T>
     auto vconcat(const Tableau<T> &a, const Tableau<T> &b)
   {
@@ -158,6 +159,7 @@ using std::norm;
     retourne c;
   }
 
+  /** @brief Concaténation horizontale de deux tableaux. */
   template<typename T>
     auto hconcat(const Tableau<T> &a, const Tableau<T> &b)
   {
@@ -181,8 +183,6 @@ using std::norm;
 
   /** @brief Rotation d'un vecteur
    *
-   *  <h3>Rotation d'un vecteur</h3>
-   *
    *  @param x Vecteur colonne d'entrée
    *  @param d Nombre entier de pas (positif ou négatif)
    *  @returns Vecteur des données décalée de @f$d@f$ pas (modulo la dimension du vecteur) :
@@ -193,10 +193,9 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  ArrayXf x = linspace(0, 5, 6);
-   *  ArrayXf y = rotation_vec(x, 2);
-   *  ArrayXf yref(6);
-   *  yref << 2, 3, 4, 5, 0, 1;
+   *  soit x    = linspace(0, 5, 6),
+   *       y    = rotation_vec(x, 2),
+   *       yref = Vecf::valeurs({2, 3, 4, 5, 0, 1});
    *  assertion(y.isApprox(yref));
    *  @endcode
    */
@@ -210,8 +209,6 @@ using std::norm;
 
   /** @brief Différence entre 2 élements successifs d'un vecteur
    *
-   *  <h3>Différence entre 2 élements successifs d'un vecteur</h3>
-   *
    *  @returns Un vecteur de longueur @f$n-1@f$ :
    *  @f[
    *  y_k = x_{k+1} - x_k,\quad k = 0,\dots, n-2
@@ -219,9 +216,10 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  ArrayXf x = randn(10);
-   *  ArrayXf y = diff(x);
-   *  ArrayXf yref = x.tail(9) - x.head(9);
+   *  soit x    = randn(10),
+   *       y    = diff(x),
+   *       yref = x.tail(9) - x.head(9);
+   *
    *  assertion(y.isApprox(yref));
    *  @endcode
    *
@@ -235,7 +233,6 @@ using std::norm;
   }
 
   /** @brief Somme cumulée d'un vecteur
-   *  <h3>Somme cumulée d'un vecteur</h3>
    *
    *  Calcule un vecteur de dimension identique et égale à l'acculation des
    *  échantillons du vecteurs d'entrée :
@@ -245,9 +242,9 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  ArrayXf x     = linspace(0, 99, 100);
-   *  ArrayXf y     = cumsum(x);
-   *  ArrayXf yref  = x * (x + 1) / 2;
+   *  soit x     = linspace(0, 99, 100),
+   *       y     = cumsum(x),
+   *       yref  = x * (x + 1) / 2;
    *  assertion(y.isApprox(yref));
    *  @endcode
    *
@@ -270,15 +267,13 @@ using std::norm;
 
   /** @brief Corrige les sauts de phases
    *
-   *  <h3>Correction des sauts de phase</h3>
-   *
    *  @param x Vecteur contenant typiquement des angles
    *  @param r Définit la classe d'équivalence sur les valeurs de @f$x@f$
    *  @returns Un vecteur @f$y@f$ tel que @f$y_k = x_k + k \cdot r @f$, et avec le moins de discontinuités possibles (plus précisément, aucune discontinuité supérieure à @f$r/2@f$ en valeur absolue).
    *
    *  @par Exemple :
    *  @snippet exemples/src/ex-tsd.cc exemple_unwrap
-   *  @image html unwrap.png width=800px
+   *  @image html unwrap.png
    *
    *  @sa modulo_pm_π(), modulo_2π()
    *
@@ -287,8 +282,6 @@ using std::norm;
     Vecteur<T> déplie_phase(const Vecteur<T> &x, float r = 2*π);
 
   /** @brief Recherche d'éléments vrais dans un tableau bouléen.
-   *
-   *  <h3>Recherche d'éléments vrais dans un tableau bouléen</h3>
    *
    *  @param x Tableau de valeurs bouléennes
    *  @returns Vecteur des index pour lequels les éléments du tableau sont vrais.
@@ -299,13 +292,11 @@ using std::norm;
    *  soit idx = trouve(x >= 0); // idx = {2, 3, 4}
    *  @endcode
    *
-   *  @sa trouve_premier()
+   *  @sa trouve_premier(), trouve_dernier()
    */
   extern vector<entier> trouve(const Vecb &x);
 
   /** @brief Recherche de l'indice du premier élément vrai dans un tableau de bouléens.
-   *
-   *  <h3>Recherche de l'indice du premier élément vrai dans un tableau de bouléens.</h3>
    *
    *
    *  @par Exemple
@@ -314,13 +305,16 @@ using std::norm;
    *  soit idx = trouve_premier(x >= 0); // idx = 2
    *  @endcode
    *
-   *  @sa trouve()
+   *  @sa trouve(), trouve_dernier()
    */
   extern entier trouve_premier(const Vecb &x);
 
-
+  /** @brief Recherche de l'indice du dernier élément vrai dans un tableau de bouléens.
+   *  @sa trouve_premier(), trouve() */
   extern entier trouve_dernier(const Vecb &x);
 
+
+  /** @brief Recherche du premier maximum local (valeur supérieure à ces deux voisins). */
   template<typename T>
     entier trouve_premier_max_local(const Vecteur<T> &x)
   {
@@ -346,19 +340,8 @@ using std::norm;
         IMAP(std::polar(ρ(i), θ(i))));
   }
 
-
-  // Equivalent à Scilab x(dec:pas:dec+pas*n)
-  // Fonction à supprimer ?
-  /*inline auto subarray1d(IArrayXf &x, unsigned int dec, unsigned int n, unsigned int pas)
-  {
-    auto p = (float *) x.data();
-    return Eigen::Map<ArrayXf, 0, Eigen::InnerStride<>>(p + dec, n, Eigen::InnerStride<>(pas));
-  }*/
-
   // Equivalent de : y = x(1:pas:$)
   /** @brief Sous-échantillonnage d'un vecteur colonne
-   *
-   *  <h3>Sous-échantillonnage d'un vecteur colonne</h3>
    *
    *  A partir d'un vecteur @f$(x_k), k=0\dots n-1@f$, renvoie
    *  un vecteur sous-échantillonné d'un facteur @f$R@f$ :
@@ -368,7 +351,7 @@ using std::norm;
    *
    *  @par Exemple :
    *  @snippet exemples/src/ex-tsd.cc ex_sousech
-   *  @image html sousech.png width=800px
+   *  @image html sousech.png
    *
    *  @sa surech()
    *
@@ -385,8 +368,6 @@ using std::norm;
 
   /** @brief Sur-échantillonnage d'un vecteur colonne
    *
-   *  <h3>Sur-échantillonnage d'un vecteur colonne</h3>
-   *
    *  A partir d'un vecteur @f$(x_k), k=0\dots n-1@f$, renvoie
    *  un vecteur sur-échantillonné d'un facteur @f$R@f$, par l'insertion de zéros :
    *  @f[
@@ -396,7 +377,7 @@ using std::norm;
    *
    *  @par Exemple :
    *  @snippet exemples/src/ex-tsd.cc ex_surech
-   *  @image html surech.png width=800px
+   *  @image html surech.png
    *
    *  @sa sousech()
    *
@@ -414,15 +395,13 @@ using std::norm;
 
   /** @brief Conversion linéaire vers decibels
    *
-   *  <h3>Conversion linéaire vers decibels</h3>
-   *
    *  @param x Valeur en linéaire
    *  @returns Valeur en dB :
    *  @f[
    *    y = 10 \log_{10}(x)
    *  @f]
    *
-   *  @sa db2pow()
+   *  @sa db2pow(), mag2db()
    */
   template<typename T>
     auto pow2db(const T &x)
@@ -433,15 +412,22 @@ using std::norm;
       retourne 10 * log10(x);
   }
 
+  /** @brief Conversion magnitude vers decibels
+   *
+   *  @param x Valeur en linéaire
+   *  @returns Valeur en dB :
+   *  @f[
+   *    y = 20 \log_{10}(x)
+   *  @f]
+   *
+   *  @sa pow2db(), db2pow()
+   */
   auto mag2db(const auto &x)
   {
     retourne 2 * pow2db(x);
   }
 
-
-  /** @brief Conversion decibels vers linéaire
-   *
-   *  <h3>Conversion decibels vers linéaire</h3>
+  /** @brief Conversion decibels vers linéaire (puissance)
    *
    *  @param x Valeur en dB
    *  @returns Valeur en linéaire :
@@ -449,7 +435,7 @@ using std::norm;
    *    y = 10^{x/10}
    *  @f]
    *
-   *  @sa pow2db()
+   *  @sa pow2db(), db2mag(), mag2db()
    */
   template<typename T>
     auto db2pow(const T &x)
@@ -460,15 +446,23 @@ using std::norm;
       retourne pow((T) 10, x/10);
   }
 
+  /** @brief Conversion décibels vers linéaire (magnitude)
+   *
+   *  @param x Valeur en dB
+   *  @returns Valeur en linéaire :
+   *  @f[
+   *    y = 10^{x/20}
+   *  @f]
+   *
+   *  @sa mag2db(), pow2db(), db2pow()
+   */
   auto db2mag(const auto &x)
   {
     retourne db2pow(x/2);
   }
 
 
-  /** @brief retourne la plus petite puissance de 2 supérieure ou égale à i.
-   *
-   * <h3>Prochaine puissance de 2</h3>
+  /** @brief Retourne la plus petite puissance de 2 supérieure ou égale à i.
    *
    * Calcule la plus petite puissance de 2 supérieure ou égale à @f$i@f$ :
    * @f[
@@ -487,8 +481,6 @@ using std::norm;
 
 
   /** @brief Ajoute des zéros à la fin d'un des deux vecteurs de manière à ce qu'ils aient la même dimension.
-   *
-   *  <h3>Complétion de vecteurs avec des zéros</h3>
    *
    *  Un des deux vecteurs est complété avec des zéros de manière à ce que les deux vecteurs
    *  résultants aient la même longueur.
@@ -678,8 +670,6 @@ using std::norm;
 
   /** @brief      Ré-échantillonnage d'un signal suivant un facteur arbitraire.
    *
-   *  <h3>Ré-échantillonnage</h3>
-   *
    *  Cette fonction ré-échantillonne un signal suivant un facteur de décimation (@f$r < 1@f$)
    *  ou d'interpolation (@f$r > 1@f$) arbitraire.
    *
@@ -690,7 +680,7 @@ using std::norm;
    *  @note Un filtre (voir une cascade de filtres) est automatiquement inséré (avant la décimation ou après le sur-échantillonnage) de
    *  manière à éviter le repliement de spectre.
    *
-   *  @sa filtre_reechan() (pour traiter des signaux au fil de l'eau), reechan_freq() (rééchantillonnnage sans retard).
+   *  @sa tsd::filtrage::filtre_reechan() (pour traiter des signaux au fil de l'eau), tsd::fourier::rééchan_freq() (rééchantillonnnage sans retard).
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_resample
@@ -710,12 +700,10 @@ using std::norm;
   /** @brief A partir d'un flux de données entrant, découpé en paquet de dimensions quelconques,
    *  produit un flux de données sous forme de <b>paquets de dimension fixe</b>.
    *
-   *  <h3>Préparation d'un flux de paquets de données de dimension fixes</h3>
-   *
    *  A partir d'un flux de données entrant, découpé en paquet de dimensions quelconques,
    *  ce bloc produit un flux de données sous forme de <b>paquets de dimension fixe</b>.
    *
-   *  @image html tampon.png width=800px
+   *  @image html tampon.png
    *
    *  @param N dimension des paquets de sortie
    *  @param callback Fonction utilisateur qui sera appelée à chaque fois qu'un nouveau paquet de dimension @f$N@f$ est disponible.
@@ -756,8 +744,6 @@ using std::norm;
 
   /** @brief Modulo avec résultat compris dans l'intervalle @f$[0,m[@f$.
    *
-   * <h3>Modulo avec résultat compris dans l'intervalle @f$[0,m[@f$</h3>
-   *
    * Contrairement à la fonction standard <code>fmod(x, m)</code>, qui renvoie
    * une valeur comprise entre @f$-m@f$ et @f$m@f$, cette fonction
    * renvoie une valeur comprise entre @f$0@f$ et @f$m@f$ :
@@ -790,8 +776,6 @@ using std::norm;
 
   /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[0,2\pi\right[@f$.
    *
-   *
-   *  <h3>Modulo @f$2\pi@f$</h3>
    *  Le résultat est dans l'intervalle @f$\left[0,2\pi\right[@f$ :
    *  @f[
    *  y = x + k\cdot 2\pi,\quad k\in\mathbb{Z},\ y\in \left[0,2\pi\right[
@@ -813,7 +797,6 @@ using std::norm;
 
   /** @brief Calcule @f$a@f$ modulo @f$2\pi@f$, résultat dans l'intervalle @f$\left[-\pi,\pi\right[@f$.
    *
-   *  <h3>Modulo @f$2\pi@f$</h3>
    *  Le résultat est dans l'intervalle @f$\left[-\pi,\pi\right[@f$ :
    *  @f[
    *  y = x + k\cdot 2\pi,\quad k\in\mathbb{Z},\ y\in \left[-\pi,\pi\right[
@@ -849,8 +832,6 @@ using std::norm;
 
   /** @brief Conversion degrés vers radians.
    *
-   *  <h3>Conversion degrés vers radians</h3>
-   *
    *  @f[
    *  y = \frac{\pi\cdot x}{180}
    *  @f]
@@ -872,8 +853,6 @@ using std::norm;
   }
 
   /** @brief Conversion radians vers degrés.
-   *
-   *  <h3>Conversion degrés vers radians</h3>
    *
    *  @f[
    *  y = \frac{180\cdot x}{\pi}
@@ -902,8 +881,6 @@ using std::norm;
 
   /** @brief Intervalle de points équidistants.
    *
-   *  <h3>Intervalle de points équidistants</h3>
-   *
    *  Calcule @f$n@f$ points équidistants entre @f$a@f$ et @f$b@f$.
    *
    *  @param a point initial (première valeur)
@@ -916,16 +893,17 @@ using std::norm;
    *
    *  @par Exemple 1 : vecteur des n premiers entiers
    *  @code
-   *  ArrayXf t = linspace(0, n-1, n)
+   *  soit t = linspace(0, n-1, n)
    *  // t = 0, 1, 2, ..., n-1
    *  @endcode
-   *  @image html linspace.png width=600px
+   *  @image html linspace.png
+   *
    *  @par Exemple 2 : vecteur de n valeurs de temps, à la fréquence d'échantillonnage de fe Hz :
    *  @code
-   *  ArrayXf t = linspace(0, (n-1)/fe, n)
+   *  soit t = linspace(0, (n-1)/fe, n)
    *  @endcode
    *
-   *  @sa logspace()
+   *  @sa logspace(), intervalle_temporel()
    */
   static inline auto linspace(float a, float b, entier n)
   {
@@ -947,8 +925,6 @@ using std::norm;
 
   /** @brief Intervalle de points logarithmiquement équidistants (suite géométrique).
    *
-   *  <h3>Intervalle de points logarithmiquement équidistants</h3>
-   *
    *  Calcule @f$n@f$ points logarithmiquement équidistants entre @f$a@f$ et @f$b@f$,
    *  c'est-à-dire la suite gémétrique suivante :
    *
@@ -964,7 +940,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_logspace
-   *  @image html logspace.png width=600px
+   *  @image html logspace.png
    *
    *  @sa linspace()
    */
@@ -974,8 +950,6 @@ using std::norm;
   }
 
   /** @brief Intervalle entier
-   *
-   *  <h3>Intervalle entier</h3>
    *
    *  @return Vecteur des @f$b-a+1@f$ entiers entre @f$a@f$ et @f$b@f$ :
    *  @f[
@@ -993,9 +967,7 @@ using std::norm;
     retourne res;
   }
 
-  /** @brief Intervalle temporel, en fonction de la fréquence d'échantillonnage.
-   *
-   *  <h3>Intervalle temporel</h3>
+  /** @brief Intervalle temporel de @f$n@f$ échantillons, en fonction de la fréquence d'échantillonnage.
    *
    *  @param n nombre de points
    *  @param fe fréquence d'échantillonnage
@@ -1011,9 +983,15 @@ using std::norm;
     retourne linspace(0, (n-1) / fe, n);
   }
 
+  /** @brief Intervalle temporel de durée @f$T@f$, en fonction de la fréquence d'échantillonnage. */
+  static inline Vecf intervalle_temporel(float T, float fe)
+  {
+    soit n  = (entier) ceil(T*fe);
+    retourne linspace(0, (n-1) / fe, n);
+  }
+
   /** @brief Loi normale (vecteur colonne).
    *
-   *  <h3>Loi normale</h3>
    *  Génération d'un vecteur (colonne) d'échantillons d'une loi normale (@f$\mathcal{N}(0,1)@f$).
    *
    *  @param n nombre de points à générer
@@ -1023,29 +1001,27 @@ using std::norm;
    *  il suffit d'effectuer une mise à l'échelle.
    *  Par exemple, pour une moyenne de 5, et une variance de @f$1/2@f$ :
    *  @code
-   *  ArrayXf x = 5 + 0.5 * randn(n);
+   *  soit x = 5 + 0.5 * randn(n);
    *  @endcode
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_randn
-   *  @image html randn.png width=600px
+   *  @image html randn.png
    *
-   *  @sa randu(), randb()
+   *  @sa randu(entier, float, float), randb()
    */
   extern Vecf randn(entier n);
 
+  /** @brief Loi normale complexe (vecteur colonne) */
   extern Veccf randcn(entier n);
 
-  extern float randn();
-
+  /** @cond undoc */
   /** @brief Générateur aléatoire utilisé en interne */
   extern std::default_random_engine generateur_aleatoire;
-
+  /** @endcond */
 
 
   /** @brief Loi uniforme (vecteur colonne).
-   *
-   *  <h3>Loi uniforme</h3>
    *
    *  @param n Nombre de points à générer
    *  @param a Valeur minimale
@@ -1054,18 +1030,13 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_randu
-   *  @image html randu.png width=600px
+   *  @image html randu.png
    *
-   *  @sa randn(), randi(), randb()
+   *  @sa randn(entier), randi(), randb()
    */
   extern Vecf randu(entier n, float a = -1, float b = 1);
 
-  // Entre -1 et 1
-  extern float randu();
-
   /** @brief Loi aléatoire binaire.
-   *
-   *  <h3>Loi binaire</h3>
    *
    *  @param n nombre de points à générer
    *  @returns Un vecteur de valeurs aléatoire de égales à 0 ou 1 uniquement.
@@ -1074,16 +1045,14 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_randb
-   *  @image html randb.png width=600px
+   *  @image html randb.png
    *
    *
-   *  @sa randn(), randu(), randi()
+   *  @sa randn(entier), randu(entier,float,float), randi()
    */
   extern Vecb randb(entier n);
 
   /** @brief Loi aléatoire catégorielle
-   *
-   *  <h3>Loi catégorielle</h3>
    *
    *  @param M Nombre de catégories
    *  @param n Nombre de valeurs à générer
@@ -1091,17 +1060,30 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_randi
-   *  @image html randi.png width=600px
+   *  @image html randi.png
    *
-   *  @sa randn(), randu(), randb()
+   *  @sa randn(entier), randu(entier,float,float), randb(), randi(entier)
    */
   extern Veci randi(entier M, entier n);
 
+  /** Loi aléatoire catégorielle (calcul d'un seul élément).
+   *
+   *  @sa randi(entier, entier)
+   */
   extern entier randi(entier M);
 
-  /** @brief Calcul efficace d'une exponentielle complexe
+  /** @brief Loi uniforme (calcul d'un seul élément)
    *
-   *  <h3>Génération d'une exponentielle complexe</h3>
+   *  Retourne un nombre entre -1 et 1.
+   *
+   *  @sa randu(entier, float, float) */
+  extern float randu();
+
+  /** @brief Loi normale (calcul d'un seul élément)
+   *  @sa randn(entier) */
+  extern float randn();
+
+  /** @brief Calcul efficace d'une exponentielle complexe
    *
    *  Cette fonction génère un signal exponentiel, le calcul étant basé sur un oscillateur harmonique
    *  (ce qui beaucoup plus efficace que via les fonctions trigonométrique de la librairie standard).
@@ -1116,15 +1098,13 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigexp
-   *  @image html sigexp.png width=600px
+   *  @image html sigexp.png
    *
    *  @sa sigcos(), sigsin(), sigcar(), sigtri()
    */
   extern Veccf sigexp(float f, entier n);
 
   /** @brief Calcul efficace d'une sinusoide.
-   *
-   *  <h3>Génération d'une sinusoide</h3>
    *
    *  Cette fonction génère un signal sinusoidal, le calcul étant basé sur un oscillateur harmonique
    *  (ce qui beaucoup plus efficace que via les fonctions trigonométrique de la librairie standard).
@@ -1139,15 +1119,13 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigsin
-   *  @image html sigsin.png width=600px
+   *  @image html sigsin.png
    *
    *  @sa sigcos(), sigexp(), sigcar(), sigtri()
    */
   extern Vecf sigsin(float f, entier n);
 
   /** @brief Calcul efficace d'un cosinus
-   *
-   *  <h3>Génération d'un cosinus</h3>
    *
    *  Cette fonction génère un signal sinusoidal, le calcul étant basé sur un oscillateur harmonique
    *  (ce qui beaucoup plus efficace que via les fonctions trigonométrique de la librairie standard).
@@ -1162,7 +1140,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigcos
-   *  @image html sigcos.png width=600px
+   *  @image html sigcos.png
    *
    *  @sa sigsin(), sigexp()
    */
@@ -1171,14 +1149,12 @@ using std::norm;
 
   /** @brief Signal triangulaire (périodique).
    *
-   *  <h3>Signal triangulaire (périodique)</h3>
-   *
    *  @param p Période, en nombre d'échantillons.
    *  @param n Nombre d'échantillons à générer.
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigtri
-   *  @image html sigtri.png width=600px
+   *  @image html sigtri.png
    *
    *  @sa sigcar(), sigsin(), sigcos(), sigexp()
    */
@@ -1186,14 +1162,12 @@ using std::norm;
 
   /** @brief Signal carré (périodique)
    *
-   *  <h3>Signal carré (périodique)</h3>
-   *
    *  @param p Période, en nombre d'échantillons.
    *  @param n Nombre d'échantillons à générer.
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigcar
-   *  @image html sigcar.png width=600px
+   *  @image html sigcar.png
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp()
    */
@@ -1201,14 +1175,12 @@ using std::norm;
 
   /** @brief Impulsion discrète
    *
-   *  <h3>Impulsion discrète</h3>
-   *
    *  @param n Dimension du vecteur
    *  @param p Position de l'impulsion
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigimp
-   *  @image html sigimp.png width=600px
+   *  @image html sigimp.png
    *
    */
   extern Vecf sigimp(entier n, entier p = 0);
@@ -1216,22 +1188,18 @@ using std::norm;
 
   /** @brief Signal en dent de scie
    *
-   *  <h3>Signal en dent de scie</h3>
-   *
    *  @param p Période, en nombre d'échantillons.
    *  @param n Nombre d'échantillons à générer.
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigscie
-   *  @image html sigscie.png width=600px
+   *  @image html sigscie.png
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp()
    */
   extern Vecf sigscie(entier p, entier n);
 
   /** @brief Sinusoïde modulée par une Gaussienne
-   *
-   *  <h3>Sinusoïde modulée par une Gaussienne</h3>
    *
    *  @f[
    *  x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2} \cdot \sin \left(2\pi fk\right)
@@ -1244,7 +1212,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_siggsin
-   *  @image html siggsin.png width=600px
+   *  @image html siggsin.png
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp()
    */
@@ -1252,8 +1220,6 @@ using std::norm;
 
 
   /** @brief Impulsion filtrée par une Gaussienne
-     *
-     *  <h3>Impulsion filtrée par une Gaussienne</h3>
      *
      *  @f[
      *  x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2}
@@ -1265,15 +1231,13 @@ using std::norm;
      *
      *  @par Exemple
      *  @snippet exemples/src/ex-tsd.cc ex_siggaus
-     *  @image html sigsiggaus.png width=600px
+     *  @image html sigsiggaus.png
      *
      *  @sa sigtri(), sigsin(), sigcos(), sigexp(), siggsin()
      */
     extern Vecf siggauss(entier n, float a = 10);
 
   /** @brief Chirp linéaire ou quadratique.
-   *
-   *  <h3>Chirp linéaire ou quadratique</h3>
    *
    *  @f[
    *  x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
@@ -1298,7 +1262,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_sigchirp
-   *  @image html sigchirp.png width=600px
+   *  @image html sigchirp.png
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp()
    */
@@ -1307,8 +1271,6 @@ using std::norm;
 
   /** @brief Signal à la fréquence de Nyquist (-1,1,-1,1,etc.).
    *
-   *  <h3>Signal à la fréquence de Nyquist</h3>
-   *
    *  Construit une sinusoïde de fréquence @f$f_e/2@f$, soit une séquence
    *  alternée -1,1,-1,1,etc.
    *
@@ -1316,7 +1278,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc ex_signyquist
-   *  @image html signyquist.png width=600px
+   *  @image html signyquist.png
    *
    *  @sa sigtri(), sigsin(), sigcos(), sigexp(), sigchirp()
    */
@@ -1335,8 +1297,6 @@ using std::norm;
   };
 
   /** @brief Génération d'un signal exponentiel via un oscillateur harmonique
-   *
-   *  <h3>Oscillateur harmonique (sortie complexe)</h3>
    *
    *  Cette fonction renvoie une source de données, qui peut être appellée plusieurs fois (génération d'un flux continu d'échantillons, à la différence de @ref sigexp(), qui ne peut générer qu'un nombre fini et prédeterminé d'échantillons).
    *
@@ -1357,15 +1317,13 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohc
-   *  @image html ohc.png width=600px
+   *  @image html ohc.png
    *
    *  @sa source_ohr(), sigexp()
    */
   extern sptr<Source<cfloat, OHConfig>> source_ohc(float freq);
 
   /** @brief Génération d'un signal sinusoïdal via un oscillateur harmonique
-   *
-   *  <h3>Oscillateur harmonique (sortie réelle)</h3>
    *
    *  Cette fonction renvoie une source de données, qui peut être appellée plusieurs fois (génération d'un flux continu d'échantillons, à la différence de @ref sigcos(), qui ne peut générer qu'un nombre fini et prédeterminé d'échantillons).
    *
@@ -1378,7 +1336,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @snippet exemples/src/sdr/ex-sdr.cc ex_ohr
-   *  @image html ohr.png width=600px
+   *  @image html ohr.png
    *
    *  @sa source_ohc(), sigcos()
    */
@@ -1397,26 +1355,6 @@ using std::norm;
 
 
 }
-
-
-
-/*ostream_formater(Eigen::ArrayXf)
-ostream_formater(Eigen::ArrayXcf)
-ostream_formater(Eigen::VectorXf)
-ostream_formater(Eigen::Vector3f)
-ostream_formater(Eigen::VectorXcf)
-ostream_formater(Eigen::ArrayXXf)
-ostream_formater(Eigen::MatrixXf)
-
-ostream_formater(Eigen::ArrayXd)
-ostream_formater(Eigen::ArrayXcd)
-ostream_formater(Eigen::VectorXd)
-ostream_formater(Eigen::Vector3d)
-ostream_formater(Eigen::VectorXcd)
-ostream_formater(Eigen::ArrayXXd)
-ostream_formater(Eigen::MatrixXd)
-
-ostream_formater(Eigen::Array4f)*/
 
 
 

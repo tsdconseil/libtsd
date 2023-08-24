@@ -15,8 +15,6 @@ namespace dsp {
 
 /** @brief FT of door function between @f$-T/2@f$ and @f$T/2@f$ (sinc function).
  *
- *  <h3>FT of door function</h3>
- *
  *  @param T Door width in time domain.
  *  @param f Desired frequency for FT evaluation.
  *  @returns Value of the FT at frequency @f$f@f$:
@@ -54,7 +52,6 @@ extern float sinc(float T, float f);
 
 /** @brief Normalized cardinal sine with cut-off frequency at 0.5.
  *
- *  <h3>Normalized cardinal sine</h3>
  *  Compute a cardinal sine with cut-off frequency at 0.5:
  *  @f[
  *  y(t) = \frac{\sin(\pi t)}{\pi  t}

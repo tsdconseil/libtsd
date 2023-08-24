@@ -37,8 +37,6 @@ namespace tsd::fourier
 
 /** @brief Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT).
  *
- * <h3>Création d'un plan de calcul FFT</h3>
- *
  * Cette fonction permet de créer un bloc qui sera efficace pour calculer
  * plusieurs FFT de même dimension (les facteurs de rotation sont calculés une seule fois).
  *
@@ -72,8 +70,6 @@ namespace tsd::fourier
 
 /** @brief Création d'un plan de calcul FFT pour des signaux réels (pour calculer efficacement plusieurs FFT).
  *
- * <h3>Création d'un plan de calcul FFT (signaux réels)</h3>
- *
  * Cette fonction vous permet de créer un filtre qui sera efficace pour calculer
  * plusieurs FFT <b>sur des vecteurs réels</b> de même dimension (les facteurs de rotation sont calculés une seule fois).
  *
@@ -103,15 +99,19 @@ namespace tsd::fourier
 extern sptr<FiltreGen<float, cfloat>> rtfrplan_création(entier n = -1);
 
 
-/** @brief FFT d'un vecteur réel.
+/** @brief TFD d'un vecteur réel.
  *
- *  <h3>FFT d'un vecteur réel</h3>
+ *  Cette fonction calcule de manière efficace la TFD d'un vecteur réel <b>de dimension paire</b>
+ *  (si le vecteur fourni comporte un nombre impair d'éléments, la routine standard de la TFR/FFT est appelée).
  *
- *  Cette fonction calcule de manière efficace la FFT d'un vecteur réel <b>de dimension paire</b>
- *  (si le vecteur fourni comporte un nombre impair d'éléments, la routine standard de la FFT est appelée).
+ *  @param x Vecteur réel
+ *  @returns TFD (vecteur complexe)
  *
  *  @note La fonction @ref fft() utilise automatiquement cette routine
  *  si le signal d'entrée est de type réel.
+ *
+ *  @sa fft(), ifft()
+ *
  */
 template<typename T>
 Veccf rfft(const Vecteur<T> &x)
@@ -122,8 +122,6 @@ Veccf rfft(const Vecteur<T> &x)
 }
 
 /** @brief Ré-échantillonage zéro phase à partir de la TFD.
- *
- * <h3>Ré-échantillonage zéro phase à partir de la TFD</h3>
  *
  * Cette fonction change la fréquence d'échantillonnage d'un signal, sans délais, grâce à un calcul dans le domaine fréquentiel.
  *
@@ -137,7 +135,7 @@ Veccf rfft(const Vecteur<T> &x)
  *
  * @par Exemple illustrant les artefacts aux bords du signal
  * @snippet exemples/src/fourier/ex-fourier.cc exemple_resample_freq
- * @image html fourier-resample.png width=1000px
+ * @image html fourier-resample.png
  *
  * @sa rééchan()
  */
@@ -146,20 +144,18 @@ template<typename T>
 
 /** @brief Transformée de Fourier Discrète (TFD) rapide
  *
- *  <h3>Transformée de Fourier Discrète (TFD) rapide</h3>
- *
  *  Cette fonction calcule la TFD <b>normalisée</b> d'un vecteur réel ou complexe :
  *  @f[
  *    X_n = \frac{1}{\sqrt{N}}\cdot\sum_{k=0}^{N-1} x_k \cdot e^{\frac{-2\pi\mathbf{i}kn}{N}}
  *  @f]
  *
- *  @param x  Vecteur d'entrée (domaine temporel)
- *  @returns X = TFD(x)
+ *  @param x  Vecteur d'entrée : domaine temporel, réel ou complexe.
+ *  @returns  X = TFD(x) : domaine fréquentiel, complexe.
  *
  *  @par Exemple
  *  @code
- *  ArrayXf  x = randn(100);
- *  ArrayXcf X = fft(x);
+ *  Vecf  x = randn(100); // Vecteur réel
+ *  Veccf X = fft(x);     // Vecteur complexe
  *  @endcode
  *
  *  @sa rfft(), ifft()
@@ -175,8 +171,6 @@ auto fft(const Vecteur<T> &x)
 
 /** @brief Fréquences normalisées associées à chaque bin d'une TFD / FFT.
  *
- *  <h3>Fréquences normalisées associées à chaque bin d'une TFD / FFT</h3>
- *
  *  @param n          Dimension de la TFD / FFT
  *  @param avec_shift Si vrai, suppose que fftshift a été appelé (fréquence négatives au début).
  *
@@ -186,7 +180,6 @@ extern Vecf tfd_freqs(entier n, bouléen avec_shift = non);
 
 /** @brief Transformée de Fourier Discrète Inverse
  *
- *  <h3>Transformée de Fourier Discrète Inverse</h3>
  *  Cette fonction calcule la TFD inverse <b>normalisée</b> d'un signal réel ou complexe :
  *  @f[
  *    X_n = \frac{1}{\sqrt{N}}\cdot\sum_{k=0}^{N-1} x_k \cdot e^{\frac{+2\pi\mathbf{i}kn}{N}}
@@ -194,9 +187,9 @@ extern Vecf tfd_freqs(entier n, bouléen avec_shift = non);
  *
  *  @par Exemple
  *  @code
- *  ArrayXcf x1 = ArrayXcf::Random(100);
- *  ArrayXcf X  = fft(x1);
- *  ArrayXf  x2 = ifft(X);
+ *  soit x1 = randcn(100),
+ *       X  = fft(x1),
+ *       x2 = ifft(X);
  *
  *  assert((x2-x1).norm2() < 1e-7);
  *  @endcode
@@ -207,13 +200,11 @@ extern Vecf tfd_freqs(entier n, bouléen avec_shift = non);
 template<typename T>
 auto ifft(const Vecteur<T> &X)
 {
-  auto plan = tsd::fourier::tfrplan_création();
+  soit plan = tsd::fourier::tfrplan_création();
   return plan->step(X.as_complex(), non);
 }
 
 /** @brief Décalage du spectre de manière à centrer les basses fréquences au milieu.
- *
- *  <h3>Décalage du spectre (centrage de basses fréquences)</h3>
  *
  *  Cette fonction décale le spectre passé en entrée de manière à centrer le 0 Hz au milieu.
  *  Plus précisémment, si le nombre d'échantillons @f$N@f$ est pair :
@@ -236,9 +227,8 @@ auto ifft(const Vecteur<T> &X)
  *
  *  @par Exemple
  *  @snippet exemples/src/fourier/ex-fourier.cc exemple_fftshift
- *  @image html fftshift.png width=800px
- *
- */
+ *  @image html fftshift.png
+ **/
 template<typename T>
 Vecteur<T> fftshift(const Vecteur<T> &X)
 {
@@ -258,8 +248,6 @@ Vecteur<T> fftshift(const Vecteur<T> &X)
 }
 
 /** @brief Modifie un vecteur de manière à ce qu'il soit conjugé symétrique.
- *
- *  <h3>Forçage de la symétrie conjugée</h3>
  *
  *  @param X Vecteur complexe (modifié par la fonction)
  *
@@ -297,9 +285,7 @@ template<typename T>
 
   // A SUPPRIMER
 
-/** @brief Calcul de la cohérence entre deux vecteurs
- *
- *  <h3>Cohérence spectrale</h3>
+/** @brief Calcul de la cohérence spectrale entre deux vecteurs
  *
  *  Calcul de la cohérence spectrale entre deux vecteurs :
  *  @f[
@@ -334,8 +320,6 @@ struct FiltreFFTConfig
 };
 
 /** @brief Création d'un filtre dans le domaine fréquentiel (technique OLA / OverLap-and-Add).
- *
- *  <h3>Création d'un filtre fréquentiel</h3>
  *
  *  Pour différentes raisons, il peut être plus intéressant de filtrer dans le domaine fréquentiel
  *  que temporel, par exemple pour alléger la charge de calcul
@@ -378,7 +362,7 @@ struct FiltreFFTConfig
  *  @par Exemple : Filtrage passe-bas
  *  Dans cet exemple, on filtre passe-bas un signal en mettant tout simplement à zéro la moitié des composantes fréquentielles.
  *  @snippet exemples/src/fourier/ex-ola.cc ex_ola_pb
- *  @image html ex-ola-pb.png width=800px
+ *  @image html ex-ola-pb.png
  *
  *
  *  @sa filtre_rif_fft(), filtre_rfft(), ola_complexité(), ola_complexité_optimise()
@@ -388,8 +372,6 @@ extern tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, entier> filtre_fft(c
 
 
 /** @brief Calcul de la complexité d'un filtre OLA, par échantillon d'entrée, en FLOPS.
- *
- * <h3>Calcul de la complexité d'un filtre OLA</h3>
  *
  *  @param M  Taille de filtre (ou motif à détecter)
  *  @param Ne Taille de bloc d'entrée
@@ -402,8 +384,6 @@ extern tuple<sptr<Filtre<cfloat, cfloat, FiltreFFTConfig>>, entier> filtre_fft(c
 extern void ola_complexité(entier M, entier Ne, float &C, entier &Nf, entier &Nz);
 
 /** @brief Calcul des paramètres optimaux pour un filtre par OLA.
- *
- * <h3>Calcul des paramètres optimaux pour un filtre par OLA</h3>
  *
  * Cette fonction calcul la taille de bloc optimale pour le calcul d'un filtrage par OLA (voir @ref filtre_fft()).
  * L'optimum est trouvé pour @f$N_e = 2^k - (M-1)@f$, @f$k@f$ étant déterminé par recherche exhaustive.
@@ -430,8 +410,6 @@ extern void ola_complexité_optimise(entier M, float &C, entier &Nf, entier &Nz,
 
 /** @brief Transformée en z-chirp
  *
- *  <h3>Transformée en z-chirp</h3>
- *
  *  Calcule la transformée en z sur les points suivants :
  *    @f$z_0 \cdot W^n@f$, pour @f$n=0,1,...,m-1@f$
  *
@@ -453,8 +431,6 @@ extern Veccf czt(const Veccf &x, entier m, cfloat W, cfloat z0 = 1.0f);
 
 /** @brief Corrélation circulaire (normalisée) entre deux vecteurs complexes.
  *
- *  <h3>Produit de corrélation circulaire</h3>
- *
  *  Calcul de la corrélation circulaire (normalisée) entre deux signaux complexes (calcul efficace via des FFT) :
  * @f[
  * c_n = \frac{1}{N} \cdot \sum_{k=0}^{N-1} x_k y^{\star}_{k+n[N]},\ \ n=0\dots N-1
@@ -471,8 +447,6 @@ extern tuple<Vecf, Veccf> ccorr(const Veccf &x, const Veccf &y = Veccf());
 
 
 /** @brief Corrélation (non biaisée) entre deux vecteurs complexes
- *
- *  <h3>Produit de corrélation (avec correction de biais)</h3>
  *
  *  Calcule la corrélation entre deux signaux complexes (calcul efficace via des FFT),
  *  soit pour un délais négatif (@f$\tau=-(m-1)\dots -1@f$) :
@@ -501,7 +475,7 @@ extern tuple<Vecf, Veccf> ccorr(const Veccf &x, const Veccf &y = Veccf());
  *
  * @par Exemple
  * @snippet exemples/src/fourier/ex-fourier.cc ex_xcorr
- * @image html xcorr.png width=800px
+ * @image html xcorr.png
  *
  * @sa xcorrb(), ccorr(), détecteur_création()
  */
@@ -509,8 +483,6 @@ extern tuple<Vecf, Veccf> xcorr(const Veccf &x, const Veccf &y = Veccf(), entier
 
 
 /** @brief Corrélation (biaisée) entre deux vecteurs complexes.
- *
- *  <h3>Produit de corrélation (sans correction de biais)</h3>
  *
  *  Calcule la corrélation entre deux signaux complexes (calcul efficace via des FFT) :
  *  @f[
@@ -527,8 +499,6 @@ extern tuple<Vecf, Veccf> xcorr(const Veccf &x, const Veccf &y = Veccf(), entier
 extern tuple<Vecf, Veccf> xcorrb(const Veccf &x, const Veccf &y = Veccf(), entier m = -1);
 
 /** @brief Délais entier (décalage du signal) ou fractionnaire (basé sur la FFT).
- *
- *  <h3>Délais</h3>
  *
  *  Réalise un délais entier (décalage du signal) ou fractionnaire (basé sur la FFT) :
  *  @f[
@@ -551,7 +521,7 @@ extern tuple<Vecf, Veccf> xcorrb(const Veccf &x, const Veccf &y = Veccf(), entie
  *
  * @par Exemple
  * @snippet exemples/src/fourier/ex-fourier.cc ex_delais
- * @image html ex-delais.png width=800px
+ * @image html ex-delais.png
  *
  **/
 template<typename T = float>
@@ -630,7 +600,9 @@ struct DetecteurConfig
   bouléen calculer_signal_correlation = non;
 };
 
+/** @cond undoc */
 extern std::ostream &operator <<(std::ostream &os, const Detection &det);
+/** @endcond */
 
 
 /** @brief Structure abstraite pour un corrélateur à base de FFT ou de filtre RIF */
@@ -640,8 +612,6 @@ struct Detecteur: Filtre<cfloat, float, DetecteurConfig>
 };
 
 /** @brief Détecteur par corrélation.
- *
- * <h3>Détecteur par corrélation</h3>
  *
  * Cette fonction calcule, au fil de l'eau, la corrélation normalisée entre un signal @f$(x_k)@f$
  * reçu en continu et
@@ -703,7 +673,7 @@ struct Detecteur: Filtre<cfloat, float, DetecteurConfig>
  *
  * @par Exemple
  * @snippet exemples/src/fourier/ex-fourier.cc ex_fft_correlateur
- * @image html fft_correlateur.png width=800px
+ * @image html fft_correlateur.png
  */
 extern sptr<Detecteur>
   détecteur_création(const DetecteurConfig &config = DetecteurConfig());
@@ -735,12 +705,18 @@ struct AlignementSignal
  *  @{
  */
 
-// Calcul des fréquences normalisées associée à une psd
-extern Vecf psd_freqs(entier n, bouléen complexe = oui);
+/** @brief Calcul des fréquences normalisées associée à une psd
+ *
+ *
+ *  @param n Nombre de points dans le domaine fréquentiel
+ *  @param est_complexe Spectre avec fréquences négatives et positives (<pre>est_complexe=oui</pre>) ou fréquences positives uniquement (<pre>est_complexe=non</pre>).
+ *  @return Vecteur de fréquences normalisées, entre -0,5 et 0,5 ou 0 à 0,5.
+ *
+ *
+ *  @sa psd() */
+extern Vecf psd_freqs(entier n, bouléen est_complexe = oui);
 
 /** @brief PSD (corrélogramme)
- *
- * <h3>PSD (corrélogramme)</h3>
  *
  * Calcul du corrélogramme avec une fenêtre de Hann :
  *
@@ -755,9 +731,11 @@ extern Vecf psd_freqs(entier n, bouléen complexe = oui);
  *
  * @par Exemple
  * @snippet exemples/src/fourier/ex-fourier.cc ex_psd2
- * @image html ex-psd2.png "PSD signal triangulaire" width=800px
  *
- * @sa psd_welch(), psd_subspace()
+ * PSD signal triangulaire :
+ * @image html ex-psd2.png
+ *
+ * @sa psd_welch(), psd_sousesp()
  */
 template<typename T>
 tuple<Vecf, Vecf> psd(const Vecteur<T> &x)
@@ -779,8 +757,6 @@ tuple<Vecf, Vecf> psd(const Vecteur<T> &x)
 
 /** @brief PSD (méthode de Welch - par moyennage).
  *
- * <h3> PSD par la méthode de Welch</h3>
- *
  * Cette fonction est une estimation de la PSD par la technique du moyennage :
  * plusieur PSD sont calculées sur des fenêtres (pondérées et avec du recouvrement), puis moyennées.
  *
@@ -791,17 +767,17 @@ tuple<Vecf, Vecf> psd(const Vecteur<T> &x)
  *
  * @par Exemple
  * @snippet exemples/src/fourier/ex-fourier.cc ex_psd3
- * @image html ex-psd3.png "PSD et moyennage" width=800px
  *
- * @sa psd(), psd_subspace()
+ * PSD et moyennage :
+ * @image html ex-psd3.png
+ *
+ * @sa psd(), psd_sousesp()
  *
  */
 extern tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, cstring fen = "hn");
 
 
 /** @brief Calcul d'un spectre par la méthode des sous-espaces
- *
- *  <h3>Spectre (méthode des sous-espace / MUSIC)</h3>
  *
  *  Cette technique d'estimation spectrale est une méthode paramétrique, qui suppose que le signal est constitué
  *  de la somme d'un nombre fini et <b>connu</b> d'exponentielles pures.
@@ -817,7 +793,7 @@ extern tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, cstring fen = "hn")
  *  @note Cette fonction est une spécialisation de la méthode des sous-espaces pour la détection d'exponentielles pures.
  *  Cependant, la méthode des sous-espaces elle-même est bien plus générale, et peut
  *  permettre de détecter d'autres types de signaux
- *  (voir la fonction @ref subspace_spectrum()).
+ *  (voir la fonction @ref tsd::stats::subspace_spectrum()).
  *
  *  @warning Cette technique implique la décomposition en valeurs propres d'une matrice @f$m\times m@f$
  *  (la matrice d'auto-corrélation du signal), soit de l'ordre de @f$m^3@f$ opérations.
@@ -826,11 +802,14 @@ extern tuple<Vecf, Vecf> psd_welch(const Veccf &x, entier N, cstring fen = "hn")
  *
  *  @par Exemple : détection de 3 exponentielles pures
  *  @snippet exemples/src/fourier/ex-fourier.cc ex_psd_subspace
- *  @image html ex-subspace-freq-spectrum.png "Spectre PSD vs MUSIC" width=800px
+ *
+ *  Spectre PSD vs MUSIC :
+ *  @image html ex-subspace-freq-spectrum.png
+ *
  *  Notez comme le spectre MUSIC est plus propre ; il ne faut cependant pas oublier
  *  que cette technique suppose connu le nombre de signaux (ici 3).
  *
- *  @sa subspace_spectrum()
+ *  @sa tsd::stats::subspace_spectrum()
  *
  *  @note Pour la détection de sinusoïdes pures (signaux réels), il faudra choisir @f$N_s@f$ comme étant <b>deux fois</b>
  *  le nombre de signaux à détecter (en effet, un cosinus ou sinus peut se représenter comme la somme de deux exponentielles complexes).
@@ -853,8 +832,6 @@ enum FreqEstimMethode
 
 /** @brief Estimation de fréquence d'un signal périodique
  *
- *  <h3>Estimation de fréquence</h3>
- *
  *  Cette fonction essaye d'estimer la fréquence d'un signal périodique (exponotielle pure).
  *
  *  @note Si le signal d'entrée est réel (sinusoide pure de fréquence @f$f@f$),
@@ -873,8 +850,6 @@ extern float freqestim(const Veccf &x, FreqEstimMethode m = CANDAN2);
 
 
 /** @brief %Filtre de Goertzel (calcul sur un buffer).
- *
- *  <h3>%Filtre de Goertzel (calcul sur un buffer)</h3>
  *
  *  Calcul de la densité spectrale, normalisée par rapport à l'énergie totale du signal, à la fréquence @f$f@f$ :
  *  @f[
@@ -900,8 +875,6 @@ extern float goertzel(const Vecf &x, float frequence);
 
 /** @brief %Filtre de Goertzel (calcul au fil de l'eau)
  *
- *  <h3>%Filtre de Goertzel (calcul au fil de l'eau)</h3>
- *
  *  Ce filtre calcule au fil de l'eau la densité de puissance (normalisée à la puissance totale du signal)
  *  à une fréquence donnée (voir @ref goertzel()).
  *
@@ -923,7 +896,7 @@ extern float goertzel(const Vecf &x, float frequence);
  *
  *  @par Exemple : détection d'une sinusoïde pure
  *  @snippet exemples/src/fourier/ex-fourier.cc exemple_goertzel
- *  @image html goertzel.png width=600px
+ *  @image html goertzel.png
  *
  *  @sa goertzel()
  */
@@ -989,15 +962,11 @@ namespace tsd::tf {
 
 /** @brief Calcul d'une matrice temps / fréquence par FFT glissante
  *
- *  <h3>Spectrogramme par FFT glissante</h3>
- *
  *  @param x Signal à analyser
  *  @param N Dimension des blocs d'analyse */
 extern Tabf periodogramme_tfd(const Veccf &x, entier N);
 
-/** @brief Calcul d'un spectrogramme à partir de la CQT
- *
- *  <h3>Spectrogramme CQT (Constant Quality Transform)</h3>
+/** @brief Calcul d'un spectrogramme à partir de la CQT (Constant Quality Transform).
  *
  *  @param x Signal à analyser
  *  @param fe Fréquence d'échantillonnage (Hz)

@@ -1,4 +1,3 @@
-
 #if !defined(COMMUN_HPP) || defined(__CDT_PARSER__)
 #define COMMUN_HPP
 
@@ -37,10 +36,37 @@ sptr<T> dyncast(const sptr<U> &r) noexcept
     return std::dynamic_pointer_cast<T>(r);
 }
 
+#include "fr.hpp"
+
+typedef fonction<void(const char *fn, entier ligne, entier niveau, cstring str)> logger_t;
+
+
+// Peut-être implémenté :
+//  - Dans libcutil
+//  - Dans libtsd
+//  - Dans libcutil+libtsd
+
+inline logger_t &get_logger()
+{
+  // Variable globale
+  static logger_t logger;
+  retourne logger;
+}
+
+
+inline void log_msg_impl(const char *fn, entier ligne, entier niveau, cstring str)
+{
+  si(get_logger())
+    get_logger()(fn, ligne, niveau, str);
+}
+
+#ifndef FMT_THROW
+#define FMT_THROW(AA) log_msg_impl("", 0, 4, "Fmt error.")
+#endif
 
 #include <fmt/core.h>
 #include <fmt/ostream.h>
-
+#include <fmt/color.h>
 
 
 #ifndef FMT_RUNTIME
@@ -65,33 +91,10 @@ template<typename ... Ts>
 }
 #endif
 
-#include "fr.hpp"
 
 
-typedef fonction<void(const char *fn, entier ligne, entier niveau, cstring str)> logger_t;
 
 
-// Peut-être implémenté :
-//  - Dans libcutil
-//  - Dans libtsd
-//  - Dans libcutil+libtsd
-
-inline logger_t &get_logger()
-{
-  // Variable globale
-  static logger_t logger;
-  retourne logger;
-}
-
-extern void log_msg_default(const char *fn, entier ligne, entier niveau, cstring str);
-
-inline void log_msg_impl(const char *fn, entier ligne, entier niveau, cstring str)
-{
-  si(get_logger())
-    get_logger()(fn, ligne, niveau, str);
-  sinon
-    log_msg_default(fn, ligne, niveau, str);
-}
 
 #if OLD_GCC
 template<typename ... Ts>

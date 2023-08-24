@@ -20,8 +20,6 @@ namespace tsd::geo {
 
 /** @brief %Quaternion unitaire pour la représentation d'une rotation 3d.
  *
- * <h3>%Quaternion unitaire</h3>
- *
  * @f[
  * q = \left(\begin{array}{c}\cos\theta\\ \sin\theta\cdot \hat e\end{array}\right)
  * @f]
@@ -34,8 +32,13 @@ struct Quaternion
   /** @brief Les 4 éléments du quaternion. */
   Eigen::Array4f q;
 
+  /** @brief Constructeur (d'après les 4 éléments) */
   Quaternion(float q0 = 1, float q1 = 0, float q2 = 0, float q3 = 0);
+
+  /** @brief Constructeur (d'après les 4 éléments) */
   Quaternion(const Eigen::Array4f &q_);
+
+  /** @brief Constructeur (d'après une matrice de rotation) */
   Quaternion(const Eigen::Matrix3f &R);
 
 
@@ -56,9 +59,10 @@ struct Quaternion
    */
   static Quaternion identite();
 
-  /** @brief ? */
+  /** @brief Matrice de rotation en coordonnées homogènes. */
   Eigen::Matrix4f mat() const;
 
+  /** @brief Applique une rotation */
   Eigen::Vector3f rotate(const Eigen::Vector3f &x) const;
 
 
@@ -83,24 +87,28 @@ struct Cardan
   /** @brief Dérive (yaw / heading) */
   float ψ;
 
-  /** @brief A partir d'une matrice de rotation */
+  /** @brief Constructeur : à partir d'une matrice de rotation */
   Cardan(const Eigen::Matrix3f &R);
 
-  /** @brief A partir des angles */
+  /** @brief Constructeur : à partir des angles */
   Cardan(float φ, float θ, float ψ);
 
-  /** @brief Matrice de rotation. */
-  Tabf mat_rotation() const;
-
-  /** @brief A partir d'un quaternion */
+  /** @brief Constructeur : à partir d'un quaternion */
   Cardan(const Quaternion &q);
+
+  /** @brief Calcule la matrice de rotation correpondante. */
+  Tabf mat_rotation() const;
 };
 
+/** @cond undoc */
 
 extern std::ostream& operator<<(std::ostream& ss, const Cardan &t);
 extern std::ostream& operator<<(std::ostream& ss, const Quaternion &t);
 
+/** @endcond */
 
+
+/** @brief Matrice de rotation 3d autour de l'axe X */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d_R1(T α)
 {
@@ -113,6 +121,7 @@ template<typename T>
 }
 
 
+/** @brief Matrice de rotation 3d autour de l'axe Y */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d_R2(T α)
 {
@@ -124,6 +133,7 @@ template<typename T>
   return R;
 }
 
+/** @brief Matrice de rotation 3d autour de l'axe Z */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d_R3(T α)
 {
@@ -135,6 +145,8 @@ template<typename T>
   return R;
 }
 
+/** @brief Matrice de rotation 3d autour d'un des axes canoniques
+ *  @param axe Numéro d'axe (0, 1 ou 2). */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d(T α, entier axe)
 {
