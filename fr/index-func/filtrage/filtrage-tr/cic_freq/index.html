@@ -82,7 +82,7 @@
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / cic_freq</li></ul>
         </div>
 <div id="page-content-full"><p>Frequency response of a CIC filter. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>cic_freq</b>(const CICConfig &config, const Vecf &f)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>config</td><td>Paramètres principaux (voir <a href="../../../../index-func/filtrage/filtrage-design/CICConfig/index.html">CICConfig</a>) </td></tr><tr><td>f</td><td>normalized frequency, between -0.5 and 0.5 (can be a 1d vector) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>mag Output magnitude, computed at each frequency point</p><h2><a name="6"></a>Description</h2><p>
-This function computes the CIC frequency response (in magnitude) at the specified normalized frequencies \(f_k\). The magnitude is computed as:  <formula id="226">\[
+This function computes the CIC frequency response (in magnitude) at the specified normalized frequencies \(f_k\). The magnitude is computed as:  <formula id="227">\[
   \left|H(f)\right| = \left|\frac{\sin(RM \pi f)}{RM\sin \pi f}\right|^N
 \]</formula></p><p><h2>Example</h2><p fr="Example"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit R = 4, N = 8, M = 1;</highlight>
 <highlight class="normal">soit f = <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0,0.5,512);</highlight>

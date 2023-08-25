@@ -81,9 +81,9 @@
           <h1 class="head">modele_kitagawa</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/apps/index.html">Applications</a></li><li> / <a href="../../../../index-func/apps/kalman/index.html">Filtrage de Kalman</a></li><li> / modele_kitagawa</li></ul>
         </div>
-<div id="page-content-full"><p>Modèle non linéaire de Kitagawa. </p><p>Espace de nom : <code>tsd::kalman</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;SSM&gt; <b>modele_kitagawa</b>()</pre></p><h2><a name="4"></a>Description</h2><p>Ce modèle scalaire, non linéaire, est souvent utilisé pour comparer différentes méthodes d'estimation.</p><p><formula id="37">\[
+<div id="page-content-full"><p>Modèle non linéaire de Kitagawa. </p><p>Espace de nom : <code>tsd::kalman</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;SSM&gt; <b>modele_kitagawa</b>()</pre></p><h2><a name="4"></a>Description</h2><p>Ce modèle scalaire, non linéaire, est souvent utilisé pour comparer différentes méthodes d'estimation.</p><p><formula id="16">\[
     f_k(x) = x/2 + \frac{25x}{1+x^2}+8\cos\left(6k/5\right)
-\]</formula></p><p><formula id="38">\[
+\]</formula></p><p><formula id="17">\[
     g(x) = x^2/20
 \]</formula></p><p><h2>Exemple :</h2><p fr="Exemple :"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit sys = <a href="../../../../index-func/apps/kalman/modele_kitagawa/index.html">modele_kitagawa</a>();</highlight>
 <highlight class="normal"></highlight>

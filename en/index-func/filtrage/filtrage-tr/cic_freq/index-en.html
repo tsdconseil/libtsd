@@ -81,13 +81,13 @@
           <h1 class="head">cic_freq</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Implementation of continuous streaming filter</a></li><li> / cic_freq</li></ul>
         </div>
-<div id="page-content-full"><p>Frequency response of a CIC filter. </p><p>Namespace:<code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>cic_freq</b>(const CICConfig &config, const Vecf &f)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>config</td><td>Main parameters of the CIC filter (see <a href="../../../../index-func/filtrage/filtrage-design/CICConfig/index-en.html">CICConfig</a>) </td></tr><tr><td>f</td><td>normalized frequency, between -0.5 and 0.5 (can be a 1d vector) </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>mag Output magnitude, computed at each frequency point</p><h2><a name="6"></a>Description</h2><p>
-This function computes the CIC frequency response (in magnitude) at the specified normalized frequencies \(f_k\). The magnitude is computed as:  <formula id="218">\[
+<div id="page-content-full"><p>Frequency response of a CIC filter. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>cic_freq</b>(const CICConfig &config, const Vecf &f)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>config</td><td>Main parameters of the CIC filter (see <a href="../../../../index-func/filtrage/filtrage-design/CICConfig/index-en.html">CICConfig</a>) </td></tr><tr><td>f</td><td>normalized frequency, between -0.5 and 0.5 (can be a 1d vector) </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>mag Output magnitude, computed at each frequency point</p><h2><a name="6"></a>Description</h2><p>
+This function computes the CIC frequency response (in magnitude) at the specified normalized frequencies \(f_k\). The magnitude is computed as:  <formula id="226">\[
   \left|H(f)\right| = \left|\frac{\sin(RM \pi f)}{RM\sin \pi f}\right|^N
 \]</formula></p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal">R = 4, N = 8, M = 1;</highlight>
 <highlight class="normal">f = <a href="../../../../index-func/tsd/tsd-gen/linspace/index-en.html">linspace</a>(0,0.5,512);</highlight>
 <highlight class="normal">mag = <a href="../../../../index-func/filtrage/filtrage-tr/cic_freq/index-en.html">cic_freq</a>(R,N,M,f);</highlight>
-<highlight class="normal">clf(); plot(f,mag2db(mag));</highlight>
+<highlight class="normal">clf(); plot(f,<a href="../../../../index-func/tsd/mag2db/index-en.html">mag2db</a>(mag));</highlight>
 </code></pre></p></description></p></p><p/><h2><a name="7"></a>See also</h2><p>cic_transfert </p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

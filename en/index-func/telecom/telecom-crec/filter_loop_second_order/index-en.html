@@ -81,10 +81,10 @@
           <h1 class="head">filter_loop_second_order</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index-en.html">Telecommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-crec/index-en.html">Carrier and clock recovery</a></li><li> / filter_loop_second_order</li></ul>
         </div>
-<div id="page-content-full"><p>Second order filter loop. </p><p>Namespace:<code>dsp::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;LoopFilter&gt; <b>filter_loop_second_order</b>(float BL, float η)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>BL</td><td>Loop bandwidth (normalized to the sampling frequency) </td></tr><tr><td>η</td><td>Damping factor</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="264">\[
+<div id="page-content-full"><p>Second order filter loop. </p><p>Namespace: <code>dsp::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;LoopFilter&gt; <b>filter_loop_second_order</b>(float BL, float η)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>BL</td><td>Loop bandwidth (normalized to the sampling frequency) </td></tr><tr><td>η</td><td>Damping factor</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="271">\[
    \theta_k = \theta_{k-1} + \mu_{k-1}\\
    \mu_k    = \mu_{k-1} + \gamma\cdot\left((1+\rho) e_k - e_{k-1}\right)
- \]</formula></p><p>With :  <formula id="265">\[
+ \]</formula></p><p>With :  <formula id="272">\[
 \gamma = \frac{16 \eta^2 \cdot B}{A \cdot (1 + 4 \eta^2)}\\
 \rho  = \frac{4 B}{1 + 4 \eta^2}
 \]</formula></p><p><h2>Bibliography</h2><p en="Bibliography"><description lang="en"><i>DVBS2 : Carrier phase synchronization techniques for broadband satellite transmissions, ESA, 2003</i></description></p></p><h2><a name="6"></a>See also</h2><p><a href="../../../../index-func/telecom/telecom-crec/filter_loop_first_order/index-en.html">filter_loop_first_order()</a></p></div></div><div class="clearfix"></div>

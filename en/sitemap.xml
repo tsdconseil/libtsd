@@ -55,6 +55,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index-en.html"/>
@@ -71,6 +77,24 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigexp/index.html</loc>
@@ -625,6 +649,18 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/2/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/hconcat/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index-en.html"/>
@@ -661,6 +697,18 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_first/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/find_last/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/downsample/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/downsample/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/downsample/index-en.html"/>
@@ -689,6 +737,12 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/db2mag/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/next_power_of_2/index.html</loc>
@@ -1015,12 +1069,6 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index-en.html"/>
@@ -1037,12 +1085,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/inv/index.html</loc>
@@ -1075,12 +1117,6 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index-en.html"/>
@@ -1103,24 +1139,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/22/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/22/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/22/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/22/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/23-2/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/rotmat_3d_R1/index.html</loc>
@@ -1165,6 +1183,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index-en.html"/>
@@ -1207,6 +1231,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index-en.html"/>
@@ -1219,28 +1249,34 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_delay/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_hilbert/index.html</loc>
@@ -1283,6 +1319,12 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_half_band/index.html</loc>
@@ -1351,6 +1393,30 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_prod/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index-en.html"/>
@@ -1369,10 +1435,28 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_dc_blocker/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/ema_coef/index.html</loc>
@@ -1405,28 +1489,16 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_form/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/fd2fa/index.html</loc>
@@ -1703,12 +1775,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/fourier/index.html</loc>
@@ -2131,10 +2197,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/WaveForm/get_shaping_filter/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_psk/index.html</loc>
@@ -2161,10 +2227,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_qpsk/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_qam/index.html</loc>
@@ -2545,10 +2611,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/ShapingFilterSpec/analyse/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index.html</loc>
@@ -3085,6 +3151,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index-en.html"/>
@@ -3101,6 +3173,24 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigexp/index-en.html</loc>
@@ -3655,6 +3745,18 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/2/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/hconcat/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index-en.html"/>
@@ -3691,6 +3793,18 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_first/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/find_last/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/downsample/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/downsample/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/downsample/index-en.html"/>
@@ -3719,6 +3833,12 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/db2mag/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/next_power_of_2/index-en.html</loc>
@@ -4045,12 +4165,6 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index-en.html"/>
@@ -4067,12 +4181,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/inv/index-en.html</loc>
@@ -4105,12 +4213,6 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index-en.html"/>
@@ -4133,24 +4235,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/22/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/22/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/22/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/22/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/23-2/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/rotmat_3d_R1/index-en.html</loc>
@@ -4195,6 +4279,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index-en.html"/>
@@ -4237,6 +4327,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index-en.html"/>
@@ -4249,28 +4345,34 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_delay/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_hilbert/index-en.html</loc>
@@ -4313,6 +4415,12 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_half_band/index-en.html</loc>
@@ -4381,6 +4489,30 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_prod/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index-en.html"/>
@@ -4399,10 +4531,28 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_dc_blocker/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/ema_coef/index-en.html</loc>
@@ -4435,28 +4585,16 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_form/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-en.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/fd2fa/index-en.html</loc>
@@ -4733,12 +4871,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/fourier/index-en.html</loc>
@@ -5161,10 +5293,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/WaveForm/get_shaping_filter/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_psk/index-en.html</loc>
@@ -5191,10 +5323,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_qpsk/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_qam/index-en.html</loc>
@@ -5575,10 +5707,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/ShapingFilterSpec/analyse/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-en.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-en.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index-en.html</loc>
@@ -6115,6 +6247,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randcn/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu/index-en.html"/>
@@ -6131,6 +6269,24 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randi-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randu-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigexp/index-de.html</loc>
@@ -6685,6 +6841,18 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/2/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/vconcat-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/hconcat/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/hconcat/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/rotation_vec/index-en.html"/>
@@ -6721,6 +6889,18 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_first/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/find_last/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_last/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/find_first_local_max/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/downsample/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/downsample/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/downsample/index-en.html"/>
@@ -6749,6 +6929,12 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/mag2db/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/tsd/db2mag/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/db2mag/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/tsd/next_power_of_2/index-de.html</loc>
@@ -7075,12 +7261,6 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/fr/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion/index-en.html"/>
@@ -7097,12 +7277,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-3/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Quaternion/Quaternion-4/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Quaternion/inv/index-de.html</loc>
@@ -7135,12 +7309,6 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/fr/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan/index-en.html"/>
@@ -7163,24 +7331,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/mat_rotation/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/Cardan/Cardan-4/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/22/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/22/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/22/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/22/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/geometrie/23-2/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/geometrie/23-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/geometrie/rotmat_3d_R1/index-de.html</loc>
@@ -7225,6 +7375,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/verifie_frequence_normalisee/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/frmag/index-en.html"/>
@@ -7267,6 +7423,12 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz-2/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/firamp/index-en.html"/>
@@ -7279,28 +7441,34 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_delay/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/filter_analysis-2/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/fir_type/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/SpecFreqIntervalle/index-de.html"/>
-</url>
-<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/CICConfig/fr/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_hilbert/index-de.html</loc>
@@ -7343,6 +7511,12 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_eq-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_half_band/index-de.html</loc>
@@ -7411,6 +7585,30 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_fir_prod/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_is/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2ph_rs/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pb/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_pb2pm/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_cic/index-en.html"/>
@@ -7429,10 +7627,28 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_dc_blocker/index-de.html"/>
 </url>
 <url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_notch/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ma/index-de.html"/>
+</url>
+<url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema/index-de.html"/>
+</url>
+<url>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_ema-2/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/ema_coef/index-de.html</loc>
@@ -7465,28 +7681,16 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_form/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iforme/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/polyphase_iform/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-de.html</loc>
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/bilinear_transform/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/24/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/25/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/fd2fa/index-de.html</loc>
@@ -7763,12 +7967,6 @@
   <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index.html"/>
   <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index-en.html"/>
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/interp/index-de.html"/>
-</url>
-<url>
-  <loc>http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/verifie_frequence_normalisee/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/fourier/index-de.html</loc>
@@ -8191,10 +8389,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/WaveForm/get_shaping_filter/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/26/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/22/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_psk/index-de.html</loc>
@@ -8221,10 +8419,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_qpsk/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/27/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/23/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/waveform_qam/index-de.html</loc>
@@ -8605,10 +8803,10 @@
   <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/ShapingFilterSpec/analyse/index-de.html"/>
 </url>
 <url>
-  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-de.html</loc>
-  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-en.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/28/index-de.html"/>
+  <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-de.html</loc>
+  <xhtml:link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index.html"/>
+  <xhtml:link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-en.html"/>
+  <xhtml:link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/24/index-de.html"/>
 </url>
 <url>
   <loc>http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index-de.html</loc>

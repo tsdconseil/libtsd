@@ -81,7 +81,7 @@
           <h1 class="head">siggauss</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index-en.html">General functions</a></li><li> / <a href="../../../../index-func/tsd/tsd-gen/index-en.html">Signal generation</a></li><li> / siggauss</li></ul>
         </div>
-<div id="page-content-full"><p>Gaussian filtered impulse. </p><p>Namespace:<code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static Vecf <b>siggauss</b>(int n, float a=10)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>n</td><td>Number of points to generate. </td></tr><tr><td>a</td><td>Decrease rate.</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="181">\[
+<div id="page-content-full"><p>Gaussian filtered impulse. </p><p>Namespace: <code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static Vecf <b>siggauss</b>(int n, float a=10)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>n</td><td>Number of points to generate. </td></tr><tr><td>a</td><td>Decrease rate.</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="176">\[
   x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2}
   \]</formula></p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// 1000 échantillons</highlight><highlight class="normal"></highlight>

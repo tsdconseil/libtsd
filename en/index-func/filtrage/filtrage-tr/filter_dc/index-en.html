@@ -81,8 +81,8 @@
           <h1 class="head">filter_dc</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Implementation of continuous streaming filter</a></li><li> / filter_dc</li></ul>
         </div>
-<div id="page-content-full"><p>Filter for DC (low frequencies) suppression. </p><p>Namespace:<code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FilterGen&lt;T&gt;&gt; <b>filter_dc</b>(float fc)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>fc</td><td>Normalized cut-off frequency (0 - 0.5)</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Implement the following filter:  <formula id="221">\[
- y_k = x_k - x_{k-1} + \alpha y_{k-1}
+<div id="page-content-full"><p>Filter for DC (low frequencies) suppression. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FilterGen&lt;T&gt;&gt; <b>filter_dc</b>(float fc)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>fc</td><td>Normalized cut-off frequency (0 - 0.5)</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Implement the following filter:  <formula id="229">\[
+ y_k = \frac{1+\alpha}{2}\cdot \left(x_k - x_{k-1}\right) + \alpha y_{k-1}
  \]</formula></p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal">  soit fc = 0.01f;</highlight>
 <highlight class="normal">  soit n = 500;</highlight>
 <highlight class="normal"></highlight>
@@ -96,6 +96,6 @@
 <highlight class="normal">  f.subplot(222).plot_psd(x, 1, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Spectre signal d'entrée"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot(223).plot(y, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal de sortie"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot(224).plot_psd(y.tail(y.rows()-200), 1, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Spectre signal de sortie"</highlight><highlight class="normal">);</highlight>
-</code></pre></p><img src="bloqueur-dc-ex.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><para en="bibliography"><description lang="en"><i>The DC Blocking Filter</i>, J M de Freitas, 2007</description></para></p></p><h2><a name="6"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_dc_blocker/index-en.html">design_dc_blocker()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="bloqueur-dc-ex.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><para en="bibliography"><description lang="en">Stein, Digital Signal Processing, 2000</description></para></p></p><h2><a name="6"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_dc_blocker/index-en.html">design_dc_blocker()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

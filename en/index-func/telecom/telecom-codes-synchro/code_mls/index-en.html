@@ -81,7 +81,7 @@
           <h1 class="head">code_mls</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index-en.html">Telecommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-codes-synchro/index-en.html">Synchronisation sequences</a></li><li> / code_mls</li></ul>
         </div>
-<div id="page-content-full"><p>Maximal length sequence generation. </p><p>Namespace:<code>dsp::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">BitStream <b>code_mls</b>(int n)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>n</td><td>Generating polynomial degree (must be between 1 and 16).</td></tr></table></p><h2><a name="5"></a>Description</h2><p>
+<div id="page-content-full"><p>Maximal length sequence generation. </p><p>Namespace: <code>dsp::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">BitStream <b>code_mls</b>(int n)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>n</td><td>Generating polynomial degree (must be between 1 and 16).</td></tr></table></p><h2><a name="5"></a>Description</h2><p>
 This function generate a binary code of length \(m=2^n-1\), using a shift register and a primitive polynomial.</p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  soit bs = <a href="../../../../index-func/telecom/telecom-codes-synchro/code_mls/index-en.html">code_mls</a>(4);</highlight>
 <highlight class="normal">  soit nrz = (bs.array() - 0.5) * 2;</highlight>

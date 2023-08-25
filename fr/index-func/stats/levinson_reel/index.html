@@ -81,7 +81,7 @@
           <h1 class="head">levinson_reel</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li> / levinson_reel</li></ul>
         </div>
-<div id="page-content-full"><p>Résolution de l'équation \(Ra = -r\) par l'algorithme de Levinson - Durbin. </p><p>Espace de nom : <code>tsd::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>levinson_reel</b>(const Vecf &r)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>r</td><td>Vecteur d'auto-corrélation du signal </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Vecteur \(a\) ( \(n+1\) coefficients), avec \(a_0=1\).</p><h2><a name="6"></a>Description</h2><p>Résolution du système de Toeplitz  <formula id="151">\[
+<div id="page-content-full"><p>Résolution de l'équation \(Ra = -r\) par l'algorithme de Levinson - Durbin. </p><p>Espace de nom : <code>tsd::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>levinson_reel</b>(const Vecf &r)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>r</td><td>Vecteur d'auto-corrélation du signal </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Vecteur \(a\) ( \(n+1\) coefficients), avec \(a_0=1\).</p><h2><a name="6"></a>Description</h2><p>Résolution du système de Toeplitz  <formula id="159">\[
 \left(\begin{array}{cccc}
 r_0 &r_1 &\cdots &r_{n-1}\\
 r_1 &r_0 &\cdots& r_{n-2}\\
@@ -102,7 +102,7 @@ r_2\\
 r_n\\
 \end{array}\right)
      \]</formula> par l'algorithme de Levinson-Durbin.</p><p>
-Cette méthode est typiquement utilisable pour un problème de prédication linéaire, où l'on cherche à modéliser un processus \(x\) suivant un filtre AR :  <formula id="155">\[
+Cette méthode est typiquement utilisable pour un problème de prédication linéaire, où l'on cherche à modéliser un processus \(x\) suivant un filtre AR :  <formula id="163">\[
       x_n = \sum_{k=1}^{n} a_k x_{n-k} + e_n
      \]</formula></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

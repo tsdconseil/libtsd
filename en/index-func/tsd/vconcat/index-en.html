@@ -11,8 +11,8 @@
 });
 </script>
 <script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
-      <title>vconcat</title>
-<meta name="description" content="vconcat"/>
+      <title>vconcat (1)</title>
+<meta name="description" content="vconcat (1)"/>
 <!--[if lt IE 9]>
       <script src="../../../js/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -78,10 +78,10 @@
     </header>    <div id="main">
     <div id="content">
     <div id="masthead">
-          <h1 class="head">vconcat</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index-en.html">General functions</a></li><li> / vconcat</li></ul>
+          <h1 class="head">vconcat (1)</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index-en.html">General functions</a></li><li> / vconcat (1)</li></ul>
         </div>
-<div id="page-content-full"><p>Short-cut for a shared pointer. </p><p>Namespace:<code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>vconcat</b>(const Vector&lt;T1&gt; &a, const Vector&lt;T2&gt; &b)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>a</td><td>First vector </td></tr><tr><td>b</td><td>Second vector </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Vertical concatenation</p><h2><a name="6"></a>Description</h2><p>Vertical concatenation of 2 vectors.</p><p>This function merges 2 column vectors:  <formula id="3">\[
+<div id="page-content-full"><p>Vertical concatenation of 2 vectors. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>vconcat</b>(const Vector&lt;T1&gt; &a, const Vector&lt;T2&gt; &b)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>a</td><td>First vector </td></tr><tr><td>b</td><td>Second vector </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Vertical concatenation</p><h2><a name="6"></a>Description</h2><p>This function merges 2 column vectors:  <formula id="3">\[
 c = \left(
 \begin{array}{c}
 a_0\\
@@ -94,9 +94,9 @@ b_1\\
 b_{m-1}\\
 \end{array}
 \right)
-\]</formula></p><p>(assuming a and b have respectively \(n\) et \(m\) elements). The | operator has been redefined to make the same operation.</p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal">ArrayXf a = ArrayXf::Ones(1);</highlight>
-<highlight class="normal">ArrayXf b = ArrayXf::Zero(5);</highlight>
-<highlight class="normal">ArrayXf c = <a href="../../../index-func/tsd/vconcat/index-en.html">vconcat</a>(a, b); </highlight><highlight class="comment">// (or ArrayXf c = a | b)</highlight>
+\]</formula></p><p>(assuming a and b have respectively \(n\) et \(m\) elements). The | operator has been redefined to make the same operation.</p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal">let a = Vecf::ones(1),</highlight>
+<highlight class="normal">    b = Vecf::zeros(5),</highlight>
+<highlight class="normal">    c = <a href="../../../index-func/tsd/vconcat/index-en.html">vconcat</a>(a, b); </highlight><highlight class="comment">// (or c = a | b)</highlight>
 </code></pre></p></description></p></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

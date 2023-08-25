@@ -11,8 +11,8 @@
 });
 </script>
 <script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
-      <title>plot_plz</title>
-<meta name="description" content="plot_plz"/>
+      <title>plot_plz (1)</title>
+<meta name="description" content="plot_plz (1)"/>
 <!--[if lt IE 9]>
       <script src="../../../../js/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -78,10 +78,10 @@
     </header>    <div id="main">
     <div id="content">
     <div id="masthead">
-          <h1 class="head">plot_plz</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-analyse/index-en.html">Analysis of linear filters</a></li><li> / plot_plz</li></ul>
+          <h1 class="head">plot_plz (1)</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-analyse/index-en.html">Analysis of linear filters</a></li><li> / plot_plz (1)</li></ul>
         </div>
-<div id="page-content-full"><p>Poles / zeros diagram. </p><p>Namespace:<code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">void <b>plot_plz</b>(Figure &fig, const FRat&lt;T&gt; &h)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>h</td><td>transfert function </td></tr><tr><td>fig</td><td>Figure where to plot the zeros and poles.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>The transfert function is factored as:  <formula id="112">\[
+<div id="page-content-full"><p>Poles / zeros diagram. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">void <b>plot_plz</b>(Figure &fig, const FRat&lt;T&gt; &h, bool cmap=false)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>fig</td><td>Figure where to plot the zeros and poles. </td></tr><tr><td>h</td><td>transfert function </td></tr><tr><td>cmap</td><td>If true, draw a color map representing the magnitude of the response in the complex plane.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>The transfert function is factored as:  <formula id="139">\[
 H(z) = \frac{\prod z - z_i}{\prod z - p_i}
 \]</formula></p><p>where the \(z_i\) and \(p_i\) are called respectively the zeros et poles.</p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal">  pour(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> cmap: {non, oui})</highlight>
 <highlight class="normal">  {</highlight>
@@ -93,6 +93,6 @@ H(z) = \frac{\prod z - z_i}{\prod z - p_i}
 <highlight class="normal">    f.enregistrer(sformat(</highlight><highlight class="stringliteral">"../doxy/images/filtrage-plz{}.png"</highlight><highlight class="normal">, cmap ? </highlight><highlight class="stringliteral">"-cm"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">), {1200,1000});</highlight>
 <highlight class="normal">    f.enregistrer(sformat(</highlight><highlight class="stringliteral">"./res/filtrage-analyse/plz{}.png"</highlight><highlight class="normal">, cmap ? </highlight><highlight class="stringliteral">"-cm"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">), {1200,1000});</highlight>
 <highlight class="normal">  }</highlight>
-</code></pre></p><img src="filtrage-plz.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p></div></div><div class="clearfix"></div>
+</code></pre></p></description><img src="filtrage-plz.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">With cmap=false</p></p></p><p><img src="filtrage-plz-cm.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">With cmap=true</p></p><p/><h2><a name="6"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-analyse/plot_filter/index-en.html">plot_filter()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

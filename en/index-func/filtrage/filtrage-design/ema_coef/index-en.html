@@ -81,10 +81,10 @@
           <h1 class="head">ema_coef</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-design/index-en.html">Linear filter design</a></li><li> / ema_coef</li></ul>
         </div>
-<div id="page-content-full"><p>Generate first order IIR filter forget factor (unique coefficient) from cut-off frequency. </p><p>Namespace:<code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">float <b>ema_coef</b>(Frequency fc)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>fc</td><td>Normalized cut-off frequency, in [0, 0.5] </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Coeficient \(\gamma\) for the IIR filter</p><h2><a name="6"></a>Description</h2><p>This function computes the forget factor for a first order IIR filter (that is, an exponential filter), as a function of the desired cut-off frequency.</p><p><formula id="206">\[
+<div id="page-content-full"><p>Generate first order IIR filter forget factor (unique coefficient) from cut-off frequency. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">float <b>ema_coef</b>(Frequency fc)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>fc</td><td>Normalized cut-off frequency, in [0, 0.5] </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Coeficient \(\gamma\) for the IIR filter</p><h2><a name="6"></a>Description</h2><p>This function computes the forget factor for a first order IIR filter (that is, an exponential filter), as a function of the desired cut-off frequency.</p><p><formula id="214">\[
   y_{n+1} = (1-\gamma) * y_n + \gamma * x_n
           = y_n + \gamma * (x_n - y_n)
-\]</formula></p><p><formula id="205">\[
+\]</formula></p><p><formula id="213">\[
   \gamma = 1 - e^{-2\pi f_c}
 \]</formula></p><p/><h2><a name="7"></a>See also</h2><p>design_iir1(), iir1_tc2coef() </p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

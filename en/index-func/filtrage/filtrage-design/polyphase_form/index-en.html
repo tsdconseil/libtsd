@@ -81,13 +81,13 @@
           <h1 class="head">polyphase_form</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-design/index-en.html">Linear filter design</a></li><li> / polyphase_form</li></ul>
         </div>
-<div id="page-content-full"><p>Creation of the polyphase representation of a signal. </p><p>Namespace:<code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Tableau&lt;T&gt; <b>polyphase_form</b>(const Vector&lt;T&gt; &x, unsigned int M)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>x</td><td>1d signal (1d vector, n elements) </td></tr><tr><td>M</td><td>Number of polyphase branches, e.g. decimation ratio. </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Polyphase array (M rows, (n+M-1)/M columns) </p><h2><a name="6"></a>Description</h2><p>Creation of the polyphase matrix X, with zero padding if necessary (so as the length is a multiple of M):</p><p><formula id="208">\[
+<div id="page-content-full"><p>Creation of the polyphase representation of a signal. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Tableau&lt;T&gt; <b>polyphase_form</b>(const Vector&lt;T&gt; &x, unsigned int M)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>x</td><td>1d signal (1d vector, n elements) </td></tr><tr><td>M</td><td>Number of polyphase branches, e.g. decimation ratio. </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Polyphase array (M rows, (n+M-1)/M columns) </p><h2><a name="6"></a>Description</h2><p>Creation of the polyphase matrix X, with zero padding if necessary (so as the length is a multiple of M):</p><p><formula id="216">\[
 X = \left(\begin{array}{cccc}
 x_0 & x_M & x_{2M} & \dots\\
 x_1 & x_{M+1} & x_{2M+1} & \dots\\
 \vdots & \vdots & \vdots & \vdots\\
 x_{M-1} & x_{M+M-1} & x_{2M+M-1} & \dots\\
 \end{array}\right)
-\]</formula></p><p/><h2><a name="7"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-design/polyphase_iforme/index-en.html">polyphase_iforme()</a></p></div></div><div class="clearfix"></div>
+\]</formula></p><p/><h2><a name="7"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-design/polyphase_iform/index-en.html">polyphase_iform()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

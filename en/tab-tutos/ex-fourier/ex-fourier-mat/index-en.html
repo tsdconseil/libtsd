@@ -81,9 +81,9 @@
           <h1 class="head">Fourier matrix</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../tab-tutos/index-en.html">Examples</a></li><li> / <a href="../../../tab-tutos/ex-fourier/index-en.html">Fourier transform</a></li><li> / Fourier matrix</li></ul>
         </div>
-<div id="page-content-full"><p>The DFT ( \(X_j = \sum_i x_i\cdot e^{2\pi\mathbf{i} ij/N}\)) can be put in matrix form using the Fourier matrix \(F\):  <formula id="288">\[
+<div id="page-content-full"><p>The DFT ( \(X_j = \sum_i x_i\cdot e^{2\pi\mathbf{i} ij/N}\)) can be put in matrix form using the Fourier matrix \(F\):  <formula id="307">\[
 X = F \cdot x
-\]</formula> With :  <formula id="289">\[
+\]</formula> With :  <formula id="308">\[
 F_{ij} = e^{2\pi\mathbf{i} ij/N}
 \]</formula></p><p>Here, we display the phase of this matrix (the magnitude being constant).</p><p><pre><code class="C++"><highlight class="normal">Figure plot_mat_fourier(entier N)</highlight>
 <highlight class="normal">{</highlight>
@@ -101,7 +101,7 @@ F_{ij} = e^{2\pi\mathbf{i} ij/N}
 <highlight class="normal"></highlight>
 <highlight class="normal">  retourne f;</highlight>
 <highlight class="normal">}</highlight>
-</code></pre></p><p><img src="Fmat-64.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">N = 64</p></p><p>Each output value \(X_i\) of the DFT can be interpreted as the dot product of the input signal with the line number i of the Fourier matrix:  <formula id="291">\[
+</code></pre></p><p><img src="Fmat-64.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">N = 64</p></p><p>Each output value \(X_i\) of the DFT can be interpreted as the dot product of the input signal with the line number i of the Fourier matrix:  <formula id="310">\[
 X_i = \left&lt;x, F_{i,.}\right&gt;
 \]</formula></p><p>The low-frequency terms (positives) are her eat the bottom (note the lowest line, of constant phase, which correspond to \(X_0\)). Then, the higher we go, the higher is the frequency, at least up to the middle, that is for the \(X_{N/2}\) term, after which we continue on the negative frequencies). </p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
