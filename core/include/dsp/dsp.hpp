@@ -41,27 +41,6 @@ template<typename t>
 template<typename t>
   using Vector = VecT<t>;
 
-
-
-/** @brief Short-cut for a shared pointer. */
-//template<typename T>
-//  using sptr = std::shared_ptr<T>;
-
-//template<typename T, int ndims>
-//   using TabT = tsd::TabT<T, ndims>;
-
-/*template<typename T>
-   using VecT = tsd::VecT<T>;
-
-using tsd::Vecf;
-using tsd::Vecd;
-using tsd::Veci;
-using tsd::Veccf;
-using tsd::Vecb;
-using tsd::Tabf;
-using tsd::Tabcf;
-using tsd::Tabi;*/
-
 /** @brief Vertical concatenation of 2 vectors.
  *
  * This function merges 2 column vectors:
@@ -89,9 +68,9 @@ using tsd::Tabi;*/
  *
  * @par Example
  * @code
- *  ArrayXf a = ArrayXf::Ones(1);
- *  ArrayXf b = ArrayXf::Zero(5);
- *  ArrayXf c = vconcat(a, b); // (or ArrayXf c = a | b)
+ *  let a = Vecf::ones(1),
+ *      b = Vecf::zeros(5),
+ *      c = vconcat(a, b); // (or c = a | b)
  * @endcode
  *
  */
@@ -101,10 +80,27 @@ template<typename T1, typename T2>
   return tsd::vconcat(a, b);
 }
 
+/** @brief Vertical concatenation of 2 vectors (shortcut).
+ *  @sa vconcat() */
 template<typename T1, typename T2>
   auto operator |(const Vector<T1> &a, const Vector<T2> &b)
 {
   return vconcat(a, b);
+}
+
+/** @brief Vertical concatenation of two 2d arrays. */
+template<typename T>
+  auto vconcat(const Tableau<T> &a, const Tableau<T> &b)
+{
+  return tsd::vconcat(a, b);
+}
+
+/** @brief Horizontal concatenation of two 2d arrays.
+ *  @sa vconcat */
+template<typename T>
+  auto hconcat(const Tableau<T> &a, const Tableau<T> &b)
+{
+  return tsd::hconcat(a, b);
 }
 
 
@@ -120,10 +116,10 @@ template<typename T1, typename T2>
  *
  *  @par Example
  *  @code
- *  ArrayXf x = linspace(0, 5, 6);
- *  ArrayXf y = rotation_vec(x, 2);
- *  ArrayXf yref(6);
- *  yref << 2, 3, 4, 5, 0, 1;
+ *  let x     = linspace(0, 5, 6),
+ *      y     = rotation_vec(x, 2),
+ *      yref  = Vecf::values({2, 3, 4, 5, 0, 1});
+ *
  *  assertion(y.isApprox(yref));
  *  @endcode
  */
@@ -143,9 +139,10 @@ Vector<T> rotation_vec(const Vector<T> &x, int d)
  *
  *  @par Example
  *  @code
- *  ArrayXf x = randn(10);
- *  ArrayXf y = diff(x);
- *  ArrayXf yref = x.tail(9) - x.head(9);
+ *  let x     = randn(10),
+ *      y     = diff(x),
+ *      yref  = x.tail(9) - x.head(9);
+ *
  *  assertion(y.isApprox(yref));
  *  @endcode
  *
@@ -168,9 +165,10 @@ template<typename T>
  *
  *  @par Example
  *  @code
- *  ArrayXf x     = linspace(0, 99, 100);
- *  ArrayXf y     = cumsum(x);
- *  ArrayXf yref  = x * (x + 1) / 2;
+ *  let x     = linspace(0, 99, 100),
+ *      y     = cumsum(x),
+ *      yref  = x * (x + 1) / 2;
+ *
  *  assertion(y.isApprox(yref));
  *  @endcode
  *
@@ -189,12 +187,11 @@ template<typename T>
  *  @param r Defines the equivalence class on @f$x@f$
  *  @returns A vector @f$y@f$ such as @f$y_k = x_k + k \cdot r @f$, and with the less possible number of discontinuities (no discontinuity greater than @f$r/2@f$ in absolute value).
  *
- *  @par Example:
+ *  @par Example
  *  @snippet exemples/src/ex-tsd.cc exemple_unwrap
  *  @image html unwrap.png
  *
  *  @sa modulo_pm_π(), modulo_2π()
- *
  */
 template<typename T>
 inline Vector<T> phase_unwrap(const Vector<T> &x, float r = 2*π)
@@ -210,11 +207,11 @@ inline Vector<T> phase_unwrap(const Vector<T> &x, float r = 2*π)
  *
  *  @par Example
  *  @code
- *  ArrayXf x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
- *  auto idx = find(x >= 0); // idx = {2, 3, 4}
+ *  let x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
+ *  let idx = find(x >= 0); // idx = {2, 3, 4}
  *  @endcode
  *
- *  @sa find_first()
+ *  @sa find_first(), find_last()
  */
 inline vector<int> find(const Vecb &x)
 {
@@ -226,18 +223,39 @@ inline vector<int> find(const Vecb &x)
  *
  *  @par Example
  *  @code
- *  ArrayXf x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
- *  auto idx = find_first(x >= 0); // idx = 2
+ *  let x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
+ *  let idx = find_first(x >= 0); // idx = 2
  *  @endcode
  *
- *  @sa find()
+ *  @sa find(), find_last()
  */
 inline int find_first(const Vecb &x)
 {
   return tsd::trouve_premier(x.fr);
 }
 
+/** @brief Find the last true element index from a boolean vector.
+ *
+ *
+ *  @par Example
+ *  @code
+ *  let x   = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
+ *  let idx = find_last(x <= 1); // idx = 3
+ *  @endcode
+ *
+ *  @sa find(), find_last()
+ */
+inline int find_last(const Vecb &x)
+{
+  return tsd::trouve_dernier(x.fr);
+}
 
+/** @brief Lookup for the first local maximum (a value greater than the ones of its neighbors). */
+template<typename T>
+  int find_first_local_max(const Vector<T> &x)
+{
+  return tsd::trouve_premier_max_local(x);
+}
 
 // Equivalent de : y = x(1:pas:$)
 /** @brief Decimation of a column vector
@@ -248,7 +266,7 @@ inline int find_first(const Vecb &x)
  *  y_k = x_{kR},\quad k =0 \dots \left\lfloor N/R\right\rfloor -1
  *  @f]
  *
- *  @par Example:
+ *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_sousech
  *  @image html sousech.png
  *
@@ -270,7 +288,7 @@ template<typename T>
  *   0 & \textrm{otherwise.}\end{cases}
  *  @f]
  *
- *  @par Example:
+ *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_surech
  *  @image html surech.png
  *
@@ -291,7 +309,7 @@ template<typename T>
  *    y = 10 \log_{10}(x)
  *  @f]
  *
- *  @sa db2pow()
+ *  @sa db2pow(), mag2db()
  */
 template<typename T>
   auto pow2db(const T &x)
@@ -315,10 +333,37 @@ template<typename T>
   return tsd::db2pow(x);
 }
 
+/** @brief Magnitude to decibel conversion.
+ *
+ *  @param x Value in linear units
+ *  @returns Value in dB:
+ *  @f[
+ *    y = 20 \log_{10}(x)
+ *  @f]
+ *
+ *  @sa db2pow(), pow2db(), db2mag()
+ */
 auto mag2db(const auto &x)
 {
-  retourne 2 * pow2db(x);
+  return tsd::mag2db(x);
 }
+
+
+/** @brief Decibel to magnitude conversion.
+ *
+ *  @param x Value in linear units
+ *  @returns Value in dB:
+ *  @f[
+ *    y = 10^{x/20}
+ *  @f]
+ *
+ *  @sa mag2db(), pow2db(), db2pow()
+ */
+auto db2mag(const auto &x)
+{
+  return tsd::db2mag(x);
+}
+
 
 
 
@@ -352,12 +397,12 @@ inline int next_power_of_2(unsigned int i)
  *
  *  @par Example
  *  @code
- *  auto x = linspace(0,4,5);
+ *  let x = linspace(0,4,5),
  *  // x = {0, 1, 2, 3, 4};
- *  auto y = linspace(0,3,4);
+ *      y = linspace(0,3,4);
  *  // y = {0, 1, 2, 3};
  *
- *  auto [x2,y2] = pad_zeros(x,y);
+ *  let [x2,y2] = pad_zeros(x,y);
  *  // x2 = {0, 1, 2, 3, 4};
  *  // y2 = {0, 1, 3, 4, 0};
  *  @endcode
@@ -436,7 +481,7 @@ using Filter = tsd::Filtre<Te, Ts, Tc>;
  *  @note A filter (or even a cascad of filters) is automatically inserted (before decimation or after interpolation) so
  *  as to avoir spectrum aliasing.
  *
- *  @sa filter_resampling() (to process infinite time signal), resample_freq() (zero-delay resampling).
+ *  @sa dsp::filter::filter_resampling() (to process infinite time signal), resample_freq() (zero-delay resampling).
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_resample
@@ -497,7 +542,7 @@ template<typename T>
  *
  *  @par Example
  *  @code
- *  auto y = modulo(1.5, 1.0); // -> y = 0.5
+ *  let y = modulo(1.5, 1.0); // -> y = 0.5
  *  @endcode
  *
  *  @sa modulo_2π(), modulo_pm_π()
@@ -626,12 +671,12 @@ T rad2deg(T radians)
  *
  *  @par Example 1: vector with the @f$n@f$ first integers:
  *  @code
- *  ArrayXf t = linspace(0, n-1, n)
+ *  let t = linspace(0, n-1, n)
  *  // t = 0, 1, 2, ..., n-1
  *  @endcode
  *  @par Example 2: vector of @f$n@f$ time points, with a sampling frequency of @f$f_s@f$ Hz:
  *  @code
- *  ArrayXf t = linspace(0, (n-1)/fs, n)
+ *  let t = linspace(0, (n-1)/fs, n)
  *  @endcode
  *
  *  @sa logspace()
@@ -712,33 +757,25 @@ static inline Vecf trange(int n, float fs)
  *  one has just to scale the result of a normal law.
  *  For instance, for a mean of 5, and a variance of @f$1/2@f$ :
  *  @code
- *  ArrayXf x = 5 + 0.5 * randn(n);
+ *  let x = 5 + 0.5 * randn(n);
  *  @endcode
  *
  *  @par Example
  *  @snippet exemples/src/ex-tsd.cc ex_randn
  *  @image html randn.png
  *
- *  @sa randu(), randb()
+ *  @sa randu(int, float, float), randb()
  */
-static inline Vecf randn(unsigned int n)
+static inline Vecf randn(int n)
 {
   return tsd::randn(n);
 }
 
-/** @cond private */
-
-/// @brief Normal law (2d array)
-// *  @sa randu() */
-//static inline Tabf randn_2d(unsigned int n, unsigned int m){return tsd::randn_2d(n,m);}
-
-
-
-/// @brief Loi uniforme, intervalle [0,1] (tableau 2d) */
-//static inline Tabf randu_2d(unsigned int n, unsigned int m){return tsd::randu_2d(n, m);}
-
-
-/** @endcond */
+/** @brief Complexe normal law (column vector) */
+static inline Veccf randcn(int n)
+{
+  return tsd::randcn(n);
+}
 
 /** @brief Uniform law (column vector).
  *
@@ -751,7 +788,7 @@ static inline Vecf randn(unsigned int n)
  *  @snippet exemples/src/ex-tsd.cc ex_randu
  *  @image html randu.png
  *
- *  @sa randn(), randi(), randb()
+ *  @sa randn(int), randi(), randb()
  */
 static inline Vecf randu(int n, float a = -1, float b = 1){return tsd::randu(n, a, b);}
 
@@ -767,7 +804,7 @@ static inline Vecf randu(int n, float a = -1, float b = 1){return tsd::randu(n, 
  *  @image html randb.png
  *
  *
- *  @sa randn(), randu(), randi()
+ *  @sa randn(int), randu(int,float,float), randi()
  */
 static inline Vecb randb(int n)
 {
@@ -784,12 +821,29 @@ static inline Vecb randb(int n)
  *  @snippet exemples/src/ex-tsd.cc ex_randi
  *  @image html randi.png
  *
- *  @sa randn(), randu(), randb()
+ *  @sa randn(int), randu(int,float,float), randb()
  */
 static inline Veci randi(int M, int n)
 {
   return tsd::randi(M, n);
 }
+
+/** Categorial random  (computes only one element).
+ *
+ *  @sa randi(int, int)
+ */
+extern entier randi(entier M);
+
+/** @brief Uniform law (computes only one element).
+ *
+ *  @returns a number between -1 ansd 1.
+ *
+ *  @sa randu(int, float, float) */
+extern float randu();
+
+/** @brief Normal law (computes only one element).
+ *  @sa randn(int) */
+extern float randn();
 
 
 /** @brief Efficient computing of a complex exponential.

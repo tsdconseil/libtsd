@@ -196,7 +196,7 @@ extern Vecf tfd_freqs(entier n, bouléen avec_shift = non);
  *
  *  @sa fft(), rfft()
  *
- *  */
+ */
 template<typename T>
 auto ifft(const Vecteur<T> &X)
 {

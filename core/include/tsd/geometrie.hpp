@@ -48,14 +48,14 @@ struct Quaternion
    * q^{-1} = \left(\begin{array}{c}q_0\\ -q_1\\ -q_2 \\-q_3\end{array}\right)
    * @f]
    *
-   *  */
+   */
   Quaternion inv() const;
 
   /** @brief Element neutre.
    *
- * @f[
- * q = \left(\begin{array}{c}1\\ 0\\ 0 \\0\end{array}\right)
- * @f]
+   * @f[
+   * q = \left(\begin{array}{c}1\\ 0\\ 0 \\0\end{array}\right)
+   * @f]
    */
   static Quaternion identite();
 
@@ -70,10 +70,6 @@ struct Quaternion
   /** @brief Matrice de rotation. */
   Eigen::Matrix3f rot_mat() const;
 };
-
-
-//extern Eigen::Matrix3f rotmat_3d(float α, entier axe);
-
 
 /** @brief Angles de %Cardan pour la  représentation d'une rotation 3d. */
 struct Cardan

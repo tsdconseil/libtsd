@@ -144,7 +144,7 @@ namespace tsd::filtrage {
      f.plot(fr, mag, "b-");
      si(index_premier_lobe >= 0)
        f.plot(fr(index_premier_lobe), mag(index_premier_lobe), "rs");
-     f.titre("Vue linéaire");
+     f.titre(est_fr() ? "Vue linéaire" : "Linear view");
    }
 
    soit idx2freq = [&](entier idx) -> float
@@ -181,14 +181,18 @@ namespace tsd::filtrage {
      f.canva().set_couleur(Couleur::Bleu);
      f.canva().set_dim_fonte(0.6);
      f.canva().texte({0.1f, 0.9f},
+         est_fr() ?
              sformat("Largeur lobe principal (-3 dB) : {:.5f} (={:.2f}/N)\nDébut bande atténuée : {:.3f}\nAttén. premier lobe sec. : {:.1f} dB\nAttén. pire lob sec. : {:.1f} dB",
-             res.largeur_lp, res.largeur_lp * nc, res.freq_debut_ls, res.premier_ls.atten, res.pire_ls.atten),
+             res.largeur_lp, res.largeur_lp * nc, res.freq_debut_ls, res.premier_ls.atten, res.pire_ls.atten) :
+             sformat("Principal lob bandwidth (-3 dB): {:.5f} (={:.2f}/N)\nStart of stop-band: {:.3f}\nAtten. first secondary lobe : {:.1f} dB\nAtten. worst secondary lobe : {:.1f} dB",
+                 res.largeur_lp, res.largeur_lp * nc, res.freq_debut_ls, res.premier_ls.atten, res.pire_ls.atten)
+             ,
              {0.4f, 0.2f});
 
      f = res.fig.subplot(122);
 
      f.plot(fr, magdB, "b-");
-     f.titre("Vue logarithmique");
+     f.titre(est_fr() ? "Vue logarithmique" : "Logarithmic view");
      si(index_premier_lobe >= 0)
        f.plot(fr(index_premier_lobe), magdB(index_premier_lobe), "rs");
      si(index_pire_lobe >= 0)

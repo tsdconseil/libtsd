@@ -44,13 +44,13 @@ namespace dsp::fourier
  *
  * @par Example
  * @code
- * int N = 1024; // Bloc length
- * auto plan = fftplan_new();
+ * let N = 1024; // Bloc length
+ * let plan = fftplan_new();
  * for(i = 0; i < n; i++)
  * {
- *    Veccf x = Veccf::Random(N);
+ *    let x = Vecf::random(N);
  *    // X is the FFT of x
- *    Veccf X = plan->step(x);
+ *    let X = plan->step(x);
  *    // (equivalent to X = fft(x), but more efficient)
  * }
  *
@@ -81,9 +81,9 @@ inline sptr<FFTPlan> fftplan_new(int n = -1, bool forward = true, bool normalize
  * for(i = 0; i < n; i++)
  * {
  *    // Input signal must be real
- *    Let x = Vecf::random(N);
+ *    let x = Vecf::random(N);
  *    // X is the FFT of x
- *    Let X = plan->step(x);
+ *    let X = plan->step(x);
  *    // (equivalent to X = fft(x) or X = rfft(x), but more efficient)
  * }
  *
@@ -102,7 +102,12 @@ inline sptr<FilterGen<float, cfloat>> rfftplan_new(int n = -1)
  *  This function computes efficiently the FFT of a real vector <b>with even number of samples</b>
  *  (if the provided vector has an odd number of elements, then the standard fft routine is called).
  *
+ *  @param x Real vector
+ *  @returns DFT (complex vector)
+ *
  *  @note The @ref fft() function will use automatically this function if the input vector is real.
+ *
+ *  @sa fft(), ifft()
  */
 template<typename T>
 Veccf rfft(const Vector<T> &x)
@@ -171,16 +176,16 @@ auto fft(const Vector<T> &x)
  *
  *  @par Example
  *  @code
- *  Veccf x1 = Veccf::Random(100);
- *  Veccf X  = fft(x1);
- *  Vecf  x2 = ifft(X);
+ *  let x1 = randcn(100),
+ *      X  = fft(x1),
+ *      x2 = ifft(X);
  *
  *  assert((x2-x1).norm2() < 1e-7);
  *  @endcode
  *
  *  @sa fft(), rfft()
  *
- *  */
+ */
 template<typename T>
 auto ifft(const Vector<T> &X)
 {

@@ -91,7 +91,7 @@ extern double Dirichlet(entier N, double Ω);
  *   T_0 = 1,\ T_1 = z
  * @f]
  *
- * @sa Chebychev_U
+ * @sa Chebychev_U()
  *
  */
 extern Poly<float> Chebychev_T(entier n);

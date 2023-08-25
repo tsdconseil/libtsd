@@ -3,7 +3,8 @@
 /** (C) 2022 J. Arzi / GPL V3 - voir fichier LICENSE. */
 
 #include "dsp/dsp.hpp"
-#include "tsd/filtrage/frat.hpp"
+#include "tsd/divers.hpp"
+#include "dsp/filter.hpp"
 
 namespace dsp {
 
@@ -48,7 +49,10 @@ namespace dsp {
  *  @sa sinc()
  *
  */
-extern float sinc(float T, float f);
+static inline float sinc(float T, float f)
+{
+  return tsd::sinc(T, f);
+}
 
 /** @brief Normalized cardinal sine with cut-off frequency at 0.5.
  *
@@ -63,17 +67,58 @@ extern float sinc(float T, float f);
  *  @sa sinc2()
  *
  */
-extern float sinc(float t);
+static inline float sinc(float t)
+{
+  return tsd::sinc(t);
+}
 
 
-/** @brief Noyau de Dirichlet (à documenter !) */
-extern float Dirichlet(int N, float Ω);
+/** @brief Dirichlet kernel (periodic cardinal sinus)
+ *
+ *  @f[
+ *  D_N(\Omega) = \sum_{k=-N}^N e^{-\mathbf{i}\Omega k}
+ *  @f]
+ */
+static inline double Dirichlet(int N, double Ω)
+{
+  return tsd::Dirichlet(N, Ω);
+}
 
-/** @brief Polynôme de Chebychev du premier type : @f$T_n\left(\cos(\theta)\right) = \cos(n\theta)@f$ */
-extern Poly<float> Chebychev_T(int n);
+/** @brief Chebychev polynomial of the first type: @f$T_n\left(\cos(\theta)\right) = \cos(n\theta)@f$
+ *
+ * Computed from the recursion:
+ * @f[
+ *   T_n = 2 z \cdot T_{n-1} - T_{n-2}
+ * @f]
+ * and:
+ * @f[
+ *   T_0 = 1,\ T_1 = z
+ * @f]
+ *
+ * @sa Chebychev_U()
+ */
+static inline Poly<float> Chebychev_T(int n)
+{
+  return tsd::Chebychev_T(n);
+}
 
-/** @brief Polynôme de Chebychev du deuxième type : @f$U_n\left(\sin(\theta)\right) = \sin(n\theta)@f$ */
-extern Poly<float> Chebychev_U(int n);
+/** @brief Chebychev polynomial of the second type: @f$U_n\left(\sin(\theta)\right) = \sin(n\theta)@f$
+ *
+ * Computed from the recursion:
+ * @f[
+ *   T_n = 2 z \cdot T_{n-1} - T_{n-2}
+ * @f]
+ * and:
+ * @f[
+ *   T_0 = 1,\ T_1 = 2z
+ * @f]
+ *
+ * @sa Chebychev_T()
+ */
+static inline Poly<float> Chebychev_U(int n)
+{
+  return tsd::Chebychev_U(n);
+}
 
 /** @} */
 

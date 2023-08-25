@@ -360,17 +360,13 @@ cfloat repfreq(const Vecteur<T> &h, float fr)
  *  @par Exemple
  *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_plz
  *
- *  Résultat, avec cmap=non :
+ *  @image html filtrage-plz.png "Avec cmap=non"
  *
- *  @image html filtrage-plz.png
- *
- *  Résultat, avec cmap=oui :
- *
- *  @image html filtrage-plz-cm.png
+ *  @image html filtrage-plz-cm.png "Avec cmap=oui"
  *
  *
  *  @sa plot_filtre()
- *  */
+ **/
 template<typename T>
   void plot_plz(tsd::vue::Figure &fig, const FRat<T> &h, bouléen cmap = non);
 
@@ -508,7 +504,7 @@ extern entier type_rif(const Vecf &h);
   *  @{ */
 
 
-/** @brief Spécification de la réponse  sur un intervalle de fréquences (pour un gabarit de filtre). */
+/** @brief Spécification d'une réponse  fréquentiel sur un intervalle (pour un gabarit de filtre). */
 struct SpecFreqIntervalle
 {
   /** @brief Fréquence basse */
@@ -723,7 +719,7 @@ extern tsd::vue::Figures design_rif_freq_analyse(entier n, const Vecf &d);
  *  @returns      Vecteur des coefficients du filtre (vecteur de dimension n)
  *
  *
- *  @sa design_rif_eq()
+ *  @sa design_rif_eq(entier, const vector<SpecFreqIntervalle> &)
  */
 extern Vecf design_rif_eq(entier n, const Vecf &D, const Vecf &W);
 
@@ -733,7 +729,7 @@ extern Vecf design_rif_eq(entier n, const Vecf &D, const Vecf &W);
  *  @param spec   Liste des intervalles où la réponse est sépécifiée
  *  @returns      Vecteur des coefficients du filtre (vecteur de dimension n)
  *
- *  @sa design_rif_eq()
+ *  @sa design_rif_eq(entier, , const Vecf &, const Vecf &)
  */
 extern Vecf design_rif_eq(entier n, const vector<SpecFreqIntervalle> &spec);
 
@@ -948,14 +944,18 @@ extern Vecf design_rif_hilbert(entier n, cstring fenetre = "hn");
 extern Vecf design_rif_prod(const Vecf &h1, const Vecf &h2);
 
 
-
+// TODO: doc
 /** @brief Inversion spectrale */
 extern Vecf design_rif_pb2ph_is(const Vecf &h);
 
+// TODO: doc
 /** @brief Réflexion spectrale */
 extern Vecf design_rif_pb2ph_rs(const Vecf &h);
 
+// TODO: doc
 extern Vecf design_rif_pb2pb(const Vecf &h);
+
+// TODO: doc
 extern Vecf design_rif_pb2pm(const Vecf &h);
 
 /** @brief Paramètres principaux d'un filtre CIC */
@@ -1050,13 +1050,14 @@ extern CICComp design_cic_comp(const CICConfig &config, float Fin, entier R2, fl
  *  @image html bloqueur-dc-resp.png
  *
  *  @par Bibliographie
- *  Stein, <i>Digital signal processing</i>, 2000, page 301s
+ *  Stein, <i>Digital signal processing</i>, 2000, page 301
  *
  *  @sa filtre_dc()
  */
 extern FRat<float> design_bloqueur_dc(float fc);
 
 
+// TODO : doc
 extern FRat<float> design_notch(float f0, float fc);
 
 /** @brief %Fréquence normalisée (rapport entre une fréquence et la fréquence d'échantillonnage).
@@ -1074,8 +1075,8 @@ struct Fréquence
 };
 
 
-/** @brief Fonction de transfert d'une moyenne glissante d'ordre K */
-extern FRat<float> design_mg(int K);
+/** @brief Fonction de transfert d'une moyenne glissante d'ordre @f$K@f$ */
+extern FRat<float> design_mg(entier K);
 
 /** @brief Fonction de transfert d'un filtre exponentiel (d'après la fréquence de coupure)
  *
@@ -1539,7 +1540,7 @@ template<typename T>
  *  Le paramètre @f$\gamma@f$ peut être réglé facilement en fonction du temps de réponse ou de la
  *  fréquence de coupure souhaitée (voir @ref lexp_coef()).
  *
- *  @sa lexp_fcoupure(), lexp_coef()
+ *  @sa lexp_fcoupure(), lexp_coef(), design_lexp()
  */
 template<typename T>
   sptr<FiltreGen<T>> filtre_lexp(float γ);

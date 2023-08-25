@@ -53,6 +53,23 @@ inline logger_t &get_logger()
   retourne logger;
 }
 
+inline string &language()
+{
+  static string langue_ = "en";
+  retourne langue_;
+}
+
+inline bool est_fr()
+{
+  string s = language();
+  retourne s == "fr";
+}
+
+inline bool est_en()
+{
+  string s = language();
+  retourne s == "fr";
+}
 
 inline void log_msg_impl(const char *fn, entier ligne, entier niveau, cstring str)
 {

@@ -11,6 +11,9 @@ namespace dsp {
 
   template<typename T>
    using FRat = tsd::FRat<T>;
+
+  template<typename T>
+   using Poly = tsd::Poly<T>;
 }
 
 
@@ -19,19 +22,18 @@ namespace dsp::filter {
   namespace tsdf = tsd::filtrage;
 
 
-  /**  @addtogroup filtrage
+  /**  @addtogroup filtrage-analyse
     *  @{ */
 
-  /** @brief Vérification de la validité d'une fréquence normalisée.
+  /** @brief Check validity of a normalized frequency.
    *
-   * Vérifie que la fréquence est comprise entre 0 et @f$0{,}5@f$.
+   * Check that @f$@f$ is between entre 0 and @f$0.5@f$.
+   * If not, raise an exception.
    *
-   * En cas d'échec, léve une exception.
+   * @param f Normalized frequency.
+   * @param msg Optionnal text message (displayed in case of failure).
    *
-   * @param f Fréquence normalisée.
-   * @param msg Descriptif optionnel (affiché en cas d'échec).
-   *
-   * @sa échec(), msg_erreur()
+   * @sa failure(), msg_erreur()
    */
   inline void verifie_frequence_normalisee(float f, cstring msg = "")
   {
@@ -64,11 +66,12 @@ namespace dsp::filter {
    *  @param symetrical If true, realization of window symetrical around its center point (which should be done for the FIR filter design),
    *  otherwise realization of a periodical window (which is better for spectral analysis applications).
    *  @return Column vector with the window coefficients (dimension of vector is @p n)
-   *  @sa window_kaiser(), window_chebychev()
    *
    *  @par Example: creation of a Von Hann window (also called Hanning)
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
    *  @image html filtrage-fenetre.png
+   *
+   *  @sa window_kaiser(), window_chebychev()
    */
   inline Vecf window(cstring type, int n, bool symetrical = true)
   {
@@ -87,11 +90,14 @@ namespace dsp::filter {
    *  @param symetrical   If true, realization of window symetrical around its center point (which should be done for the FIR filter design),
    *  otherwise realization of a periodical window (which is better for spectral analysis applications).
    *  @return Column vector with the window coefficients (dimension of vector is @p n)
+   *
    *  @par Example: creation of a window with 60 dB of attenuation
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre_cheby
-   *  @image html filtrage-fenetre-cheby.png
    *
-   *  @sa design_rif_fen()
+   *  @image html filtrage-fenetre-cheby.png       "Time domain"
+   *  @image html filtrage-fenetre-cheby-freq.png  "Spectrum"
+   *
+   *  @sa design_fir_win()
    */
   inline Vecf window_chebychev(int n, float atten_db, bool symetrical = true)
   {
@@ -112,6 +118,7 @@ namespace dsp::filter {
 
   using FenInfos = tsdf::FenInfos;
 
+  // TODO : DOC
   static inline FenInfos window_analysis(cstring nom, const Vecf &x)
   {
     return tsdf::fenetre_analyse(nom, x);
@@ -144,8 +151,10 @@ namespace dsp::filter {
    *  @code
    *  // Parameters for 60 dB of transition,
    *  // and a transition bandwidth of  one tenth of the sampling frequency.
-   *  auto [β, n] = kaiser_param(60, 0.1);
+   *  let [β, n] = kaiser_param(60, 0.1);
    *  @endcode
+   *
+   *  @sa window_kaiser(), window_kaiser1()
    */
   inline tuple<float, int> kaiser_param(float atten_db, float df)
   {
@@ -164,8 +173,12 @@ namespace dsp::filter {
    *
    *  @par Example: creation of a window with 60 dB of attenuation
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre_kaiser
-   *  @image html filtrage-fenetre-kaiser.png
-   *   */
+   *
+   *  @image html filtrage-fenetre-kaiser.png       "Time domain"
+   *  @image html filtrage-fenetre-kaiser-freq.png  "Spectrum"
+   *
+   *  @sa window_kaiser1(), kaiser_param()
+   **/
   inline Vecf window_kaiser(float atten_db, float df, bool symetrical = true)
   {
     return tsdf::fenêtre_kaiser(atten_db, df, symetrical);
@@ -179,10 +192,9 @@ namespace dsp::filter {
    * @param β     Shape parameter.
    * @param symetrical If true, realization of window symetrical around its center point (which should be done for the FIR filter design),
    *  otherwise realization of a periodical window (which is better for spectral analysis applications).
-   *
    * @return Column vector with window coefficients.
    *
-   *  @sa fenetre_kaiser(), kaiser_param() */
+   *  @sa window_kaiser(), kaiser_param() */
   inline Vecf window_kaiser1(int n, float β, bool symetrical = true)
   {
     return tsdf::fenêtre_kaiser1(n, β, symetrical);
@@ -236,7 +248,7 @@ template<typename T>
 template<typename T>
   Veccf repfreq(const FRat<T> &h, const Vecf &fr)
 {
-  return tsdf::repfreq(fr, fr);
+  return tsdf::repfreq(h, fr);
 }
 
 
@@ -260,7 +272,7 @@ template<typename T>
  *  @param npts Frequency resolution.
  *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the phases @f$y_k@f$ (in radians).
  */
-template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, unsigned int npts = 1024)
+template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, int npts = 1024)
 {
   return tsdf::frphase<T>(h, npts);
 }
@@ -281,7 +293,7 @@ template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, unsigned int np
  *  @image html frgroup.png
  *
  */
-template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, unsigned int npts = 1024)
+template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, int npts = 1024)
 {
   return tsdf::frgroup<T>(h, npts);
 }
@@ -303,8 +315,6 @@ template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, unsigned int np
  * @par Example
  * @snippet exemples/src/filtrage/ex-filtrage.cc exemple_analyse
  * @image html filtrage-analyse.png
- *
- * @sa filter_display()
  */
 template<typename T>
   dsp::view::Figures plot_filter(const FRat<T> &h, bool complete = false, float fs = 1)
@@ -364,21 +374,33 @@ template<typename T> tuple<Vecf, Vecf> frgroup(const Vector<T> &h, unsigned int 
  *  where the @f$z_i@f$ and @f$p_i@f$ are called respectively
  *  the zeros et poles.
  *
- *  @param h transfert function
  *  @param fig Figure where to plot the zeros and poles.
+ *  @param h transfert function
+ *  @param cmap If true, draw a color map representing the magnitude of the response in the complex plane.
  *
  *
  *  @par Example
  *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_plz
- *  @image html filtrage-plz.png
+ *
+ *  @image html filtrage-plz.png "With cmap=false"
+ *
+ *  @image html filtrage-plz-cm.png "With cmap=true"
+ *
+ *
+ *  @sa plot_filter()
  **/
 template<typename T>
-  void plot_plz(dsp::view::Figure &fig, const FRat<T> &h)
+  void plot_plz(dsp::view::Figure &fig, const FRat<T> &h, bool cmap = false)
 {
   tsdf::plot_plz(fig, h);
 }
 
-
+/** @brief The same (from the coefficients of a FIR filter). */
+template<typename T>
+  void plot_plz(tsd::vue::Figure &fig, const Vector<T> &h, bool cmap = false)
+{
+  tsdf::plot_plz(fig, h, cmap);
+}
 
 /** @brief Amplitude response of a symetrical or antisymetrical FIR filter (linear phase).
  *
@@ -425,6 +447,33 @@ inline float fir_delay(int N)
   return tsdf::rif_delais(N);
 }
 
+/** @brief Result of a linear filter analysis*/
+using FilterAnalysis = tsdf::AnalyseLIT;
+
+
+
+/** @brief Analyse d'un filtre linéaire invariant dans le temps (d'après la fonction de transfert). */
+template<typename T>
+  FilterAnalysis filter_analysis(const FRat<T> &h, bool with_plots)
+{
+  return tsdf::analyse_LIT(h, with_plots);
+}
+
+/** @brief Idem (from the coefficients of a FIR filter). */
+template<typename T>
+  FilterAnalysis filter_analysis(const Vector<T> &h, bool with_plots)
+{
+  return tsdf::analyse_LIT(h, with_plots);
+}
+
+/** @brief Compute the type (I, II, III ou IV) of a FIR filter with linear phase.
+ *  If the coefficients are not symetrical nor anti-symetrical, returns -1.
+ */
+static inline int fir_type(const Vecf &h)
+{
+  return tsdf::type_rif(h);
+}
+
 
 /**  @}
   *  @addtogroup filtrage-design
@@ -432,13 +481,22 @@ inline float fir_delay(int N)
 
 
 
+/** @brief Specificaton of a frequency response on an interval */
+using FreqIntervalSpec = tsdf::SpecFreqIntervalle;
+#if 0
 struct SpecFreqIntervalle
 {
-  float fb, fh;
+  /** @brief Lower frequency */
+  float fb, fh; /**< @brief Upper frequency */
+  /** @brief Attenuation (linear) */
   float atten = 1.0f;
-  float poids = 1.0f;
+  /** @brief Weighting factor */
+  float weight = 1.0f;
 };
+#endif
 
+
+// A DEPLACER
 /** @brief Hilbert filter FIR approximation.
  *
  *  This function computes the windowed theoretical temporal response of a Hilbert filter:
@@ -647,11 +705,22 @@ inline Vecf design_fir_freq_freqs(int n)
  *  @param w      Weighting coefficients vector (must have the same length as d)
  *  @returns      Coefficients vector of the FIR filter (vector of length n)
  */
-inline Vecf design_fir_eq(unsigned int n, const Vecf &d, const Vecf &w)
+inline Vecf design_fir_eq(int n, const Vecf &d, const Vecf &w)
 {
   return tsdf::design_rif_eq(n, d, w);
 }
 
+/** @brief Equiripple / Remez FIR design.
+ *
+ *  @param n      Filter order
+ *  @param d      Desired frequency response
+ *  @param w      Weighting coefficients vector (must have the same length as d)
+ *  @returns      Coefficients vector of the FIR filter (vector of length n)
+ */
+inline Vecf design_fir_eq(int n, const vector<FreqIntervalSpec> &spec)
+{
+  return tsdf::design_rif_eq(n, spec);
+}
 
 
 /** @brief Half-band FIR design.
@@ -662,7 +731,6 @@ inline Vecf design_fir_eq(unsigned int n, const Vecf &d, const Vecf &w)
  *
  *  @param n      Filter order (must be odd).
  *  @param fc     -3 dB cutt-off frequency (amplitude = @f$1 / \sqrt(2)@f$).
- *  @param debug  Enable debug plots.
  *  @returns      Coefficients vector of the FIR filter (vector of length n)
  *
  *  Note that in all cases, the frequency at which the amplitude is 0.5
@@ -677,7 +745,7 @@ inline Vecf design_fir_eq(unsigned int n, const Vecf &d, const Vecf &w)
  *  @snippet exemples/src/filtrage/ex-hb.cc ex_hb
  *  @image html design-hb.png
  *
- *  @sa design_fir_eq, filter_fir_half_band
+ *  @sa design_fir_eq(), filter_fir_half_band()
  *
  */
 inline Vecf design_fir_half_band(int n, float fc)
@@ -685,34 +753,7 @@ inline Vecf design_fir_half_band(int n, float fc)
   return tsdf::design_rif_demi_bande(n, fc);
 }
 
-#if 0
-/** @brief Normalized cardinal sine with configurable cut-off frequency
- *
- *  <h3>Normalized cardinal sine with configurable cut-off frequency</h3>
- *
- *  @f[
- *  y(t) = \frac{\sin(2 \pi t f_c)}{\pi  t}
- *  @f]
- *
- *  The Fourier transform of this fonction is a door of width @f$\pm f_c@f$,
- *  which is an ideal (yet not realizable) prototype for a low-pass filter.
- *
- *  @param t   Temporal sampling point (as fractionnal number of samples).
- *  @param fc  Normalized cut-off frequency, between 0 and 0.5.
- *  @returns   @f$y@f$ value
- *
- *  @sa sinc(), design_fir_fen() */
-inline float sinc2(float t, float fc)
-{
-  return tsdf::sinc2(t, fc);
-}
 
-
-inline float sinc(float t)
-{
-  return tsdf::sinc(t);
-}
-#endif
 
 /** @brief Windowed cardinal sine FIR design.
  *
@@ -735,7 +776,7 @@ inline float sinc(float t)
  * @sa design_fir_eq(), design_fir_freq()
  *
  */
-inline Vecf design_fir_wnd(unsigned int n, const std::string &type, float fc, cstring fen = "hn", float fc2 = 0)
+inline Vecf design_fir_wnd(int n, cstring type, float fc, cstring fen = "hn", float fc2 = 0)
 {
   return tsdf::design_rif_fen(n, type, fc, fen, fc2);
 }
@@ -899,6 +940,36 @@ inline Vecf design_fir_prod(const Vecf &h1, const Vecf &h2)
 }
 
 
+
+
+// TODO: doc
+/** @brief Spectral inversion */
+static inline Vecf design_rif_pb2ph_is(const Vecf &h)
+{
+  return tsdf::design_rif_pb2ph_is(h);
+}
+
+// TODO: doc
+/** @brief Spectral reflexion */
+static inline Vecf design_rif_pb2ph_rs(const Vecf &h)
+{
+  return tsdf::design_rif_pb2ph_rs(h);
+}
+
+
+// TODO: doc
+static inline Vecf design_rif_pb2pb(const Vecf &h)
+{
+  return tsdf::design_rif_pb2pb(h);
+}
+
+// TODO: doc
+static inline Vecf design_rif_pb2pm(const Vecf &h)
+{
+  return tsdf::design_rif_pb2pm(h);
+}
+
+
 /** @brief Main parameters for a CIC filter. */
 struct CICConfig
 {
@@ -911,13 +982,13 @@ struct CICConfig
   /** @brief Design parameter (typically M=1) */
   int M = 1;
 
+  /** @cond undoc */
   tsdf::CICConfig fr() const
   {
     return {R, N, M};
   }
+  /** @endcond */
 };
-
-
 
 
 /** @brief CIC filter theorical transfert function.
@@ -964,7 +1035,7 @@ using tsdf::CICComp;
     int R = 16, N = 4, M = 1;
     float fin = 6400, fcut=80;
     int ntaps = 61, R2 = 2;
-    Vecf h = design_cic_comp(R,N,M,fin,R2,fcut,ntaps);
+    lets h = design_cic_comp(R,N,M,fin,R2,fcut,ntaps);
     // h is the array of coefficents of the FIR compensation filter.
  * @endcode
  * @todo ex_cic_comp_rimp.png
@@ -996,7 +1067,7 @@ inline CICComp design_cic_comp(const CICConfig &config, float Fin, int R2, float
  *  @image html bloqueur-dc-resp.png
  *
  *  @par Bibliography
- *  <i>The DC Blocking Filter,</i> J.M. de Freitas, 2007
+ *  Stein, <i>Digital signal processing</i>, 2000, page 301
  *
  *  @sa filter_dc()
  */
@@ -1006,7 +1077,21 @@ inline FRat<float> design_dc_blocker(float fc)
 }
 
 
+// TODO : doc
+static inline FRat<float> design_notch(float f0, float fc)
+{
+  return tsdf::design_notch(f0, fc);
+}
+
+/** @brief Normalized frequency */
 typedef tsdf::Fréquence Frequency;
+
+
+/** @brief Transfert function of a moving average filter with order @f$K@f$. */
+static inline FRat<float> design_ma(int K)
+{
+  return tsdf::design_mg(K);
+}
 
 /** @brief Transfert function of an exponential filter.
  *
@@ -1030,9 +1115,20 @@ typedef tsdf::Fréquence Frequency;
  *  @snippet exemples/src/filtrage/ex-rii1.cc ex_design_rii1
  *  @image html design-rii1.png
  *
- *  @sa iir1_coef()
+ *  @sa ema_coef()
  */
-inline FRat<float> design_ema(Frequency fc){return tsdf::design_lexp(fc);}
+static inline FRat<float> design_ema(Frequency fc){return tsdf::design_lexp(fc);}
+
+
+/** @brief Transfert function of an exponential filter (from the forget factor)
+ *
+ *
+ * @sa design_ema(Frequency)
+ */
+static inline FRat<float> design_ema(float γ)
+{
+  return tsdf::design_lexp(γ);
+}
 
 /** @brief Generate first order IIR filter forget factor (unique coefficient) from cut-off frequency
  *
@@ -1111,7 +1207,7 @@ inline Frequency ema_fcut(float γ)
  *  @param x  1d signal (1d vector, n elements)
  *  @param M  Number of polyphase branches, e.g. decimation ratio.
  *  @returns  Polyphase array (M rows, (n+M-1)/M columns)
- *  @sa polyphase_iforme()
+ *  @sa polyphase_iform()
  */
 template<typename T>
   Tableau<T> polyphase_form(const Vector<T> &x, unsigned int M)
@@ -1127,7 +1223,7 @@ template<typename T>
  *  @sa polyphase_form()
  */
 template<typename T>
-  Vector<T> polyphase_iforme(const Tableau<T> &X)
+  Vector<T> polyphase_iform(const Tableau<T> &X)
 {
   return tsdf::iforme_polyphase(X);
 }
@@ -1146,14 +1242,14 @@ template<typename T>
  *  @param fe Sampling frequency
  *  @returns  Z transform (rational fraction)
  *
- *  @sa fd_vers_fa(), fa_vers_fd()
+ *  @sa fd2fa(), fa2fd()
  */
 inline FRat<cfloat> bilinear_transform(const FRat<cfloat> &ha, float fe)
 {
   return tsdf::trf_bilineaire(ha, fe);
 }
 
-
+/** @cond undoc */
 inline float ωa2ωd(float ωa, float fe)
 {
   return tsdf::ωa_vers_ωd(ωa, fe);
@@ -1162,6 +1258,7 @@ inline float ωd2ωa(float wd, float fe)
 {
   return tsdf::ωd_vers_ωa(wd, fe);
 }
+/** @endcond */
 
 /** @brief Bilinear transform frequency warping (digital to analog).
  *
@@ -1175,7 +1272,9 @@ inline float ωd2ωa(float wd, float fe)
  *  @f]
  *
  *  This mapping is the one caused by the bilinear transform.
- *  */
+ *
+ *  @sa fa2fd()
+ */
 inline float fd2fa(float fd)
 {
   return tsdf::fd_vers_fa(fd);
@@ -1209,7 +1308,7 @@ inline float fa2fd(float fa)
  *  @par Example
  *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_ligne_a_retard
  *  @image html filtrage-ligne-a-retard.png
- *  */
+ */
 template<typename T>
   sptr<FilterGen<T>> delay_line(unsigned int n)
 {
@@ -1227,7 +1326,7 @@ using tsdf::HilbertTransformeurConfig;
  *
  * @param  n        Filter order
  * @param  fenetre  Window choice (see @ref window())
- * @return          Filter float -> cfloat
+ * @return          %Filter float -> cfloat
  *
  * @sa design_fir_hilbert(), hilbert(), hilbert_dft()
  */
@@ -1496,7 +1595,7 @@ template<typename T>
  *  The @f$\gamma@f$ parameter (forget factor) can be tuned easily as a function of time constant or of
  *  the desired cut-off frequency (see @ref iir1_coef()).
  *
- *  @sa iir1_fcut(), iir1_coef()
+ *  @sa ema_fcut(), ema_coef(), design_ema()
  */
 template<typename T>
   sptr<FilterGen<T>> filter_ema(float γ)
@@ -1509,18 +1608,18 @@ template<typename T>
  *
  *  Implement the following filter:
  *  @f[
- *  y_k = x_k - x_{k-1} + \alpha y_{k-1}
+ *  y_k = \frac{1+\alpha}{2}\cdot \left(x_k - x_{k-1}\right) + \alpha y_{k-1}
  *  @f]
  *
  *
  *  @param fc Normalized cut-off frequency (0 - 0.5)
  *
- * @par Example
+ *  @par Example
  *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_filtre_dc
  *  @image html bloqueur-dc-ex.png
  *
  * @par bibliography
- * <i>The DC Blocking Filter</i>, J M de Freitas, 2007
+ *  Stein, Digital Signal Processing, 2000
  *
  * @sa design_dc_blocker()
  */
@@ -1580,7 +1679,7 @@ template<typename T, typename Tacc>
  *  There will be as many output samples as input ones,
  *  by inserting virtual zeros before the beginning of the signal.
  *
- *  @sa filtfilt()
+ *  @sa filtfilt(), @ref filter(const Vector<Tc> &h, const Vector<T> &x) "filter (2)"
  */
 template<typename T, typename Tc>
 Vector<T> filter(const FRat<Tc> &h, const Vector<T> &x)
@@ -1588,6 +1687,7 @@ Vector<T> filter(const FRat<Tc> &h, const Vector<T> &x)
   return tsdf::filtrer(h, x);
 }
 
+/** @brief Idem, for a FIR filter. */
 template<typename T, typename Tc>
 Vector<typename T::Scalar> filter(const Vector<Tc> &h, const Vector<T> &x)
 {

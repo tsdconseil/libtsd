@@ -18,100 +18,107 @@ namespace dsp::geo {
  *  @{
  */
 
-/** @brief %Quaternion unitaire pour la représentation d'une rotation 3d.
+/** @brief Unitary quaternion for the representation of a 3d rotation.
  *
  * @f[
  * q = \left(\begin{array}{c}\cos\theta\\ \sin\theta\cdot \hat e\end{array}\right)
  * @f]
  *
- * @f$\hat e@f$ étant l'axe d'Euler (normalisé).
+ * @f$\hat e@f$ being the normalized Euler axis.
  *
- *  */
+ */
 struct Quaternion
 {
-  /** @brief Les 4 éléments du quaternion. */
+  /** @brief The 4 elements of the quaternion. */
   Eigen::Array4f q;
 
+  /** @cond undoc */
   nfr::Quaternion fr() const
   {
     return nfr::Quaternion{q};
   }
 
+
   Quaternion(const nfr::Quaternion &fr)
   {
     q = fr.q;
   }
+  /** @endcond */
 
+  /** @brief Constructor (from the 4 elements). */
   Quaternion(float q0 = 1, float q1 = 0, float q2 = 0, float q3 = 0)
   {
     *this = nfr::Quaternion(q0, q1, q2, q3);
   }
+
+  /** @brief Constructor (from the 4 elements). */
   Quaternion(const Eigen::Array4f &q_)
   {
     *this = nfr::Quaternion(q);
   }
+
+  /** @brief Constructor (from a rotation matrix). */
   Quaternion(const Eigen::Matrix3f &R)
   {
     *this = nfr::Quaternion(R);
   }
 
 
-  /** @brief Rotation inverse
+  /** @brief Inverse rotation
    *
    * @f[
    * q^{-1} = \left(\begin{array}{c}q_0\\ -q_1\\ -q_2 \\-q_3\end{array}\right)
    * @f]
    *
-   *  */
+   */
   Quaternion inv() const
   {
     return fr().inv();
   }
 
-  /** @brief Element neutre.
+  /** @brief Neutral element.
    *
- * @f[
- * q = \left(\begin{array}{c}1\\ 0\\ 0 \\0\end{array}\right)
- * @f]
+   * @f[
+   * q = \left(\begin{array}{c}1\\ 0\\ 0 \\0\end{array}\right)
+   * @f]
    */
   static Quaternion identite()
   {
     return nfr::Quaternion::identite();
   }
 
-  /** @brief ? */
+  /** @brief Rotation matrix in homogeneous coordinates. */
   Eigen::Matrix4f mat() const
   {
     return fr().mat();
   }
 
+  /** @brief Apply a rotation */
   Eigen::Vector3f rotate(const Eigen::Vector3f &x) const
   {
     return fr().rotate(x);
   }
 
-  /** @brief Matrice de rotation. */
+  /** @brief Computes the rotation matrix. */
   Eigen::Matrix3f rot_mat() const
   {
     return fr().rot_mat();
   }
 };
 
-
-
-
-/** @brief Angles de %Cardan pour la  représentation d'une rotation 3d. */
+/** @brief %Cardan angles for the representation of a 3d rotation. */
 struct Cardan
 {
-  /** @brief Roulis (roll) */
+  /** @brief Roll */
   float φ;
 
-  /** @brief Tangage (pitch) */
+  /** @brief Pitch */
   float θ;
 
-  /** @brief Dérive (yaw / heading) */
+  /** @brief Yaw / heading */
   float ψ;
 
+  /** @cond undoc */
   nfr::Cardan fr() const
   {
     return nfr::Cardan(φ, θ, ψ);
@@ -123,33 +130,36 @@ struct Cardan
     θ = f.θ;
     ψ = f.ψ;
   }
+  /** @endcond */
 
-  /** @brief A partir d'une matrice de rotation */
+  /** @brief From a rotationmatrix. */
   Cardan(const Eigen::Matrix3f &R)
   {
     *this = nfr::Cardan(R);
   }
 
-  /** @brief A partir des angles */
+  /** @brief From Cardan angles. */
   Cardan(float φ, float θ, float ψ)
   {
     *this = nfr::Cardan(φ, θ, ψ);
   }
 
-  /** @brief Matrice de rotation. */
+  /** @brief From a quaternion. */
+  Cardan(const Quaternion &q)
+  {
+    *this = nfr::Cardan(q.fr());
+  }
+
+  /** @brief Compute the rotation matrix. */
   Tabf mat_rotation() const
   {
     return fr().mat_rotation();
   }
 
-  /** @brief A partir d'un quaternion */
-  Cardan(const Quaternion &q)
-  {
-    *this = nfr::Cardan(q.fr());
-  }
+
 };
 
-
+/** @cond undoc */
 inline std::ostream& operator<<(std::ostream& ss, const Cardan &t)
 {
   ss << t.fr();
@@ -161,27 +171,32 @@ inline std::ostream& operator<<(std::ostream& ss, const Quaternion &t)
   ss << t.fr();
   return ss;
 }
+/** @endcond */
 
 
+/** @brief 3D rotation matrix, around X axis. */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d_R1(T α)
 {
   return nfr::rotmat_3d_R1(α);
 }
 
-
+/** @brief 3D rotation matrix, around Y axis. */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d_R2(T α)
 {
   return nfr::rotmat_3d_R2(α);
 }
 
+/** @brief 3D rotation matrix, around Z axis. */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d_R3(T α)
 {
   return nfr::rotmat_3d_R3(α);
 }
 
+/** @brief 3D rotation matrix, around one of the 3 canonical axis.
+ *  @param axe  Axis number (0, 1 or 2). */
 template<typename T>
   Eigen::Matrix<T, 3, 3> rotmat_3d(T α, int axe)
 {

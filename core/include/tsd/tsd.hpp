@@ -159,7 +159,8 @@ using std::norm;
     retourne c;
   }
 
-  /** @brief Concaténation horizontale de deux tableaux. */
+  /** @brief Concaténation horizontale de deux tableaux.
+   *  @sa vconcat */
   template<typename T>
     auto hconcat(const Tableau<T> &a, const Tableau<T> &b)
   {
@@ -196,6 +197,7 @@ using std::norm;
    *  soit x    = linspace(0, 5, 6),
    *       y    = rotation_vec(x, 2),
    *       yref = Vecf::valeurs({2, 3, 4, 5, 0, 1});
+   *
    *  assertion(y.isApprox(yref));
    *  @endcode
    */
@@ -245,6 +247,7 @@ using std::norm;
    *  soit x     = linspace(0, 99, 100),
    *       y     = cumsum(x),
    *       yref  = x * (x + 1) / 2;
+   *
    *  assertion(y.isApprox(yref));
    *  @endcode
    *
@@ -271,12 +274,11 @@ using std::norm;
    *  @param r Définit la classe d'équivalence sur les valeurs de @f$x@f$
    *  @returns Un vecteur @f$y@f$ tel que @f$y_k = x_k + k \cdot r @f$, et avec le moins de discontinuités possibles (plus précisément, aucune discontinuité supérieure à @f$r/2@f$ en valeur absolue).
    *
-   *  @par Exemple :
+   *  @par Exemple
    *  @snippet exemples/src/ex-tsd.cc exemple_unwrap
    *  @image html unwrap.png
    *
    *  @sa modulo_pm_π(), modulo_2π()
-   *
    */
   template<typename T>
     Vecteur<T> déplie_phase(const Vecteur<T> &x, float r = 2*π);
@@ -301,7 +303,7 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  soit x = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
+   *  soit x   = linspace(-2, 2, 5); // -2, -1, 0, 1, 2
    *  soit idx = trouve_premier(x >= 0); // idx = 2
    *  @endcode
    *
@@ -492,9 +494,9 @@ using std::norm;
    *
    *  @par Exemple
    *  @code
-   *  soit x = linspace(0,4,5);
+   *  soit x = linspace(0,4,5),
    *  // x = {0, 1, 2, 3, 4};
-   *  soit y = linspace(0,3,4);
+   *       y = linspace(0,3,4);
    *  // y = {0, 1, 2, 3};
    *
    *  soit [x2,y2] = pad_zeros(x,y);
