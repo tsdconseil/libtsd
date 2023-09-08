@@ -81,7 +81,7 @@
           <h1 class="head">r2R</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/stats/index.html">Statistical signal processing</a></li><li> / r2R</li></ul>
         </div>
-<div id="page-content-full"><p>Calcul d'une matrice d'auto-corrélation à partir d'un vecteur de corrélations. </p><p>Namespace: <code>dsp::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>r2R</b>(const Vector&lt;T&gt; &r)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>r</td><td>Auto-corrélation du signal </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>R </p><h2><a name="6"></a>Description</h2><p>Cette fonction construit une matrice d'auto-corrélation (matrice de Toeplitz pour un signal stationnaire) à partir du vecteur d'auto-corrélation :</p><p><formula id="157">\[
+<div id="page-content-full"><p>Calcul d'une matrice d'auto-corrélation à partir d'un vecteur de corrélations. </p><p>Namespace: <code>dsp::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>r2R</b>(const Vector&lt;T&gt; &r)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>r</td><td>Auto-corrélation du signal </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>R </p><h2><a name="6"></a>Description</h2><p>Cette fonction construit une matrice d'auto-corrélation (matrice de Toeplitz pour un signal stationnaire) à partir du vecteur d'auto-corrélation :</p><p><formula id="150">\[
  R = \left(\begin{array}{cccc}
  r_0 &r_1^\star &\cdots &r_{n-1}^\star\\
  r_1 &r_0 &\cdots& r_{n-2}^\star\\

@@ -81,9 +81,9 @@
           <h1 class="head">sinc (1)</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index.html">General functions</a></li><li> / <a href="../../../../index-func/tsd/divers/index.html">Miscellaneous functions</a></li><li> / sinc (1)</li></ul>
         </div>
-<div id="page-content-full"><p>FT of door function between \(-T/2\) and \(T/2\) (sinc function). </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static float <b>sinc</b>(float T, float f)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>T</td><td>Door width in time domain. </td></tr><tr><td>f</td><td>Desired frequency for FT evaluation. </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Value of the FT at frequency \(f\):  <formula id="50">\[
+<div id="page-content-full"><p>FT of door function between \(-T/2\) and \(T/2\) (sinc function). </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static float <b>sinc</b>(float T, float f)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>T</td><td>Door width in time domain. </td></tr><tr><td>f</td><td>Desired frequency for FT evaluation. </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Value of the FT at frequency \(f\):  <formula id="49">\[
  y = \mathcal{F}\left(\Pi_T\right)(f)
-\]</formula>\(\Pi_T\) being a door of width \(T\):  <formula id="54">\[
+\]</formula>\(\Pi_T\) being a door of width \(T\):  <formula id="52">\[
 \Pi_T(t) = \begin{cases} 1 & \textrm{ if } -T/2 \leq t \leq T/2,\\ 0 & \textrm{otherwise.} \end{cases}
 \]</formula></p><h2><a name="6"></a>Description</h2><p>
 Up to the scale factor \(T\), this function is nothing else as the classical sinc function:  <formula id="55">\[

@@ -81,9 +81,9 @@
           <h1 class="head">kaiser_param</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-fenetres/index.html">Fenêtres</a></li><li> / kaiser_param</li></ul>
         </div>
-<div id="page-content-full"><p>Calcul du paramètre \(\beta\) et de l'ordre d'un filtre de Kaiser. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;float, entier&gt; <b>kaiser_param</b>(float atten_db, float δf)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>atten_db</td><td>Atténuation en dB dans la bande coupée (nombre positif) </td></tr><tr><td>δf</td><td>Largeur de la bande de transition (normalisée par rapport à la fréquence d'échantillonnage) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>\(\beta,n\)</p><h2><a name="6"></a>Description</h2><p><formula id="72">\[
+<div id="page-content-full"><p>Calcul du paramètre \(\beta\) et de l'ordre d'un filtre de Kaiser. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;float, entier&gt; <b>kaiser_param</b>(float atten_db, float δf)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>atten_db</td><td>Atténuation en dB dans la bande coupée (nombre positif) </td></tr><tr><td>δf</td><td>Largeur de la bande de transition (normalisée par rapport à la fréquence d'échantillonnage) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>\(\beta,n\)</p><h2><a name="6"></a>Description</h2><p><formula id="71">\[
   n = (A - 7.95) / (2.285 \cdot 2 \pi d_f)
-\]</formula></p><p><formula id="73">\[
+\]</formula></p><p><formula id="72">\[
  \beta = \begin{cases}
  0.1102 (A - 8.7) & \mbox{si } A &gt; 50\textrm{ dB} \\
  0.5842 \cdot (A - 21)^{0.4} + 0.07886 \cdot (A - 21) & \mbox{si } 21 \textrm{ dB} \leq A \leq 50\textrm{ dB}\\

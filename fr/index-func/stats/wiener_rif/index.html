@@ -81,9 +81,9 @@
           <h1 class="head">wiener_rif</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li> / wiener_rif</li></ul>
         </div>
-<div id="page-content-full"><p>Filtre de Wiener (RIF) </p><p>Espace de nom : <code>tsd::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>wiener_rif</b>(const Tabf &Rxy, const Vecf &rx, entier p)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>Rxy</td><td>Matrice de corrélation croisée entre les signaux \(x\) (entrées) et \(y\) (observations) </td></tr><tr><td>rx</td><td>Vecteur d'auto-corrélation du signal \(x\)</td></tr><tr><td>p</td><td>Ordre du modèle (nombre de coefficients du filtre \(h\)) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Coefficients du filtre d'égalisation optimal (filtre \(h\)) </p><h2><a name="6"></a>Description</h2><p>Modèle :  <formula id="171">\[
+<div id="page-content-full"><p>Filtre de Wiener (RIF) </p><p>Espace de nom : <code>tsd::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>wiener_rif</b>(const Tabf &Rxy, const Vecf &rx, entier p)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>Rxy</td><td>Matrice de corrélation croisée entre les signaux \(x\) (entrées) et \(y\) (observations) </td></tr><tr><td>rx</td><td>Vecteur d'auto-corrélation du signal \(x\)</td></tr><tr><td>p</td><td>Ordre du modèle (nombre de coefficients du filtre \(h\)) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Coefficients du filtre d'égalisation optimal (filtre \(h\)) </p><h2><a name="6"></a>Description</h2><p>Modèle :  <formula id="169">\[
 y = g \star x + b
-\]</formula> et recherche du filtre RIF optimal \(h\) (au sens des moindres carrés) tel que  <formula id="173">\[
+\]</formula> et recherche du filtre RIF optimal \(h\) (au sens des moindres carrés) tel que  <formula id="171">\[
 h \star y \sim x
 \]</formula></p><p/></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
