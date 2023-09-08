@@ -50,6 +50,9 @@ namespace tsd::filtrage
 
     W.segment(idp, L-idp).setZero();
 
+    si(idp == L)
+      W(0) = 1;
+
     // Non : D(L-1), ce n'est pas le Nyquist, c'est un peu avant...
     //D(L-1) = 0;
     //W(L-1) = 1;

@@ -1,43 +1,32 @@
 #include "tsd/telecom.hpp"
-#include "tsd/fourier.hpp"
-#include "tsd/vue.hpp"
-
-using namespace tsd::vue;
-
+#include "tsd/tsd-all.hpp"
 
 namespace tsd::telecom {
 
-
-
-void plot_eye(Figure &f, const ArrayXf &x, float T)
+void plot_eye(Figure &f, const Vecf &x, float T)
 {
-
-
-# si 0
-  auto trig2 = [](const ArrayXf &x, unsigned int T) -> ArrayXf
+  soit trig2 = [](const Vecf &x, entier T) -> Vecf
   {
     // Reference signal with pulse @ t = 0
-    entier n = x.rows();
-    ArrayXf A = ArrayXf::Zero(T);
-    A(0) = 1;
-    ArrayXf ref = repmat(A, floor(n / T), 1);
+    soit n  = x.rows();
+    soit A   = sigimp(T);
+    soit ref = repmat(A, floor(n / T), 1);
 
     // Signal with pulses at the transitions
-    ArrayXf y = diff(x).square();
+    soit y = square(diff(x));
 
     float score;
     entier delais = tsd::fourier::estimation_delais_entier(ref, y, score);
     delais = 1 + (delais % T);
-    ArrayXf tt = delais + linspace(T/2,n,n/T);    //T/2:T:length(x);
-    retourne tt;
+    retourne  delais + linspace(T/2,n,n/T);    //T/2:T:length(x);
   };
 
-  entier n = length(x);
-  ArrayXf tt = trig2(x,T);
+  soit n = x.rows();
+  soit tt = trig2(x,T);
   //tt(find(tt < 1)) = [];
-  ArrayXf t = ArrayXf::Zero(n);
-  ArrayXf nt = ArrayXf::Zero(2*T*length(tt));
-  ArrayXf nx = nt;
+  soit t  = Vecf::zeros(n),
+       nt = Vecf::zeros(2*T*tt.rows()),
+       nx = nt;
 
   pour(auto i = 0u; i < tt.rows(); i++)
   {
@@ -60,10 +49,10 @@ void plot_eye(Figure &f, const ArrayXf &x, float T)
   //plot(nt, nx, 'b.');
 
   // Accumulation
-  auto sx = (entier) (2*T), sy = (entier) floor(sx * 2 / 3);
-  auto img = ArrayXXf::Zero(sx,sy);
-  nt = 1 + uint32_t(floor(nt*(sx-1)/max(nt)));
-  y  = 1 + uint32_t(floor((sy-1) .* (nx - min(nx)) ./ (max(nx) - min(nx))));
+  soit sx = (entier) (2*T), sy = (entier) floor(sx * 2 / 3);
+  soit img = Tabf::zeros(sx,sy);
+  nt = 1 + floor(nt*(sx-1)/max(nt));
+  y  = 1 + floor((sy-1) .* (nx - min(nx)) ./ (max(nx) - min(nx)));
 
   n = length(nt);
   // maintenant on sait que sur des intervalles kT...k+1 T,
@@ -75,7 +64,6 @@ void plot_eye(Figure &f, const ArrayXf &x, float T)
   // xset("colormap",graycolormap(512));
   // Sgrayplot(1:sx,1:sy,-img+max(img));
   // xtitle("Eye diagram");
-# endif
 }
 
 

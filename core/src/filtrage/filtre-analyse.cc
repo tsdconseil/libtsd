@@ -50,13 +50,12 @@ namespace tsd::filtrage {
   }
 
 
-  template<typename T>
-  AnalyseLIT analyse_LIT(const FRat<T> &h, bool avec_plots)
+  AnalyseFiltre analyse_filtre(const Design &d, bouléen avec_plots)
   {
-    AnalyseLIT res;
-    soit npts = 4096;//2048;
-    soit [fr,mag] = frmag(h, npts);
-    Vecf hr       = repimp(h);
+    AnalyseFiltre res;
+    soit npts     = 4096;
+    soit [fr,mag] = frmag(d, npts);
+    Vecf hr       = repimp(d);
     soit nc       = hr.rows();
 
     // (1) Détermine le type de filtre (passe-bas, passe-haut, etc.)
@@ -81,25 +80,30 @@ namespace tsd::filtrage {
     {
       msg_avert("analyse_LIT(): type de filtre non géré (ni passe-bas, ni passe-haut, ni passe-bande, ni coupe-bande).");
       msg("mag(0) = {}, mag($) = {}", m0, m1);
+
+      res.description += "Type de filtre inconnu (ni passe-bas, ni passe-haut, ni passe-bande, ni coupe-bande.\n";
+
       retourne res;
     }
 
-    msg("type de filtre : {}", res.type);
+    res.description += sformat("Type de filtre : {}.\n", res.type);
 
-    si(h.est_rif())
+    si(d.est_rif)
     {
       res.type_rif = type_rif(hr);
-      msg("Type RIF: {} ({} coefficients)", res.type_rif, nc);
+      res.description += sformat("Type RIF: {} ({} coefficients).\n", res.type_rif, nc);
     }
 
     //res.gain_dc      = hr.somme();
     //res.gain_Nyquist = (signyquist(nc) * hr).somme();
     //msg("Gain dc = {}, Nyquist = {}", res.gain_dc, res.gain_Nyquist);
 
+    soit h = d.complex_frat();
+
     // Directement d'après la fonction de transfert
-    res.gain_dc       = abs(h.horner((T) 1.0f));
-    res.gain_Nyquist  = abs(h.horner((T) -1.0f));
-    msg("Gain dc = {}, Nyquist = {}", res.gain_dc, res.gain_Nyquist);
+    res.gain_dc       = abs(h.horner((cfloat) 1.0f));
+    res.gain_Nyquist  = abs(h.horner((cfloat) -1.0f));
+    res.description += sformat("Gain dc = {}, Nyquist = {}\n", res.gain_dc, res.gain_Nyquist);
 
     // magdB = énergie en log (carré de la magnitude)
     soit magdB = mag2db(mag);
@@ -107,7 +111,7 @@ namespace tsd::filtrage {
     // 3 dB = 3 dB en énergie, soit énergie = 1/2, mag = 1/sqrt(2)
     // 6 dB = ...                             1/4, mag = 1/2
 
-    entier index_3dB = -1, index_6dB = -1;
+    soit index_3dB = -1, index_6dB = -1;
 
     si(res.type == TypeFiltre::PASSE_BAS)
     {
@@ -135,6 +139,20 @@ namespace tsd::filtrage {
         index_premier_lobe = npts-1;
       }
     }
+
+
+    si(avec_plots)
+    {
+      plot_plz(res.figures.plz, d, non);
+      plot_plz(res.figures.plz_cmap, d, oui);
+      plot_rimp(res.figures.repimp, d);
+      plot_frmag(res.figures.repfreq_lin, d, non);
+      plot_frmag(res.figures.repfreq_log, d, oui);
+      plot_frphase(res.figures.repphase, d);
+      plot_rech(res.figures.repech, d);
+    }
+
+
 
    Figure f;
 
@@ -199,65 +217,43 @@ namespace tsd::filtrage {
        f.plot(fr(index_pire_lobe), magdB(index_pire_lobe), "ms");
    }
 
-   msg("  Atténuation lobe principal :          \033[33m{:.1f}\033[0m dB.", -magdB(0));
-   msg("  Largeur lobe principal (à -3 dB, demi-énergie)   :    \033[33m{:.4f}\033[0m (j={}, = {}/N)", res.largeur_lp, index_3dB, res.largeur_lp * nc);
-   msg("  Largeur lobe principal (à -6 dB, demi-amplitude) :    \033[33m{:.4f}\033[0m (j={}, = {}/N)", res.largeur_lp_6dB, index_6dB, res.largeur_lp_6dB * nc);
+   res.description += sformat("  Atténuation lobe principal :          \033[33m{:.1f}\033[0m dB.\n", -magdB(0));
+   res.description += sformat("  Largeur lobe principal (à -3 dB, demi-énergie)   :    \033[33m{:.4f}\033[0m (j={}, = {}/N)\n", res.largeur_lp, index_3dB, res.largeur_lp * nc);
+   res.description += sformat("  Largeur lobe principal (à -6 dB, demi-amplitude) :    \033[33m{:.4f}\033[0m (j={}, = {}/N)\n", res.largeur_lp_6dB, index_6dB, res.largeur_lp_6dB * nc);
    si(index_premier_lobe >= 0)
    {
-     msg("  Début bande atténuée : \033[33m{:.3f}\033[0m", res.freq_debut_ls);
-     msg("  Atténuation premier lobe secondaire : \033[33m{:.1f}\033[0m dB (@f={}).",
+     res.description += sformat("  Début bande atténuée : \033[33m{:.3f}\033[0m\n", res.freq_debut_ls);
+     res.description += sformat("  Atténuation premier lobe secondaire : \033[33m{:.1f}\033[0m dB (@f={}).\n",
          res.premier_ls.atten, res.premier_ls.freq);
-     msg("  Atténuation pire lobe secondaire :    \033[33m{:.1f}\033[0m dB (@f={}).",
+     res.description += sformat("  Atténuation pire lobe secondaire :    \033[33m{:.1f}\033[0m dB (@f={}).\n",
          res.pire_ls.atten, res.pire_ls.freq);
    }
    sinon
-     msg("  Pas de lobe secondaire trouvé.");
+     res.description += sformat("  Pas de lobe secondaire trouvé.\n");
 
+    msg("{}", res.description);
     retourne res;
   }
 
 
 
 
-  template<typename T>
-  tuple<Vecf, Vecf> frphase(const FRat<T> &h, entier n)
+
+  tuple<Vecf, Vecf> frphase(const Design &d, entier n)
   {
     soit fr  = linspace(0, 0.5 - (0.5 / n), n);
     soit dfr = polar(2 * π * fr);
 
     soit xm = Vecf::int_expr(n,
-      IMAP(arg(h.horner(dfr(i)))));
+      IMAP(arg(d.complex_frat().horner(dfr(i)))));
 
     retourne {fr, déplie_phase(xm, 2 * π)};
   }
 
 
-
-  template<typename T> tuple<Vecf, Vecf> frgroup(const Vecteur<T> &h, entier npts)
+  tuple<Vecf, Vecf> frgroup(const Design &d, entier npts)
   {
-    retourne frgroup(FRat<T>::rif(h), npts);
-  }
-
-  template<typename T> tuple<Vecf, Vecf> frmag(const Vecteur<T> &h, entier npts)
-  {
-    npts = max(npts, h.rows() / 2);
-    soit h2 = Vecteur<T>::zeros(2*npts);
-    h2.head(h.rows()) = h;
-
-    retourne {
-       linspace(0, 0.5 - (0.5 / npts), npts),
-      (abs(fft(h2))).head(npts) * sqrt(2.0f*npts)};
-  }
-
-  template<typename T> tuple<Vecf, Vecf> frphase(const Vecteur<T> &h, entier npts)
-  {
-    retourne frphase(FRat<T>::rif(h), npts);
-  }
-
-  template<typename T>
-  tuple<Vecf, Vecf> frgroup(const FRat<T> &h, entier npts)
-  {
-    soit [fr, ϕ] = frphase(h, npts);
+    soit [fr, ϕ] = frphase(d, npts);
 
     // Pas de phase pour la dérivée
     float delta_ϕ = ϕ(1) - ϕ(0);
@@ -270,18 +266,13 @@ namespace tsd::filtrage {
   }
 
 
-  template<typename T>
-  Veccf repfreq(const FRat<T> &h, const Vecf &fr)
+  Veccf repfreq(const Design &d, const Vecf &fr)
   {
     retourne Veccf::int_expr(fr.rows(),
-         IMAP(h.horner(std::polar(1.0f, 2 * π_f * fr(i)))));
+         IMAP(d.complex_frat().horner(std::polar(1.0f, 2 * π_f * fr(i)))));
   }
 
-  Veccf repfreq(const Vecf &h, const Vecf &fr)
-  {
-    retourne repfreq(FRat<float>::rif(h), fr);
-  }
-
+# if 0
   template<typename T>
   tuple<Vecf, Vecf> frmag(const FRat<T> &h, entier npts)
   {
@@ -289,65 +280,72 @@ namespace tsd::filtrage {
     retourne{fr, abs(repfreq(h, fr))};
   }
 
+  template<typename T> tuple<Vecf, Vecf> frmag(const Vecteur<T> &h, entier npts)
+  {
+    npts = max(npts, h.rows() / 2);
+    soit h2 = Vecteur<T>::zeros(2*npts);
+    h2.head(h.rows()) = h;
+
+    retourne {
+       linspace(0, 0.5 - (0.5 / npts), npts),
+      (abs(fft(h2))).head(npts) * sqrt(2.0f*npts)};
+  }
+# endif
 
 
-template<typename T>
-Vecf repimp(const FRat<T> &h, entier npts)
+tuple<Vecf, Vecf> frmag_rif(const Vecf &h, entier npts)
 {
-  si(h.est_rif())
-    retourne h.coefs_rif();
+  npts = max(npts, h.rows() / 2);
+  soit h2 = Vecf::zeros(2*npts);
+  h2.head(h.rows()) = h;
+
+  retourne {
+     linspace(0, 0.5 - (0.5 / npts), npts),
+    (abs(fft(h2))).head(npts) * sqrt(2.0f*npts)};
+}
+
+tuple<Vecf, Vecf> frmag(const Design &d, entier npts)
+{
+  si(d.est_rif)
+    retourne frmag_rif(d.coefs, npts);
+
+  soit fr = linspace(0, 0.5 - (0.5 / npts), npts);
+  retourne{fr, abs(repfreq(d, fr))};
+}
+
+Vecf repech(const Design &d, entier npts)
+{
+  si(npts == -1)
+  {
+    si(d.est_rif)
+      npts = 2 * d.coefs.rows();
+    sinon
+      npts = 200;
+  }
+
+  retourne filtrer(d, Vecf::ones(npts));
+
+  //soit x = Vecf::ones(npts);
+  //x.tail(npts-npts/10).set_ones();
+  //retourne filtrer(d, x);
+}
+
+Vecf repimp(const Design &d, entier npts)
+{
+  si(d.est_rif)
+    retourne d.coefs;
 
   // Réponse infinie
   si(npts == -1)
-    npts = h.numer.coefs.rows() * 20;
+    npts = (d.est_complexe ? d.frat_c.numer.coefs.rows() : d.frat.numer.coefs.rows()) * 20;
 
-  // si T = complexe, la réponse est forcément complexe !!!
+  soit x = sigimp(npts),
+       r = filtrer(d, x);
 
-# if 0
-  si constexpr (est_complexe<T>())
-  {
-    soit x = sigimp(npts);
-    soit y = filtrer(h, x);
-    tantque((y.rows() > 1) && (abs(y(y.rows()-1)) < abs(y).moyenne() * 0.01))
-      y = y.head(y.rows()-1).clone();
-    retourne real(y);
+  tantque((r.rows() > 1) && (abs(r(r.rows()-1)) < abs(r).moyenne() * 0.01))
+    r = r.head(r.rows()-1).clone();
 
-  }
-  sinon
-# endif
-  {
-    soit x = sigimp(npts);
-    soit y = filtrer(h, x);
-    tantque((y.rows() > 1) && (abs(y(y.rows()-1)) < abs(y).moyenne() * 0.01))
-      y = y.head(y.rows()-1).clone();
-    retourne real(y);
-  }
+  retourne r;
 }
-
-template<typename T> Vecf repimp(const Vecteur<T> &h, entier npts)
-{
-  retourne repimp(FRat<T>::rif(h), npts);
-}
-
-
-
-
-
-template Vecf repimp(const Vecteur<float> &h, entier npts);
-template Vecf repimp(const Vecteur<cfloat> &h, entier npts);
-template tuple<Vecf, Vecf> frgroup<float>(const FRat<float> &h, entier npts);
-template tuple<Vecf, Vecf> frgroup<float>(const Vecteur<float> &h, entier npts);
-template tuple<Vecf, Vecf> frmag<float>(const FRat<float> &h, entier npts);
-template tuple<Vecf, Vecf> frmag<float>(const Vecteur<float> &h, entier npts);
-template tuple<Vecf, Vecf> frphase<float>(const FRat<float> &h, entier npts);
-template tuple<Vecf, Vecf> frphase<float>(const Vecteur<float> &h, entier npts);
-template tuple<Vecf, Vecf> frgroup<cfloat>(const FRat<cfloat> &h, entier npts);
-template tuple<Vecf, Vecf> frgroup<cfloat>(const Vecteur<cfloat> &h, entier npts);
-template tuple<Vecf, Vecf> frmag<cfloat>(const FRat<cfloat> &h, entier npts);
-template tuple<Vecf, Vecf> frmag<cfloat>(const Vecteur<cfloat> &h, entier npts);
-template tuple<Vecf, Vecf> frphase<cfloat>(const FRat<cfloat> &h, entier npts);
-template tuple<Vecf, Vecf> frphase<cfloat>(const Vecteur<cfloat> &h, entier npts);
-template AnalyseLIT analyse_LIT(const FRat<float> &h, bool avec_plots);
-template AnalyseLIT analyse_LIT(const FRat<cfloat> &h, bool avec_plots);
 
 }

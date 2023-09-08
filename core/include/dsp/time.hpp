@@ -444,6 +444,11 @@ struct DateTime
     return dt().vers_GPS();
   }
 
+  tuple<int, int64_t> to_GPS_us() const
+  {
+    return dt().vers_GPS_us();
+  }
+
   /** @brief Constructeur, à partir de l'heure GPS. */
   static DateTime from_GPS(int semaine, int secs)
   {

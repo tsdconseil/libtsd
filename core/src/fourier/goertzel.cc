@@ -8,8 +8,8 @@ float goertzel(const Vecf &x, float f)
 {
   soit n   = x.rows();
   soit c   = cos(2 * π * f);
-  float w0 = 0, w1 = 0;
-  soit en = square(x).somme();
+  float w0 = 0, w1 = 0,
+        en = square(x).somme();
 
   // Dénominateur
   pour(auto i = 0; i < n; i++)

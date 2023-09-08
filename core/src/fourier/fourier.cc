@@ -792,7 +792,7 @@ struct OLA: Filtre<T, T, FiltreFFTConfig>
 
     si(config.avec_fenetrage)
     {
-      fenêtre = tsd::filtrage::fenetre("hn", Ne, non);
+      fenêtre = tsd::filtrage::fenêtre("hn", Ne, non);
       assertion(fenêtre.rows() == Ne);
     }
 
@@ -1197,7 +1197,7 @@ struct Spectrum: Filtre<cfloat,float,SpectrumConfig>
     }
 
     mag_moy = Vecf::zeros(Ns);
-    f       = tsd::filtrage::fenetre(config.fenetre, Nf, non);
+    f       = tsd::filtrage::fenêtre(config.fenetre, Nf, non);
 
 
     // Normalise les coefficients de la fenêtre, afini que l'énergie totale ne soit pas modifiée

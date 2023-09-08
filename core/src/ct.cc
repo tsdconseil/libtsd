@@ -6,30 +6,12 @@ namespace tsd
 {
 
 
-FonctionRéelle fct_impulsion = [](float x)
-{
-  retourne abs(x) < 1e-6 ? 1 : 0;
-};
-
-FonctionRéelle fct_échelon = [](float x)
-{
-  retourne x < 0 ? -1 : ((x == 0) ? 0 : 1);
-};
-
-FonctionRéelle fct_1 = [](float x)
-{
-  retourne 1;
-};
-
-FonctionRéelle fct_0 = [](float x)
-{
-  retourne 0;
-};
-
-FonctionRéelle fct_sin = [](float x)
-{
-  retourne sin(x);
-};
+FonctionRéelle
+  fct_impulsion = Λ(x, abs(x) < 1e-6 ? 1 : 0),
+  fct_échelon   = Λ(x, x < 0 ? -1 : ((x == 0) ? 0 : 1)),
+  fct_0         = Λ(x, 0),
+  fct_1         = Λ(x, 1),
+  fct_sin       = Λ(x, sin(x));
 
 
 template<typename TT>

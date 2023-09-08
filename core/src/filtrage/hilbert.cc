@@ -17,7 +17,7 @@ Vecf design_rif_hilbert(entier n, cstring fen)
     retourne est_pair(k) ? 0.0 : 2 / (k * π);
   });
 
-  retourne h * fenetre(fen, n);
+  retourne h * fenêtre(fen, n);
 }
 
 

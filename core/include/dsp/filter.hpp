@@ -48,14 +48,39 @@ namespace dsp::filter {
     *  @{ */
 
 
-  /** @cond private  */
+
   using Window = tsdf::Fenetre;
+
+
+  /** @brief Generic structure holding a filter description
+   *         (coefficients vector for a FIR filter,
+   *          or rationnal function for a IIR filter). */
+  struct Design
+  {
+    /** @brief Constructor (from a complex rationnal function). */
+    Design(const FRat<cfloat> &filtre): fr(filtre){}
+
+    /** @brief Constructor (from a real rationnal function). */
+    Design(const FRat<float> &filtre): fr(filtre){}
+
+    /** @brief Constructor (from a vector of coefficients - FIR filter). */
+    Design(const Vecf &coefs): fr(coefs){}
+
+    /** @brief Constructor (from two vectors of coefficients - IIR filter). */
+    Design(const Vecf &coefs_numer, const Vecf &coefs_dénom):  fr(coefs_numer, coefs_dénom){}
+
+    Design(){}
+
+    /** @cond undoc */
+    tsdf::Design fr;
+    /** @endcond */
+  };
 
   inline Vecf window(Window type, int n, bool symetrical = true)
   {
-    return tsdf::fenetre(type, n, symetrical);
+    return tsdf::fenêtre(type, n, symetrical);
   }
-  /** @endcond */
+
 
   /** @brief Parameterless window creation (rectangular, Hann, Hamming, triangular or Blackman)
    *
@@ -69,13 +94,13 @@ namespace dsp::filter {
    *
    *  @par Example: creation of a Von Hann window (also called Hanning)
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre
-   *  @image html filtrage-fenetre.png
+   *  @image html filtrage-fenetre.png "Hann Window"
    *
    *  @sa window_kaiser(), window_chebychev()
    */
   inline Vecf window(cstring type, int n, bool symetrical = true)
   {
-    return tsdf::fenetre(type, n, symetrical);
+    return tsdf::fenêtre(type, n, symetrical);
   }
 
   /** @brief Chebychev window creation.
@@ -97,7 +122,7 @@ namespace dsp::filter {
    *  @image html filtrage-fenetre-cheby.png       "Time domain"
    *  @image html filtrage-fenetre-cheby-freq.png  "Spectrum"
    *
-   *  @sa design_fir_win()
+   *  @sa design_fir_win(), Chebychev_T()
    */
   inline Vecf window_chebychev(int n, float atten_db, bool symetrical = true)
   {
@@ -116,12 +141,13 @@ namespace dsp::filter {
   }
 
 
-  using FenInfos = tsdf::FenInfos;
+  //using FenInfos = tsdf::FenInfos;
+  using AnalyseFiltre = tsdf::AnalyseFiltre;
 
   // TODO : DOC
-  static inline FenInfos window_analysis(cstring nom, const Vecf &x)
+  static inline AnalyseFiltre window_analysis(cstring nom, const Vecf &x)
   {
-    return tsdf::fenetre_analyse(nom, x);
+    return tsdf::analyse_fenêtre(nom, x);
   }
 
 
@@ -145,7 +171,6 @@ namespace dsp::filter {
    *   0 & \mbox{sinon}
    *   \end{cases}
    *  @f]
-   *  @sa window_kaiser(), window_kaiser1()
    *
    *  @par Example
    *  @code
@@ -169,7 +194,6 @@ namespace dsp::filter {
    *  otherwise realization of a periodical window (which is better for spectral analysis applications).
    *
    *  @return Column vector with window coefficients.
-   *  @sa fenetre_kaiser1(), kaiser_param()
    *
    *  @par Example: creation of a window with 60 dB of attenuation
    *  @snippet exemples/src/filtrage/ex-filtrage.cc exemple_fenetre_kaiser
@@ -216,7 +240,7 @@ namespace dsp::filter {
  *  y_k = \left|H(f_k)\right|
  *  @f]
  *
- *  @param h Transfert function to be analyzed.
+ *  @param d Transfert function to be analyzed.
  *  @param npts Frequency resolution.
  *  @return A tuple of 2 vectors: the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the magnitudes @f$y_k@f$.
  *
@@ -226,10 +250,9 @@ namespace dsp::filter {
  *
  *  @sa repfreq(), frgroup(), frphase()
  */
-template<typename T>
-  tuple<Vecf, Vecf> frmag(const FRat<T> &h, unsigned int npts = 1024)
+static inline tuple<Vecf, Vecf> frmag(const Design &d, unsigned int npts = 1024)
 {
-  return tsdf::frmag(h, npts);
+  return tsdf::frmag(d.fr, npts);
 }
 
 /** @brief Frequency response of a FIR or IIR filter.
@@ -239,26 +262,24 @@ template<typename T>
  *  y_k = H(f_k)
  *  @f]
  *
- *  @param h   Transfert function to be analyzed.
+ *  @param d   Transfert function to be analyzed.
  *  @param fr  Frequencies vector (normalized to sampling frequency).
  *  @return    Frequency response @f$H@f$
  *
  *  @sa frmag(), frphase(), frgroup()
  */
-template<typename T>
-  Veccf repfreq(const FRat<T> &h, const Vecf &fr)
+static inline Veccf repfreq(const Design &d, const Vecf &fr)
 {
-  return tsdf::repfreq(h, fr);
+  return tsdf::repfreq(d.fr, fr);
 }
 
 
 
 
 /** @brief Impulse response. */
-template<typename T>
-  Vecf repimp(const FRat<T> &h, int npts = -1)
+static inline Vecf repimp(const Design &d, int npts = -1)
 {
-  return tsdf::repimp(h, npts);
+  return tsdf::repimp(d.fr, npts);
 }
 
 /** @brief Phase of FIR and IIR filters.
@@ -268,13 +289,13 @@ template<typename T>
  *  y_k = \arg H(f_k)
  *  @f]
  *
- *  @param h Transfert function to be analyzed.
+ *  @param d Transfert function to be analyzed.
  *  @param npts Frequency resolution.
  *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5), and the phases @f$y_k@f$ (in radians).
  */
-template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, int npts = 1024)
+static inline tuple<Vecf, Vecf> frphase(const Design &d, int npts = 1024)
 {
-  return tsdf::frphase<T>(h, npts);
+  return tsdf::frphase(d.fr, npts);
 }
 
 /** @brief Computes the group delay.
@@ -283,7 +304,7 @@ template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, int npts = 1024
  *  G(\omega) = \frac{d\arg H(\omega)}{d\omega}
  *  @f]
  *
- *  @param h Transfert function to be analyzed.
+ *  @param d Transfert function to be analyzed.
  *  @param npts Frequency resolution.
  *  @return A tuple of 2 vectors : the frequencies @f$f_k@f$ (normalized, between 0 and 0.5),
  *  et and the group delay (expressed in number of samples).
@@ -293,9 +314,9 @@ template<typename T> tuple<Vecf, Vecf> frphase(const FRat<T> &h, int npts = 1024
  *  @image html frgroup.png
  *
  */
-template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, int npts = 1024)
+static inline tuple<Vecf, Vecf> frgroup(const Design &d, int npts = 1024)
 {
-  return tsdf::frgroup<T>(h, npts);
+  return tsdf::frgroup(d.fr, npts);
 }
 
 
@@ -307,7 +328,7 @@ template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, int npts = 1024
  * and time response of the filter,
  * alongside with the zeros / poles diagram.
  *
- *  @param h      Transfert function to be analyzed.
+ *  @param d      Transfert function to be analyzed.
  *  @param complet If true, display all the responses (impulse, poles and zeros, etc.). Otherwise, displau only the the frequency response (in magnitude).
  *  @param fs     Sampling frequency.
  *  @return       The new figure.
@@ -316,51 +337,10 @@ template<typename T> tuple<Vecf, Vecf> frgroup(const FRat<T> &h, int npts = 1024
  * @snippet exemples/src/filtrage/ex-filtrage.cc exemple_analyse
  * @image html filtrage-analyse.png
  */
-template<typename T>
-  dsp::view::Figures plot_filter(const FRat<T> &h, bool complete = false, float fs = 1)
+static inline dsp::view::Figures plot_filter(const Design &d, bool complete = false, float fs = 1)
 {
-  return tsdf::plot_filtre(h, complete, fs);
+  return tsdf::plot_filtre(d.fr, complete, fs);
 }
-
-
-/** @cond undoc */
-
-inline dsp::view::Figures plot_filter(const Vecf &h, bool complete = false, float fe = 1)
-{
-  return plot_filter(FRat<float>::rif(h), complete, fe);
-}
-
-template<typename T> Vecf repimp(const Vector<T> &h, int npts = -1)
-{
-  return tsdf::repimp(h, npts);
-}
-inline Veccf repfreq(const Vecf &h, const Vecf &fr)
-{
-  return tsdf::repfreq(h, fr);
-}
-template<typename T> Vecf repfreq(const Vector<T> &h, int npts = 1024)
-{
-  return tsdf::repfreq<T>(h, npts);
-}
-
-template<typename T> tuple<Vecf, Vecf> frmag(const Vector<T> &h, unsigned int npts = 1024)
-{
-  return tsdf::frmag<T>(h, npts);
-}
-
-template<typename T> tuple<Vecf, Vecf> frphase(const Vector<T> &h, unsigned int npts = 1024)
-{
-  return tsdf::frphase<T>(h, npts);
-}
-
-template<typename T> tuple<Vecf, Vecf> frgroup(const Vector<T> &h, unsigned int npts = 1024)
-{
-  return tsdf::frgroup<T>(h, npts);
-}
-
-/** @endcond */
-
-
 
 
 
@@ -375,7 +355,7 @@ template<typename T> tuple<Vecf, Vecf> frgroup(const Vector<T> &h, unsigned int 
  *  the zeros et poles.
  *
  *  @param fig Figure where to plot the zeros and poles.
- *  @param h transfert function
+ *  @param d transfert function
  *  @param cmap If true, draw a color map representing the magnitude of the response in the complex plane.
  *
  *
@@ -389,17 +369,9 @@ template<typename T> tuple<Vecf, Vecf> frgroup(const Vector<T> &h, unsigned int 
  *
  *  @sa plot_filter()
  **/
-template<typename T>
-  void plot_plz(dsp::view::Figure &fig, const FRat<T> &h, bool cmap = false)
+static inline void plot_plz(dsp::view::Figure &fig, const Design &d, bool cmap = false)
 {
-  tsdf::plot_plz(fig, h);
-}
-
-/** @brief The same (from the coefficients of a FIR filter). */
-template<typename T>
-  void plot_plz(tsd::vue::Figure &fig, const Vector<T> &h, bool cmap = false)
-{
-  tsdf::plot_plz(fig, h, cmap);
+  tsdf::plot_plz(fig.f, d.fr);
 }
 
 /** @brief Amplitude response of a symetrical or antisymetrical FIR filter (linear phase).
@@ -448,22 +420,14 @@ inline float fir_delay(int N)
 }
 
 /** @brief Result of a linear filter analysis*/
-using FilterAnalysis = tsdf::AnalyseLIT;
+using FilterAnalysis = tsdf::AnalyseFiltre;
 
 
 
 /** @brief Analyse d'un filtre linéaire invariant dans le temps (d'après la fonction de transfert). */
-template<typename T>
-  FilterAnalysis filter_analysis(const FRat<T> &h, bool with_plots)
+static inline FilterAnalysis filter_analysis(const Design &d, bool with_plots)
 {
-  return tsdf::analyse_LIT(h, with_plots);
-}
-
-/** @brief Idem (from the coefficients of a FIR filter). */
-template<typename T>
-  FilterAnalysis filter_analysis(const Vector<T> &h, bool with_plots)
-{
-  return tsdf::analyse_LIT(h, with_plots);
+  return tsdf::analyse_filtre(d.fr, with_plots);
 }
 
 /** @brief Compute the type (I, II, III ou IV) of a FIR filter with linear phase.
@@ -505,14 +469,14 @@ struct SpecFreqIntervalle
  *  @f]
  *
  *  @param n      Filter order
- *  @param window Window type (by default, Hann window)
+ *  @param window Window type (by default, Hann window). See @ref window()
  *  @returns      FIR filter coefficients
  *
  *  @par Example
- *  @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_hilbert
+ *  @snippet exemples/src/filtrage/ex-hilbert.cc ex_design_rif_hilbert
  *  @image html design-rif-hilbert.png
  *
- *  @sa hilbert(), hilbert_transformeur()
+ *  @sa hilbert(), hilbert_transformer()
  */
 inline Vecf design_fir_hilbert(int n, cstring window = "hn")
 {
@@ -671,7 +635,7 @@ inline FRat<cfloat> design_iira(int n, cstring type,
  *
  * @par Example
  * @snippet exemples/src/filtrage/ex-filtrage.cc ex_design_rif_freq
- * @image html design-rif-freq.png
+ * @image html design-rif-freq.png "Frequency response"
  *
  * @sa design_fir_freq_freqs()
  */
@@ -698,24 +662,30 @@ inline Vecf design_fir_freq_freqs(int n)
   return tsdf::design_rif_freq_freqs(n);
 }
 
-/** @brief Equiripple / Remez FIR design.
+/** @brief Equiripple FIR design (IRLS method).
  *
  *  @param n      Filter order
  *  @param d      Desired frequency response
  *  @param w      Weighting coefficients vector (must have the same length as d)
  *  @returns      Coefficients vector of the FIR filter (vector of length n)
+ *
+ * This function build an equiripple filter, using the IRLS method (<i>Iteratively Reweighted Least Square</i>).
+ *
+ *  @sa design_fir_eq(int, const vector<FreqIntervalSpec> &)
  */
 inline Vecf design_fir_eq(int n, const Vecf &d, const Vecf &w)
 {
   return tsdf::design_rif_eq(n, d, w);
 }
 
-/** @brief Equiripple / Remez FIR design.
+/** @brief Equiripple FIR design (IRLS method).
  *
  *  @param n      Filter order
  *  @param d      Desired frequency response
  *  @param w      Weighting coefficients vector (must have the same length as d)
  *  @returns      Coefficients vector of the FIR filter (vector of length n)
+ *
+ *  @sa design_fir_eq(int, const Vecf &, const Vecf &)
  */
 inline Vecf design_fir_eq(int n, const vector<FreqIntervalSpec> &spec)
 {
@@ -734,12 +704,13 @@ inline Vecf design_fir_eq(int n, const vector<FreqIntervalSpec> &spec)
  *  @returns      Coefficients vector of the FIR filter (vector of length n)
  *
  *  Note that in all cases, the frequency at which the amplitude is 0.5
- *  will always be 0.25 (symétry around @f$f_s/4@f$).
+ *  will always be 0.25 (symetry around @f$f_s/4@f$).
  *
  *  The filter order @f$n@f$ must be odd. Besides,
  *  except for the central coefficient, one coefficient
  *  every two is null.
- *  That's why, if @f$m=(n-1)/2@f$ is event, then the first and last coefficient will be necessarily null (and useless for computations).
+ *  That's why, if @f$m=(n-1)/2@f$ is even,
+ *  then the first and last coefficient will necessarily be null (and useless for computations).
  *
  *  @par Example
  *  @snippet exemples/src/filtrage/ex-hb.cc ex_hb
@@ -944,27 +915,27 @@ inline Vecf design_fir_prod(const Vecf &h1, const Vecf &h2)
 
 // TODO: doc
 /** @brief Spectral inversion */
-static inline Vecf design_rif_pb2ph_is(const Vecf &h)
+static inline Vecf design_fir_pb2ph_is(const Vecf &h)
 {
   return tsdf::design_rif_pb2ph_is(h);
 }
 
 // TODO: doc
 /** @brief Spectral reflexion */
-static inline Vecf design_rif_pb2ph_rs(const Vecf &h)
+static inline Vecf design_fir_pb2ph_rs(const Vecf &h)
 {
   return tsdf::design_rif_pb2ph_rs(h);
 }
 
 
 // TODO: doc
-static inline Vecf design_rif_pb2pb(const Vecf &h)
+static inline Vecf design_fir_pb2pb(const Vecf &h)
 {
   return tsdf::design_rif_pb2pb(h);
 }
 
 // TODO: doc
-static inline Vecf design_rif_pb2pm(const Vecf &h)
+static inline Vecf design_fir_pb2pm(const Vecf &h)
 {
   return tsdf::design_rif_pb2pm(h);
 }
@@ -992,12 +963,18 @@ struct CICConfig
 
 
 /** @brief CIC filter theorical transfert function.
+ *
+ * @param config CIC filter specifications (see @ref CICConfig)
+ * @returns CIC transfert function (not taking into account the decimation)
 
-    @param config CIC filter specifications (see @ref CICConfig)
-    @returns CIC transfert function (not taking into account the decimation)
-    This function computes the theorical transfert function of a CIC filter, when one does not look at the decimation effect. The CIC filter responses is defined as:
-           @f[H(z) = \frac{1}{R^N}\left(1+z^{-1}+\cdots+z^{-(R-1)}\right)^N@f]
-     (e.g. a cascade of @f$N@f$ moving average filters, each of identical length @f$R@f$.
+ * This function computes the theorical transfert function of a CIC filter,
+ *  when one does not look at the decimation effect. The CIC filter responses is defined as:
+ *         @f[H(z) = \frac{1}{R^N}\left(1+z^{-1}+\cdots+z^{-(R-1)}\right)^N@f]
+ *   (e.g. a cascade of @f$N@f$ moving average filters, each of identical length @f$R@f$).
+ *
+ *
+ * @sa filter_cic(), design_cic_comp()
+ *
  */
 inline FRat<float> design_cic(const CICConfig &config)
 {
@@ -1147,7 +1124,7 @@ static inline FRat<float> design_ema(float γ)
  *  @param fc Normalized cut-off frequency, in [0, 0.5]
  *  @returns Coeficient @f$\gamma@f$ for the IIR filter
  *
- *  @sa design_iir1(), iir1_tc2coef()
+ *  @sa design_ema(), ema_tc2coef()
  */
 inline float ema_coef(Frequency fc){return tsdf::lexp_coef(fc);}
 
@@ -1446,17 +1423,19 @@ template<typename Tc, typename T = Tc>
  *  @warning For the internal sample type,
  *  it is highly recommanded to choose an integer type,
  *  because the way the filter is implemented can make the filter
- *  diverge with flotting point arithmetic.
+ *  diverge with floating point arithmetic.
  *
  *
  *  @par Example for interpolation
  *  @snippet exemples/src/filtrage/ex-cic.cc exemple_cic_upsampling
  *  @image html filtrage-cic-interpolation.png
  *  Note the frequency aliasings.
- *  <br>
+ *
  *  @par Example for decimation
  *  @snippet exemples/src/filtrage/ex-cic.cc exemple_cic_decimation
  *  @image html filtrage-cic-decimation.png
+ *
+ *  @sa design_cic(), design_cic_comp()
  */
 template<typename T, typename Ti>
   sptr<FilterGen<T>> filter_cic(const CICConfig &config, char mode = 'd')
@@ -1667,7 +1646,7 @@ template<typename T, typename Tacc>
  *  better use one of the structure with context (see
  *  @ref filter_fir(), @ref filter_sois(), etc.).
  *
- *  @param h Transfert function (can be IIR or FIR) or coefficients vector (can only be FIR).
+ *  @param d Transfert function (can be IIR or FIR) or coefficients vector (can only be FIR).
  *  @param x Input signal to be filtered
  *  @returns Output signal
  *
@@ -1681,18 +1660,18 @@ template<typename T, typename Tacc>
  *
  *  @sa filtfilt(), @ref filter(const Vector<Tc> &h, const Vector<T> &x) "filter (2)"
  */
-template<typename T, typename Tc>
-Vector<T> filter(const FRat<Tc> &h, const Vector<T> &x)
+template<typename T>
+Vector<T> filter(const Design &d, const Vector<T> &x)
 {
-  return tsdf::filtrer(h, x);
+  return tsdf::filtrer<T>(d.fr, x);
 }
 
 /** @brief Idem, for a FIR filter. */
-template<typename T, typename Tc>
+/*template<typename T, typename Tc>
 Vector<typename T::Scalar> filter(const Vector<Tc> &h, const Vector<T> &x)
 {
   return tsdf::filtrer(h, x);
-}
+}*/
 
 /** @brief Zero-phase filtering (bi-directionnal)
  *

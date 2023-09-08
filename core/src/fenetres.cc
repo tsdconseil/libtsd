@@ -204,12 +204,12 @@ static Fenetre parse_fenêtre(cstring nom)
   retourne Fenetre::AUCUNE;
 }
 
-Vecf fenetre(cstring type, entier n, bouléen symetrique)
+Vecf fenêtre(cstring type, entier n, bouléen symetrique)
 {
-  retourne fenetre(parse_fenêtre(type), n, symetrique);
+  retourne fenêtre(parse_fenêtre(type), n, symetrique);
 }
 
-Vecf fenetre(Fenetre type, entier n, bouléen symétrique)
+Vecf fenêtre(Fenetre type, entier n, bouléen symétrique)
 {
   soit x = Vecf::zeros(n);
 
@@ -341,6 +341,7 @@ Vecf fenêtre_slepian(entier N, float B)
 }
 
 
+#if 0
 FenInfos filtre_pb_analyse(const Vecf &h)
 {
   soit [fr, mag] = frmag(h);
@@ -373,7 +374,7 @@ FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, boul�
       f.plot(fr, mag, "b-");
       si(i >= 0)
         f.plot(fr(i), mag(i), "rs");
-      f.titre("Vue linéaire");
+      f.titre(est_fr() ? "Vue linéaire" : "Linear view");
     }
 
     res.largeur_lp = j / (1.0f * fr.rows());
@@ -417,31 +418,11 @@ FenInfos filtre_pb_analyse(entier ncoefs, const Vecf &fr, const Vecf &mag, boul�
   retourne res;
 }
 
+#endif
 
-
-FenInfos fenetre_analyse(cstring nom, const Vecf &x, bouléen do_plot)
+AnalyseFiltre analyse_fenêtre(cstring nom, const Vecf &x, bouléen do_plot)
 {
-  soit n = x.rows();
-  FRat<float> frat(x / x.somme());
-  soit [fr,xm] = frmag(frat, 4096);
-  soit res = filtre_pb_analyse(n, fr, xm, do_plot);
-
-  {
-    res.symetrique = oui;
-    soit imax = (n-1)/2;
-    soit emax = 0.0f, etot = 0.0f;
-    pour(auto i = 0; i <= imax; i++)
-    {
-      soit err = abs(x(i)-x(n-i-1));
-      si(err > 1e-6)
-        res.symetrique = non;
-      emax = max(err, emax);
-      etot += err;
-    }
-    msg("  Delta fenêtre symétrique : {} (max {})", etot, emax);
-  }
-
-  retourne res;
+  retourne analyse_filtre(x / x.somme(), do_plot);
 }
 
 

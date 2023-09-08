@@ -420,6 +420,24 @@ tuple<entier, entier> DateHeure::vers_GPS() const
   retourne {nb_semaines, nb_secs};
 }
 
+tuple<entier, int64_t> DateHeure::vers_GPS_us() const
+{
+  // 5 Janvier 1980
+  soit e0 = epoque_GPS();
+
+  soit nsecs = (*this - e0).nb_secondes();
+
+  // 06/2017 : 18 leap seconds ahead of UTC
+  nsecs += 18;
+
+  entier sps         = nbsecs_par_jour * 7,
+         nb_semaines = nsecs / sps;
+
+  int64_t nb_us = (int64_t) (1e6 * (nsecs - nb_semaines * sps));
+
+  retourne {nb_semaines, nb_us};
+}
+
 DateComposite DateHeure::decomposition_locale() const
 {
   // timezone = secondes à l'ouest de Greenwich

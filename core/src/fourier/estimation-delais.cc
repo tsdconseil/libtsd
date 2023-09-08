@@ -28,7 +28,7 @@ tuple<float,float> estimation_délais(const Veccf &x, const Veccf &y)
 
   /*si(fenêtrage)
   {
-    soit f = tsd::filtrage::fenetre("hann", N, non);
+    soit f = tsd::filtrage::fenêtre("hann", N, non);
     xp *= f;
     yp *= f;
   }*/

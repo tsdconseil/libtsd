@@ -1199,7 +1199,7 @@ Figure::Courbe Figure::plot_psd_int(const Veccf &y, float fe, cstring format, cs
 
   soit max_coef_imag = abs(imag(y)).valeur_max();
   soit est_reel = (max_coef_imag == 0);
-  soit fen = tsd::filtrage::fenetre("hn", n, non);
+  soit fen = tsd::filtrage::fenêtre("hn", n, non);
   soit ycf = y * fen.as_complex();
 
   soit Y = pow2db(abs2(tsd::fourier::fft(ycf)));

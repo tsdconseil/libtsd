@@ -16,7 +16,7 @@ namespace tsd::filtrage {
 
     soit h = design_rif_freq(n, d);
     assertion(h.rows() == n);
-    soit [fr,xm] = frmag<float>(h, 2048);
+    soit [fr,xm] = frmag(h, 2048);
 
     Figures fig;
     soit f = fig.subplot();
@@ -85,7 +85,7 @@ namespace tsd::filtrage {
       fig.afficher("rif-freq-gabarit");
 
 
-      soit [fr,xm] = frmag<float>(h, 2048);
+      soit [fr,xm] = frmag(h, 2048);
 
       soit f = fig.subplot();
       f.plot(fr,xm, "b-", "Réponse obtenue");

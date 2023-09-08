@@ -95,7 +95,11 @@ static inline double Dirichlet(int N, double Ω)
  *   T_0 = 1,\ T_1 = z
  * @f]
  *
- * @sa Chebychev_U()
+ *  @par Example
+ *  @snippet exemples/src/filtrage/ex-math.cc ex_cheby_doxygen
+ *  @image html cheby-T.png "Chebychev polynomial (first order, 7th degree)"
+ *
+ * @sa Chebychev_U(), window_chebychev()
  */
 static inline Poly<float> Chebychev_T(int n)
 {

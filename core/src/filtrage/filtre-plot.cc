@@ -9,21 +9,18 @@ using namespace std;
 namespace tsd::filtrage {
 
 
-template<typename T>
-  void plot_plz(tsd::vue::Figure &fig, const Vecteur<T> &h, bouléen cmap)
+void plot_plz(Figure fig, const Design &d, bouléen cmap)
 {
-  plot_plz(fig, FRat<T>::rif(h), cmap);
-}
+  Veccf zéros, pôles;
 
+  si(!d.est_rif && d.est_complexe)
+    std::tie(zéros, pôles) = d.frat_c.roots(); // Expect root representation
+  sinon si(!d.est_rif)
+    std::tie(zéros, pôles) = d.frat.roots();
+  sinon
+    std::tie(zéros, pôles) = FRat<float>::rif(d.coefs).roots();
 
-
-
-
-
-template<typename T>
-void plot_plz(Figure &fig, const FRat<T> &h, bouléen cmap)
-{
-  soit [zéros,pôles] = h.roots();
+  soit h = d.complex_frat();
 
   fig.axes().set_isoview(oui);
   soit &cfg = fig.axes().get_config();
@@ -63,14 +60,7 @@ void plot_plz(Figure &fig, const FRat<T> &h, bouléen cmap)
     Z = log10(Z); // -> [-3, 3]
     Z = (Z + 3) / 6; // [0, 1]
 
-    /*Z = Z.cwiseMax(0.01f);
-    Z = Z.cwiseMin(100.0f);
-    Z = log10(Z); // -> [-2, 2]
-    Z = (Z + 2) / 4; // [0, 1]
-    */
-
     fig.canva_pre().plot_cmap(Z, {-1.5, -1.5, 3.0, 3.0}, cmap_parse("pm"));
-    //fig.plot_img({-1.5, -1.5, 3.0, 3.0}, Z, "mono");
   }
 
   string cz = "b", cp = "r";
@@ -84,92 +74,121 @@ void plot_plz(Figure &fig, const FRat<T> &h, bouléen cmap)
   si(!cmap)
   {
     si(zéros.rows() > 0)
-      fig.plot_iq(zéros, "s" + cz, "zéros");
+      fig.plot_iq(zéros, "s" + cz, est_fr() ? "zéros" : "zeros");
     si(pôles.rows() > 0)
-      fig.plot_iq(pôles, "s" + cp, "pôles");
+      fig.plot_iq(pôles, "s" + cp, est_fr() ? "pôles" : "poles");
   }
 
+  soit max_mag = max(abs(zéros).valeur_max(), abs(pôles).valeur_max());
 
-  soit c = fig.canva_pre();
-  soit gris = Couleur{200,200,200,128};
-  c.set_couleur(gris);
-  c.set_epaisseur(3);
-  si(!cmap)
-    c.set_remplissage(oui, Couleur::Jaune.eclaircir(0.05));
-  c.cercle(0, 0, 1.0);
-  c.set_remplissage(non);
-  c.set_epaisseur(1);
-  pour(auto k = 0.2; k <= 0.8; k += 0.2)
+  si(fig.axes().a_décorations())
   {
+    soit c = fig.canva_pre();
+    soit gris = Couleur{200,200,200,128};
     c.set_couleur(gris);
-    c.cercle(0, 0, k);
-  }
-  c.set_align(Align::CENTRE, Align::CENTRE);
-  pour(auto θ = 0.0; θ <= 315; θ += 45)
-  {
-    Pointf p{cos(deg2rad(θ)), sin(deg2rad(θ))};
-    c.ligne({0, 0}, p);
-    Pointf p2 = p;
-    p2.x *= 1.15;
-    p2.y *= 1.15;
-    c.texte(p2, sformat("{}°", (int) θ));
+    c.set_epaisseur(3);
+    si(!cmap)
+      c.set_remplissage(oui, Couleur::Jaune.eclaircir(0.05));
+    c.cercle(0, 0, 1.0);
+    c.set_remplissage(non);
+    c.set_epaisseur(1);
+    pour(auto k = 0.2; k <= 0.8; k += 0.2)
+    {
+      c.set_couleur(gris);
+      c.cercle(0, 0, k);
+    }
+    c.set_align(Align::CENTRE, Align::CENTRE);
+    pour(auto θ = 0.0; θ <= 315; θ += 45)
+    {
+      Pointf p{cos(deg2rad(θ)), sin(deg2rad(θ))};
+      c.ligne({0, 0}, p);
+      p.x *= max_mag * 1.15;
+      p.y *= max_mag * 1.15;
+      c.texte(p, sformat("{}°", (entier) θ));
+    }
   }
 }
 
-
-
-template<typename T>
-  tsd::vue::Figures affiche_filtre(const FRat<T> &h, float fe)
+void plot_rech(Figure f, const Design &d)
 {
-  Figures f;
-  soit [fr, mag] = frmag(h);
-  soit y = repimp(h);
-
-  soit c = f.subplot().plot(real(y), y.rows() < 128 ? "o|g" : "-g");
+  soit y = repech(d);
+  soit c = f.plot(real(y), y.rows() < 128 ? "o|g" : "-g");
   c.def_epaisseur(2);
-  f.gcf().titres("Réponse impulsionnelle", "Echantillons");
+  f.titres(est_fr() ? "Réponse à un échelon" : "Step response",
+      est_fr() ? "Echantillons" : "Samples");
+}
 
-  soit lmag = mag2db(mag);
+void plot_rimp(Figure f, const Design &d)
+{
+  soit y = repimp(d);
+  soit c = f.plot(real(y), y.rows() < 128 ? "o|g" : "-g");
+  c.def_epaisseur(2);
+  f.titres(est_fr() ? "Réponse impulsionnelle" : "Impulse response",
+      est_fr() ? "Echantillons" : "Samples");
+}
 
-  // Nettoyage des valeurs négligeables
-  //pour(auto i = 0; i < lmag.rows(); i++)
-    //si(abs(lmag(i)) < 1e-5)
-      //lmag(i) = 0;
+void plot_frmag(Figure f, const Design &d, bouléen mode_log, float fe)
+{
+  soit [fr, mag] = frmag(d);
+  si(mode_log)
+    mag = mag2db(mag);
 
-  string axe_fréq = "Fréquence";
+  string axe_fréq = est_fr() ? "Fréquence" : "Frequency";
   si(fe != 1)
     axe_fréq += " (Hz)";
 
-  c = f.subplot().plot(fr, lmag);
+  string suffixe = mode_log ? " (log)" : " (lin)",
+         unit    = mode_log ? " (dB)" : "";
+
+  soit c = f.plot(fr, mag);
   c.def_remplissage(oui, non);
   c.def_epaisseur(2);
-  f.gcf().titres("Réponse fréquentielle (log)", axe_fréq, "Atténuation (dB)");
+  f.titres((est_fr() ?
+      "Réponse fréquentielle" : "Frequency response") + suffixe,
+      axe_fréq, (est_fr() ? "Atténuation" : "Attenuation") + unit);
+}
+
+void plot_frphase(Figure f, const Design &d, float fe)
+{
+  soit [fr, phase] = frphase(d);
+
+  string axe_fréq = est_fr() ? "Fréquence" : "Frequency";
+  si(fe != 1)
+    axe_fréq += " (Hz)";
+
+  soit c = f.plot(fr, 180 * phase / π_f);
+  c.def_remplissage(oui, non);
+  c.def_epaisseur(2);
+  f.titres((est_fr() ?
+      "Réponse en phase" : "Phase response"),
+      axe_fréq, "Phase (°)");
+}
+
+
+tsd::vue::Figures affiche_filtre(const Design &d, float fe)
+{
+  Figures f;
+
+  plot_rimp(f.subplot(), d);
+  plot_frmag(f.subplot(), d, oui, fe);
 
   retourne f;
 }
 
-
-
-Figures plot_filtre(const Vecf &h, bouléen complet, float fe)
-{
-  retourne plot_filtre(FRat<float>::rif(h), complet, fe);
-}
-
 // A faire : analyse stabilité...
-template<typename T>
-Figures plot_filtre(const FRat<T> &h, bouléen complet, float fe)
+Figures plot_filtre(const Design &d, bouléen complet, float fe)
 {
   si(!complet)
-    retourne affiche_filtre(h, fe);
+    retourne affiche_filtre(d, fe);
 
   // Nb points d'analyse
   soit N = 512;
   // Calcul de la réponse fréquentielle
-  soit [fr, hzm] = frmag(h, N);
+  soit [fr, hzm] = frmag(d, N);
 
   Vecf pzm, gzm;
-  tie(ignore, pzm) = frphase(h, N);
-  tie(ignore, gzm) = frgroup(h, N);
+  tie(ignore, pzm) = frphase(d, N);
+  tie(ignore, gzm) = frgroup(d, N);
 
   Figures fs;
 
@@ -178,15 +197,20 @@ Figures plot_filtre(const FRat<T> &h, bouléen complet, float fe)
     axe_fréq += " (Hz)";
 
   {
-    soit f = fs.subplot(241);
-    f.plot(fr*fe, hzm);
-    f.titres("Réponse fréquentielle", axe_fréq, "Atténuation");
+    //soit f = fs.subplot(241);
 
-    f = fs.subplot(242);
-    f.plot(fr*fe, log10(hzm) * 20);
-    f.titres("Réponse fréquentielle (log)", axe_fréq, "Atténuation (dB)");
+    plot_frmag(fs.subplot(241), d, non, fe);
 
-    f = fs.subplot(243);
+    //f.plot(fr*fe, hzm);
+    //f.titres("Réponse fréquentielle", axe_fréq, "Atténuation");
+
+    plot_frmag(fs.subplot(242), d, oui, fe);
+
+    //f = fs.subplot(242);
+    //f.plot(fr*fe, log10(hzm) * 20);
+    //f.titres("Réponse fréquentielle (log)", axe_fréq, "Atténuation (dB)");
+
+    soit f = fs.subplot(243);
     f.plot(fr*fe, pzm * 180.0f / π);
     f.titres("Phase", axe_fréq, "Phase (degrés)");
 
@@ -196,37 +220,22 @@ Figures plot_filtre(const FRat<T> &h, bouléen complet, float fe)
   }
 
 
-  soit y = repimp(h);
-  soit npts = h.numer.coefs.rows();
 
-  si(!h.est_rif())
-    npts *= 20; // Réponse infinie
+
+  plot_rimp(fs.subplot(245), d);
 
   {
-    soit f = fs.subplot(245);
-    f.plot(y, y.rows() < 30 ? "o|b" : "-b");
-    f.titres("Réponse impulsionnelle", "Echantillons");
-  }
-
-  {
+    soit y1 = repimp(d);
     soit f = fs.subplot(246);
-    soit x = Veccf::ones(2 * npts);
-    soit y = filtrer(h, x);
+    soit x = Veccf::ones(2 * y1.rows());
+    soit y = filtrer(d, x);
     f.plot(real(y), y.rows() < 30 ? "s-b" : "-b");
     f.titres("Réponse échelon", "Echantillons");
   }
 
-  {
-    soit f = fs.subplot(247);
-    plot_plz(f, h);
-  }
+  plot_plz(fs.subplot(247), d);
 
   retourne fs;
 }
-
-
-template Figures plot_filtre(const FRat<float> &h, bouléen, float fe);
-template Figures plot_filtre(const FRat<cfloat> &h, bouléen, float fe);
-template void plot_plz(tsd::vue::Figure &fig, const Vecteur<float> &h, bouléen cmap);
 
 }

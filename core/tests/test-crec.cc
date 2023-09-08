@@ -12,7 +12,7 @@ void test_ped(cstring nom, Ped ped)
   soit ϕ_moy = 0.0;
   pour(auto i = 0; i < N; i++)
   {
-    x(i) = std::polar(1.0f, 2 * π_f * f);
+    x(i) = exp(2 * π_f * ⅈ * f);
     soit ϕ = ped(x(i));
     ϕ_moy += ϕ / N;
   }
@@ -104,7 +104,7 @@ void test_crec()
   soit mod = modulateur_création(mc);
 
   soit xb = randstream(1000);
-  soit y  = bruit_awgn(mod->step(xb), 0.1) * std::polar(1.0f, π_f / 4);
+  soit y  = bruit_awgn(mod->step(xb), 0.1) * exp(π_f * ⅈ / 4.0f);
 
   soit n = y.rows();
 

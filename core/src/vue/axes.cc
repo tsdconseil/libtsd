@@ -212,6 +212,8 @@ static double calcule_tic(float tic_min)
 
 struct Axes::Impl
 {
+  bouléen a_décorations = oui;
+
   // TODO: regrouper les mutable
   mutable ConfigAxes config;
 
@@ -1339,8 +1341,14 @@ void Axes::active_grilles(bouléen actives)
   get_config().grille_majeure.afficher  = actives;
 }
 
+bouléen Axes::a_décorations() const
+{
+  retourne impl->a_décorations;
+}
+
 void Axes::supprime_decorations()
 {
+  impl->a_décorations                   = non;
   get_config().legende.afficher         = non;
   get_config().axe_horizontal.afficher  = non;
   get_config().axe_vertical.afficher    = non;

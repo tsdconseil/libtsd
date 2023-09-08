@@ -899,6 +899,8 @@ template<typename T1, typename T2>
 
 std::ostream& operator<<(std::ostream& os, const Poly<float> &p);
 std::ostream& operator<<(std::ostream& os, const FRat<float> &f);
+std::ostream& operator<<(std::ostream& os, const Poly<cfloat> &p);
+std::ostream& operator<<(std::ostream& os, const FRat<cfloat> &f);
 /** @endcond */
 
 
@@ -909,4 +911,6 @@ std::ostream& operator<<(std::ostream& os, const FRat<float> &f);
 
 ostream_formater(tsd::Poly<float>)
 ostream_formater(tsd::FRat<float>)
+ostream_formater(tsd::Poly<tsd::cfloat>)
+ostream_formater(tsd::FRat<tsd::cfloat>)
 

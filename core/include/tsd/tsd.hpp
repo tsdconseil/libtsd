@@ -69,6 +69,12 @@ using std::norm;
   static const float π_f = std::numbers::pi_v<float>;
 
 
+  /** @brief Unité imaginaire (@f$\sqrt{-1}@f$), en précision flottante 32 bits. */
+  static const cfloat ⅈ = cfloat{0,1};
+
+  /** @brief Unité imaginaire (@f$\sqrt{-1}@f$), en précision flottante 64 bits. */
+  static const cdouble ⅈ_d = cdouble{0,1};
+
   using namespace std::complex_literals;
 
 

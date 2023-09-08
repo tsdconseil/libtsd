@@ -1115,7 +1115,8 @@ struct TabT: Tab
     }
 
 #   define IMAP(BB) [&](entier i) {retourne BB;}
-#   define LAMBDA(XX,YY) [&](auto &XX) {retourne YY;}
+#   define LAMBDA(XX,YY) [&](const auto &XX) {retourne YY;}
+#   define Λ(XX,YY)      [](const auto &XX) {retourne YY;}
 
 
     inline T &operator()(entier i, entier j)
@@ -1265,6 +1266,18 @@ struct TabT: Tab
     TabT<T,ndims> operator *(const T &x) const
     {
       retourne Tab(*this) * x;
+    }
+
+    TabT<std::complex<T>,ndims> operator *(const std::complex<T> &x) const
+    NOECLIPSE(requires(!est_complexe<T>()))
+    {
+      retourne this->as<std::complex<T>>() * x;
+    }
+
+    TabT<std::complex<T>,ndims> operator +(const std::complex<T> &x) const
+    NOECLIPSE(requires(!est_complexe<T>()))
+    {
+      retourne this->as<std::complex<T>>() + x;
     }
 
     TabT<T,ndims> operator +(const T &x) const
@@ -1418,6 +1431,13 @@ using Tabcd  = TabT<cdouble, 2>;
     TabT<T,ndims> operator *(const T2 &x, const TabT<T,ndims> &x1) NOECLIPSE(requires(std::is_scalar_v<T2>))
   {
     retourne x1 * ((T) x);
+  }
+
+  template<typename T, entier ndims>
+    TabT<std::complex<T>,ndims> operator *(const std::complex<T> &x, const TabT<T,ndims> &x1)
+  NOECLIPSE(requires(!est_complexe<T>()))
+  {
+    retourne x1.as_complex() * x;
   }
 
   template<typename T, entier ndims, typename T2>

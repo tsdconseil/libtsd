@@ -597,7 +597,7 @@ struct OHC: Source<cfloat, OHConfig>
   void configure_impl(const OHConfig &cfg)
   {
     freq      = cfg.freq;
-    rotation  = std::polar(1.0, 2.0 * π * freq);
+    rotation  = exp(ⅈ_d * (2.0 * π * freq));
   }
 
   Veccf step(entier n)

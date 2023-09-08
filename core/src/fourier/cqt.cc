@@ -129,7 +129,7 @@ struct CQTNoyaux
     soit ol = cos(2*π*(frequence/config.fs)*linspace(1,N,N));
 
     // Fenêtre de Hamming
-    soit fen = fenetre("hm", kernel_time, non),
+    soit fen = fenêtre("hm", kernel_time, non),
          tmp = Vecf::zeros(N);
     soit k2 = kernel_time / 2;
     tmp.segment(N/2-k2, kernel_time) = ol.segment(N/2-k2,kernel_time) * fen;

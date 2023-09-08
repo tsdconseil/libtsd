@@ -349,6 +349,7 @@ release:
 	@echo "Construction de toutes les dépendances en mode RELEASE..."
 	@$(foreach DDIR,$(LIBS_EXTERNES), sh -c "cd $(DDIR); make libs -j $(NTHREADS) RMODE=release || exit";)
 	@$(foreach DDIR,$(LIBS_EXTERNES_BASE), sh -c "cd $(DDIR); make libs -j $(NTHREADS) RMODE=release || exit";)
+	@$(foreach DDIR,$(LIBS_EXTERNES_PRE), sh -c "cd $(DDIR); make libs -j 8 RMODE=release SYSTEME_EN_COURS=$(SYSTEME_EN_COURS) || exit";)
 	@make all-nocls -j $(NTHREADS) RMODE=release 
 
 debug:

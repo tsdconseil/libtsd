@@ -511,12 +511,6 @@ struct FMDemod: Filtre<cfloat, cfloat, FMDemodConfig>
     }
   }
 
-
-  /*void mod2(const Tabi &A)
-  {
-    A = (A.unaryExpr([](const entier x) { retourne x%2; })).eval();
-  }*/
-
   void step(const Veccf &x, Veccf &y)
   {
     soit &config = Configurable<FMDemodConfig>::config;

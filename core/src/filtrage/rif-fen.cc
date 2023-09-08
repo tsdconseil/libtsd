@@ -102,7 +102,7 @@ static Vecf design_rif_fen(cstring type, float fcut, const Vecf &f, float fcut2)
 
 Vecf design_rif_fen(entier n, const std::string &type, float fcut, cstring fen, float fcut2)
 {
-  soit f = fenetre(fen, n, oui);
+  soit f = fenêtre(fen, n, oui);
   retourne design_rif_fen(type, fcut, f, fcut2);
 }
 

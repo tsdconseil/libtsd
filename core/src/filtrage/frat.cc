@@ -25,7 +25,16 @@ ostream& operator<<(ostream& os, const FRat<float> &f)
   f.afficher(os);
   retourne os;
 }
-
+ostream& operator<<(ostream& os, const Poly<cfloat> &p)
+{
+  p.display_content(os);
+  retourne os;
+}
+ostream& operator<<(ostream& os, const FRat<cfloat> &f)
+{
+  f.afficher(os);
+  retourne os;
+}
 
 template<typename T>
 Veccf Poly<T>::roots() const

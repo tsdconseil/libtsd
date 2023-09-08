@@ -315,7 +315,7 @@ static void test_fft()
 static Vecf test_signal(entier n = 15*1024)
 {
   Vecf x0(n);
-  soit fen = fenetre("hn", n / 2);
+  soit fen = fenêtre("hn", n / 2);
 
   /** Ratio between signal freq and sampling freq, between 0 and 0.5 */
   soit fe             = 60e6f,

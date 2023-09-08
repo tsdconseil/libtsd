@@ -12,11 +12,17 @@ namespace dsp {
  *  @{ */
 
 
+/** @brief @f$\pi@f$ value, with 32 bits floating point accuracy. */
+static const auto π_f  = tsd::π_f;
+
 /** @brief @f$\pi@f$ value, with 64 bits floating point accuracy. */
 static const auto π  = tsd::π;
 
-/** @brief @f$\pi@f$ value, with 32 bits floating point accuracy. */
-static const auto π_f  = tsd::π_f;
+/** @brief Imaginary unit (@f$\sqrt{-1}@f$), with 32 bits floating point accuracy. */
+static const cfloat ⅈ = tsd::ⅈ;
+
+/** @brief Imaginary unit (@f$\sqrt{-1}@f$), with 64 bits floating point accuracy. */
+static const cdouble ⅈ_d = tsd::ⅈ_d;
 
 /** @brief Short-cut for the complex 32 bits floating point type. */
 using cfloat = tsd::cfloat;

@@ -410,6 +410,8 @@ struct Axes
   void active_grilles(bouléen actives);
   void supprime_decorations();
 
+  bouléen a_décorations() const;
+
   /** @brief Définition de l'échelle d'affichage (lin ou log)
    *  @todo : n'a pas l'air de fonctionner ? */
   void def_echelle(cstring x, cstring y);

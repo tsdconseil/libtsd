@@ -448,20 +448,28 @@ struct ChaineSOIS: FiltreGen<T>
   ChaineSOIS(const FRat<cfloat> &h, RIIStructure structure)
   {
     soit [z,p] = h.roots();
-    soit nz = z.rows(),
-         np = p.rows();
+    soit nz = z.rows(), np = p.rows();
 
-    //msg("ChaineSOIS: nz={}, np={}", nz, np);
+    //msg("ChaineSOIS : nz={}, np={}", nz, np);
+
+    si(nz != np)
+    {
+      msg("ChaineSOIS : h = {}", h);
+      msg("zéros = {}", z);
+      msg("pôles = {}", p);
+    }
 
     // pour l'instant
     assertion_msg(nz == np,
-        "SOIS : numérateur et dénominateur doivent avoir la même dimension (nz={}, np={})",
+        "ChaineSOIS : numérateur et dénominateur doivent avoir la même dimension (nz={}, np={})",
         nz, np);
 
     // Pool qui contient tous les index a priori, on vient puiser dedans
     set<entier> pool;
     pour(auto i = 0; i < nz; i++)
       pool.insert(i);
+
+    // TODO: index des pôles et zéros pas forcément identiques !
 
     // Groupe les racines et poles conjugés
     entier i;
@@ -472,24 +480,16 @@ struct ChaineSOIS: FiltreGen<T>
 
       // (z-(z(i)) * (z-z(i+1))
       // z² -(z(i)+z(i+1))*z + z(i)*z(i+1)
-
       // 1 -(z(i)+z(i+1))*z^-1 + z(i)*z(i+1)*z^-2
 
       SOIS<T, Tcoef, Ty> s;
 
-      /**       b0 + b1 z-1 + b2 z-2
-       *  y/x = ---------------------
-       *        a0 + a1 z-1 + a2 z-2
-       */
-      // entier setup(float b0, float b1, float b2, float a0, float a1, float a2)
-
-      float berr = 1e9;
-
-      cfloat sz, pz, sp, pp;
+      float berr = 1e9, sz = 0, pz = 0, sp = 0, pp = 0;
       soit bj = pool.begin();
 
       pour(auto j = 0; j < nz; j++)
       {
+        // Déjà traité ?
         si(pool.count(j) == 0)
           continue;
 
@@ -501,10 +501,10 @@ struct ChaineSOIS: FiltreGen<T>
         {
           bj = pool.find(j);
           berr = err;
-          sz = sz0;
-          pz = pz0;
-          sp = sp0;
-          pp = pp0;
+          sz = sz0.real();
+          pz = pz0.real();
+          sp = sp0.real();
+          pp = pp0.real();
         }
       }
 
@@ -512,18 +512,19 @@ struct ChaineSOIS: FiltreGen<T>
       //msg("Section %d : err = %e", i, berr);
 
       si(berr > 1e-5)
-      {
         msg_erreur("Factorisation SOIS : erreur = {}", berr);
-      }
 
-      soit coefs = Vecf::valeurs(
-          {1.0f, sz.real(), pz.real(),
-           1.0f, sp.real(), pp.real()});
+      /**       b0 + b1 z-1 + b2 z-2
+       *  y/x = ---------------------
+       *        a0 + a1 z-1 + a2 z-2
+       */
+      // setup(float b0, float b1, float b2, float a0, float a1, float a2)
+      soit coefs = Vecf::valeurs({1.0f, sz, pz,
+                                  1.0f, sp, pp});
 
       s.Configurable<SOISConfig>::configure({coefs, structure});
 
       sections.push_back(s);
-
     }
 
     pour(; i < nz; i++)
@@ -533,8 +534,7 @@ struct ChaineSOIS: FiltreGen<T>
 
       soit id = *(pool.begin());
 
-      soit zer = z(id),
-           pol = p(id);
+      soit zer = z(id), pol = p(id);
 
       si(abs(pol.imag()) + abs(zer.imag()) > 1e-5f)
       {
@@ -547,11 +547,9 @@ struct ChaineSOIS: FiltreGen<T>
        *        1 + a1 z-1            z + a1
        */
 
-      soit a1 = - pol.real();
-      soit b0 = h.numer.mlt.real() / h.denom.mlt.real();
-      soit b1 = - zer.real() * b0;
-
-      //msg("Cfg rii1: {}, {}, {}", b0, b1, a1);
+      soit a1 = - pol.real(),
+           b0 = h.numer.mlt.real() / h.denom.mlt.real(),
+           b1 = - zer.real() * b0;
 
       rii1.configure(b0, b1, a1);
       avec_rii1 = oui;

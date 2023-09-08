@@ -14,7 +14,7 @@ static ResultatPurete verifie_sinus(cstring s, const Vecf x, float f)
 
   soit n = x.rows();
 
-  soit fen  = fenetre("hn", x.rows(), non),
+  soit fen  = fenêtre("hn", x.rows(), non),
        X    = abs2(fft(x * fen).head(x.rows()/2));
 
   soit [freqs, X_psd] = psd(x);

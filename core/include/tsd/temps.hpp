@@ -256,6 +256,9 @@ struct DateHeure
   /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. */
   tuple<entier, entier> vers_GPS() const;
 
+  /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. */
+  tuple<entier, int64_t> vers_GPS_us() const;
+
   /** @brief Constructeur, à partir de l'heure GPS. */
   static DateHeure de_GPS(entier semaine, entier secs);
 

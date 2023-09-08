@@ -273,7 +273,7 @@ CICComp design_cic_comp(const CICConfig &config, float fe, entier R2, float fc, 
 
   // Compute frequency response of the FIR compensation filter
   soit hc = FRat<float>::rif(res.h);
-  soit [frc,fmc] = frmag<float>(res.h);
+  soit [frc,fmc] = frmag(res.h);
 
   // Fonction de transfert du filtre de compensation
   // decim(R) -> hc = hc(z^R)

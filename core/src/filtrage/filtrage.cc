@@ -11,6 +11,39 @@ namespace tsd::filtrage
 
   bouléen debug_design = non;
 
+  Vecf design_rif_diff(entier n, bouléen centré)
+  {
+    si(n < 2)
+      échec("design_rif_diff(): n doit être supérieur ou égal à 2 (ici {})", n);
+    sinon si(n == 2)
+      retourne Vecf::valeurs({-1, 1});
+
+
+    Vecf h(n);
+
+    si(!centré)
+    {
+      pour(auto i = 0; i < n; i++)
+      {
+        soit k = i - n/2;
+        h(i) = (((k + 1) & 1) ? -1 : 1) / (π * (0.5 + k) * (0.5 + k));
+      }
+    }
+    sinon
+    {
+      pour(auto i = 0; i < n; i++)
+      {
+        soit k = i - n/2;
+        si(k == 0)
+          h(i) = 0;
+        sinon
+          h(i) = (((k) & 1) ? -1.0 : 1.0) / k;
+      }
+    }
+
+    retourne h;
+  }
+
   Vecf design_rif_prod(const Vecf &h1, const Vecf &h2)
   {
     soit n1  = h1.rows();

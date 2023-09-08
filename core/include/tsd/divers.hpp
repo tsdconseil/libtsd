@@ -91,7 +91,11 @@ extern double Dirichlet(entier N, double Ω);
  *   T_0 = 1,\ T_1 = z
  * @f]
  *
- * @sa Chebychev_U()
+ *  @par Exemple
+ *  @snippet exemples/src/filtrage/ex-math.cc ex_cheby_doxygen
+ *  @image html cheby-T.png "Polynôme de Chebychev (permier ordre, degré 7)"
+ *
+ * @sa Chebychev_U(), fenêtre_chebychev()
  *
  */
 extern Poly<float> Chebychev_T(entier n);

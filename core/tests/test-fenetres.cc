@@ -49,8 +49,8 @@ void test_fenetres()
   // Vérification petites fenêtres
   pour(auto n: {1, 2, 3, 4, 5})
   {
-    verifie_fenetre("hn", fenetre("hn", n, oui), {0, 0, oui});
-    verifie_fenetre("hn", fenetre("hn", n, non), {0, 0, non});
+    verifie_fenetre("hn", fenêtre("hn", n, oui), {0, 0, oui});
+    verifie_fenetre("hn", fenêtre("hn", n, non), {0, 0, non});
   }
 
 
@@ -58,19 +58,19 @@ void test_fenetres()
 
   pour(auto n : nn)
   {
-    verifie_fenetre("re", fenetre("re", n, oui), {13.32f, 0.88f/n, oui});
-    verifie_fenetre("hn", fenetre("hn", n, oui), {31.47f, 1.44f/n, oui});
-    verifie_fenetre("hm", fenetre("hm", n, oui), {42.68f, 1.30f/n, oui});
-    verifie_fenetre("tr", fenetre("tr", n, oui), {26.50f, 1.27f/n, oui});
-    verifie_fenetre("bm", fenetre("bm", n, oui), {-1, -1, non});
-    verifie_fenetre("ch", fenetre("ch", n, oui), {-1, -1, non});
+    verifie_fenetre("re", fenêtre("re", n, oui), {13.32f, 0.88f/n, oui});
+    verifie_fenetre("hn", fenêtre("hn", n, oui), {31.47f, 1.44f/n, oui});
+    verifie_fenetre("hm", fenêtre("hm", n, oui), {42.68f, 1.30f/n, oui});
+    verifie_fenetre("tr", fenêtre("tr", n, oui), {26.50f, 1.27f/n, oui});
+    verifie_fenetre("bm", fenêtre("bm", n, oui), {-1, -1, non});
+    verifie_fenetre("ch", fenêtre("ch", n, oui), {-1, -1, non});
 
-    verifie_fenetre("re", fenetre("re", n, non), {13.32f, 0.88f/n, non});
-    verifie_fenetre("hn", fenetre("hn", n, non), {31.47f, 1.44f/n, non});
-    verifie_fenetre("hm", fenetre("hm", n, non), {42.68f, 1.30f/n, non});
-    verifie_fenetre("tr", fenetre("tr", n, non), {26.50f, 1.27f/n, non});
-    verifie_fenetre("bm", fenetre("bm", n, non), {-1, -1, non});
-    verifie_fenetre("ch", fenetre("ch", n, non), {-1, -1, non});
+    verifie_fenetre("re", fenêtre("re", n, non), {13.32f, 0.88f/n, non});
+    verifie_fenetre("hn", fenêtre("hn", n, non), {31.47f, 1.44f/n, non});
+    verifie_fenetre("hm", fenêtre("hm", n, non), {42.68f, 1.30f/n, non});
+    verifie_fenetre("tr", fenêtre("tr", n, non), {26.50f, 1.27f/n, non});
+    verifie_fenetre("bm", fenêtre("bm", n, non), {-1, -1, non});
+    verifie_fenetre("ch", fenêtre("ch", n, non), {-1, -1, non});
   }
 
   verifie_fenetre("slepian", fenêtre_slepian(128, 0.1), {-1, -1});

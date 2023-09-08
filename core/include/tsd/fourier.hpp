@@ -740,7 +740,7 @@ extern Vecf psd_freqs(entier n, bouléen est_complexe = oui);
 template<typename T>
 tuple<Vecf, Vecf> psd(const Vecteur<T> &x)
 {
-  soit fen = tsd::filtrage::fenetre("hn", x.rows(), non);
+  soit fen = tsd::filtrage::fenêtre("hn", x.rows(), non);
   soit xf = x * fen;
 
   if constexpr(est_complexe<T>())

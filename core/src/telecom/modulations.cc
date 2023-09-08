@@ -338,7 +338,6 @@ struct FormeOndePSK: FormeOnde
   {
     si(infos.M == 2)
       retourne x.real() > 0 ? 1 : 0;
-      //retourne x.real() > 0 ? 0 : 1;
     retourne FormeOnde::symbole_plus_proche(x);
   }
 
@@ -465,7 +464,7 @@ struct FormeOnde_π4QPSK: FormeOnde
     infos.est_psk       = oui;
     infos.k             = 2;
     symbs[0] = psk_constellation(4);
-    symbs[1] = symbs[0] * std::polar(1.0f, π_f / 4);
+    symbs[1] = symbs[0] * exp(ⅈ * π_f / 4.0f);
   }
 
   Veccf constellation() const
@@ -604,8 +603,8 @@ struct FormeOndeFSK: FormeOnde
         échec("TODO: CtxFSK : M != 2");
 
       // si index = 2, il faut un OSF > 1
-      symbs(0) = std::polar(1.0, - 2 * π * fo->infos.index / (2 * OSF));
-      symbs(1) = std::polar(1.0, + 2 * π * fo->infos.index / (2 * OSF));
+      symbs(0) = exp(- 2 * π_f * ⅈ * fo->infos.index / (2.0f * OSF));
+      symbs(1) = exp(+ 2 * π_f * ⅈ * fo->infos.index / (2.0f * OSF));
 
       err.resize(M);
       cands.resize(M);
@@ -752,31 +751,25 @@ struct FormeOndeFSK: FormeOnde
 };
 
 
-
-//  wf = wf_init('fsk'[,M=2,index=0.5,filt='n',BT=0.8])
-//  wf = wf_init('gfsk'[,index=0.5])
-//  wf = wf_init('gmsk')
-//  wf = wf_init('msk')
-
 sptr<FormeOnde> forme_onde_fsk(unsigned int M, float index, const SpecFiltreMiseEnForme &filtre)
 {
-  retourne std::make_shared<FormeOndeFSK>(M, index, filtre);
+  retourne make_shared<FormeOndeFSK>(M, index, filtre);
 }
 
 
 sptr<FormeOnde> forme_onde_psk(unsigned int M, const SpecFiltreMiseEnForme &filtre)
 {
-  retourne std::make_shared<FormeOndePSK>(M, filtre);
+  retourne make_shared<FormeOndePSK>(M, filtre);
 }
 
 sptr<FormeOnde> forme_onde_ask(entier M, float M1, float M2, const SpecFiltreMiseEnForme &filtre)
 {
-  retourne std::make_shared<FormeOndeASK>(M, M1, M2, filtre);
+  retourne make_shared<FormeOndeASK>(M, M1, M2, filtre);
 }
 
 sptr<FormeOnde> forme_onde_qam(unsigned int M, const SpecFiltreMiseEnForme &filtre)
 {
-  retourne std::make_shared<FormeOndeQAM>(M, filtre);
+  retourne make_shared<FormeOndeQAM>(M, filtre);
 }
 
 sptr<FormeOnde> forme_onde_bpsk(const SpecFiltreMiseEnForme &filtre)
