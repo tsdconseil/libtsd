@@ -11,8 +11,8 @@
 });
 </script>
 <script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
-      <title>fenêtre_slepian</title>
-<meta name="description" content="fenêtre_slepian"/>
+      <title>fenêtre</title>
+<meta name="description" content="fenêtre"/>
 <!--[if lt IE 9]>
       <script src="../../../../js/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -78,9 +78,15 @@
     </header>    <div id="main">
     <div id="content">
     <div id="masthead">
-          <h1 class="head">fenêtre_slepian</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-fenetres/index.html">Fenêtres</a></li><li> / fenêtre_slepian</li></ul>
+          <h1 class="head">fenêtre</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-fenetres/index.html">Fenêtres</a></li><li> / fenêtre</li></ul>
         </div>
-<div id="page-content-full"><p>Création d'une fenêtre de Slepian. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>fenêtre_slepian</b>(entier N, float B)</pre></p></div></div><div class="clearfix"></div>
+<div id="page-content-full"><p>Création d'une fenêtre sans paramètre (rectangulaire, Hann, Hamming, triangulaire ou Blackman) </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>fenêtre</b>(cstring type, entier n, bouléen symetrique=oui)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>type</td><td>Choix de la fenêtre : "re" (rectangulaire), "hn" (Hann), "hm" (Hamming), "tr" (triangulaire), "bm" (Blackman). </td></tr><tr><td>n</td><td>Nombre de points </td></tr><tr><td>symetrique</td><td>Si vrai, réalisation d'une fenêtre symétrique autour du point central (ce qui est adapté pour la conception d'un filtre), et sinon réalisation d'une fenêtre périodique (ce qui est adapté pour l'analyse spectrale). </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Vecteurs des coefficients de la fenêtre (vecteur de dimension <code>n</code>)</p><h2><a name="6"></a>Description</h2><p>Cette fonction permet de créer une fenêtre simple, sans paramètre (en dehors de la dimension et du fait qu'elle soit symétrique ou non).</p><p><h2>Exemple : création d'une fenêtre de Von Hann</h2><p fr="Exemple : création d'une fenêtre de Von Hann"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+<highlight class="normal">  soit x = <a href="../../../../index-func/filtrage/filtrage-fenetres/77/index.html">fenêtre</a>(</highlight><highlight class="stringliteral">"hn"</highlight><highlight class="normal">, 32);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Figure f;</highlight>
+<highlight class="normal">  f.plot(x, </highlight><highlight class="stringliteral">"b-o"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+</code></pre></p><img src="filtrage-fenetre.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Fenêtre de Hann</p></description></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-fenetres/80/index.html">fenêtre_kaiser()</a>, <a href="../../../../index-func/filtrage/filtrage-fenetres/78/index.html">fenêtre_chebychev()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

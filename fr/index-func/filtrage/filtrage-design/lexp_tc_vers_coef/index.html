@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/lexp_tc_vers_coef/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/lexp_tc_vers_coef/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/lexp_tc_vers_coef/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/lexp_tc_vers_coef/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/lexp_tc_vers_coef/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">lexp_tc_vers_coef</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-design/index.html">Design de filtres</a></li><li> / lexp_tc_vers_coef</li></ul>
         </div>
-<div id="page-content-full"><p>Design filtre RII d'ordre 1 (d'après la constante de temps souhaitée). </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">float <b>lexp_tc_vers_coef</b>(float τ)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>τ</td><td>Constante de temps, en nombre de symboles. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Coefficient d'oubli \(\gamma\) du filtre RII </p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule le coefficient (facteur d'oubli) d'un filtre RII du premier ordre (filtre exponentiel), en fonction de la constante de temps souhaitée.</p><p><formula id="213">\[
+<div id="page-content-full"><p><a href="../../../../index-func/filtrage/filtrage-design/Design/index.html">Design</a> filtre RII d'ordre 1 (d'après la constante de temps souhaitée). </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">float <b>lexp_tc_vers_coef</b>(float τ)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>τ</td><td>Constante de temps, en nombre de symboles. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Coefficient d'oubli \(\gamma\) du filtre RII </p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule le coefficient (facteur d'oubli) d'un filtre RII du premier ordre (filtre exponentiel), en fonction de la constante de temps souhaitée.</p><p><formula id="213">\[
   y_{n+1} = (1-\gamma) \cdot y_n + \gamma \cdot x_n
           = y_n + \gamma \cdot (x_n - y_n)
 \]</formula></p><p><formula id="214">\[

@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">psd</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / <a href="../../../../index-func/fourier/fourier-freq/index.html">Estimation spectrale</a></li><li> / psd</li></ul>
         </div>
-<div id="page-content-full"><p>PSD (corrélogramme) </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;Vecf, Vecf&gt; <b>psd</b>(const Vecteur&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Signal à analyser. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.</p><h2><a name="6"></a>Description</h2><p>Calcul du corrélogramme avec une fenêtre de Hann :</p><p><formula id="157">\[
+<div id="page-content-full"><p>PSD (corrélogramme) </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;Vecf, Vecf&gt; <b>psd</b>(const Vecteur&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Signal à analyser. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Un tuple de deux éléments : vecteur de fréquences (normalisées, entre -0.5 et 0.5), et le spectre.</p><h2><a name="6"></a>Description</h2><p>Calcul du corrélogramme avec une fenêtre de Hann :</p><p><formula id="142">\[
 S(k) = \left|TFD(x \cdot w)(k)\right|
 \]</formula></p><p>Le spectre est centré autour de 0 Hz (vecteur de fréquences : linspace(-0.5,0.5-1.0/N,N)).</p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit x = <a href="../../../../index-func/tsd/tsd-gen/sigtri/index.html">sigtri</a>(20, 1000);</highlight>
 <highlight class="normal">  soit [fr, S] = <a href="../../../../index-func/fourier/fourier-freq/psd/index.html">psd</a>(x);</highlight>

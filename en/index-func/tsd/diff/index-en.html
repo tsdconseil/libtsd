@@ -81,7 +81,7 @@
           <h1 class="head">diff</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index-en.html">General functions</a></li><li> / diff</li></ul>
         </div>
-<div id="page-content-full"><p>Difference between 2 successive elements of a vector. </p><p>Namespace: <code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>diff</b>(const Vector&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Returns</h2><p>A column vector of length \(n-1\):  <formula id="13">\[
+<div id="page-content-full"><p>Difference between 2 successive elements of a vector. </p><p>Namespace: <code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>diff</b>(const Vector&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Returns</h2><p>A column vector of length \(n-1\):  <formula id="12">\[
 y_k = x_{k+1} - x_k,\quad k = 0,\dots, n-2
 \]</formula></p><h2><a name="5"></a>Description</h2><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal">let x     = <a href="../../../index-func/tsd/tsd-gen/randn-2/index-en.html">randn</a>(10),</highlight>
 <highlight class="normal">    y     = <a href="../../../index-func/tsd/diff/index-en.html">diff</a>(x),</highlight>

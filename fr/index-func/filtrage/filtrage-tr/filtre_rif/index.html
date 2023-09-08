@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_rif/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_rif/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_rif/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_rif/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_rif/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">filtre_rif</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / filtre_rif</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Filtrage temps réel</a></li><li> / filtre_rif</li></ul>
         </div>
 <div id="page-content-full"><p>Implémentation directe d'une filtre RIF (Réponse Impulsionnelle Finie). </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;T&gt;&gt; <b>filtre_rif</b>(const Vecteur&lt;Tc&gt; &h)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>h</td><td>Vecteur des coefficients du filtre </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Filtre T -&gt; T</p><h2><a name="6"></a>Description</h2><p>Implémenté suivant l'équation :  <formula id="221">\[
   y_n = \sum h_k x_{n-k}

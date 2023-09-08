@@ -11,8 +11,8 @@
 });
 </script>
 <script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
-      <title>repfreq (1)</title>
-<meta name="description" content="repfreq (1)"/>
+      <title>repfreq</title>
+<meta name="description" content="repfreq"/>
 <!--[if lt IE 9]>
       <script src="../../../../js/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/repfreq/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/repfreq/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/repfreq/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/repfreq/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/repfreq/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -78,10 +78,10 @@
     </header>    <div id="main">
     <div id="content">
     <div id="masthead">
-          <h1 class="head">repfreq (1)</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-analyse/index.html">Analyse des filtres linéaires</a></li><li> / repfreq (1)</li></ul>
+          <h1 class="head">repfreq</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-analyse/index.html">Analyse des filtres linéaires</a></li><li> / repfreq</li></ul>
         </div>
-<div id="page-content-full"><p>Réponse fréquentielle d'un filtre RIF ou RII. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Veccf <b>repfreq</b>(const FRat&lt;T&gt; &h, const Vecf &fr)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>h</td><td>Fonction de transfert à analyser </td></tr><tr><td>fr</td><td>Vecteur de fréquences (normalisées) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Réponse fréquentielle \(H\)</p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule de la réponse fréquentielle (complexe) :  <formula id="83">\[
+<div id="page-content-full"><p>Réponse fréquentielle d'un filtre RIF ou RII. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Veccf <b>repfreq</b>(const Design &d, const Vecf &fr)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>d</td><td>Fonction de transfert à analyser </td></tr><tr><td>fr</td><td>Vecteur de fréquences (normalisées) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Réponse fréquentielle \(H\)</p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule de la réponse fréquentielle (complexe) :  <formula id="83">\[
 y_k = H(f_k)
 \]</formula></p><p/><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-analyse/frmag/index.html">frmag()</a>, <a href="../../../../index-func/filtrage/filtrage-analyse/frphase/index.html">frphase()</a>, <a href="../../../../index-func/filtrage/filtrage-analyse/frgroup/index.html">frgroup()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

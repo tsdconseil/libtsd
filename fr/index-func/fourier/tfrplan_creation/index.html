@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/tfrplan_creation/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/tfrplan_creation/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/tfrplan_creation/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/tfrplan_creation/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/tfrplan_creation/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -82,7 +82,7 @@
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / tfrplan_création</li></ul>
         </div>
 <div id="page-content-full"><p>Création d'un plan de calcul FFT (pour calculer efficacement plusieurs FFT). </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FFTPlan&gt; <b>tfrplan_création</b>(entier n=-1, bouléen avant=oui, bouléen normaliser=oui)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>Dimension des vecteurs (paramètre optionnel) </td></tr><tr><td>avant</td><td>Si vrai, transformée directe, sinon transformée inverse. </td></tr><tr><td>normaliser</td><td>Si vrai, alors la transformée inclut un facteur de normalisation en \(1/\sqrt{N}\) de manière à préserver l'énergie. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Un pointeur vers une structure abstraite de type <a href="../../../index-func/fourier/FFTPlan/index.html">FFTPlan</a>.</p><h2><a name="6"></a>Description</h2><p>Cette fonction permet de créer un bloc qui sera efficace pour calculer plusieurs FFT de même dimension (les facteurs de rotation sont calculés une seule fois).</p><p>
-Le paramètre n n'a pas besoin d'être précisé, et la dimension des vecteurs peut changer en cours de route, si c'est le cas, les facteurs de rotations sont automatiquement réévalués.</p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Si les échantillons d'entrée sont réels, alors un plan plus efficace existe : <a href="../../../index-func/fourier/rtfrplan_creation/index.html">rtfrplan_création()</a>.</dd></dl><br/><para fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">entier N = 1024; </highlight><highlight class="comment">// Dimension des blocs</highlight><highlight class="normal"></highlight>
+Le paramètre n n'a pas besoin d'être précisé, et la dimension des vecteurs peut changer en cours de route, si c'est le cas, les facteurs de rotations sont automatiquement réévalués.</p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Si les échantillons d'entrée sont réels, alors un plan plus efficace existe : <a href="../../../index-func/fourier/rtfrplan_creation/index.html">rtfrplan_création()</a>.</dd></dl><br/><br/><h2>Exemple</h2><p2><p><pre><code class="C++"><highlight class="normal">entier N = 1024; </highlight><highlight class="comment">// Dimension des blocs</highlight><highlight class="normal"></highlight>
 <highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"> plan = fftplan_création();</highlight>
 <highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(i = 0; i &lt; n; i++)</highlight>
 <highlight class="normal">{</highlight>
@@ -91,6 +91,6 @@ Le paramètre n n'a pas besoin d'être précisé, et la dimension des vecteurs p
 <highlight class="normal">   soit X = plan-&gt;step(x);</highlight>
 <highlight class="normal">   </highlight><highlight class="comment">// (équivalent à X = fft(x), mais plus efficace)</highlight><highlight class="normal"></highlight>
 <highlight class="normal">}</highlight>
-</code></pre></p></description></para></p><h2><a name="7"></a>Voir aussi</h2><p>rfftplan_création(), <a href="../../../index-func/fourier/fft/index.html">fft()</a>, <a href="../../../index-func/fourier/ifft/index.html">ifft()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p></p2></p><h2><a name="7"></a>Voir aussi</h2><p>rfftplan_création(), <a href="../../../index-func/fourier/fft/index.html">fft()</a>, <a href="../../../index-func/fourier/ifft/index.html">ifft()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

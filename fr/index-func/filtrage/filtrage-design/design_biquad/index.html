@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_biquad/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_biquad/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_biquad/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_biquad/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_biquad/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,20 +81,20 @@
           <h1 class="head">design_biquad (1)</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-design/index.html">Design de filtres</a></li><li> / design_biquad (1)</li></ul>
         </div>
-<div id="page-content-full"><p>Design filtre biquad. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">FRat&lt;float&gt; <b>design_biquad</b>(cstring type, float f, float Q, float gain_dB=0)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>type</td><td>Type de filtre ("lp", "hp", "bp", "sb", ...). </td></tr><tr><td>f</td><td><a href="../../../../index-func/filtrage/filtrage-design/Frequence/index.html">Fréquence</a> de coupure (ou centrale pour les filtres passe ou stoppe bande) normalisée, entre 0 et 0,5. </td></tr><tr><td>Q</td><td>Facteur de qualité (note : pour \(Q&gt;1/\sqrt(2)\sim 0{,71}\), il y aura une résonnance). </td></tr><tr><td>gain_dB</td><td>Gain, en dB, pour les filtres de type résonnance ou plateau.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Ces filtres RII du second ordre sont adaptés de prototypes analogiques via la transformée bilinéaire.</p><p>Les prototypes analogiques sont les suivant (pour une pulsation de coupure de 1 radian/s, et \(Q\) étant le facteur de qualité) :</p><p/><ul><li>Filtre passe-bas :  <formula id="123">\[
+<div id="page-content-full"><p><a href="../../../../index-func/filtrage/filtrage-design/Design/index.html">Design</a> filtre biquad. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">FRat&lt;float&gt; <b>design_biquad</b>(cstring type, float f, float Q, float gain_dB=0)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>type</td><td>Type de filtre ("lp", "hp", "bp", "sb", ...). </td></tr><tr><td>f</td><td><a href="../../../../index-func/filtrage/filtrage-design/Frequence/index.html">Fréquence</a> de coupure (ou centrale pour les filtres passe ou stoppe bande) normalisée, entre 0 et 0,5. </td></tr><tr><td>Q</td><td>Facteur de qualité (note : pour \(Q&gt;1/\sqrt(2)\sim 0{,71}\), il y aura une résonnance). </td></tr><tr><td>gain_dB</td><td>Gain, en dB, pour les filtres de type résonnance ou plateau.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Ces filtres RII du second ordre sont adaptés de prototypes analogiques via la transformée bilinéaire.</p><p>Les prototypes analogiques sont les suivant (pour une pulsation de coupure de 1 radian/s, et \(Q\) étant le facteur de qualité) :</p><p/><ul><li>Filtre passe-bas :  <formula id="125">\[
 H(s) = \frac{1}{s^2+\frac{1}{Q}s+1}
-\]</formula></li><li>Filtre passe-haut :  <formula id="124">\[
+\]</formula></li><li>Filtre passe-haut :  <formula id="126">\[
 H(s) = \frac{s^2}{s^2+\frac{1}{Q}s+1}
-\]</formula></li><li>Filtre passe-bande :  <formula id="125">\[
+\]</formula></li><li>Filtre passe-bande :  <formula id="127">\[
 H(s) = \frac{s/Q}{s^2+\frac{1}{Q}s+1}
-\]</formula></li><li>Filtre coupe-bande :  <formula id="126">\[
+\]</formula></li><li>Filtre coupe-bande :  <formula id="128">\[
 H(s) = \frac{s^2+1}{s^2+\frac{1}{Q}s+1}
-\]</formula></li></ul><p><h2>Exemple : filtres passe-bas, avec différentes valeurs pour le facteur de qualité</h2><p fr="Exemple : filtres passe-bas, avec différentes valeurs pour le facteur de qualité"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">    Figure f;</highlight>
-<highlight class="normal">    </highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> Q: {0.5f, 1.0f/sqrt(2.0f), 1.0f, 2.0f})</highlight>
+\]</formula></li></ul><p><h2>Exemple : filtres passe-bas, avec différentes valeurs pour le facteur de qualité</h2><p><description lang="fr"><p><pre><code class="C++"><highlight class="normal">    Figure f;</highlight>
+<highlight class="normal">    pour(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> Q: {0.5f, 1.0f/std::sqrt(2.0f), 1.0f, 2.0f})</highlight>
 <highlight class="normal">    {</highlight>
 <highlight class="normal">      soit h = <a href="../../../../index-func/filtrage/filtrage-design/design_biquad/index.html">design_biquad</a>(</highlight><highlight class="stringliteral">"pb"</highlight><highlight class="normal">, 0.25, Q);</highlight>
 <highlight class="normal">      f.plot(<a href="../../../../index-func/filtrage/filtrage-analyse/frmag/index.html">frmag</a>(h), </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Q={:.2f}"</highlight><highlight class="normal">, Q);</highlight>
 <highlight class="normal">    }</highlight>
-</code></pre></p><img src="ex-biquad-pb.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><para fr="Bibliographie"><description lang="fr"><ul><li><i>Cookbook formulae for audio equalizer biquad filter coefficients,</i> Robert Bristow-Johnson, <a url="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html">https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html</a>,</li><li><i>F0 and Q in filters, Mini tutorial,</i> Analog Devices,</li></ul></description></para></p></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_biquad-2/index.html">design_biquad (2)</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="ex-biquad-pb.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><br/><h2>Bibliographie</h2><p2><ul><li><i>Cookbook formulae for audio equalizer biquad filter coefficients,</i> Robert Bristow-Johnson, <a url="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html">https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html</a>,</li><li><i>F0 and Q in filters, Mini tutorial,</i> Analog Devices,</li></ul></p2></p></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_biquad-2/index.html">design_biquad (2)</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

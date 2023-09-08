@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/apps/kalman/dare/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/apps/kalman/dare/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/apps/kalman/dare/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/apps/kalman/dare/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/apps/kalman/dare/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">dare</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/apps/index.html">Applications</a></li><li> / <a href="../../../../index-func/apps/kalman/index.html">Filtrage de Kalman</a></li><li> / dare</li></ul>
         </div>
-<div id="page-content-full"><p>Résolution de l'équation de Riccati discrète (DARE). </p><p>Espace de nom : <code>tsd::kalman</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;Tabf, float&gt; <b>dare</b>(const Tabf &A, const Tabf &C, const Tabf &Q, const Tabf &R, float tolerance=1e-7, entier iter_max=1000)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>A</td><td>... </td></tr><tr><td>C</td><td>... </td></tr><tr><td>Q</td><td>... </td></tr><tr><td>R</td><td>... </td></tr><tr><td>tolerance</td><td>Erreur maximale avant de sortir </td></tr><tr><td>iter_max</td><td>Nombre maximal d'itérations </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Tuple de deux éléments : solution P, et erreur.</p><h2><a name="6"></a>Description</h2><p>Résolution de l'équation de Riccati discrète (DARE) :  <formula id="18">\[
+<div id="page-content-full"><p>Résolution de l'équation de Riccati discrète (DARE). </p><p>Espace de nom : <code>tsd::kalman</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;Tabf, float&gt; <b>dare</b>(const Tabf &A, const Tabf &C, const Tabf &Q, const Tabf &R, float tolerance=1e-7, entier iter_max=1000)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>A</td><td>... </td></tr><tr><td>C</td><td>... </td></tr><tr><td>Q</td><td>... </td></tr><tr><td>R</td><td>... </td></tr><tr><td>tolerance</td><td>Erreur maximale avant de sortir </td></tr><tr><td>iter_max</td><td>Nombre maximal d'itérations </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Tuple de deux éléments : solution P, et erreur.</p><h2><a name="6"></a>Description</h2><p>Résolution de l'équation de Riccati discrète (DARE) :  <formula id="20">\[
       P=A^{T}PA-(A^{T}PC)(R+C^{T}PC)^{-1}(C^{T}PA)+Q
 \]</formula></p><p>
 D'après <a url="https://en.wikipedia.org/wiki/Algebraic_Riccati_equation#Solution" href="https://en.wikipedia.org/wiki/Algebraic_Riccati_equation#Solution">https://en.wikipedia.org/wiki/Algebraic_Riccati_equation#Solution</a></p><p/><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/apps/kalman/kalman_ssg/index.html">kalman_ssg()</a></p></div></div><div class="clearfix"></div>

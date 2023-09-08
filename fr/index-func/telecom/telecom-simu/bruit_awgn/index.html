@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/bruit_awgn/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/bruit_awgn/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/bruit_awgn/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/bruit_awgn/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/bruit_awgn/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">bruit_awgn (1)</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-simu/index.html">Simulation</a></li><li> / bruit_awgn (1)</li></ul>
         </div>
-<div id="page-content-full"><p>Ajoute un bruit blanc gaussien complexe. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Veccf <b>bruit_awgn</b>(const Veccf &x, float σ)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée (complexe) </td></tr><tr><td>σ</td><td>Ecart-type du bruit (ajouté sur chaque composante I/Q)</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Simulation d'un canal complexe AWGN (Additive White Gaussian Noise).</p><p><formula id="272">\[
+<div id="page-content-full"><p>Ajoute un bruit blanc gaussien complexe. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Veccf <b>bruit_awgn</b>(const Veccf &x, float σ)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée (complexe) </td></tr><tr><td>σ</td><td>Ecart-type du bruit (ajouté sur chaque composante I/Q)</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Simulation d'un canal complexe AWGN (Additive White Gaussian Noise).</p><p><formula id="269">\[
 y_k = x_k + b_k^{(r)} + \mathbf{i}\cdot b_k^{(i)}, \quad b^{(r)}, b^{(i)} : \mathcal{N}\left(0,\sigma^2\right)
 \]</formula></p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Le signal étant complexe, la puissance du bruit ajoutée est de \(2\sigma^2\).</dd></dl><br/></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../../index-func/telecom/telecom-simu/bruit_thermique/index.html">bruit_thermique()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

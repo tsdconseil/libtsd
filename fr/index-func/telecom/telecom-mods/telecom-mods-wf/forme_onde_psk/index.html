@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../../css/lessgrid.css"/>
 <script src="../../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_psk/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_psk/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_psk/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_psk/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_psk/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">forme_onde_psk</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../../index-func/telecom/index.html">Télécommunications</a></li><li> / <a href="../../../../../index-func/telecom/telecom-mods/index.html">Modulations numériques</a></li><li> / <a href="../../../../../index-func/telecom/telecom-mods/telecom-mods-wf/index.html">Formes d'ondes</a></li><li> / forme_onde_psk</li></ul>
         </div>
-<div id="page-content-full"><p>Création d'une forme d'onde de type modulation de phase. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FormeOnde&gt; <b>forme_onde_psk</b>(unsigned int M, const SpecFiltreMiseEnForme &filtre=nrz())</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>M</td><td>Nombre de bits / symbole. </td></tr><tr><td>filtre</td><td><a href="../../../../../index-func/tsd/Filtre/index.html">Filtre</a> de mise en forme (par défaut : NRZ) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Pointeur vers une forme d'onde abstraite (<a href="../../../../../index-func/telecom/telecom-mods/telecom-mods-wf/FormeOnde/index.html">FormeOnde</a>).</p><h2><a name="6"></a>Description</h2><p>Création d'une forme d'onde M-PSK. Le résultat peut être utilisé pour créer un modulateur (<a href="../../../../../index-func/telecom/telecom-mods/modulateur_creation/index.html">modulateur_création()</a>) ou un démodulateur (<a href="../../../../../index-func/telecom/telecom-mods/demodulateur_creation/index.html">démodulateur_création()</a>).</p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>\(M\) doit être une puissance de 2.</dd></dl><br/><para fr="Exemple 1 : tracé de quelques constellations PSK"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+<div id="page-content-full"><p>Création d'une forme d'onde de type modulation de phase. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FormeOnde&gt; <b>forme_onde_psk</b>(unsigned int M, const SpecFiltreMiseEnForme &filtre=nrz())</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>M</td><td>Nombre de bits / symbole. </td></tr><tr><td>filtre</td><td><a href="../../../../../index-func/tsd/Filtre/index.html">Filtre</a> de mise en forme (par défaut : NRZ) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Pointeur vers une forme d'onde abstraite (<a href="../../../../../index-func/telecom/telecom-mods/telecom-mods-wf/FormeOnde/index.html">FormeOnde</a>).</p><h2><a name="6"></a>Description</h2><p>Création d'une forme d'onde M-PSK. Le résultat peut être utilisé pour créer un modulateur (<a href="../../../../../index-func/telecom/telecom-mods/modulateur_creation/index.html">modulateur_création()</a>) ou un démodulateur (<a href="../../../../../index-func/telecom/telecom-mods/demodulateur_creation/index.html">démodulateur_création()</a>).</p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>\(M\) doit être une puissance de 2.</dd></dl><br/><br/><h2>Exemple 1 : tracé de quelques constellations PSK</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  Figures f;</highlight>
 <highlight class="normal">  pour(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> M: {2, 4, 8, 16})</highlight>
 <highlight class="normal">  {</highlight>
@@ -90,7 +90,7 @@
 <highlight class="normal">    f.subplot().plot_iq(constel, </highlight><highlight class="stringliteral">"o"</highlight><highlight class="normal">, w-&gt;desc());</highlight>
 <highlight class="normal">  }</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p></description></para>
+</code></pre></p></p2>
 Exemples de formes d'ondes PSK : BPSK, QPSK, 8PSK, 16PSK : <img src="waveform-psk.png" style="height: 100%; width: 100%; object-fit: contain"></img></p><p><h2>Exemple 2 : Taux d'erreur binaires théoriques</h2><p fr="Exemple 2 : Taux d'erreur binaires théoriques"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  soit w2 = <a href="../../../../../index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_psk/index.html">forme_onde_psk</a>(2),</highlight>
 <highlight class="normal">       w4 = <a href="../../../../../index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_psk/index.html">forme_onde_psk</a>(4),</highlight>

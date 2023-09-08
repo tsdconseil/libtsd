@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_rcs/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_rcs/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_rcs/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_rcs/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_rcs/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">design_rif_rcs</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-design/index.html">Design de filtres</a></li><li> / design_rif_rcs</li></ul>
         </div>
-<div id="page-content-full"><p>Design d'un filtre en racine de cosinus sur-élevé. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>design_rif_rcs</b>(entier n, float β, float fc)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>ordre du filtre </td></tr><tr><td>β</td><td>facteur de dépassement </td></tr><tr><td>fc</td><td>fréquence de coupure normalisée</td></tr></table></p><h2><a name="5"></a>Description</h2><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit h = <a href="../../../../index-func/filtrage/filtrage-design/design_rif_rcs/index.html">design_rif_rcs</a>(31, 0.2, 0.25);</highlight>
+<div id="page-content-full"><p><a href="../../../../index-func/filtrage/filtrage-design/Design/index.html">Design</a> d'un filtre en racine de cosinus sur-élevé. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>design_rif_rcs</b>(entier n, float β, float fc)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>ordre du filtre </td></tr><tr><td>β</td><td>facteur de dépassement </td></tr><tr><td>fc</td><td>fréquence de coupure normalisée</td></tr></table></p><h2><a name="5"></a>Description</h2><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit h = <a href="../../../../index-func/filtrage/filtrage-design/design_rif_rcs/index.html">design_rif_rcs</a>(31, 0.2, 0.25);</highlight>
 <highlight class="normal">  <a href="../../../../index-func/filtrage/filtrage-analyse/plot_filtre/index.html">plot_filtre</a>(h, non).enregistrer(</highlight><highlight class="stringliteral">"../doxy/images/design-rif-rcs.png"</highlight><highlight class="normal">);</highlight>
 </code></pre></p><img src="design-rif-rcs.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_rif_cs/index.html">design_rif_cs()</a>, <a href="../../../../index-func/filtrage/filtrage-design/design_rif_rcs1/index.html">design_rif_rcs1()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

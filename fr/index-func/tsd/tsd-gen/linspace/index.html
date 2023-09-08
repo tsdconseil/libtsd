@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/linspace/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/linspace/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/linspace/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/linspace/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/linspace/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,11 +81,11 @@
           <h1 class="head">linspace</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / <a href="../../../../index-func/tsd/tsd-gen/index.html">Génération de signaux</a></li><li> / linspace</li></ul>
         </div>
-<div id="page-content-full"><p>Intervalle de points équidistants. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static auto <b>linspace</b>(float a, float b, entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>a</td><td>point initial (première valeur) </td></tr><tr><td>b</td><td>point final (dernière valeur) </td></tr><tr><td>n</td><td>nombre de points </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Intervalle défini par :  <formula id="357">\[
+<div id="page-content-full"><p>Intervalle de points équidistants. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static auto <b>linspace</b>(float a, float b, entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>a</td><td>point initial (première valeur) </td></tr><tr><td>b</td><td>point final (dernière valeur) </td></tr><tr><td>n</td><td>nombre de points </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Intervalle défini par :  <formula id="358">\[
 x_k = a + k \cdot \frac{b-a}{n-1},\quad k = 0,\dots,n-1
-\]</formula></p><h2><a name="6"></a>Description</h2><p>Calcule \(n\) points équidistants entre \(a\) et \(b\).</p><p><h2>Exemple 1 : vecteur des n premiers entiers</h2><p fr="Exemple 1 : vecteur des n premiers entiers"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit t = <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, n-1, n)</highlight>
+\]</formula></p><h2><a name="6"></a>Description</h2><p>Calcule \(n\) points équidistants entre \(a\) et \(b\).</p><p><h2>Exemple 1 : vecteur des n premiers entiers</h2><p><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit t = <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, n-1, n)</highlight>
 <highlight class="normal"></highlight><highlight class="comment">// t = 0, 1, 2, ..., n-1</highlight>
-</code></pre></p><img src="linspace.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><para fr="Exemple 2 : vecteur de n valeurs de temps, à la fréquence d'échantillonnage de fe Hz :"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit t = <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, (n-1)/fe, n)</highlight>
-</code></pre></p></description></para></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/tsd/tsd-gen/logspace/index.html">logspace()</a>, <a href="../../../../index-func/tsd/tsd-gen/intervalle_temporel/index.html">intervalle_temporel()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="linspace.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><br/><h2>Exemple 2 : vecteur de n valeurs de temps, à la fréquence d'échantillonnage de fe Hz :</h2><p2><p><pre><code class="C++"><highlight class="normal">soit t = <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, (n-1)/fe, n)</highlight>
+</code></pre></p></p2></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/tsd/tsd-gen/logspace/index.html">logspace()</a>, <a href="../../../../index-func/tsd/tsd-gen/intervalle_temporel/index.html">intervalle_temporel()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

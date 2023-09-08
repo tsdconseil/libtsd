@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/siggsin/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/siggsin/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/siggsin/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/siggsin/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/siggsin/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">siggsin</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / <a href="../../../../index-func/tsd/tsd-gen/index.html">Génération de signaux</a></li><li> / siggsin</li></ul>
         </div>
-<div id="page-content-full"><p>Sinusoïde modulée par une Gaussienne. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>siggsin</b>(float f, entier n, float a=10)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>f</td><td>Fréquence (normalisée). </td></tr><tr><td>n</td><td>Nombre d'échantillons à générer. </td></tr><tr><td>a</td><td>Paramètre de décroissance</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="367">\[
+<div id="page-content-full"><p>Sinusoïde modulée par une Gaussienne. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>siggsin</b>(float f, entier n, float a=10)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>f</td><td>Fréquence (normalisée). </td></tr><tr><td>n</td><td>Nombre d'échantillons à générer. </td></tr><tr><td>a</td><td>Paramètre de décroissance</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="368">\[
 x_k = e^{-a \left(\frac{k-N/2}{N/2}\right)^2} \cdot \sin \left(2\pi fk\right)
 \]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Fréquence = 0,02 * fréquence d'échantillonnage</highlight><highlight class="normal"></highlight>

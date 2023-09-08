@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">delay_line</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Implementation of continuous streaming filter</a></li><li> / delay_line</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Real-time filtering</a></li><li> / delay_line</li></ul>
         </div>
 <div id="page-content-full"><p>Delay the input signal by an integer number of samples. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FilterGen&lt;T&gt;&gt; <b>delay_line</b>(unsigned int n)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>n</td><td>Integer delay ( \(n \geq 0\))</td></tr></table></p><h2><a name="5"></a>Description</h2><p>This filter produce as many output samples as input samples. The samples preceding the first one are assumed to be null.</p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Retard de 10 échantillons</highlight><highlight class="normal"></highlight>

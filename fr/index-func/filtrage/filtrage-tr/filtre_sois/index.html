@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_sois/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_sois/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_sois/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_sois/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_sois/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">filtre_sois (1)</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / filtre_sois (1)</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Filtrage temps réel</a></li><li> / filtre_sois (1)</li></ul>
         </div>
 <div id="page-content-full"><p>Création d'un filtre RII sous forme d'une chaine de sections du second ordre. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;T&gt;&gt; <b>filtre_sois</b>(const FRat&lt;cfloat&gt; &h, RIIStructure structure=FormeDirecte2)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>h</td><td>Fonction de transfert, normalement complexe </td></tr><tr><td>structure</td><td>lien non trouvé : [group__filtrage-tr_ga13374529e6b52ebc019e56364f77fd26_1gga13374529e6b52ebc019e56364f77fd26aabf3c884b3568e1894f5dd78268877b5]RIIStructure::FormeDirecte1 ou lien non trouvé : [group__filtrage-tr_ga13374529e6b52ebc019e56364f77fd26_1gga13374529e6b52ebc019e56364f77fd26a556620fb6bf72c4fecd862e48c71c163]RIIStructure::FormeDirecte2 (voir notes ci-dessous) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Filtre réel vers réel</p><h2><a name="6"></a>Description</h2><p>La fonction de transfert passée en entrée est factorisée sous la forme d'une cascade de sections du second ordre (plus éventuellement une section du premier ordre si l'ordre est impair), permettant une implémentation efficace d'une filtre RII :</p><p><formula id="228">\[
 H(z) = G\cdot\prod_{i=1}^{M} H_i(z) = G\cdot\prod_{i=1}^{M} \frac{1 + b_1^{(i)} z^{-1} + b_2^{(i)} z^{-2} }{1 - a_1^{(i)} z^{-1} - a_2^{(i)} z^{-2}}

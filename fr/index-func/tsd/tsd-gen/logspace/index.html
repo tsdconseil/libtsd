@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/logspace/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/logspace/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/logspace/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/logspace/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/logspace/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">logspace</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / <a href="../../../../index-func/tsd/tsd-gen/index.html">Génération de signaux</a></li><li> / logspace</li></ul>
         </div>
-<div id="page-content-full"><p>Intervalle de points logarithmiquement équidistants (suite géométrique). </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static auto <b>logspace</b>(float a, float b, entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>a</td><td>Logarithme en base 10 du point initial </td></tr><tr><td>b</td><td>Logarithme en base 10 du point final </td></tr><tr><td>n</td><td>Nombre de points </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Suite géométrique</p><h2><a name="6"></a>Description</h2><p>Calcule \(n\) points logarithmiquement équidistants entre \(a\) et \(b\), c'est-à-dire la suite gémétrique suivante :</p><p><formula id="358">\[
+<div id="page-content-full"><p>Intervalle de points logarithmiquement équidistants (suite géométrique). </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static auto <b>logspace</b>(float a, float b, entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>a</td><td>Logarithme en base 10 du point initial </td></tr><tr><td>b</td><td>Logarithme en base 10 du point final </td></tr><tr><td>n</td><td>Nombre de points </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Suite géométrique</p><h2><a name="6"></a>Description</h2><p>Calcule \(n\) points logarithmiquement équidistants entre \(a\) et \(b\), c'est-à-dire la suite gémétrique suivante :</p><p><formula id="359">\[
 x_k = 10^{a + k  \frac{b-a}{n-1}},\quad k = 0,\dots,n-1
 \]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  </highlight><highlight class="comment">// 5 points entre 1=10^0 et et 100=10^2</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = <a href="../../../../index-func/tsd/tsd-gen/logspace/index.html">logspace</a>(0, 2, 5);</highlight>

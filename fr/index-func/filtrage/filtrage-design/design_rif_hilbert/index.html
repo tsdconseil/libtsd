@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_hilbert/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_hilbert/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_hilbert/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_hilbert/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-design/design_rif_hilbert/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,9 +81,8 @@
           <h1 class="head">design_rif_hilbert</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-design/index.html">Design de filtres</a></li><li> / design_rif_hilbert</li></ul>
         </div>
-<div id="page-content-full"><p>Approximation RIF d'un filtre de Hilbert. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>design_rif_hilbert</b>(entier n, cstring fenetre="hn")</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>ordre du filtre </td></tr><tr><td>fenetre</td><td>Type de fenetre (par défaut, fenêtre de Hann) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Tableau des coefficients</p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule le fenêtrage de la réponse temporelle théorique d'un filtre de Hilbert :  <formula id="178">\[
+<div id="page-content-full"><p>Approximation RIF d'un filtre de Hilbert. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>design_rif_hilbert</b>(entier n, cstring fenetre="hn")</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>ordre du filtre </td></tr><tr><td>fenetre</td><td>Type de fenetre (par défaut, fenêtre de Hann). Voir <a href="../../../../index-func/filtrage/filtrage-fenetres/81/index.html">fenêtre()</a></td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Tableau des coefficients</p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule le fenêtrage de la réponse temporelle théorique d'un filtre de Hilbert :  <formula id="195">\[
     h_k = \frac{2}{k\pi} \cdot \sin(k \pi / 2)^2 \cdot w_k
-\]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit h = <a href="../../../../index-func/filtrage/filtrage-design/design_rif_hilbert/index.html">design_rif_hilbert</a>(ncoefs, fen);</highlight>
-</code></pre></p><img src="design-rif-hilbert.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-fini/hilbert/index.html">hilbert()</a>, <a href="../../../../index-func/filtrage/filtrage-tr/hilbert_transformeur/index.html">hilbert_transformeur()</a></p></div></div><div class="clearfix"></div>
+\]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"></code></pre></p><img src="design-rif-hilbert.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-fini/hilbert/index.html">hilbert()</a>, <a href="../../../../index-func/filtrage/filtrage-tr/hilbert_transformeur/index.html">hilbert_transformeur()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

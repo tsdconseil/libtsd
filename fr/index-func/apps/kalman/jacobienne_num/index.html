@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/apps/kalman/jacobienne_num/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/apps/kalman/jacobienne_num/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/apps/kalman/jacobienne_num/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/apps/kalman/jacobienne_num/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/apps/kalman/jacobienne_num/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">jacobienne_num</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/apps/index.html">Applications</a></li><li> / <a href="../../../../index-func/apps/kalman/index.html">Filtrage de Kalman</a></li><li> / jacobienne_num</li></ul>
         </div>
-<div id="page-content-full"><p>Dérivation numérique. </p><p>Espace de nom : <code>tsd::kalman</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Tabf <b>jacobienne_num</b>(fonction&lt;Vecf(const Vecf &)&gt; f, const Vecf &x)</pre></p><h2><a name="4"></a>Description</h2><p>Calcul numérique des dérivées partielles (matrice Jacobienne) en un point donné :  <formula id="10">\[
+<div id="page-content-full"><p>Dérivation numérique. </p><p>Espace de nom : <code>tsd::kalman</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Tabf <b>jacobienne_num</b>(fonction&lt;Vecf(const Vecf &)&gt; f, const Vecf &x)</pre></p><h2><a name="4"></a>Description</h2><p>Calcul numérique des dérivées partielles (matrice Jacobienne) en un point donné :  <formula id="11">\[
 J_{ij} = \frac{df_j}{dx_i} \sim \frac{f_j(x_i + \epsilon) - f(x_i)}{\epsilon}
 \]</formula></p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Dans la mesure du possible, préférer une dérivée analytique, qui sera en général beaucoup plus précise. </dd></dl><br/></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

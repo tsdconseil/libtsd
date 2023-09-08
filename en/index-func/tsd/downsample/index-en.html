@@ -81,7 +81,7 @@
           <h1 class="head">downsample</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index-en.html">General functions</a></li><li> / downsample</li></ul>
         </div>
-<div id="page-content-full"><p>Decimation of a column vector. </p><p>Namespace: <code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vector&lt;T&gt; <b>downsample</b>(const Vector&lt;T&gt; &x, int pas)</pre></p><h2><a name="4"></a>Description</h2><p>From a vector \((x_k), k=0\dots n-1\), returns a subset of it, decimated by a factor of \(R\):  <formula id="27">\[
+<div id="page-content-full"><p>Decimation of a column vector. </p><p>Namespace: <code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vector&lt;T&gt; <b>downsample</b>(const Vector&lt;T&gt; &x, int pas)</pre></p><h2><a name="4"></a>Description</h2><p>From a vector \((x_k), k=0\dots n-1\), returns a subset of it, decimated by a factor of \(R\):  <formula id="23">\[
 y_k = x_{kR},\quad k =0 \dots \left\lfloor N/R\right\rfloor -1
 \]</formula></p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal">  soit x = <a href="../../../index-func/tsd/tsd-gen/linspace/index-en.html">linspace</a>(1, 20, 20);</highlight>
 <highlight class="normal">  soit y = sousech(x, 2);</highlight>

@@ -11,8 +11,8 @@
 });
 </script>
 <script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
-      <title>plot_plz (1)</title>
-<meta name="description" content="plot_plz (1)"/>
+      <title>plot_plz</title>
+<meta name="description" content="plot_plz"/>
 <!--[if lt IE 9]>
       <script src="../../../../js/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-analyse/plot_plz/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -78,10 +78,10 @@
     </header>    <div id="main">
     <div id="content">
     <div id="masthead">
-          <h1 class="head">plot_plz (1)</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-analyse/index.html">Analyse des filtres linéaires</a></li><li> / plot_plz (1)</li></ul>
+          <h1 class="head">plot_plz</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-analyse/index.html">Analyse des filtres linéaires</a></li><li> / plot_plz</li></ul>
         </div>
-<div id="page-content-full"><p>Tracé des pôles et zéros. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">void <b>plot_plz</b>(Figure &fig, const FRat&lt;T&gt; &h, bouléen cmap=non)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>fig</td><td>Figure sur laquelle sera tracé le diagramme des pôles et zéros. </td></tr><tr><td>h</td><td>Fonction de transfert ou vecteur des coefficients </td></tr><tr><td>cmap</td><td>Si vrai, dessine une carte de couleur représentant la magnitude de la réponse.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>La fonction de transfert passée en paramètre est factorisée sous la forme :  <formula id="95">\[
+<div id="page-content-full"><p>Tracé des pôles et zéros. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">void <b>plot_plz</b>(Figure fig, const Design &h, bouléen cmap=non)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>fig</td><td>Figure sur laquelle sera tracé le diagramme des pôles et zéros. </td></tr><tr><td>h</td><td>Fonction de transfert ou vecteur des coefficients </td></tr><tr><td>cmap</td><td>Si vrai, dessine une carte de couleur représentant la magnitude de la réponse.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>La fonction de transfert passée en paramètre est factorisée sous la forme :  <formula id="97">\[
 H(z) = \frac{\prod z - z_i}{\prod z - p_i}
 \]</formula></p><p>où les \(z_i\) et les \(p_i\) sont ce que l'on appelle respectivement les zéros et les pôles de la fonctions de transfert.</p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  pour(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> cmap: {non, oui})</highlight>
 <highlight class="normal">  {</highlight>

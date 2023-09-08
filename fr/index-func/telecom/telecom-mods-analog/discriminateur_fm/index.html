@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods-analog/discriminateur_fm/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods-analog/discriminateur_fm/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods-analog/discriminateur_fm/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods-analog/discriminateur_fm/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods-analog/discriminateur_fm/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,13 +81,13 @@
           <h1 class="head">discriminateur_fm</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-mods-analog/index.html">Modulations analogiques</a></li><li> / discriminateur_fm</li></ul>
         </div>
-<div id="page-content-full"><p>Discrimination polaire pour la démodulation FM. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;cfloat, float&gt;&gt; <b>discriminateur_fm</b>()</pre></p><h2><a name="4"></a>Retourne</h2><p>Filtre cfloat (signal bande de base, complexe) vers float (fréquence instantanée, sous forme de pulsation normalisée (entre \(-\pi\) et \(\pi\))). </p><h2><a name="5"></a>Description</h2><p>Implémente un discriminateur polaire (calcul de la fréquence instantanée pour un signal en bande de base), qui peut servir de brique pour la démodulation FM :  <formula id="319">\[
+<div id="page-content-full"><p>Discrimination polaire pour la démodulation FM. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;cfloat, float&gt;&gt; <b>discriminateur_fm</b>()</pre></p><h2><a name="4"></a>Retourne</h2><p>Filtre cfloat (signal bande de base, complexe) vers float (fréquence instantanée, sous forme de pulsation normalisée (entre \(-\pi\) et \(\pi\))). </p><h2><a name="5"></a>Description</h2><p>Implémente un discriminateur polaire (calcul de la fréquence instantanée pour un signal en bande de base), qui peut servir de brique pour la démodulation FM :  <formula id="316">\[
 y(t) = \frac{d\arg x}{dt}(t)
-\]</formula></p><p>L'implémentation est basée sur <a url="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/" href="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/">https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/</a>, qui permet un calcul efficace, sans arctangente :  <formula id="320">\[
+\]</formula></p><p>L'implémentation est basée sur <a url="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/" href="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/">https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/</a>, qui permet un calcul efficace, sans arctangente :  <formula id="317">\[
 y(t)  = \frac{\mathcal{Re}(x(t)) \frac{d\mathcal{Im}(x(t))}{dt} - \mathcal{Im}(x(t)) \frac{d\mathcal{Re}(x(t))}{dt}}{\left|x(t)\right|^2}
-\]</formula></p><p>Les dérivées étant approximées à l'ordre 1 :  <formula id="321">\[
+\]</formula></p><p>Les dérivées étant approximées à l'ordre 1 :  <formula id="318">\[
 \frac{dx}{dt}(k) \sim \frac{x_{k+1}-x_{k-1}}{2}
-\]</formula></p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Du fait de l'aproximation utilisée pour le calcul de la dérivée, ce bloc génére un retard de 1 échantillon.</dd></dl><br/><para fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+\]</formula></p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Du fait de l'aproximation utilisée pour le calcul de la dérivée, ce bloc génére un retard de 1 échantillon.</dd></dl><br/><br/><h2>Exemple</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Signal test</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = <a href="../../../../index-func/tsd/tsd-gen/siggauss/index.html">siggauss</a>(1000) / 10;</highlight>
 <highlight class="normal"></highlight>
@@ -103,6 +103,6 @@ y(t)  = \frac{\mathcal{Re}(x(t)) \frac{d\mathcal{Im}(x(t))}{dt} - \mathcal{Im}(x
 <highlight class="normal">  f.subplot().plot(y, </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal modulé FM"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot().plot(z, </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Sortie discriminateur"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p><img src="ex-discriminateur-fm.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="ex-discriminateur-fm.png" style="height: 100%; width: 100%; object-fit: contain"></img></p2></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

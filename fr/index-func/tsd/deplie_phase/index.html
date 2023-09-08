@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/deplie_phase/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/deplie_phase/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/deplie_phase/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/deplie_phase/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/deplie_phase/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -83,9 +83,9 @@
         </div>
 <div id="page-content-full"><p>Corrige les sauts de phases. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecteur&lt;T&gt; <b>déplie_phase</b>(const Vecteur&lt;T&gt; &x, float r=2 *π)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur contenant typiquement des angles </td></tr><tr><td>r</td><td>Définit la classe d'équivalence sur les valeurs de \(x\)</td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Un vecteur \(y\) tel que \(y_k = x_k + k \cdot r \), et avec le moins de discontinuités possibles (plus précisément, aucune discontinuité supérieure à \(r/2\) en valeur absolue).</p><h2><a name="6"></a>Description</h2><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = square(<a href="../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(-5,5,2000));</highlight>
-<highlight class="normal">  x = x.unaryExpr([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"> </highlight><highlight class="keywordtype">float</highlight><highlight class="normal"> x) {</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"> <a href="../../../index-func/tsd/50/index.html">modulo_2π</a>(x);});</highlight>
+<highlight class="normal">  x = x.unaryExpr(Λ(x, <a href="../../../index-func/tsd/54/index.html">modulo_2π</a>(x)));</highlight>
 <highlight class="normal">  soit y = <a href="../../../index-func/tsd/deplie_phase/index.html">déplie_phase</a>(x);</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p><img src="unwrap.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../index-func/tsd/51/index.html">modulo_pm_π()</a>, <a href="../../../index-func/tsd/50/index.html">modulo_2π()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="unwrap.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../index-func/tsd/55/index.html">modulo_pm_π()</a>, <a href="../../../index-func/tsd/54/index.html">modulo_2π()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

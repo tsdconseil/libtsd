@@ -1,0 +1,97 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>fenêtre_chebychev</title>
+<meta name="description" content="fenêtre_chebychev"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-fenetres/82/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-fenetres/82/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-fenetres/82/index.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">Traitement du signal en C++</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li><a href="../../../../index-func/vue/index.html">Visualisations</a></li><li><a href="../../../../index-func/geometrie/index.html">Géométrie</a></li><li><a href="../../../../index-func/ct/index.html">Signaux à temps continu</a></li><li><a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Représentations temps-fréquence</a></li><li><a href="../../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li><a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Exemples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Echantillonnage</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Filtrage linéaire</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Télécommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">Licence<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">fenêtre_chebychev</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-fenetres/index.html">Fenêtres</a></li><li> / fenêtre_chebychev</li></ul>
+        </div>
+<div id="page-content-full"><p>Création d'une fenêtre de Chebychev. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>fenêtre_chebychev</b>(entier n, float atten_db, bouléen symetrique=oui)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>Nombre de coefficients. </td></tr><tr><td>atten_db</td><td>Atténuation en dB sur la bande coupée. </td></tr><tr><td>symetrique</td><td>Si vrai, réalisation d'une fenêtre symétrique (adaptée pour la conception d'un filtre), sinon réalise une fenêtre périodique (adaptée pour l'analyse spectrale). </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Vecteurs des coefficients de la fenêtre (vecteur de dimension <code>n</code>)</p><h2><a name="6"></a>Description</h2><p>La fenêtre de Chebychev a la propriété d'avoir une ondulation d'amplitude constante (voir exemple ci-dessous). Le design est aussi très pratique, car on choisi l'ordre (le nombre de coefficients), et l'atténuation souhaitée, et c'est la largeur du lobe principal qui sert de variable d'ajustement.</p><p><h2>Exemple : création d'une fenêtre avec 60 dB d'atténuation</h2><p fr="Exemple : création d'une fenêtre avec 60 dB d'atténuation"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Spécifications :</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// - 60 dB d'atténuation,</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// - 31 coefficients</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit x = <a href="../../../../index-func/filtrage/filtrage-fenetres/82/index.html">fenêtre_chebychev</a>(31, 60);</highlight>
+<highlight class="normal">  soit [fr, xm] = <a href="../../../../index-func/filtrage/filtrage-analyse/frmag/index.html">frmag</a>(x);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Figure f1, f2;</highlight>
+<highlight class="normal">  f1.plot(x, </highlight><highlight class="stringliteral">"b-o"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f2.plot(fr, <a href="../../../../index-func/tsd/mag2db/index.html">mag2db</a>(xm / xm.valeur_max()));</highlight>
+<highlight class="normal"></highlight>
+</code></pre></p></description><img src="filtrage-fenetre-cheby.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Temporel</p><img src="filtrage-fenetre-cheby-freq.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Spectre</p></p></p><p/><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_rif_fen/index.html">design_rif_fen()</a>, <a href="../../../../index-func/tsd/divers/Chebychev_T/index.html">Chebychev_T()</a></p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

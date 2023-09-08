@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/fft/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fft/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fft/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fft/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fft/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">fft</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / fft</li></ul>
         </div>
-<div id="page-content-full"><p>Transformée de Fourier Discrète (TFD) rapide. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>fft</b>(const Vecteur&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée : domaine temporel, réel ou complexe. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>X = TFD(x) : domaine fréquentiel, complexe.</p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule la TFD <b>normalisée</b> d'un vecteur réel ou complexe :  <formula id="65">\[
+<div id="page-content-full"><p>Transformée de Fourier Discrète (TFD) rapide. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>fft</b>(const Vecteur&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée : domaine temporel, réel ou complexe. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>X = TFD(x) : domaine fréquentiel, complexe.</p><h2><a name="6"></a>Description</h2><p>Cette fonction calcule la TFD <b>normalisée</b> d'un vecteur réel ou complexe :  <formula id="68">\[
   X_n = \frac{1}{\sqrt{N}}\cdot\sum_{k=0}^{N-1} x_k \cdot e^{\frac{-2\pi\mathbf{i}kn}{N}}
 \]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"><a href="../../../index-func/tsd/Vecf/../index.html">Vecf</a>  x = <a href="../../../index-func/tsd/tsd-gen/randn-2/index.html">randn</a>(100); </highlight><highlight class="comment">// Vecteur réel</highlight><highlight class="normal"></highlight>
 <highlight class="normal"><a href="../../../index-func/tsd/Veccf/../index.html">Veccf</a> X = <a href="../../../index-func/fourier/fft/index.html">fft</a>(x);     </highlight><highlight class="comment">// Vecteur complexe</highlight>

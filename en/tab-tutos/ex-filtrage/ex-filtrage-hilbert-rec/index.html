@@ -1,0 +1,130 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../..//highlight/styles/default.css">
+    <script src="../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Enveloppe recovery</title>
+<meta name="description" content="Enveloppe recovery"/>
+<!--[if lt IE 9]>
+      <script src="../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../js/custom.js"></script>
+<script src="../../../js/tabs.js"></script><script src="../../../js/masonry.min.js" ></script>
+<script src="../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../css/superfish.css" /> 
+<script  src="../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../css/flexslider.css" >
+<script src="../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
+<script src="../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/tab-tutos/ex-filtrage/ex-filtrage-hilbert-rec/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/tab-tutos/ex-filtrage/ex-filtrage-hilbert-rec/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/tab-tutos/ex-filtrage/ex-filtrage-hilbert-rec/index.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">General functions</a></li><li><a href="../../../index-func/vue/index.html">Visualizations</a></li><li><a href="../../../index-func/geometrie/index.html">Geometry</a></li><li><a href="../../../index-func/ct/index.html">Continuous time signals</a></li><li><a href="../../../index-func/filtrage/index.html">Linear filtering</a></li><li><a href="../../../index-func/fourier/index.html">Fourier transform</a></li><li><a href="../../../index-func/temps-frequence/index.html">Time-frequency representations</a></li><li><a href="../../../index-func/stats/index.html">Statistical signal processing</a></li><li><a href="../../../index-func/telecom/index.html">Telecommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li class="current-menu-item"><a href="../../../tab-tutos/index.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Sampling</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Linear filtering</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Fourier transform</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">License<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../index/index.html" id="logo"><table><tr><td><img  src="../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">C++ signal processing</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../index-func/tsd/index.html">General functions</a></li><li><a href="../../../index-func/vue/index.html">Visualizations</a></li><li><a href="../../../index-func/geometrie/index.html">Geometry</a></li><li><a href="../../../index-func/ct/index.html">Continuous time signals</a></li><li><a href="../../../index-func/filtrage/index.html">Linear filtering</a></li><li><a href="../../../index-func/fourier/index.html">Fourier transform</a></li><li><a href="../../../index-func/temps-frequence/index.html">Time-frequency representations</a></li><li><a href="../../../index-func/stats/index.html">Statistical signal processing</a></li><li><a href="../../../index-func/telecom/index.html">Telecommunications</a></li><li><a href="../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li class="current-menu-item"><a href="../../../tab-tutos/index.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../tab-tutos/ex-echan/index.html">Sampling</a></li><li><a href="../../../tab-tutos/ex-filtrage/index.html">Linear filtering</a></li><li><a href="../../../tab-tutos/ex-fourier/index.html">Fourier transform</a></li><li><a href="../../../tab-tutos/ex-telecom/index.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../tab-licence/index.html">License<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Enveloppe recovery</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../tab-tutos/index.html">Examples</a></li><li> / <a href="../../../tab-tutos/ex-filtrage/index.html">Linear filtering</a></li><li> / Enveloppe recovery</li></ul>
+        </div>
+<div id="page-content-full"><p>Here, we will recover the enveloppe of a signal using the Hilbert transform.</p><p><pre><code class="C++"><highlight class="normal">Figures exemple_hilbert_enveloppe(</highlight><highlight class="keyword">const</highlight><highlight class="normal"> ExHilbertEnveloppe &config)</highlight>
+<highlight class="normal">{</highlight>
+<highlight class="normal">  soit n       = 1000;</highlight>
+<highlight class="normal">  soit t  = linspace(-24*π, 24*π, n),</highlight>
+<highlight class="normal">       x  = cos(2*t) * exp(-abs(t)/10);</highlight><highlight class="comment">// + t / (24*π); // signal de test</highlight><highlight class="normal"></highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Veccf z;</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  si(config.méthode == ExHilbertEnveloppe::RIF)</highlight>
+<highlight class="normal">  {</highlight>
+<highlight class="normal">    z = (hilbert_transformeur(config.ncoefs, Fenetre2string(config.tfen)))-&gt;step(x);</highlight>
+<highlight class="normal">    </highlight><highlight class="comment">// Retarde le signal x afin de l'aligner avec l'enveloppe</highlight><highlight class="normal"></highlight>
+<highlight class="normal">    x = (ligne_a_retard&lt;float&gt;(config.ncoefs/2))-&gt;step(x);</highlight>
+<highlight class="normal">  }</highlight>
+<highlight class="normal">  sinon</highlight>
+<highlight class="normal">  {</highlight>
+<highlight class="normal">    soit X = <a href="../../../index-func/fourier/fft/index.html">fft</a>(x * (fenêtre(config.tfen, n)));</highlight>
+<highlight class="normal">    X.tail(X.rows()/2-1).setZero();</highlight>
+<highlight class="normal">    z = <a href="../../../index-func/fourier/ifft/index.html">ifft</a>(X) * 2;</highlight>
+<highlight class="normal">  }</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Figures res;</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  soit f = res.subplot();</highlight>
+<highlight class="normal">  f.plot(x, </highlight><highlight class="stringliteral">"k-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal avec modulation"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.plot(abs(z),</highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Enveloppe"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.plot(-abs(z),</highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.titre(est_fr() ? </highlight><highlight class="stringliteral">"Transformée de Hilbert"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">"Hilbert transform"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  f = res.subplot();</highlight>
+<highlight class="normal">  f.plot(real(z), </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"real"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.plot(imag(z), </highlight><highlight class="stringliteral">"g-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"imag"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.titre(est_fr() ? </highlight><highlight class="stringliteral">"Signal analytique"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">"Analytic signal"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  f = res.subplot();</highlight>
+<highlight class="normal">  f.plot_psd(x);</highlight>
+<highlight class="normal">  f.titre(est_fr() ? </highlight><highlight class="stringliteral">"PSD signal entrée"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">"Input signal PSD"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  f = res.subplot();</highlight>
+<highlight class="normal">  f.plot_psd(z);</highlight>
+<highlight class="normal">  f.titre(est_fr() ? </highlight><highlight class="stringliteral">"PSD signal transformé"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">"Transformed signal PSD"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  retourne res;</highlight>
+<highlight class="normal">}</highlight>
+</code></pre></p><p><img src="exemple-hilbert-enveloppe-rif.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Using FIR approximation (31 taps)</p></p><p><img src="exemple-hilbert-enveloppe-tfd.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Using DFT</p></p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

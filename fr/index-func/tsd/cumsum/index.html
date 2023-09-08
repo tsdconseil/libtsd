@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/cumsum/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/cumsum/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/cumsum/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/cumsum/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/cumsum/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">cumsum</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / cumsum</li></ul>
         </div>
-<div id="page-content-full"><p>Somme cumulée d'un vecteur. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>cumsum</b>(const Vecteur&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Description</h2><p>Calcule un vecteur de dimension identique et égale à l'acculation des échantillons du vecteurs d'entrée :  <formula id="330">\[
+<div id="page-content-full"><p>Somme cumulée d'un vecteur. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>cumsum</b>(const Vecteur&lt;T&gt; &x)</pre></p><h2><a name="4"></a>Description</h2><p>Calcule un vecteur de dimension identique et égale à l'acculation des échantillons du vecteurs d'entrée :  <formula id="333">\[
 y_n = \sum_{k=0}^n x_k,\quad k = 0\dots N-1
 \]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit x     = <a href="../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, 99, 100),</highlight>
 <highlight class="normal">     y     = <a href="../../../index-func/tsd/cumsum/index.html">cumsum</a>(x),</highlight>

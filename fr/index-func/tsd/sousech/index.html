@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/sousech/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/sousech/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/sousech/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/sousech/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/sousech/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">sousech</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / sousech</li></ul>
         </div>
-<div id="page-content-full"><p>Sous-échantillonnage d'un vecteur colonne. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>sousech</b>(const Vecteur&lt;T&gt; &x, entier R)</pre></p><h2><a name="4"></a>Description</h2><p>A partir d'un vecteur \((x_k), k=0\dots n-1\), renvoie un vecteur sous-échantillonné d'un facteur \(R\) :  <formula id="336">\[
+<div id="page-content-full"><p>Sous-échantillonnage d'un vecteur colonne. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>sousech</b>(const Vecteur&lt;T&gt; &x, entier R)</pre></p><h2><a name="4"></a>Description</h2><p>A partir d'un vecteur \((x_k), k=0\dots n-1\), renvoie un vecteur sous-échantillonné d'un facteur \(R\) :  <formula id="337">\[
 y_k = x_{kR},\quad k =0 \dots \left\lfloor N/R\right\rfloor -1
 \]</formula></p><p><h2>Exemple :</h2><p fr="Exemple :"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit x = <a href="../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(1, 20, 20);</highlight>
 <highlight class="normal">  soit y = <a href="../../../index-func/tsd/sousech/index.html">sousech</a>(x, 2);</highlight>

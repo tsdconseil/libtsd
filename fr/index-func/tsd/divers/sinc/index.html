@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/divers/sinc/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/divers/sinc/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/divers/sinc/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/divers/sinc/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/divers/sinc/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -88,8 +88,8 @@
 \]</formula></p><h2><a name="6"></a>Description</h2><p>
 Au facteur d'échelle \(T\) près, cette fonction n'est autre que le sinus cardinal :  <formula id="26">\[
 \textrm{sinc}_T(f) = \frac{\sin \pi T f}{\pi f}
-\]</formula></p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Notez que cette fonction peut aussi être interprétée comme la Transformée de Fourier inverse d'une porte fréquentielle. Dans ce cas, \(T\) doit être interprété comme <b>deux fois</b> la fréquence de coupure \(f_c\), et \(f\) comme le temps \(t\).</dd></dl><br/><para fr="Exemple 1 : TF d'une fonction porte temporelle"><description lang="fr">Ici, on calcule la TF d'une porte temporelle d'extension \(\pm 1/2\), ce qui correspond par exemple à la réponse fréquentielle d'une moyenne glissante. <p><pre><code class="C++"><highlight class="normal">y = <a href="../../../../index-func/tsd/divers/sinc/index.html">sinc</a>(1, f);</highlight>
-</code></pre></p></description></para><para fr="Exemple 2 : TFI d'une porte fréquentielle"><description lang="fr">Ici, on calcule la TFI d'une porte fréquentielle de largeur \(2f_c\) (extension \(\pm f_c\)), c'est-à-dire un filtre idéal coupant à la fréquence \(f_c\). <p><pre><code class="C++"><highlight class="normal">y = <a href="../../../../index-func/tsd/divers/sinc/index.html">sinc</a>(2 * fc, t);</highlight>
-</code></pre></p></description></para></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/tsd/divers/sinc-2/index.html">sinc(float)</a></p></div></div><div class="clearfix"></div>
+\]</formula></p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Notez que cette fonction peut aussi être interprétée comme la Transformée de Fourier inverse d'une porte fréquentielle. Dans ce cas, \(T\) doit être interprété comme <b>deux fois</b> la fréquence de coupure \(f_c\), et \(f\) comme le temps \(t\).</dd></dl><br/><br/><h2>Exemple 1 : TF d'une fonction porte temporelle</h2><p2>Ici, on calcule la TF d'une porte temporelle d'extension \(\pm 1/2\), ce qui correspond par exemple à la réponse fréquentielle d'une moyenne glissante. <p><pre><code class="C++"><highlight class="normal">y = <a href="../../../../index-func/tsd/divers/sinc/index.html">sinc</a>(1, f);</highlight>
+</code></pre></p></p2><br/><h2>Exemple 2 : TFI d'une porte fréquentielle</h2><p2>Ici, on calcule la TFI d'une porte fréquentielle de largeur \(2f_c\) (extension \(\pm f_c\)), c'est-à-dire un filtre idéal coupant à la fréquence \(f_c\). <p><pre><code class="C++"><highlight class="normal">y = <a href="../../../../index-func/tsd/divers/sinc/index.html">sinc</a>(2 * fc, t);</highlight>
+</code></pre></p></p2></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/tsd/divers/sinc-2/index.html">sinc(float)</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/capacite_canal_awgn/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/capacite_canal_awgn/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/capacite_canal_awgn/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/capacite_canal_awgn/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-simu/capacite_canal_awgn/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -86,7 +86,7 @@
 \]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  soit n = 100;</highlight>
 <highlight class="normal">  soit snr_db = <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(-10, 20, n);</highlight>
-<highlight class="normal">  soit C = snr_db.unaryExpr([](</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"> x){</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"> <a href="../../../../index-func/telecom/telecom-simu/capacite_canal_awgn/index.html">capacite_canal_awgn</a>(<a href="../../../../index-func/tsd/db2pow/index.html">db2pow</a>(x));});</highlight>
+<highlight class="normal">  soit C = snr_db.unaryExpr(Λ(x, <a href="../../../../index-func/telecom/telecom-simu/capacite_canal_awgn/index.html">capacite_canal_awgn</a>(<a href="../../../../index-func/tsd/db2pow/index.html">db2pow</a>(x))));</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">  Figure f;</highlight>
 <highlight class="normal">  f.plot(snr_db, C);</highlight>

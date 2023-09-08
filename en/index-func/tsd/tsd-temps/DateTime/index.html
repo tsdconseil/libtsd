@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>Structure DateTime</title>
+<meta name="description" content="Structure DateTime"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-temps/DateTime/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-temps/DateTime/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-temps/DateTime/index.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">General functions</a></li><li><a href="../../../../index-func/vue/index.html">Visualizations</a></li><li><a href="../../../../index-func/geometrie/index.html">Geometry</a></li><li><a href="../../../../index-func/ct/index.html">Continuous time signals</a></li><li><a href="../../../../index-func/filtrage/index.html">Linear filtering</a></li><li><a href="../../../../index-func/fourier/index.html">Fourier transform</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Time-frequency representations</a></li><li><a href="../../../../index-func/stats/index.html">Statistical signal processing</a></li><li><a href="../../../../index-func/telecom/index.html">Telecommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Sampling</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Linear filtering</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Fourier transform</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">License<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">C++ signal processing</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">General functions</a></li><li><a href="../../../../index-func/vue/index.html">Visualizations</a></li><li><a href="../../../../index-func/geometrie/index.html">Geometry</a></li><li><a href="../../../../index-func/ct/index.html">Continuous time signals</a></li><li><a href="../../../../index-func/filtrage/index.html">Linear filtering</a></li><li><a href="../../../../index-func/fourier/index.html">Fourier transform</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Time-frequency representations</a></li><li><a href="../../../../index-func/stats/index.html">Statistical signal processing</a></li><li><a href="../../../../index-func/telecom/index.html">Telecommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Sampling</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Linear filtering</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Fourier transform</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">License<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">Structure DateTime</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index.html">General functions</a></li><li> / <a href="../../../../index-func/tsd/tsd-temps/index.html">Date / time</a></li><li> / Structure DateTime</li></ul>
+        </div>
+<div id="page-content"><p>Date et heure, avec fonctions de conversion vers différents formats (calendriers, temps sidéral, heure UTC, etc.). </p><p>Namespace: <code>dsp::time</code><br/></p><h2><a name="3"></a>Fields list</h2><p><pre><b>ntics</b> : int64_t</pre><p>Nombre total de micro-secondes depuis le 1/1/0, 0h00. </p></p><h2><a name="4"></a>Methods list</h2><p><p><code>dsp::time::<a href="DateTime/index.html">DateTime</a>::DateTime(const tsdt::DateHeure &hc)</code><br/></p><p><code>auto <a href="dt/index.html">dt</a>() const</code><br/></p><p><code>dsp::time::<a href="DateTime-2/index.html">DateTime</a>::DateTime(int64_t tics=0)</code><br/>Constructeur (d'après un nombre total de micro-secondes depuis le 1/1/0, 0h00). </p><p><code>dsp::time::<a href="DateTime-3/index.html">DateTime</a>::DateTime(const DateComposite &date)</code><br/>Conctructeur (d'après calendrier Grégorien). </p><p><code>dsp::time::<a href="DateTime-4/index.html">DateTime</a>::DateTime(int year, double day)</code><br/>Constructeur, d'après l'année et un nombre fractionnaire de jours. </p><p><code>double <a href="Greenwich_sidereal_time/index.html">Greenwich_sidereal_time</a>() const</code><br/>Calcul le temps sidéral de Greenwich. </p><p><code>double <a href="local_sidereal_time/index.html">local_sidereal_time</a>(double longitude) const</code><br/>Calcul le temps sidéral local (exprimé en radians). </p><p><code>double <a href="nb_Julian_days/index.html">nb_Julian_days</a>() const</code><br/>Nombre de "jours Juliens" (nombre de jours depuis le premier Janvier, 4713 BC, 12h00). </p><p><code>double <a href="J2000/index.html">J2000</a>() const</code><br/>"Date Julienne modifiée" : nombre de jours depuis l'époque J2000 (à minuit au lieu de 12h00). </p><p><code>Calendar <a href="calendar/index.html">calendar</a>() const</code><br/>Décompositon de la date (année, mois, jour), en UTC. </p><p><code>HourComposite <a href="decomp_time/index.html">decomp_time</a>() const</code><br/>Décompositon de l'heure (heure, minutes, etc.), en UTC. </p><p><code>DateComposite <a href="decomposition/index.html">decomposition</a>() const</code><br/>Décomposition date et heure, en UTC. </p><p><code>DateComposite <a href="decomposition_local/index.html">decomposition_local</a>() const</code><br/>Décomposition date et heure, suivant l'heure locale. </p><p><code>tuple&lt;int, int&gt; <a href="to_GPS/index.html">to_GPS</a>() const</code><br/>Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. </p><p><code>tuple&lt;int, int64_t&gt; <a href="to_GPS_us/index.html">to_GPS_us</a>() const</code><br/></p><p><code>int <a href="microseconds/index.html">microseconds</a>() const</code><br/>Nombre de microsecondes depuis la dernière seconde entière, entre 0 et 1e6-1. </p><p><code>std::strong_ordering dsp::time::DateTime::<a href="10/index.html">operator&lt;=&gt;</a>(const DateTime &) const =default</code><br/></p></p></div><span class="myaside"><aside id="sidebar"><div class="block">
+                 <h4>Contents:</h4><ul><li><a href="#3">Fields list</a></li><li><a href="#4">Methods list</a></li></ul><ul><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/DateTime/index.html">DateTime (1)</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/dt/index.html">dt</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/DateTime-2/index.html">DateTime (2)</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/DateTime-3/index.html">DateTime (3)</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/DateTime-4/index.html">DateTime (4)</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/Greenwich_sidereal_time/index.html">Greenwich_sidereal_time</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/local_sidereal_time/index.html">local_sidereal_time</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/nb_Julian_days/index.html">nb_Julian_days</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/J2000/index.html">J2000</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/calendar/index.html">calendar</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/decomp_time/index.html">decomp_time</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/decomposition/index.html">decomposition</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/decomposition_local/index.html">decomposition_local</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/to_GPS/index.html">to_GPS</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/to_GPS_us/index.html">to_GPS_us</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/microseconds/index.html">microseconds</a></li><li><a href="../../../../index-func/tsd/tsd-temps/DateTime/10/index.html">operator&lt;=&gt;</a></li></ul></div></aside></span>
+</div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

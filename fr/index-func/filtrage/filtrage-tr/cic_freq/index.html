@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/cic_freq/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/cic_freq/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/cic_freq/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/cic_freq/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/cic_freq/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">cic_freq</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / cic_freq</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Filtrage temps réel</a></li><li> / cic_freq</li></ul>
         </div>
 <div id="page-content-full"><p>Frequency response of a CIC filter. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>cic_freq</b>(const CICConfig &config, const Vecf &f)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>config</td><td>Paramètres principaux (voir <a href="../../../../index-func/filtrage/filtrage-design/CICConfig/index.html">CICConfig</a>) </td></tr><tr><td>f</td><td>normalized frequency, between -0.5 and 0.5 (can be a 1d vector) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>mag Output magnitude, computed at each frequency point</p><h2><a name="6"></a>Description</h2><p>
 This function computes the CIC frequency response (in magnitude) at the specified normalized frequencies \(f_k\). The magnitude is computed as:  <formula id="227">\[

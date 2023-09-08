@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/modulateur_creation/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/modulateur_creation/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/modulateur_creation/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/modulateur_creation/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/modulateur_creation/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -91,7 +91,7 @@ R = R_1 \cdot R_2
     y_k = e^{2\pi\mathbf{i} k f_i / f_e} \cdot x_k
    \]</formula> Par ailleurs, si le paramètre <code>sortie_réelle</code> est actif, la partie imaginaire du résultat est mise à zéro :  <formula id="289">\[
  z_k = \mathcal{R}(y_k)
-\]</formula></li></ul><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Attention : L'étage d'adaptation de rythme est pour l'instant désactivé, si bien que le changement de rythme est entièrement à la charge du filtre de mise en forme (implémentation RIF polyphase), ce qui peut être assez coûteux en charge de calcul si \(R\) (facteur global de rééchantillonnage) est élevé.</dd></dl><br/><para fr="Schéma-bloc"><description lang="fr"><img src="modulateur.png" max-width="300px"></img></description></para><para fr="Exemple 1 : modulation BPSK (avec filtre NRZ)"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+\]</formula></li></ul><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Attention : L'étage d'adaptation de rythme est pour l'instant désactivé, si bien que le changement de rythme est entièrement à la charge du filtre de mise en forme (implémentation RIF polyphase), ce qui peut être assez coûteux en charge de calcul si \(R\) (facteur global de rééchantillonnage) est élevé.</dd></dl><br/><br/><h2>Schéma-bloc</h2><p2><img src="modulateur.png" max-width="300px"></img></p2><br/><h2>Exemple 1 : modulation BPSK (avec filtre NRZ)</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  <a href="../../../../index-func/telecom/telecom-mods/ModConfig/index.html">ModConfig</a> config;</highlight>
 <highlight class="normal">  config.lien non trouvé : [structtsd_1_1telecom_1_1_mod_config_1a7ab39be2bea9353c45ef8bc657fce175]forme_onde     = <a href="../../../../index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_bpsk/index.html">forme_onde_bpsk</a>();</highlight>
 <highlight class="normal">  config.lien non trouvé : [structtsd_1_1telecom_1_1_mod_config_1a27ee82b08ade399e2cb8cd05241e7c11]fe     = 100e3; </highlight><highlight class="comment">// Fréquence d'échantillonnage = 100 kHz</highlight><highlight class="normal"></highlight>
@@ -108,7 +108,7 @@ R = R_1 \cdot R_2
 <highlight class="normal">  f.subplot().plot(bs.array(), </highlight><highlight class="stringliteral">"hb"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Train binaire"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot().plot(real(x), </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal modulé BPSK (NRZ)"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p><img src="ex-modulateur.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Exemples de modulation BPSK</p></description></para><para fr="Exemple 2 : modulation QPSK (avec filtre SRRC)"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+</code></pre></p><img src="ex-modulateur.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Exemples de modulation BPSK</p></p2><br/><h2>Exemple 2 : modulation QPSK (avec filtre SRRC)</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  <a href="../../../../index-func/telecom/telecom-mods/ModConfig/index.html">ModConfig</a> config;</highlight>
 <highlight class="normal">  config.lien non trouvé : [structtsd_1_1telecom_1_1_mod_config_1a7ab39be2bea9353c45ef8bc657fce175]forme_onde     = <a href="../../../../index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_qpsk/index.html">forme_onde_qpsk</a>(lien non trouvé : [structtsd_1_1telecom_1_1_spec_filtre_mise_en_forme_1ade0567b3c8300e63cb0a477dba0a60a1]SpecFiltreMiseEnForme::rcs(0.4));</highlight>
 <highlight class="normal">  config.lien non trouvé : [structtsd_1_1telecom_1_1_mod_config_1a27ee82b08ade399e2cb8cd05241e7c11]fe     = 100e3; </highlight><highlight class="comment">// Fréquence d'échantillonnage = 100 kHz</highlight><highlight class="normal"></highlight>
@@ -124,6 +124,6 @@ R = R_1 \cdot R_2
 <highlight class="normal">  Figures f;</highlight>
 <highlight class="normal">  f.subplot().plot(bs.array(), </highlight><highlight class="stringliteral">"hb"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Train binaire"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot().plot(x, </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal modulé QPSK (SRRC)"</highlight><highlight class="normal">);</highlight>
-</code></pre></p><img src="ex-modulateur2.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Exemples de modulation QPSK</p></description></para></p><h2><a name="5"></a>Voir aussi</h2><p><a href="../../../../index-func/telecom/telecom-mods/demodulateur_creation/index.html">démodulateur_création()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="ex-modulateur2.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Exemples de modulation QPSK</p></p2></p><h2><a name="5"></a>Voir aussi</h2><p><a href="../../../../index-func/telecom/telecom-mods/demodulateur_creation/index.html">démodulateur_création()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

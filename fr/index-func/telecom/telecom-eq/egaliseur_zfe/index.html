@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-eq/egaliseur_zfe/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-eq/egaliseur_zfe/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-eq/egaliseur_zfe/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-eq/egaliseur_zfe/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-eq/egaliseur_zfe/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -83,7 +83,7 @@
         </div>
 <div id="page-content-full"><p>Calcul du filtre inverse par zéro-forçage. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>égaliseur_zfe</b>(const Vecf &h, entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>h</td><td>Réponse impulsionnelle du canal, </td></tr><tr><td>n</td><td>Nombre de coefficients souhaités pour le filtre inverse. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Filtre RIF inverse (coefficients).</p><h2><a name="6"></a>Description</h2><p>Etant donné la réponse du canal \(h\), cette fonction calcule les coefficients d'un filtre RIF \(g\), en essayant d'approximer  <formula id="312">\[
 g\star h = \delta_d
-\]</formula>,</p><p>\(d\) étant un délais global. Autrement dit, \(g\) est un filtre inverse (au délais près) de \(h\).</p><p><img src="zfe.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Egalisation ZFE</p></p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).</dd></dl><br/><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>L'inversion n'est qu'approximative, le filtre inverse exact ayant une réponse impulsionnelle de support non borné. </dd></dl><br/><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).</dd></dl><br/><para fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  </highlight><highlight class="comment">// h = réponse du canal (supposée connue)</highlight><highlight class="normal"></highlight>
+\]</formula>,</p><p>\(d\) étant un délais global. Autrement dit, \(g\) est un filtre inverse (au délais près) de \(h\).</p><p><img src="zfe.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">Egalisation ZFE</p></p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Cette fonction requiert de pouvoir mesurer la réponse du canal (par exemple en envoyant un signal de type impulsionnel côté émetteur).</dd></dl><br/><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>L'inversion n'est qu'approximative, le filtre inverse exact ayant une réponse impulsionnelle de support non borné. </dd></dl><br/><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Si la réponse du canal présente des zéros (ou des magnitudes faibles) dans le domaine fréquentielle, ce type d'égalisation n'est pas recommandée (amplification du bruit).</dd></dl><br/><br/><h2>Exemple</h2><p2><p><pre><code class="C++"><highlight class="normal">  </highlight><highlight class="comment">// h = réponse du canal (supposée connue)</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  soit h = Vecf::valeurs({0.02, -0.1, 0.1, 1, -0.05, 0.1, 0.05}),</highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// g = filtre d'égalisation</highlight><highlight class="normal"></highlight>
 <highlight class="normal">       g = <a href="../../../../index-func/telecom/telecom-eq/egaliseur_zfe/index.html">égaliseur_zfe</a>(h, 15);</highlight>
@@ -93,7 +93,7 @@ g\star h = \delta_d
 <highlight class="normal">  x0 = (<a href="../../../../index-func/telecom/telecom-ps/sah/index.html">sah</a>(x0, 3) | Vecf::zeros(10)); </highlight><highlight class="comment">// NRZ + flush</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  soit x1 = convol&lt;float,float&gt;(h, x0),</highlight>
 <highlight class="normal">       x2 = convol&lt;float,float&gt;(g, x1);</highlight>
-</code></pre></p></description></para>
+</code></pre></p></p2>
 Réponses impulsionnelles (canal et du filtre d'égalisation) :</p><p><img src="zfe-0.png" style="height: 100%; width: 100%; object-fit: contain"></img><linebreak/></p><p>Réponses fréquentielles (canal et du filtre d'égalisation) :</p><p><img src="zfe-1.png" style="height: 100%; width: 100%; object-fit: contain"></img><linebreak/></p><p>Exemple d'égalisation sur une flux NRZ :</p><p><img src="zfe-2.png" style="height: 100%; width: 100%; object-fit: contain"></img></p><p/><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/telecom/telecom-eq/egaliseur_rif_creation/index.html">égaliseur_rif_création()</a>, <a href="../../../../index-func/telecom/telecom-eq/egaliseur_zfe_matrice/index.html">égaliseur_zfe_matrice()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

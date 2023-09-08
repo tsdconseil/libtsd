@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/randn/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -82,11 +82,11 @@
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / <a href="../../../../index-func/tsd/tsd-gen/index.html">Génération de signaux</a></li><li> / randn (1)</li></ul>
         </div>
 <div id="page-content-full"><p>Loi normale (vecteur colonne). </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>randn</b>(entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>nombre de points à générer </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Un vecteur de valeurs aléatoires, échantillonées suivant une loi normale (variance unitaire).</p><h2><a name="6"></a>Description</h2><p>Génération d'un vecteur (colonne) d'échantillons d'une loi normale ( \(\mathcal{N}(0,1)\)).</p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Notez que pour générer une loi Gaussienne plus générale (variance différente de 1, et moyenne différente de zéro), il suffit d'effectuer une mise à l'échelle. Par exemple, pour une moyenne de 5, et une variance de \(1/2\) : <p><pre><code class="C++"><highlight class="normal">soit x = 5 + 0.5 * <a href="../../../../index-func/tsd/tsd-gen/randn-2/index.html">randn</a>(n);</highlight>
-</code></pre></p></dd></dl><br/><para fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  </highlight><highlight class="comment">// 100 valeurs aléatoires (loi normale)</highlight><highlight class="normal"></highlight>
+</code></pre></p></dd></dl><br/><br/><h2>Exemple</h2><p2><p><pre><code class="C++"><highlight class="normal">  </highlight><highlight class="comment">// 100 valeurs aléatoires (loi normale)</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = <a href="../../../../index-func/tsd/tsd-gen/randn-2/index.html">randn</a>(1000);</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">  Figure f;</highlight>
 <highlight class="normal">  f.plot(x, </highlight><highlight class="stringliteral">"yo"</highlight><highlight class="normal">);</highlight>
-</code></pre></p><img src="randn.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/tsd/tsd-gen/randu/index.html">randu(entier, float, float)</a>, <a href="../../../../index-func/tsd/tsd-gen/randb/index.html">randb()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="randn.png" style="height: 100%; width: 100%; object-fit: contain"></img></p2></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/tsd/tsd-gen/randu/index.html">randu(entier, float, float)</a>, <a href="../../../../index-func/tsd/tsd-gen/randb/index.html">randb()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

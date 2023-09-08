@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/stats/subspace_spectrum/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/stats/subspace_spectrum/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/stats/subspace_spectrum/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/stats/subspace_spectrum/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/stats/subspace_spectrum/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">subspace_spectrum</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/stats/index.html">Traitement du signal statistique</a></li><li> / subspace_spectrum</li></ul>
         </div>
-<div id="page-content-full"><p>Calcul d'une réponse générale par la méthode des sous-espaces. </p><p>Espace de nom : <code>tsd::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">SubSpaceSpectrum <b>subspace_spectrum</b>(const Tabcf &R, const SubSpaceSpectrumConfig &config)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>R</td><td>Matrice d'auto-corrélation </td></tr><tr><td>config</td><td>Configuration (voir <a href="../../../index-func/stats/SubSpaceSpectrumConfig/index.html">SubSpaceSpectrumConfig</a>) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>La réponse générale (voir structure <a href="../../../index-func/stats/SubSpaceSpectrum/index.html">SubSpaceSpectrum</a>)</p><h2><a name="6"></a>Description</h2><p>Calcul d'une réponse suivant l'algorithme MUSIC :  <formula id="185">\[
+<div id="page-content-full"><p>Calcul d'une réponse générale par la méthode des sous-espaces. </p><p>Espace de nom : <code>tsd::stats</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">SubSpaceSpectrum <b>subspace_spectrum</b>(const Tabcf &R, const SubSpaceSpectrumConfig &config)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>R</td><td>Matrice d'auto-corrélation </td></tr><tr><td>config</td><td>Configuration (voir <a href="../../../index-func/stats/SubSpaceSpectrumConfig/index.html">SubSpaceSpectrumConfig</a>) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>La réponse générale (voir structure <a href="../../../index-func/stats/SubSpaceSpectrum/index.html">SubSpaceSpectrum</a>)</p><h2><a name="6"></a>Description</h2><p>Calcul d'une réponse suivant l'algorithme MUSIC :  <formula id="179">\[
 S_i = \frac{1}{\sum_{k=p+1}^N \left|v_k^H \cdot e_i \right|}
 \]</formula></p><p>les \(v_k\) étant les vecteurs propres associés au bruit (en supposant que \(p\) premiers vecteurs propres soient associés au signal), et les \(e_i\) étant les signaux tests (typiquement, des exponentielles complexes, pour la recherche de signaux périodiques).</p><p><h2>Bibliographie</h2><p fr="Bibliographie"><description lang="fr"><i>Statistical signal processing and modelling</i>, M.H. Hayes, 1996 </description></p></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

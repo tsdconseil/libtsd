@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/reechan/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/reechan/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/reechan/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/reechan/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/reechan/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">rééchan</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / rééchan</li></ul>
         </div>
-<div id="page-content-full"><p>Ré-échantillonnage d'un signal suivant un facteur arbitraire. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>rééchan</b>(const Vecteur&lt;T&gt; &x, float r)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Signal d'entrée </td></tr><tr><td>r</td><td>Facteur de ré-échantillonnage ( \(f_e^{(2)} / f_e^{(1)}\)) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Signal ré-échantillonné</p><h2><a name="6"></a>Description</h2><p>Cette fonction ré-échantillonne un signal suivant un facteur de décimation ( \(r &lt; 1\)) ou d'interpolation ( \(r &gt; 1\)) arbitraire.</p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Un filtre (voir une cascade de filtres) est automatiquement inséré (avant la décimation ou après le sur-échantillonnage) de manière à éviter le repliement de spectre.</dd></dl><br/><para fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+<div id="page-content-full"><p>Ré-échantillonnage d'un signal suivant un facteur arbitraire. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>rééchan</b>(const Vecteur&lt;T&gt; &x, float r)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Signal d'entrée </td></tr><tr><td>r</td><td>Facteur de ré-échantillonnage ( \(f_e^{(2)} / f_e^{(1)}\)) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Signal ré-échantillonné</p><h2><a name="6"></a>Description</h2><p>Cette fonction ré-échantillonne un signal suivant un facteur de décimation ( \(r &lt; 1\)) ou d'interpolation ( \(r &gt; 1\)) arbitraire.</p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Un filtre (voir une cascade de filtres) est automatiquement inséré (avant la décimation ou après le sur-échantillonnage) de manière à éviter le repliement de spectre.</dd></dl><br/><br/><h2>Exemple</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Sinusoïde échantillonnée à 1/5ième de la fréquence d'échantillonnage</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = <a href="../../../index-func/tsd/tsd-gen/sigsin/index.html">sigsin</a>(0.2, 40);</highlight>
 <highlight class="normal"></highlight>
@@ -93,6 +93,6 @@
 <highlight class="normal">  f.subplot().plot(x, </highlight><highlight class="stringliteral">"b-o"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot().plot(y);</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p><img src="resample.png" max-width="800px"></img></description></para><dl class="section note"><dd><b>Note<br/></b></dd><dd>Du fait des filtres anti-repliement utilisés, le signal d'entrée est retardé. Pour ré-échantilloner sans introduire de retard, voir aussi la fonction rééchan_freq(). </dd></dl><br/></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../index-func/filtrage/filtrage-rythme/filtre_reechan/index.html">tsd::filtrage::filtre_reechan()</a> (pour traiter des signaux au fil de l'eau), <a href="../../../index-func/fourier/reechan_freq/index.html">tsd::fourier::rééchan_freq()</a> (rééchantillonnnage sans retard).</p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="resample.png" max-width="800px"></img></p2><dl class="section note"><dd><b>Note<br/></b></dd><dd>Du fait des filtres anti-repliement utilisés, le signal d'entrée est retardé. Pour ré-échantilloner sans introduire de retard, voir aussi la fonction rééchan_freq(). </dd></dl><br/></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../index-func/filtrage/filtrage-rythme/filtre_reechan/index.html">tsd::filtrage::filtre_reechan()</a> (pour traiter des signaux au fil de l'eau), <a href="../../../index-func/fourier/reechan_freq/index.html">tsd::fourier::rééchan_freq()</a> (rééchantillonnnage sans retard).</p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

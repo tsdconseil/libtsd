@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-crec/filtre_boucle_ordre_1/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-crec/filtre_boucle_ordre_1/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-crec/filtre_boucle_ordre_1/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-crec/filtre_boucle_ordre_1/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-crec/filtre_boucle_ordre_1/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">filtre_boucle_ordre_1</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-crec/index.html">Recouvrement d'horloge et de porteuse</a></li><li> / filtre_boucle_ordre_1</li></ul>
         </div>
-<div id="page-content-full"><p>Filtre de boucle du premier ordre </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreBoucle&gt; <b>filtre_boucle_ordre_1</b>(float τ)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>τ</td><td>Constante de temps du filtre (en nombre d'échantillons).</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Ce filtre consiste tout simplement en un filtre RII du premier ordre :  <formula id="276">\[
+<div id="page-content-full"><p>Filtre de boucle du premier ordre </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreBoucle&gt; <b>filtre_boucle_ordre_1</b>(float τ)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>τ</td><td>Constante de temps du filtre (en nombre d'échantillons).</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Ce filtre consiste tout simplement en un filtre RII du premier ordre :  <formula id="273">\[
    \theta_k = \theta_{k-1} + \alpha \cdot e_k
  \]</formula></p><p>Le facteur \(\alpha\) étant calculé d'après la constante de temps spécifiée (voir lexp_tc_vers_coef()).</p><p/><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../../index-func/telecom/telecom-crec/filtre_boucle_ordre_2/index.html">filtre_boucle_ordre_2()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

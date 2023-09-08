@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">filter_iir</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Implementation of continuous streaming filter</a></li><li> / filter_iir</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Real-time filtering</a></li><li> / filter_iir</li></ul>
         </div>
 <div id="page-content-full"><p>IIR filter, direct form I implementation, not recommanded (use rather <a href="../../../../index-func/filtrage/filtrage-tr/filter_sois/index-en.html">filter_sois()</a> instead). </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FilterGen&lt;T&gt;&gt; <b>filter_iir</b>(const FRat&lt;Tc&gt; &h)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>h</td><td>Transfert function (rational function) </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>Filter T -&gt; T</p><h2><a name="6"></a>Description</h2><p>This filmter implements an IIR filter, using the most direct form (direct I), that is, the filter is decomposed as:  <formula id="224">\[
 H(z) = \frac{b_0 + b_1 z^{-1} + \dots}{a_0 + a_1 z^{-1} + \dots}

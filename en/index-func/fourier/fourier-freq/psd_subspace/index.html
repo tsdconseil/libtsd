@@ -1,0 +1,105 @@
+<!doctype html>
+<html class="no-js">
+  <head><link rel="stylesheet" href="../../../..//highlight/styles/default.css">
+    <script src="../../../..//highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script src="../../../../js/jquery-1.7.min.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script><meta charset="UTF-8"/>
+      <title>psd_subspace</title>
+<meta name="description" content="psd_subspace"/>
+<!--[if lt IE 9]>
+      <script src="../../../../js/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="../../../../css/style.css"/>
+    <link rel="stylesheet" media="all" href="../../../../css/style_scilab_code.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="../../../../js/custom.js"></script>
+<script src="../../../../js/tabs.js"></script><script src="../../../../js/masonry.min.js" ></script>
+<script src="../../../../js/imagesloaded.js" ></script><link rel="stylesheet" href="../../../../css/jquery.tweet.css" media="all"  /> 
+<script src="../../../../js/tweet/jquery.tweet.js" ></script>
+<link rel="stylesheet" media="screen" href="../../../../css/superfish.css" /> 
+<script  src="../../../../js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/superfish.js"></script>
+<script  src="../../../../js/superfish-1.4.8/js/supersubs.js"></script>
+<script  src="../../../../js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+<link rel="stylesheet" href="../../../../js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
+<link rel="stylesheet" href="../../../../js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
+<script  src="../../../../js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
+<link rel="stylesheet" href="../../../../css/flexslider.css" >
+<script src="../../../../js/jquery.flexslider-min.js"></script>
+<!--[if IE 6]>
+    <link rel="stylesheet" href="../../../../css/ie6-hacks.css" media="screen" />
+    <script type="text/javascript" src="../../../../js/DD_belatedPNG.js"></script>
+      <script>
+              /* EXAMPLE */
+              DD_belatedPNG.fix('*');
+          </script>
+    <![endif]-->
+<link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
+<script src="../../../../js/modernizr.js"></script>
+<link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd_subspace/index.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd_subspace/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/psd_subspace/index.html"/>
+</head>
+  <body lang="fr">
+    <!-- mobile-nav -->
+    <div id="mobile-nav-holder">
+      <div class="wrapper">
+        <ul id="mobile-nav"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">General functions</a></li><li><a href="../../../../index-func/vue/index.html">Visualizations</a></li><li><a href="../../../../index-func/geometrie/index.html">Geometry</a></li><li><a href="../../../../index-func/ct/index.html">Continuous time signals</a></li><li><a href="../../../../index-func/filtrage/index.html">Linear filtering</a></li><li><a href="../../../../index-func/fourier/index.html">Fourier transform</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Time-frequency representations</a></li><li><a href="../../../../index-func/stats/index.html">Statistical signal processing</a></li><li><a href="../../../../index-func/telecom/index.html">Telecommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Sampling</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Linear filtering</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Fourier transform</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">License<span class="subheader">&#160;</span></a></li>
+        </ul>
+        <div id="nav-open"><a href="#">Menu</a></div>
+      </div>
+    </div>
+    <!-- ENDS mobile-nav --><header><div class="wrapper">
+      <a href="../../../../index/index.html" id="logo"><table><tr><td><img  src="../../../../img/logo.png" alt="TSD Conseil - Traitement du Signal Digital"/></td></tr><tr><td><p id="slogan">C++ signal processing</p></td></tr></table></a>
+      <nav>
+        <ul id="nav" class="sf-menu"><li><a href="../../../../index/index.html">Libtsd<span class="subheader">&#160;</span></a></li>
+<li class="current-menu-item"><a href="../../../../index-func/index.html">Documentation<span class="subheader">&#160;</span></a><ul><li><a href="../../../../index-func/tsd/index.html">General functions</a></li><li><a href="../../../../index-func/vue/index.html">Visualizations</a></li><li><a href="../../../../index-func/geometrie/index.html">Geometry</a></li><li><a href="../../../../index-func/ct/index.html">Continuous time signals</a></li><li><a href="../../../../index-func/filtrage/index.html">Linear filtering</a></li><li><a href="../../../../index-func/fourier/index.html">Fourier transform</a></li><li><a href="../../../../index-func/temps-frequence/index.html">Time-frequency representations</a></li><li><a href="../../../../index-func/stats/index.html">Statistical signal processing</a></li><li><a href="../../../../index-func/telecom/index.html">Telecommunications</a></li><li><a href="../../../../index-func/apps/index.html">Applications</a></li></ul></li>
+<li><a href="../../../../tab-tutos/index.html">Examples<span class="subheader">&#160;</span></a><ul><li><a href="../../../../tab-tutos/ex-echan/index.html">Sampling</a></li><li><a href="../../../../tab-tutos/ex-filtrage/index.html">Linear filtering</a></li><li><a href="../../../../tab-tutos/ex-fourier/index.html">Fourier transform</a></li><li><a href="../../../../tab-tutos/ex-telecom/index.html">Telecommunications</a></li></ul></li>
+<li><a href="../../../../tab-install/index.html">Installation<span class="subheader">&#160;</span></a></li>
+<li><a href="../../../../tab-licence/index.html">License<span class="subheader">&#160;</span></a></li>
+          </ul>
+        </nav>
+        
+        <div class="clearfix"></div>
+        
+      </div>
+    </header>    <div id="main">
+    <div id="content">
+    <div id="masthead">
+          <h1 class="head">psd_subspace</h1><span class="subhead"></span>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/fourier/index.html">Fourier transform</a></li><li> / <a href="../../../../index-func/fourier/fourier-freq/index.html">Spectral estimation</a></li><li> / psd_subspace</li></ul>
+        </div>
+<div id="page-content-full"><p>Calcul d'un spectre par la méthode des sous-espaces. </p><p>Namespace: <code>dsp::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;Vecf, Vecf&gt; <b>psd_subspace</b>(const Veccf &x, int Ns, int Nf=1024, int m=0)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>x</td><td>Signal to be analyzed. </td></tr><tr><td>Ns</td><td>Nombre d'exponentielles pures attendues </td></tr><tr><td>Nf</td><td>Résolution fréquentielle (en nombre de points) </td></tr><tr><td>m</td><td>Dimension de la matrice d'auto-corrélation (si non précisé = dimension du signal) </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>A tuple with two elements: frequences vectors (normalized, between -0.5 and 0.5), and the spectrum.</p><h2><a name="6"></a>Description</h2><p>Cette technique d'estimation spectrale est une méthode paramétrique, qui suppose que le signal est constitué de la somme d'un nombre fini et <b>connu</b> d'exponentielles pures.</p><p>La formule utilisée ici est celle de l'algorithme MUSIC (MUltiple SIgnal Classification).</p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Cette fonction est une spécialisation de la méthode des sous-espaces pour la détection d'exponentielles pures. Cependant, la méthode des sous-espaces elle-même est bien plus générale, et peut permettre de détecter d'autres types de signaux (voir la fonction <a href="../../../../index-func/fourier/fourier-freq/psd_subspace/index.html">psd_subspace()</a>).</dd></dl><br/><dl class="section warning"><dd><b>Warning<br/></b></dd><dd>Cette technique implique la décomposition en valeurs propres d'une matrice \(m\times m\) (la matrice d'auto-corrélation du signal), soit de l'ordre de \(m^3\) opérations. Par conséquent, si la dimension du signal est importante, il est conseillé de choisir un \(m\) plus petit.</dd></dl><br/><br/><h2>Exemple : détection de 3 exponentielles pures</h2><p2><p><pre><code class="C++"><highlight class="normal">  soit nfreqs = 3, n = 256;</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Signal constitué de bruit blanc...</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  Veccf x = <a href="../../../../index-func/tsd/tsd-gen/randn-2/index.html">randn</a>(n);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// ... et de 3 fréquences pures</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  pour(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> f: {0.113423, 0.212213, 0.323432})</highlight>
+<highlight class="normal">    x += <a href="../../../../index-func/tsd/tsd-gen/sigexp/index.html">sigexp</a>(f, n);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Algorithme MUSIC : 3 exponentielles, matrice d'auto-corrél 32x32</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit [fr, Smu] = psd_sousesp(x, nfreqs, 1024, 32);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  Figures f;</highlight>
+<highlight class="normal">  f.subplot().plot(x, </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"x"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot_psd(x);</highlight>
+<highlight class="normal">  f.gcf().titres(</highlight><highlight class="stringliteral">"PSD (corrélogramme)"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Fréquence"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot(fr, Smu);</highlight>
+<highlight class="normal">  f.gcf().titres(</highlight><highlight class="stringliteral">"PSD (MUSIC)"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Fréquence"</highlight><highlight class="normal">);</highlight>
+</code></pre></p><img src="ex-subspace-freq-spectrum.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">PSD vs MUSIC spectrum</p>
+ Notez comme le spectre MUSIC est plus propre ; il ne faut cependant pas oublier que cette technique suppose connu le nombre de signaux (ici 3).</p2><dl class="section note"><dd><b>Note<br/></b></dd><dd>Pour la détection de sinusoïdes pures (signaux réels), il faudra choisir \(N_s\) comme étant <b>deux fois</b> le nombre de signaux à détecter (en effet, un cosinus ou sinus peut se représenter comme la somme de deux exponentielles complexes). </dd></dl><br/></p><h2><a name="7"></a>See also</h2><p>subspace_spectrum()</p></div></div><div class="clearfix"></div>
+        <div class="shadow-main"></div></div><footer><div class="wrapper">
+<center><p></p></center></div></footer><script>initialize();</script></body></html>

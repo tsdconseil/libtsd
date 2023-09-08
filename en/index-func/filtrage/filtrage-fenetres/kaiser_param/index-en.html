@@ -81,17 +81,17 @@
           <h1 class="head">kaiser_param</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-fenetres/index-en.html">Windows</a></li><li> / kaiser_param</li></ul>
         </div>
-<div id="page-content-full"><p>Computation of the parameters of a Kaiser filter. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;float, int&gt; <b>kaiser_param</b>(float atten_db, float df)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>atten_db</td><td>Attenuation in dB in the stop-band (should be a positive value). </td></tr><tr><td>df</td><td>Transition bandwidth (normalized to the sampling frequency) </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>\(\beta,n\)</p><h2><a name="6"></a>Description</h2><p>This function will compute, for a Kaiser filter, the \(\beta\) parameter and the required order for a specified attenuation and transition bandwidth.</p><p><formula id="91">\[
+<div id="page-content-full"><p>Computation of the parameters of a Kaiser filter. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;float, int&gt; <b>kaiser_param</b>(float atten_db, float df)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>atten_db</td><td>Attenuation in dB in the stop-band (should be a positive value). </td></tr><tr><td>df</td><td>Transition bandwidth (normalized to the sampling frequency) </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>\(\beta,n\)</p><h2><a name="6"></a>Description</h2><p>This function will compute, for a Kaiser filter, the \(\beta\) parameter and the required order for a specified attenuation and transition bandwidth.</p><p><formula id="63">\[
   n = (A - 7.95) / (2.285 \cdot 2 \pi d_f)
-\]</formula></p><p><formula id="92">\[
+\]</formula></p><p><formula id="65">\[
  \beta = \begin{cases}
  0.1102 (A - 8.7) & \mbox{si } A &gt; 50\textrm{ dB} \\
  0.5842 \cdot (A - 21)^{0.4} + 0.07886 \cdot (A - 21) & \mbox{si } 21 \textrm{ dB} \leq A \leq 50\textrm{ dB}\\
  0 & \mbox{sinon}
  \end{cases}
-\]</formula><para en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="comment">// Parameters for 60 dB of transition,</highlight><highlight class="normal"></highlight>
+\]</formula></p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="comment">// Parameters for 60 dB of transition,</highlight><highlight class="normal"></highlight>
 <highlight class="normal"></highlight><highlight class="comment">// and a transition bandwidth of  one tenth of the sampling frequency.</highlight><highlight class="normal"></highlight>
 <highlight class="normal">let [β, n] = <a href="../../../../index-func/filtrage/filtrage-fenetres/kaiser_param/index-en.html">kaiser_param</a>(60, 0.1);</highlight>
-</code></pre></p></description></para></p><h2><a name="7"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-fenetres/window_kaiser/index-en.html">window_kaiser()</a>, <a href="../../../../index-func/filtrage/filtrage-fenetres/window_kaiser1/index-en.html">window_kaiser1()</a></p><h2><a name="8"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-fenetres/window_kaiser/index-en.html">window_kaiser()</a>, <a href="../../../../index-func/filtrage/filtrage-fenetres/window_kaiser1/index-en.html">window_kaiser1()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p></description></p></p><h2><a name="7"></a>See also</h2><p><a href="../../../../index-func/filtrage/filtrage-fenetres/window_kaiser/index-en.html">window_kaiser()</a>, <a href="../../../../index-func/filtrage/filtrage-fenetres/window_kaiser1/index-en.html">window_kaiser1()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

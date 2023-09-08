@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../../../css/lessgrid.css"/>
 <script src="../../../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurRIF/coefs/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurRIF/coefs/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurRIF/coefs/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurRIF/coefs/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurRIF/coefs/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">coefs</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../../../index-func/filtrage/filtrage-rythme/index.html">Rééchantillonnage</a></li><li> / <a href="../../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/index.html">Interpolateurs</a></li><li> / <a href="../../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurRIF/index.html">Structure InterpolateurRIF</a></li><li> / coefs</li></ul>
         </div>
-<div id="page-content-full"><p>Calcul des coefficients d'un filtre RIF en fonction du délais souhaité. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">virtual Vecf InterpolateurRIF&lt;T&gt;::<b>coefs</b>(float τ)=0</pre></p><h2><a name="4"></a>Description</h2><p>Cette méthode abstraite doit être redéfinie par la classe dérivée, de manière à calculer les coefficients de filtrage pour un délais fractionnaire \(\tau\) donné (entre 0 et 1). Les coefficients renvoyés doivent être ceux d'un filtre avec un délais exactement égal à :  <formula id="266">\[
+<div id="page-content-full"><p>Calcul des coefficients d'un filtre RIF en fonction du délais souhaité. </p><p><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">virtual Vecf InterpolateurRIF&lt;T&gt;::<b>coefs</b>(float τ)=0</pre></p><h2><a name="4"></a>Description</h2><p>Cette méthode abstraite doit être redéfinie par la classe dérivée, de manière à calculer les coefficients de filtrage pour un délais fractionnaire \(\tau\) donné (entre 0 et 1). Les coefficients renvoyés doivent être ceux d'un filtre avec un délais exactement égal à :  <formula id="279">\[
 d = K/2 + \tau
 \]</formula></p><p>\(K\) étant le nombre de coefficients du filtre.</p><p/><h2><a name="5"></a>Voir aussi</h2><p><a href="../../../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/Interpolateur/index.html">Interpolateur</a>, <a href="../../../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_sinc/index.html">itrp_sinc()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

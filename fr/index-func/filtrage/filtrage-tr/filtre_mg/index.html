@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_mg/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_mg/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_mg/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_mg/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_mg/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">filtre_mg</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / filtre_mg</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Filtrage temps réel</a></li><li> / filtre_mg</li></ul>
         </div>
 <div id="page-content-full"><p>Moyenne glissante. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;T&gt;&gt; <b>filtre_mg</b>(entier K)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>K</td><td>profondeur de la moyenne </td></tr></table></p><h2><a name="5"></a>Description</h2><p>Ce filtre est une implémentation optimisée d'une moyenne glissante :  <formula id="231">\[
 y_n = \frac{1}{N}\cdot\sum_{k=0}^{K-1} x_{n-k}

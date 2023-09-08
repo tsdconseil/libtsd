@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-ps/sah/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,12 +81,12 @@
           <h1 class="head">sah</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index.html">Télécommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-ps/index.html">Mise en forme des symboles</a></li><li> / sah</li></ul>
         </div>
-<div id="page-content-full"><p>Sur-échantillonnage par répétition (sample and hold). </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecteur&lt;T&gt; <b>sah</b>(const Vecteur&lt;T&gt; &x, entier R)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée </td></tr><tr><td>R</td><td>Facteur de sur-échantillonnage. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Signal sur-échantillonné.</p><h2><a name="6"></a>Description</h2><p>Chaque échantillon d'entrée est répété en sortie \(R\) fois. Par exemple, si \(R = 2\), et \(x = x_0, x_1, \dots\), alors \(y = x_0, x_0, x_1, x_1, \dots\)</p><p>Cette fonction peut être utilisée par exemple pour généré une séquence NRZ.</p><p><h2>Exemple 1 : répétition des valeurs</h2><p fr="Exemple 1 : répétition des valeurs"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit x = Vecf::valeurs{0, 1, 2, 3, 4},</highlight>
+<div id="page-content-full"><p>Sur-échantillonnage par répétition (sample and hold). </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecteur&lt;T&gt; <b>sah</b>(const Vecteur&lt;T&gt; &x, entier R)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée </td></tr><tr><td>R</td><td>Facteur de sur-échantillonnage. </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Signal sur-échantillonné.</p><h2><a name="6"></a>Description</h2><p>Chaque échantillon d'entrée est répété en sortie \(R\) fois. Par exemple, si \(R = 2\), et \(x = x_0, x_1, \dots\), alors \(y = x_0, x_0, x_1, x_1, \dots\)</p><p>Cette fonction peut être utilisée par exemple pour généré une séquence NRZ.</p><p><h2>Exemple 1 : répétition des valeurs</h2><p><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit x = Vecf::valeurs{0, 1, 2, 3, 4},</highlight>
 <highlight class="normal">     y = <a href="../../../../index-func/telecom/telecom-ps/sah/index.html">sah</a>(x, 2);</highlight>
 <highlight class="normal"></highlight><highlight class="comment">// y = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]</highlight>
-</code></pre></p></description><para fr="Exemple 2 : génération d'une séquence NRZ pseudo-aléatoire"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit nsymbs = 5,</highlight>
+</code></pre></p></description><br/><h2>Exemple 2 : génération d'une séquence NRZ pseudo-aléatoire</h2><p2><p><pre><code class="C++"><highlight class="normal">soit nsymbs = 5,</highlight>
 <highlight class="normal">     osf    = 10; </highlight><highlight class="comment">// Facteur de sur-échantillonnage</highlight><highlight class="normal"></highlight>
 <highlight class="normal">soit y = <a href="../../../../index-func/telecom/telecom-ps/sah/index.html">sah</a>(<a href="../../../../index-func/tsd/tsd-gen/randb/index.html">randb</a>(nsymbs), osf).as&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;();</highlight>
-</code></pre></p></description></para></p></p></div></div><div class="clearfix"></div>
+</code></pre></p></p2></p></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

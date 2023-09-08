@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/ligne_a_retard/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/ligne_a_retard/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/ligne_a_retard/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/ligne_a_retard/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/ligne_a_retard/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">ligne_a_retard</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / ligne_a_retard</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Filtrage temps réel</a></li><li> / ligne_a_retard</li></ul>
         </div>
 <div id="page-content-full"><p>Retarde le signal d'entrée d'un nombre entier d'échantillons. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;T&gt;&gt; <b>ligne_a_retard</b>(entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>n</td><td>Délais entier ( \(n \geq 0\))</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Ce filtre produit autant d'échantillons en sortie qu'il y en a en entrée. Les échantillons précédant le premier échantillon d'entrée sont supposés nuls.</p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Retard de 10 échantillons</highlight><highlight class="normal"></highlight>

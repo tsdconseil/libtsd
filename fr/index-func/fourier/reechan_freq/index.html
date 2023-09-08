@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/reechan_freq/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/reechan_freq/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/reechan_freq/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/reechan_freq/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/reechan_freq/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">rééchan_freq</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / rééchan_freq</li></ul>
         </div>
-<div id="page-content-full"><p>Ré-échantillonage zéro phase à partir de la TFD. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecteur&lt;T&gt; <b>rééchan_freq</b>(const Vecteur&lt;T&gt; &x, float ratio)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée. </td></tr><tr><td>ratio</td><td>Rapport entre la fréquence d'échantillonnage de sortie et celle d'entrée (un ratio supérieur à 1 indique une interpolation, tandis que dans le cas contraire, on a affaire à une décimation).</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Cette fonction change la fréquence d'échantillonnage d'un signal, sans délais, grâce à un calcul dans le domaine fréquentiel.</p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Notez que, du fait des hypothèses sous-jacentes à la TFD, des artefacts peuvent apparaitrent au bord du signal. Pour atténuer ce phénomène, vous pouvez pré-appliquer une fenêtre ou bien insérer des zéros avant et après le signal (ce ne sont cependendant pas des solutions parfaites).</dd></dl><br/><para fr="Exemple illustrant les artefacts aux bords du signal"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+<div id="page-content-full"><p>Ré-échantillonage zéro phase à partir de la TFD. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecteur&lt;T&gt; <b>rééchan_freq</b>(const Vecteur&lt;T&gt; &x, float ratio)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Vecteur d'entrée. </td></tr><tr><td>ratio</td><td>Rapport entre la fréquence d'échantillonnage de sortie et celle d'entrée (un ratio supérieur à 1 indique une interpolation, tandis que dans le cas contraire, on a affaire à une décimation).</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Cette fonction change la fréquence d'échantillonnage d'un signal, sans délais, grâce à un calcul dans le domaine fréquentiel.</p><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>Notez que, du fait des hypothèses sous-jacentes à la TFD, des artefacts peuvent apparaitrent au bord du signal. Pour atténuer ce phénomène, vous pouvez pré-appliquer une fenêtre ou bien insérer des zéros avant et après le signal (ce ne sont cependendant pas des solutions parfaites).</dd></dl><br/><br/><h2>Exemple illustrant les artefacts aux bords du signal</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = <a href="../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, 1 - 1.0/10, 10),</highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Interpolation d'un facteur 10</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// (10 fois plus d'échantillons en sortie)</highlight><highlight class="normal"></highlight>
@@ -93,6 +93,6 @@
 <highlight class="normal">  f.plot(t,  x, </highlight><highlight class="stringliteral">"b-o"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"x"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.plot(t2, y, </highlight><highlight class="stringliteral">"g-"</highlight><highlight class="normal">,  </highlight><highlight class="stringliteral">"y"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p><img src="fourier-resample.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../index-func/tsd/reechan/index.html">rééchan()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="fourier-resample.png" style="height: 100%; width: 100%; object-fit: contain"></img></p2></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../index-func/tsd/reechan/index.html">rééchan()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

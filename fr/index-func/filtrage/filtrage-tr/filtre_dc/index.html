@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_dc/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_dc/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_dc/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_dc/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-tr/filtre_dc/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -79,11 +79,11 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">filtre_dc</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Implémentation de filtres au fil de l'eau</a></li><li> / filtre_dc</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index.html">Filtrage temps réel</a></li><li> / filtre_dc</li></ul>
         </div>
 <div id="page-content-full"><p>Filtre pour la suppression du DC (basses fréquences). </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;T&gt;&gt; <b>filtre_dc</b>(float fc)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>fc</td><td><a href="../../../../index-func/filtrage/filtrage-design/Frequence/index.html">Fréquence</a> de coupure normalisée (entre 0 et 0.5)</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Implémente le filtre :  <formula id="230">\[
 y_k = \frac{1+\alpha}{2}\cdot \left(x_k - x_{k-1}\right) + \alpha y_{k-1}
-\]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit fc = 0.01f;</highlight>
+\]</formula></p><p><h2>Exemple</h2><p><description lang="fr"><p><pre><code class="C++"><highlight class="normal">  soit fc = 0.01f;</highlight>
 <highlight class="normal">  soit n = 500;</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">  soit filtre = filtre_dc&lt;float&gt;(fc);</highlight>
@@ -96,6 +96,6 @@ y_k = \frac{1+\alpha}{2}\cdot \left(x_k - x_{k-1}\right) + \alpha y_{k-1}
 <highlight class="normal">  f.subplot(222).plot_psd(x, 1, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Spectre signal d'entrée"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot(223).plot(y, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal de sortie"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot(224).plot_psd(y.tail(y.rows()-200), 1, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Spectre signal de sortie"</highlight><highlight class="normal">);</highlight>
-</code></pre></p><img src="bloqueur-dc-ex.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><para fr="Bibliographie"><description lang="fr">Stein, Digital Signal Processing, 2000</description></para></p></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_bloqueur_dc/index.html">design_bloqueur_dc()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="bloqueur-dc-ex.png" style="height: 100%; width: 100%; object-fit: contain"></img></description><br/><h2>Bibliographie</h2><p2>Stein, Digital Signal Processing, 2000</p2></p></p><h2><a name="6"></a>Voir aussi</h2><p><a href="../../../../index-func/filtrage/filtrage-design/design_bloqueur_dc/index.html">design_bloqueur_dc()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

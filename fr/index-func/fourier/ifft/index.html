@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/ifft/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/ifft/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/ifft/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/ifft/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/ifft/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">ifft</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / ifft</li></ul>
         </div>
-<div id="page-content-full"><p>Transformée de Fourier Discrète Inverse. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>ifft</b>(const Vecteur&lt;T&gt; &X)</pre></p><h2><a name="4"></a>Description</h2><p>Cette fonction calcule la TFD inverse <b>normalisée</b> d'un signal réel ou complexe :  <formula id="72">\[
+<div id="page-content-full"><p>Transformée de Fourier Discrète Inverse. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">auto <b>ifft</b>(const Vecteur&lt;T&gt; &X)</pre></p><h2><a name="4"></a>Description</h2><p>Cette fonction calcule la TFD inverse <b>normalisée</b> d'un signal réel ou complexe :  <formula id="70">\[
   X_n = \frac{1}{\sqrt{N}}\cdot\sum_{k=0}^{N-1} x_k \cdot e^{\frac{+2\pi\mathbf{i}kn}{N}}
 \]</formula></p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal">soit x1 = <a href="../../../index-func/tsd/tsd-gen/randcn/index.html">randcn</a>(100),</highlight>
 <highlight class="normal">     X  = <a href="../../../index-func/fourier/fft/index.html">fft</a>(x1),</highlight>

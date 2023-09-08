@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../../css/lessgrid.css"/>
 <script src="../../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_sinc/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_sinc/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_sinc/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_sinc/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_sinc/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">itrp_sinc</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../../index-func/filtrage/index.html">Filtrage linéaire</a></li><li> / <a href="../../../../../index-func/filtrage/filtrage-rythme/index.html">Rééchantillonnage</a></li><li> / <a href="../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/index.html">Interpolateurs</a></li><li> / itrp_sinc</li></ul>
         </div>
-<div id="page-content-full"><p>Interpolateur à sinus cardinal fenêtré. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;InterpolateurRIF&lt;T&gt;&gt; <b>itrp_sinc</b>(const InterpolateurSincConfig &config=InterpolateurSincConfig())</pre></p><h2><a name="4"></a>Description</h2><p>Interpolateur RIF dont les coefficients sont ceux d'un sinus cardinal fenêtré, de fréquence de coupure \(f_c\) et avec un retard de \(K/2 + \tau\) échantillons :</p><p><formula id="238">\[
+<div id="page-content-full"><p>Interpolateur à sinus cardinal fenêtré. </p><p>Espace de nom : <code>tsd::filtrage</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;InterpolateurRIF&lt;T&gt;&gt; <b>itrp_sinc</b>(const InterpolateurSincConfig &config=InterpolateurSincConfig())</pre></p><h2><a name="4"></a>Description</h2><p>Interpolateur RIF dont les coefficients sont ceux d'un sinus cardinal fenêtré, de fréquence de coupure \(f_c\) et avec un retard de \(K/2 + \tau\) échantillons :</p><p><formula id="241">\[
 h_k = \textrm{sinc}\left(k - K/2 - \tau, f_c\right) \cdot w_{k-\tau}
 \]</formula></p><p>La fonction sinc étant définie ici comme la TF inverse d'une porte fréquentielle de largeur \(\pm f_c\).</p><p/><h2><a name="5"></a>Voir aussi</h2><p><a href="../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurSincConfig/index.html">InterpolateurSincConfig</a>, <a href="../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/InterpolateurRIF/index.html">InterpolateurRIF</a>, <a href="../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_cspline/index.html">itrp_cspline()</a>, <a href="../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_lineaire/index.html">itrp_lineaire()</a>, <a href="../../../../../index-func/filtrage/filtrage-rythme/filtrage-rythme-itrp/itrp_lagrange/index.html">itrp_lagrange()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

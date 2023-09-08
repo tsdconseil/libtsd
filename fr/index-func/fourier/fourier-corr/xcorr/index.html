@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/xcorr/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/xcorr/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/xcorr/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/xcorr/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-corr/xcorr/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,13 +81,13 @@
           <h1 class="head">xcorr</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / <a href="../../../../index-func/fourier/fourier-corr/index.html">Corrélation et délais temporels</a></li><li> / xcorr</li></ul>
         </div>
-<div id="page-content-full"><p>Corrélation (non biaisée) entre deux vecteurs complexes. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;Vecf, Veccf&gt; <b>xcorr</b>(const Veccf &x, const Veccf &y=Veccf(), entier m=-1)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Premier vecteur </td></tr><tr><td>y</td><td>Deuxième vecteur (éventuellement égal au premier pour avoir l'auto-corrélation) </td></tr><tr><td>m</td><td>Nombre de délais à examiner (si négatif, alors fait comme si \(m=N\)). </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Un tuple de deux vecteurs de dimension \(2m-1\) : délais \(\tau_k\) et corrélation \(c(\tau_k)\).</p><h2><a name="6"></a>Description</h2><p>Calcule la corrélation entre deux signaux complexes (calcul efficace via des FFT), soit pour un délais négatif ( \(\tau=-(m-1)\dots -1\)) :  <formula id="102">\[
+<div id="page-content-full"><p>Corrélation (non biaisée) entre deux vecteurs complexes. </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">tuple&lt;Vecf, Veccf&gt; <b>xcorr</b>(const Veccf &x, const Veccf &y=Veccf(), entier m=-1)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>x</td><td>Premier vecteur </td></tr><tr><td>y</td><td>Deuxième vecteur (éventuellement égal au premier pour avoir l'auto-corrélation) </td></tr><tr><td>m</td><td>Nombre de délais à examiner (si négatif, alors fait comme si \(m=N\)). </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Un tuple de deux vecteurs de dimension \(2m-1\) : délais \(\tau_k\) et corrélation \(c(\tau_k)\).</p><h2><a name="6"></a>Description</h2><p>Calcule la corrélation entre deux signaux complexes (calcul efficace via des FFT), soit pour un délais négatif ( \(\tau=-(m-1)\dots -1\)) :  <formula id="104">\[
  c(\tau) = \frac{1}{N-\tau} \cdot \sum_{k=0}^{N-1-\tau} x_{k-\tau} y^{\star}_k
- \]</formula> Et, pour les délais positifs ( \(\tau=0\dots m-1\)):  <formula id="105">\[
+ \]</formula> Et, pour les délais positifs ( \(\tau=0\dots m-1\)):  <formula id="106">\[
  c(\tau) = \frac{1}{N-\tau} \cdot \sum_{k=0}^{N-1-\tau} x_k y^{\star}_{k+\tau}
- \]</formula></p><p>Les délais étant échantillonnés de manière régulière entre \(-(m-1)\) et \(m-1\) :  <formula id="110">\[
+ \]</formula></p><p>Les délais étant échantillonnés de manière régulière entre \(-(m-1)\) et \(m-1\) :  <formula id="109">\[
   \tau = \textrm{linspace}(-(m-1), m-1, 2m-1) = -(m-1), -(m-2), \dots, -1, 0, 1, \dots, (m-2), (m-1)
- \]</formula></p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Les signaux sont complétés en interne avec des zéros pour pouvoir effectuer efficacement la corrélation dans le domaine fréquentiel.</dd></dl><br/><para fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
+ \]</formula></p><p><dl class="section note"><dd><b>Note<br/></b></dd><dd>Les signaux sont complétés en interne avec des zéros pour pouvoir effectuer efficacement la corrélation dans le domaine fréquentiel.</dd></dl><br/><br/><h2>Exemple</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = <a href="../../../../index-func/tsd/tsd-gen/sigsin/index.html">sigsin</a>(0.04, 1000) * exp(-abs(<a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(-5,5,1000))),</highlight>
 <highlight class="normal">       y = <a href="../../../../index-func/fourier/fourier-corr/delais/index.html">délais</a>(x, 100);</highlight>
 <highlight class="normal">  soit [lags, c] = <a href="../../../../index-func/fourier/fourier-corr/xcorr/index.html">xcorr</a>(x, y);</highlight>
@@ -97,6 +97,6 @@
 <highlight class="normal">  f.subplot().plot(y, </highlight><highlight class="stringliteral">"g-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"y"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot().plot(lags, abs(c), </highlight><highlight class="stringliteral">"m-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"xcorr (abs)"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p><img src="xcorr.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/fourier/fourier-corr/xcorrb/index.html">xcorrb()</a>, <a href="../../../../index-func/fourier/fourier-corr/ccorr/index.html">ccorr()</a>, <a href="../../../../index-func/fourier/fourier-corr/detecteur_creation/index.html">détecteur_création()</a></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="xcorr.png" style="height: 100%; width: 100%; object-fit: contain"></img></p2></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/fourier/fourier-corr/xcorrb/index.html">xcorrb()</a>, <a href="../../../../index-func/fourier/fourier-corr/ccorr/index.html">ccorr()</a>, <a href="../../../../index-func/fourier/fourier-corr/detecteur_creation/index.html">détecteur_création()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="css/lessgrid.css"/>
 <script src="js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr//index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr//index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr//index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr//index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr//index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -77,7 +77,7 @@
       </div>
     </header>    <div id="main">
     <div id="content">
-    <div id="page-content-full"><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>This is the french API documentation. For english language API, please refer to the following page: <a url="https://tsdconseil.github.io/libtsd/en" href="https://tsdconseil.github.io/libtsd/en">https://tsdconseil.github.io/libtsd/en</a></dd></dl><br/><linebreak/><linebreak/></p><p>Libtsd est une collection de fonctions en C++ pour le traitement du signal. Voici les choix qui ont été faits pour le design de cette librarie :</p><p/><ul><li>Facilité d'utilisation : notamment grâce à des structures pour manipuler les vecteurs et les tableaux (Vecf, Veci, ...), ce qui permet un codage concis et lisible (de manière similaire à Matlab / Numpy),</li><li>Une distinction la plus claire possible entre les API (fichiers d'en-tête) et les implémentation (fichiers sources). De ce fait, les templates sont seulement utilisés avec parcimonie.</li><li>Une API multi-langues (du moins, en anglais avec le fichier d'interface <preformatted>dsp/dsp.hpp</preformatted>, en français grâce à <preformatted>tsd/tsd.hpp</preformatted>)</li></ul><p><h2 level="3">Exemple simple (API fr)</h2></p><p><pre><code class="C++"><highlight class="preprocessor">#include "tsd/tsd-all.hpp"</highlight><highlight class="normal"></highlight>
+    <div id="page-content-full"><p><dl class="section warning"><dd><b>Avertissement<br/></b></dd><dd>This is the french API documentation. For english language API, please refer to the following page: <a url="https://tsdconseil.github.io/libtsd/en" href="https://tsdconseil.github.io/libtsd/en">https://tsdconseil.github.io/libtsd/en</a></dd></dl><br/><linebreak/><linebreak/></p><p>Libtsd est une collection de fonctions en C++ pour le traitement du signal. Voici les choix qui ont été faits pour le design de cette librarie :</p><p/><ul><li>Facilité d'utilisation : notamment grâce à des structures pour manipuler les vecteurs et les tableaux (Vecf, Veci, ...), ce qui permet un codage concis et lisible (de manière similaire à Matlab / Numpy),</li><li>Une distinction la plus claire possible entre les API (fichiers d'en-tête) et les implémentation (fichiers sources). De ce fait, les templates sont seulement utilisés avec parcimonie.</li><li>Une API multi-langues (du moins, en anglais avec le fichier d'interface <preformatted>dsp/dsp.hpp</preformatted>, en français grâce à <preformatted>tsd/tsd.hpp</preformatted>)</li><li>Facilité de lecture du code : grâce à des mot-clés en français (voir ci-dessous), et à l'utilisation de caractères UTF-8 non standards (comme par exemple \(\pi\)).</li></ul><p>La librairie est disponible sur la plateforme Github (<a url="https://github.com/tsdconseil/libtsd" href="https://github.com/tsdconseil/libtsd">https://github.com/tsdconseil/libtsd</a>).</p><p><h2 level="3">Exemple simple (API fr)</h2></p><p><pre><code class="C++"><highlight class="preprocessor">#include "tsd/tsd-all.hpp"</highlight><highlight class="normal"></highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"> main()</highlight>
 <highlight class="normal">{</highlight>
@@ -92,15 +92,15 @@
 <highlight class="normal">  </highlight><highlight class="comment">// Exemple 2 : conception de filtre</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  {</highlight>
 <highlight class="normal">    </highlight><highlight class="comment">// Passe-bas, 31 coefficients, coupant à fe/4</highlight><highlight class="normal"></highlight>
-<highlight class="normal">    soit h = <a href=".index-func/filtrage/filtrage-design/design_rif_fen/index.html">design_rif_fen</a>(31, </highlight><highlight class="stringliteral">"pb"</highlight><highlight class="normal">, 0.25);</highlight>
+<highlight class="normal">    soit h = <a href="../index-func/filtrage/filtrage-design/design_rif_fen/index.html">design_rif_fen</a>(31, </highlight><highlight class="stringliteral">"pb"</highlight><highlight class="normal">, 0.25);</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">    Figure f;</highlight>
 <highlight class="normal">    f.plot(h, </highlight><highlight class="stringliteral">"|o"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"réponse impulsionnelle"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">    f.enregistrer(</highlight><highlight class="stringliteral">"./filtre.png"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">    soit n = 500;</highlight>
-<highlight class="normal">    soit x = <a href=".index-func/tsd/tsd-gen/sigcos/index.html">sigcos</a>(0.01, n) + 0.1 * <a href=".index-func/tsd/tsd-gen/randn/index.html">randn</a>(n),</highlight>
-<highlight class="normal">         y = <a href=".index-func/filtrage/filtrage-fini/filtrer/index.html">filtrer</a>(h, x);</highlight>
+<highlight class="normal">    soit x = <a href="../index-func/tsd/tsd-gen/sigcos/index.html">sigcos</a>(0.01, n) + 0.1 * <a href="../index-func/tsd/tsd-gen/randn/index.html">randn</a>(n),</highlight>
+<highlight class="normal">         y = <a href="../index-func/filtrage/filtrage-fini/filtrer/index.html">filtrer</a>(h, x);</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">    f.clear();</highlight>
 <highlight class="normal">    f.plot(x, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal bruité"</highlight><highlight class="normal">);</highlight>

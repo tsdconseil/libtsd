@@ -81,11 +81,11 @@
           <h1 class="head">sigchirp</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index-en.html">General functions</a></li><li> / <a href="../../../../index-func/tsd/tsd-gen/index-en.html">Signal generation</a></li><li> / sigchirp</li></ul>
         </div>
-<div id="page-content-full"><p>Linear or quadratic chirp. </p><p>Namespace: <code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static Vecf <b>sigchirp</b>(float f0, float f1, int n, char mode='l')</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>f0</td><td>Initial frequency (normalized). </td></tr><tr><td>f1</td><td>Final frequency (normalized). </td></tr><tr><td>n</td><td>Number of points to generate. </td></tr><tr><td>mode</td><td>'l' for linear, 'q' for quadratic.</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="178">\[
+<div id="page-content-full"><p>Linear or quadratic chirp. </p><p>Namespace: <code>dsp</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">static Vecf <b>sigchirp</b>(float f0, float f1, int n, char mode='l')</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>f0</td><td>Initial frequency (normalized). </td></tr><tr><td>f1</td><td>Final frequency (normalized). </td></tr><tr><td>n</td><td>Number of points to generate. </td></tr><tr><td>mode</td><td>'l' for linear, 'q' for quadratic.</td></tr></table></p><h2><a name="5"></a>Description</h2><p><formula id="186">\[
 x_k = \cos \phi_k, \quad \phi_k = 2 \pi \sum_{i=0}^k f_k
-\]</formula></p><p>The \(f_k\) being lineairly or quadratically distribued between \(f_0\) and \(f_1\).</p><p>For a linear chirp:  <formula id="181">\[
+\]</formula></p><p>The \(f_k\) being lineairly or quadratically distribued between \(f_0\) and \(f_1\).</p><p>For a linear chirp:  <formula id="189">\[
 f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)
-\]</formula></p><p>For a quadratic chirp:  <formula id="182">\[
+\]</formula></p><p>For a quadratic chirp:  <formula id="190">\[
 f_k = f_0 + (f_1 - f_0) \left(\frac{k}{n-1}\right)^2
 \]</formula></p><p><h2>Example</h2><p en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Fréquence initale = 0 Hz</highlight><highlight class="normal"></highlight>

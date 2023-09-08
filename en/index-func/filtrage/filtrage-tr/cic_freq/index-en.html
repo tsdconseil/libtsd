@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">cic_freq</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Implementation of continuous streaming filter</a></li><li> / cic_freq</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Real-time filtering</a></li><li> / cic_freq</li></ul>
         </div>
 <div id="page-content-full"><p>Frequency response of a CIC filter. </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>cic_freq</b>(const CICConfig &config, const Vecf &f)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>config</td><td>Main parameters of the CIC filter (see <a href="../../../../index-func/filtrage/filtrage-design/CICConfig/index-en.html">CICConfig</a>) </td></tr><tr><td>f</td><td>normalized frequency, between -0.5 and 0.5 (can be a 1d vector) </td></tr></table></p><h2><a name="5"></a>Returns</h2><p>mag Output magnitude, computed at each frequency point</p><h2><a name="6"></a>Description</h2><p>
 This function computes the CIC frequency response (in magnitude) at the specified normalized frequencies \(f_k\). The magnitude is computed as:  <formula id="226">\[

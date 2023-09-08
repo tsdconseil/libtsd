@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../css/lessgrid.css"/>
 <script src="../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/tab-tutos/ex-fourier/ex-fourier-mat/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/tab-tutos/ex-fourier/ex-fourier-mat/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/tab-tutos/ex-fourier/ex-fourier-mat/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/tab-tutos/ex-fourier/ex-fourier-mat/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/tab-tutos/ex-fourier/ex-fourier-mat/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,9 +81,9 @@
           <h1 class="head">Matrice de Fourier</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../tab-tutos/index.html">Exemples</a></li><li> / <a href="../../../tab-tutos/ex-fourier/index.html">Transformée de Fourier</a></li><li> / Matrice de Fourier</li></ul>
         </div>
-<div id="page-content-full"><p>La TFD ( \(X_j = \sum_i x_i\cdot e^{2\pi\mathbf{i} ij/N}\)) peut s'exprimer de manière matricielle via la matrice de Fourier \(F\) :  <formula id="380">\[
+<div id="page-content-full"><p>La TFD ( \(X_j = \sum_i x_i\cdot e^{2\pi\mathbf{i} ij/N}\)) peut s'exprimer de manière matricielle via la matrice de Fourier \(F\) :  <formula id="381">\[
 X = F \cdot x
-\]</formula> Avec :  <formula id="381">\[
+\]</formula> Avec :  <formula id="382">\[
 F_{ij} = e^{2\pi\mathbf{i} ij/N}
 \]</formula></p><p>Ici, on affiche la phase de cette matrice (la magnitude étant constante).</p><p><pre><code class="C++"><highlight class="normal">Figure plot_mat_fourier(entier N)</highlight>
 <highlight class="normal">{</highlight>
@@ -91,7 +91,7 @@ F_{ij} = e^{2\pi\mathbf{i} ij/N}
 <highlight class="normal"></highlight>
 <highlight class="normal">  pour(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> i = 0; i &lt; N; i++)</highlight>
 <highlight class="normal">    pour(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"> j = 0; j &lt; N; j++)</highlight>
-<highlight class="normal">      phase(i,j) = <a href="../../../index-func/tsd/50/index.html">modulo_2π</a>(-(2*π*i*j)/N);</highlight>
+<highlight class="normal">      phase(i,j) = <a href="../../../index-func/tsd/54/index.html">modulo_2π</a>(-(2*π*i*j)/N);</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">  Figure f;</highlight>
 <highlight class="normal">  f.axes().set_isoview(oui);</highlight>
@@ -101,7 +101,7 @@ F_{ij} = e^{2\pi\mathbf{i} ij/N}
 <highlight class="normal"></highlight>
 <highlight class="normal">  retourne f;</highlight>
 <highlight class="normal">}</highlight>
-</code></pre></p><p><img src="Fmat-64.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">N = 64</p></p><p>Chaque sortie \(X_i\) de la TFD peut être interprétée comme le produit scalaire du signal d'entrée avec la ième ligne de la matrice :  <formula id="383">\[
+</code></pre></p><p><img src="Fmat-64.png" style="height: 100%; width: 100%; object-fit: contain"></img><p style="text-align:center">N = 64</p></p><p>Chaque sortie \(X_i\) de la TFD peut être interprétée comme le produit scalaire du signal d'entrée avec la ième ligne de la matrice :  <formula id="384">\[
 X_i = \left&lt;x, F_{i,.}\right&gt;
 \]</formula></p><p>Les termes de basses fréquences (positives) sont en bas (notez la ligne de bas, de phase constante, qui correspond à \(X_0\)). Ensuite, plus on monte, plus la fréquence est élevée, du moins jusq'au milieu, c'est-à-dire pour le terme \(X_{N/2}\), après quoi on passe sur les fréquences négatives). </p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">

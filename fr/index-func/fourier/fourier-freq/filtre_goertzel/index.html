@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/filtre_goertzel/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/filtre_goertzel/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/filtre_goertzel/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/filtre_goertzel/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/fourier/fourier-freq/filtre_goertzel/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">filtre_goertzel</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/fourier/index.html">Transformée de Fourier</a></li><li> / <a href="../../../../index-func/fourier/fourier-freq/index.html">Estimation spectrale</a></li><li> / filtre_goertzel</li></ul>
         </div>
-<div id="page-content-full"><p>Filtre de Goertzel (calcul au fil de l'eau) </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;float&gt;&gt; <b>filtre_goertzel</b>(float frequence, entier N)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>frequence</td><td>Fréquence à  détecter (normalisée à  la fréquence d'échantillonnage). </td></tr><tr><td>N</td><td>Nombre de points de la TFD équivalente (facteur de décimation) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p><a href="../../../../index-func/tsd/Filtre/index.html">Filtre</a> générique float -&gt; float</p><h2><a name="6"></a>Description</h2><p>Ce filtre calcule au fil de l'eau la densité de puissance (normalisée à la puissance totale du signal) à une fréquence donnée (voir <a href="../../../../index-func/fourier/fourier-freq/goertzel/index.html">goertzel()</a>).</p><p>Le calcul est fait par blocs de \(N\) échantillons, et la fréquence d'échantillonnage en sortie est donc divisée par \(N\) par rapport à la fréquence d'entrée (1 échantillon produit pour \(N\) échantillons consommés) :  <formula id="193">\[
+<div id="page-content-full"><p>Filtre de Goertzel (calcul au fil de l'eau) </p><p>Espace de nom : <code>tsd::fourier</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FiltreGen&lt;float&gt;&gt; <b>filtre_goertzel</b>(float frequence, entier N)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>frequence</td><td>Fréquence à  détecter (normalisée à  la fréquence d'échantillonnage). </td></tr><tr><td>N</td><td>Nombre de points de la TFD équivalente (facteur de décimation) </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p><a href="../../../../index-func/tsd/Filtre/index.html">Filtre</a> générique float -&gt; float</p><h2><a name="6"></a>Description</h2><p>Ce filtre calcule au fil de l'eau la densité de puissance (normalisée à la puissance totale du signal) à une fréquence donnée (voir <a href="../../../../index-func/fourier/fourier-freq/goertzel/index.html">goertzel()</a>).</p><p>Le calcul est fait par blocs de \(N\) échantillons, et la fréquence d'échantillonnage en sortie est donc divisée par \(N\) par rapport à la fréquence d'entrée (1 échantillon produit pour \(N\) échantillons consommés) :  <formula id="183">\[
 y_i = \frac{\left|2\cdot\mathcal{F}(x_{Ni\dots Ni + N-1})(f)\right|^2}{\displaystyle{\sum_{k=Ni}^{Ni+N-1}{x_k^2}}}
 \]</formula></p><p>\(\mathcal{F}(.)\) étant la transformée de Fourier discrète.</p><p>Le paramètre \(N\) correspond donc au nombre de points de la transformée de Fourier, et la résolution fréquentielle sera donc d'autant plus fine que \(N\) est grand.</p><p><h2>Exemple : détection d'une sinusoïde pure</h2><p fr="Exemple : détection d'une sinusoïde pure"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Tableau des fréquences :</highlight><highlight class="normal"></highlight>
@@ -90,18 +90,19 @@ y_i = \frac{\left|2\cdot\mathcal{F}(x_{Ni\dots Ni + N-1})(f)\right|^2}{\displays
 <highlight class="normal">  vfreq.head(n/3).setConstant(freq * 0.2);</highlight>
 <highlight class="normal">  vfreq.tail(n/3).setConstant(freq * 5.0);</highlight>
 <highlight class="normal"></highlight>
-<highlight class="normal">  </highlight><highlight class="comment">// Signal de fréquence variable</highlight><highlight class="normal"></highlight>
-<highlight class="normal">  soit x = sin(2 * <a href="../../../../index-func/tsd/47/../index.html">π</a> * vfreq * <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, n-1, n));</highlight>
 <highlight class="normal"></highlight>
-<highlight class="normal">  </highlight><highlight class="comment">// Applique le filtre de Goertzel au fil de l'eau</highlight><highlight class="normal"></highlight>
-<highlight class="normal">  soit g = <a href="../../../../index-func/fourier/fourier-freq/filtre_goertzel/index.html">tsd::fourier::filtre_goertzel</a>(freq, N);</highlight>
-<highlight class="normal">  soit y = g-&gt;step(x);</highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Filtre de Goertzel au fil de l'eau</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit g = <a href="../../../../index-func/fourier/fourier-freq/filtre_goertzel/index.html">filtre_goertzel</a>(freq, N);</highlight>
+<highlight class="normal"></highlight>
+<highlight class="normal">  </highlight><highlight class="comment">// Signal de fréquence variable</highlight><highlight class="normal"></highlight>
+<highlight class="normal">  soit x = sin(2 * <a href="../../../../index-func/tsd/49/../index.html">π</a> * vfreq * <a href="../../../../index-func/tsd/tsd-gen/linspace/index.html">linspace</a>(0, n-1, n)),</highlight>
+<highlight class="normal">       y = g-&gt;step(x);</highlight>
 <highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Affichages</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  Figures f;</highlight>
-<highlight class="normal">  f.subplot().plot(vfreq, </highlight><highlight class="stringliteral">"r-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Fréquence test"</highlight><highlight class="normal">);</highlight>
-<highlight class="normal">  f.subplot().plot(x, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal test"</highlight><highlight class="normal">);</highlight>
-<highlight class="normal">  f.subplot().plot(y, </highlight><highlight class="stringliteral">"g-"</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Détection"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot(vfreq, </highlight><highlight class="stringliteral">"r-"</highlight><highlight class="normal">, est_fr() ? </highlight><highlight class="stringliteral">"Fréquence test"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">"Test frequency"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot(x, </highlight><highlight class="stringliteral">"b-"</highlight><highlight class="normal">, est_fr() ? </highlight><highlight class="stringliteral">"Signal test"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">"Test signal"</highlight><highlight class="normal">);</highlight>
+<highlight class="normal">  f.subplot().plot(y, </highlight><highlight class="stringliteral">"g-"</highlight><highlight class="normal">, est_fr() ? </highlight><highlight class="stringliteral">"Détection"</highlight><highlight class="normal"> : </highlight><highlight class="stringliteral">"Detection"</highlight><highlight class="normal">);</highlight>
 </code></pre></p><img src="goertzel.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></p></p><h2><a name="7"></a>Voir aussi</h2><p><a href="../../../../index-func/fourier/fourier-freq/goertzel/index.html">goertzel()</a></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

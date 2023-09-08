@@ -81,13 +81,13 @@
           <h1 class="head">discriminateur_fm</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/telecom/index-en.html">Telecommunications</a></li><li> / <a href="../../../../index-func/telecom/telecom-mods-analog/index-en.html">Analog modulations</a></li><li> / discriminateur_fm</li></ul>
         </div>
-<div id="page-content-full"><p>Polar discrimination for FM demodulation. </p><p>Namespace: <code>dsp::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FilterGen&lt;cfloat, float&gt;&gt; <b>discriminateur_fm</b>()</pre></p><h2><a name="4"></a>Returns</h2><p>Filter cfloat (baseband signal, complex) to float (instantaneous frequnency, as a normalized pulsation (between \(-\pi\) and \(\pi\))). </p><h2><a name="5"></a>Description</h2><p>Implement a polar discriminator (computes the instantaneous frequency for a baseband signal), which can serve as a building block for a FM demodulator:  <formula id="294">\[
+<div id="page-content-full"><p>Polar discrimination for FM demodulation. </p><p>Namespace: <code>dsp::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FilterGen&lt;cfloat, float&gt;&gt; <b>discriminateur_fm</b>()</pre></p><h2><a name="4"></a>Returns</h2><p>Filter cfloat (baseband signal, complex) to float (instantaneous frequnency, as a normalized pulsation (between \(-\pi\) and \(\pi\))). </p><h2><a name="5"></a>Description</h2><p>Implement a polar discriminator (computes the instantaneous frequency for a baseband signal), which can serve as a building block for a FM demodulator:  <formula id="295">\[
 y(t) = \frac{d\arg x}{dt}(t)
-\]</formula></p><p>The implementation si based on <a url="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/" href="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/">https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/</a>, which enable an efficient, arc-tangent free, computing:  <formula id="295">\[
+\]</formula></p><p>The implementation si based on <a url="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/" href="https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/">https://www.embedded.com/dsp-tricks-frequency-demodulation-algorithms/</a>, which enable an efficient, arc-tangent free, computing:  <formula id="296">\[
 y(t)  = \frac{\mathcal{Re}(x(t)) \frac{d\mathcal{Im}(x(t))}{dt} - \mathcal{Im}(x(t)) \frac{d\mathcal{Re}(x(t))}{dt}}{\left|x(t)\right|^2}
-\]</formula></p><p>The derivative is approximated at the first order:  <formula id="296">\[
+\]</formula></p><p>The derivative is approximated at the first order:  <formula id="297">\[
 \frac{dx}{dt}(k) \sim \frac{x_{k+1}-x_{k-1}}{2}
-\]</formula></p><p><dl class="section warning"><dd><b>Warning<br/></b></dd><dd>Because of the aproximation done for derivative computation, this block insert a delay of 1 sample.</dd></dl><br/><para en="Example"><description lang="en"><p><pre><code class="C++"><highlight class="normal"></highlight>
+\]</formula></p><p><dl class="section warning"><dd><b>Warning<br/></b></dd><dd>Because of the aproximation done for derivative computation, this block insert a delay of 1 sample.</dd></dl><br/><br/><h2>Example</h2><p2><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Signal test</highlight><highlight class="normal"></highlight>
 <highlight class="normal">  soit x = <a href="../../../../index-func/tsd/tsd-gen/siggauss/index-en.html">siggauss</a>(1000) / 10;</highlight>
 <highlight class="normal"></highlight>
@@ -103,6 +103,6 @@ y(t)  = \frac{\mathcal{Re}(x(t)) \frac{d\mathcal{Im}(x(t))}{dt} - \mathcal{Im}(x
 <highlight class="normal">  f.subplot().plot(y, </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Signal modulé FM"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal">  f.subplot().plot(z, </highlight><highlight class="stringliteral">""</highlight><highlight class="normal">, </highlight><highlight class="stringliteral">"Sortie discriminateur"</highlight><highlight class="normal">);</highlight>
 <highlight class="normal"></highlight>
-</code></pre></p><img src="ex-discriminateur-fm.png" style="height: 100%; width: 100%; object-fit: contain"></img></description></para></p></div></div><div class="clearfix"></div>
+</code></pre></p><img src="ex-discriminateur-fm.png" style="height: 100%; width: 100%; object-fit: contain"></img></p2></p></div></div><div class="clearfix"></div>
         <div class="shadow-main"></div></div><footer><div class="wrapper">
 <center><p></p></center></div></footer><script>initialize();</script></body></html>

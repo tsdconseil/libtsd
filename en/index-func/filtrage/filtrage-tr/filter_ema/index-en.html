@@ -79,7 +79,7 @@
     <div id="content">
     <div id="masthead">
           <h1 class="head">filter_ema</h1><span class="subhead"></span>
-          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Implementation of continuous streaming filter</a></li><li> / filter_ema</li></ul>
+          <ul class="breadcrumbs"><li><a href="../../../../index-func/index-en.html">Documentation</a></li><li> / <a href="../../../../index-func/filtrage/index-en.html">Linear filtering</a></li><li> / <a href="../../../../index-func/filtrage/filtrage-tr/index-en.html">Real-time filtering</a></li><li> / filter_ema</li></ul>
         </div>
 <div id="page-content-full"><p>First order IIR filter (exponential filter). </p><p>Namespace: <code>dsp::filter</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FilterGen&lt;T&gt;&gt; <b>filter_ema</b>(float γ)</pre></p><h2><a name="4"></a>Parameters</h2><p><table class="formtable2"><tr><td>γ</td><td>Forget factor.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>This filter, also called the "numerical RC filter", or "exponential filter", is one of the simplest filter, as it is completely speficied by only one coefficient.</p><p>
 It is defined by the following equation:  <formula id="228">\[

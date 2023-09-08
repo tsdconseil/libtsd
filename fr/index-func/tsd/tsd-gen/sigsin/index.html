@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../css/lessgrid.css"/>
 <script src="../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigsin/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigsin/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigsin/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigsin/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/tsd/tsd-gen/sigsin/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">sigsin</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../index-func/tsd/index.html">Fonctions générales</a></li><li> / <a href="../../../../index-func/tsd/tsd-gen/index.html">Génération de signaux</a></li><li> / sigsin</li></ul>
         </div>
-<div id="page-content-full"><p>Calcul efficace d'une sinusoide. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>sigsin</b>(float f, entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>f</td><td>Fréquence normalisée (entre -0,5 et 0,5) </td></tr><tr><td>n</td><td>Nombre de points à générer </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Vecteur réel défini par :  <formula id="365">\[
+<div id="page-content-full"><p>Calcul efficace d'une sinusoide. </p><p>Espace de nom : <code>tsd</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">Vecf <b>sigsin</b>(float f, entier n)</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>f</td><td>Fréquence normalisée (entre -0,5 et 0,5) </td></tr><tr><td>n</td><td>Nombre de points à générer </td></tr></table></p><h2><a name="5"></a>Retourne</h2><p>Vecteur réel défini par :  <formula id="366">\[
  y_k = \sin\left(2\pi k f\right),\quad k = 0\dots n-1
 \]</formula></p><h2><a name="6"></a>Description</h2><p>Cette fonction génère un signal sinusoidal, le calcul étant basé sur un oscillateur harmonique (ce qui beaucoup plus efficace que via les fonctions trigonométrique de la librairie standard). Notez cependant que si \(n\) est important, il peut y avoir une dérive, tant en gain qu'en phase.</p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// Fréquence = 0.01, 200 échantillons</highlight><highlight class="normal"></highlight>

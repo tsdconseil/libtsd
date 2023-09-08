@@ -45,8 +45,8 @@
 <link rel="stylesheet" media="all" href="../../../../../css/lessgrid.css"/>
 <script src="../../../../../js/modernizr.js"></script>
 <link rel="alternate" hreflang="fr" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_fsk/index.html"/>
-<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_fsk/index-en.html"/>
-<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_fsk/index-de.html"/>
+<link rel="alternate" hreflang="en" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_fsk/index.html"/>
+<link rel="alternate" hreflang="de" href="http://www.tsdconseil.fr/index-func/telecom/telecom-mods/telecom-mods-wf/forme_onde_fsk/index.html"/>
 </head>
   <body lang="fr">
     <!-- mobile-nav -->
@@ -81,7 +81,7 @@
           <h1 class="head">forme_onde_fsk</h1><span class="subhead"></span>
           <ul class="breadcrumbs"><li><a href="../../../../../index-func/index.html">Documentation</a></li><li> / <a href="../../../../../index-func/telecom/index.html">Télécommunications</a></li><li> / <a href="../../../../../index-func/telecom/telecom-mods/index.html">Modulations numériques</a></li><li> / <a href="../../../../../index-func/telecom/telecom-mods/telecom-mods-wf/index.html">Formes d'ondes</a></li><li> / forme_onde_fsk</li></ul>
         </div>
-<div id="page-content-full"><p>Création d'une forme d'onde FSK. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FormeOnde&gt; <b>forme_onde_fsk</b>(unsigned int M=2, float index=0.4, const SpecFiltreMiseEnForme &filtre=nrz())</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>M</td><td>Nombre de valeurs possibles par symbole. </td></tr><tr><td>index</td><td>Indice de modulation. </td></tr><tr><td>filtre</td><td>Type de mise en forme.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Création d'une forme d'onde en modulation de fréquence (FSK, pour <i>Frequency Shift Keying</i>).</p><p>Cette modulation est caractérisée par <b>l'indice de modulation</b>, qui est le rapport entre l'excursion maximale (deux fois la déviation) et le débit symbole :  <formula id="250">\[
+<div id="page-content-full"><p>Création d'une forme d'onde FSK. </p><p>Espace de nom : <code>tsd::telecom</code><br/></p><h2><a name="3"></a>Prototype</h2><p><pre class="prototype">sptr&lt;FormeOnde&gt; <b>forme_onde_fsk</b>(unsigned int M=2, float index=0.4, const SpecFiltreMiseEnForme &filtre=nrz())</pre></p><h2><a name="4"></a>Paramètres</h2><p><table class="formtable2"><tr><td>M</td><td>Nombre de valeurs possibles par symbole. </td></tr><tr><td>index</td><td>Indice de modulation. </td></tr><tr><td>filtre</td><td>Type de mise en forme.</td></tr></table></p><h2><a name="5"></a>Description</h2><p>Création d'une forme d'onde en modulation de fréquence (FSK, pour <i>Frequency Shift Keying</i>).</p><p>Cette modulation est caractérisée par <b>l'indice de modulation</b>, qui est le rapport entre l'excursion maximale (deux fois la déviation) et le débit symbole :  <formula id="243">\[
 h = \frac{2 \Delta f}{f_{symb}}
 \]</formula></p><p>la fréquence instantanée variant entre \(f_c - \Delta f\) et \(f_c + \Delta f\).</p><p><h2>Exemple</h2><p fr="Exemple"><description lang="fr"><p><pre><code class="C++"><highlight class="normal"></highlight>
 <highlight class="normal">  </highlight><highlight class="comment">// 2-FSK, indice de modulation = 4</highlight><highlight class="normal"></highlight>
