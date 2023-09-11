@@ -2,7 +2,14 @@
 #include "tsd/tests.hpp"
 
 
-void verifie_fenetre(cstring nom, const Vecf &x, const FenInfos &ref)
+
+struct FenSpec
+{
+  float atten, largeur;
+  bouléen symétrique = non;
+};
+
+void verifie_fenetre(cstring nom, const Vecf &x, const FenSpec &ref)
 {
   si(tests_debug_actif)
   {
@@ -13,20 +20,21 @@ void verifie_fenetre(cstring nom, const Vecf &x, const FenInfos &ref)
 
   assertion(!x.hasNaN());
 
-  soit mes = fenetre_analyse(nom, x, tests_debug_actif);
+  soit mes = analyse_filtre(x, tests_debug_actif);
   si(tests_debug_actif)
     mes.fig.afficher();
 
-  soit err1 = abs(ref.atten_ls - mes.atten_ls);
+  soit err1 = abs(ref.atten - mes.pire_ls.atten);
   msg("  erreur atten : {:.2f} dB", err1);
-  soit err = abs(mes.largeur_lp - ref.largeur_lp) / ref.largeur_lp;
+  soit err = abs(mes.largeur_lp - ref.largeur) / ref.largeur;
   msg("  erreur relative largeur lp : {:.2f} %", err*100);
-  si((ref.atten_ls > 0) && (err1 > 1))
-    échec("Fenêtre {} : atténuation invalide ({:.1f} dB, {:.1f} dB attendu).", nom, mes.atten_ls, ref.atten_ls);
-  si((ref.largeur_lp > 0) && (err > 0.1))
-    échec("Fenêtre {} : largeur lobe principal invalide ({}, {} attendu, erreur relative = {} %).", nom, mes.largeur_lp, ref.largeur_lp, err*100);
-  si((ref.symetrique) && (!mes.symetrique))
-    échec("Fenêtre {} : symétrie attendue = {}, détectée = {}", nom, ref.symetrique, mes.symetrique);
+  si((ref.atten > 0) && (err1 > 1))
+    échec("Fenêtre {} : atténuation invalide ({:.1f} dB, {:.1f} dB attendu).",
+        nom, mes.pire_ls.atten, ref.atten);
+  si((ref.largeur > 0) && (err > 0.1))
+    échec("Fenêtre {} : largeur lobe principal invalide ({}, {} attendu, erreur relative = {} %).", nom, mes.largeur_lp, ref.largeur, err*100);
+  si((ref.symétrique) && (!mes.symetrique))
+    échec("Fenêtre {} : symétrie attendue = {}, détectée = {}", nom, ref.symétrique, mes.symetrique);
 }
 
 void test_kaiser_param(float As, float β_attendu)

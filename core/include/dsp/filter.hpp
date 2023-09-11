@@ -141,7 +141,6 @@ namespace dsp::filter {
   }
 
 
-  //using FenInfos = tsdf::FenInfos;
   using AnalyseFiltre = tsdf::AnalyseFiltre;
 
   // TODO : DOC

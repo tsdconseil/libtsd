@@ -1746,12 +1746,18 @@ Vecteur<T> filtrer(const Vecteur<Tc> &h, const Vecteur<T> &x)
  *
  *  @sa filtrer()
  */
-template<typename T, typename Tc>
-  Vecteur<T> filtfilt(const Vecteur<Tc> &h, const Vecteur<T> &x)
+template<typename T>
+  Vecteur<T> filtfilt(const Design &h, const Vecteur<T> &x)
 {
-  return filtrer(h, filtrer<T,Tc>(h,x).reverse()).reverse();
+  return filtrer(h, filtrer<T>(h,x).reverse()).reverse();
 }
 
+/*template<typename T, typename Tc>
+  Vecteur<T> filtfilt(const Vecteur<Tc> &h, const Vecteur<T> &x)
+{
+  return filtrer(h, filtrer<T>(h,x).reverse()).reverse();
+}
+*/
 
 template<typename T, typename Tc>
   Vecteur<T> convol(const Vecteur<Tc> &h, const Vecteur<T> &x)

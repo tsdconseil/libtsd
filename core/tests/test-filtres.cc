@@ -327,13 +327,11 @@ struct TestDesignConfig
 template<typename T>
 void test_design(const T &h, const TestDesignConfig &config = TestDesignConfig())
 {
-  //analyse_filtre(h).afficher("Vérification design passe-bas");
-
   soit npts = 2048;
   soit [fr,xm] = frmag(h, npts);
   soit err_gain = 0.0f;
 
-  soit a = analyse_LIT(h, non);
+  soit a = analyse_filtre(h, non);
 
   si(config.fc_3dB_théo >= 0)
   {
@@ -625,7 +623,7 @@ void test_rif_freq()
   assertion(h.rows() == n);
   test_design(h, {TypeFiltre::PASSE_BAS, -1, 0.2});
 
-  soit [fr,xm] = frmag<float>(h);
+  soit [fr,xm] = frmag(h);
   soit fr1 = design_rif_freq_freqs(n);
 
   si(tests_debug_actif)
