@@ -112,13 +112,15 @@ SOURCES_BASE := $(SOURCES) $(SOURCES_NO_GTK)
 SOURCES      := $(SOURCES_GTK) $(SOURCES) $(SOURCES_EXT) 
 
 
-OBJECTFILES      := $(patsubst %,$(BUILD_DIR)/objs/%.o,$(SOURCES))
-OBJECTFILES_BASE := $(patsubst %,$(BUILD_DIR)/objs/%.o,$(SOURCES_BASE))
+OBJECTFILES        := $(patsubst %,$(BUILD_DIR)/objs/%.o,$(SOURCES))
+OBJECTFILES_BASE   := $(patsubst %,$(BUILD_DIR)/objs/%.o,$(SOURCES_BASE))
 EXEFILES           := $(patsubst %,$(BUILD_DIR)/%.exe,$(EXECS))
 EXEFILES_SANS_IHM  := $(patsubst %,$(BUILD_DIR)/%.exe,$(EXECS_SANS_IHM))
 
-EXT_LIBS        := $(patsubst %,%/build/$(RMODE)$(TSUF)/lib.a,$(LIBS_EXTERNES))
-EXT_LIBS        += $(patsubst %,%/build/$(RMODE)$(TSUF)/lib-base.a,$(LIBS_EXTERNES_BASE))
+EXT_LIBS           := $(patsubst %,%/build/$(RMODE)$(TSUF)/lib.a,$(LIBS_EXTERNES))
+EXT_LIBS           += $(patsubst %,%/build/$(RMODE)$(TSUF)/lib.a,$(LIBS_EXTERNES_BASE))
+
+EXT_LIBS_BASE   := $(patsubst %,%/build/$(RMODE)$(TSUF)/lib-base.a,$(LIBS_EXTERNES_BASE))
 
 EXT_LIBS_PRE    := $(patsubst %,%/build/$(RMODE)$(TSUF)/lib.a,$(LIBS_EXTERNES_PRE)) 
 
@@ -154,36 +156,21 @@ COPT += -Wno-attributes
 
 ifeq ($(RMODE),debug)
 LOPT = $(OPTIONS_LINK_DEBUG)
-#  -fstack-protector-all
 COPT += $(OPTIONS_COMPIL_DEBUG)
 COPT += -g -DDEBUG_MODE -DMODE_DEBUG=1 -DMODE_RELEASE=0 -O3
-#-Ofast
-# -O1
-# -Og
-#-O1
-#-Og
-# -fstack-protector-all
-# -O1
-#-g1 
-#-O3
-
-# COPT += -march=native
-
-# -O2
-# -O2 
+# acceptable en mode débug, car travail en local
+COPT += -march=native
+# -ffast-math -mavx512f -Ofast -Og -fstack-protector-all -gl
 else
 LOPT = $(OPTIONS_LINK_RELEASE)
 COPT += $(OPTIONS_COMPIL_RELEASE)
 # NDEBUG pour désactiver les assertions
 COPT += -DRELEASE_MODE -DMODE_DEBUG=0 -DMODE_RELEASE=1 -DNDEBUG
 # -Ofast 
-COPT += -O3
-COPT += -march=x86-64
-# COPT += -march=native -ffast-math 
+# Surtout pas -march=native pour une relase
+COPT += -O3 -march=x86-64
+# COPT += -ffast-math 
 COPT += -DEIGEN_NO_DEBUG 
-#COPT += -O0 -g
-#LOPT += -static
-#-Wl,--static 
 endif
 
 COPT += $(EXT_INC) -fcx-limited-range
@@ -202,8 +189,10 @@ CXXFLAGS += $(COPT) -std=c++20
 
 # External libraries
 ELIBS   := $(EXT_LIBS_PRE) $(CURRENT_LIB) $(EXT_LIBS)
+ELIBS_BASE   := $(EXT_LIBS_PRE) $(CURRENT_LIB_BASE) $(EXT_LIBS_BASE)
 
-LDFLAGS+= $(ELIBS) $(LOPTADD)  
+LDFLAGS        += $(ELIBS) $(LOPTADD)  
+LDFLAGS_NO_GTK := $(ELIBS_BASE) $(LOPTADD)  
 
 ifeq ($(AVEC_GTK),0)
 else
@@ -211,9 +200,11 @@ LDFLAGS+= $(GTK_LIB)
 endif
 
 LDFLAGS+= $(LOPT) $(ADDITIONNAL_LOPT)
+LDFLAGS_NO_GTK += $(LOPT) $(ADDITIONNAL_LOPT)
 
 ifeq ($(RMODE),release)
 LDFLAGS+= -Wl,-s
+LDFLAGS_NO_GTK += -Wl,-s
 endif
 
 PRECOMP    = $(BUILD_DIR)/precompile.h.gch
@@ -272,7 +263,7 @@ data-update:
 
 
 ##################################
-# Implicit rules
+# Régles implicites
 ##################################
 
 $(BUILD_DIR)/objs-exe/%o : %cc
@@ -291,15 +282,18 @@ $(BUILD_DIR)/objs/%o : %c
 	@$(ECHO) "Compilation c : \033[1m$<\033[0m..."
 	@$(CC) -c $(CFLAGS) $< -o $@
 
-# 
+$(BUILD_DIR)/%-cl.exe:  $(BUILD_DIR)/objs-exe/%-cl.o $(ELIBS)
+	@$(ECHO) "Construction de l'exécutable (sans GTK) \033[34m$@\033[0m..."
+	@$(CXX) $<  $(LDFLAGS_NO_GTK) -o $@ 
+
 $(BUILD_DIR)/%.exe:  $(BUILD_DIR)/objs-exe/%.o $(ELIBS)
-	@$(ECHO) "Construction de l'executable \033[34m$@\033[0m..."
+	@$(ECHO) "Construction de l'exécutable \033[34m$@\033[0m..."
 	@$(CXX) $<  $(LDFLAGS) -o $@ 
 
 # -Wl,--static 
 
 ##################################
-# Libraries
+# Librairies
 ##################################
 lib: $(CURRENT_LIB)
 

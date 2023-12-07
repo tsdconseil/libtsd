@@ -7,6 +7,7 @@
 
 #include "tsd/tsd.hpp"
 #include "tsd/vue/image.hpp"
+#include "tsd/temps.hpp"
 
 
 namespace tsd::vue::unites {
@@ -68,6 +69,8 @@ struct ConfigAxe
 
   vector<std::pair<float, string>> tics;
 
+  vector<float> tics_mineurs;
+
   /** @brief Dim fonte valeurs des tics. */
   float valeurs_echelle = 0.6;
 
@@ -118,6 +121,18 @@ struct ConfigAxes
 
   void def_rdi_visible(float xmin, float xmax, float ymin, float ymax);
   void def_rdi_visible_abs(float xmin, float xmax, float ymin, float ymax);
+
+  struct ConfigAxeTemporel
+  {
+    bouléen actif = non;
+
+    /** @brief Date / heure correspond à t = 0 sur l'axe des abcisses */
+    tsd::temps::DateHeure t0;
+
+    /** @brief Opérateur de comparaison. */
+    std::strong_ordering operator<=>(const ConfigAxeTemporel&) const = default;
+  } axe_temporel;
+
 
   /** @brief List of channels */
   vector<ConfigSerie> series;
@@ -193,10 +208,10 @@ struct Axe
   vector<double> tics_mineurs_pos;
 
   double ecart_tics_majeurs_valeur;
-  entier   ecart_tics_majeurs_pixels;
+  entier   ecart_tics_majeurs_pixels = 50;
 
   double ecart_tics_mineurs_valeur;
-  entier   ecart_tics_mineurs_pixels;
+  entier   ecart_tics_mineurs_pixels = 5;
 
   bouléen tics_mineurs_presents;
   /** Center of X / Y axis, in lsb units */
@@ -267,6 +282,7 @@ struct Canva
 
   Pointf v2c(const Pointf &p) const;
   Rectf v2c(const Rectf &r) const;
+  Pointf c2v(const Pointf &p) const;
 
   void forward(Canva dest) const;
 
@@ -301,6 +317,7 @@ struct Canva
   void ligne(float x0, float y0, float x1, float y1);
   void ligne(const Pointf &p0, const Pointf &p1);
   void fleche(const Pointf &p0, const Pointf &p1, float dim = 5);
+  void polygone(const vector<Pointf> &pts);
 
   struct GroupeTextes;
   void texte(float x0, float y0,
@@ -350,6 +367,10 @@ struct Canva
   sptr<GroupeTextes> groupe_textes();
 
   Rectf calc_rdi_englobante() const;
+
+
+  void afficher(cstring titre = "", const Dim &dim = {-1, -1}) const;
+  void enregistrer(cstring chemin_fichier, const Dim &dim = {-1, -1}) const;
 
   _PIMPL_
 };
@@ -404,6 +425,8 @@ struct Axes
   void def_rdi_visible(float xmin, float xmax, float ymin, float ymax);
   void def_rdi_visible_abs(float xmin, float xmax, float ymin, float ymax);
 
+  //void configure_axe_temporel(const tsd::temps::DateHeure &t0, const tsd::temps::Durée &d);
+
   void set_isoview(bouléen isoview);
   void fixe_aspect_ratio(float ysx);
 
@@ -426,6 +449,9 @@ struct Axes
   Dim get_dim_graphique(const Dim &dim_totale) const;
   void configure(const ConfigAxes &config);
   ConfigAxes &get_config();
+
+
+  Canva get_canva_res();
 
   Axes clone();
 
@@ -590,7 +616,7 @@ struct Figure: ARendable
 
   /** @brief Affiche une courbe constituée d'un seul point (un marqueur)
    *  @sa @ref plot() */
-  Courbe plot(const float &x, const float &y, cstring format = "");
+  Courbe plot(float x, float y, cstring format = "", cstring label = "");
 
   template<typename T, typename ... Ts>
   Courbe plot(const tuple<Vecf, VecT<T>> &xy, cstring format = "", cstring label = "", Ts &&... args)
@@ -717,6 +743,8 @@ struct Figure: ARendable
 
 
   void def_echelle(bouléen log_x, bouléen log_y);
+
+  void active_axe_temporel(const tsd::temps::DateHeure &t0);
 
   //void rendre(Canva canva) const;
 

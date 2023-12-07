@@ -20,7 +20,7 @@ SOURCES += rif-eq rif-cs rif-freq rif-fen cic rii analogique
 SOURCES += modulations
 SOURCES += etalement-spectre canalisation transpo-bb simulation
 SOURCES += image-bmp cmaps unites recepteur temps geometrie
-SOURCES += kalman modele-imu  ssm-plot 
+SOURCES += kalman modele-imu  ssm-plot misc-plot
 
 # test-kalman 
 SOURCES_TEST += test-tab test-dsp test-geometrie test-temps test-telecom test-stats test-poly test-image 

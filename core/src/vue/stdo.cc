@@ -111,6 +111,7 @@ void Stdo::def_dossier_sortie(cstring chemin)
 
 void Stdo::affiche(sptr<const Rendable> s, cstring titre, const Dim &dim)
 {
+  //msg("############ mode rt = {}", priv.mode_rt);
   si(priv.mode_rt)
   {
     si(stdo_ajoute_figure)

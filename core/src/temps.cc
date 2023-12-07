@@ -58,6 +58,11 @@ Durée operator-(const Durée& ts1, const Durée& ts2)
   retourne Durée(ts1.tics - ts2.tics);
 }
 
+Durée operator*(const double& ts1, const Durée& ts2)
+{
+  retourne Durée(ts2.tics * ts1);
+}
+
 double Durée::nb_jours() const
 {
     retourne ((double) tics) / TICS_JOUR;
@@ -91,7 +96,21 @@ double Durée::nb_microsecondes() const
 
 std::ostream& operator<<(std::ostream& ss, const Durée& t)
 {
-  ss << t.nb_microsecondes() << " µs";
+  string s;
+  si(t > Durée::jours(2))
+      s = sformat("{:.2f} {}", t.nb_jours(), est_fr() ? "jours" : "days");
+  sinon si(t >= Durée::heures(1))
+    s = sformat("{:.2f} {}", t.nb_heures(), est_fr() ? "heures" : "hours");
+  sinon si(t >= Durée::minutes(1))
+    s = sformat("{:.3f} minutes", t.nb_minutes());
+  sinon si(t >= Durée::secondes(1))
+    s = sformat("{:.3f} {}", t.nb_secondes(), est_fr() ? "secondes" : "seconds");
+  sinon si(t >= Durée::millisecondes(1))
+    s = sformat("{:.3f} ms", t.nb_millisecondes());
+  sinon
+    s = sformat("{} µs", t.nb_microsecondes());
+
+  ss << s;
   retourne ss;
 }
 
@@ -154,6 +173,13 @@ double DateHeure::temps_sidéral_local(double longitude) const
 DateHeure::DateHeure(const DateComposite &date)
 {
   ntics = (Durée(date.heure) + Durée::jours(date.jour.nb_jours_debut_ère())).tics;
+}
+
+DateHeure DateHeure::arrondi_heure_pleine() const
+{
+  soit dec = decomposition();
+  dec.heure.minutes = dec.heure.secondes = dec.heure.ms = dec.heure.µs = 0;
+  retourne dec;
 }
 
 entier DateHeure::microsecondes() const

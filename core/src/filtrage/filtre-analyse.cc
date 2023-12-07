@@ -1,12 +1,4 @@
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/vue.hpp"
-#include "tsd/fourier.hpp"
-#include <iostream>
-
-using namespace tsd::vue;
-using namespace tsd::fourier;
-using namespace std;
+#include "tsd/tsd-all.hpp"
 
 namespace tsd::filtrage {
 
@@ -37,7 +29,7 @@ namespace tsd::filtrage {
   }
 
 
-  int type_rif(const Vecf &h)
+  entier type_rif(const Vecf &h)
   {
     soit nc = h.rows();
     Vecf hrr = h.reverse();
@@ -149,6 +141,7 @@ namespace tsd::filtrage {
       plot_frmag(res.figures.repfreq_lin, d, non);
       plot_frmag(res.figures.repfreq_log, d, oui);
       plot_frphase(res.figures.repphase, d);
+      plot_frdelay(res.figures.delay, d);
       plot_rech(res.figures.repech, d);
     }
 
@@ -254,12 +247,23 @@ namespace tsd::filtrage {
   tuple<Vecf, Vecf> frgroup(const Design &d, entier npts)
   {
     soit [fr, ϕ] = frphase(d, npts);
+    soit [fr2, g] = frmag(d, npts);
 
     // Pas de phase pour la dérivée
-    float delta_ϕ = ϕ(1) - ϕ(0);
+    float delta_ϕ = 2 * π * (fr(1) - fr(0));
+
+    soit  dϕ = diff(ϕ);
 
     Vecf ϕp(npts);
-    ϕp.head(npts-1) = diff(ϕ) / delta_ϕ;
+    ϕp.head(npts-1) = -dϕ / delta_ϕ;
+
+    // En cas de phase discontinue, la dérivée n'est pas définie.
+    pour(auto k = 0; k < npts-1; k++)
+    {
+      si(abs(dϕ(k)) > π_f/2)
+        ϕp(k) = std::nanf("");
+    }
+    // Approximaton !
     ϕp(npts-1)      = ϕp(npts-2);
 
     retourne {fr, ϕp};
@@ -271,26 +275,6 @@ namespace tsd::filtrage {
     retourne Veccf::int_expr(fr.rows(),
          IMAP(d.complex_frat().horner(std::polar(1.0f, 2 * π_f * fr(i)))));
   }
-
-# if 0
-  template<typename T>
-  tuple<Vecf, Vecf> frmag(const FRat<T> &h, entier npts)
-  {
-    soit fr = linspace(0, 0.5 - (0.5 / npts), npts);
-    retourne{fr, abs(repfreq(h, fr))};
-  }
-
-  template<typename T> tuple<Vecf, Vecf> frmag(const Vecteur<T> &h, entier npts)
-  {
-    npts = max(npts, h.rows() / 2);
-    soit h2 = Vecteur<T>::zeros(2*npts);
-    h2.head(h.rows()) = h;
-
-    retourne {
-       linspace(0, 0.5 - (0.5 / npts), npts),
-      (abs(fft(h2))).head(npts) * sqrt(2.0f*npts)};
-  }
-# endif
 
 
 tuple<Vecf, Vecf> frmag_rif(const Vecf &h, entier npts)
@@ -324,10 +308,6 @@ Vecf repech(const Design &d, entier npts)
   }
 
   retourne filtrer(d, Vecf::ones(npts));
-
-  //soit x = Vecf::ones(npts);
-  //x.tail(npts-npts/10).set_ones();
-  //retourne filtrer(d, x);
 }
 
 Vecf repimp(const Design &d, entier npts)

@@ -157,6 +157,8 @@ template<typename ... Ts>
 }
 #endif
 
+//#define failure(...) do{msg_erreur(__VA_ARGS__); throw;}
+
 #if !OLD_GCC
 #define échec failure
 #endif
@@ -165,6 +167,9 @@ template<typename ... Ts>
 /** @brief Display an error message in the log before asserting */
 #define assertion_msg(AA, ...)  do{si(!(AA)) {log_msg(__FILE__, __LINE__, 5, __VA_ARGS__);}} while(0)
 #define assertion(AA)           do{si(!(AA)) {log_msg(__FILE__, __LINE__, 5, "{}", "Echec assertion : " #AA ".");}} while(0)
+
+// TODO : vérifier si supporté par compilo xilinx
+#define assertion_test(AA, ...) do{si(!(AA)) {log_msg(__FILE__, __LINE__, 5, "{}", "Echec assertion : " #AA ". "); __VA_OPT__(log_msg(__FILE__, __LINE__, 5, __VA_ARGS__);)}} while(0)
 
 #ifdef DEBUG_MODE
 # define assertion_safe assertion_msg
@@ -175,5 +180,11 @@ template<typename ... Ts>
 /** Motif de conception PIMPL (Pointer to Implementaiton) */
 #define _PIMPL_ private: struct Impl; sptr<Impl> impl;
 
+
+template<typename T, typename T2>
+void operator +=(vector<T> &vec, const T2 &elem)
+{
+  vec.push_back(elem);
+}
 
 #endif

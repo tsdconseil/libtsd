@@ -147,17 +147,17 @@ struct Image::Impl
       row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png,info));
     }
 
-    msg("Read image...");
+    //msg("Read image...");
     png_read_image(png, row_pointers);
 
     fclose(fp);
 
-    msg("sx : {}, 4*sx: {}", sx, 4 * sx);
+    //msg("sx : {}, 4*sx: {}", sx, 4 * sx);
 
     //msg("Destroy read struct...");
     png_destroy_read_struct(&png, &info, NULL);
 
-    msg("Resize({}, {})..", width, height);
+    msg("image png: dim=({},{})..", width, height);
     resize(width, height);
 
     msg("lecture octets..");
@@ -982,16 +982,65 @@ struct Image::Impl
     retourne ((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy));
   }
 
+  inline void point(const Point &p, const bgra &c)
+  {
+    si(p.x >= 0 && p.y >= 0 && p.x < sx && p.y < sy)
+    {
+      si(c.bgra[3] == 255)
+        pixel(p.x, p.y) =  c;
+      sinon
+      {
+        float α = c.bgra[3] / 255.0f;
+        soit &ov = pixel(p.x, p.y);
+        pour(auto k = 0; k < 4; k++)
+          ov.bgra[k] = α * c.bgra[k] + (1-α) * ov.bgra[k];
+      }
+    }
+  }
+
+  /*inline void point_alpha(entier x, entier y, const bgra &c)
+  {
+    si(x >= 0 && y >= 0 && x < sx && y < sy)
+    {
+      float α = c.bgra[3] / 255.0f;
+      soit &ov = pixel(x, y);
+      pour(auto k = 0; k < 4; k++)
+        ov.bgra[k] = α * c.bgra[k] + (1-α) * ov.bgra[k];
+    }
+  }*/
+
   inline void point(const Point &p)
   {
-    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
-      pixel(p.x, p.y) =  cd;
+    point(p, cd);
   }
   inline void point(const Point &p, const Couleur &c)
   {
-    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
-      pixel(p.x, p.y) = {c.b, c.g, c.r, c.alpha};
+    point(p, bgra{c.b, c.g, c.r, c.alpha});
   }
+
+  void point(const Point &p, const Couleur &c, float α)
+  {
+    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
+    {
+      soit &ov = pixel(p.x, p.y);
+      soit nv = couleur_vers_bgra(c);
+
+      pour(auto k = 0; k < 4; k++)
+        ov.bgra[k] = α * nv.bgra[k] + (1-α) * ov.bgra[k];
+    }
+  }
+
+  void point(const Point &p, const bgra &c, float α)
+  {
+    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
+    {
+      soit &ov = pixel(p.x, p.y);
+      pour(auto k = 0; k < 4; k++)
+        ov.bgra[k] = α * c.bgra[k] + (1-α) * ov.bgra[k];
+    }
+  }
+
+
 
   bgra couleur_vers_bgra(const Couleur &c)
   {
@@ -1069,27 +1118,8 @@ struct Image::Impl
     retourne res;
   }
 
-  void point(const Point &p, const Couleur &c, float α)
-  {
-    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
-    {
-      soit &ov = pixel(p.x, p.y);
-      soit nv = couleur_vers_bgra(c);
 
-      pour(auto k = 0; k < 4; k++)
-        ov.bgra[k] = α * nv.bgra[k] + (1-α) * ov.bgra[k];
-    }
-  }
 
-  void point(const Point &p, const bgra &c, float α)
-  {
-    si((p.x >= 0) && (p.y >= 0) && (p.x < sx) && (p.y < sy))
-    {
-      soit &ov = pixel(p.x, p.y);
-      pour(auto k = 0; k < 4; k++)
-        ov.bgra[k] = α * c.bgra[k] + (1-α) * ov.bgra[k];
-    }
-  }
 
   void rectangle_plein_alpha(const Point &p0, const Point &p1, const bgra &c)
   {

@@ -5,8 +5,6 @@
 /** @cond undoc */
 
 #include "tsd/tsd.hpp"
-#include <vector>
-#include <cstdint>
 
 /** Interface abstraite vers fonction de dessin */
 
@@ -392,72 +390,6 @@ ostream_formater(tsd::vue::Dim)
 ostream_formater(tsd::vue::Dimf)
 ostream_formater(tsd::vue::Couleur)
 
-#if 0
-template <> struct sformatter<tsd::vue::Point> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::vue::Point& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    return sformat_to(ctx.out(), "{}x{}", t.x, t.y);
-  }
-};
-
-template <> struct sformatter<tsd::vue::Pointf> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::vue::Pointf& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    return sformat_to(ctx.out(), "{}x{}", t.x, t.y);
-  }
-};
-
-
-template <> struct sformatter<tsd::vue::Rect> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::vue::Rect& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    return sformat_to(ctx.out(), "rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
-  }
-};
-
-template <> struct sformatter<tsd::vue::Rectf> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::vue::Rectf& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    return sformat_to(ctx.out(), "rect({}x{}, {}x{})", t.x, t.y, t.l, t.h);
-  }
-};
-
-
-template <> struct sformatter<tsd::vue::Dim> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::vue::Dim& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    return sformat_to(ctx.out(), "{}x{}", t.l, t.h);
-  }
-};
-
-template <> struct sformatter<tsd::vue::Dimf> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::vue::Dimf& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    return sformat_to(ctx.out(), "{}x{}", t.l, t.h);
-  }
-};
-
-template <> struct sformatter<tsd::vue::Couleur> {
-  constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {return ctx.begin();}
-  template <typename FormatContext>
-  auto format(const tsd::vue::Couleur& t, FormatContext& ctx) const -> decltype(ctx.out()) 
-  {
-    return sformat_to(ctx.out(), "(r={},v={},b={},a={})", t.r, t.g, t.b, t.alpha);
-  }
-};
-#endif
 
 /** @endcond */
 #endif

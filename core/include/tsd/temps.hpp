@@ -125,6 +125,8 @@ extern Durée operator+(const Durée& ts1, const Durée& ts2);
 /** @brief Différence entre 2 intervalles de temps. */
 extern Durée operator-(const Durée& ts1, const Durée& ts2);
 
+/** @brief Produit d'un intervalle de temps par une valeur scalaire. */
+extern Durée operator*(const double& ts1, const Durée& ts2);
 
 
 /** @brief %Calendrier (date décomposée en année, mois, jour, l'heure n'est pas spécifiée). */
@@ -256,7 +258,7 @@ struct DateHeure
   /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. */
   tuple<entier, entier> vers_GPS() const;
 
-  /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de secondes. */
+  /** @brief Calcul de l'heure GPS, en nombre de semaines, et nombre de micro-secondes. */
   tuple<entier, int64_t> vers_GPS_us() const;
 
   /** @brief Constructeur, à partir de l'heure GPS. */
@@ -268,6 +270,7 @@ struct DateHeure
   /** @brief Nombre de microsecondes depuis la dernière seconde entière, entre 0 et @f$10^6-1@f$. */
   entier microsecondes() const;
 
+  DateHeure arrondi_heure_pleine() const;
 
   std::strong_ordering operator<=>(const DateHeure&) const = default;
 };

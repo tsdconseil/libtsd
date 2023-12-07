@@ -295,6 +295,7 @@ struct TabT: Tab
 
   }
 
+  /** @brief Produit de tous les éléments du tenseur */
   T produit() const
   {
     entier n = nelems();
@@ -304,6 +305,7 @@ struct TabT: Tab
     retourne x;
   }
 
+  /** @brief Signe de chaque terme (1 ou -1) */
   TabT<T,ndims> cwiseSign() const NOECLIPSE(requires(!est_complexe<T>()))
   {
     TabT<T,ndims> y(rows(), cols());
@@ -315,7 +317,7 @@ struct TabT: Tab
     retourne y;
   }
 
-
+  /** @brief Maximum terme à terme d'un tenseur avec un scalaire. */
   TabT<T,ndims> cwiseMax(T x) const NOECLIPSE(requires(!est_complexe<T>()))
   {
     TabT<T,ndims> y(rows(), cols());
@@ -327,6 +329,7 @@ struct TabT: Tab
     retourne y;
   }
 
+  /** @brief Maximum terme à terme de deux tenseurs */
   TabT<T,ndims> cwiseMax(const TabT<T,ndims> &x) const NOECLIPSE(requires(!est_complexe<T>()))
   {
     TabT<T,ndims> y(rows(), cols());
@@ -338,6 +341,7 @@ struct TabT: Tab
     retourne y;
   }
 
+  /** @brief Minimum terme à terme de deux tenseurs */
   TabT<T,ndims> cwiseMin(const TabT<T,ndims> &x) const NOECLIPSE(requires(!est_complexe<T>()))
   {
     TabT<T,ndims> y(rows(), cols());
@@ -660,16 +664,19 @@ struct TabT: Tab
     }
 
 
+    /** @brief Moyenne des carrés. */
     auto ms() const NOECLIPSE(requires(!est_complexe<T>()))
     {
       retourne (square(*this)).moyenne();
     }
 
+    /** @brief Moyenne des carrés des valeurs absolues. */
     auto ms() const NOECLIPSE(requires(est_complexe<T>()))
     {
       retourne (abs2(*this)).moyenne();
     }
 
+    /** @brief Racine de la moyenne des carrés */
     auto rms() const
     {
       retourne std::sqrt(ms());
@@ -690,22 +697,28 @@ struct TabT: Tab
       retourne (square(*this)).somme();
     }
 
+    /** @brief Somme de tous les éléments */
     T somme() const NOECLIPSE(requires(std::same_as<T,float>))
     {
       retourne somme_impl<double>();
     }
 
+    /** @cond undoc */
+    /** @brief Somme de tous les éléments */
     T somme() const NOECLIPSE(requires(std::same_as<T,std::complex<float>>))
     {
       retourne somme_impl<std::complex<double>>();
     }
 
+    /** @brief Somme de tous les éléments */
     T somme() const NOECLIPSE(requires(!base_float<T>))
     {
       retourne somme_impl<T>();
     }
+    /** @endcond */
 
 
+    /** @brief Vecteur égal à la moyenne de toutes les colonnes (tableau de dimension 2). */
     TabT<T, 1> moyenne_colonnes() const NOECLIPSE(requires(ndims == 2))
     {
       soit n = cols();
@@ -717,6 +730,7 @@ struct TabT: Tab
       retourne y;
     }
 
+    /** @brief Vecteur égal à la moyenne de toutes les lignes (tableau de dimension 2). */
     TabT<T, 1> moyenne_lignes() const NOECLIPSE(requires(ndims == 2))
     {
       soit n = rows();
@@ -1116,7 +1130,12 @@ struct TabT: Tab
 
 #   define IMAP(BB) [&](entier i) {retourne BB;}
 #   define LAMBDA(XX,YY) [&](const auto &XX) {retourne YY;}
-#   define Λ(XX,YY)      [](const auto &XX) {retourne YY;}
+
+    /** @brief Lambda short-cut, with capture. */
+#   define Λ(XX,YY)      [&](const auto &XX) {retourne YY;}
+
+    /** @brief Lambda short-cut, without capture. */
+#   define Λ2(XX,YY)     [](const auto &XX) {retourne YY;}
 
 
     inline T &operator()(entier i, entier j)
@@ -1723,6 +1742,13 @@ inline void TRC(const Tab &v, auto f)
 {
   si(!TRI(v, f) && !TCI(v, f))
     échec("Type réel ou complexe attendu.");
+}
+
+// Not complex
+inline void TNC(const Tab &v, auto f)
+{
+  si(!TRI(v, f) && !TZI(v, f) && !TBI(v, f))
+    échec("Type invalide.");
 }
 
 inline void TG(const Tab &v, auto f)

@@ -15,6 +15,9 @@ extern "C"
 #include <chrono>
 #include <iostream>
 
+
+extern void tsd_log_msg(const char *fn, entier ligne, entier niveau, cstring str);
+
 namespace tsd {
 
 
@@ -129,6 +132,8 @@ entier fait_tests(entier argc, const char *argv[], vector<Test> &tests)
 
   entier opt;
   msg("Tests automatiques libtsd...");
+
+  get_logger() = tsd_log_msg;
 
   tsd::vue::stdo.def_dossier_sortie("./build/test-log");
 

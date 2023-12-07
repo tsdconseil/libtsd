@@ -205,6 +205,12 @@ inline Duration operator-(const Duration& ts1, const Duration& ts2)
   return ts1.dr() - ts2.dr();
 }
 
+/** @brief Différence entre 2 intervalles de temps. */
+inline Duration operator*(const double& ts1, const Duration& ts2)
+{
+  return ts1 * ts2.dr();
+}
+
 
 
 /** @brief %Calendrier (date décomposée en année, mois, jour, l'heure n'est pas spécifiée). */
@@ -467,6 +473,10 @@ struct DateTime
     return dt().microsecondes();
   }
 
+  DateTime round_to_whole_hour() const
+  {
+    return dt().arrondi_heure_pleine();
+  }
 
   std::strong_ordering operator<=>(const DateTime&) const = default;
 };

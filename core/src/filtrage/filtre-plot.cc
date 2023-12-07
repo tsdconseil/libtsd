@@ -1,10 +1,6 @@
-#include "tsd/tsd.hpp"
-#include "tsd/filtrage.hpp"
-#include "tsd/vue.hpp"
-#include <iostream>
-
-using namespace tsd::vue;
-using namespace std;
+#include "tsd/tsd-all.hpp"
+//#include <iostream>
+//using namespace std;
 
 namespace tsd::filtrage {
 
@@ -37,15 +33,17 @@ void plot_plz(Figure fig, const Design &d, bouléen cmap)
 
   si(cmap)
   {
-    soit nx = 101, ny = 101;
+    //soit nx = 101, ny = 101;
+    soit nx = 201, ny = 201;
     Tabf Z(nx,ny);
 
+    //msg("plot cmap: calc...");
     pour(auto ix = 0; ix < nx; ix++)
     {
+      cfloat z;
+      z.real(-1.5+(3.0*ix)/nx);
       pour(auto iy = 0; iy < ny; iy++)
       {
-        cfloat z;
-        z.real(-1.5+(3.0*ix)/nx);
         z.imag(-1.5+(3.0*iy)/ny);
         Z(ix,iy) = abs(h.horner(z));
       }
@@ -55,11 +53,13 @@ void plot_plz(Figure fig, const Design &d, bouléen cmap)
     // Soit [0,1 - 10]
     // [max-10 dB, max]
 
+    //msg("ok, misc...");
     Z = Z.cwiseMax(0.001f);
     Z = Z.cwiseMin(1000.0f);
     Z = log10(Z); // -> [-3, 3]
     Z = (Z + 3) / 6; // [0, 1]
 
+    //msg("add fig");
     fig.canva_pre().plot_cmap(Z, {-1.5, -1.5, 3.0, 3.0}, cmap_parse("pm"));
   }
 
@@ -107,6 +107,7 @@ void plot_plz(Figure fig, const Design &d, bouléen cmap)
       c.texte(p, sformat("{}°", (entier) θ));
     }
   }
+  msg("cmap done");
 }
 
 void plot_rech(Figure f, const Design &d)
@@ -120,6 +121,8 @@ void plot_rech(Figure f, const Design &d)
 
 void plot_rimp(Figure f, const Design &d)
 {
+  msg("plot_rimp: est_rif = {}, coefs = {}", d.est_rif, d.coefs);
+  msg("frat =  {}", d.frat);
   soit y = repimp(d);
   soit c = f.plot(real(y), y.rows() < 128 ? "o|g" : "-g");
   c.def_epaisseur(2);
@@ -148,14 +151,55 @@ void plot_frmag(Figure f, const Design &d, bouléen mode_log, float fe)
       axe_fréq, (est_fr() ? "Atténuation" : "Attenuation") + unit);
 }
 
-void plot_frphase(Figure f, const Design &d, float fe)
+void plot_frdelay(Figure f, const Design &d, float fe)
 {
-  soit [fr, phase] = frphase(d);
-
+  soit [fr, phase]  = frphase(d);
+  soit [fr2, group] = frgroup(d);
   string axe_fréq = est_fr() ? "Fréquence" : "Frequency";
   si(fe != 1)
     axe_fréq += " (Hz)";
 
+
+  soit n = phase.rows();
+  msg("n = {}", n);
+  Vecf d_phase(n);
+  pour(auto k = 0; k < n; k++)
+  {
+    // Phase négative -> retard (2 pi - epsilon)/ phi !!!!
+    //d_phase(k) = modulo_2π(phase(k)) / (2 * π * fr(k));
+
+    si(fr(k) == 0)
+      d_phase(k) = std::nanf("");
+    sinon
+      d_phase(k) = -phase(k) / (2 * π * fr(k));
+    //si(d_phase(k) > 512) // TODO: arbitraire
+      //d_phase(k) = std::nanf("");
+  }
+
+  /*{
+    Figures f;
+    f.subplot().plot(2 * π_f * fr, "", "pulsation");
+    f.subplot().plot(phase, "", "phase");
+    f.subplot().plot(phase / (2 * π_f * fr), "", "ratio");
+    f.enregistrer("./build/ess.png");
+  }*/
+
+  soit c = f.plot(fr, d_phase, "-b", est_fr() ? "Retard de phase" : "Phase delay");
+  c.def_epaisseur(2);
+  c = f.plot(fr, group, "-g", est_fr() ? "Retard de groupe" : "Group delay");
+  c.def_epaisseur(2);
+
+  f.titres((!est_fr() ?
+      "Group and phase delay" : "Retards de groupe et de phase"),
+      axe_fréq, "Retard");
+}
+
+void plot_frphase(Figure f, const Design &d, float fe)
+{
+  soit [fr, phase] = frphase(d);
+  string axe_fréq = est_fr() ? "Fréquence" : "Frequency";
+  si(fe != 1)
+    axe_fréq += " (Hz)";
   soit c = f.plot(fr, 180 * phase / π_f);
   c.def_remplissage(oui, non);
   c.def_epaisseur(2);
@@ -163,6 +207,7 @@ void plot_frphase(Figure f, const Design &d, float fe)
       "Réponse en phase" : "Phase response"),
       axe_fréq, "Phase (°)");
 }
+
 
 
 tsd::vue::Figures affiche_filtre(const Design &d, float fe)
@@ -187,8 +232,8 @@ Figures plot_filtre(const Design &d, bouléen complet, float fe)
   soit [fr, hzm] = frmag(d, N);
 
   Vecf pzm, gzm;
-  tie(ignore, pzm) = frphase(d, N);
-  tie(ignore, gzm) = frgroup(d, N);
+  tie(std::ignore, pzm) = frphase(d, N);
+  tie(std::ignore, gzm) = frgroup(d, N);
 
   Figures fs;
 

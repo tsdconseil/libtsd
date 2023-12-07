@@ -1,5 +1,11 @@
 #include "tsd/tsd-all.hpp"
-#include "Eigen/Core"
+#include "tsd/temps.hpp"
+using namespace tsd::temps;
+
+
+namespace tsd::vue {
+extern void configure_axe_temporel(Axes &c, const DateHeure &t0, const Durée &d);
+}
 
 static void test_unites_unit(const vector<double> &tics, cstring unit = "")
 {
@@ -82,7 +88,6 @@ void test_figure()
     Figure f;
 
     soit x = linspace(0,1,100);
-    //ArrayXf y = ArrayXf::Ones(10);
 
     f.plot(x, x, "", "valeurs de x");
     f.plot(x, square(x), "", "valeurs de x^2");
@@ -153,10 +158,6 @@ void test_figure()
 
   {
     msg_majeur("Test échel log 2");
-    ///*Eigen::ArrayXf*/Vecf x(4), y(4);
-    //x << 2.0206, 3.0206, 4.0206, 5.0206;
-    //y << 0.5371617, 0.0226223, 0.01, 0.005;
-
     soit x = Vecf::valeurs({2.0206, 3.0206, 4.0206, 5.0206}),
          y = Vecf::valeurs({0.5371617, 0.0226223, 0.01, 0.005});
 
@@ -276,4 +277,18 @@ void test_figure()
     f.plot_img(M);
     f.afficher();
   }
+
+
+  {
+    msg("Test axe temporel");
+
+
+    Figure f;
+    soit n = 1000;
+    soit t = linspace(0, 3600, n);
+    f.plot(t,t);
+    f.active_axe_temporel(DateHeure({{2023,11,8},{15,0,0}}));
+    f.afficher();
+  }
+
 }

@@ -414,6 +414,10 @@ extern void plot_frmag(tsd::vue::Figure f, const Design &d, bouléen mode_log = 
 extern void plot_frphase(tsd::vue::Figure f, const Design &d, float fe = 1);
 
 
+/** @brief Dessine les retards de phase et de groupe d'un filtre. */
+extern void plot_frdelay(tsd::vue::Figure f, const Design &d, float fe = 1);
+
+
 /** @brief Réponse en amplitude d'un filtre RIF symétrique ou anti-symétrique (phase linéaire).
  *
  *  Cette fonction calcule la réponse en amplitude @f$A(\omega)@f$, pour un filtre RIF
@@ -519,7 +523,7 @@ struct AnalyseFiltre
 
   struct
   {
-    tsd::vue::Figure plz, plz_cmap, repfreq_lin, repfreq_log, repimp, repech, repphase;
+    tsd::vue::Figure plz, plz_cmap, repfreq_lin, repfreq_log, repimp, repech, repphase, delay;
   } figures;
 
   string description;
@@ -1693,8 +1697,16 @@ Vecteur<T> filtrer(const Design &d, const Vecteur<T> &x)
   }
   sinon
   {
-    soit f = filtre_sois<T>(d.frat);
-    retourne f->step(x);
+    si(d.frat.est_rif())
+    {
+      soit f = filtre_rif<T, T>(d.frat.numer.coefs.reverse());
+      retourne f->step(x);
+    }
+    sinon
+    {
+      soit f = filtre_sois<T>(d.frat);
+      retourne f->step(x);
+    }
   }
 }
 

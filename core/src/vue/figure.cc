@@ -945,14 +945,16 @@ Axes Figure::axes()
 
 void Figure::clear()
 {
+  impl->axes = Axes();
+  impl->a_rdi = impl->a_rdi_min = non;
   impl->courbes.clear();
   impl->canva_utilisateur.clear();
   impl->canva_utilisateur_pre.clear();
   impl->titre = "";
   impl->nom = "";
-  soit &c = impl->axes.get_config();
-  c.axe_horizontal.label  = "";
-  c.axe_vertical.label    = "";
+  //soit &c = impl->axes.get_config();
+  //c.axe_horizontal.label  = "";
+  //c.axe_vertical.label    = "";
 }
 
 struct Figures::Impl: Rendable
@@ -1177,9 +1179,9 @@ Figure::Courbe Figure::plot_img(const Tabf &Z, cstring format)
 
 
 
-Figure::Courbe Figure::plot(const float &x, const float &y, cstring format)
+Figure::Courbe Figure::plot(float x, float y, cstring format, cstring titre)
 {
-  retourne plot(Vecf::valeurs({x}), Vecf::valeurs({y}), format);
+  retourne plot(Vecf::valeurs({x}), Vecf::valeurs({y}), format, titre);
 }
 
 Figure::Courbe Figure::plot_int(const Vecf &y, cstring format, cstring titre)
@@ -1460,6 +1462,13 @@ Canva Figure::canva()
 Canva Figure::canva_pre()
 {
   retourne impl->canva_utilisateur_pre;
+}
+
+void Figure::active_axe_temporel(const tsd::temps::DateHeure &t0)
+{
+  soit &at = axes().get_config().axe_temporel;
+  at.actif  = oui;
+  at.t0     = t0;
 }
 
 void Figure::def_echelle(bouléen log_x, bouléen log_y)

@@ -1,8 +1,5 @@
 #include "tsd/telecom/carrier-rec.hpp"
-#include "tsd/telecom.hpp"
-#include "tsd/vue.hpp"
-#include <cmath>
-#include <cassert>
+#include "tsd/tsd-all.hpp"
 
 using namespace tsd::vue;
 
@@ -205,7 +202,7 @@ struct RPLL: Filtre<T, T, RPLLConfig>
 {
   sptr<Filtre<std::complex<T>, std::complex<T>, PLLConfig>> cpll;
 
-  sptr<SourceGen<cfloat>> osc, ol;
+  sptr<SourceGen<cfloat>> osc;
   sptr<FiltreGen<float>> lf;
   sptr<FiltreGen<cfloat>> rif;
 
@@ -223,43 +220,30 @@ struct RPLL: Filtre<T, T, RPLLConfig>
   {
     cpll = cpll_création(c.pll_interne);
 
-    //cpll->configure(c.pll_interne);
-
     msg("Oscillateur : freq = {}", -c.freq);
 
     osc = source_ohc(-c.freq);
-    //ol  = source_ohc(0);
-    //sinon
-    //ol = source_ohc(c.freq);
 
-
-    soit coefs = tsd::filtrage::design_rif_cs(c.ncoefs_bb, 0.1, c.bp / 2);
-    rif = tsd::filtrage::filtre_rif<float, cfloat>(coefs);
+    soit coefs = design_rif_cs(c.ncoefs_bb, 0.1, c.bp / 2);
+    rif = filtre_rif<float, cfloat>(coefs);
   }
   void step(const Vecteur<T> &x, Vecteur<T> &y)
   {
     soit &config = Configurable<RPLLConfig>::config;
     soit n = x.rows();
 
-    Veccf sosc, x1, x2;
-
     // Transposition bande de base
-    sosc = osc->step(n);
-    x1 = sosc * x;
-
-    // Filtrage passe-bas
-    si(config.filtre_bb_actif)
-      x2 = rif->step(x1);
-    sinon
-      x2 = x1;
-
-    soit x3 = cpll->step(x2);
+    soit sosc = osc->step(n),
+         x1   = sosc * x,
+         // Filtrage passe-bas
+         x2 = config.filtre_bb_actif ? rif->step(x1) : x1,
+         x3 = cpll->step(x2);
 
     // Regénération de la porteuse
     //si(config.sortie_porteuse)
     {
       // Regénére le signal à la fréquence porteuse
-      soit y1 = sosc.conjugate().head(n) * x3;
+      soit y1 = sosc.conjugate() * x3;
       // si signal complexe attendu en sortie
       //si constexpr (std::is_same<T, cfloat>::value)
         //y = y1;
@@ -278,47 +262,26 @@ struct RPLL: Filtre<T, T, RPLLConfig>
       }
     }*/
 
-
-
-
     si(config.debug)
     {
-#     if 0
-      Figure f("PLL (1)");
+      Figures f;
+      f.subplot().plot(x, "", "Signal d'entrée");
+      f.subplot().plot_psd(x);
+      f.subplot().plot(x1, "", "Transposition");
+      f.subplot().plot_psd(x1);
+      f.subplot().plot(x2, "", "Passe-bas");
+      f.subplot().plot_psd(x2);
+      f.subplot().plot(x3, "", "CPLL");
+      f.subplot().plot_psd(x3);
+      //f.afficher("PLL (1)");
 
-      f.subplot(321);
-      f.plot(real(x), "b-", "Signal entree");
-      f.subplot(322);
-      f.plot_psd(x);
-      f.subplot(323);
-      f.plot(x1.real(), "b-", "transposition (I)");
-      f.plot(x1.imag(), "g-", "transposition (Q)");
-      f.subplot(324);
-      f.plot_psd(x1);
-      f.subplot(325);
-      f.plot(x2.real(), "b-", "passe-bas (I)");
-      f.plot(x2.imag(), "g-", "passe-bas (Q)");
-      f.subplot(326);
-      f.plot_psd(x2);
-
-      f.afficher();
-
-      Figure f2("PLL (2)");
-      f2.subplot(311);
-      f2.plot(verr * 180 / pi, "r-", "Erreur de phase (degres)");
-      f2.subplot(312);
-      f2.plot(vtheta * 180 / pi, "b-", "Phase (degres)");
-
-
-
-      //Figure fig("Démo PLL");
-
-      f2.subplot(313);
-      f2.plot(real(x), "b-", "Signal a suivre");
-      soit c = f2.plot(real(y), "g-", "PLL");
+      //Figures f2;
+      //f2.subplot().plot(rad2deg(verr) , "r-", "Erreur de phase (°)");
+      //f2.subplot().plot(rad2deg(vtheta), "b-", "Phase (°)");
+      //f2.subplot().plot(x, "", "Signal a suivre");
+      soit c = f.subplot().plot(y, "", "PLL");
       c.def_epaisseur(2);
-      f2.afficher();
-#     endif
+      f.afficher("PLL (debug)");
     }
   }
 };
@@ -329,7 +292,7 @@ struct RPLL: Filtre<T, T, RPLLConfig>
 // Création d'un signal périodique accroché sur un autre,
 // tel que passé en entrée
 template<typename T>
-struct CPLL: Filtre<T, T, PLLConfig>, AFigures
+struct CPLL: Filtre<T, T, PLLConfig>//, AFigures
 {
   sptr<FiltreBoucle> lf;
   OLUT lut;
@@ -397,8 +360,9 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
 
     si(config.debug)
     {
-      soit &figs = AFigures::figures;
-      figs.clear();
+      //soit &figs = AFigures::figures;
+      Figures figs;
+      //figs.clear();
       figs.subplot().plot_iq(x, "Ab", "Entrée");
       figs.gcf().def_rdi({-1.1f,-1.1f,2.2f,2.2f});
       figs.subplot().plot_iq(y, "Ag", "Sortie");
@@ -420,12 +384,12 @@ struct CPLL: Filtre<T, T, PLLConfig>, AFigures
 
 sptr<Filtre<float, float, RPLLConfig>> rpll_création(const RPLLConfig &cfg)
 {
-  retourne std::make_shared<RPLL<float>>(cfg);
+  retourne make_shared<RPLL<float>>(cfg);
 }
 
 sptr<Filtre<cfloat, cfloat, PLLConfig>> cpll_création(const PLLConfig &cfg)
 {
-  retourne std::make_shared<CPLL<cfloat>>(cfg);
+  retourne make_shared<CPLL<cfloat>>(cfg);
 }
 
 

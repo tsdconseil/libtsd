@@ -22,6 +22,73 @@ struct Canva::PointIntermediaire
   Image img;
 };
 
+
+
+static void rempli_polygone(Image I, const vector<Point> &points, const Couleur &c)
+{
+  soit [sx,sy] = I.get_dim();
+  soit npts = (entier) points.size();
+
+  I.def_couleur_dessin(c);
+  I.def_epaisseur(1);
+
+  pour(auto y = 0; y < sy; y++)
+  {
+    vector<entier> abscisses;
+    pour(auto k = 0; k < npts; k++)
+    {
+      // (p0, p1) = deux points successifs
+      soit const &p0 = points[k],
+                 &p1 = points[(k-1+npts) % npts];
+
+      // Test si croisement de la ligne horizontale y
+      // entre les deux points
+      si( (p0.y < y && p1.y >= y)
+          || (p0.y >= y && p1.y < y))
+      {
+        // Abcisse croisement
+
+        abscisses += (entier) p0.x
+            + ((float) (y-p0.y) * (p1.x-p0.x)) / (p1.y-p0.y);
+      }
+    }
+
+    soit nb_intersections = (entier) abscisses.size();
+
+    //  Tri bulle
+    soit i = 0;
+    tantque(i < nb_intersections - 1)
+    {
+      si(abscisses[i] > abscisses[i+1])
+      {
+        std::swap(abscisses[i], abscisses[i+1]);
+        i = max(0, i-1);
+      }
+      sinon
+        i++;
+    }
+
+    // Remplissage
+    pour(i = 0; i < nb_intersections; i += 2)
+    {
+      soit x0 = abscisses[i],
+           x1 = abscisses[i+1];
+
+      si(x0 >= sx)
+        break;
+
+      si(x1 > 0)
+      {
+        x0 = max(x0,   0);
+        x1 = min(x1, sx-1);
+
+        I.ligne({x0,y}, {x1,y});
+      }
+    }
+  }
+}
+
+
 struct Canva::Impl
 {
 
@@ -153,7 +220,7 @@ struct Canva::Impl
   {
     enum Type
     {
-      RECT, LIGNE, FLECHE, CHAINE, CERCLE, MARQUEUR, RVEC, ACCU, IMAGE, PTI, ELLIPSE
+      RECT, LIGNE, FLECHE, CHAINE, CERCLE, MARQUEUR, RVEC, ACCU, IMAGE, PTI, ELLIPSE, POLYGONE
     } type = MARQUEUR;
 
     string chaine;
@@ -183,6 +250,7 @@ struct Canva::Impl
 
     sptr<PointIntermediaire> pti;
 
+    vector<Pointf> pts;
 
     Rectf get_rdi() const
     {
@@ -204,6 +272,11 @@ struct Canva::Impl
 
         retourne res;
       }
+      case POLYGONE:
+      {
+        // TODO
+        échec("TODO: polygone rdi");
+      }
       case CHAINE:
       {
         soit ctr = p0;
@@ -216,6 +289,8 @@ struct Canva::Impl
         retourne Rectf(ctr, dim);
       }
       case MARQUEUR:
+        //Pointf v = clip.c2v({pinceau.epaisseur, pinceau.epaisseur});
+        //retourne Rectf(p0 - v/2, v);
         retourne Rectf(p0, Dimf{0.0f,0.0f}); // TODO
       case CERCLE:
         retourne Rectf(p0 - Pointf(r/2,r/2), Dimf{r/2,r/2});
@@ -389,6 +464,9 @@ struct Canva::Impl
     // si décommenté : pb marqueurs
     elt2.r    = clip.v2c_lx(elt.r);
 
+    pour(auto &p: elt2.pts)
+      p = clip.v2c(p);
+
     pour(auto i = 0; i < elt.accu_points.rows(); i++)
     {
       elt2.accu_points(i).real(clip.v2c_x(elt.accu_points(i).real()));
@@ -462,6 +540,15 @@ struct Canva::Impl
     d.p1      = p1;
     d.type    = CanvaElement::LIGNE;
     d.pinceau = pinceau;
+    ajoute_element(d);
+  }
+
+  void polygone(const vector<Pointf> &pts, const Pinceau &pinceau)
+  {
+    CanvaElement d;
+    d.pts         = pts;
+    d.type        = CanvaElement::POLYGONE;
+    d.pinceau     = pinceau;
     ajoute_element(d);
   }
 
@@ -598,8 +685,12 @@ struct Canva::Impl
     Couleur arp = arp_;
     arp.alpha = 0;
 
+
     si(!img_fond.empty())
+    {
+      //msg_majeur("Ajoute img fond: redim {} -> {}", img_fond.get_dim(), dim);
       O1 = img_fond.redim(dim);
+    }
     sinon
     {
       O1.resize(dim.l, dim.h);
@@ -755,6 +846,23 @@ struct Canva::Impl
 
         DBG(msg("rect ok.");)
       }
+      sinon si(d.type == Impl::CanvaElement::POLYGONE)
+      {
+        entier npts = d.pts.size();
+
+        vector<Point> l;
+        pour(auto &p: d.pts)
+          l += pos(p);
+
+        pour(auto k = 0; k < npts; k++)
+          O1.ligne(l[k], l[(k+1) % npts]);
+
+        si(d.pinceau.remplir)
+        {
+          rempli_polygone(O1, l, d.pinceau.couleur_remplissage);
+        }
+
+      }
       sinon si(d.type == Impl::CanvaElement::RVEC)
       {
         // Trapèze plein, entre (p0.x,p0.y), (p0.x,y2), (p1.x,p1.y), (p1.x,y3)
@@ -802,7 +910,6 @@ struct Canva::Impl
           TexteConfiguration config;
 
           soit fonte = 1.0f;
-
           soit pos0 = pos(d.p0);
 
           si(d.pinceau.dim_fonte != -1)
@@ -819,7 +926,20 @@ struct Canva::Impl
           si(d.pinceau.texte_arrière_plan_actif)
             m = 2;
 
-          config.dim_max = {O1.sx() - pos0.x - 2*m, O1.sy() - pos0.y - 2*m};
+          config.dim_max = {O1.sx() - pos0.x - 2*m,
+                            O1.sy() - pos0.y - 2*m};
+
+          si(d.pinceau.alignement_horizontal == Align::FIN)
+            config.dim_max.l += pos0.x;
+          sinon si(d.pinceau.alignement_horizontal == Align::CENTRE)
+            config.dim_max.l *= 2;
+
+          si(d.pinceau.alignement_vertical == Align::FIN)
+            config.dim_max.h += pos0.y;
+          sinon si(d.pinceau.alignement_vertical == Align::CENTRE)
+            config.dim_max.h *= 2;
+
+
 
           si(d.dim.l > 0)
             config.dim_max.l = min((entier) clip.v2c_lx(d.dim.l), config.dim_max.l);
@@ -1031,6 +1151,35 @@ void Canva::restaure_pti(sptr<Canva::PointIntermediaire> pti)
   this->dessine_img(0, 0, dim.l-1, dim.h-1, pti->img);
 }
 
+struct MRendable: Rendable
+{
+  Canva p;
+  MRendable(const Canva &c)
+  {
+    p = c;
+  }
+  void rendre(Canva canva) const
+  {
+    canva.set_rdi(p.get_rdi());
+    p.forward(canva);
+  }
+};
+
+sptr<Rendable> canvap(const Canva &c)
+{
+  retourne make_shared<MRendable>(c);
+}
+
+void Canva::afficher(cstring titre, const Dim &dim) const
+{
+  canvap(*this)->afficher(titre, dim);
+}
+
+void Canva::enregistrer(cstring chemin_fichier, const Dim &dim) const
+{
+  canvap(*this)->enregistrer(chemin_fichier, dim);
+}
+
 Image Canva::rendre(const Dim &dim, const Rectf &rdi, const Couleur &arp)
 {
   retourne impl->rendre(dim, rdi, arp);
@@ -1142,6 +1291,7 @@ Canva::Canva()
 
 void Canva::forward(Canva dest) const
 {
+  dest.impl->img_fond = impl->img_fond;
   pour(auto d: impl->elements)
     dest.impl->ajoute_element(d);
 }
@@ -1163,6 +1313,11 @@ void Canva::set_align(Align hor, Align vert)
 void Canva::set_couleur(const Couleur &coul)
 {
   impl->pinceau.couleur_trait = coul;
+}
+
+void Canva::polygone(const vector<Pointf> &pts)
+{
+  impl->polygone(pts, impl->pinceau);
 }
 
 void Canva::fleche(const Pointf &p0, const Pointf &p1, float dim)
@@ -1251,6 +1406,11 @@ void Canva::cercle(float x0, float y0, float r)
 Pointf Canva::v2c(const Pointf &p) const
 {
   retourne impl->clip.v2c(p);
+}
+
+Pointf Canva::c2v(const Pointf &p) const
+{
+  retourne impl->clip.c2v(p);
 }
 
 Rectf Canva::v2c(const Rectf &r) const

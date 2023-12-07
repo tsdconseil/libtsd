@@ -7,11 +7,11 @@ namespace tsd
 
 
 FonctionRéelle
-  fct_impulsion = Λ(x, abs(x) < 1e-6 ? 1 : 0),
-  fct_échelon   = Λ(x, x < 0 ? -1 : ((x == 0) ? 0 : 1)),
-  fct_0         = Λ(x, 0),
-  fct_1         = Λ(x, 1),
-  fct_sin       = Λ(x, sin(x));
+  fct_impulsion = Λ2(x, abs(x) < 1e-6 ? 1 : 0),
+  fct_échelon   = Λ2(x, x < 0 ? -1 : ((x == 0) ? 0 : 1)),
+  fct_0         = Λ2(x, 0),
+  fct_1         = Λ2(x, 1),
+  fct_sin       = Λ2(x, sin(x));
 
 
 template<typename TT>

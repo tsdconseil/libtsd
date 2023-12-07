@@ -3,7 +3,7 @@
 #include "dsp/dsp.hpp"
 #include "tsd/vue/image.hpp"
 #include "tsd/vue.hpp"
-
+#include "dsp/time.hpp"
 
 namespace dsp::view
 {
@@ -217,6 +217,11 @@ namespace dsp::view
     void set_legend_position(const std::string &code)
     {
       f.def_pos_legende(code);
+    }
+
+    void enable_time_axis(const dsp::time::DateTime &t0)
+    {
+      f.active_axe_temporel(t0.dt());
     }
 
 

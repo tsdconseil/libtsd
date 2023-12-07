@@ -488,7 +488,7 @@ struct TabT
 
     bool is_empty() const
     {
-      return fr.est_nul();
+      return fr.est_vide();
     }
 
 

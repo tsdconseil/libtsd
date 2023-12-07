@@ -1,4 +1,4 @@
-#ifndef FR_HPP
+#if !defined(FR_HPP) || defined(__CDT_PARSER__)
 #define FR_HPP
 
 

@@ -6,7 +6,7 @@
 #include <deque>
 
 using namespace std;
-
+using namespace tsd::temps;
 
 namespace tsd::vue
 {
@@ -346,6 +346,125 @@ struct Axes::Impl
     retourne rendre(canva_, rdi.x, rdi.x + rdi.l, rdi.y + rdi.h, rdi.y);// !!
   }
 
+  Canva get_canva_res()
+  {
+    retourne canva_res;
+  }
+
+  void configure_axe_temporel(
+      const tsd::temps::DateHeure &t0,
+      float tmin_sec, float tmax_sec) const
+  {
+    // (on suppose que l'axe temporel est en secondes, comptées depuis t0)
+
+    // Les axes affichés :
+    //  - [Plus tard < jours]
+    //  - Jours / 6 h
+    //  - Heures / 10 minutes
+    //  - Minutes / 10 secondes
+    //  - Secondes / 100 ms
+    //  - [Plus tard : < secondes]
+
+    // => Axes majeurs (valeurs affichées) + mineurs (non affichées)
+
+    //
+
+    // Comment afficher la date initiale ? Tant pis, pas affichée.
+
+    soit &cah = axe_horizontal.config;//config.axe_horizontal;
+
+    cah.tic_manuels = oui;
+    cah.tics.clear();
+    cah.tics_mineurs.clear();
+
+    soit d = Durée::secondes(tmax_sec - tmin_sec);
+
+    // Paires [tics majeurs / tics mineurs]
+    vector<pair<Durée,Durée>> candidats
+     = {
+         {Durée::millisecondes(2),    Durée::microsecondes(400)},
+         {Durée::millisecondes(5),    Durée::millisecondes(1)},
+         {Durée::millisecondes(10),   Durée::millisecondes(2)},
+         {Durée::millisecondes(20),   Durée::millisecondes(4)},
+         {Durée::millisecondes(50),   Durée::millisecondes(10)},
+         {Durée::millisecondes(100),  Durée::millisecondes(20)},
+         {Durée::millisecondes(200),  Durée::millisecondes(50)},
+         {Durée::millisecondes(500),  Durée::millisecondes(100)},
+         {Durée::secondes(1),         Durée::millisecondes(200)},
+         {Durée::secondes(5),         Durée::secondes(1)},
+         {Durée::secondes(10),        Durée::secondes(1)},
+         {Durée::secondes(30),        Durée::secondes(10)},
+         {Durée::minutes(1),          Durée::secondes(20)},
+         {Durée::minutes(2),          Durée::secondes(40)},
+         {Durée::minutes(5),          Durée::minutes(1)},
+         {Durée::minutes(10),         Durée::minutes(2)},
+         {Durée::minutes(20),         Durée::minutes(4)},
+         {Durée::minutes(30),         Durée::minutes(10)},
+         {Durée::heures(1),           Durée::minutes(10)},
+         {Durée::heures(6),           Durée::heures(1)},
+         {Durée::jours(1),            Durée::heures(6)},
+         {Durée::jours(2),            Durée::heures(12)},
+         {Durée::jours(5),            Durée::jours(1)},
+         {Durée::jours(10),           Durée::jours(2)},
+         {Durée::jours(30),           Durée::jours(10)},
+         {Durée::jours(365),          Durée::jours(30)},
+     };
+
+    soit p0 = candidats.back().first,
+         p1 = candidats.back().second;
+
+    // Recherche de la plus petite graduation
+    // générant au plus 8 graduations majeurs
+    pour(auto [c0, c1] : candidats)
+    {
+      si(d.nb_secondes() <= 8 * c0.nb_secondes())
+      {
+        p0 = c0;
+        p1 = c1;
+        break;
+      }
+    }
+
+
+    soit tmin = t0 + Durée::secondes(tmin_sec),
+         tmax = t0 + Durée::secondes(tmax_sec);
+
+    // Arrondi tmin modulo p0
+    soit tp = tmin;
+    tp.ntics = tp.ntics - (tp.ntics % p0.tics);
+
+    pour(auto t = tp; t <= tmax ; t += p0)
+    {
+      si(t >= tmin)
+      {
+        soit dec = t.decomposition();
+
+        string s;
+        si(p0 >= Durée::jours(1))
+          s = sformat("{:02d}/{:02d}", dec.jour.jour, dec.jour.mois);
+        sinon si(p0 >= Durée::minutes(1))
+          s = sformat("{:02d}:{:02d}", dec.heure.heure, dec.heure.minutes);
+        sinon si(p0 >= Durée::secondes(1))
+          s = sformat("{:02d}:{:02d}:{:02d}",
+              dec.heure.heure, dec.heure.minutes, dec.heure.secondes);
+        sinon
+          s = sformat("{:02d}:{:02d}:{:02d}.{:03d}",
+            dec.heure.heure, dec.heure.minutes, dec.heure.secondes, dec.heure.ms);
+
+        cah.tics.push_back({(float) (t-t0).nb_secondes(), s});
+      }
+    }
+    pour(auto t = tp; t <= tmax ; t += p1)
+    {
+      si(t >= tmin)
+      {
+        //soit dec = t.decomposition();
+        //si(dec.heure.minutes != 0)
+        cah.tics_mineurs += (t-t0).nb_secondes();
+      }
+    }
+  }
+
   Canva rendre(Canva canva_, float xmin, float xmax, float ymin, float ymax) const
   {
     soit dim = canva_.get_allocation(); // Allocation en pixels
@@ -465,6 +584,11 @@ struct Axes::Impl
       axe_horizontal.ecart_tics_mineurs_pixels = axe_vertical.ecart_tics_mineurs_pixels;
     }
 
+    si(config.axe_temporel.actif)
+      configure_axe_temporel(config.axe_temporel.t0, xmin, xmax);
+
+
+    //msg("ah.tics manuels = {}", axe_horizontal.config.tic_manuels);
     calcule_tics(axe_horizontal, config.mode_isoview);
     DBG(msg("ok.");)
 
@@ -528,16 +652,29 @@ struct Axes::Impl
   //  -
   void calcule_tics(Axe &axe, bool tics_forcés = non) const
   {
+    double vmin = axe.config.vmin,
+           vmax = axe.config.vmax;
+
     si(axe.config.tic_manuels)
     {
       axe.tics_majeurs_pos.clear();
       axe.tics_mineurs_pos.clear();
 
-      pour(auto p: axe.config.tics)
-        axe.tics_majeurs_pos.push_back(p.first);
+      pour(auto &p: axe.config.tics)
+        axe.tics_majeurs_pos += p.first;
 
+      pour(auto &p: axe.config.tics_mineurs)
+        axe.tics_mineurs_pos += p;
+
+      //axe.ecart_tics_majeurs_pixels = 100;
+
+      si(axe.config.tics.size() > 2)
+        axe.ecart_tics_majeurs_pixels = ((axe.tics_majeurs_pos[1] - axe.tics_majeurs_pos[0]) * axe.dim) / (vmax-vmin);
+
+      //msg("Calculs tics(v={}) : manuels.", axe.vertical);
       retourne;
     }
+    //msg("Calculs tics(v={}) : auto.", axe.vertical);
 
     soit mode_log = axe.config.echelle_logarithmique;
 
@@ -550,8 +687,7 @@ struct Axes::Impl
       axe.configure(axe.config, axe.dim);
     }
 
-    double vmin = axe.config.vmin,
-           vmax = axe.config.vmax;
+
 
     si(mode_log)
     {
@@ -989,8 +1125,9 @@ struct Axes::Impl
 
   void affiche_axe_horizontal(Canva O, sptr<Canva::GroupeTextes> grp) const
   {
+    // Note : O = canva en pixels
     soit &ah  = axe_horizontal;
-    soit &cah = config.axe_horizontal;
+    soit &cah = axe_horizontal.config;//config.axe_horizontal;
 
     si(!cah.afficher)
       retourne;
@@ -1013,41 +1150,48 @@ struct Axes::Impl
 
     O.set_dim_fonte(cah.valeurs_echelle);
 
-    // Pb : à ce moment ci, on ne connait pas encore la dimension du bitmap,
-    // et donc on ne connait pas la dimension finale des textes...
-    // Conséquence : tous les tics n'auront pas la même fonte !
-
-    // Solutions possibles :
-    //   - (1) lier les textes ici, pour que au moment du rendu du canva, la plus petite fonte soit appliquée ?
-    //   - (2) ?
+    //O.set_texte_arrière_plan(oui, Couleur::Jaune);
 
     soit idx = 0;
 
     pour(auto t: ah.tics_majeurs_pos)
     {
-      soit ti = x_vers_pixel(t);
-      O.ligne(Point{ti+marge_gauche, y0}, Point{ti+marge_gauche, y0 - 5});
-      soit s = tsd::vue::unites::valeur_vers_chaine(t, cah.unité, expo, nbchiffres);
+      soit ti = x_vers_pixel(t) + marge_gauche;
 
+      O.ligne(Point{ti, y0}, Point{ti, y0 - 5});
+
+      string s;
       si(cah.tic_manuels && (idx < (entier) cah.tics.size()))
         s = cah.tics[idx].second;
+      sinon
+        s = tsd::vue::unites::valeur_vers_chaine(t, cah.unité, expo, nbchiffres);
 
       // * 0.8 pour avoir un miminum d'espace
       soit dxmax = ah.ecart_tics_majeurs_pixels * 0.8;
 
-      si(marge_gauche+ti-dxmax/2 >= 0)
-        O.texte(marge_gauche+ti, y0 + cah.valeurs_décalage, s,
+      // Ne dessine pas si trop près du bord gauche ou droit
+      si(   ti - dxmax / 2 >= 0
+         && ti + dxmax / 2 < sx)
+        O.texte(ti, y0 + cah.valeurs_décalage, s,
                 dxmax, cah.valeurs_hauteur_max,
                 grp);
 
+      // Juste pour test
+      /*O.set_couleur(Couleur::BleuSombre);
+      O.ligne(ti-dxmax/2, y0+ cah.valeurs_décalage/2, ti+dxmax/2,
+              y0+ cah.valeurs_décalage/2);
+      O.set_couleur(couleur_avant_plan);*/
+
       idx++;
     }
+
+    //O.set_texte_arrière_plan(non);
 
     O.set_couleur(couleur_avant_plan);
     O.set_epaisseur(1);
     pour(auto t: axe_horizontal.tics_mineurs_pos)
     {
-      soit x = x_vers_pixel(t);
+      soit x = x_vers_pixel(t) + marge_gauche;
       si(y0 < sy/2)
         O.ligne(Point{x, y0+1}, Point{x, y0});
       sinon
@@ -1057,7 +1201,8 @@ struct Axes::Impl
     si((!cah.label.empty()) && (sy > 20) && (sx > 100))
     {
       O.set_dim_fonte(FONTE_X_LABEL);
-      O.texte(sx/2, sy-HAUTEUR_X_LABEL-1, cah.label, 0.8*sx_graphique, HAUTEUR_X_LABEL);
+      O.texte(sx/2, sy-HAUTEUR_X_LABEL-1, cah.label,
+              0.8*sx_graphique, HAUTEUR_X_LABEL);
     }
   }
 
@@ -1389,6 +1534,8 @@ Axes Axes::clone()
   retourne res;
 }
 
+
+
 void Axes::def_rdi_visible_abs(float xmin, float xmax, float ymin, float ymax)
 {
   impl->config.def_rdi_visible_abs(xmin, xmax, ymin, ymax);
@@ -1509,6 +1656,11 @@ void Axes::configure(const ConfigAxes &cfg)
 Dim Axes::get_dim_graphique(const Dim &dim_totale) const
 {
   retourne impl->get_dim_graphique(dim_totale);
+}
+
+Canva Axes::get_canva_res()
+{
+  retourne impl->canva_res;
 }
 
 

@@ -611,7 +611,7 @@ double Tab::minCoeff(entier *i, entier *j) const
   }
   sinon
   {
-    TRZ(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
+    TNC(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
     {
       soit m1 = emap<T>(*this);
       res = m1.minCoeff(&i1,&j1);
@@ -637,7 +637,7 @@ double Tab::maxCoeff(entier *i, entier *j) const
   }
   else
   {
-    TRZ(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
+    TNC(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)
     {
       soit m1 = emap<T>(*this);
       res = m1.maxCoeff(&i1,&j1);
@@ -1168,6 +1168,7 @@ bouléen Tab::est_approx(double x, double tol) const
 }
 
 
+// TODO: avoid big copy / paste with only TRZ / TG difference
 #define OPERATEUR_COMP(XX)\
     Tab Tab::operator XX(double x) const\
     {\
@@ -1179,13 +1180,50 @@ bouléen Tab::est_approx(double x, double tol) const
         m2 = m1 XX /*x*/ (x * Eigen::Array<T,Eigen::Dynamic,Eigen::Dynamic>::Ones(m1.rows(), m1.cols()));\
       });\
       retourne y;\
+    }\
+    Tab Tab::operator XX(const Tab &x) const\
+    {\
+      Tab y(B, 8, rows(), cols());\
+      TRZ(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)\
+      {\
+        soit m1 = emap<T>(*this);\
+        soit m3 = emap<T>(x);\
+        soit m2 = emap<bouléen>(y);\
+        m2 = m1 XX m3;\
+      });\
+      retourne y;\
+    }
+
+#define OPERATEUR_COMP_EQ(XX)\
+    Tab Tab::operator XX(double x) const\
+    {\
+      Tab y(B, 8, rows(), cols());\
+      TR(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)\
+      {\
+        soit m1 = emap<T>(*this);\
+        soit m2 = emap<bouléen>(y);\
+        m2 = m1 XX /*x*/ (x * Eigen::Array<T,Eigen::Dynamic,Eigen::Dynamic>::Ones(m1.rows(), m1.cols()));\
+      });\
+      retourne y;\
+    }\
+    Tab Tab::operator XX(const Tab &x) const\
+    {\
+      Tab y(B, 8, rows(), cols());\
+      TG(*this, [&]<typename T, entier ndims>(TabT<T,ndims> &)\
+      {\
+        soit m1 = emap<T>(*this);\
+        soit m3 = emap<T>(x);\
+        soit m2 = emap<bouléen>(y);\
+        m2 = m1 XX m3;\
+      });\
+      retourne y;\
     }
 
 OPERATEUR_COMP(>)
 OPERATEUR_COMP(<)
-OPERATEUR_COMP(==)
 OPERATEUR_COMP(>=)
 OPERATEUR_COMP(<=)
+OPERATEUR_COMP_EQ(==)
 
 
 Tab Tab::cwiseMax(double x) const
